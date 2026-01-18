@@ -8,7 +8,6 @@ import router from './router'
 import { createVuetify } from 'vuetify'
 import 'vuetify/styles' // Базовые стили Vuetify
 import '@mdi/font/css/materialdesignicons.css' // Иконки
-
 const app = createApp(App)
 
 app.use(createPinia())
@@ -19,7 +18,7 @@ const vuetify = createVuetify({
     locale: 'ru',
     fallback: 'en',
     messages: { ru },
-  },
+  }, 
 })
 app.use(vuetify)
 

@@ -3,8 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Exam;
+use App\Models\Migrant;
+use App\Models\ExamType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,11 +19,31 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        
+        User::factory(6)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        ExamType::create([
+            'name' => "Вид место жительства",
+            'short_name' => 'ВНЖ',
+            'duration' => 90,
+            "creator_id" => 1,
         ]);
+        ExamType::create([
+            'name' => "Разрешение временного проживания",
+            'short_name' => 'РВП',
+            'duration' => 90,
+            "creator_id" => 2,
+        ]);
+        ExamType::create([
+            'name' => "ПАТЕНТ",
+            'short_name' => 'ПАТЕНТ',
+            'duration' => 80,
+            "creator_id" => 3,
+        ]);
+        $this->call([
+            ExamBlockSeeder::class,
+        ]);
+        Exam::factory(10)->create();
+        Migrant::factory(100)->create();
     }
 }

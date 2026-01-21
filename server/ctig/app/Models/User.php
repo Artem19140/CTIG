@@ -6,11 +6,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
+    public function examsCreated():HasMany {
+        return $this->hasMany(Exam::class, 'creator_id');
+    }
+
+    public function tester(): BelongsToMany{
+        return $this->belongsToMany(Exam::class, 'tester_exam','tester_id', 'exam_id');
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +29,10 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'surname',
         'name',
+        'patronymic',
+        'position',
         'email',
         'password',
     ];

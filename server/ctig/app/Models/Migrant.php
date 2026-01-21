@@ -3,8 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 
 class Migrant extends Model{
+
+    use HasFactory, Notifiable;
     protected $fillable=[
         'surname',
         'name',
@@ -22,6 +27,11 @@ class Migrant extends Model{
         'citizenship',
         'phone'
     ];
+    
+    public function exams(): BelongsToMany{
+        return $this->belongsToMany(Exam::class);
+    }
+
 }
 
 

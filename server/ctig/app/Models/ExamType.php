@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class ExamType extends Model
+{
+
+    protected $fillable = [
+        'name',
+        'creator_id'
+    ];
+    
+    public function exams():HasMany{
+        return $this->hasMany(Exam::class);
+    }
+
+    public function creator():BelongsTo{
+        return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function blocks():HasMany{
+        return $this->hasMany( ExamBlock::class,"exam_type_id");
+    }
+}

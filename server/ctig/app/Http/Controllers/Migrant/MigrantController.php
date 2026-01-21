@@ -1,15 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Migrant;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use App\Http\Requests\MigrantPostRequest;
+use App\Http\Requests\Migrant\MigrantPostRequest;
 use App\Models\Migrant;
+use App\Http\Resources\Migrant\MigrantResource;
 
 class MigrantController extends Controller 
 {
-    public function show(): JsonResponse{
-        return response()->json(["result" => "ok"]);
+
+    public function index(){
+        return MigrantResource::collection(Migrant::all());
     }
 
     public function store(MigrantPostRequest $request ): JsonResponse{
@@ -21,5 +24,22 @@ class MigrantController extends Controller
         }
         Migrant::create($request->all());
         return response()->json(["result" => "ok"]);
+    }
+
+    public function show(Migrant $migrant){
+        return new MigrantResource($migrant);
+    }
+
+    
+    
+
+    public function update(Migrant $migrant)
+    {
+        //
+    }
+
+    public function destroy(Migrant $migrant)
+    {
+        //
     }
 }

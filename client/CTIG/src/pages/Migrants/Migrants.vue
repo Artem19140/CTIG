@@ -5,7 +5,7 @@ import { ref } from 'vue';
 
 <template>
     <v-card>
-        <v-btn color="success" to="/migrants/add">Добавить</v-btn>
+        <v-btn color="success">Добавить</v-btn>
         <MigrantsList />
     </v-card>
     

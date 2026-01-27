@@ -15,9 +15,10 @@ class AnswerResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'=> $this->resource->id,
-            'contain'=>$this->resource->contain,
-            'isCorrect'=> $this->resource->is_correct
+            'id'=> $this->id,
+            'contain'=>$this->contain,
+            'isCorrect'=> $this->is_correct,
+            'studentAnswer' => $this->student_answer
         ];
     }
 }

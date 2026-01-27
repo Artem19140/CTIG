@@ -16,11 +16,12 @@ class ExamBlock extends Model
         'name',
         'min_mark',
         'exam_type_id',
-        'creator_id'
+        'creator_id',
+        'is_actual'
     ];
 
-    public function questions():HasMany{
-        return $this->hasMany(Question::class, 'exam_block_id');    
+    public function tasks():HasMany{
+        return $this->hasMany(Task::class, 'exam_block_id');    
     }
 
     public function creator():BelongsTo{

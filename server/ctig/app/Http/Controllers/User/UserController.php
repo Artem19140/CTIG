@@ -3,13 +3,12 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Exceptions\BusinessException;
 use App\Http\Controllers\Controller;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\User\UserResource;
-use App\Exceptions\DomainException;
 
 
 class UserController extends Controller{
@@ -26,7 +25,7 @@ class UserController extends Controller{
         $user = User::where("email", $request->input('email'))->first();
 
         if($user){
-            throw new DomainException("Пользователь с таким email уже существует");
+            throw new BusinessException("Пользователь с таким email уже существует");
         }
 
         User::create(request()->all());

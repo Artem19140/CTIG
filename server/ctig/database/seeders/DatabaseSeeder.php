@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Exam;
-use App\Models\Migrant;
+use App\Models\Student;
 use App\Models\ExamType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -44,6 +44,6 @@ class DatabaseSeeder extends Seeder
             ExamBlockSeeder::class,
         ]);
         Exam::factory(10)->create();
-        Migrant::factory(100)->create();
+        Student::factory(100)->create();
     }
 }

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('contain');
             $table->boolean('is_correct')->default(false);
-            $table->foreignId('question_id')
-                ->constrained('questions')
+            $table->foreignId('task_id')
+                ->constrained('tasks')
                 ->cascadeOnDelete();
             $table->foreignId('creator_id')
                 ->constrained('users')

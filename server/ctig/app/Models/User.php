@@ -19,15 +19,14 @@ class User extends Authenticatable
         return $this->hasMany(Exam::class, 'creator_id');
     }
 
-    public function tester(): BelongsToMany{
-        return $this->belongsToMany(Exam::class, 'tester_exam','tester_id', 'exam_id');
+    public function examTester(): BelongsToMany{
+        return $this->belongsToMany(Exam::class, 'exam_tester','tester_id', 'exam_id');
     }
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+    public function documents(){
+        return $this->belongsToMany(Document::class);
+    }
+    
     protected $fillable = [
         'surname',
         'name',
@@ -36,22 +35,11 @@ class User extends Authenticatable
         'email',
         'password',
     ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [

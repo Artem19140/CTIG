@@ -4,6 +4,7 @@ import myPdf from '../../assets/a.pdf'
 const dialog = ref(false)
 const previewDialog = ref(false)
 const previewFile = ref('')
+import axios from 'axios';
 
 // Заглушка списка шаблонов
 const templates = ref([
@@ -17,6 +18,23 @@ const openPreview = (template) => {
   previewFile.value = template.file
   previewDialog.value = true
 }
+
+const clickw = () => {
+        let token = '1|0pCHxC85opGgm7tmpKKx5u82E5L3SI4jV0U8Jb6C9d9ff3ec';//
+        axios.post('http://ctig.local/api/tasks', {
+            contain: "Что такое миграции в Laravel?",
+            creator_id: 5,
+            exam_block_id:1,
+            fipi_guid:'123235345234dfsdhfgfjhdigsi'
+        },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
+
+    }
 </script>
 
 <template>
@@ -24,7 +42,7 @@ const openPreview = (template) => {
     <!-- Кнопка для загрузки шаблона -->
     <v-row class="mb-4">
       <v-col cols="12" md="6">
-        <v-btn color="primary" dark @click="dialog = true">
+        <v-btn @click="clickw" color="primary" dark >
           <v-icon left>mdi-upload</v-icon>
           Загрузить шаблон
         </v-btn>

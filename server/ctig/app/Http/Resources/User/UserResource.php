@@ -19,7 +19,8 @@ class UserResource extends JsonResource
             'surname' => $this->resource->surname,
             'patronymic' => $this->resource->patronymic,
             'name'=>$this->resource->name,
-            'email'=>$this->resource->email
+            'email'=>$this->resource->email, 
+            'token'=>$this->resource->token
         ];
     }
 }

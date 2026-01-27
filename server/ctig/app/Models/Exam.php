@@ -7,18 +7,30 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Enums\ExamStatus;
 
 class Exam extends Model
 {
     use HasFactory, Notifiable;
     protected $fillable=[
-        'exam_date',
-        'is_conducted',
+        'begin_time',
+        'is_finished',
         'exam_type_id',
         'creator_id',
-        'tester_id',
-        'session_number'
+        'session_number', //При переносе менять! Или как блин!? После проведения сессию только установить!
+        'capacity',
+        'status',
+        'comment',
+        'group',
+        'end_time'
     ];
+
+    protected $casts = [
+        'status' => ExamStatus::class
+    ];
+
     public function examType(): BelongsTo{
         return $this->belongsTo(ExamType::class);
     }
@@ -28,10 +40,30 @@ class Exam extends Model
     }
 
     public function testers():BelongsToMany{
-        return $this->belongsToMany(User::class, 'tester_exam','exam_id', 'tester_id');
+        return $this->belongsToMany(User::class, 'exam_tester','exam_id', 'tester_id');
     }
 
-    public function migrants():BelongsToMany{
-        return $this->belongsToMany(Migrant::class);
+    public function students():BelongsToMany{
+        return $this->belongsToMany(Student::class);
+    }
+
+    public function attemps(): HasMany{
+        return $this->hasMany(ExamAttempt::class, 'exam_id');
+    }
+
+    public function documents(): MorphMany{
+        return $this->morphMany(Document::class, 'documentable');
+    }
+
+    public function codes(): HasMany{
+        return $this->hasMany(ExamCode::class, 'exam_id');
+    }
+
+    public function address(){
+        
+    }
+
+    function isCodesGeterated(){
+        return $this->is_codes_generate;
     }
 }

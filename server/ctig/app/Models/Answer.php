@@ -14,11 +14,11 @@ class Answer extends Model
         'type',
         'creator_id',
         'answer_id',
-        'question_id'
+        'task_id'
     ];
 
-    public function question(): BelongsTo{
-        return $this->belongsTo(related: Question::class);
+    public function task(): BelongsTo{
+        return $this->belongsTo(related: Task::class);
     }
 
     public function creator(): BelongsTo{

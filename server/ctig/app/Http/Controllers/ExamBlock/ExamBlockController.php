@@ -28,7 +28,7 @@ class ExamBlockController extends Controller
     }
 
     public function tests(ExamBlock $examBlock){
-        $examBlock->load('questions.answers');
+        $examBlock->load('tasks.answers');
         return new ExamBlockResource($examBlock);
     }
 

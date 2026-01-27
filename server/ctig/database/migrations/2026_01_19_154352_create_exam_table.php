@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         Schema::create('exam_types', function (Blueprint $table) {
@@ -24,37 +22,45 @@ return new class extends Migration
 
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('exam_date');
-            $table->boolean('is_conducted')->default(false);;
-
-            $table->foreignId('exam_type_id')
+            $table->dateTime('begin_time');
+            $table->dateTime('end_time')->nullable();
+            $table->boolean('is_finished')->default(false);
+            $table->boolean('is_codes_generate')->default(false);
+            $table->string('time_zone')->default('Europe/Samara'); //с клиента брать 
+            $table->string('status')->default('Ожидается');
+            $table->tinyInteger('capacity');
+            $table->foreignId('exam_type_id') 
                 ->constrained()
                 ->cascadeOnDelete();
 
             $table->foreignId('creator_id')
                 ->constrained('users')
                 ->cascadeOnDelete();
-
+            
+            $table->foreignId('exam_adress_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
+            $table->tinyInteger('group');
             $table->mediumInteger('session_number');
-                
+            $table->string('comment')->default('');
             $table->timestamps();
         });
 
-        Schema::create('exam_migrant', function (Blueprint $table) {
+        Schema::create('exam_student', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('exam_id')
               ->constrained()
               ->cascadeOnDelete();
 
-            $table->foreignId('migrant_id')
+            $table->foreignId('student_id')
               ->constrained()
               ->cascadeOnDelete();
 
             $table->timestamps();
         });
 
-         Schema::create('tester_exam', function (Blueprint $table) {
+         Schema::create('exam_tester', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('exam_id')
@@ -67,14 +73,18 @@ return new class extends Migration
 
             $table->timestamps();
         });
+
+        
     }
+
+    
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('exam_migrant');
+        Schema::dropIfExists('exam_student');
         Schema::dropIfExists('exams');
         Schema::dropIfExists('exam_types');
     }

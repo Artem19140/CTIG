@@ -10,7 +10,7 @@ const router = createRouter({
       children: [
         {
           path: 'add',
-          component: () => import('@/components/MigrantAddForm/MigrantAddForm.vue'),
+          component: () => import('@/components/StudentAddForm/StudentAddForm.vue'),
         },
       ],
     },

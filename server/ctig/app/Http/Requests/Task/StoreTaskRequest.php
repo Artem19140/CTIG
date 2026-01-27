@@ -30,13 +30,4 @@ class StoreTaskRequest extends FormRequest
             'fipi_guid'=>'идентификатора фипи'
         ];
     }
-
-    public function messages(){
-        return [
-            'required' => "Поле :attribute должно быть заполненным",
-            'string' => "Поле :attribute должно быть строкой",
-            'integer' => "Поле :attribute должно быть целым числом",
-            'min'=>'Значение :attribute должно быть больше :min'
-        ];
-    }
 }

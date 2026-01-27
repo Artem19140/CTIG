@@ -10,22 +10,16 @@ class StudentPostRequest extends FormRequest
     {
         return true;
     }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
             'surname' => 'required|string',
             'name'=>'required|string',
-            'patronymic'=>'sometimes|string',
+            'patronymic' => 'prohibited_if_accepted:no_patronymic|required_if_declined:no_patronymic|string',
+            'patronymicLatin' => 'prohibited_if_accepted:no_patronymic|required_if_declined:no_patronymic|string',
             'dateBirth'=>'required|date',
             'surnameLatin'=>'required|string',
             'nameLatin'=>'required|string',
-            'patronymicLatin'=>'sometimes|string',
             'passportNumber'=>'required|string',
             'passportSeries'=>'required|string',
             'issuedBy'=>'required|string',
@@ -33,7 +27,8 @@ class StudentPostRequest extends FormRequest
             'addressReg'=>'required|string',
             'migrationCardRequisite'=>'required|string',
             'citizenship'=>'required|string',
-            'phone'=>'required|string'
+            'phone'=>'required|string',
+            'no_patronymic' => 'boolean'
         ];
     }
 
@@ -54,14 +49,9 @@ class StudentPostRequest extends FormRequest
             'migrationCardRequisite' => 'реквизиты миграционной карты',
             'citizenship' => 'гражданство',
             'phone' => 'телефон',
+            'no_patronymic' => 'нет отчества'
         ];
     }
 
-    public function messages(){
-        return [
-            'required' => "Поле :attribute должно быть заполненным",
-            'string' => "Поле :attribute должно быть строкой",
-            'date' =>  'Поле :attribute должно быть датой'
-        ];
-    }
+
 }

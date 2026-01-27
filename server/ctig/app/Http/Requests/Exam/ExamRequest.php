@@ -18,29 +18,23 @@ class ExamRequest extends FormRequest
             'exam_adress_id'=>'required|integer|min:0', 
             'capacity'=>'required|integer|min:0',
             'exam_type_id'=>'required|integer|min:0',
-            'comment'=>'required|string', 
-            'testers'=>['required', 'array'],
-            'testers.*' => ['required', 'integer','min:0']
+            'comment'=>'sometimes|string', 
+            'testers'=>'required|array',
+            'testers.*' => 'required|integer|min:0'
         ];
     }
 
     public function attributes(){
         return [
             'begin_time' => 'время начала экзамена',
-            'exam_adress_id' => 'идентификатора адреса',
+            'exam_adress_id' => 'идентификатор адреса',
             'capacity' => 'вместимость',
-            'exam_type_id' => 'идентификатора типа экзамена',
+            'exam_type_id' => 'идентификатор типа экзамена',
             'comment' => 'комментарий к экзамену',
+            'testers' => 'тестеры',
+            'testers.*' => 'тестеры'
         ];
     }
 
-    public function messages(){
-        return [
-            'required' => "Поле :attribute должно быть заполненным",
-            'string' => "Поле :attribute должно быть строкой",
-            'date' =>  'Поле :attribute должно быть датой',
-            'integer' => "Поле :attribute должно быть целым числом",
-            'min'=>'Значение :attribute должно быть больше :min'
-        ];
-    }
+   
 }

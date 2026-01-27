@@ -19,9 +19,19 @@ class UserPostRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'surname'=>'required|string',
             'name'=>'required|string',
-            'email'=>'required|email',
+            'patronymic'=>'required|email',
             'password'=>'required'
+        ];
+    }
+
+    public function attributes(){
+        return [
+            'surname' => 'фамилия',
+            'name' => 'имя',
+            'patronymic' => 'отчетство',
+            'password'=>'пароль'
         ];
     }
 }

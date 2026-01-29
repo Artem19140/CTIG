@@ -15,12 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('contain');
             $table->boolean('is_correct')->default(false);
-            $table->foreignId('task_id')
-                ->constrained('tasks')
+            $table->foreignId('task_variant_id')
+                ->constrained('task_variants')
                 ->cascadeOnDelete();
             $table->foreignId('creator_id')
                 ->constrained('users')
                 ->cascadeOnDelete();
+            $table->unsignedTinyInteger('mark');
             $table->timestamps();
         });
     }

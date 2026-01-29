@@ -29,7 +29,7 @@ Route::prefix("students")->group((function (){
 Route::prefix("exams")->group((function (){
     Route::get('/{examId}', [ExamController::class, 'show']);
     Route::get('/', [ExamController::class, 'index']); //->middleware('auth:sanctum');
-    Route::post('/', [ExamController::class, 'store']);
+    Route::post('/', [ExamController::class, 'store'])->middleware('auth:sanctum');
     Route::post('/{examId}/students', [ExamStudentController::class, "store"]);
     Route::post('/{examId}/codes', [ExamCodeController::class, "store"]);
 }));

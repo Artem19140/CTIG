@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Task extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'contain',
         'creator_id',
@@ -16,8 +18,8 @@ class Task extends Model
         'fipi_guid'
     ];
 
-    public function answers() : HasMany{
-        return $this->hasMany(Answer::class);
+    public function variants() : HasMany{
+        return $this->hasMany(TaskVariant::class, 'task_id');
     }
 
     public function creator(): BelongsTo{

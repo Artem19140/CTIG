@@ -17,8 +17,8 @@ class ExamResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'examDate' => $this->start_time,
-            'isConducted' => $this->is_conducted, //нужно ли это?! если есть статус
+            'beginTime' => $this->begin_time,
+            'endTime' => $this->end_time,
             'students' => StudentResource::collection($this->whenLoaded('students')),//здесь если есть результаты, то и их можно взять
             'sessionNumber' => $this->session_number,
             'capacity' => $this->capacity,

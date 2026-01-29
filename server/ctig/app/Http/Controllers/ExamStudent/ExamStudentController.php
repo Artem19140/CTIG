@@ -21,6 +21,13 @@ class ExamStudentController extends Controller
 
     public function store(int $id)
     {
+        //Записи нет у данного мигранта(чтоб 2 раза не записать) 422
+        //он старше 18
+        //что экзамен и мигрант сущестуют
+        //что у мигранта в это время нет экзамен в другом месте
+        //что существует и актуален(проводится) экзамен
+        //экзамен не прошел(только будет)
+        //места свободные еще есть!!! иначе 422 мест нет
         $student = Student::findOrFail(request('studentId'));
         $exam = Exam::findOrFail( $id);
         $studentExist= $exam->students()

@@ -28,7 +28,7 @@ class ExamBlock extends Model
         return $this->belongsTo(User::class, 'creator_id');
     }
 
-    public function examTypeBelong(): BelongsTo{
+    public function examType(): BelongsTo{
         return $this->belongsTo( ExamType::class, "exam_type_id");
     }
 }

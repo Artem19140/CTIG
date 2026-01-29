@@ -22,6 +22,7 @@ class AnswerController extends Controller
 
     public function store(Request $request)
     {
+        //Что вариант задания сущестует
         Answer::create($request->all());
         return response()->json(['result' => 'ok']);
     }

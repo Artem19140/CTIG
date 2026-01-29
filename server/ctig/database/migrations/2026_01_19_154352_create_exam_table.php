@@ -9,17 +9,6 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::create('exam_types', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('short_name');
-            $table->foreignId('creator_id')
-                ->constrained('users')
-                ->cascadeOnDelete();
-            $table->unsignedSmallInteger('duration');
-            $table->timestamps();
-        });
-
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
             $table->dateTime('begin_time');
@@ -28,17 +17,18 @@ return new class extends Migration
             $table->boolean('is_codes_generate')->default(false);
             $table->string('time_zone')->default('Europe/Samara'); //с клиента брать 
             $table->string('status')->default('Ожидается');
-            $table->tinyInteger('capacity');
+            $table->unsignedTinyInteger('capacity');
+            $table->date('exam_date');
             $table->foreignId('exam_type_id') 
-                ->constrained()
+                ->constrained('exam_types')
                 ->cascadeOnDelete();
 
             $table->foreignId('creator_id')
                 ->constrained('users')
                 ->cascadeOnDelete();
             
-            $table->foreignId('exam_adress_id')
-                ->constrained('users')
+            $table->foreignId('exam_address_id')
+                ->constrained('exam_addresses')
                 ->cascadeOnDelete();
             $table->tinyInteger('group');
             $table->mediumInteger('session_number');
@@ -77,15 +67,10 @@ return new class extends Migration
         
     }
 
-    
-
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('exam_student');
-        Schema::dropIfExists('exams');
-        Schema::dropIfExists('exam_types');
+        Schema::dropIfExists('exam_tester');
+        Schema::dropIfExists('exams'); 
     }
 };

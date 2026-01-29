@@ -6,26 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
     public function up(): void
     {
-        Schema::create('exam_blocks', function (Blueprint $table) {
+        Schema::create('exam_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50);
-            $table->unsignedSmallInteger('min_mark');
-            $table->foreignId('exam_type_id')
-                ->constrained('exam_types')
-                ->cascadeOnDelete();
+            $table->string('name');
+            $table->string('short_name');
+            $table->unsignedTinyInteger('level'); //У экзамена еще, оказывается, есть уровень
             $table->foreignId('creator_id')
                 ->constrained('users')
                 ->cascadeOnDelete();
-            $table->boolean('is_actual')->default(true);
-            $table->unsignedTinyInteger('order');
+            $table->unsignedSmallInteger('duration');
             $table->timestamps();
         });
+     
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('exam_blocks');
+        Schema::dropIfExists('exam_types');
     }
 };

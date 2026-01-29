@@ -15,7 +15,7 @@ class StudentAnswerController extends Controller
 
     public function store(Request $request)
     {
-        //
+        //экзмен, студент, блок, ответ, вопрос существуют, есть у студента активная попытка, экзамен не закончен, а попытка относится к экзамену, и время не кончилось, а также что студеднт не снят с экзамен
     }
 
     public function show(StudentAnswer $studentAnswer)

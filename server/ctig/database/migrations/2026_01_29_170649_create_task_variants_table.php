@@ -8,19 +8,18 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('documents', function (Blueprint $table) {
+        Schema::create('task_variants', function (Blueprint $table) {
             $table->id();
-            $table->string('path');
-            $table->foreignId('creator_id')
-                ->constrained('users');
-            $table->integer('documentable_id');
-            $table->string('documentable_type');
+            $table->string('contain');
+            $table->string('fipi_guid');
+            $table->foreignId('task_id')->constrained('tasks');
+            $table->boolean('is_actual')->default(true);
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('documents');
+        Schema::dropIfExists('task_variants');
     }
 };

@@ -13,13 +13,13 @@ return new class extends Migration
             $table->id();
             $table->string('address');
             $table->boolean('is_actual');
+            $table->foreignId('creator_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
             $table->timestamps();
         }); //Мб сделать полиморфную связь? Чтобы и адрес сертификата тоже туда же впихивать
     }
-
-    /**
-     * Reverse the migrations.
-     */
+    
     public function down(): void
     {
         Schema::dropIfExists('exam_addresses');

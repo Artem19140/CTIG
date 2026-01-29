@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
+
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Answer>
@@ -12,7 +14,17 @@ class AnswerFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'creator_id' => User::factory(),
+            'contain' => fake()->sentence(),
+            'mark' => fake()->numberBetween(1,2)
         ];
+    }
+
+    public function withRandomCreator(): AnswerFactory{
+        return $this->state(function(){
+            return[
+                'creator_id'=>User::inRandomOrder()->first()->id
+            ];
+        });
     }
 }

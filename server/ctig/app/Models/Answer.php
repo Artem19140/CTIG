@@ -17,8 +17,8 @@ class Answer extends Model
         'task_id'
     ];
 
-    public function task(): BelongsTo{
-        return $this->belongsTo(related: Task::class);
+    public function taskVariant(): BelongsTo{
+        return $this->belongsTo( TaskVariant::class, 'task_variant_id');
     }
 
     public function creator(): BelongsTo{

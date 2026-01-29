@@ -16,6 +16,7 @@ class StudentController extends Controller
     }
 
     public function store(StudentPostRequest $request ): JsonResponse{
+        if($request->input('birth_date'))//<18 Business
         $student = Student::where("passport_number", $request->get('passportNumber'))
                             ->where("passport_series", $request->get('passportSeries'))
                             ->first();

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('exam_block_id')
                 ->constrained('exam_types')
                 ->cascadeOnDelete();
-            $table->string('fipi_guid');
             $table->boolean('need_human_check');
             $table->boolean('is_actual')->default(true);
             $table->unsignedTinyInteger('order');

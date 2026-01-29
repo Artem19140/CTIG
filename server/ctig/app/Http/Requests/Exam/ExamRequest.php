@@ -15,19 +15,19 @@ class ExamRequest extends FormRequest
     {
         return [
             'begin_time'=>'required|date',
-            'exam_adress_id'=>'required|integer|min:0', 
+            'exam_address_id'=>'required|integer|min:0|exists:exam_addresses,id', 
             'capacity'=>'required|integer|min:0',
-            'exam_type_id'=>'required|integer|min:0',
+            'exam_type_id'=>'required|integer|min:0|exists:exam_types,id',
             'comment'=>'sometimes|string', 
             'testers'=>'required|array',
-            'testers.*' => 'required|integer|min:0'
+            'testers.*' => 'required|integer|min:0|exists:users,id'
         ];
     }
 
     public function attributes(){
         return [
             'begin_time' => 'время начала экзамена',
-            'exam_adress_id' => 'идентификатор адреса',
+            'exam_address_id' => 'идентификатор адреса',
             'capacity' => 'вместимость',
             'exam_type_id' => 'идентификатор типа экзамена',
             'comment' => 'комментарий к экзамену',

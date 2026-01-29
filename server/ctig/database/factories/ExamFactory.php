@@ -2,8 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\ExamAddress;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use App\Models\User;
+use App\Models\ExamType;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Exam>
  */
@@ -14,13 +16,26 @@ class ExamFactory extends Factory
      *
      * @return array<string, mixed>
      */
+
     public function definition(): array
     {
         return [
-            'exam_date' => fake()->date(),
-            'exam_type_id' => fake()->numberBetween(1, 3),
-            'creator_id'=>fake()->numberBetween(1, 6),
-            'session_number'=>fake()->numberBetween(1, 101)
+            'begin_time' => fake()->dateTimeBetween('-30 days', '+30 days')->format('Y-m-d'),
+            'exam_type_id' => ExamType::factory(),
+            'creator_id' => User::factory(),
+            'session_number'=>fake()->numberBetween(1, 101),
+            'capacity'=>fake()->numberBetween(5, 20),
+            'exam_address_id' => ExamAddress::factory(),
+            'group'=> fake()->numberBetween(1, 4),
+            'exam_date' => fake()->dateTimeBetween('-1 week', '+1 week')->format('Y-m-d'),
         ];
+    }
+
+    public function withRandomCreator(): ExamFactory{
+        return $this->state(function(){
+            return[
+                'creator_id'=>User::inRandomOrder()->first()->id
+            ];
+        });
     }
 }

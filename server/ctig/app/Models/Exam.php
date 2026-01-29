@@ -24,7 +24,9 @@ class Exam extends Model
         'status',
         'comment',
         'group',
-        'end_time'
+        'end_time',
+        'exam_address_id',
+        'exam_date'
     ];
 
     protected $casts = [
@@ -59,8 +61,8 @@ class Exam extends Model
         return $this->hasMany(ExamCode::class, 'exam_id');
     }
 
-    public function address(){
-        
+    public function address(): BelongsTo{
+        return $this->belongsTo(ExamAddress::class, 'exam_address_id');
     }
 
     function isCodesGeterated(){

@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('students', function (Blueprint $table) {
@@ -28,14 +25,16 @@ return new class extends Migration
             $table->string('address_reg', 50);
             $table->string('migration_card_requisite', 40);
             $table->string('citizenship', 30);
+            
             $table->string('phone', 12);
+
+            $table->foreignId('creator_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('students');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Exam;
 use App\Enums\ExamStatus;
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
+use App\Models\User;
 use App\Models\ExamType;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -41,19 +42,33 @@ class ExamController extends Controller
                                         ])
                                 ->distinct('exam_date')
                                 ->count() + 1;
-        echo $examSessionNumber; //Дает дубликаты
+        
         if($examBeginTime < now()){
             throw new BusinessException('Экзамен нельзя создать на прошедшие даты');
         }
-        $conflictExams = Exam::where('address_id', request()->input('address_id'))
+        $conflictExamsExist = Exam::where('address_id', request()->input('address_id'))
                             ->where('begin_time', '<=', $examEndTime)
                             ->where('end_time', '>=', $examBeginTime)
                            ->exists(); 
-        if($conflictExams){
+        if($conflictExamsExist){
             throw new BusinessException('В это время будет проходить другой экзамен');
         }
 
-        
+
+        $paralellExams = Exam::where('address_id', request()->input('address_id'))
+                        ->where('begin_time', '<=', $examEndTime)
+                        ->where('end_time', '>=', $examBeginTime)
+                        ->get(); 
+                        
+        $paralellExams->load('testers');
+        foreach($paralellExams as $exam){ 
+            foreach($exam->testers as $busyTester){
+                if( \in_array($busyTester->id,$request->input('testers')) ){
+                    throw new BusinessException('Тестер '.$busyTester->surname.' '.$busyTester->name.' записан на другом экзамене');
+                }
+            }
+        }
+        //Транзакция!
         $exam = Exam::create(
             [
                 'begin_time' => $request->begin_time,
@@ -63,11 +78,12 @@ class ExamController extends Controller
                 'comment' => $request->comment,
                 'creator_id'=> $user->id,
                 'group'=>$examGroup,
-                'session_number' => 2,
+                'session_number' => $examSessionNumber,
                 'end_time' => $examEndTime,
                 'exam_date' => $examBeginTime->copy()->toDate()
             ]
         );
+        
         $exam->testers()->attach($request->input('testers'));
         return response()->json(["result" => "ok"]);
     }
@@ -75,7 +91,7 @@ class ExamController extends Controller
     public function show(int $examId): ExamResource
     {
         $exam = Exam::findOrFail($examId);
-        $exam->load('students'); //в параметр добавь что-нибудь, чтобы со списком и без получать
+        //$exam->load('students'); //в параметр добавь что-нибудь, чтобы со списком и без получать
         return new ExamResource($exam);
     }
 

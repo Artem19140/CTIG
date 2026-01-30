@@ -70,12 +70,12 @@ Route::prefix("documents")->group((function (){
 Route::post('/login', [LoginController::class, 'login']);
 
 
-// use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;
 
-// DB::listen(function ($query) {
-//     dump([
-//         'sql' => $query->sql,
-//         'bindings' => $query->bindings,
-//         'time' => $query->time,
-//     ]);
-// });
+DB::listen(function ($query) {
+    dump([
+        'sql' => $query->sql,
+        'bindings' => $query->bindings,
+        'time' => $query->time,
+    ]);
+});

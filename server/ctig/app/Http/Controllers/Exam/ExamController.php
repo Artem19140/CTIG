@@ -24,7 +24,7 @@ class ExamController extends Controller
 
     public function store(ExamRequest $request)
     {       
-        
+        //Перенести логику из formRequest
         $user = $request->user();
         $examDuration = ExamType::findOrFail(request()->input('exam_type_id'))->duration;
         $examBeginTime = Carbon::parse(request()->input('begin_time'));
@@ -88,9 +88,8 @@ class ExamController extends Controller
         return response()->json(["result" => "ok"]);
     }
 
-    public function show(int $examId): ExamResource
+    public function show(Exam $exam): ExamResource
     {
-        $exam = Exam::findOrFail($examId);
         //$exam->load('students'); //в параметр добавь что-нибудь, чтобы со списком и без получать
         return new ExamResource($exam);
     }

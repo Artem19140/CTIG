@@ -27,7 +27,8 @@ class Student extends Model{
         'address_reg',
         'migration_card_requisite',
         'citizenship',
-        'phone'
+        'phone',
+        'creator_id'
     ];
     
     public function exams(): BelongsToMany{

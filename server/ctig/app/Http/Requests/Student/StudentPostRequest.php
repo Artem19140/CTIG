@@ -27,7 +27,7 @@ class StudentPostRequest extends FormRequest
             'addressReg'=>'required|string',
             'migrationCardRequisite'=>'required|string',
             'citizenship'=>'required|string',
-            'phone'=>'required|string',
+            'phone'=>'required|string',//Как-то нужно проверить это
             'no_patronymic' => 'boolean'
         ];
     }

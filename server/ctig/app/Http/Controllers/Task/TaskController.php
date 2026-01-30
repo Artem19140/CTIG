@@ -23,10 +23,9 @@ class TaskController extends Controller
         return response()->json(['result' => 'ok']);
     }
 
-    public function show(int $id)
+    public function show(Task $task)
     {   
-        $task = Task::findOrFail($id);
-        $task->load(['answers']);
+        //$task->load(['answers']); Это уже неактулаьно
         return new TaskResource($task);
     }
 

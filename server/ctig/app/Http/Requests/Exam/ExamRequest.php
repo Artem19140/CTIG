@@ -15,7 +15,7 @@ class ExamRequest extends FormRequest
     {
         return [
             'begin_time'=>'required|date',
-            'exam_address_id'=>'required|integer|min:0|exists:exam_addresses,id', 
+            'address_id'=>'required|integer|min:0|exists:addresses,id', 
             'capacity'=>'required|integer|min:0',
             'exam_type_id'=>'required|integer|min:0|exists:exam_types,id',
             'comment'=>'sometimes|string', 
@@ -27,7 +27,7 @@ class ExamRequest extends FormRequest
     public function attributes(){
         return [
             'begin_time' => 'время начала экзамена',
-            'exam_address_id' => 'идентификатор адреса',
+            'address_id' => 'идентификатор адреса',
             'capacity' => 'вместимость',
             'exam_type_id' => 'идентификатор типа экзамена',
             'comment' => 'комментарий к экзамену',

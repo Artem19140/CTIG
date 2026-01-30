@@ -4,9 +4,9 @@ namespace App\Enums;
 
 enum ExamStatus: string
 {
-    case Pending = "Ожидается";
-    case Checking = 'На проверке';
-    case Completed = 'Завершен';
-    case Cancelled = 'Отменен';
-    case Started = 'Идет'; //Или как? Как только пошло начало, то сразу начат
+    case Pending   = 'pending';
+    case Checking  = 'checking';
+    case Started   = 'started';
+    case Completed = 'completed';
+    case Cancelled = 'cancelled'; //Или как? Как только пошло начало, то сразу начат
 }

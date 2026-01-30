@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\ExamStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,7 @@ return new class extends Migration
             $table->boolean('is_finished')->default(false);
             $table->boolean('is_codes_generate')->default(false);
             $table->string('time_zone')->default('Europe/Samara'); //с клиента брать 
-            $table->string('status')->default('Ожидается');
+            $table->string('status')->default(ExamStatus::Pending);
             $table->unsignedTinyInteger('capacity');
             $table->date('exam_date');
             $table->foreignId('exam_type_id') 
@@ -27,8 +28,8 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete();
             
-            $table->foreignId('exam_address_id')
-                ->constrained('exam_addresses')
+            $table->foreignId('address_id')
+                ->constrained('addresses')
                 ->cascadeOnDelete();
             $table->tinyInteger('group');
             $table->mediumInteger('session_number');

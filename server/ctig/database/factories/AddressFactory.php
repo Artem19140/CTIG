@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ExamAddress>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Address>
  */
-class ExamAddressFactory extends Factory
+class AddressFactory extends Factory
 {
-    public function isActual(): ExamAddressFactory{
+    public function isActual(): AddressFactory{
         return $this->state(function(){
             return[
                 'is_actual' => 1
@@ -18,7 +18,7 @@ class ExamAddressFactory extends Factory
         });
     }
 
-    public function nooActual(): ExamAddressFactory{
+    public function nooActual(): AddressFactory{
         return $this->state(function(){
             return[
                 'is_actual' => 0
@@ -34,7 +34,7 @@ class ExamAddressFactory extends Factory
         ];
     }
 
-    public function withRandomCreator(): ExamAddressFactory{
+    public function withRandomCreator(): AddressFactory{
         return $this->state(function(){
             return[
                 'creator_id'=>User::inRandomOrder()->first()->id

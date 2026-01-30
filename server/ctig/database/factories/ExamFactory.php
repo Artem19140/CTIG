@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\ExamAddress;
+use App\Models\Address;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
 use App\Models\ExamType;
@@ -25,7 +25,7 @@ class ExamFactory extends Factory
             'creator_id' => User::factory(),
             'session_number'=>fake()->numberBetween(1, 101),
             'capacity'=>fake()->numberBetween(5, 20),
-            'exam_address_id' => ExamAddress::factory(),
+            'address_id' => Address::factory(),
             'group'=> fake()->numberBetween(1, 4),
             'exam_date' => fake()->dateTimeBetween('-1 week', '+1 week')->format('Y-m-d'),
         ];

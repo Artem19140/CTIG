@@ -7,14 +7,14 @@ use Illuminate\Database\Seeder;
 use App\Models\ExamType;
 use App\Models\Exam;
 use App\Models\ExamBlock;
-use App\Models\ExamAddress;
+use App\Models\Address;
 use App\Models\User;
 
 class ExamSeeder extends Seeder
 {
     public function run(): void
     {
-        ExamAddress::factory(3)->withRandomCreator()->create();
+        Address::factory(3)->withRandomCreator()->create();
 
         ExamType::create([
             'name' => "Вид место жительства",
@@ -39,7 +39,7 @@ class ExamSeeder extends Seeder
         ]);
 
         Exam::factory(10)->withRandomCreator()->create([
-            'exam_address_id' => User::inRandomOrder()->first()->id
+            'address_id' => Address::inRandomOrder()->first()->id
         ]);
         
         $names = [

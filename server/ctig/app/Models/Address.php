@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Exam;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class ExamAddress extends Model
+class Address extends Model
 {
-    /** @use HasFactory<\Database\Factories\ExamAddressFactory> */
+    /** @use HasFactory<\Database\Factories\AddressFactory> */
     use HasFactory;
     protected $fillable = [
         'is_actual',
@@ -17,6 +16,6 @@ class ExamAddress extends Model
     ];
 
     public function exams(): HasMany{
-        return $this->hasMany(Exam::class, 'exam_address_id');
+        return $this->hasMany(Exam::class, 'address_id');
     }
 }

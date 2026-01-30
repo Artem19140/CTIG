@@ -25,7 +25,8 @@ class Exam extends Model
         'comment',
         'group',
         'end_time',
-        'exam_address_id',
+        'address_id',
+        'is_code_generated',
         'exam_date'
     ];
 
@@ -62,7 +63,7 @@ class Exam extends Model
     }
 
     public function address(): BelongsTo{
-        return $this->belongsTo(ExamAddress::class, 'exam_address_id');
+        return $this->belongsTo(Address::class, 'address_id');
     }
 
     function isCodesGeterated(){

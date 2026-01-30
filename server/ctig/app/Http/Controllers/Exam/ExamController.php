@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Exam;
 
+use App\Enums\ExamStatus;
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
 use App\Models\ExamType;
@@ -27,30 +28,36 @@ class ExamController extends Controller
         $examDuration = ExamType::findOrFail(request()->input('exam_type_id'))->duration;
         $examBeginTime = Carbon::parse(request()->input('begin_time'));
         $examEndTime = $examBeginTime->copy()->addMinutes($examDuration);
+
+        $examGroup = Exam::where('status', ExamStatus::Completed)  //считать группу на момент начала экзамена, как и сессию
+                                ->where('begin_time', '<', $examBeginTime->copy()->endOfDay())
+                                ->where('begin_time', '>', $examBeginTime->copy()->startOfDay())
+                                ->count() + 1; 
+
+        $examSessionNumber = Exam::whereBetween('exam_date',
+                                [
+                                            $examBeginTime->copy()->startOfYear(),
+                                            $examBeginTime->copy()->subDay()->endOfDay()
+                                        ])
+                                ->distinct('exam_date')
+                                ->count() + 1;
+        echo $examSessionNumber; //Дает дубликаты
         if($examBeginTime < now()){
             throw new BusinessException('Экзамен нельзя создать на прошедшие даты');
         }
-
-        $conflictExams = Exam::where('exam_address_id', request()->input('exam_address_id'))
-                            ->where('begin_time', '<', $examEndTime)
-                            ->where('end_time', '>', $examBeginTime)
+        $conflictExams = Exam::where('address_id', request()->input('address_id'))
+                            ->where('begin_time', '<=', $examEndTime)
+                            ->where('end_time', '>=', $examBeginTime)
                            ->exists(); 
-
         if($conflictExams){
             throw new BusinessException('В это время будет проходить другой экзамен');
         }
 
-        $examGroup = Exam::whereDate('begin_time', $examBeginTime->copy()->toDate())->count() + 1;
-
-        $examSessionNumber = Exam::whereBetween('exam_date',
-                                [now()->startOfYear(), now()->endOfYear()])
-                                ->distinct()
-                                ->count();
-        echo $examSessionNumber; //Дает дубликаты
+        
         $exam = Exam::create(
             [
                 'begin_time' => $request->begin_time,
-                'exam_address_id' => $request->exam_address_id,
+                'address_id' => $request->address_id,
                 'capacity' => $request->capacity,
                 'exam_type_id' => $request->exam_type_id,
                 'comment' => $request->comment,
@@ -58,7 +65,7 @@ class ExamController extends Controller
                 'group'=>$examGroup,
                 'session_number' => 2,
                 'end_time' => $examEndTime,
-                "exam_date" => $examBeginTime->copy()->toDate()
+                'exam_date' => $examBeginTime->copy()->toDate()
             ]
         );
         $exam->testers()->attach($request->input('testers'));

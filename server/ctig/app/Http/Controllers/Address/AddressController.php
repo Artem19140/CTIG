@@ -19,7 +19,7 @@ class AddressController extends Controller
         //
     }
 
-    public function show(Address $examAddress)
+    public function show(Address $Address)
     {
         //
     }

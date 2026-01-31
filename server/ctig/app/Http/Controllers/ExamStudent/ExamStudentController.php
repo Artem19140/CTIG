@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\ExamStudent;
 
+use App\Enums\ExamStatus;
+use App\Exceptions\BusinessException;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use App\Http\Resources\Exam\ExamResource;
@@ -18,33 +21,46 @@ class ExamStudentController extends Controller
         return new ExamResource($exam);
     }
 
-
-    public function store(int $id)
+    public function store(int $examId)
     {
-        //Записи нет у данного мигранта(чтоб 2 раза не записать) 422
-        //он старше 18
-        //что экзамен и мигрант сущестуют
-        //что у мигранта в это время нет экзамен в другом месте
-        //что существует и актуален(проводится) экзамен
-        //экзамен не прошел(только будет)
-        //места свободные еще есть!!! иначе 422 мест нет
-        $student = Student::findOrFail(request('studentId'));
-        $exam = Exam::findOrFail( $id);
-        $studentExist= $exam->students()
-            ->wherePivot('student_id', $student->id)->exists();
-        if($studentExist){
-            return response()->json(['message' => 'Запись уже есть'], 409);
+        $student = Student::findOrFail(request('studentId')); // Валидация на целое число
+        $exam = Exam::findOrFail( $examId); // Валидация на целое число
+        $studentAge = Carbon::parse($student->date_birth)->age;
+        if($studentAge < 18){
+            throw new BusinessException('Запись возможна только с 18 лет');
         }
+
+        if($exam->status !== ExamStatus::Pending){
+            throw new BusinessException('На данный экзамен записи уже нет');
+        }
+
+        if($exam->exam_date < now()){
+            throw new BusinessException('Данный экзамен уже прошел');
+        }
+
+        $studentExist = $exam->students()
+            ->wherePivot('student_id', $student->id)->exists();
+
+        if($studentExist){
+            throw new BusinessException('Запись уже существует');
+        }
+
+        if($exam->students()->count() >= $exam->capacity){
+            throw new BusinessException('Запись уже заполена');
+        }
+
+        $studentExamsConflict = $student->exams()->where('begin_time', '<=', $exam->end_time)
+                                        ->where('end_time', '>=', $exam->begin_time)
+                                        ->where('status', ExamStatus::Pending)
+                                        ->exists();
+
+        if($studentExamsConflict){
+            throw new BusinessException('На это время у студента уже существует запись');
+        }
+
         $exam->students()->attach($student);
         return response()->json(['message' => 'Студент добавлен'], 201);
     }
-
-
-    public function show(string $id)
-    {
-        return response()->json(['ok'=>$id]);
-    }
-
 
     public function update(Request $request, string $id)
     {

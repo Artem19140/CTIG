@@ -8,6 +8,7 @@ use App\Models\Exam;
 use App\Models\User;
 use App\Models\ExamType;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Resources\Exam\ExamResource;
 use App\Http\Controllers\Controller;
@@ -16,10 +17,31 @@ use App\Http\Requests\Exam\ExamRequest;
 class ExamController extends Controller
 {
     
-    public function index()
+    public function index(Request $request)
     {
-        //Не все, а по фильтрам
-        return ExamResource::collection(Exam::all());
+        //Валидация
+        $examTypeId = $request->input('examTypeId');
+        $dateFrom = $request->input('dateFrom');
+        $dateTo = $request->input('dateTo');
+        $addressId = $request->input('addressId');
+        $examStatus = $request->input('examStatus');
+        $exams = Exam::when($examTypeId, function (Builder $query, int $examTypeId) {
+                $query->where('exam_type_id', $examTypeId);
+            })
+            ->when($dateFrom, function (Builder $query, string $dateFrom){
+                $query->where('exam_date', '>=',$dateFrom);
+            })
+            ->when($dateTo, function (Builder $query, string $dateTo){
+                $query->where('exam_date', '<=',$dateTo);
+            })
+            ->when($addressId, function (Builder $query, string $addressId){
+                $query->where('address_id',$addressId);
+            })
+            ->when($examStatus, function (Builder $query, string $examStatus){
+                $query->where('status',$examStatus);
+            })
+            ->simplePaginate(15);
+        return ExamResource::collection($exams);
     }
 
     public function store(ExamRequest $request)
@@ -49,6 +71,7 @@ class ExamController extends Controller
         $conflictExamsExist = Exam::where('address_id', request()->input('address_id'))
                             ->where('begin_time', '<=', $examEndTime)
                             ->where('end_time', '>=', $examBeginTime)
+                            //->whereHas() можно сразу и тесторов получить, вот
                            ->exists(); 
         if($conflictExamsExist){
             throw new BusinessException('В это время будет проходить другой экзамен');

@@ -14,7 +14,7 @@ use App\Http\Controllers\ExamStudent\ExamStudentController;
 use App\Http\Controllers\Document\DocumentController;
 
 
-Route::middleware('auth:sanctum')->group(function (){
+//Route::middleware('auth:sanctum')->group(function (){
     Route::apiResource( 'users', UserController::class); //крудные контроллеры апи
 
     Route::apiResource('students', StudentController::class);
@@ -40,11 +40,12 @@ Route::middleware('auth:sanctum')->group(function (){
     });
 
     Route::prefix("exams")->group(function (){
+        Route::get('/{exam}/students', [ExamStudentController::class, "index"]);
         Route::post('/{examId}/students', [ExamStudentController::class, "store"]);
         Route::post('/{examId}/codes', [ExamCodeController::class, "store"]);
     });
     
-});
+//});
 
 Route::post('/login', [LoginController::class, 'login']);
 

@@ -15,6 +15,10 @@ class Address extends Model
         'address'
     ];
 
+    protected $casts = [
+        'is_actual' => 'boolean'
+    ];
+
     public function exams(): HasMany{
         return $this->hasMany(Exam::class, 'address_id');
     }

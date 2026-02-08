@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Exam;
 
+use DateTime;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Dto\ExamDto;
 
 class ExamRequest extends FormRequest
 {
@@ -14,27 +16,68 @@ class ExamRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'begin_time'=>'required|date',
-            'address_id'=>'required|integer|min:0|exists:addresses,id', 
-            'capacity'=>'required|integer|min:0',
-            'exam_type_id'=>'required|integer|min:0|exists:exam_types,id',
-            'comment'=>'sometimes|string', 
-            'testers'=>'required|array',
-            'testers.*' => 'required|integer|min:0|exists:users,id'
+            'beginTime'=>
+                    [
+                        'required',
+                        'date'
+                    ],
+            'addressId'=>
+                    [
+                        'required',
+                        'integer', 
+                        'min:0'
+                    ], 
+            'capacity' => [
+                        'required',
+                        'integer',
+                        'min:0',
+                    ],
+
+            'examTypeId' => [
+                        'required',
+                        'integer',
+                        'min:0',
+                    ],
+
+            'comment' => [
+                        'nullable',
+                        'string',
+                    ],
+
+            'testers' => [
+                        'required',
+                        'array',
+                    ],
+
+            'testers.*' => [
+                        'required',
+                        'integer',
+                        'min:0',
+                        'exists:users,id',
+                    ],
         ];
     }
 
     public function attributes(){
         return [
-            'begin_time' => 'время начала экзамена',
-            'address_id' => 'идентификатор адреса',
+            'beginTime' => 'время начала экзамена',
+            'addressId' => 'идентификатор адреса',
             'capacity' => 'вместимость',
-            'exam_type_id' => 'идентификатор типа экзамена',
+            'examTypeId' => 'идентификатор типа экзамена',
             'comment' => 'комментарий к экзамену',
             'testers' => 'тестеры',
             'testers.*' => 'тестеры'
         ];
     }
 
-   
+   public function getDto(): ExamDto{
+        return new ExamDto(
+            new DateTime($this->get('beginTime')),
+            $this->get('addressId'),
+            $this->get('capacity'),
+            $this->get('examTypeId'),
+            $this->get('comment'),
+            $this->get('testers')
+        );
+   }
 }

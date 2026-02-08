@@ -14,6 +14,10 @@ class ExamType extends Model
         'name',
         'creator_id'
     ];
+
+    protected $casts = [
+        'is_actual' => 'boolean'
+    ];
     
     public function exams():HasMany{
         return $this->hasMany(Exam::class);

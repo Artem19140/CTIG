@@ -31,8 +31,8 @@ return new class extends Migration
             $table->foreignId('address_id')
                 ->constrained('addresses')
                 ->cascadeOnDelete();
-            $table->tinyInteger('group');
-            $table->mediumInteger('session_number');
+            $table->tinyInteger('group')->nullable()->default(null);
+            $table->mediumInteger('session')->nullable()->default(null);
             $table->string('comment')->default('');
             $table->timestamps();
         });

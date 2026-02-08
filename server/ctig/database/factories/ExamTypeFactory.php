@@ -35,4 +35,12 @@ class ExamTypeFactory extends Factory
             ];
         });
     }
+
+    public function isNotActual(){
+        return $this->state(function(){
+            return[
+                'is_actual'=>false
+            ];
+        });
+    }
 }

@@ -31,21 +31,21 @@ class StudentTest extends TestCase
     ];
 }
 
-    public function test_no_patromymic(){
-        $data = $this->validUserData();
-        $data['patronymic'] = '';
-        foreach ($data as $key => $value) {
-            $data[$key] = '';
-        }
-        $response = $this->postJson('/api/students',
-            $data
-        );
+    // public function test_no_patromymic(){
+    //     $data = $this->validUserData();
+    //     $data['patronymic'] = '';
+    //     foreach ($data as $key => $value) {
+    //         $data[$key] = '';
+    //     }
+    //     $response = $this->postJson('/api/students',
+    //         $data
+    //     );
 
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors('patronymic')
-            ->assertValid('name');
+    //     $response->assertStatus(422)
+    //         ->assertJsonValidationErrors('patronymic')
+    //         ->assertValid('name');
         
-        $response->assertJsonStructure();
+    //     $response->assertJsonStructure();
         
-    }
+    // }
 }

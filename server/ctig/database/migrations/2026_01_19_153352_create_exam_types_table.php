@@ -18,6 +18,7 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete();
             $table->unsignedSmallInteger('duration');
+            $table->boolean('is_actual')->default(true);
             $table->timestamps();
         });
      

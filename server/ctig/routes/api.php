@@ -14,7 +14,8 @@ use App\Http\Controllers\ExamStudent\ExamStudentController;
 use App\Http\Controllers\Document\DocumentController;
 
 
-//Route::middleware('auth:sanctum')->group(function (){
+Route::post( 'users', [UserController::class, 'store']);
+Route::middleware('auth:sanctum')->group(function (){
     Route::apiResource( 'users', UserController::class); //крудные контроллеры апи
 
     Route::apiResource('students', StudentController::class);
@@ -45,7 +46,7 @@ use App\Http\Controllers\Document\DocumentController;
         Route::post('/{examId}/codes', [ExamCodeController::class, "store"]);
     });
     
-//});
+});
 
 Route::post('/login', [LoginController::class, 'login']);
 

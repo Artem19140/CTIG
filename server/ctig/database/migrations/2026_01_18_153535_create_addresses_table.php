@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->string('address');
-            $table->boolean('is_actual');
+            $table->boolean('is_actual')->default('true');
             $table->foreignId('creator_id')
                 ->constrained('users')
                 ->cascadeOnDelete();

@@ -23,10 +23,8 @@ class ExamFactory extends Factory
             'begin_time' => fake()->dateTimeBetween('-30 days', '+30 days')->format('Y-m-d'),
             'exam_type_id' => ExamType::factory(),
             'creator_id' => User::factory(),
-            'session_number'=>fake()->numberBetween(1, 101),
             'capacity'=>fake()->numberBetween(5, 20),
             'address_id' => Address::factory(),
-            'group'=> fake()->numberBetween(1, 4),
             'exam_date' => fake()->dateTimeBetween('-1 week', '+1 week')->format('Y-m-d'),
         ];
     }

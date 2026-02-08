@@ -7,6 +7,9 @@ use App\Models\Exam;
 use App\Models\ExamType;
 use Carbon\Carbon;
 use App\Exceptions\BusinessException;
+use Exception;
+use Illuminate\Database\Eloquent\Builder;
+use DB;
 
 final class CreateExamAction{
     public function handle($examDto, $creatorId){
@@ -39,34 +42,31 @@ final class CreateExamAction{
         $examDuration = $examType->duration;
         $examEndTime = $examBeginTime->copy()->addMinutes($examDuration);
 
-        
-       
-        $conflictExamsExist = Exam::where('address_id', $examAddress->id)
-                            ->where('begin_time', '<=', $examEndTime)
+        $paralellExams = Exam::where('begin_time', '<=', $examEndTime)
                             ->where('end_time', '>=', $examBeginTime)
-                            //->whereHas() можно сразу и тесторов получить, вот
-                           ->exists(); 
+                            ->get(); 
+        $conflictExams = $paralellExams->firstWhere('address_id', $examDto->addressId);
 
-        if($conflictExamsExist){
-            throw new BusinessException('В это время будет проходить другой экзамен');
-        }
-
-
-        $paralellExams = Exam::where('address_id', $examAddress->id)
-                        ->where('begin_time', '<=', $examEndTime)
-                        ->where('end_time', '>=', $examBeginTime)
-                        ->get(); 
-                        
+        // if($conflictExams){
+        //     $conflictExams->load('examType');
+        //     $conflictExams->load('address');
+        //     $examName =  trim($conflictExams->examType->name);
+        //     $time = trim($conflictExams->begin_time);
+        //     $address = trim($conflictExams->address->address);
+        //     throw new BusinessException("В {$time} по адресу {$address} будет проходить экзамен на {$examName}");
+        // }
+        
         $paralellExams->load('testers');
-        foreach($paralellExams as $exam){ 
-            foreach($exam->testers as $busyTester){
-                if( \in_array($busyTester->id,$examDto->testers) ){
-                    throw new BusinessException('Тестер '.$busyTester->surname.' '.$busyTester->name.' записан на другом экзамене');
-                }
-            }
+        $testers = $paralellExams->pluck('testers')->flatten()->unique('id');
+        // dd($examDto->testers, $testers->pluck('id'));
+        $busyTesters = $testers->filter(fn($tester) => in_array($tester->id, $examDto->testers));
+        if($busyTesters->isNotEmpty()){
+            $stringNames = $busyTesters->pluck('surname')->implode(', ');
+            throw new BusinessException("Тестер {$stringNames} занята в это время на другом экзамене");
         }
-        //Транзакция!
-        $exam = Exam::create(
+
+        DB::transaction(function () use ($examDto, $creatorId,$examBeginTime, $examEndTime) {
+            $exam = Exam::create(
             [
                 'begin_time' => $examDto->beginTime,
                 'address_id' => $examDto->addressId,
@@ -77,8 +77,9 @@ final class CreateExamAction{
                 'end_time' => $examEndTime,
                 'exam_date' => $examBeginTime->copy()->toDate()
             ]
-        );
+            );
         
-        $exam->testers()->attach($examDto->testers);
+            $exam->testers()->attach($examDto->testers);
+        });        
     }
 }

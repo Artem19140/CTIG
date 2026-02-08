@@ -53,7 +53,7 @@ class ExamCreateTest extends TestCase
     public function test_exam_registration_wrong_exam_type_id(): void{
         $data = [
             'beginTime'   => '2026-07-17 19:02:00',
-            'examTypeId' => 10,
+            'examTypeId' => $this->examType->id +1,
             'addressId'   => $this->address->id,
             'capacity'     => 10,
             'testers'      => [$this->user->id],
@@ -71,7 +71,7 @@ class ExamCreateTest extends TestCase
         $data = [
             'beginTime'   => '2026-07-17 19:02:00',
             'examTypeId' => $this->examType->id,
-            'addressId'   => 12,
+            'addressId'   => $this->address->id+1,
             'capacity'     => 10,
             'testers'      => [$this->user->id],
             'comment'      => 'Да, я добавил экзамен!',
@@ -84,7 +84,7 @@ class ExamCreateTest extends TestCase
         $response->assertStatus(422);
     }
     
-    public function test_exam_success_wrong_testers(): void{
+    public function test_exam_wrong_testers(): void{
         $data = [
             'beginTime'   => '2026-07-17 19:02:00',
             'examTypeId' => $this->examType->id,
@@ -99,5 +99,98 @@ class ExamCreateTest extends TestCase
             ->actingAs($this->user)
             ->postJson('api/exams', $data);
         $response->assertStatus(422); 
+    }
+
+    public function test_exam_conflict_before_begin(): void{
+        $data = [
+            'beginTime'   => '2026-07-17 19:02:00',
+            'examTypeId' => $this->examType->id,
+            'addressId'   => $this->address->id,
+            'capacity'     => 10,
+            'testers'      => [$this->user->id],
+            'comment'      => 'Да, я добавил экзамен!',
+        ];
+        
+        
+        $response = $this
+            ->actingAs($this->user)
+            ->postJson('api/exams', $data);
+        $response->assertStatus(200); //201
+
+        $dataNew = [
+            'beginTime'   => '2026-07-17 18:50:00',
+            'examTypeId' => $this->examType->id,
+            'addressId'   => $this->address->id,
+            'capacity'     => 10,
+            'testers'      => [$this->user->id],
+            'comment'      => 'Да, я добавил экзамен!',
+        ];
+
+        $response = $this
+            ->actingAs($this->user)
+            ->postJson('api/exams', $dataNew);
+        $response->assertStatus(422); //201
+    }
+
+    public function test_exam_conflict_during(): void{
+        $data = [
+            'beginTime'   => '2026-07-17 19:02:00',
+            'examTypeId' => $this->examType->id,
+            'addressId'   => $this->address->id,
+            'capacity'     => 10,
+            'testers'      => [$this->user->id],
+            'comment'      => 'Да, я добавил экзамен!',
+        ];
+        
+        
+        $response = $this
+            ->actingAs($this->user)
+            ->postJson('api/exams', $data);
+        $response->assertStatus(200); //201
+
+        $dataNew = [
+            'beginTime'   => '2026-07-17 19:50:00',
+            'examTypeId' => $this->examType->id,
+            'addressId'   => $this->address->id,
+            'capacity'     => 10,
+            'testers'      => [$this->user->id],
+            'comment'      => 'Да, я добавил экзамен!',
+        ];
+
+        $response = $this
+            ->actingAs($this->user)
+            ->postJson('api/exams', $dataNew);
+        $response->assertStatus(422); //201
+    }
+
+    public function test_exam_no_conflict(): void{
+        $data = [
+            'beginTime'   => '2026-07-17 19:02:00',
+            'examTypeId' => $this->examType->id,
+            'addressId'   => $this->address->id,
+            'capacity'     => 10,
+            'testers'      => [$this->user->id],
+            'comment'      => 'Да, я добавил экзамен!',
+        ];
+        
+        
+        $response = $this
+            ->actingAs($this->user)
+            ->postJson('api/exams', $data);
+        $response->assertStatus(200); //201
+
+        $dataNew = [
+            'beginTime'   => '2026-07-17 18:50:00',
+            'examTypeId' => $this->examType->id,
+            'addressId'   => Address::factory()->create()->id,
+            'capacity'     => 10,
+            'testers'      => [User::factory()->create()->id],
+            'comment'      => 'Да, я добавил экзамен!',
+        ];
+
+        $response = $this
+            ->actingAs($this->user)
+            ->postJson('api/exams', $dataNew);
+        $response->assertStatus(200); //201
     }
 }

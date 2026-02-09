@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Ramsey\Uuid\Exception\BuilderNotFoundException;
 use App\Http\Resources\ExamCode\ExamCodeResource;
 use Throwable;
+use App\Actions\Exam\CreateStudentsCodesForExamAction;
 
 class ExamCodeController extends Controller
 {
@@ -18,9 +19,10 @@ class ExamCodeController extends Controller
         // после использования - сразу удаляй из бд, код одноразовый
     }
 
-    public function store(Request $request)
+    public function store(Exam $exam, CreateStudentsCodesForExamAction $createStudentsCodesForExam)
     {
-        //
+        $createStudentsCodesForExam->execute($exam);
+        return $this->created();
     }
 
     public function show(ExamCode $examCode)
@@ -38,7 +40,9 @@ class ExamCodeController extends Controller
         //
     }
 
-    public function create(int $examId){
+    public function create(Exam $exam, CreateStudentsCodesForExamAction $createStudentsCodesForExam){
+        $createStudentsCodesForExam->execute($exam);
+        return $this->created();
         DB::transaction(function () use ($examId) {
             $exam = Exam::findOrFail($examId);
             //Экзамен еще не прошел, время за пол часа, есть студенты у него, 1 к 1 можно сделать отношение, а не 1 ко многу 

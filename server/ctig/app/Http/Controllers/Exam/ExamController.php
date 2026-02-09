@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Resources\Exam\ExamResource;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Exam\ExamRequest;
+use App\Http\Requests\Exam\ExamPostRequest;
 use App\Actions\Exam\CreateExamAction;
 
 class ExamController extends Controller
@@ -44,10 +44,10 @@ class ExamController extends Controller
         return ExamResource::collection($exams);
     }
 
-    public function store(ExamRequest $request, CreateExamAction $createExamAction)
+    public function store(ExamPostRequest $request, CreateExamAction $createExamAction)
     {       
-        $createExamAction->handle($request->getDto(),$request->user()->id);
-        return response()->json(["result" => "ok"]);
+        $exam = $createExamAction->handle($request->getDto(),$request->user()->id);
+        return $this->created(new ExamResource($exam));
     }
 
     public function show(Exam $exam): ExamResource

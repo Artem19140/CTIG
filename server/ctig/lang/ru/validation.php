@@ -195,6 +195,37 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'beginTime' => 'время начала экзамена',
+        'addressId' => 'идентификатор адреса',
+        'capacity' => 'вместимость',
+        'examTypeId' => 'идентификатор типа экзамена',
+        'comment' => 'комментарий к экзамену',
+        'testers' => 'тестеры',
+        'testers.*' => 'тестеры',
+        'studentId' => 'индентификатор студента',
+        'surname' => 'фамилия',
+        'name' => 'имя',
+        'patronymic' => 'отчетство',
+        'dateBirth' => 'дата рождения',
+        'surnameLatin' => 'фамилия на латинице',
+        'nameLatin' => 'имя на латинице',
+        'patronymicLatin' => 'отчество  на латинице',
+        'passportNumber' => 'номер паспорта',
+        'passportSeries' => 'серия паспорта',
+        'issuedBy' => 'кем выдан',
+        'issuesDate' => 'дата выдачи',
+        'addressReg' => 'адрес регистрации',
+        'migrationCardRequisite' => 'реквизиты миграционной карты',
+        'citizenship' => 'гражданство',
+        'phone' => 'телефон',
+        'noPatronymic' => 'нет отчества',
+        'examBlockId' => 'идентификатор блока экзамена',
+        'examId' => 'идентификатор экзамена',
+        'taskId' => 'идентификатор задания',
+        'studentAnswer' => 'ответ студента',
+        'contain'=> 'содержание',
+        'fipiGuid'=>'идентификатора фипи'
+    ],
 
 ];

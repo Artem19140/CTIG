@@ -43,7 +43,7 @@ class Student extends Model{
         return $this->morphMany(Document::class, 'documentable');
     }
 
-    public function codes(){ //мб один к одному!?
+    public function code(){ //мб один к одному!?
         return $this->hasMany(ExamCode::class, 'student_id');
     }
 

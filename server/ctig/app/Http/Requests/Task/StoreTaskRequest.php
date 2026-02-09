@@ -18,16 +18,8 @@ class StoreTaskRequest extends FormRequest
     {
         return [
             'contain' => 'required|string',
-            'exam_block_id'=>'required|integer|min:0|exists:exam_blocks,id',
-            'fipi_guid'=>'required|string'
-        ];
-    }
-
-    public function attributes(){
-        return [
-            'contain'=> 'содержимое вопроса',
-            'exam_block_id' => 'блок экзамена',
-            'fipi_guid'=>'идентификатора фипи'
+            'examBlockId'=>'required|integer|min:0|exists:exam_blocks,id',//вынести отсюда!
+            'fipiGuid'=>'required|string'
         ];
     }
 }

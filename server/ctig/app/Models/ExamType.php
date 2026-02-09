@@ -23,6 +23,10 @@ class ExamType extends Model
         return $this->hasMany(Exam::class);
     }
 
+    public function isActual():bool{
+        return $this->is_actual;
+    }
+
     public function creator():BelongsTo{
         return $this->belongsTo(User::class, 'creator_id');
     }

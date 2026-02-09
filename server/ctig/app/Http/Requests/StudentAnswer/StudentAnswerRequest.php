@@ -14,19 +14,10 @@ class StudentAnswerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'exam_id' => 'required|integer|min:0|exists:exams,id', 
-            'exam_block_id' => 'required|integer|min:0|exists:exam_blocks,id', 
-            'task_id' => 'required|integer|min:0|exists:tasks,id', 
-            //'student_answer' => 'sometimes|string', //вот хз прям, он же может и не ответить и это мб не строка будеты
-        ];
-    }
-
-    public function attributes(){
-        return [
-            'exam_block_id' => 'идентификатор блока экзамена',
-            'exam_id' => 'идентификатор экзамена',
-            'task_id' => 'идентификатор задания',
-            'student_answer' => 'ответ студента'
+            'examId' => 'required|integer|min:0|exists:exams,id', 
+            'examBlockId' => 'required|integer|min:0|exists:exam_blocks,id', 
+            'taskId' => 'required|integer|min:0|exists:tasks,id', 
+            'studentAnswer' => 'nullamble|string', //вот хз прям, он же может и не ответить и это мб не строка будеты
         ];
     }
 }

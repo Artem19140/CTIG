@@ -66,7 +66,8 @@ class Exam extends Model
         return $this->belongsTo(Address::class, 'address_id');
     }
 
-    function isCodesGeterated(){
+    public function isCodesGeterated(){
         return $this->is_codes_generate;
     }
+
 }

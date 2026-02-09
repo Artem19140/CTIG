@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
 /**
@@ -33,6 +34,12 @@ class StudentFactory extends Factory
     public function definition(): array
     {   
         return [
+            'surname'           => fake()->lastName(),
+            'name'              => fake()->firstName(),
+            'patronymic'        => fake()->firstName() . 'ович', // или 'овна' для женских
+            'surname_latin'     => fake()->lastName(),
+            'name_latin'        => fake()->firstName(),
+            'patronymic_latin'  => fake()->firstName() . 'ovich', // простая латинизация
             'passport_number' => fake()->unique()->numerify('######'),
             'passport_series' => fake()->unique()->bothify('??'),
             'issued_by' => 'МВД РФ №' . fake()->numerify('####'),
@@ -42,7 +49,7 @@ class StudentFactory extends Factory
             'citizenship' => fake()->randomElement(['UZ','KZ', 'AZ', 'US', 'UK']),
             'phone' => fake()->numerify('+7##########'),
             'creator_id' => User::factory(),
-            'date_birth' => fake()->dateTimeBetween('-60 years', 'now')->format('Y-m-d'),
+            'date_birth' => fake()->dateTimeBetween('-60 years', Carbon::now()->subYears(19)->toDateString())->format('Y-m-d'),
         ];
 
     }

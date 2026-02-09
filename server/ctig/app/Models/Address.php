@@ -19,6 +19,10 @@ class Address extends Model
         'is_actual' => 'boolean'
     ];
 
+    public function isActual():bool{
+        return $this->is_actual;
+    }
+
     public function exams(): HasMany{
         return $this->hasMany(Exam::class, 'address_id');
     }

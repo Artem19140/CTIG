@@ -6,7 +6,7 @@ use DateTime;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Dto\ExamDto;
 
-class ExamRequest extends FormRequest
+class ExamPostRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -55,18 +55,6 @@ class ExamRequest extends FormRequest
                         'min:0',
                         'exists:users,id',
                     ],
-        ];
-    }
-
-    public function attributes(){
-        return [
-            'beginTime' => 'время начала экзамена',
-            'addressId' => 'идентификатор адреса',
-            'capacity' => 'вместимость',
-            'examTypeId' => 'идентификатор типа экзамена',
-            'comment' => 'комментарий к экзамену',
-            'testers' => 'тестеры',
-            'testers.*' => 'тестеры'
         ];
     }
 

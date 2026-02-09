@@ -42,8 +42,8 @@ Route::middleware('auth:sanctum')->group(function (){
 
     Route::prefix("exams")->group(function (){
         Route::get('/{exam}/students', [ExamStudentController::class, "index"]);
-        Route::post('/{examId}/students', [ExamStudentController::class, "store"]);
-        Route::post('/{examId}/codes', [ExamCodeController::class, "store"]);
+        Route::post('/{exam}/students', [ExamStudentController::class, "store"]);
+        Route::post('/{exam}/codes', [ExamCodeController::class, "store"]);
     });
     
 });

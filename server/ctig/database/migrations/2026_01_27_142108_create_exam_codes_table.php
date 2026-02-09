@@ -15,7 +15,6 @@ return new class extends Migration
                 ->constrained('exams');
             $table->foreignId('student_id')
                 ->constrained('students'); 
-            $table->boolean('is_used')->default(false);
             $table->dateTime('expired_at');
             $table->timestamps();
         });

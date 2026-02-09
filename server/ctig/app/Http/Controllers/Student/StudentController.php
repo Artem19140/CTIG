@@ -19,6 +19,7 @@ class StudentController extends Controller
 
     public function store(StudentPostRequest $request): JsonResponse{
         $age = Carbon::parse($request->input('dateBirth'))->age;
+
         if($age < 18){
             throw new BusinessException('На экзамен можно записывать с 18 лет');
         }
@@ -28,7 +29,7 @@ class StudentController extends Controller
         if($studentExists){
             throw new BusinessException('Студент уже существует');
         }
-        Student::create([
+        $student = Student::create([
             'surname' => $request->input('surname'),
             'name'=> $request->input('name'),
             'patronymic'=> $request->input('patronymic'),
@@ -46,15 +47,12 @@ class StudentController extends Controller
             'phone'=> $request->input('phone'),
             'creator_id'=>$request->user()->id
         ]);
-        return response()->json(["result" => "ok"]);
+        return $this->created(new StudentResource($student));
     }
 
     public function show(Student $student){
         return new StudentResource($student);
     }
-
-    
-    
 
     public function update(Student $student)
     {

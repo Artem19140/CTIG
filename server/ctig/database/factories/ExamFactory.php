@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Address;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
 use App\Models\ExamType;
@@ -17,6 +18,8 @@ class ExamFactory extends Factory
      * @return array<string, mixed>
      */
 
+    
+
     public function definition(): array
     {
         return [
@@ -27,6 +30,24 @@ class ExamFactory extends Factory
             'address_id' => Address::factory(),
             'exam_date' => fake()->dateTimeBetween('-1 week', '+1 week')->format('Y-m-d'),
         ];
+    }
+
+    public function inFuture(){
+        return $this->state(function(){
+            return[
+                'begin_time' => Carbon::now()->addDay(),
+                'end_time' => Carbon::now()->addDay()->addHour()
+            ];
+        });
+    }
+
+    public function inPast(){
+        return $this->state(function(){
+            return[
+                'begin_time' => Carbon::now()->subDay(),
+                'end_time' => Carbon::now()->subDay()->addHour()
+            ];
+        });
     }
 
     public function withRandomCreator(): ExamFactory{

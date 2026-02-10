@@ -28,7 +28,10 @@ class Student extends Model{
         'migration_card_requisite',
         'citizenship',
         'phone',
-        'creator_id'
+        'creator_id',
+        'exam_code',
+        'exam_code_expired_at',
+        'exam_id'
     ];
     
     public function exams(): BelongsToMany{
@@ -42,11 +45,6 @@ class Student extends Model{
     public function documents(): MorphMany{
         return $this->morphMany(Document::class, 'documentable');
     }
-
-    public function code(){ //мб один к одному!?
-        return $this->hasMany(ExamCode::class, 'student_id');
-    }
-
 }
 
 

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Address;
+use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
@@ -49,6 +50,15 @@ class ExamFactory extends Factory
             ];
         });
     }
+
+    public function withStudents(int $count = 3)
+    {
+        return $this
+            ->state([
+                'capacity' => $count,
+            ])
+            ->hasAttached(Student::factory()->count($count));
+    }    
 
     public function withRandomCreator(): ExamFactory{
         return $this->state(function(){

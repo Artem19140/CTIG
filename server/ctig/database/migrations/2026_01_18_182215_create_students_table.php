@@ -25,8 +25,11 @@ return new class extends Migration
             $table->string('address_reg', 50);
             $table->string('migration_card_requisite', 40);
             $table->string('citizenship', 30);
-            
             $table->string('phone', 12);
+
+            $table->string('exam_code')->nullable()->unique()->default(null);
+            $table->dateTime('exam_code_expired_at')->nullable()->default(null);
+            $table->integer('exam_id')->nullable()->default(null);
 
             $table->foreignId('creator_id')
                 ->constrained('users')

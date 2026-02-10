@@ -20,6 +20,8 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->boolean('need_human_check');
             $table->boolean('is_actual')->default(true);
+            $table->string('associatied_with_fipi_guid')->nullable()->default(null);;
+            $table->boolean('is_associated')->nullable()->default(false);
             $table->unsignedTinyInteger('order');
             $table->timestamps();
         });

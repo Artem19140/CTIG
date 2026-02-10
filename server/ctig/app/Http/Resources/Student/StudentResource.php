@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Resources\Student;
-
+ 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -31,6 +32,11 @@ class StudentResource extends JsonResource
             'migrationCardRequisite' => $this->resource->migration_card_requisite,
             'citizenship' => $this->resource->citizenship,
             'phone' => $this->resource->phone,
+            'code' => $this->when(!$this->isExpired(), $this->exam_code) //чтобы не всегда поле на фронтенд прилетало
         ];
+    }
+
+    protected function isExpired(): bool{
+        return $this->resource->exam_code_expired_at && $this->resource->exam_code_expired_at < Carbon::now();
     }
 }

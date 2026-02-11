@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\ExamCode;
 
 use App\Exceptions\BusinessException;
-use App\Models\ExamAttempt;
 use App\Models\ExamCode;
 use App\Models\Exam;
 use Carbon\Carbon;
@@ -16,7 +15,6 @@ class ExamCodeController extends Controller
 {
     public function index()
     {
-        // после использования - сразу удаляй из бд, код одноразовый
     }
 
     public function store(Exam $exam, CreateStudentsCodesForExamAction $createStudentsCodesForExam)
@@ -61,10 +59,11 @@ class ExamCodeController extends Controller
         if($exam->begin_time >= Carbon::now()){
             throw new BusinessException('Экзмен еще не начался');
         }
-        // $student->create()
-        // ExamAttempt::create([
-
-        // ]);
-        echo $student->surname;
+        $token = $student->createToken(
+            'pre-exam-token',
+            ['exam:prepare'],
+            Carbon::now()->addMinutes(10)
+            )->plainTextToken;
+        echo $token;
     }
 }

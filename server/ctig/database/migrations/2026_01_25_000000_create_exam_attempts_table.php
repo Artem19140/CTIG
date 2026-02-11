@@ -15,10 +15,10 @@ return new class extends Migration
             $table->foreignId('exam_id')
                 ->constrained('exams');
             
-            $table->boolean('is_banned'); //Можно тоже статус сделать
+            $table->boolean('is_banned')->default(false);
             $table->boolean('is_rated')->default(false);
             $table->dateTime('expired_at');
-            $table->boolean('is_finished')->default(true); //можно и без этого
+            $table->boolean('is_finished')->default(false); //можно и без этого
             $table->dateTime('finished_at')->nullable()->default(null);//мб и started_at
             $table->timestamps();
         });

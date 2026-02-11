@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExamAttempt\ExamAttemptController;
 use App\Http\Controllers\ExamCode\ExamCodeController;
 use App\Http\Controllers\Login\LoginController;
 use Illuminate\Support\Facades\Route;
@@ -15,7 +16,7 @@ use App\Http\Controllers\Document\DocumentController;
 
 
 Route::post( 'users', [UserController::class, 'store']);
-Route::middleware('auth:sanctum')->group(function (){
+Route::middleware(['auth:sanctum'])->group(function (){
     Route::apiResource( 'users', UserController::class); //крудные контроллеры апи
 
     Route::apiResource('students', StudentController::class);
@@ -50,6 +51,9 @@ Route::middleware('auth:sanctum')->group(function (){
 
 Route::post('/login', [LoginController::class, 'login']);
 Route::post( 'exam-codes/verify', [ExamCodeController::class, 'verify']);
+
+Route::post('exam-attempts', [ExamAttemptController::class, 'store'])
+    ->middleware(['auth:sanctum']);//exam:prepare
 
 // use Illuminate\Support\Facades\DB;
 

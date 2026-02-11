@@ -10,24 +10,25 @@ use App\Exceptions\BusinessException;
 use DB;
 use Illuminate\Database\QueryException;
 use Response;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 final class CreateStudentsCodesForExamAction{
     public function execute(Exam $exam){
-        // if($exam->end_time < Carbon::now()){
-        //     throw new BusinessException('Экзамен уже прошел');
-        // }
+        if($exam->isPassed()){
+            throw new BusinessException('Экзмен уже прошел');
+        }
 
-        // if($exam->status != ExamStatus::Pending && $exam->status != ExamStatus::Started){
-        //     throw new BusinessException('Коды на данный экзамен сформировать уже нельзя');
-        // }
+        if($exam->status != ExamStatus::Pending && $exam->status != ExamStatus::Started){
+            throw new BusinessException('Коды на данный экзамен сформировать уже нельзя');
+        }
 
         $examBeginTime = Carbon::parse($exam->begin_time);
         $minutesBieforeBegin = $examBeginTime->copy()->diffInMinutes(Carbon::now(), false);
 
-        $minutes = config('exams.code_generation_before_minutes');
-        // if($minutesBieforeBegin >= $minutes){
-        //     throw new BusinessException("Коды можно сформировать минимум за 40 минут до экзамена");
-        // }
+        $minutes = config('exam.code_generation_before_minutes'); 
+        if(-$minutesBieforeBegin >= $minutes){
+            throw new BusinessException("Коды можно сформировать минимум за 40 минут до экзамена");
+        }
 
         $studentsExists = $exam->students()->exists();
         if(!$studentsExists){
@@ -37,7 +38,7 @@ final class CreateStudentsCodesForExamAction{
         $students = $exam->students;
         
         foreach($students as $student){
-            if($student->exam_code){//или есть попытка экзамена активная!
+            if($student->exam_code || $student->exam_id === $exam->id){
                 continue;
             }
             
@@ -62,53 +63,64 @@ final class CreateStudentsCodesForExamAction{
         }
 
         //------
-           $headers = [
-        'Content-Type' => 'text/csv',
-        'Content-Disposition' => 'attachment; filename="students_codes.csv"',
-    ];
+        $html = '
+<style>
+    body {
+        font-size: 16px;
+        line-height: 1.3;
+    }
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        border: 1px solid #000;
+        padding: 5px;
+        text-align: left;
+        vertical-align: top;
+    }
+    th {
+        background-color: #f0f0f0;
+        font-weight: bold;
+    }
+    tr:nth-child(even) td {
+        background-color: #f9f9f9;
+    }
+</style>
+<h2>Коды студентов</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Фамилия</th>
+        <th>Имя</th>
+        <th>Серия</th>
+        <th>Номер</th>
+        <th>Код</th>
+    </tr>';
 
-    $callback = function() use ($students) {
-        $fp = fopen('php://output', 'w');
+foreach ($students as $s) {
+    $html .= '<tr>';
+    $html .= "<td>{$s->id}</td>";
+    $html .= "<td>{$s->surname}</td>";
+    $html .= "<td>{$s->name}</td>";
+    $html .= "<td>{$s->passport_series}</td>";
+    $html .= "<td>{$s->passport_number}</td>";
+    $html .= "<td>{$s->exam_code}</td>";
+    $html .= '</tr>';
+}
 
-        // BOM для Excel (UTF-8)
-        fprintf($fp, chr(0xEF).chr(0xBB).chr(0xBF));
+$html .= '</table>';
+        
+        $pdf = Pdf::loadHTML($html);
 
-        // Заголовки колонок
-        fputcsv($fp, [
-            'ID',
-            'Surname',
-            'Name',
-            'Patronymic',
-            'Date of Birth',
-            'Surname Latin',
-            'Name Latin',
-            'Patronymic Latin',
-            'Passport Number',
-            'Passport Series',
-            'Exam Code'
-        ]);
-
-        // Данные студентов
-        foreach ($students as $student) {
-            fputcsv($fp, [
-                $student->id,
-                $student->surname,
-                $student->name,
-                $student->patronymic,
-                $student->date_birth,
-                $student->surname_latin,
-                $student->name_latin,
-                $student->patronymic_latin,
-                $student->passport_number,
-                $student->passport_series,
-                $student->exam_code
-            ]);
-        }
-
-        fclose($fp);
-    };
-
-    return Response::stream($callback, 200, $headers);
+        return response($pdf->stream('codes.pdf'), 200)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'inline; filename="codes.pdf"');
         //=====
         return StudentResource::collection($students);
     }

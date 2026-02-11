@@ -11,8 +11,9 @@ class ExamAttempt extends Model
     protected $fillable = [
         'student_id',
         'exam_id',
-        'exam_attempt_id',
-        'finished_at' //Куда бы впихнуть
+        'finished_at',
+        'expired_at',
+        'is_banned'
     ];
 
     public function student(): BelongsTo{

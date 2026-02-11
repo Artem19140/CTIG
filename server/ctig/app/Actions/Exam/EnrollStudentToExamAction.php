@@ -27,8 +27,8 @@ final class EnrollStudentToExamAction{
             throw new BusinessException('На данный экзамен записи уже нет');
         }
 
-        if($exam->begin_time < Carbon::now()){
-            throw new BusinessException('Данный экзамен уже прошел');
+        if($exam->isPassed()){
+            throw new BusinessException('Экзмен уже прошел');
         }
 
         $exam->load(['students']);

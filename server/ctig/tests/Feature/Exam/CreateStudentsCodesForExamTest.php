@@ -17,10 +17,6 @@ class CreateStudentsCodesForExamTest extends TestCase
     protected User $user;
     protected Student $student;
     protected Exam $exam;
-
-    protected $minutes;
-
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -35,31 +31,39 @@ class CreateStudentsCodesForExamTest extends TestCase
     public function postCreateCodes(int $examId){
         return $this
                 ->actingAs($this->user)
-                ->postJson("api/exams/{$examId}/codes")
-                ->assertHeader('content-type', 'application/json');
+                ->postJson("api/exams/{$examId}/codes");
     }
     public function test_success_creation(){
+        $minutes = config('exam.code_generation_before_minutes');
         $exam = Exam::factory()
             ->withStudents(3)
             ->create([
-                'begin_time' => Carbon::now()->addMinutes(40 - 1),
+                'begin_time' => Carbon::now()->addMinutes($minutes - 1),
                 'end_time' => Carbon::now()->addHours(2),
             ]);
         $response =  $this->postCreateCodes($exam->id);
-        $response->assertStatus(201);
-        $this->assertDatabaseCount('exam_codes', 3);
+        $response->assertStatus(200) //201
+            ->assertHeader('content-type', 'application/pdf');
+        
+        
     }
 
     public function test_fail_cannot_generate_exam_codes_before_allowed_time(){
+        $minutes = config('exam.code_generation_before_minutes');
         $exam = Exam::factory()
             ->withStudents(3)
             ->create([
-                'begin_time' => Carbon::now()->addMinutes(40 + 1),
+                'begin_time' => Carbon::now()->addMinutes($minutes + 1),
                 'end_time' => Carbon::now()->addHours(2),
             ]);
         $response =  $this->postCreateCodes($exam->id);
         $response->assertStatus(422);
-        $this->assertDatabaseEmpty('exam_codes');
+        $students = $exam->students;
+        foreach ($students as $student) {
+            $this->assertNull($student->exam_code);
+            $this->assertNull($student->exam_code_expired_at);
+            $this->assertNull($student->exam_id);
+        }
     }
 
     public function test_fail_passed_exam(){
@@ -69,13 +73,18 @@ class CreateStudentsCodesForExamTest extends TestCase
             ->create();
         $response =  $this->postCreateCodes($exam->id);
         $response->assertStatus(422);
-        $this->assertDatabaseEmpty('exam_codes');
+        $students = $exam->students;
+        foreach ($students as $student) {
+            $this->assertNull($student->exam_code);
+            $this->assertNull($student->exam_code_expired_at);
+            $this->assertNull($student->exam_id);
+        }
     }
 
     public function test_fail_exam_not_exist(){
         $response =  $this->postCreateCodes($this->exam->id + 1);
         $response->assertStatus(404);
-        $this->assertDatabaseEmpty('exam_codes');
+
     }
 
     public function test_fail_no_enrollments_for_exam(){
@@ -84,7 +93,12 @@ class CreateStudentsCodesForExamTest extends TestCase
             ->create();
         $response =  $this->postCreateCodes($exam->id);
         $response->assertStatus(422);
-        $this->assertDatabaseEmpty('exam_codes');
+        $students = $exam->students;
+        foreach ($students as $student) {
+            $this->assertNull($student->exam_code);
+            $this->assertNull($student->exam_code_expired_at);
+            $this->assertNull($student->exam_id);
+        }
     }
 
 

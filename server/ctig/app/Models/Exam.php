@@ -26,12 +26,14 @@ class Exam extends Model
         'group',
         'end_time',
         'address_id',
-        'is_code_generated',
         'exam_date'
     ];
 
     protected $casts = [
-        'status' => ExamStatus::class
+        'status' => ExamStatus::class,
+        'end_time' => 'datetime',
+        'begin_time' => 'datetime',
+        'exam_date'=>'date'
     ];
 
     public function examType(): BelongsTo{
@@ -66,8 +68,8 @@ class Exam extends Model
         return $this->belongsTo(Address::class, 'address_id');
     }
 
-    public function isCodesGeterated(){
-        return $this->is_codes_generate;
+    public function isPassed(){
+        return $this->end_time->isPast();
     }
 
 }

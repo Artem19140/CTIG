@@ -19,7 +19,7 @@ return new class extends Migration
             $table->boolean('is_rated')->default(false);
             $table->dateTime('expired_at');
             $table->boolean('is_finished')->default(true); //можно и без этого
-            $table->dateTime('finished_at');//мб и started_at
+            $table->dateTime('finished_at')->nullable()->default(null);//мб и started_at
             $table->timestamps();
         });
     }

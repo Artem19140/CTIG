@@ -49,7 +49,7 @@ Route::middleware('auth:sanctum')->group(function (){
 });
 
 Route::post('/login', [LoginController::class, 'login']);
-
+Route::post( 'exam-codes/verify', [ExamCodeController::class, 'verify']);
 
 // use Illuminate\Support\Facades\DB;
 

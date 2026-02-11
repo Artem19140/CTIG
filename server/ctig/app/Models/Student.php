@@ -33,6 +33,10 @@ class Student extends Model{
         'exam_code_expired_at',
         'exam_id'
     ];
+
+    protected $casts = [
+        'exam_code_expired_at' => 'datetime',
+    ];
     
     public function exams(): BelongsToMany{
         return $this->belongsToMany(Exam::class);

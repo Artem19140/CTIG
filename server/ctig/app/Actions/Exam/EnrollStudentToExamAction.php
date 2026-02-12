@@ -3,6 +3,7 @@
 namespace App\Actions\Exam;
 
 use App\Enums\ExamStatus;
+use App\Exceptions\EntityNotFoundExсeption;
 use App\Models\Exam;
 use App\Models\Student;
 use Carbon\Carbon;
@@ -15,7 +16,7 @@ final class EnrollStudentToExamAction{
         $student = Student::find($studentId);
         
         if(!$student){
-            throw new BusinessException('Такого студента не сущестует');
+            throw new EntityNotFoundExсeption('Студент');
         }
         
         $studentAge = Carbon::parse($student->date_birth)->age;
@@ -23,7 +24,7 @@ final class EnrollStudentToExamAction{
             throw new BusinessException('Запись возможна только с 18 лет');
         }
         
-        if($exam->status !== ExamStatus::Pending){
+        if($exam->status !== ExamStatus::Expected){
             throw new BusinessException('На данный экзамен записи уже нет');
         }
 
@@ -44,7 +45,7 @@ final class EnrollStudentToExamAction{
             
         $studentExamsConflict = $student->exams()->where('begin_time', '<=', $exam->end_time)
                                         ->where('end_time', '>=', $exam->begin_time)
-                                        ->where('status', ExamStatus::Pending)
+                                        ->where('status', ExamStatus::Expected)
                                         ->exists();
 
         if($studentExamsConflict){

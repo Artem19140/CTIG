@@ -25,6 +25,7 @@ class ExamTypeFactory extends Factory
             'duration' => 80,
             "creator_id" => User::factory(),
             'level' => fake()->numberBetween(1, 3),
+            'certificate_name'=>'имя'
         ];
     }
 
@@ -39,7 +40,7 @@ class ExamTypeFactory extends Factory
     public function isNotActual(){
         return $this->state(function(){
             return[
-                'is_actual'=>false
+                'is_active'=>false
             ];
         });
     }

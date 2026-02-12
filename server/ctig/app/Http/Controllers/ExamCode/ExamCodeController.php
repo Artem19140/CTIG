@@ -24,17 +24,17 @@ class ExamCodeController extends Controller
         //return $this->created($studentsWithCodes);
     }
 
-    public function show(ExamCode $examCode)
+    public function show()
     {
         //
     }
 
-    public function update(Request $request, ExamCode $examCode)
+    public function update(Request $request)
     {
         //
     }
 
-    public function destroy(ExamCode $examCode)
+    public function destroy()
     {
         //
     }

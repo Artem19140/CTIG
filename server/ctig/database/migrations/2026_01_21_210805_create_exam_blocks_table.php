@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('creator_id')
                 ->constrained('users')
                 ->cascadeOnDelete();
-            $table->boolean('is_actual')->default(true);
+            $table->boolean('is_active')->default(true);
             $table->unsignedTinyInteger('order');
             $table->timestamps();
         });

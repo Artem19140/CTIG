@@ -11,7 +11,6 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('contain');
             $table->foreignId('creator_id')
                 ->constrained('users')
                 ->cascadeOnDelete();
@@ -19,10 +18,11 @@ return new class extends Migration
                 ->constrained('exam_types')
                 ->cascadeOnDelete();
             $table->boolean('need_human_check');
-            $table->boolean('is_actual')->default(true);
+            $table->boolean('is_active')->default(true);
             $table->string('associatied_with_fipi_guid')->nullable()->default(null);;
             $table->boolean('is_associated')->nullable()->default(false);
             $table->unsignedTinyInteger('order');
+            //$table->foreignId('type_id'); что за тип
             $table->timestamps();
         });
     }

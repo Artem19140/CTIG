@@ -37,10 +37,10 @@ class TaskFactory extends Factory
     {
         
         return [
-            'contain' =>  fake()->sentence,
             'need_human_check' => fake()->numberBetween(0,1),
             'creator_id' => User::factory(),
-            'exam_block_id' => ExamBlock::factory()
+            'exam_block_id' => ExamBlock::factory(),
+            'order' => 1
         ];
     }
 }

@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('contain');
             $table->string('fipi_guid');
             $table->foreignId('task_id')->constrained('tasks');
-            $table->boolean('is_actual')->default(true);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

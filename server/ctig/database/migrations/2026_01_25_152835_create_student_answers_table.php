@@ -16,8 +16,8 @@ return new class extends Migration
                 ->constrained('exam_blocks');
             $table->foreignId('task_id')
                 ->constrained('tasks');
-            $table->boolean('is_right');
-            $table->string('student_answer')->default(''); //или null??
+            $table->unsignedTinyInteger('mark')->default(0);
+            $table->string('student_answer')->nullable()->default(null);
             $table->timestamps();
         });
     }

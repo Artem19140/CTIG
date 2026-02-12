@@ -17,7 +17,12 @@ class ExamBlock extends Model
         'min_mark',
         'exam_type_id',
         'creator_id',
-        'is_actual'
+        'is_active',
+        'order'
+    ];
+
+    protected $casts= [
+        'is_active' => 'boolean'
     ];
 
     public function tasks():HasMany{

@@ -18,7 +18,7 @@ final class CreateStudentsCodesForExamAction{
             throw new BusinessException('Экзмен уже прошел');
         }
 
-        if($exam->status != ExamStatus::Pending && $exam->status != ExamStatus::Started){
+        if($exam->status != ExamStatus::Expected && $exam->status != ExamStatus::Started){
             throw new BusinessException('Коды на данный экзамен сформировать уже нельзя');
         }
 

@@ -18,7 +18,7 @@ class AnswerResource extends JsonResource
             'id'=> $this->id,
             'contain'=>$this->contain,
             'isCorrect'=> $this->is_correct,
-            'studentAnswer' => $this->student_answer
+            'mark' => $this->mark
         ];
     }
 }

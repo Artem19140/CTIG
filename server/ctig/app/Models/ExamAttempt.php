@@ -13,7 +13,9 @@ class ExamAttempt extends Model
         'exam_id',
         'finished_at',
         'expired_at',
-        'is_banned'
+        'is_banned',
+        'status',
+        'is_passed'
     ];
 
     public function student(): BelongsTo{

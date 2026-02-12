@@ -54,7 +54,7 @@ class ValidationCreateExamTest extends TestCase
                                         'testers'      => '',
                                         'comment'      => '',
                                     ]);
-        $response->assertStatus(422)
+        $response->assertUnprocessable()
             ->assertJsonValidationErrors(['beginTime', 'examTypeId', 'addressId', 'capacity', 'testers']);
     }
 
@@ -67,7 +67,7 @@ class ValidationCreateExamTest extends TestCase
             'testers'      => [1],
             'comment'      => '',
         ]);
-        $response->assertStatus(422)
+        $response->assertUnprocessable()
             ->assertJsonValidationErrors(['beginTime']);
     }
 
@@ -80,7 +80,7 @@ class ValidationCreateExamTest extends TestCase
             'testers'      => ["asdf"],
             'comment'      => '',
         ]);
-        $response->assertStatus(422)
+        $response->assertUnprocessable()
             ->assertJsonValidationErrors(['examTypeId', 'addressId', 'capacity', 'testers.0']);
     }
 
@@ -93,7 +93,7 @@ class ValidationCreateExamTest extends TestCase
             'testers'      => [123],
             'comment'      => 123,
         ]);
-        $response->assertStatus(422)
+        $response->assertUnprocessable()
             ->assertJsonValidationErrors(['beginTime','comment' ]);
     }
 
@@ -106,7 +106,7 @@ class ValidationCreateExamTest extends TestCase
             'testers'      => [-1],
             'comment'      =>'',
         ]);
-        $response->assertStatus(422)
+        $response->assertUnprocessable()
             ->assertJsonValidationErrors(['examTypeId', 'addressId', 'capacity', 'testers.0']);
     }
 
@@ -119,7 +119,7 @@ class ValidationCreateExamTest extends TestCase
             'testers'      => [1],
             'comment'      =>[],
         ]);
-        $response->assertStatus(422)
+        $response->assertUnprocessable()
             ->assertJsonValidationErrors(['beginTime', 'examTypeId', 'addressId', 'capacity', 'comment']);
     }
 

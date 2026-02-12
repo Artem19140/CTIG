@@ -11,10 +11,11 @@ class Answer extends Model
     protected $fillable = [
         'contain',
         'is_correct',
-        'type',
         'creator_id',
         'answer_id',
-        'task_id'
+        'task_variant_id',
+        'file_path',
+        'mark'
     ];
 
     public function taskVariant(): BelongsTo{

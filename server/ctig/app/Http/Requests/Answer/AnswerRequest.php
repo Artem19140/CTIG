@@ -1,34 +1,38 @@
 <?php
 
-namespace App\Http\Requests\ExamBlock;
+namespace App\Http\Requests\Answer;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreExamBlockRequest extends FormRequest
+class AnswerRequest extends FormRequest
 {
     public function authorize(): bool
     {
         return true;
     }
 
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
     public function rules(): array
     {
         return [
-            'name' => [
+            "contain" => [
                 'required',
                 'string'
             ],
-            'minMark' => [
+            "isCorrect" =>[
+                'required',
+                'boolean'
+            ],
+            "taskVariantId" =>[
                 'required',
                 'integer',
                 'min:1'
             ],
-            'examTypeId' => [
-                'required',
-                'integer',
-                'min:1'
-            ],
-            'order' => [
+            "mark" =>[
                 'required',
                 'integer',
                 'min:1'

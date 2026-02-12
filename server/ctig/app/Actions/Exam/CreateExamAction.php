@@ -2,6 +2,7 @@
 
 namespace App\Actions\Exam;
 
+use App\Exceptions\EntityNotFoundExсeption;
 use App\Models\Address;
 use App\Models\Exam;
 use App\Models\ExamType;
@@ -16,11 +17,11 @@ final class CreateExamAction{
         $examAddress = Address::find($examDto->addressId);
         
         if(!$examType){
-            throw new BusinessException('Выбранный идентификатор типа экзамена не существует.');
+            throw new EntityNotFoundExсeption('Тип экзамена');
         }
 
         if(!$examAddress){
-            throw new BusinessException('Выбранный идентификатор адреса не существует.');
+            throw new EntityNotFoundExсeption('Адрес');
         }
 
         if(!$examAddress->isActual()){

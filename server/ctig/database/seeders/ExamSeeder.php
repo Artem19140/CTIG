@@ -22,6 +22,7 @@ class ExamSeeder extends Seeder
             'duration' => 90,
             "creator_id" => User::inRandomOrder()->first()->id,
             'level' => fake()->numberBetween(1, 3),
+            'certificate_name'=>'Вид место жительства'
         ]);
         ExamType::create([
             'name' => "Разрешение временного проживания",
@@ -29,6 +30,7 @@ class ExamSeeder extends Seeder
             'duration' => 90,
             "creator_id" => User::inRandomOrder()->first()->id,
             'level' => fake()->numberBetween(1, 3),
+            'certificate_name'=>'Разрешение временного проживания'
         ]);
         ExamType::create([
             'name' => "ПАТЕНТ",
@@ -36,6 +38,7 @@ class ExamSeeder extends Seeder
             'duration' => 80,
             "creator_id" => User::inRandomOrder()->first()->id,
             'level' => fake()->numberBetween(1, 3),
+            'certificate_name'=>'ПАТЕНТ'
         ]);
 
         Exam::factory(10)->withRandomCreator()->create([

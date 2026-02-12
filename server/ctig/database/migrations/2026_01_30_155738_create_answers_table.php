@@ -22,6 +22,7 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete();
             $table->unsignedTinyInteger('mark');
+            
             $table->timestamps();
         });
     }

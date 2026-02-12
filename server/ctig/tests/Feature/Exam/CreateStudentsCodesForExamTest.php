@@ -72,7 +72,7 @@ class CreateStudentsCodesForExamTest extends TestCase
             ->withStudents(3)
             ->create();
         $response =  $this->postCreateCodes($exam->id);
-        $response->assertStatus(422);
+        $response->assertUnprocessable();
         $students = $exam->students;
         foreach ($students as $student) {
             $this->assertNull($student->exam_code);
@@ -92,7 +92,7 @@ class CreateStudentsCodesForExamTest extends TestCase
             ->inFuture()
             ->create();
         $response =  $this->postCreateCodes($exam->id);
-        $response->assertStatus(422);
+        $response->assertUnprocessable();
         $students = $exam->students;
         foreach ($students as $student) {
             $this->assertNull($student->exam_code);

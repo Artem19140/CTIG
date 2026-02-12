@@ -11,16 +11,16 @@ class Address extends Model
     /** @use HasFactory<\Database\Factories\AddressFactory> */
     use HasFactory;
     protected $fillable = [
-        'is_actual',
+        'is_active',
         'address'
     ];
 
     protected $casts = [
-        'is_actual' => 'boolean'
+        'is_active' => 'boolean'
     ];
 
     public function isActual():bool{
-        return $this->is_actual;
+        return $this->is_active;
     }
 
     public function exams(): HasMany{

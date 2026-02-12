@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Exceptions;
-use Exception;
 use Illuminate\Http\JsonResponse;
+use Exception;
 
-class BusinessException extends Exception
+class EntityNotFoundExсeption extends Exception
 {
-    public function __construct(string $message = ""){
-        parent::__construct($message,422);
+    public function __construct(string $entity = ""){
+        parent::__construct("{$entity} не существует",422);
     }
 
      public function render($request): JsonResponse

@@ -13,7 +13,7 @@ class AddressFactory extends Factory
     public function isActual(): AddressFactory{
         return $this->state(function(){
             return[
-                'is_actual' => 1
+                'is_active' => 1
             ];
         });
     }
@@ -21,7 +21,7 @@ class AddressFactory extends Factory
     public function nooActual(): AddressFactory{
         return $this->state(function(){
             return[
-                'is_actual' => 0
+                'is_active' => 0
             ];
         });
     }
@@ -30,7 +30,7 @@ class AddressFactory extends Factory
         return [
             'address' => fake()->streetAddress,
             'creator_id' => User::factory(),
-            'is_actual' => 1
+            'is_active' => 1
         ];
     }
 

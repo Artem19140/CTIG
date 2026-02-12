@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\ExamAttemptStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,11 +16,12 @@ return new class extends Migration
             $table->foreignId('exam_id')
                 ->constrained('exams');
             
-            $table->boolean('is_banned')->default(false);
-            $table->boolean('is_rated')->default(false);
+            $table->string('status')->default(ExamAttemptStatus::Started);
             $table->dateTime('expired_at');
-            $table->boolean('is_finished')->default(false); //можно и без этого
-            $table->dateTime('finished_at')->nullable()->default(null);//мб и started_at
+            $table->unsignedTinyInteger('total_mark');
+            $table->boolean('is_passed')->default(null);
+            $table->dateTime('last_activity_at')->nullable()->default(null);
+            $table->dateTime('finished_at')->nullable()->default(null);
             $table->timestamps();
         });
     }

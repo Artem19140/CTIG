@@ -16,6 +16,7 @@ class ExamBlockFactory extends Factory
             'creator_id' => User::factory(),
             'order'=>11,
             'exam_type_id' => ExamType::factory(),
+            'min_mark' => fake()->numberBetween(1, 2),
             'name' => fake()->randomElement(
                 [
                     'История',

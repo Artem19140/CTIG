@@ -25,13 +25,4 @@ class UserPostRequest extends FormRequest
             'password'=>'required'
         ];
     }
-
-    public function attributes(){
-        return [
-            'surname' => 'фамилия',
-            'name' => 'имя',
-            'patronymic' => 'отчетство',
-            'password'=>'пароль'
-        ];
-    }
 }

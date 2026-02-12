@@ -38,7 +38,7 @@ class EnrollStudentToExamTest extends TestCase
         $response =  $this->postEnrollToExam([
             'studentId'=>$this->student->id,
             ], $this->exam->id);
-        $response->assertStatus(201);
+        $response->assertCreated();
         $this->assertDatabaseCount('exam_student', 1);
     }
 
@@ -46,12 +46,12 @@ class EnrollStudentToExamTest extends TestCase
         $response =  $this->postEnrollToExam([
             'studentId'=>$this->student->id,
             ], $this->exam->id);
-        $response->assertStatus(201);
+        $response->assertCreated();
 
         $response =  $this->postEnrollToExam([
             'studentId'=>$this->student->id,
             ], $this->exam->id);
-        $response->assertStatus(422);
+        $response->assertUnprocessable();
         $this->assertDatabaseCount('exam_student', 1);
     }
 
@@ -59,7 +59,7 @@ class EnrollStudentToExamTest extends TestCase
         $response =  $this->postEnrollToExam([
             'studentId'=>$this->student->id+1,
             ], $this->exam->id);
-        $response->assertStatus(422);
+        $response->assertUnprocessable();
         $this->assertDatabaseEmpty('exam_student');
     }
 
@@ -67,7 +67,7 @@ class EnrollStudentToExamTest extends TestCase
         $response =  $this->postEnrollToExam([
             'studentId'=>$this->student->id,
             ], $this->exam->id + 1);
-        $response->assertStatus(404);
+        $response->assertNotFound();
         $this->assertDatabaseEmpty('exam_student');
     }
 
@@ -76,7 +76,7 @@ class EnrollStudentToExamTest extends TestCase
         $response =  $this->postEnrollToExam([
             'studentId'=>$student->id,
             ], $this->exam->id);
-        $response->assertStatus(422);
+        $response->assertUnprocessable();
         $this->assertDatabaseEmpty('exam_student');
     }
 
@@ -92,7 +92,7 @@ class EnrollStudentToExamTest extends TestCase
         $response =  $this->postEnrollToExam([
             'studentId'=>$this->student->id,
             ], $exam->id);
-        $response->assertStatus(422);
+        $response->assertUnprocessable();
         $this->assertDatabaseCount('exam_student', 20);
     }
 
@@ -103,7 +103,7 @@ class EnrollStudentToExamTest extends TestCase
         $response =  $this->postEnrollToExam([
             'studentId'=>$this->student->id,
             ], $exam->id);
-        $response->assertStatus(422);
+        $response->assertUnprocessable();
         $this->assertDatabaseEmpty('exam_student');
     }
 
@@ -114,12 +114,12 @@ class EnrollStudentToExamTest extends TestCase
         $response =  $this->postEnrollToExam([
             'studentId'=>$this->student->id,
             ], $exam->id);
-        $response->assertStatus(201);
+        $response->assertCreated();
 
         $response =  $this->postEnrollToExam([
             'studentId'=>$this->student->id,
             ], $this->exam->id);
-        $response->assertStatus(422);
+        $response->assertUnprocessable();
 
         $this->assertDatabaseCount('exam_student', 1);
     }
@@ -127,7 +127,7 @@ class EnrollStudentToExamTest extends TestCase
     public function test_fail_statuses_not_allowed_to_enroll(){
         
         foreach (ExamStatus::cases() as $status) {
-            if($status === ExamStatus::Pending){
+            if($status === ExamStatus::Expected){
                 continue;
             }
             $exam = Exam::factory()
@@ -138,7 +138,7 @@ class EnrollStudentToExamTest extends TestCase
             $response =  $this->postEnrollToExam([
                 'studentId'=>$this->student->id,
             ], $exam->id);
-            $response->assertStatus(422);
+            $response->assertUnprocessable();
         }
 
         $this->assertDatabaseEmpty('exam_student');
@@ -148,7 +148,7 @@ class EnrollStudentToExamTest extends TestCase
         $response =  $this->postEnrollToExam([
             'studentId'=>'124',
             ], $this->exam->id);
-        $response->assertStatus(422);
+        $response->assertUnprocessable();
         $this->assertDatabaseEmpty('exam_student');
     }
 }

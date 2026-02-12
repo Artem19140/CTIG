@@ -19,8 +19,7 @@ class TaskVariantFactory extends Factory
         return [
             'contain' => fake()->sentence(),
             'fipi_guid' => fake()->uuid(),
-            'task_id' => Task::factory(),
-            'is_actual'
+            'task_id' => Task::factory()
         ];
     }
 }

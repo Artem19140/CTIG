@@ -17,7 +17,7 @@ return new class extends Migration
             $table->boolean('is_finished')->default(false);
             $table->boolean('is_codes_generate')->default(false);
             $table->string('time_zone')->default('Europe/Samara'); //с клиента брать 
-            $table->string('status')->default(ExamStatus::Pending);
+            $table->string('status')->default(ExamStatus::Expected);
             $table->unsignedTinyInteger('capacity');
             $table->date('exam_date');
             $table->foreignId('exam_type_id') 

@@ -11,9 +11,7 @@ class ExamResult extends Model
         'exam_id',
         'attempt_id',
         'student_id',
-        'status',
-        'is_passed',
-        
+        'is_passed'   
     ];
 
     public function students(): BelongsTo{

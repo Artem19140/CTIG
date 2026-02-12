@@ -12,11 +12,12 @@ class ExamType extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'creator_id'
+        'creator_id',
+        'is_active'
     ];
 
     protected $casts = [
-        'is_actual' => 'boolean'
+        'is_active' => 'boolean'
     ];
     
     public function exams():HasMany{
@@ -24,7 +25,7 @@ class ExamType extends Model
     }
 
     public function isActual():bool{
-        return $this->is_actual;
+        return $this->is_active;
     }
 
     public function creator():BelongsTo{

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ExamAttempt\ExamAttemptController;
 use App\Http\Controllers\ExamCode\ExamCodeController;
 use App\Http\Controllers\Login\LoginController;
+use App\Http\Controllers\TaskVariant\TaskVariantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\User\UserController;
@@ -13,9 +14,9 @@ use App\Http\Controllers\Answer\AnswerController;
 use App\Http\Controllers\ExamBlock\ExamBlockController;
 use App\Http\Controllers\ExamStudent\ExamStudentController;
 use App\Http\Controllers\Document\DocumentController;
+use App\Http\Controllers\StudentAnswer\StudentAnswerController;
 
 
-Route::post( 'users', [UserController::class, 'store']);
 Route::middleware(['auth:sanctum'])->group(function (){
     Route::apiResource( 'users', UserController::class); //крудные контроллеры апи
 
@@ -29,9 +30,15 @@ Route::middleware(['auth:sanctum'])->group(function (){
 
     Route::apiResource('tasks', TaskController::class);
 
+    Route::apiResource('answers',  AnswerController::class);
+
+    Route::apiResource('task-variants', TaskVariantController::class);
+
     Route::apiResource('answers', AnswerController::class);
 
     Route::apiResource('exam-blocks', ExamBlockController::class);
+
+    Route::apiResource('student-answers', StudentAnswerController::class);
 
     Route::prefix("exam-blocks")->group(function (){
         Route::get('/{exam_block}/tests', [ExamBlockController::class, 'tests']);
@@ -42,11 +49,9 @@ Route::middleware(['auth:sanctum'])->group(function (){
     });
 
     Route::prefix("exams")->group(function (){
-        Route::get('/{exam}/students', [ExamStudentController::class, "index"]);
         Route::post('/{exam}/students', [ExamStudentController::class, "store"]);
         Route::post('/{exam}/codes', [ExamCodeController::class, "store"]);
     });
-    
 });
 
 Route::post('/login', [LoginController::class, 'login']);
@@ -54,6 +59,8 @@ Route::post( 'exam-codes/verify', [ExamCodeController::class, 'verify']);
 
 Route::post('exam-attempts', [ExamAttemptController::class, 'store'])
     ->middleware(['auth:sanctum']);//exam:prepare
+
+Route::post( 'users', [UserController::class, 'store']);
 
 // use Illuminate\Support\Facades\DB;
 

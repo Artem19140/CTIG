@@ -7,6 +7,11 @@ const examTypes = ref([
     {name:'Гражданство', id:3}
 ])
 
+const testers = ref([
+    {name:'Привалова Татьяна', id:1},
+    {name:'Юсупова Вера', id:2}
+])
+
 const adresses = ref([
     {name:'Ижевск, ул Удмуртская 1, корпус 2, ауд 112', id:1},
     {name:'Ижевск, ул Удмуртская 1, корпус 2, ауд 114', id:1}
@@ -14,7 +19,10 @@ const adresses = ref([
 const exam = ref({
     dateTime:"",
     examTypeId:null,
-    address:null
+    address:null,
+    comment:"",
+    testers:[],
+    capacity:null
 })
 
 const show = () => {
@@ -29,10 +37,11 @@ const show = () => {
         v-model="isOpen"
         no-esc-dismiss
         >
-        <q-card style="max-width: 500px;">
+        <q-card style="width: 500px;">
             <q-card-section class="q-pa-md q-gutter-sm">
                 <q-select
                     use-input
+                    input-debounce="0"
                     filled
                     emit-value
                     map-options
@@ -40,12 +49,15 @@ const show = () => {
                     option-value="id"
                     v-model="exam.examTypeId" 
                     :options="examTypes" 
+                    autocomplete="name"
                     label="Тип экзамена" 
+                    clearable
                 />
                 
-                <q-input filled v-model="exam.dateTime"  label="Дата и время" type="datetime-local" />
-                <q-input filled v-model="exam.dateTime"  label="Количество студентов" type="number" />
+                <q-input clearable filled v-model="exam.dateTime"  label="Дата и время" type="datetime-local" />
+                <q-input clearable filled v-model="exam.capacity"  label="Количество студентов" type="number" />
                 <q-select
+                    clearable
                     use-input
                     filled
                     emit-value
@@ -56,10 +68,33 @@ const show = () => {
                     :options="adresses" 
                     label="Адрес проведения" 
                 />
+                <q-select
+                    multiple
+                    clearable
+                    use-input
+                    filled
+                    emit-value
+                    map-options
+                    option-label="name"
+                    option-value="id"
+                    v-model="exam.testers" 
+                    :options="testers" 
+                    label="Тестеры" 
+                />
+                <q-input
+                    clearable
+                    autogrow
+                    input-style="resize: none;"
+                    v-model="exam.comment"
+                    filled
+                    label="Комментарий"
+                    maxlength="256"
+                    type="textarea"
+                />
             </q-card-section>
             <q-card-actions class="row justify-center q-gutter-x-md">
                 <q-btn color="positive" label="Создать" @click="show" />
-                <q-btn label="Отменить" @click="show" />
+                <q-btn label="Отменить" v-close-popup />
             </q-card-actions>
         </q-card>
         

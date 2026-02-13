@@ -6,16 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\TaskType;
 
 class Task extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'contain',
         'creator_id',
-        'test_id',
+        'type',
         'exam_block_id',
         'fipi_guid'
+    ];
+
+    protected $casts = [
+        'type' => TaskType::class
     ];
 
     public function variants() : HasMany{

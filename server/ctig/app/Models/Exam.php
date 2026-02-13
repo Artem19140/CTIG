@@ -16,7 +16,6 @@ class Exam extends Model
     use HasFactory, Notifiable;
     protected $fillable=[
         'begin_time',
-        'is_finished',
         'exam_type_id',
         'creator_id',
         'session_number', //При переносе менять! Или как блин!? После проведения сессию только установить!
@@ -58,10 +57,6 @@ class Exam extends Model
 
     public function documents(): MorphMany{
         return $this->morphMany(Document::class, 'documentable');
-    }
-
-    public function codes(): HasMany{
-        return $this->hasMany(ExamCode::class, 'exam_id');
     }
 
     public function address(): BelongsTo{

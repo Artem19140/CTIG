@@ -14,8 +14,6 @@ return new class extends Migration
             $table->id();
             $table->dateTime('begin_time');
             $table->dateTime('end_time')->nullable();
-            $table->boolean('is_finished')->default(false);
-            $table->boolean('is_codes_generate')->default(false);
             $table->string('time_zone')->default('Europe/Samara'); //с клиента брать 
             $table->string('status')->default(ExamStatus::Expected);
             $table->unsignedTinyInteger('capacity');

@@ -16,6 +16,12 @@ return new class extends Migration
                 ->constrained('exam_blocks');
             $table->foreignId('task_id')
                 ->constrained('tasks');
+            $table->foreignId('attempt_id')
+                ->constrained('exam_attempts')
+                ->cascadeOnDelete();
+            // $table->foreignId('checked_bt_id')
+            //     ->constrained('users')
+            //     ->cascadeOnDelete();
             $table->unsignedTinyInteger('mark')->default(0);
             $table->string('student_answer')->nullable()->default(null);
             $table->timestamps();

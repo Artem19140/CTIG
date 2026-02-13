@@ -5,6 +5,8 @@ namespace Database\Factories;
 use App\Models\ExamBlock;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
+use App\Enums\TaskType;
+use Illuminate\Support\Arr;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Task>
  */
@@ -40,7 +42,8 @@ class TaskFactory extends Factory
             'need_human_check' => fake()->numberBetween(0,1),
             'creator_id' => User::factory(),
             'exam_block_id' => ExamBlock::factory(),
-            'order' => 1
+            'order' => 1,
+            'type' => fake()->randomElement(TaskType::cases())->value,
         ];
     }
 }

@@ -17,10 +17,9 @@ return new class extends Migration
             $table->foreignId('exam_block_id')
                 ->constrained('exam_types')
                 ->cascadeOnDelete();
+            $table->string('type', 40);
             $table->boolean('need_human_check');
             $table->boolean('is_active')->default(true);
-            $table->string('associatied_with_fipi_guid')->nullable()->default(null);;
-            $table->boolean('is_associated')->nullable()->default(false);
             $table->unsignedTinyInteger('order');
             //$table->foreignId('type_id'); что за тип
             $table->timestamps();

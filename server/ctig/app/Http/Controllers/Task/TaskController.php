@@ -18,8 +18,11 @@ class TaskController extends Controller
 
     public function store(StoreTaskRequest $request)
     {       
-        //что нет такого guid fipi
-        Task::create($request->all());
+        
+        Task::create([
+            'creator_id' => request()->user()->id, 
+            'exam_block_id' =>  request()->input('examBlockId')
+        ]);
         return response()->json(['result' => 'ok']);
     }
 

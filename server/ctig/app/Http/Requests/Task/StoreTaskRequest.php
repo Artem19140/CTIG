@@ -17,9 +17,7 @@ class StoreTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'contain' => 'required|string',
             'examBlockId'=>'required|integer|min:0|exists:exam_blocks,id',//вынести отсюда!
-            'fipiGuid'=>'required|string'
         ];
     }
 }

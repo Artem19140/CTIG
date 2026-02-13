@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('fipi_guid');
             $table->foreignId('task_id')->constrained('tasks');
             $table->boolean('is_active')->default(true);
+            $table->unsignedTinyInteger('group_id')->nullable()->default(null);
             $table->timestamps();
         });
     }

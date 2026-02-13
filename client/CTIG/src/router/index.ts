@@ -1,68 +1,37 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { defineRouter } from '#q-app/wrappers';
+import {
+  createMemoryHistory,
+  createRouter,
+  createWebHashHistory,
+  createWebHistory,
+} from 'vue-router';
+import routes from './routes';
 
-const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/migrants',
-      name: 'migrants',
-      component:  () => import('@/pages/Migrants/Migrants.vue'),
-      children: [
-        {
-          path: 'add',
-          component: () => import('@/components/StudentAddForm/StudentAddForm.vue'),
-        },
-      ],
-    },
+/*
+ * If not building with SSR mode, you can
+ * directly export the Router instantiation;
+ *
+ * The function below can be async too; either use
+ * async/await or return a Promise which resolves
+ * with the Router instance.
+ */
 
-    {
-      path: '/exam',
-      name: 'exam',
-      component:  () => import('@/components/ExamCalendar/ExamCalendar.vue'),
-      children: [
-        {
-          path: 'calendar',
-          component: () => import('@/components/ExamCalendar/ExamCalendar.vue'),
-        },
-      ],
-    },
+export default defineRouter(function (/* { store, ssrContext } */) {
+  const createHistory = process.env.SERVER
+    ? createMemoryHistory
+    : process.env.VUE_ROUTER_MODE === 'history'
+      ? createWebHistory
+      : createWebHashHistory;
 
-    {
-      path: '/tests',
-      name: 'test',
-      component:  () => import("@/pages/Tests/Tests.vue"),
-      children: [
-        {
-          path: 'calendar',
-          component: () => import('@/components/ExamCalendar/ExamCalendar.vue'),
-        },
-      ],
-    },
+  const Router = createRouter({
+    scrollBehavior: () => ({ left: 0, top: 0 }),
+    routes,
 
-    {
-      path: '/examEntrance', //exam/examEntrance
-      name: 'examEntrance',
-      component:  () => import("@/pages/Exam/ExamEntrance.vue"),
-    },
+    // Leave this as is and make changes in quasar.conf.js instead!
+    // quasar.conf.js -> build -> vueRouterMode
+    // quasar.conf.js -> build -> publicPath
+    history: createHistory(process.env.VUE_ROUTER_BASE),
+  });
 
-    {
-      path: '/exams', //exam/lists/{id}
-      name: 'examEntrance',
-      component:  () => import("@/pages/Exam/ExamList.vue"),
-    },
-
-    {
-      path: '/examming',
-      name: 'examming',
-      component:  () => import("@/pages/Exam/Exam.vue"),
-    },
-
-    {
-      path: '/documents',
-      name: 'documents',
-      component:  () => import("@/pages/Documents/Documents.vue"),
-    },
-  ],
-})
-
-export default router
+  return Router;
+});

@@ -52,7 +52,8 @@ class ExamController extends Controller
 
     public function show(Exam $exam): ExamResource
     {
-        //$exam->load('students'); //в параметр добавь что-нибудь, чтобы со списком и без получать
+        $exam->load('students'); //в параметр добавь что-нибудь, чтобы со списком и без получать
+        $exam->load('testers');
         return new ExamResource($exam);
     }
 

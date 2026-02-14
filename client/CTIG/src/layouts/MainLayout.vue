@@ -4,15 +4,14 @@
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
+        <q-toolbar-title> ТИГР </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+    <q-drawer v-model="leftDrawerOpen"  show-if-above bordered>
       <q-list>
-        <q-item-label header> Essential Links </q-item-label>
+        <q-item-label header> Меню </q-item-label>
 
         <EssentialLink v-for="link in linksList" :key="link.title" v-bind="link" />
       </q-list>
@@ -30,28 +29,28 @@ import EssentialLink, { type EssentialLinkProps } from 'components/EssentialLink
 
 const linksList: EssentialLinkProps[] = [
   {
-    title: 'Docs',
-    caption: 'quasar.dev',
+    title: 'Студенты',
+    caption: '',
     icon: 'school',
-    link: 'https://quasar.dev',
+    link: '/students',
   },
   {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
+    title: 'Экзамены',
+    caption: '',
     icon: 'code',
-    link: 'https://github.com/quasarframework',
+    link: '/exams',
   },
   {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
+    title: 'Документы',
+    caption: '',
     icon: 'chat',
-    link: 'https://chat.quasar.dev',
+    link: '/documents',
   },
   {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
+    title: 'Конструктор экзаменов',
+    caption: '',
     icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev',
+    link: 'exam-constructor',
   },
   {
     title: 'Twitter',

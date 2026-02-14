@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-const isOpen = ref(true)   
+const isOpen = ref(false)   
 const examTypes = ref([
     {name:'ВНЖ', id:1},
     {name:'РВП', id:2},
@@ -84,7 +84,6 @@ const show = () => {
                 <q-input
                     clearable
                     autogrow
-                    input-style="resize: none;"
                     v-model="exam.comment"
                     filled
                     label="Комментарий"

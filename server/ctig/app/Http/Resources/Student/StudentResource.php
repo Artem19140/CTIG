@@ -31,12 +31,9 @@ class StudentResource extends JsonResource
             'addressReg' => $this->resource->address_reg,
             'migrationCardRequisite' => $this->resource->migration_card_requisite,
             'citizenship' => $this->resource->citizenship,
-            'phone' => $this->resource->phone,
-            'code' => $this->when(!$this->isExpired(), $this->exam_code) //чтобы не всегда поле на фронтенд прилетало
+            'phone' => $this->resource->phone
         ];
     }
 
-    protected function isExpired(): bool{
-        return $this->resource->exam_code_expired_at && $this->resource->exam_code_expired_at < Carbon::now();
-    }
+
 }

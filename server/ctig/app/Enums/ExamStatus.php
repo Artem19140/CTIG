@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum ExamStatus: string
 {
-    case Expected   = 'Expected';
+    case Expected   = 'expected';
     case Started   = 'started';
     case Finished  = 'finished';
     case Completed = 'completed';

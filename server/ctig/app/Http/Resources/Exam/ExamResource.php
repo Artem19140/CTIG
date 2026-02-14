@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Exam;
 
+use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Student\StudentResource;
@@ -24,7 +25,10 @@ class ExamResource extends JsonResource
             'capacity' => $this->capacity,
             'status' => $this->status,
             'comment'=>$this->comment,
-            'group' => $this->group
+            'group' => $this->group,
+            'testers' => UserResource::collection($this->whenLoaded('testers')),
+            'name' => $this->examType->name,
+            'address' => $this->address->address
         ];
     }
 }

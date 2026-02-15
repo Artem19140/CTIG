@@ -10,18 +10,18 @@ use App\Models\User;
  */
 class AddressFactory extends Factory
 {
-    public function isActual(): AddressFactory{
+    public function isActive(): AddressFactory{
         return $this->state(function(){
             return[
-                'is_active' => 1
+                'is_active' => true
             ];
         });
     }
 
-    public function nooActual(): AddressFactory{
+    public function notActive(): AddressFactory{
         return $this->state(function(){
             return[
-                'is_active' => 0
+                'is_active' => false
             ];
         });
     }
@@ -29,8 +29,7 @@ class AddressFactory extends Factory
     {
         return [
             'address' => fake()->streetAddress,
-            'creator_id' => User::factory(),
-            'is_active' => 1
+            'creator_id' => User::factory()
         ];
     }
 

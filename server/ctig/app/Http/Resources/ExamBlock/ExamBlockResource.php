@@ -2,9 +2,10 @@
 
 namespace App\Http\Resources\ExamBlock;
 
+
+use App\Http\Resources\Subblock\SubblockResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Task\TaskResource;
 
 class ExamBlockResource extends JsonResource
 {
@@ -19,7 +20,7 @@ class ExamBlockResource extends JsonResource
             'id' => $this->resource->id,
             'name'=>$this->resource->name,
             'minMark'=>$this->resource->min_mark,
-            'tasks' => TaskResource::collection($this->whenLoaded('tasks'))
+            'subblocks' => SubblockResource::collection($this->whenLoaded('subblocks'))
         ];
     }
 }

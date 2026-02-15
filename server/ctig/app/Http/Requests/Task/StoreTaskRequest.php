@@ -17,7 +17,21 @@ class StoreTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'examBlockId'=>'required|integer|min:0|exists:exam_blocks,id',//вынести отсюда!
+            'subblockId'=>[
+                'required',
+                'integer',
+                'min:1',
+                'exists:exam_blocks,id'
+            ],
+            'order'=> [
+                'required',
+                'int',
+                'min:1'
+            ],
+            'type' => [
+                'required',
+                'string'
+            ]
         ];
     }
 }

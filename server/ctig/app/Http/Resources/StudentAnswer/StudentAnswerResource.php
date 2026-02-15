@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Answer;
+namespace App\Http\Resources\StudentAnswer;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AnswerResource extends JsonResource
+class StudentAnswerResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,9 +15,9 @@ class AnswerResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'=> $this->id,
-            'contain'=>$this->contain,
-            'isCorrect'=> $this->is_correct
+            'studentAnswer' => $this->student_answer,
+            'id' => $this->id,
+            'examBlockId' => $this->exam_block_id
         ];
     }
 }

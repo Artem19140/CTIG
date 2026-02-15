@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Answer;
+namespace App\Http\Requests\TaskVariant;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AnswerRequest extends FormRequest
+class TaskVariantStoreRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -19,19 +19,29 @@ class AnswerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "contain" => [
+            'contain' => [
                 'required',
                 'string'
             ],
-            "isCorrect" =>[
+            'taskId' => [
                 'required',
-                'boolean'
-            ],
-            "taskVariantId" =>[
-                'required',
-                'integer',
+                'int',
                 'min:1'
             ],
+            'groupId' => [
+                'required',
+                'int',
+                'min:1'
+            ],
+            'fipiGuid' => [
+                'required',
+                'string'
+            ],
+            'mark' => [
+                'required',
+                'int',
+                'min:0'
+            ]
         ];
     }
 }

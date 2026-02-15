@@ -21,8 +21,8 @@ return new class extends Migration
             $table->foreignId('creator_id')
                 ->constrained('users')
                 ->cascadeOnDelete();
-            $table->unsignedTinyInteger('mark');
             
+            $table->string('file_path')->nullable()->default(null);
             $table->timestamps();
         });
     }

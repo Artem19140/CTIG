@@ -13,9 +13,7 @@ class Answer extends Model
         'is_correct',
         'creator_id',
         'answer_id',
-        'task_variant_id',
-        'file_path',
-        'mark'
+        'task_variant_id'
     ];
 
     public function taskVariant(): BelongsTo{

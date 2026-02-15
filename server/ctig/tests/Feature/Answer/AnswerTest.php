@@ -24,8 +24,7 @@ class AnswerTest extends TestCase
         return array_merge([
             'contain' => 'Ответ 1',
             'isCorrect' =>false,
-            'taskVariantId' =>$this->taskVariant->id,
-            'mark' => 1
+            'taskVariantId' =>$this->taskVariant->id
         ],$overrides);
     }
 
@@ -39,13 +38,11 @@ class AnswerTest extends TestCase
     public function test_success_create(){
         $this->postAnswer()
             ->assertCreated()
-            ->assertJsonPath('data.mark', 1)
             ->assertJsonPath('data.isCorrect', false)
             ->assertJsonPath('data.contain', 'Ответ 1');
         $this->assertDatabaseCount('answers', 1);
         $this->assertDatabaseHas('answers', [
             'contain' => 'Ответ 1',
-            'mark' => 1, 
             'is_correct' => false,
             'task_variant_id' => $this->taskVariant->id
         ]);
@@ -67,49 +64,53 @@ class AnswerTest extends TestCase
 
     public function test_fail_validation_integer_less_zero(){
         $this->postAnswer([
-            'mark' => -1,
             'taskVariantId' => -1, 
             'isCorrect'=>false,
             'contain' => "wer"
         ])
             ->assertUnprocessable()
-            ->assertJsonValidationErrors(['mark', 'taskVariantId']);
+            ->assertJsonValidationErrors(['taskVariantId']);
         $this->assertDatabaseEmpty('answers');
     }
 
     public function test_fail_validation_integer_equeal_zero(){
         $this->postAnswer([
-            'mark' => 0,
             'taskVariantId' => 0, 
             'isCorrect'=>true,
             'contain' => "wer"
         ])
             ->assertUnprocessable()
-            ->assertJsonValidationErrors(['mark', 'taskVariantId']);
+            ->assertJsonValidationErrors(['taskVariantId']);
         $this->assertDatabaseEmpty('answers');
     }
 
     public function test_fail_validation_wrong_types(){
         $this->postAnswer([
-            'mark' => "sd",
             'taskVariantId' =>"sd", 
             'isCorrect'=>"sd",
             'contain' => 1
         ])
             ->assertUnprocessable()
-            ->assertJsonValidationErrors(['mark', 'taskVariantId', 'isCorrect','contain']);
+            ->assertJsonValidationErrors(['taskVariantId', 'isCorrect','contain']);
         $this->assertDatabaseEmpty('answers');
     }
 
     public function test_fail_validation_empty_requires_fields(){
         $this->postAnswer([
-            'mark' => "",
             'taskVariantId' => "", 
             'isCorrect'=> "",
             'contain' => ""
         ])
             ->assertUnprocessable()
-            ->assertJsonValidationErrors(['mark', 'taskVariantId', 'isCorrect','contain']);
+            ->assertJsonValidationErrors(['taskVariantId', 'isCorrect','contain']);
         $this->assertDatabaseEmpty('answers');
+    }
+
+    public function test_fail_two_right_answers_when_single_choice(){
+        $this->postAnswer(['isCorrect' => true])
+            ->assertCreated();
+        $this->postAnswer(['isCorrect' => true])
+            ->assertUnprocessable();
+        $this->assertDatabaseCount('answers', 1);
     }
 }

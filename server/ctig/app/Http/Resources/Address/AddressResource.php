@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Resources\Answer;
+namespace App\Http\Resources\Address;
 
+use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AnswerResource extends JsonResource
+class AddressResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,9 +16,9 @@ class AnswerResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'=> $this->id,
-            'contain'=>$this->contain,
-            'isCorrect'=> $this->is_correct
+            'address' => $this->address,
+            'creator' => (new UserResource($this->whenLoaded('creator'))),
+            'id' => $this->id
         ];
     }
 }

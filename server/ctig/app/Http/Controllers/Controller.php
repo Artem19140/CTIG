@@ -16,7 +16,7 @@ abstract class Controller
         ],201);
     }
 
-    protected function deleted(){
+    protected function noContent(){
         return response()->noContent();
     }
 }

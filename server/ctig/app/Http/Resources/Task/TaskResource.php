@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\Task;
 
+use App\Http\Resources\TaskVariant\TaskVariantResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Answer\AnswerResource;
 
 class TaskResource extends JsonResource
 {
@@ -17,9 +17,8 @@ class TaskResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
-            'contain' => $this->resource->contain,
-            'answers' => AnswerResource::collection($this->whenLoaded('answers')),
-            'fipiGuid' => $this->fipi_guid
+            'order' => $this->order,
+            'variants' =>  TaskVariantResource::collection($this->whenLoaded('variants'))
         ];
     }
 }

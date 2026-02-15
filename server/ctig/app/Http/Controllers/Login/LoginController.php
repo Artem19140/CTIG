@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Login;
 
 use App\Exceptions\ForbiddenException;
 use App\Http\Resources\User\UserResource;
-use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -21,8 +20,10 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $token = $user->createToken('api')->plainTextToken;
-            $user->token = $token;
-            return new UserResource(Auth::user());
+            return (new UserResource($user))
+                        ->additional([
+                            'token' => $token
+                        ]);
         }
 
         throw new ForbiddenException('Неверный логин или пароль');

@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Http\Resources\TaskVariant;
+
+use App\Http\Resources\Answer\AnswerResource;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class TaskVariantResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' => $this->id,
+            'contain' => $this->contain,
+            'fipiGuid' => $this->fipi_guid,
+            'groupId' => $this->group_id,
+            'answers' => AnswerResource::collection($this->whenLoaded('answers')),
+            'mark' => $this->mark
+        ];
+    }
+}

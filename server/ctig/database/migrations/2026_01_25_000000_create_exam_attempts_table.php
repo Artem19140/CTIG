@@ -15,6 +15,7 @@ return new class extends Migration
                 ->constrained('students');
             $table->foreignId('exam_id')
                 ->constrained('exams');
+            $table->boolean('is_audio_task_listened')->default(false);
             
             $table->string('status')->default(ExamAttemptStatus::Started);
             $table->dateTime('expired_at');

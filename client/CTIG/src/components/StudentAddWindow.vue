@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import { ref } from 'vue';
-    
+    import contries from '../../../contries.json'
     const student = ref({
         surname: '',
         name: '',
@@ -41,6 +41,18 @@
             console.error('Ошибка при сохранении студента', err)
         }
     }
+
+    const contriesList = ref(contries)
+    const filteredContries = ref([...contriesList.value])
+
+    const filterFn = (val:string, update:(callback: () => void) => void) => {
+        update(() => {
+            const needle = val.toLocaleLowerCase()
+            filteredContries.value = contriesList.value.filter(
+                v => v.name.toLocaleLowerCase().includes(needle)
+            )
+        })
+    }
 </script>
 
 <template>
@@ -49,12 +61,11 @@
         no-backdrop-dismiss
         v-model="isOpen"
         no-esc-dismiss
-        full-height
         >
             <q-card >
                 <q-space />
                 <q-btn flat v-close-popup round dense icon="close" />
-                <q-card-section style="max-width: 400px" class="q-pa-md q-gutter-sm">
+                <q-card-section style="min-width: 500px" class="q-pa-md q-gutter-sm">
                     <q-input filled v-model="student.surname" label="Фамилия"/>
                     <q-input filled v-model="student.name" label="Имя"/>
                     <q-input filled v-model="student.patronymic" label="Отчество"/>
@@ -63,13 +74,28 @@
                     <q-input filled v-model="student.nameLatin" label="Имя(лат)"/>
                     <q-input filled v-model="student.patronymicLatin" label="Отчество(лат)"/>
                     <q-input filled v-model="student.dateBirth" label="Дата рождения" type="date" />
+                    <q-select
+                        filled
+                        v-model="student.citizenship"
+                        label="Гражданство" 
+                        :options="filteredContries"
+                        input-debounce="0"
+                        clearable
+                        use-input
+                        emit-value
+                        map-options
+                        option-label="name"
+                        autocomplete="name"
+                        option-value="code"
+                        @filter="filterFn"
+                    />
                     <q-input filled v-model="student.passportSeries" label="Серия паспорта" />
                     <q-input filled v-model="student.passportNumber" label="Номер паспорта" />
                     <q-input filled v-model="student.issuedBy" label="Кем выдан" />
                     <q-input filled v-model="student.issuesDate" label="Дата выдачи" type="date" />
                     <q-input filled v-model="student.addressReg" label="Адрес регистрации" />
                     <q-input filled v-model="student.migrationCardRequisite" label="Реквизиты миграционной карты" />
-                    <q-input filled v-model="student.citizenship" label="Гражданство" />
+                    
                     <q-input filled v-model="student.phone" label="Телефон" />
                     
                 </q-card-section>

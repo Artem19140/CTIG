@@ -24,11 +24,11 @@ final class CreateExamAction{
             throw new EntityNotFoundExсeption('Адрес');
         }
 
-        if(!$examAddress->isActual()){
+        if(!$examAddress->is_active){
             throw new BusinessException('Адрес проведения экзамена неактуален');
         }
 
-        if(!$examType->isActual()){
+        if(!$examType->is_active){
             throw new BusinessException('Данный экзамен неактуален');
         }
 
@@ -47,7 +47,6 @@ final class CreateExamAction{
                             ->exists(); 
 
         if($hasConflictExam){
-            
             throw new BusinessException("В это время по данному адресу уже проводится экзамен");
         }
         

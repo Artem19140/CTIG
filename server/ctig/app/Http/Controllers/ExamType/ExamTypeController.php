@@ -21,11 +21,12 @@ class ExamTypeController extends Controller
 
     public function show(ExamType $examType)
     {
+        $examType->load('blocks.subblocks.tasks');
         return new ExamTypeResource($examType);
     }
 
     public function blocks(ExamType $examType){
-        $examType->load('blocks');
+        //$examType->load('blocks');
         return new ExamTypeResource($examType);
     }
 

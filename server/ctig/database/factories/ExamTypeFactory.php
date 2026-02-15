@@ -37,7 +37,7 @@ class ExamTypeFactory extends Factory
         });
     }
 
-    public function isNotActual(){
+    public function notActive(){
         return $this->state(function(){
             return[
                 'is_active'=>false

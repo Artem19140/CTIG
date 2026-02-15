@@ -2,11 +2,7 @@
 
 namespace App\Http\Controllers\Exam;
 
-use App\Enums\ExamStatus;
-use App\Exceptions\BusinessException;
 use App\Models\Exam;
-use App\Models\ExamType;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Resources\Exam\ExamResource;

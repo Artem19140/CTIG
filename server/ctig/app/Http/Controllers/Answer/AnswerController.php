@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Answer;
 
 
+use App\Enums\TaskType;
+use App\Exceptions\BusinessException;
 use App\Exceptions\EntityNotFoundExсeption;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Answer\AnswerRequest;
@@ -29,6 +31,13 @@ class AnswerController extends Controller
         $taskVariant = TaskVariant::find($request->input('taskVariantId'));
         if(!$taskVariant){
             throw new EntityNotFoundExсeption('Вариант задания');
+        }
+        $rightAnswersExist = $taskVariant->answers()->where('is_correct', true)->exists();
+        $taskVariant->load('task');
+        $task = $taskVariant->task;
+
+        if(!$task->type->allowMiltiplyAnswers() && $rightAnswersExist){
+            throw new BusinessException('У данного типа задания не может быть больше одного правильного ответа');
         }
         $answer = Answer::create([
             'contain' => $request->input('contain'),

@@ -16,8 +16,7 @@ class AnswerFactory extends Factory
     {
         return [
             'creator_id' => User::factory(),
-            'contain' => fake()->sentence(),
-            'mark' => fake()->numberBetween(1,2)
+            'contain' => fake()->sentence()
         ];
     }
 

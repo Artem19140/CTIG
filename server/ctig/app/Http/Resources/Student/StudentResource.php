@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Student;
  
-use Carbon\Carbon;
+use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -31,9 +31,10 @@ class StudentResource extends JsonResource
             'addressReg' => $this->resource->address_reg,
             'migrationCardRequisite' => $this->resource->migration_card_requisite,
             'citizenship' => $this->resource->citizenship,
-            'phone' => $this->resource->phone
+            'phone' => $this->resource->phone,
+            'creator'=>new UserResource($this->whenLoaded('creator')),
+            'createdAt' => $this->created_at
+            //'exam_result" => $this->whenLoaded($exams->attemts->studentId->attemtp->result)
         ];
     }
-
-
 }

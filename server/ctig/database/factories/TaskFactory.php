@@ -2,11 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\ExamBlock;
+use App\Models\Subblock;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
 use App\Enums\TaskType;
-use Illuminate\Support\Arr;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Task>
  */
@@ -20,17 +19,10 @@ class TaskFactory extends Factory
         });
     }
 
-    public function withRandomExamBlock(): TaskFactory{
+    public function withRandomSublock(): TaskFactory{
         return $this->state(function(){
             return[
-                'exam_block_id'=>ExamBlock::inRandomOrder()->first()->id
-            ];
-        });
-    }
-    public function noHumanCheck(){
-        return $this->state(function(){
-            return[
-                'need_human_check' => 0
+                'subblock_id'=>Subblock::inRandomOrder()->first()->id
             ];
         });
     }
@@ -39,9 +31,8 @@ class TaskFactory extends Factory
     {
         
         return [
-            'need_human_check' => fake()->numberBetween(0,1),
             'creator_id' => User::factory(),
-            'exam_block_id' => ExamBlock::factory(),
+            'subblock_id' => Subblock::factory(),
             'order' => 1,
             'type' => fake()->randomElement(TaskType::cases())->value,
         ];

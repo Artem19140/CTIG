@@ -32,8 +32,4 @@ class ExamAttempt extends Model
     public function answers():HasMany{
         return $this->hasMany(StudentAnswer::class, 'exam_attempt_id');
     }
-
-    public function result(): BelongsTo{
-        return $this->belongsTo(ExamResult::class, 'attempt_id');
-    }
 }

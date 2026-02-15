@@ -72,9 +72,23 @@ class CreateExamTest extends TestCase
             ->assertUnauthorized();
     }
 
-    public function test_registration_fail_exam_type_not_exists(): void{
+    public function test_fail_exam_type_not_exists(): void{
         
         $response =  $this->postExam(['examTypeId' => $this->examType->id + 1]);
+        $response->assertUnprocessable();
+        $this->assertDatabaseEmpty('exams');
+    }
+
+    public function test_fail_exam_type_not_active(): void{
+        $examType = ExamType::factory()->notActive()->create();
+        $response =  $this->postExam(['examTypeId' => $examType->id]);
+        $response->assertUnprocessable();
+        $this->assertDatabaseEmpty('exams');
+    }
+
+    public function test_fail_address_not_active(): void{
+        $address = Address::factory()->notActive()->create();
+        $response =  $this->postExam(['addressId' => $address->id]);
         $response->assertUnprocessable();
         $this->assertDatabaseEmpty('exams');
     }

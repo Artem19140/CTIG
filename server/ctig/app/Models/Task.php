@@ -14,8 +14,9 @@ class Task extends Model
     protected $fillable = [
         'creator_id',
         'type',
-        'exam_block_id',
-        'fipi_guid'
+        'subblock_id',
+        'fipi_guid',
+        'order'
     ];
 
     protected $casts = [
@@ -30,7 +31,7 @@ class Task extends Model
         return $this->belongsTo( User::class, "creator_id");
     }
 
-    public function examBlockBelong(): BelongsTo{
-        return $this->belongsTo( ExamBlock::class, "exam_block_id");
+    public function subblock(): BelongsTo{
+        return $this->belongsTo( Subblock::class, "subblock_id");
     }
 }

@@ -2,20 +2,24 @@
 
 namespace App\Http\Controllers\StudentAnswer;
 
+use App\Exceptions\BusinessException;
 use App\Models\StudentAnswer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class StudentAnswerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $answers = StudentAnswer::where('exam_attempt_id',$request->input('examAttemptId'))
+                    ->get();
+        //return new StudentAnswerResource
     }
 
     public function store(Request $request)
     {
-        //экзмен, студент, блок, ответ, вопрос существуют, есть у студента активная попытка, экзамен не закончен, а попытка относится к экзамену, и время не кончилось, а также что студеднт не снят с экзамен
+
     }
 
     public function show(StudentAnswer $studentAnswer)
@@ -25,7 +29,17 @@ class StudentAnswerController extends Controller
 
     public function update(Request $request, StudentAnswer $studentAnswer)
     {
-        //
+        $studentAnswer->load('attempt');
+        $examAttempt = $studentAnswer->attempt;
+        if($examAttempt->expired_at < Carbon::now()){
+            //$request->user()->tokens()->delete();
+            //кыш мыш токен из ls??
+            throw new BusinessException('Время экзамена вышло');
+        }
+        $studentAnswer->student_answer = $request->validate([
+            'studentAnswer' => ['nullable', 'string']
+        ]);
+        return $this->noContent();
     }
 
     public function destroy(StudentAnswer $studentAnswer)

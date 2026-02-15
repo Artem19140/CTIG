@@ -19,7 +19,24 @@ class TaskVariantFactory extends Factory
         return [
             'contain' => fake()->sentence(),
             'fipi_guid' => fake()->uuid(),
-            'task_id' => Task::factory()
+            'task_id' => Task::factory(),
+            'mark' => fake()->numberBetween(1,2)
         ];
+    }
+
+    public function notActive(){
+        return $this->state(function(){
+            return[
+                'is_active'=>false
+            ];
+        });
+    }
+
+    public function group(int $groupId){
+        return $this->state(function()use($groupId){
+            return[
+                'group_id'=>$groupId
+            ];
+        });
     }
 }

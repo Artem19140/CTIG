@@ -17,7 +17,8 @@ class TaskVariant extends Model
         'contain',
         'task_id',
         'is_active',
-        'group_id'
+        'group_id',
+        'mark'
     ];
 
     public function answers() : HasMany{

@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Task;
 
+use App\Enums\TaskType;
+use App\Exceptions\BusinessException;
+use App\Exceptions\EntityNotFoundExсeption;
+use App\Models\Subblock;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -18,17 +22,25 @@ class TaskController extends Controller
 
     public function store(StoreTaskRequest $request)
     {       
-        
-        Task::create([
+        if(!TaskType::tryFrom(request()->input('type'))){
+            throw new BusinessException('Неверный тип задания');
+        }
+        $subblock = Subblock::find(request()->input('subblockId'));
+        if(!$subblock){
+            throw new EntityNotFoundExсeption('подблок');
+        }
+        $task = Task::create([
             'creator_id' => request()->user()->id, 
-            'exam_block_id' =>  request()->input('examBlockId')
+            'subblock_id' =>  request()->input('subblockId'),
+            'type' => request()->input('type'),
+            'order' => request()->input('order')
         ]);
-        return response()->json(['result' => 'ok']);
+        return $this->created(new TaskResource($task));
     }
 
     public function show(Task $task)
     {   
-        //$task->load(['answers']); Это уже неактулаьно
+        $task->load(['variants.answers']);
         return new TaskResource($task);
     }
 
@@ -39,6 +51,8 @@ class TaskController extends Controller
 
     public function destroy(Task $task)
     {
-        //
+        $task->is_active= false;
+        $task->save();
+        return $this->noContent();
     }
 }

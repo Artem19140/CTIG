@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Address\AddressController;
 use App\Http\Controllers\ExamAttempt\ExamAttemptController;
 use App\Http\Controllers\ExamCode\ExamCodeController;
 use App\Http\Controllers\Login\LoginController;
+use App\Http\Controllers\Subblock\SubblockController;
 use App\Http\Controllers\TaskVariant\TaskVariantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Student\StudentController;
@@ -38,7 +40,11 @@ Route::middleware(['auth:sanctum'])->group(function (){
 
     Route::apiResource('exam-blocks', ExamBlockController::class);
 
+    Route::apiResource('subblocks', SubblockController::class);
+
     Route::apiResource('student-answers', StudentAnswerController::class);
+
+    Route::apiResource('addresses', AddressController::class);
 
     Route::prefix("exam-blocks")->group(function (){
         Route::get('/{exam_block}/tests', [ExamBlockController::class, 'tests']);

@@ -11,10 +11,11 @@ return new class extends Migration
         Schema::create('task_variants', function (Blueprint $table) {
             $table->id();
             $table->string('contain');
-            $table->string('fipi_guid');
+            $table->string('fipi_guid')->unique();
             $table->foreignId('task_id')->constrained('tasks');
             $table->boolean('is_active')->default(true);
             $table->unsignedTinyInteger('group_id')->nullable()->default(null);
+            $table->unsignedTinyInteger('mark');
             $table->timestamps();
         });
     }

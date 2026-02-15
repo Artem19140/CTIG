@@ -27,6 +27,13 @@ const columns: QTableColumn[] = [
     align:'left'
   },
   {
+    name: 'dateBirth',
+    label: 'Дата рождения',
+    field: 'dateBirth',
+    sortable: true,
+    align:'left'
+  },
+  {
     name: 'passportSeries',
     label: 'Серия паспорта',
     field: 'passportSeries',

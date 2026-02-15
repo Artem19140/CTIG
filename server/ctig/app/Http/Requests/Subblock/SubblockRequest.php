@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Answer;
+namespace App\Http\Requests\Subblock;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AnswerRequest extends FormRequest
+class SubblockRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -19,15 +19,21 @@ class AnswerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "contain" => [
+            'name' => [
                 'required',
                 'string'
             ],
-            "isCorrect" =>[
+            'minMark' => [
                 'required',
-                'boolean'
+                'integer',
+                'min:1'
             ],
-            "taskVariantId" =>[
+            'examBlockId' => [
+                'required',
+                'integer',
+                'min:1'
+            ],
+            'order' => [
                 'required',
                 'integer',
                 'min:1'

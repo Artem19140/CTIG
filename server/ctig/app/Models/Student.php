@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -50,6 +50,10 @@ class Student extends Authenticatable {
 
     public function documents(): MorphMany{
         return $this->morphMany(Document::class, 'documentable');
+    }
+
+    public function creator():BelongsTo{
+        return $this->belongsTo(User::class, 'creator_id');
     }
 }
 

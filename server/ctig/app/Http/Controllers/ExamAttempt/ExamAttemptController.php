@@ -4,17 +4,28 @@ namespace App\Http\Controllers\ExamAttempt;
 
 use App\Exceptions\BusinessException;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ExamAttempt\ExamAttemptResource;
 use App\Models\Exam;
 use App\Models\ExamAttempt;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class ExamAttemptController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $studentId = $request->input('studentId');
+        $examId = $request->input('examId');
+        $examAttempts = ExamAttempt::when($studentId, function (Builder $query, int $studentId){
+            $query->where('student_id', $studentId);
+        })
+        ->when($examId, function (Builder $query, int $examId){
+            $query->where('exam_id', $examId);
+        })
+        ->get();
+        return ExamAttemptResource::collection($examAttempts);
     }
 
     public function store(Request $request)

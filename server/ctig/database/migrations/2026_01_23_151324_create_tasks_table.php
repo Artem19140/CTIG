@@ -14,14 +14,12 @@ return new class extends Migration
             $table->foreignId('creator_id')
                 ->constrained('users')
                 ->cascadeOnDelete();
-            $table->foreignId('exam_block_id')
-                ->constrained('exam_types')
+            $table->foreignId('subblock_id')
+                ->constrained('subblocks')
                 ->cascadeOnDelete();
-            $table->string('type', 40);
-            $table->boolean('need_human_check');
+            $table->string('type');
             $table->boolean('is_active')->default(true);
             $table->unsignedTinyInteger('order');
-            //$table->foreignId('type_id'); что за тип
             $table->timestamps();
         });
     }

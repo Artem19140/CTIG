@@ -51,7 +51,7 @@ class Exam extends Model
         return $this->belongsToMany(Student::class);
     }
 
-    public function attemps(): HasMany{
+    public function attempts(): HasMany{
         return $this->hasMany(ExamAttempt::class, 'exam_id');
     }
 

@@ -32,4 +32,8 @@ class ExamAttempt extends Model
     public function answers():HasMany{
         return $this->hasMany(StudentAnswer::class, 'exam_attempt_id');
     }
+
+    public function violations(){
+        return $this->hasMany(Violation::class, 'exam_attempt_id');
+    }
 }

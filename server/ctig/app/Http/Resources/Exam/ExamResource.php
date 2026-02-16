@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Exam;
 
 use App\Http\Resources\Address\AddressResource;
+use App\Http\Resources\ExamAttempt\ExamAttemptResource;
 use App\Http\Resources\ExamType\ExamTypeResource;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
@@ -33,7 +34,7 @@ class ExamResource extends JsonResource
             'address' => new AddressResource($this->whenLoaded('address')),
             'creator'=> new UserResource($this->whenLoaded('creator')),
             'createdAt' => $this->created_at,
-            //'exam_result" => $this->whenLoaded($exams->attemts->studentId->attemtp->result) чтобы студентам сразу отобразить сертиф\справка
+            'attempts' => ExamAttemptResource::collection($this->whenLoaded('attempts'))
         ];
     }
 }

@@ -55,6 +55,7 @@ class Student extends Authenticatable {
     public function creator():BelongsTo{
         return $this->belongsTo(User::class, 'creator_id');
     }
+
 }
 
 

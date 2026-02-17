@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum TaskType:string
+enum TaskTypeEnum:string
 {
     case SingleChoice = 'single_choice';
     case TextInput = 'text_input';

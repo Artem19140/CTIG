@@ -8,15 +8,12 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('exam_blocks', function (Blueprint $table) {
+        Schema::create('blocks', function (Blueprint $table) {
             $table->id();
             $table->string('name', 50);
             $table->unsignedSmallInteger('min_mark');
             $table->foreignId('exam_type_id')
                 ->constrained('exam_types')
-                ->cascadeOnDelete();
-            $table->foreignId('creator_id')
-                ->constrained('users')
                 ->cascadeOnDelete();
             $table->boolean('is_active')->default(true);
             $table->unsignedTinyInteger('order');
@@ -26,6 +23,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('exam_blocks');
+        Schema::dropIfExists('blocks');
     }
 };

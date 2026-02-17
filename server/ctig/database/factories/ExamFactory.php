@@ -25,11 +25,11 @@ class ExamFactory extends Factory
     {
         return [
             'begin_time' => fake()->dateTimeBetween('-30 days', '+30 days')->format('Y-m-d'),
-            'exam_type_id' => ExamType::factory(),
+            'exam_type_id' => ExamType::inRandomOrder()->first()->id,
             'creator_id' => User::factory(),
             'capacity'=>fake()->numberBetween(5, 20),
             'address_id' => Address::factory(),
-            'exam_date' => fake()->dateTimeBetween('-1 week', '+1 week')->format('Y-m-d'),
+            'date' => fake()->dateTimeBetween('-1 week', '+1 week')->format('Y-m-d'),
         ];
     }
 

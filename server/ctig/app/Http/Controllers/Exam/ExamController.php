@@ -25,10 +25,10 @@ class ExamController extends Controller
                 $query->where('exam_type_id', $examTypeId);
             })
             ->when($dateFrom, function (Builder $query, string $dateFrom){
-                $query->where('exam_date', '>=',$dateFrom);
+                $query->where('date', '>=',$dateFrom);
             })
             ->when($dateTo, function (Builder $query, string $dateTo){
-                $query->where('exam_date', '<=',$dateTo);
+                $query->where('date', '<=',$dateTo);
             })
             ->when($addressId, function (Builder $query, string $addressId){
                 $query->where('address_id',$addressId);
@@ -67,6 +67,8 @@ class ExamController extends Controller
         //Найти количество решенных заданий по каждому, загрузить нарушения по каждому
         $exam->load(['attempts.student', 'attempts.violations']);//.violations
         //теперь экзамен вернется с этими отношениями просто и все
+        //student->attempt->violation
+        //у попытки нарушения, а студент имеет попытку
         return new ExamResource($exam);
     }
 }

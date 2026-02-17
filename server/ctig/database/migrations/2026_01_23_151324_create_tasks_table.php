@@ -11,14 +11,13 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('creator_id')
-                ->constrained('users')
-                ->cascadeOnDelete();
             $table->foreignId('subblock_id')
                 ->constrained('subblocks')
                 ->cascadeOnDelete();
+            $table->string('description')->nullable()->default('null');
             $table->string('type');
             $table->boolean('is_active')->default(true);
+            $table->unsignedTinyInteger('mark');
             $table->unsignedTinyInteger('order');
             $table->timestamps();
         });

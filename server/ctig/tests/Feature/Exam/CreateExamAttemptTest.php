@@ -33,6 +33,6 @@ class CreateExamAttemptTest extends TestCase
     //     $response
     //         ->assertStatus(201)
     //         ->assertHeader('content-type', 'application/json');
-    //     $this->assertDatabaseCount('exam_attempts', 1);
+    //     $this->assertDatabaseCount('attempts', 1);
     // }
 }

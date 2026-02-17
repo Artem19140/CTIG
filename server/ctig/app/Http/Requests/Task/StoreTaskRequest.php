@@ -21,7 +21,7 @@ class StoreTaskRequest extends FormRequest
                 'required',
                 'integer',
                 'min:1',
-                'exists:exam_blocks,id'
+                'exists:blocks,id'
             ],
             'order'=> [
                 'required',

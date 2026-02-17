@@ -71,7 +71,7 @@ final class CreateExamAction{
                     'comment' => $examDto->comment,
                     'creator_id'=> $creatorId,
                     'end_time' => $examEndTime,
-                    'exam_date' => $examBeginTime->copy()->toDate()
+                    'date' => $examBeginTime->copy()->toDate()
                 ]
             );
         

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Resources\ExamAttempt;
+namespace App\Http\Resources\Attempt;
 
 use App\Http\Resources\Exam\ExamResource;
 use App\Http\Resources\Student\StudentResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ExamAttemptResource extends JsonResource
+class AttemptResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,7 +20,6 @@ class ExamAttemptResource extends JsonResource
             'examName' => new ExamResource($this->whenLoaded('exam')),
             'student' => new StudentResource($this->whenLoaded('student')),
             'id' => $this->id
-            //'answers' =>  StudentAn::collection($this->whenLoaded('answers'))
         ];
     }
 }

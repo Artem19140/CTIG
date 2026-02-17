@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class ExamAttempt extends Model
+class Attempt extends Model
 {
-    /** @use HasFactory<\Database\Factories\ExamAttemptFactory> */
+    /** @use HasFactory<\Database\Factories\AttemptFactory> */
     use HasFactory;
     protected $fillable = [
         'student_id',
@@ -30,10 +30,10 @@ class ExamAttempt extends Model
     }
 
     public function answers():HasMany{
-        return $this->hasMany(StudentAnswer::class, 'exam_attempt_id');
+        return $this->hasMany(StudentAnswer::class, 'attempt_id');
     }
 
     public function violations(){
-        return $this->hasMany(Violation::class, 'exam_attempt_id');
+        return $this->hasMany(Violation::class, 'attempt_id');
     }
 }

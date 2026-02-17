@@ -13,21 +13,19 @@ class Address extends Model
     use HasFactory;
     protected $fillable = [
         'is_active',
-        'address',
-        'creator_id'
+        'address'
+        //'creator_id'
     ];
 
     protected $casts = [
         'is_active' => 'boolean'
     ];
-
-
-
+    
     public function exams(): HasMany{
         return $this->hasMany(Exam::class, 'address_id');
     }
 
-    public function creator(): BelongsTo{
-        return $this->belongsTo( User::class, "creator_id");
-    }
+    // public function creator(): BelongsTo{
+    //     return $this->belongsTo( User::class, "creator_id");
+    // }
 }

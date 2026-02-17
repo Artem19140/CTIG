@@ -13,15 +13,11 @@ return new class extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
-            $table->string('contain');
+            $table->string('content');
             $table->boolean('is_correct')->default(false);
             $table->foreignId('task_variant_id')
                 ->constrained('task_variants')
-                ->cascadeOnDelete();
-            $table->foreignId('creator_id')
-                ->constrained('users')
-                ->cascadeOnDelete();
-            
+                ->cascadeOnDelete();            
             $table->string('file_path')->nullable()->default(null);
             $table->timestamps();
         });

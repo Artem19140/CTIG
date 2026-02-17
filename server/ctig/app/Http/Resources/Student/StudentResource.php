@@ -34,7 +34,6 @@ class StudentResource extends JsonResource
             'phone' => $this->resource->phone,
             'creator'=>new UserResource($this->whenLoaded('creator')),
             'createdAt' => $this->created_at
-            //'exam_result" => $this->whenLoaded($exams->attemts->studentId->attemtp->result)
         ];
     }
 }

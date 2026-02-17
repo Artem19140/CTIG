@@ -25,14 +25,14 @@ class Exam extends Model
         'group',
         'end_time',
         'address_id',
-        'exam_date'
+        'date'
     ];
 
     protected $casts = [
         'status' => ExamStatus::class,
         'end_time' => 'datetime',
         'begin_time' => 'datetime',
-        'exam_date'=>'date'
+        'date'=>'date'
     ];
 
     public function examType(): BelongsTo{
@@ -52,7 +52,7 @@ class Exam extends Model
     }
 
     public function attempts(): HasMany{
-        return $this->hasMany(ExamAttempt::class, 'exam_id');
+        return $this->hasMany(Attempt::class, 'exam_id');
     }
 
     public function documents(): MorphMany{

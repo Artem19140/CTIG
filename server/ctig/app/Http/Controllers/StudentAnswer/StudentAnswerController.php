@@ -12,7 +12,7 @@ class StudentAnswerController extends Controller
 {
     public function index(Request $request)
     {
-        $answers = StudentAnswer::where('exam_attempt_id',$request->input('examAttemptId'))
+        $answers = StudentAnswer::where('attempt_id',$request->input('attemptId'))
                     ->get();
         //return new StudentAnswerResource
     }

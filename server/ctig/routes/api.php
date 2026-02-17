@@ -1,19 +1,15 @@
 <?php
 
 use App\Http\Controllers\Address\AddressController;
-use App\Http\Controllers\ExamAttempt\ExamAttemptController;
+use App\Http\Controllers\Attempt\AttemptController;
 use App\Http\Controllers\ExamCode\ExamCodeController;
 use App\Http\Controllers\Login\LoginController;
-use App\Http\Controllers\Subblock\SubblockController;
-use App\Http\Controllers\TaskVariant\TaskVariantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Exam\ExamController;
 use App\Http\Controllers\ExamType\ExamTypeController;
 use App\Http\Controllers\Task\TaskController;
-use App\Http\Controllers\Answer\AnswerController;
-use App\Http\Controllers\ExamBlock\ExamBlockController;
 use App\Http\Controllers\ExamStudent\ExamStudentController;
 use App\Http\Controllers\Document\DocumentController;
 use App\Http\Controllers\StudentAnswer\StudentAnswerController;
@@ -32,23 +28,9 @@ Route::middleware(['auth:sanctum'])->group(function (){
 
     Route::apiResource('tasks', TaskController::class);
 
-    Route::apiResource('answers',  AnswerController::class);
-
-    Route::apiResource('task-variants', TaskVariantController::class);
-
-    Route::apiResource('answers', AnswerController::class);
-
-    Route::apiResource('exam-blocks', ExamBlockController::class);
-
-    Route::apiResource('subblocks', SubblockController::class);
-
     Route::apiResource('student-answers', StudentAnswerController::class);
 
     Route::apiResource('addresses', AddressController::class);
-
-    Route::prefix("exam-blocks")->group(function (){
-        Route::get('/{exam_block}/tests', [ExamBlockController::class, 'tests']);
-    });
 
     Route::prefix("exam-types")->group(function (){
         Route::get('/{examType}/blocks', [ExamTypeController::class, 'blocks']);
@@ -64,7 +46,7 @@ Route::middleware(['auth:sanctum'])->group(function (){
 Route::post('/login', [LoginController::class, 'login']);
 Route::post( 'exam-codes/verify', [ExamCodeController::class, 'verify']);
 
-Route::post('exam-attempts', [ExamAttemptController::class, 'store'])
+Route::post('exam-attempts', [AttemptController::class, 'store'])
     ->middleware(['auth:sanctum']);//exam:prepare
 
 Route::post( 'users', [UserController::class, 'store']);

@@ -1,37 +1,37 @@
 <?php
 
-namespace App\Http\Controllers\ExamAttempt;
+namespace App\Http\Controllers\Attempt;
 
 use App\Exceptions\BusinessException;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ExamAttempt\ExamAttemptResource;
+use App\Http\Resources\ExamAttempt\AttemptResource;
 use App\Models\Exam;
-use App\Models\ExamAttempt;
+use App\Models\Attempt;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
-class ExamAttemptController extends Controller
+class AttemptController extends Controller
 {
     public function index(Request $request)
     {
         $studentId = $request->input('studentId');
         $examId = $request->input('examId');
-        $examAttempts = ExamAttempt::when($studentId, function (Builder $query, int $studentId){
+        $examAttempts = Attempt::when($studentId, function (Builder $query, int $studentId){
             $query->where('student_id', $studentId);
         })
         ->when($examId, function (Builder $query, int $examId){
             $query->where('exam_id', $examId);
         })
         ->get();
-        return ExamAttemptResource::collection($examAttempts);
+        return AttemptResource::collection($examAttempts);
     }
 
     public function store(Request $request)
     {
         $student=$request->user();
-        $hasCurrentExamAttempt = ExamAttempt::where('student_id', $student->id)
+        $hasCurrentExamAttempt = Attempt::where('student_id', $student->id)
                                     ->where('is_finished',  false)
                                     ->exists();
         if($hasCurrentExamAttempt){
@@ -40,7 +40,7 @@ class ExamAttemptController extends Controller
         $exam=Exam::with('examType')->find($student->exam_id);
         $examDuration = $exam->examType->duration;
         DB::transaction(function () use($student, $exam, $examDuration) {
-            ExamAttempt::create([
+            Attempt::create([
                 'student_id' => $student->id,
                 'exam_id' => $exam->id,
                 'expired_at' => Carbon::now()->addMinutes($examDuration),
@@ -58,18 +58,18 @@ class ExamAttemptController extends Controller
         return $this->created();
     }
 
-    public function show(ExamAttempt $examAttempt)
+    public function show(Attempt $attempt)
     {
         //
     }
 
 
-    public function update(Request $request, ExamAttempt $examAttempt)
+    public function update(Request $request, Attempt $attempt)
     {
         //
     }
 
-    public function destroy(ExamAttempt $examAttempt)
+    public function destroy(Attempt $attempt)
     {
         //
     }

@@ -1,0 +1,112 @@
+[
+  {
+    "content": "С собой необходимо иметь",
+    "fipi_number": "91C123",
+    "group_number": "A7B6CE",
+    "answers": [
+      {"content": "миграционную карту", "is_correct": true},
+      {"content": "банковскую карту", "is_correct": false},
+      {"content": "медицинскую справку", "is_correct": false}
+    ]
+  },
+  {
+    "content": "Он выходит",
+    "fipi_number": "F6C786",
+    "group_number": "BF6366",
+    "answers": [
+      {"content": "через одну остановку", "is_correct": true},
+      {"content": "на следующей остановке", "is_correct": false},
+      {"content": "через две остановки", "is_correct": false}
+    ]
+  },
+  {
+    "content": "Вы услышали, что",
+    "fipi_number": "7D3944",
+    "group_number": "9172AE",
+    "answers": [
+      {"content": "есть свободные номера", "is_correct": false},
+      {"content": "нет свободных номеров", "is_correct": true},
+      {"content": "есть одноместный номер", "is_correct": false}
+    ]
+  },
+  {
+    "content": "Что сделал Антон?",
+    "fipi_number": "7FEA9E",
+    "group_number": "671409",
+    "answers": [
+      {"content": "Он не дал мобильный телефон.", "is_correct": false},
+      {"content": "Он потерял мобильный телефон.", "is_correct": false},
+      {"content": "Он дал мобильный телефон.", "is_correct": true}
+    ]
+  },
+  {
+    "content": "Покупатель хочет купить",
+    "fipi_number": "610A77",
+    "group_number": "4E58BC",
+    "answers": [
+      {"content": "соки", "is_correct": false},
+      {"content": "фрукты", "is_correct": false},
+      {"content": "овощи", "is_correct": true}
+    ]
+  },
+  {
+    "content": "С собой надо иметь",
+    "fipi_number": "BB5A3F",
+    "group_number": "685DEA",
+    "answers": [
+      {"content": "миграционную карту", "is_correct": true},
+      {"content": "банковскую карту", "is_correct": false},
+      {"content": "медицинскую справку", "is_correct": false}
+    ]
+  },
+  {
+    "content": "Это лекарство стоит",
+    "fipi_number": "EA93A0",
+    "group_number": "090744",
+    "answers": [
+      {"content": "сто пятьдесят рублей", "is_correct": true},
+      {"content": "сто рублей", "is_correct": false},
+      {"content": "пятьдесят рублей", "is_correct": false}
+    ]
+  },
+  {
+    "content": "Продукты стоят",
+    "fipi_number": "C70D67",
+    "group_number": "2F994E",
+    "answers": [
+      {"content": "тридцать рублей", "is_correct": false},
+      {"content": "триста рублей", "is_correct": true},
+      {"content": "тринадцать рублей", "is_correct": false}
+    ]
+  },
+  {
+    "content": "Вход в метро",
+    "fipi_number": "CF5FBF",
+    "group_number": "A79867",
+    "answers": [
+      {"content": "справа от белого здания", "is_correct": true},
+      {"content": "слева от белого здания", "is_correct": false},
+      {"content": "в белом здании", "is_correct": false}
+    ]
+  },
+  {
+    "content": "Она хочет",
+    "fipi_number": "9B7900",
+    "group_number": "999A1E",
+    "answers": [
+      {"content": "купить сумку", "is_correct": false},
+      {"content": "получить деньги", "is_correct": true},
+      {"content": "работать в банке", "is_correct": false}
+    ]
+  },
+  {
+    "content": "Она хочет купить",
+    "fipi_number": "D0814F",
+    "group_number":"75B100",
+    "answers": [
+      {"content": "лекарство", "is_correct": true},
+      {"content": "обувь", "is_correct": false},
+      {"content": "продукты", "is_correct": false}
+    ]
+  }
+]

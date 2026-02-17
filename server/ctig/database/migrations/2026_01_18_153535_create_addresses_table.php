@@ -13,9 +13,9 @@ return new class extends Migration
             $table->id();
             $table->string('address');
             $table->boolean('is_active')->default('true');
-            $table->foreignId('creator_id')
-                ->constrained('users')
-                ->cascadeOnDelete();
+            // $table->foreignId('creator_id')
+            //     ->constrained('users')
+            //     ->cascadeOnDelete();
             $table->timestamps();
         }); //Мб сделать полиморфную связь? Чтобы и адрес сертификата тоже туда же впихивать
     }

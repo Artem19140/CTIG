@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Resources\ExamBlock;
+namespace App\Http\Resources\Block;
 
 
 use App\Http\Resources\Subblock\SubblockResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ExamBlockResource extends JsonResource
+class BlockResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

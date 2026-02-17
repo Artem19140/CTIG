@@ -16,10 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->unsignedTinyInteger('order');
             $table->unsignedTinyInteger('min_mark');
-            $table->foreignId('exam_block_id')
-                ->constrained('exam_blocks');
-            $table->foreignId('creator_id')
-                ->constrained('users');
+            $table->foreignId('block_id')
+                ->constrained('blocks');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

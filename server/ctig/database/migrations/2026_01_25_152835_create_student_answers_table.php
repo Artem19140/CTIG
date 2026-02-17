@@ -12,12 +12,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('exam_id')
                 ->constrained('exams');
-            $table->foreignId('exam_block_id')
-                ->constrained('exam_blocks');
+            $table->foreignId('block_id')
+                ->constrained('blocks');
             $table->foreignId('task_variant_id')
                 ->constrained('tasks');
             $table->foreignId('attempt_id')
-                ->constrained('exam_attempts')
+                ->constrained('attempts')
                 ->cascadeOnDelete();
             $table->integer('checked_by_id')->nullable()->default(null);
             $table->unsignedTinyInteger('mark')->default(0);

@@ -1,0 +1,13 @@
+[
+    {
+    "content": "Объявление можно услышать",
+    "fipi_number": "EC6ACA",
+    "group_number": "1AE94C",
+    "answers": [
+      {"content": "в ресторане", "is_correct": false},
+      {"content": "в магазине", "is_correct": true},
+      {"content": "в библиотеке", "is_correct": false}
+    ]
+  },
+  
+]

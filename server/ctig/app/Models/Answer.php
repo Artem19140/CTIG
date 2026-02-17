@@ -9,18 +9,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Answer extends Model
 {
     protected $fillable = [
-        'contain',
+        'content',
         'is_correct',
-        'creator_id',
-        'answer_id',
-        'task_variant_id'
+        'task_variant_id',
+        'order'
     ];
 
     public function taskVariant(): BelongsTo{
         return $this->belongsTo( TaskVariant::class, 'task_variant_id');
-    }
-
-    public function creator(): BelongsTo{
-        return $this->belongsTo( User::class, "creator_id");
     }
 }

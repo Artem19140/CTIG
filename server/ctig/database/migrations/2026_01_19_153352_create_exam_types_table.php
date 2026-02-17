@@ -14,9 +14,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('short_name');
             $table->unsignedTinyInteger('level'); //У экзамена еще, оказывается, есть уровень
-            $table->foreignId('creator_id')
-                ->constrained('users')
-                ->cascadeOnDelete();
             $table->unsignedSmallInteger('duration');
             $table->string('certificate_name');
             $table->boolean('is_active')->default(true);

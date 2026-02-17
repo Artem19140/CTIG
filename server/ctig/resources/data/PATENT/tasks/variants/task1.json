@@ -1,0 +1,112 @@
+[
+  {
+    "content": "Они говорят",
+    "fipi_number": "B6CC45",
+    "group_number": "A7B6CE",
+    "answers": [
+      {"content": "в магазине", "is_correct": false},
+      {"content": "в автомастерской", "is_correct": false},
+      {"content": "в центре тестирования", "is_correct": true}
+    ]
+  },
+  {
+    "content": "Они говорят",
+    "fipi_number": "B45F75",
+    "group_number": "BF6366",
+    "answers": [
+      {"content": "на улице", "is_correct": false},
+      {"content": "на остановке", "is_correct": false},
+      {"content": "в автобусе", "is_correct": true}
+    ]
+  },
+  {
+    "content": "Они говорят",
+    "fipi_number": "7D3944",
+    "group_number": "9172AE",
+    "answers": [
+      {"content": "в кинотеатре", "is_correct": false},
+      {"content": "в магазине", "is_correct": false},
+      {"content": "в гостинице", "is_correct": true}
+    ]
+  },
+  {
+    "content": "Вы слышите разговор",
+    "fipi_number": "5862CE",
+    "group_number": "671409",
+    "answers": [
+      {"content": "друзей", "is_correct": true},
+      {"content": "незнакомых людей", "is_correct": false},
+      {"content": "папы и сына", "is_correct": false}
+    ]
+  },
+  {
+    "content": "Они говорят",
+    "fipi_number": "9E6636",
+    "group_number": "4E58BC",
+    "answers": [
+      {"content": "в магазине", "is_correct": true},
+      {"content": "в ресторане", "is_correct": false},
+      {"content": "в кафе", "is_correct": false}
+    ]
+  },
+  {
+    "content": "Они говорят",
+    "fipi_number": "29ADAA",
+    "group_number": "685DEA",
+    "answers": [
+      {"content": "на почте", "is_correct": false},
+      {"content": "в гостинице", "is_correct": false},
+      {"content": "в банке", "is_correct": true}
+    ]
+  },
+  {
+    "content": "Они говорят",
+    "fipi_number": "EA93A0",
+    "group_number": "090744",
+    "answers": [
+      {"content": "в аптеке", "is_correct": true},
+      {"content": "в поликлинике", "is_correct": false},
+      {"content": "в магазине", "is_correct": false}
+    ]
+  },
+  {
+    "content": "Они говорят",
+    "fipi_number": "95BEEE",
+    "group_number": "2F994E",
+    "answers": [
+      {"content": "в метро", "is_correct": false},
+      {"content": "в магазине", "is_correct": true},
+      {"content": "в аптеке", "is_correct": false}
+    ]
+  },
+  {
+    "content": "Они говорят",
+    "fipi_number": "634E27",
+    "group_number": "A79867",
+    "answers": [
+      {"content": "в банке", "is_correct": false},
+      {"content": "в кассе", "is_correct": false},
+      {"content": "на улице", "is_correct": true}
+    ]
+  },
+  {
+    "content": "Они говорят",
+    "fipi_number": "5DA9DD",
+    "group_number": "999A1E",
+    "answers": [
+      {"content": "в торговом центре", "is_correct": true},
+      {"content": "в магазине «Сумки»", "is_correct": false},
+      {"content": "в отделении банка", "is_correct": false}
+    ]
+  },
+  {
+    "content": "Они говорят",
+    "fipi_number": "4DAB6F",
+    "group_number": "75B100",
+    "answers": [
+      {"content": "в торговом центре", "is_correct": false},
+      {"content": "на улице", "is_correct": true},
+      {"content": "в аптеке", "is_correct": false}
+    ]
+  }
+]

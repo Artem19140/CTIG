@@ -28,16 +28,7 @@ class AddressFactory extends Factory
     public function definition(): array
     {
         return [
-            'address' => fake()->streetAddress,
-            'creator_id' => User::factory()
+            'address' => fake()->streetAddress
         ];
-    }
-
-    public function withRandomCreator(): AddressFactory{
-        return $this->state(function(){
-            return[
-                'creator_id'=>User::inRandomOrder()->first()->id
-            ];
-        });
     }
 }

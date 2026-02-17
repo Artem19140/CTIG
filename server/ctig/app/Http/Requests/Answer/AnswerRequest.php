@@ -19,7 +19,7 @@ class AnswerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "contain" => [
+            "content" => [
                 'required',
                 'string'
             ],

@@ -45,7 +45,7 @@ class Student extends Authenticatable {
     }
  
     public function attempts(): HasMany{
-        return $this->hasMany(ExamAttempt::class, 'student_id');
+        return $this->hasMany(Attempt::class, 'student_id');
     }
 
     public function documents(): MorphMany{

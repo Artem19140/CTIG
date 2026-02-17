@@ -10,9 +10,9 @@ class StudentAnswer extends Model
 {
     protected $fillable = [
         'exam_id', //Основной поиск по этому полю
-        'exam_block_id',
+        'block_id',
         'task_variant_id',
-        'exam_attempt_id', //Основной поиск по этому полю
+        'attempt_id', //Основной поиск по этому полю
         'student_id', //Еще поиск по этому полю в карточке студента чтобы отобразить(дополнительно)
         'mark',
         'student_answer',
@@ -20,7 +20,7 @@ class StudentAnswer extends Model
     ];
 
     public function attempt(): BelongsTo{
-        return $this->belongsTo(ExamAttempt::class, 'exam_attempt_id');
+        return $this->belongsTo(Attempt::class, 'attempt_id');
     }
 
 }

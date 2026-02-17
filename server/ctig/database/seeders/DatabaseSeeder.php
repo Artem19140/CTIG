@@ -6,6 +6,9 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Student;
 
+use Database\Seeders\ExamTypes\PATENT\PatentSeeder;
+use Database\Seeders\ExamTypes\RVP\RvpSeeder;
+use Database\Seeders\ExamTypes\VNZH\VnzhSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -20,6 +23,9 @@ class DatabaseSeeder extends Seeder
         User::factory(6)->create();
         
         $this->call([
+            PatentSeeder::class,
+            VnzhSeeder::class,
+            RvpSeeder::class,
             ExamSeeder::class,
             ExamStudentSeeder::class
         ]);

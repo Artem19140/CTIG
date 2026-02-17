@@ -16,7 +16,7 @@ class AnswerResource extends JsonResource
     {
         return [
             'id'=> $this->id,
-            'contain'=>$this->contain,
+            'content'=>$this->content,
             'isCorrect'=> $this->is_correct
         ];
     }

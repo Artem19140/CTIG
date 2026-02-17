@@ -33,8 +33,7 @@ class ExamResource extends JsonResource
             'name' => new ExamTypeResource($this->whenLoaded('examType')),
             'address' => new AddressResource($this->whenLoaded('address')),
             'creator'=> new UserResource($this->whenLoaded('creator')),
-            'createdAt' => $this->created_at,
-            'attempts' => ExamAttemptResource::collection($this->whenLoaded('attempts'))
+            'createdAt' => $this->created_at
         ];
     }
 }

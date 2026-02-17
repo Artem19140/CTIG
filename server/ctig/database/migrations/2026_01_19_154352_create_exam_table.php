@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('time_zone')->default('Europe/Samara'); //с клиента брать 
             $table->string('status')->default(ExamStatus::Expected);
             $table->unsignedTinyInteger('capacity');
-            $table->date('exam_date');
+            $table->date('date');
             $table->foreignId('exam_type_id') 
                 ->constrained('exam_types')
                 ->cascadeOnDelete();

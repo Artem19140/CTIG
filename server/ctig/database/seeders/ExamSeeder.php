@@ -14,51 +14,13 @@ class ExamSeeder extends Seeder
 {
     public function run(): void
     {
-        Address::factory(3)->withRandomCreator()->create();
-
-        ExamType::create([
-            'name' => "Вид место жительства",
-            'short_name' => 'ВНЖ',
-            'duration' => 90,
-            "creator_id" => User::inRandomOrder()->first()->id,
-            'level' => fake()->numberBetween(1, 3),
-            'certificate_name'=>'Вид место жительства'
+        
+        Address::create([
+            'address'=>'Ижевск, Университетская, 1/корпус 2/каб. 124'
         ]);
-        ExamType::create([
-            'name' => "Разрешение временного проживания",
-            'short_name' => 'РВП',
-            'duration' => 90,
-            "creator_id" => User::inRandomOrder()->first()->id,
-            'level' => fake()->numberBetween(1, 3),
-            'certificate_name'=>'Разрешение временного проживания'
-        ]);
-        ExamType::create([
-            'name' => "ПАТЕНТ",
-            'short_name' => 'ПАТЕНТ',
-            'duration' => 80,
-            "creator_id" => User::inRandomOrder()->first()->id,
-            'level' => fake()->numberBetween(1, 3),
-            'certificate_name'=>'ПАТЕНТ'
-        ]);
-
         Exam::factory(10)->withRandomCreator()->create([
             'address_id' => Address::inRandomOrder()->first()->id
         ]);
-        
-        $names = [
-            'История',
-            'Русский язык',
-            'Право',
-        ];
 
-        foreach ($names as $name) {
-            ExamBlock::create([
-                'name' => $name,
-                'exam_type_id' => ExamType::inRandomOrder()->first()->id,
-                'creator_id' => User::inRandomOrder()->first()->id,
-                'min_mark' => fake()->numberBetween(3, 6),
-                'order' => 1
-            ]);
-        }
     }
 }

@@ -8,7 +8,7 @@ use App\Models\Student;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ExamAttempt>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Attempt>
  */
 class ExamAttemptFactory extends Factory
 {

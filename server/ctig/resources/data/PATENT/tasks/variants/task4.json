@@ -1,0 +1,12 @@
+[
+    {
+    "content": "Кассы № 3 и 5",
+    "fipi_number": "57C627",
+    "group_number": "1AE94C",
+    "answers": [
+      {"content": "не работают", "is_correct": false},
+      {"content": "принимают только банковские карты", "is_correct": false},
+      {"content": "принимают только наличные деньги", "is_correct": true}
+    ]
+  }
+]

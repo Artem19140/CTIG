@@ -10,7 +10,7 @@ class Violation extends Model
     /** @use HasFactory<\Database\Factories\ViolationFactory> */
     use HasFactory;
     protected $fillable = [
-        'exam_attempt_id',
+        'attempt_id',
         'type'
     ];
 }

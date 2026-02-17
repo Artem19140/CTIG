@@ -4,15 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ExamType extends Model
 {
-    use HasFactory;
     protected $fillable = [
         'name',
-        'creator_id',
         'is_active'
     ];
 
@@ -23,11 +19,8 @@ class ExamType extends Model
     public function exams():HasMany{
         return $this->hasMany(Exam::class);
     }
-    public function creator():BelongsTo{
-        return $this->belongsTo(User::class, 'creator_id');
-    }
 
     public function blocks():HasMany{
-        return $this->hasMany( ExamBlock::class,"exam_type_id");
+        return $this->hasMany( Block::class,"exam_type_id");
     }
 }

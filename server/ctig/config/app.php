@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'timezone' => 'Europe/Samara', #'UTC'
+    'timezone' => 'UTC', #'Europe/Samara' 
 
     /*
     |--------------------------------------------------------------------------

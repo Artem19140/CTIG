@@ -19,7 +19,7 @@ class TaskVariantStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'contain' => [
+            'content' => [
                 'required',
                 'string'
             ],

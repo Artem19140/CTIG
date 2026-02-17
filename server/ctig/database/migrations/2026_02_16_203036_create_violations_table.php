@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('violations', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->foreignId('exam_attempt_id')
-                ->constrained('exam_attempts')
+            $table->foreignId('attempt_id')
+                ->constrained('attempts')
                 ->cascadeOnDelete();
             //$table->uuid();
             $table->timestamps();

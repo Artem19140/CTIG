@@ -265,6 +265,16 @@ class PatentSeeder extends Seeder
                             'type' => TaskTypeEnum::SingleChoice,
                             'mark' => 1,
                             'variants'=> json_decode(file_get_contents(base_path($path.'task19.json')), true)
+                        ],
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task20.json')), true)
+                        ],
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task21.json')), true)
                         ]
                     ]
                 ]

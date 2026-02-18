@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\ExamType;
 
-use App\Http\Resources\ExamBlock\ExamBlockResource;
+use App\Http\Resources\Block\BlockResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,7 +19,7 @@ class ExamTypeResource extends JsonResource
         return [
             "id" => $this->resource->id,
             'name' => $this->resource->name,
-            'blocks' => ExamBlockResource::collection($this->whenLoaded('blocks'))
+            'blocks' => BlockResource::collection($this->whenLoaded('blocks'))
         ];
     }
 }

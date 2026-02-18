@@ -26,6 +26,6 @@ class Block extends Model
     }
 
     public function subblocks():HasMany{
-        return $this->hasMany( Subblock::class,"exam_block_id");
+        return $this->hasMany( Subblock::class,"block_id");
     }
 }

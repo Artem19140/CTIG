@@ -1,0 +1,200 @@
+[
+    {
+    "content": "Столица Российской Федерации-__________.",
+    "fipi_number": "32FDC4",
+    "answers": [
+      {
+        "content": "Москва",
+        "is_correct": true
+      },
+      {
+        "content": "Екатеринбург",
+        "is_correct": false
+      },
+      {
+        "content": "Самара",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "В Российской Федерации находится город",
+    "fipi_number": "D60A11",
+    "answers": [
+      {
+        "content": "София",
+        "is_correct": false
+      },
+      {
+        "content": "Владивосток",
+        "is_correct": true
+      },
+      {
+        "content": "Берлин",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Какой город Российской Федерации называют «второй столицей» России?",
+    "fipi_number": "47EB7F",
+    "answers": [
+      {
+        "content": "Екатеринбург",
+        "is_correct": false
+      },
+      {
+        "content": "Владивосток",
+        "is_correct": false
+      },
+      {
+        "content": "Санкт-Петербург",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "Какой из этих городов находится в России?",
+    "fipi_number": "326760",
+    "answers": [
+      {
+        "content": "София",
+        "is_correct": false
+      },
+      {
+        "content": "Прага",
+        "is_correct": false
+      },
+      {
+        "content": "Новосибирск",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "В  России находится город",
+    "fipi_number": "3021A0",
+    "answers": [
+      {
+        "content": "Самара",
+        "is_correct": true
+      },
+      {
+        "content": "Будапешт",
+        "is_correct": false
+      },
+      {
+        "content": "Пекин",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "В России находится город",
+    "fipi_number": "A3E0A8",
+    "answers": [
+      {
+        "content": "Хельсинки",
+        "is_correct": false
+      },
+      {
+        "content": "Рига",
+        "is_correct": false
+      },
+      {
+        "content": "Екатеринбург",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "В России находится город",
+    "fipi_number": "B2AA4C",
+    "answers": [
+      {
+        "content": "Вильнюс",
+        "is_correct": false
+      },
+      {
+        "content": "Ростов-на-Дону",
+        "is_correct": true
+      },
+      {
+        "content": "Бухарест",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "В России находится город",
+    "fipi_number": "6335E9",
+    "answers": [
+      {
+        "content": "Вашингтон",
+        "is_correct": false
+      },
+      {
+        "content": "Омск",
+        "is_correct": true
+      },
+      {
+        "content": "Париж",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "В России находится город",
+    "fipi_number": "B15AC6",
+    "answers": [
+      {
+        "content": "Рига",
+        "is_correct": false
+      },
+      {
+        "content": "Красноярск",
+        "is_correct": true
+      },
+      {
+        "content": "Мадрид",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "В России находится город",
+    "fipi_number": "5CEBE6",
+    "answers": [
+      {
+        "content": "Рим",
+        "is_correct": false
+      },
+      {
+        "content": "Токио",
+        "is_correct": false
+      },
+      {
+        "content": "Пермь",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "В России находится город",
+    "fipi_number": "B13622",
+    "answers": [
+      {
+        "content": "Париж",
+        "is_correct": false
+      },
+      {
+        "content": "Севастополь",
+        "is_correct": true
+      },
+      {
+        "content": "Пекин",
+        "is_correct": false
+      }
+    ]
+  }
+]

@@ -80,7 +80,8 @@ class PatentSeeder extends Seeder
 
     public function examBlocks(){
         return [  
-                $this->russianBlock()
+                $this->russianBlock(),
+                $this->historyBlock()
         ];
     }
 
@@ -188,6 +189,47 @@ class PatentSeeder extends Seeder
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($path.'task10.json')), true)
                 ],
+                [
+                    'type' => TaskTypeEnum::SingleChoice,
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task11.json')), true)
+                ]
+            ]
+        ];
+    }
+
+    private function historyBlock(): array{
+        $path = 'resources/data/PATENT/tasks/variants/';
+        return [
+            'name' => 'ИСТОРИЯ РОССИИ',
+            'min_mark'=>6,
+            'subblocks'=>[
+                [
+                    'name' => 'Тест',
+                    'min_mark'=> 0,
+                    'tasks' => [
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task12.json')), true)
+                        ],
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task13.json')), true)
+                        ],
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task14.json')), true)
+                        ],
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task15.json')), true)
+                        ],
+                    ]
+                ]
             ]
         ];
     }

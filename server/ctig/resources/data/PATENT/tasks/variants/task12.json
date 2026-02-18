@@ -1,0 +1,200 @@
+[
+  {
+    "content": "4 ноября в России празднуют",
+    "fipi_number": "112FF7",
+    "answers": [
+      {
+        "content": "Международный женский день",
+        "is_correct": false
+      },
+      {
+        "content": "День народного единства",
+        "is_correct": true
+      },
+      {
+        "content": "День Победы",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "7 января в России празднуют",
+    "fipi_number": "26F048",
+    "answers": [
+      {
+        "content": "День России",
+        "is_correct": false
+      },
+      {
+        "content": "Международный женский день",
+        "is_correct": false
+      },
+      {
+        "content": "Рождество Христово",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "23 февраля в России празднуют",
+    "fipi_number": "E54C81",
+    "answers": [
+      {
+        "content": "Праздник Весны и Труда",
+        "is_correct": false
+      },
+      {
+        "content": "День защитника Отечества",
+        "is_correct": true
+      },
+      {
+        "content": "День России",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "День Победы в России отмечают",
+    "fipi_number": "C3154C",
+    "answers": [
+      {
+        "content": "1  января",
+        "is_correct": false
+      },
+      {
+        "content": "9  мая",
+        "is_correct": true
+      },
+      {
+        "content": "4 ноября",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "День России в России отмечают",
+    "fipi_number": "B0A4AA",
+    "answers": [
+      {
+        "content": "23  февраля",
+        "is_correct": false
+      },
+      {
+        "content": "9  мая",
+        "is_correct": false
+      },
+      {
+        "content": "12  июня",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "23 февраля в России отмечают",
+    "fipi_number": "A0E947",
+    "answers": [
+      {
+        "content": "День народного единства",
+        "is_correct": false
+      },
+      {
+        "content": "День защитника Отечества",
+        "is_correct": true
+      },
+      {
+        "content": "Рождество Христово",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "8 марта в России отмечают",
+    "fipi_number": "9E4D1E",
+    "answers": [
+      {
+        "content": "Международный женский день",
+        "is_correct": true
+      },
+      {
+        "content": "День Победы",
+        "is_correct": false
+      },
+      {
+        "content": "Праздник Весны и Труда",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "День народного единства в России отмечают",
+    "fipi_number": "7958AF",
+    "answers": [
+      {
+        "content": "1 мая",
+        "is_correct": false
+      },
+      {
+        "content": "9 мая",
+        "is_correct": false
+      },
+      {
+        "content": "4 ноября",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "Международный женский день в России отмечают",
+    "fipi_number": "A23AFA",
+    "answers": [
+      {
+        "content": "7 января",
+        "is_correct": false
+      },
+      {
+        "content": "8 марта",
+        "is_correct": true
+      },
+      {
+        "content": "1 мая",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Праздник Весны и Труда в России отмечают",
+    "fipi_number": "7B58C3",
+    "answers": [
+      {
+        "content": "8 марта",
+        "is_correct": false
+      },
+      {
+        "content": "1 мая",
+        "is_correct": true
+      },
+      {
+        "content": "12 июня",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "12 июня в России отмечают",
+    "fipi_number": "C4D1D7",
+    "answers": [
+      {
+        "content": "Новый год",
+        "is_correct": false
+      },
+      {
+        "content": "День защитника Отечества",
+        "is_correct": false
+      },
+      {
+        "content": "День России",
+        "is_correct": true
+      }
+    ]
+  }
+]

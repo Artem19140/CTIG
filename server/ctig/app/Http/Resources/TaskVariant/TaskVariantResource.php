@@ -18,8 +18,8 @@ class TaskVariantResource extends JsonResource
         return [
             'id' => $this->id,
             'content' => $this->content,
-            'fipiGuid' => $this->fipi_guid,
-            'groupId' => $this->group_id,
+            'fipiGuid' => $this->fipi_number,
+            'groupId' => $this->group_number,
             'answers' => AnswerResource::collection($this->whenLoaded('answers')),
             'mark' => $this->mark
         ];

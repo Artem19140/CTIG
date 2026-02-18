@@ -1,0 +1,200 @@
+[
+  {
+    "content": "Великая Отечественная война закончилась ______________.",
+    "fipi_number": "880D73",
+    "answers": [
+      {
+        "content": "в 1917 г.",
+        "is_correct": false
+      },
+      {
+        "content": "в 1945 г.",
+        "is_correct": true
+      },
+      {
+        "content": "в 1980 г.",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Союзником СССР в годы Великой Отечественной войны была",
+    "fipi_number": "27736D",
+    "answers": [
+      {
+        "content": "Япония",
+        "is_correct": false
+      },
+      {
+        "content": "Германия",
+        "is_correct": false
+      },
+      {
+        "content": "Великобритания",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "Великая Отечественная война окончилась",
+    "fipi_number": "717CF7",
+    "answers": [
+      {
+        "content": "в 1612 г.",
+        "is_correct": false
+      },
+      {
+        "content": "в 1812 г.",
+        "is_correct": false
+      },
+      {
+        "content": "в 1945 г.",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "Договор о принятии Республики Крым и г. Севастополя в состав России подписал",
+    "fipi_number": "291D3A",
+    "answers": [
+      {
+        "content": "М.И. Кутузов",
+        "is_correct": false
+      },
+      {
+        "content": "В.В. Путин",
+        "is_correct": true
+      },
+      {
+        "content": "М.С. Горбачёв",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "В  1945 г.",
+    "fipi_number": "17A653",
+    "answers": [
+      {
+        "content": "советские  войска взяли Берлин",
+        "is_correct": true
+      },
+      {
+        "content": "состоялся  первый в мире полёт человека в космос",
+        "is_correct": false
+      },
+      {
+        "content": "вступил  в силу Договор о создании Евразийского экономического союза",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "В 1941 г. советским военачальником был",
+    "fipi_number": "D0AF30",
+    "answers": [
+      {
+        "content": "М.И. Кутузов",
+        "is_correct": false
+      },
+      {
+        "content": "М.С. Горбачёв",
+        "is_correct": false
+      },
+      {
+        "content": "Г.К. Жуков",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "Договор о принятии Республики Крым и города Севастополя в состав России был подписан",
+    "fipi_number": "877B07",
+    "answers": [
+      {
+        "content": "в 1945 г.",
+        "is_correct": false
+      },
+      {
+        "content": "в 1961 г.",
+        "is_correct": false
+      },
+      {
+        "content": "в 2014 г.",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "Договор о принятии Республики Крым и города Севастополя в состав России был подписан",
+    "fipi_number": "A2DF6F",
+    "answers": [
+      {
+        "content": "в 1922 г.",
+        "is_correct": false
+      },
+      {
+        "content": "в 1961 г.",
+        "is_correct": false
+      },
+      {
+        "content": "в 2014 г.",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "Содружество Независимых Государств (СНГ) было создано",
+    "fipi_number": "5EE2B9",
+    "answers": [
+      {
+        "content": "в 1961 г.",
+        "is_correct": false
+      },
+      {
+        "content": "в 1991 г.",
+        "is_correct": true
+      },
+      {
+        "content": "в 2014 г.",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "В 1961 г.",
+    "fipi_number": "6EA180",
+    "answers": [
+      {
+        "content": "было создано Содружество Независимых Государств (СНГ)",
+        "is_correct": false
+      },
+      {
+        "content": "состоялся первый в мире полёт человека в космос",
+        "is_correct": true
+      },
+      {
+        "content": "была принята Конституции Российской Федерации",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Г.К. Жуков – это",
+    "fipi_number": "AAB679",
+    "answers": [
+      {
+        "content": "военачальник",
+        "is_correct": true
+      },
+      {
+        "content": "композитор",
+        "is_correct": false
+      },
+      {
+        "content": "космонавт",
+        "is_correct": false
+      }
+    ]
+  }
+]

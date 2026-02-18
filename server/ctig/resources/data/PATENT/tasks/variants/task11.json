@@ -1,0 +1,200 @@
+[
+  {
+    "content": "Мы приехали в Россию, __________ здесь есть работа.",
+    "fipi_number": "302B7F",
+    "answers": [
+      {
+        "content": "потому что",
+        "is_correct": true
+      },
+      {
+        "content": "поэтому",
+        "is_correct": false
+      },
+      {
+        "content": "чтобы",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Врач спросил меня: «_______________ вы себя чувствуете?»",
+    "fipi_number": "4B802B",
+    "answers": [
+      {
+        "content": "Как",
+        "is_correct": true
+      },
+      {
+        "content": "Какой",
+        "is_correct": false
+      },
+      {
+        "content": "Что",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Вы не можете работать в России, _______________ не получили разрешение на работу.",
+    "fipi_number": "D9D40E",
+    "answers": [
+      {
+        "content": "чтобы",
+        "is_correct": false
+      },
+      {
+        "content": "потому что",
+        "is_correct": true
+      },
+      {
+        "content": "который",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Скажите, пожалуйста, _________ находится поликлиника?",
+    "fipi_number": "A63DB7",
+    "answers": [
+      {
+        "content": "где",
+        "is_correct": true
+      },
+      {
+        "content": "как",
+        "is_correct": false
+      },
+      {
+        "content": "откуда",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Ты смотрел, _____________ завтра будет погода?",
+    "fipi_number": "FAE364",
+    "answers": [
+      {
+        "content": "какая",
+        "is_correct": true
+      },
+      {
+        "content": "что",
+        "is_correct": false
+      },
+      {
+        "content": "чья",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Мы не работаем, _______________ сегодня воскресенье.",
+    "fipi_number": "F9D082",
+    "answers": [
+      {
+        "content": "потому что",
+        "is_correct": true
+      },
+      {
+        "content": "что",
+        "is_correct": false
+      },
+      {
+        "content": "какое",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Мы сегодня много работали, _____________ я хочу спать.",
+    "fipi_number": "8AC4E7",
+    "answers": [
+      {
+        "content": "поэтому",
+        "is_correct": true
+      },
+      {
+        "content": "что",
+        "is_correct": false
+      },
+      {
+        "content": "потому что",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Она спросила, __________ стоит билет на автобус.",
+    "fipi_number": "B5482F",
+    "answers": [
+      {
+        "content": "сколько",
+        "is_correct": true
+      },
+      {
+        "content": "какой",
+        "is_correct": false
+      },
+      {
+        "content": "что",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Напишите в анкете, ______________ Вы живёте в настоящее время.",
+    "fipi_number": "35A915",
+    "answers": [
+      {
+        "content": "где",
+        "is_correct": true
+      },
+      {
+        "content": "откуда",
+        "is_correct": false
+      },
+      {
+        "content": "что",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Извините, я не понял, ______________ надо идти.",
+    "fipi_number": "733BCD",
+    "answers": [
+      {
+        "content": "куда",
+        "is_correct": true
+      },
+      {
+        "content": "где",
+        "is_correct": false
+      },
+      {
+        "content": "кто",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Он спросил, ____________ называется эта улица.",
+    "fipi_number": "52101E",
+    "answers": [
+      {
+        "content": "что",
+        "is_correct": false
+      },
+      {
+        "content": "как",
+        "is_correct": true
+      },
+      {
+        "content": "какая",
+        "is_correct": false
+      }
+    ]
+  }
+]

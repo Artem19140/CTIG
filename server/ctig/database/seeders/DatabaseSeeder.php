@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PatentSeeder::class,
             // VnzhSeeder::class,
-            // RvpSeeder::class,
+            RvpSeeder::class,
             ExamSeeder::class,
             ExamStudentSeeder::class
         ]);

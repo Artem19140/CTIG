@@ -2,8 +2,13 @@
 
 namespace Database\Seeders\ExamTypes\RVP;
 
+use App\Enums\TaskTypeEnum;
+use App\Models\Answer;
 use App\Models\Block;
 use App\Models\ExamType;
+use App\Models\Subblock;
+use App\Models\Task;
+use App\Models\TaskVariant;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -23,26 +28,265 @@ class RvpSeeder extends Seeder
             'level' => 2,
             'certificate_name'=>'нету'
         ]);
+        $orderTask = 1;
+        $orderBlock = 1;
+        foreach($this->examBlocks() as $block){
+            $blockCreated = Block::create([
+                'exam_type_id' => $exam->id,
+                'min_mark' => $block['min_mark'],
+                'name' => $block['name'],
+                'order' => $orderBlock
+            ]);
+            $orderBlock += 1;
+            $orderSubblock = 1;
+            foreach($block['subblocks'] as $subblock){
+                $subblockCreated = Subblock::create([
+                    'block_id'=> $blockCreated->id,
+                    'name' => $subblock['name'],
+                    'min_mark' => $subblock['min_mark'],
+                    'order' => $orderSubblock
+                ]);
+                $orderSubblock += 1;
+                foreach($subblock['tasks'] as $task){
+                    $taskCreated = Task::create([
+                        'order' => $orderTask,
+                        'subblock_id' => $subblockCreated->id,
+                        'type' => $task['type'],
+                        'mark' => $task['mark'],
+                        'description' => $task['description'] ?? null,
+                    ]);
+                    foreach($task['variants'] as $variant){
+                        $taskVariantCreated = TaskVariant::create([
+                            'content' => $variant['content'],
+                            'fipi_number' => $variant['fipi_number'],
+                            'group_number' => $variant['group_number'] ?? null,
+                            'task_id' => $taskCreated->id
+                        ]);
+                        $orderAnswer = 1;
+                        foreach($variant['answers'] as $answer){
+                            Answer::create([
+                                'content' => $answer['content'],
+                                'is_correct' => $answer['is_correct'],
+                                'order' => $orderAnswer,
+                                'task_variant_id' => $taskVariantCreated->id,
+                                'file_path' => $answer['file_path'] ?? null
+                            ]);
+                            $orderAnswer +=1;
+                        }
+                    }
+                    $orderTask+=1;
+                }
+            }
+        }
+        
+    }
+    public function examBlocks(){
+        return [  
+                $this->russianBlock(),
+                // $this->historyBlock(),
+                // $this->legislationBlock()
+        ];
+    }
 
-        $russianBlock = Block::create([
+    private function russianBlock(): array{
+        return [
             'name' => 'РУССКИЙ ЯЗЫК КАК ИНОСТРАННЫЙ',
-            'exam_type_id' => $exam->id,
-            'min_mark' => 6,
-            'order' => 1
-        ]);
+            'min_mark'=>6,
+            'subblocks'=>[
+                $this->speakingSubblock(),
+                // $this->audioSubblock(),
+                // $this->readingSubblock(),
+                // $this->letterSubblock(),
+                // $this->vocabularAndGrammarSubblock()
+            ]
+        ];
+    }
 
-        $historyBlock = Block::create([
+    private function speakingSubblock(){
+        $path = 'resources/data/RVP/';
+        return [
+            'name' => 'Говорение',
+            'min_mark' => 6,
+            'tasks' => [
+                [
+                    'type' => TaskTypeEnum::Speaking,
+                    'description' => 'Начните диалог.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task1.json')), true)
+                ],
+            ]
+        ];
+    }
+
+     private function audioSubblock(): array{
+        $path = 'resources/data/RVP/tasks/variants/';
+        return [
+            'name' => 'Аудирование',
+            'min_mark' => 6,
+            'tasks' => [
+                [
+                    'type' => TaskTypeEnum::SingleChoice,
+                    'description' => 'Прочитайте объявление и выберите правильный ответ.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task5.json')), true)
+                ],
+            ]
+        ];
+    }
+
+    private function readingSubblock(): array{
+        $path = 'resources/data/PATENT/tasks/variants/';
+        return [
+            'name' => 'Чтение', 
+            'min_mark' => 6,
+            'tasks' => [
+                [
+                    'type' => TaskTypeEnum::SingleChoice,
+                    'description' => 'Прочитайте объявление и выберите правильный ответ.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task5.json')), true)
+                ],
+                [
+                    'type' => TaskTypeEnum::SingleChoice,
+                    'description' => 'Прочитайте текст и выберите правильный ответ.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task6.json')), true)
+                ],
+            ]
+        ];
+    }
+
+    private function letterSubblock(): array{
+        $path = 'resources/data/PATENT/tasks/variants/';
+        return [
+            'name' => 'Письмо',
+            'min_mark' => 6,
+            'tasks' => [
+                [
+                    'type' => TaskTypeEnum::SingleChoice,
+                    'description' => 'Прочитайте объявление и выберите правильный ответ.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task7.json')), true)
+                ],
+            ]
+        ];
+    }
+
+    private function vocabularAndGrammarSubblock(): array{
+        $path = 'resources/data/PATENT/tasks/variants/';
+        return [
+            'name' => 'Лексика и грамматика',
+            'min_mark' => 6,
+            'tasks' => [
+                [
+                    'type' => TaskTypeEnum::SingleChoice,
+                    'description' => 'Прочитайте объявление и выберите правильный ответ.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task8.json')), true)
+                ],
+                [
+                    'type' => TaskTypeEnum::SingleChoice,
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task9.json')), true)
+                ],
+                [
+                    'type' => TaskTypeEnum::SingleChoice,
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task10.json')), true)
+                ],
+                [
+                    'type' => TaskTypeEnum::SingleChoice,
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task11.json')), true)
+                ]
+            ]
+        ];
+    }
+
+    private function historyBlock(): array{
+        $path = 'resources/data/PATENT/tasks/variants/';
+        return [
             'name' => 'ИСТОРИЯ РОССИИ',
-            'exam_type_id' => $exam->id, 
-            'min_mark' => 6,
-            'order' => 2
-        ]);
+            'min_mark'=>6,
+            'subblocks'=>[
+                [
+                    'name' => 'Тест',
+                    'min_mark'=> 0,
+                    'tasks' => [
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task12.json')), true)
+                        ],
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task13.json')), true)
+                        ],
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task14.json')), true)
+                        ],
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task15.json')), true)
+                        ],
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task16.json')), true)
+                        ]
+                    ]
+                ]
+            ]
+        ];
+    }
 
-        $legislationBlock = Block::create([
+    private function legislationBlock(){
+        $path = 'resources/data/PATENT/tasks/variants/';
+        return [
             'name' => 'ОСНОВЫ ЗАКОНОДАТЕЛЬСТВА РОССИЙСКОЙ ФЕДЕРАЦИИ',
-            'exam_type_id' => $exam->id, 
-            'min_mark' => 6,
-            'order' => 3
-        ]);
+            'min_mark'=>6,
+            'subblocks'=>[
+                [
+                    'name' => 'Тест',
+                    'min_mark'=> 0,
+                    'tasks' => [
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task17.json')), true)
+                        ],
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task18.json')), true)
+                        ],
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task19.json')), true)
+                        ],
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task20.json')), true)
+                        ],
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task21.json')), true)
+                        ],
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task22.json')), true)
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 }

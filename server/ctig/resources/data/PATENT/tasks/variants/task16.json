@@ -114,7 +114,8 @@
         "is_correct": false
       },
       {
-        "content": "storage/images/Patent/egypt.jpg",
+        "file_path": "storage/images/Patent/egypt.jpg",
+        "content": "",
         "is_correct": false
       },
       {

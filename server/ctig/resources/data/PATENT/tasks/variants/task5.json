@@ -1,0 +1,200 @@
+[
+  {
+    "content": "Уважаемые граждане!\nОплачивайте свой проезд вовремя!\n\nТакое объявление можно прочитать",
+    "fipi_number": "16B2E6",
+    "answers": [
+      {
+        "content": "в парке",
+        "is_correct": false
+      },
+      {
+        "content": "в автобусе",
+        "is_correct": true
+      },
+      {
+        "content": "в самолёте",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Прочитайте киноафишу ивыберите правильный ответ.\n\nС 3 марта смотрите фильм о победах российских спортсменов!\nНовый фильм снят",
+    "fipi_number": "FC6C86",
+    "answers": [
+      {
+        "content": "о политике",
+        "is_correct": false
+      },
+      {
+        "content": "о спорте",
+        "is_correct": true
+      },
+      {
+        "content": "о музыке",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Осторожно: опасная зона!\n\nВы можете увидеть это объявление",
+    "fipi_number": "4394C5",
+    "answers": [
+      {
+        "content": "в ресторане",
+        "is_correct": false
+      },
+      {
+        "content": "на стройке",
+        "is_correct": true
+      },
+      {
+        "content": "в автобусе",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Места для инвалидов, лиц пожилого возраста и пассажиров с детьми\n\nВы можете увидеть это объявление",
+    "fipi_number": "971D57",
+    "answers": [
+      {
+        "content": "в транспорте",
+        "is_correct": true
+      },
+      {
+        "content": "в театре",
+        "is_correct": false
+      },
+      {
+        "content": "в парке",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Уважаемые пассажиры! ВЫХОД К ПОЕЗДАМ в конце зала № 1.\n\nТакое объявление можно прочитать",
+    "fipi_number": "54821D",
+    "answers": [
+      {
+        "content": "на рынке",
+        "is_correct": false
+      },
+      {
+        "content": "на вокзале",
+        "is_correct": true
+      },
+      {
+        "content": "на почте",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Уважаемые гости!\nЗавтрак для вас будет в ресторане на 15-м этаже.\n\nТакое объявление можно прочитать",
+    "fipi_number": "492BF2",
+    "answers": [
+      {
+        "content": "в аптеке",
+        "is_correct": false
+      },
+      {
+        "content": "в гостинице",
+        "is_correct": true
+      },
+      {
+        "content": "в банке",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Уважаемые родители!\n\nПри входе в здание надевайте, пожалуйста, бахилы!\nТакое объявление можно прочитать",
+    "fipi_number": "470369",
+    "answers": [
+      {
+        "content": "в супермаркете",
+        "is_correct": false
+      },
+      {
+        "content": "в детском саду",
+        "is_correct": true
+      },
+      {
+        "content": "в метро",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Уважаемые пассажиры!\nВ связи с ремонтом выход в город через центральный вход.\n\nТакое объявление можно прочитать",
+    "fipi_number": "58E1F3",
+    "answers": [
+      {
+        "content": "на рынке",
+        "is_correct": false
+      },
+      {
+        "content": "на вокзале",
+        "is_correct": true
+      },
+      {
+        "content": "на почте",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Уважаемые пассажиры!\nПровоз мелких домашних животных в общественном транспорте\n  возможен только в переноске!\n\nТакое объявление можно прочитать",
+    "fipi_number": "8688B9",
+    "answers": [
+      {
+        "content": "в кафе",
+        "is_correct": false
+      },
+      {
+        "content": "в автобусе",
+        "is_correct": true
+      },
+      {
+        "content": "в школе",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "15 апреля в 18 часов в классе № 2 пройдёт собрание родителей будущих первоклассников.\n\nТакое объявление можно прочитать",
+    "fipi_number": "DE6915",
+    "answers": [
+      {
+        "content": "в банке",
+        "is_correct": false
+      },
+      {
+        "content": "в школе",
+        "is_correct": true
+      },
+      {
+        "content": "в магазине",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Уважаемые пациенты!\n Вы можете сделать прививку только после осмотра врача.\n\nТакое объявление можно прочитать",
+    "fipi_number": "FBA771",
+    "answers": [
+      {
+        "content": "в аптеке",
+        "is_correct": false
+      },
+      {
+        "content": "в поликлинике",
+        "is_correct": true
+      },
+      {
+        "content": "в музее",
+        "is_correct": false
+      }
+    ]
+  }
+]

@@ -1,0 +1,200 @@
+[
+  {
+    "content": "В салоне сотовой связи я купил __________.",
+    "fipi_number": "85113F",
+    "answers": [
+      {
+        "content": "молоко",
+        "is_correct": false
+      },
+      {
+        "content": "куртку",
+        "is_correct": false
+      },
+      {
+        "content": "true",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Мой друг _______________ в магазине.",
+    "fipi_number": "22E13F",
+    "answers": [
+        {
+        "content": "живёт",
+        "is_correct": false
+      },
+      {
+        "content": "гуляет",
+        "is_correct": false
+      },
+      {
+        "content": "работает",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "Я люблю _______________ хорошую музыку.",
+    "fipi_number": "1D24A8",
+    "answers": [
+      {
+        "content": "читать",
+        "is_correct": false
+      },
+      {
+        "content": "слушать",
+        "is_correct": true
+      },
+      {
+        "content": "смотреть",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Моя сестра работает в больнице _____________________.",
+    "fipi_number": "FC5621",
+    "answers": [
+      {
+        "content": "учителем",
+        "is_correct": false
+      },
+      {
+        "content": "врачом",
+        "is_correct": true
+      },
+      {
+        "content": "парикмахером",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Вчера мы ______________ в парке.",
+    "fipi_number": "8E3188",
+    "answers": [
+      {
+        "content": "отдыхаем",
+        "is_correct": false
+      },
+      {
+        "content": "будем отдыхать",
+        "is_correct": false
+      },
+      {
+        "content": "отдыхали",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "Вчера они _______________ в лесу.",
+    "fipi_number": "166EDB",
+    "answers": [
+      {
+        "content": "была",
+        "is_correct": false
+      },
+      {
+        "content": "были",
+        "is_correct": true
+      },
+      {
+        "content": "был",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Назовите, пожалуйста, Ваш ____________.",
+    "fipi_number": "D4EC20",
+    "answers": [
+      {
+        "content": "адрес",
+        "is_correct": true
+      },
+      {
+        "content": "профессия",
+        "is_correct": false
+      },
+      {
+        "content": "имя",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "У тебя новые ____________? Можно посмотреть?",
+    "fipi_number": "85012E",
+    "answers": [
+      {
+        "content": "телефон",
+        "is_correct": false
+      },
+      {
+        "content": "сумка",
+        "is_correct": false
+      },
+      {
+        "content": "часы",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "Ты помнишь, _________ сегодня день?",
+    "fipi_number": "28280E",
+    "answers": [
+      {
+        "content": "какая",
+        "is_correct": false
+      },
+      {
+        "content": "какое",
+        "is_correct": false
+      },
+      {
+        "content": "какой",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "В субботу мы с друзьями ___________ по городу.",
+    "fipi_number": "BD1EBF",
+    "answers": [
+      {
+        "content": "гулял",
+        "is_correct": false
+      },
+      {
+        "content": "гуляла",
+        "is_correct": false
+      },
+      {
+        "content": "гуляли",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "Раньше она ______________ в кафе.",
+    "fipi_number": "281DD9",
+    "answers": [
+      {
+        "content": "работала",
+        "is_correct": true
+      },
+      {
+        "content": "будет работать",
+        "is_correct": false
+      },
+      {
+        "content": "гуляли",
+        "is_correct": false
+      }
+    ]
+  }
+]

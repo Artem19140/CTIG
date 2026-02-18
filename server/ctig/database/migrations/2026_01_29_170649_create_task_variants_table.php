@@ -10,13 +10,12 @@ return new class extends Migration
     {
         Schema::create('task_variants', function (Blueprint $table) {
             $table->id();
-            $table->string('content');
-            $table->string('fipi_guid')->unique();
+            $table->string('content', 1000);
+            $table->string('fipi_number')->unique();
             $table->foreignId('task_id')->constrained('tasks');
             $table->boolean('is_active')->default(true);
             $table->boolean('is_audio_task_listened')->default(false);
-            $table->unsignedTinyInteger('group_id')->nullable()->default(null);
-            $table->unsignedTinyInteger('mark');
+            $table->string('group_number')->nullable()->default(null);
             $table->timestamps();
         });
     }

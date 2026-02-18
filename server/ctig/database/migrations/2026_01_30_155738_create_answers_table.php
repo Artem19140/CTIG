@@ -17,7 +17,8 @@ return new class extends Migration
             $table->boolean('is_correct')->default(false);
             $table->foreignId('task_variant_id')
                 ->constrained('task_variants')
-                ->cascadeOnDelete();            
+                ->cascadeOnDelete();     
+            $table->unsignedTinyInteger('order');       
             $table->string('file_path')->nullable()->default(null);
             $table->timestamps();
         });

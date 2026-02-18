@@ -1,0 +1,200 @@
+[
+  {
+    "content": "– Как вас зовут?",
+    "fipi_number": "34C713",
+    "answers": [
+      {
+        "content": "Мне",
+        "is_correct": false
+      },
+      {
+        "content": "Меня",
+        "is_correct": true
+      },
+      {
+        "content": "Я",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Сколько _______________ лет?",
+    "fipi_number": "1DBF31",
+    "answers": [
+      {
+        "content": "ты",
+        "is_correct": false
+      },
+      {
+        "content": "тебе",
+        "is_correct": true
+      },
+      {
+        "content": "у тебя",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Скажите, _______________ есть семья?",
+    "fipi_number": "F64157",
+    "answers": [
+      {
+        "content": "Вы",
+        "is_correct": false
+      },
+      {
+        "content": "Вам",
+        "is_correct": false
+      },
+      {
+        "content": "у Вас",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "Извините, это ________ документы?",
+    "fipi_number": "3F2AED",
+    "answers": [
+      {
+        "content": "ваша",
+        "is_correct": false
+      },
+      {
+        "content": "ваш",
+        "is_correct": false
+      },
+      {
+        "content": "ваши",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "Моя подруга сейчас учится, она будет __________.",
+    "fipi_number": "B2D65A",
+    "answers": [
+        {
+        "content": "повара",
+        "is_correct": false
+      },
+      {
+        "content": "повар",
+        "is_correct": false
+      },
+      {
+        "content": "поваром",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "Утром мы были ____________.",
+    "fipi_number": "4EFDA0",
+    "answers": [
+      {
+        "content": "поликлиника",
+        "is_correct": false
+      },
+      {
+        "content": "в поликлинике",
+        "is_correct": true
+      },
+      {
+        "content": "поликлинику",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Познакомьтесь, это моя сестра. Она ____________.",
+    "fipi_number": "8ABC44",
+    "answers": [
+      {
+        "content": "врачом",
+        "is_correct": false
+      },
+      {
+        "content": "врач",
+        "is_correct": true
+      },
+      {
+        "content": "врача",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Завтра мы первый раз идём _________.",
+    "fipi_number": "8B9EE2",
+    "answers": [
+        {
+        "content": "на работу",
+        "is_correct": true
+      },
+      {
+        "content": "работа",
+        "is_correct": false
+      },
+      {
+        "content": "на работе",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Они приехали в Тверь ______________ .",
+    "fipi_number": "7ED315",
+    "answers": [
+      {
+        "content": "март",
+        "is_correct": false
+      },
+      {
+        "content": "в марте",
+        "is_correct": true
+      },
+      {
+        "content": "марта",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Это мой друг, ______________ двадцать пять лет.",
+    "fipi_number": "181834",
+    "answers": [
+      {
+        "content": "он",
+        "is_correct": false
+      },
+      {
+        "content": "ему",
+        "is_correct": true
+      },
+      {
+        "content": "его",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Позвоните _____________, пожалуйста, завтра.",
+    "fipi_number": "1E6A63",
+    "answers": [
+      {
+        "content": "мне",
+        "is_correct": true
+      },
+      {
+        "content": "я",
+        "is_correct": false
+      },
+      {
+        "content": "меня",
+        "is_correct": false
+      }
+    ]
+  }
+]

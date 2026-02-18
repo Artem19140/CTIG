@@ -1,0 +1,200 @@
+[
+  {
+    "content": "Сегодня суббота, а мама приехала вчера, _____________________.",
+    "fipi_number": "ACA631",
+    "answers": [
+      {
+        "content": "в среду",
+        "is_correct": false
+      },
+      {
+        "content": "в пятницу",
+        "is_correct": true
+      },
+      {
+        "content": "во вторник",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "В магазине «Мебель» я купил _______________.",
+    "fipi_number": "C529EC",
+    "answers": [
+      {
+        "content": "хлеб",
+        "is_correct": false
+      },
+      {
+        "content": "брюки",
+        "is_correct": false
+      },
+      {
+        "content": "стол",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "А.С. Пушкин родился летом, _______________.",
+    "fipi_number": "5820ED",
+    "answers": [
+      {
+        "content": "6 июня",
+        "is_correct": true
+      },
+      {
+        "content": "6 сентября",
+        "is_correct": false
+      },
+      {
+        "content": "6 января",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "– Станция метро находится здесь?\n– Нет, ___________________.",
+    "fipi_number": "CA0085",
+    "answers": [
+      {
+        "content": "там",
+        "is_correct": true
+      },
+      {
+        "content": "оттуда",
+        "is_correct": false
+      },
+      {
+        "content": "куда",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "В магазине «Фрукты и овощи» я купил _____________.",
+    "fipi_number": "EEE465",
+    "answers": [
+      {
+        "content": "конфеты",
+        "is_correct": false
+      },
+      {
+        "content": "яблоки",
+        "is_correct": true
+      },
+      {
+        "content": "молоко",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Я _______________ свой велосипед другу.",
+    "fipi_number": "4C108F",
+    "answers": [
+      {
+        "content": "дал",
+        "is_correct": true
+      },
+      {
+        "content": "сделал",
+        "is_correct": false
+      },
+      {
+        "content": "взял",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Сегодня четверг, завтра будет _______________.",
+    "fipi_number": "A9FAFF",
+    "answers": [
+      {
+        "content": "среда",
+        "is_correct": false
+      },
+      {
+        "content": "вторник",
+        "is_correct": false
+      },
+      {
+        "content": "пятница",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "Она очень хорошо говорит __________.",
+    "fipi_number": "1B9F8C",
+    "answers": [
+      {
+        "content": "по-русски",
+        "is_correct": true
+      },
+      {
+        "content": "русский",
+        "is_correct": false
+      },
+      {
+        "content": "русский язык",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "По вечерам я люблю ______________ по телевизору футбол.",
+    "fipi_number": "CE4ED0",
+    "answers": [
+      {
+        "content": "читать",
+        "is_correct": false
+      },
+      {
+        "content": "смотреть",
+        "is_correct": true
+      },
+      {
+        "content": "слушать",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "В магазине «Техника» вы можете купить ______________ .",
+    "fipi_number": "526FB9",
+    "answers": [
+      {
+        "content": "телефон",
+        "is_correct": true
+      },
+      {
+        "content": "мебель",
+        "is_correct": false
+      },
+      {
+        "content": "книги",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Что ты _____________ в субботу и в воскресенье?",
+    "fipi_number": "6863E8",
+    "answers": [
+      {
+        "content": "делаешь",
+        "is_correct": true
+      },
+      {
+        "content": "отдыхаешь",
+        "is_correct": false
+      },
+      {
+        "content": "занимаешься",
+        "is_correct": false
+      }
+    ]
+  }
+]

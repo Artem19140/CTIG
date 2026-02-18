@@ -5,19 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Enums\TaskType;
+use App\Enums\TaskTypeEnum;
 
 class Task extends Model
 {
     protected $fillable = [
         'type',
         'subblock_id',
-        'fipi_guid',
         'order'
     ];
 
     protected $casts = [
-        'type' => TaskType::class
+        'type' => TaskTypeEnum::class
     ];
 
     public function variants() : HasMany{

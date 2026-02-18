@@ -14,8 +14,8 @@ return new class extends Migration
             $table->foreignId('subblock_id')
                 ->constrained('subblocks')
                 ->cascadeOnDelete();
-            $table->string('description')->nullable()->default('null');
             $table->string('type');
+            $table->string('description')->nullable()->default(null);
             $table->boolean('is_active')->default(true);
             $table->unsignedTinyInteger('mark');
             $table->unsignedTinyInteger('order');

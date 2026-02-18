@@ -21,7 +21,7 @@
   },
   {
     "content": "Вы услышали, что",
-    "fipi_number": "7D3944",
+    "fipi_number": "4006C5",
     "group_number": "9172AE",
     "answers": [
       {"content": "есть свободные номера", "is_correct": false},
@@ -61,7 +61,7 @@
   },
   {
     "content": "Это лекарство стоит",
-    "fipi_number": "EA93A0",
+    "fipi_number": "C70FAE",
     "group_number": "090744",
     "answers": [
       {"content": "сто пятьдесят рублей", "is_correct": true},

@@ -8,5 +8,115 @@
       {"content": "принимают только банковские карты", "is_correct": false},
       {"content": "принимают только наличные деньги", "is_correct": true}
     ]
+  },
+  
+  {
+    "content": "Нужен кассир в магазин одежды",
+    "fipi_number": "4E9E8C",
+    "group_number": "53B443",
+    "answers": [
+        {"content": "для женщин", "is_correct": false},
+        {"content": "для мужчин", "is_correct": false},
+        {"content": "для детей", "is_correct": true}
+    ]
+  },
+
+  {
+    "content": "Объявление можно услышать",
+    "fipi_number": "CBD0D7",
+    "group_number": "CC0848",
+    "answers": [
+        {"content": "в торговом центре", "is_correct": true},
+        {"content": "в банке", "is_correct": false},
+        {"content": "в поликлинике", "is_correct": false}
+    ]
+  },
+
+  {
+    "content": "У администратора магазина можно",
+    "fipi_number": "418185",
+    "group_number": "F3AB1D",
+    "answers": [
+        {"content": "взять свой потерянный телефон", "is_correct": true},
+        {"content": "купить новый телефон", "is_correct": false},
+        {"content": "позвонить по телефону", "is_correct": false}
+    ]
+  },
+
+  {
+    "content": "На центральной площади будет",
+    "fipi_number": "1E7BEE",
+    "group_number": "034315",
+    "answers": [
+        {"content": "праздник для детей", "is_correct": true},
+        {"content": "большой концерт", "is_correct": false},
+        {"content": "футбольный матч", "is_correct": false}
+    ]
+  },
+
+  {
+    "content": "Компания «Вест» предлагает работу курьера",
+    "fipi_number": "E6439C",
+    "group_number": "51C9DE",
+    "answers": [
+        {"content": "пенсионерам", "is_correct": false},
+        {"content": "молодым людям", "is_correct": true},
+        {"content": "школьникам", "is_correct": false}
+    ]
+  },
+
+  {
+    "content": "Теперь банк будет работать",
+    "fipi_number": "7796DB",
+    "group_number": "6975AA",
+    "answers": [
+        {"content": "до 9 часов вечера", "is_correct": true},
+        {"content": "как обычно", "is_correct": false},
+        {"content": "до 21 мая", "is_correct": false}
+    ]
+  },
+
+  {
+    "content": "О потерянных вещах можно спросить",
+    "fipi_number": "789D1E",
+    "group_number": "43F3C9",
+    "answers": [
+        {"content": "у покупателей", "is_correct": false},
+        {"content": "у администратора", "is_correct": true},
+        {"content": "у директора магазина", "is_correct": false}
+    ]
+  },
+
+  {
+    "content": "В торговом центре можно пообедать",
+    "fipi_number": "F30351",
+    "group_number": "2F7CCD",
+    "answers": [
+        {"content": "на 6 этаже", "is_correct": false},
+        {"content": "на 5 этаже", "is_correct": true},
+        {"content": "на 3 этаже", "is_correct": false}
+    ]
+  },
+
+  {
+    "content": "Поезд приезжает в Самару",
+    "fipi_number": "66A53D",
+    "group_number": "9EB6E2",
+    "answers": [
+        {"content": "в час дня", "is_correct": true},
+        {"content": "в 2 часа дня", "is_correct": false},
+        {"content": "в 12 часов дня", "is_correct": false}
+    ]
+  },
+
+  {
+    "content": "Самолёт прилетает в Москву",
+    "fipi_number": "B44F0C",
+    "group_number": "6C3C8D",
+    "answers": [
+        {"content": "в 17 часов", "is_correct": true},
+        {"content": "в 7 часов", "is_correct": false},
+        {"content": "в 19 часов", "is_correct": false}
+    ]
   }
 ]

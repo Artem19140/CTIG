@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Enums\ExamStatus;
+use App\Enums\ExamStatusEnum;
 
 class Exam extends Model
 {
@@ -29,7 +29,7 @@ class Exam extends Model
     ];
 
     protected $casts = [
-        'status' => ExamStatus::class,
+        'status' => ExamStatusEnum::class,
         'end_time' => 'datetime',
         'begin_time' => 'datetime',
         'date'=>'date'

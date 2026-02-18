@@ -2,7 +2,7 @@
 
 namespace App\Actions\Exam;
 
-use App\Enums\ExamStatus;
+use App\Enums\ExamStatusEnum;
 use App\Exceptions\EntityNotFoundExсeption;
 use App\Models\Exam;
 use App\Models\Student;
@@ -24,7 +24,7 @@ final class EnrollStudentToExamAction{
             throw new BusinessException('Запись возможна только с 18 лет');
         }
         
-        if($exam->status !== ExamStatus::Expected){
+        if($exam->status !== ExamStatusEnum::Expected){
             throw new BusinessException('На данный экзамен записи уже нет');
         }
 
@@ -45,7 +45,7 @@ final class EnrollStudentToExamAction{
             
         $studentExamsConflict = $student->exams()->where('begin_time', '<=', $exam->end_time)
                                         ->where('end_time', '>=', $exam->begin_time)
-                                        ->where('status', ExamStatus::Expected)
+                                        ->where('status', ExamStatusEnum::Expected)
                                         ->exists();
 
         if($studentExamsConflict){

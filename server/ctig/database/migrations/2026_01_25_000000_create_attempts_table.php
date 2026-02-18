@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\ExamAttemptStatus;
+use App\Enums\AttemptStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,10 +17,10 @@ return new class extends Migration
                 ->constrained('exams');
             
             
-            $table->string('status')->default(ExamAttemptStatus::Started);
+            $table->string('status')->default(AttemptStatusEnum::Started);
             $table->dateTime('expired_at');
-            $table->unsignedTinyInteger('total_mark');
-            $table->boolean('is_passed')->default(null);
+            $table->unsignedTinyInteger('total_mark')->default(0);
+            $table->boolean('is_passed')->nullable()->default(null);
             $table->dateTime('last_activity_at')->nullable()->default(null);
             $table->dateTime('started_at');
             $table->dateTime('finished_at')->nullable()->default(null);

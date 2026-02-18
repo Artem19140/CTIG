@@ -23,7 +23,7 @@ class RvpSeeder extends Seeder
             ['level' => 2],
             [
             'name' => "Разрешение на временное проживание в РФ",
-            'short_name' => 'ВНЖ',
+            'short_name' => 'РВП',
             'duration' => 90,
             'level' => 2,
             'certificate_name'=>'нету'
@@ -119,92 +119,46 @@ class RvpSeeder extends Seeder
     }
 
      private function audioSubblock(): array{
-        $path = 'resources/data/RVP/tasks/variants/';
         return [
             'name' => 'Аудирование',
             'min_mark' => 6,
             'tasks' => [
-                [
-                    'type' => TaskTypeEnum::SingleChoice,
-                    'description' => 'Прочитайте объявление и выберите правильный ответ.',
-                    'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($path.'task5.json')), true)
-                ],
+
             ]
         ];
     }
 
     private function readingSubblock(): array{
-        $path = 'resources/data/PATENT/tasks/variants/';
         return [
             'name' => 'Чтение', 
             'min_mark' => 6,
             'tasks' => [
-                [
-                    'type' => TaskTypeEnum::SingleChoice,
-                    'description' => 'Прочитайте объявление и выберите правильный ответ.',
-                    'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($path.'task5.json')), true)
-                ],
-                [
-                    'type' => TaskTypeEnum::SingleChoice,
-                    'description' => 'Прочитайте текст и выберите правильный ответ.',
-                    'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($path.'task6.json')), true)
-                ],
+
             ]
         ];
     }
 
     private function letterSubblock(): array{
-        $path = 'resources/data/PATENT/tasks/variants/';
         return [
             'name' => 'Письмо',
             'min_mark' => 6,
             'tasks' => [
-                [
-                    'type' => TaskTypeEnum::SingleChoice,
-                    'description' => 'Прочитайте объявление и выберите правильный ответ.',
-                    'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($path.'task7.json')), true)
-                ],
+
             ]
         ];
     }
 
     private function vocabularAndGrammarSubblock(): array{
-        $path = 'resources/data/PATENT/tasks/variants/';
         return [
             'name' => 'Лексика и грамматика',
             'min_mark' => 6,
             'tasks' => [
-                [
-                    'type' => TaskTypeEnum::SingleChoice,
-                    'description' => 'Прочитайте объявление и выберите правильный ответ.',
-                    'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($path.'task8.json')), true)
-                ],
-                [
-                    'type' => TaskTypeEnum::SingleChoice,
-                    'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($path.'task9.json')), true)
-                ],
-                [
-                    'type' => TaskTypeEnum::SingleChoice,
-                    'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($path.'task10.json')), true)
-                ],
-                [
-                    'type' => TaskTypeEnum::SingleChoice,
-                    'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($path.'task11.json')), true)
-                ]
+
             ]
         ];
     }
 
     private function historyBlock(): array{
-        $path = 'resources/data/PATENT/tasks/variants/';
         return [
             'name' => 'ИСТОРИЯ РОССИИ',
             'min_mark'=>6,
@@ -213,31 +167,7 @@ class RvpSeeder extends Seeder
                     'name' => 'Тест',
                     'min_mark'=> 0,
                     'tasks' => [
-                        [
-                            'type' => TaskTypeEnum::SingleChoice,
-                            'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task12.json')), true)
-                        ],
-                        [
-                            'type' => TaskTypeEnum::SingleChoice,
-                            'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task13.json')), true)
-                        ],
-                        [
-                            'type' => TaskTypeEnum::SingleChoice,
-                            'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task14.json')), true)
-                        ],
-                        [
-                            'type' => TaskTypeEnum::SingleChoice,
-                            'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task15.json')), true)
-                        ],
-                        [
-                            'type' => TaskTypeEnum::SingleChoice,
-                            'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task16.json')), true)
-                        ]
+
                     ]
                 ]
             ]
@@ -245,7 +175,6 @@ class RvpSeeder extends Seeder
     }
 
     private function legislationBlock(){
-        $path = 'resources/data/PATENT/tasks/variants/';
         return [
             'name' => 'ОСНОВЫ ЗАКОНОДАТЕЛЬСТВА РОССИЙСКОЙ ФЕДЕРАЦИИ',
             'min_mark'=>6,
@@ -254,36 +183,7 @@ class RvpSeeder extends Seeder
                     'name' => 'Тест',
                     'min_mark'=> 0,
                     'tasks' => [
-                        [
-                            'type' => TaskTypeEnum::SingleChoice,
-                            'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task17.json')), true)
-                        ],
-                        [
-                            'type' => TaskTypeEnum::SingleChoice,
-                            'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task18.json')), true)
-                        ],
-                        [
-                            'type' => TaskTypeEnum::SingleChoice,
-                            'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task19.json')), true)
-                        ],
-                        [
-                            'type' => TaskTypeEnum::SingleChoice,
-                            'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task20.json')), true)
-                        ],
-                        [
-                            'type' => TaskTypeEnum::SingleChoice,
-                            'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task21.json')), true)
-                        ],
-                        [
-                            'type' => TaskTypeEnum::SingleChoice,
-                            'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task22.json')), true)
-                        ]
+
                     ]
                 ]
             ]

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Attempt;
 
+use App\Enums\AttemptStatusEnum;
 use App\Exceptions\BusinessException;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ExamAttempt\AttemptResource;
+use App\Http\Resources\Attempt\AttemptResource;
+use App\Http\Resources\StudentAnswer\StudentAnswerResource;
 use App\Models\Exam;
 use App\Models\Attempt;
+use App\Models\StudentAnswer;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
@@ -32,29 +35,55 @@ class AttemptController extends Controller
     {
         $student=$request->user();
         $hasCurrentExamAttempt = Attempt::where('student_id', $student->id)
-                                    ->where('is_finished',  false)
+                                    ->where('status',  AttemptStatusEnum::Started)
                                     ->exists();
-        if($hasCurrentExamAttempt){
-            throw new BusinessException('Существует текущая попытка экзамена');
-        }
-        $exam=Exam::with('examType')->find($student->exam_id);
+                                    
+        // if($hasCurrentExamAttempt){
+        //     throw new BusinessException('Существует текущая попытка экзамена');
+        // }
+        $exam=Exam::with('examType.blocks.subblocks.tasks.variants.answers')->find($student->exam_id);
+
+        
+        DB::transaction(function () use($student, $exam) {
         $examDuration = $exam->examType->duration;
-        DB::transaction(function () use($student, $exam, $examDuration) {
-            Attempt::create([
+        $attempt = Attempt::create([
                 'student_id' => $student->id,
                 'exam_id' => $exam->id,
                 'expired_at' => Carbon::now()->addMinutes($examDuration),
-                'is_banned' => false,
-                'finished_at' => now()
+                'started_at' => Carbon::now()
             ]);
+        $examVariant = [];
+        $tasks = $exam->examType->blocks
+            ->pluck('subblocks')
+            ->flatten()
+            ->pluck('tasks')
+            ->flatten();
+        foreach($tasks as $task){
+            $variantId = $task->variants->where('is_active',true)->random();
 
-            $student->tokens()->delete();
-            $student->createToken(
-                'exam-token',
-                ['exam:access'],
-                Carbon::now()->addMinutes($examDuration + 1)
-            );
+            $examTaskVariant = [
+                'exam_id' => $exam->id,
+                'block_id' => 1, //$task->subblock->block->id
+                'task_variant_id' => $variantId->id,
+                'attempt_id' => $attempt->id, 
+                'student_id' =>$student->id, 
+            ];
+
+            $examVariant[] =  $examTaskVariant;
+        }
+        StudentAnswer::insert($examVariant);
+        $tasks = StudentAnswer::where('attempt_id', $attempt->id)->get();
+        return $this->created(StudentAnswerResource::collection($tasks)); 
         });
+        
+        $examDuration = $exam->examType->duration;
+        $student->tokens()->delete();
+        $student->createToken(
+            'exam-token',
+            ['exam:access'],
+            Carbon::now()->addMinutes($examDuration + 1)
+        );
+        //удалить код
         return $this->created();
     }
 

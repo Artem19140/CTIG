@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Exam;
 
-use App\Enums\ExamStatus;
+use App\Enums\ExamStatusEnum;
 use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -126,8 +126,8 @@ class EnrollStudentToExamTest extends TestCase
 
     public function test_fail_statuses_not_allowed_to_enroll(){
         
-        foreach (ExamStatus::cases() as $status) {
-            if($status === ExamStatus::Expected){
+        foreach (ExamStatusEnum::cases() as $status) {
+            if($status === ExamStatusEnum::Expected){
                 continue;
             }
             $exam = Exam::factory()

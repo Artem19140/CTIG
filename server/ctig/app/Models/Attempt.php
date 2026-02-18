@@ -16,9 +16,10 @@ class Attempt extends Model
         'exam_id',
         'finished_at',
         'expired_at',
-        'is_banned',
         'status',
-        'is_passed'
+        'is_passed',
+        'total_mark',
+        'started_at'
     ];
 
     public function student(): BelongsTo{

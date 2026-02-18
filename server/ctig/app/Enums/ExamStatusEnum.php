@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum ExamStatus: string
+enum ExamStatusEnum: string
 {
     case Expected   = 'expected';
     case Started   = 'started';

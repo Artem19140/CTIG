@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum ExamAttemptStatus:string
+enum AttemptStatusEnum:string
 {
     case Started = 'started';
     case Finished = 'finished';

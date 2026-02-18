@@ -21,7 +21,7 @@ class ExamTypeController extends Controller
 
     public function show(ExamType $examType)
     {
-        $examType->load('blocks.subblocks.tasks');
+        $examType->load('blocks.subblocks.tasks.variants.answers');
         return new ExamTypeResource($examType);
     }
 

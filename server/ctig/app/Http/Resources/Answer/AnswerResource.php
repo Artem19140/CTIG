@@ -17,7 +17,8 @@ class AnswerResource extends JsonResource
         return [
             'id'=> $this->id,
             'content'=>$this->content,
-            'isCorrect'=> $this->is_correct
+            'isCorrect'=> $this->is_correct,
+            'file_path' => $this->file_path
         ];
     }
 }

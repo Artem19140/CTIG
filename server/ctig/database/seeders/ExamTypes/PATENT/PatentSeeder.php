@@ -82,7 +82,8 @@ class PatentSeeder extends Seeder
     public function examBlocks(){
         return [  
                 $this->russianBlock(),
-                $this->historyBlock()
+                $this->historyBlock(),
+                $this->legislationBlock()
         ];
     }
 
@@ -229,6 +230,42 @@ class PatentSeeder extends Seeder
                             'mark' => 1,
                             'variants'=> json_decode(file_get_contents(base_path($path.'task15.json')), true)
                         ],
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task16.json')), true)
+                        ]
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    private function legislationBlock(){
+        $path = 'resources/data/PATENT/tasks/variants/';
+        return [
+            'name' => 'ОСНОВЫ ЗАКОНОДАТЕЛЬСТВА РОССИЙСКОЙ ФЕДЕРАЦИИ',
+            'min_mark'=>6,
+            'subblocks'=>[
+                [
+                    'name' => 'Тест',
+                    'min_mark'=> 0,
+                    'tasks' => [
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task17.json')), true)
+                        ],
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task18.json')), true)
+                        ],
+                        [
+                            'type' => TaskTypeEnum::SingleChoice,
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($path.'task19.json')), true)
+                        ]
                     ]
                 ]
             ]

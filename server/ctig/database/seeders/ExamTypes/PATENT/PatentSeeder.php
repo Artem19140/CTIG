@@ -65,7 +65,8 @@ class PatentSeeder extends Seeder
                                 'content' => $answer['content'],
                                 'is_correct' => $answer['is_correct'],
                                 'order' => $orderAnswer,
-                                'task_variant_id' => $taskVariantCreated->id
+                                'task_variant_id' => $taskVariantCreated->id,
+                                'file_path' => $answer['file_path'] ?? null
                             ]);
                             $orderAnswer +=1;
                         }

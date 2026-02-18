@@ -1,0 +1,232 @@
+[
+  {
+    "content": "Укажите флаг Российской Федерации.",
+    "fipi_number": "53514C",
+    "answers": [
+      {
+        "file_path": "storage/images/Patent/russian_flag.gif",
+        "content": "",
+        "is_correct": true
+      },
+      {
+        "file_path": "storage/images/Patent/turkey.jpg",
+        "content": "",
+        "is_correct": false
+      },
+      {
+        "file_path": "storage/images/Patent/sweden.jpg",
+        "content": "",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Укажите флаг Российской Федерации.",
+    "fipi_number": "8760B7",
+    "answers": [
+      {
+        "file_path": "storage/images/Patent/belarus.gif",
+        "content": "",
+        "is_correct": false
+      },
+      {
+        "file_path": "storage/images/Patent/russian_flag.gif",
+        "content": "",
+        "is_correct": true
+      },
+      {
+        "file_path": "storage/images/Patent/turkey.jpg",
+        "content": "",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Укажите флаг Российской Федерации.",
+    "fipi_number": "E7472A",
+    "answers": [
+      {
+        "file_path": "storage/images/Patent/sweden.jpg",
+        "content": "",
+        "is_correct": false
+      },
+      {
+        "file_path": "storage/images/Patent/russian_flag.gif",
+        "content": "",
+        "is_correct": true
+      },
+      {
+        "file_path": "storage/images/Patent/usa.jpg",
+        "content": "",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Укажите герб Российской Федерации.", 
+    "fipi_number": "A49FF1",
+    "answers": [
+      {
+        "file_path": "storage/images/Patent/russian_gerb.gif",
+        "content": "",
+        "is_correct": true
+      },
+      {
+        "file_path": "storage/images/Patent/serbian_gerb.gif",
+        "content": "",
+        "is_correct": false
+      },
+      {
+        "file_path": "storage/images/Patent/armenian_gerb.jpg",
+        "content": "",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Укажите герб Российской Федерации.",
+    "fipi_number": "F96A45",
+    "answers": [
+      {
+        "file_path": "storage/images/Patent/china_gerb.jpg",
+        "content": "",
+        "is_correct": false
+      },
+      {
+        "file_path": "storage/images/Patent/russian_gerb.gif",
+        "content": "",
+        "is_correct": true
+      },
+      {
+        "file_path": "storage/images/Patent/croatian_gerb.gif",
+        "content": "",
+        "is_correct": false 
+      }
+    ]
+  },
+  {
+    "content": "Укажите Государственный флаг Российской Федерации.",
+    "fipi_number": "EB20BC",
+    "answers": [
+      {
+        "file_path": "storage/images/Patent/turkey.jpg",
+        "content": "",
+        "is_correct": false
+      },
+      {
+        "content": "storage/images/Patent/egypt.jpg",
+        "is_correct": false
+      },
+      {
+        "file_path": "storage/images/Patent/russian_flag.gif",
+        "content": "",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "Укажите Государственный флаг Российской Федерации.",
+    "fipi_number": "D8AAF6",
+    "answers": [
+      {
+        "file_path": "storage/images/Patent/belarus.gif",
+        "content": "",
+        "is_correct": false
+      },
+      {
+        "file_path": "storage/images/Patent/china.jpg",
+        "content": "",
+        "is_correct": false
+      },
+      {
+        "file_path": "storage/images/Patent/russian_flag.gif",
+        "content": "",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "content": "Укажите Государственный герб Российской Федерации.",
+    "fipi_number": "561CFC",
+    "answers": [
+      {
+        "file_path": "storage/images/Patent/peru_gerb.jpg",
+        "content": "",
+        "is_correct": false
+      },
+      {
+        "file_path": "storage/images/Patent/northen_macedonia_gerb.jpg",
+        "content": "",
+        "is_correct": false
+      },
+      {
+        "file_path": "storage/images/Patent/russian_gerb.gif",
+        "content": "",
+        "is_correct": true 
+      }
+    ]
+  },
+  {
+    "content": "Укажите Государственный герб Российской Федерации.",
+    "fipi_number": "4D5E70",
+    "answers": [
+      {
+        "file_path": "storage/images/Patent/belgium_gerb.jpg",
+        "content": "",
+        "is_correct": false 
+      },
+      {
+        "file_path": "storage/images/Patent/russian_gerb.gif",
+        "content": "",
+        "is_correct": true 
+      },
+      {
+        "file_path": "storage/images/Patent/russian_empire_gerb.gif",
+        "content": "",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Укажите Государственный герб Российской Федерации.",
+    "fipi_number": "66B71A",
+    "answers": [
+      {
+        "file_path": "storage/images/Patent/russian_gerb.gif",
+        "content": "",
+        "is_correct": true 
+      },
+      {
+        "file_path": "storage/images/Patent/armenian_gerb.jpg",
+        "content": "",
+        "is_correct": false
+      },
+      {
+        "file_path": "storage/images/Patent/croatian_gerb.gif",
+        "content": "",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "content": "Укажите Государственный флаг Российской Федерации.",
+    "fipi_number": "822D18",
+    "answers": [
+      {
+        "file_path": "storage/images/Patent/china.jpg",
+        "content": "",
+        "is_correct": false 
+      },
+      {
+        "file_path": "storage/images/Patent/myanma.png",
+        "content": "",
+        "is_correct": false
+      },
+      {
+        "file_path": "storage/images/Patent/russian_flag.gif",
+        "content": "",
+        "is_correct": true
+      }
+    ]
+  }
+]

@@ -12,7 +12,8 @@ class Answer extends Model
         'content',
         'is_correct',
         'task_variant_id',
-        'order'
+        'order',
+        'file_path'
     ];
 
     public function taskVariant(): BelongsTo{

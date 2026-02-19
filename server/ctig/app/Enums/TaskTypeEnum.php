@@ -13,7 +13,7 @@ enum TaskTypeEnum:string
         return match($this){
             self::SingleChoice => true,
             self::TextInput => true,
-            self::Speaking => true,
+            self::Speaking => false,
             self::Essay => false
         };
     }
@@ -24,6 +24,13 @@ enum TaskTypeEnum:string
             self::TextInput => false,
             self::Speaking => false,
             self::Essay => false
+        };
+    }
+
+    public function hasAnswers(): bool{
+        return match($this){
+            self::Speaking => false,
+            default => true
         };
     }
 }

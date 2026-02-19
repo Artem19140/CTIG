@@ -11,11 +11,11 @@ return new class extends Migration
         Schema::create('student_answers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('exam_id')
-                ->constrained('exams');
-            $table->foreignId('block_id')
-                ->constrained('blocks');
+                ->constrained('exams')
+                ->cascadeOnDelete();
             $table->foreignId('task_variant_id')
-                ->constrained('task_variants');
+                ->constrained('task_variants')
+                ->cascadeOnDelete();
             $table->foreignId('attempt_id')
                 ->constrained('attempts')
                 ->cascadeOnDelete();
@@ -23,7 +23,8 @@ return new class extends Migration
                 ->constrained('students')
                 ->cascadeOnDelete();
             $table->integer('checked_by_id')->nullable()->default(null);
-            $table->unsignedTinyInteger('mark')->default(0);
+            $table->boolean('is_checked')->default(false);
+            $table->unsignedTinyInteger('mark')->nullable()->default(null);
             $table->string('student_answer', 2000)->nullable()->default(null);
             $table->timestamps();
         });

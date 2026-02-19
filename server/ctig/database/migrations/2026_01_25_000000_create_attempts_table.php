@@ -12,11 +12,10 @@ return new class extends Migration
         Schema::create('attempts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')
-                ->constrained('students');
+                ->constrained('students')
+                ->cascadeOnDelete();
             $table->foreignId('exam_id')
                 ->constrained('exams');
-            
-            
             $table->string('status')->default(AttemptStatusEnum::Started);
             $table->dateTime('expired_at');
             $table->unsignedTinyInteger('total_mark')->default(0);

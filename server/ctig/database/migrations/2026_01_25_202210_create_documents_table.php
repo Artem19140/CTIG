@@ -12,7 +12,8 @@ return new class extends Migration
             $table->id();
             $table->string('path');
             $table->foreignId('creator_id')
-                ->constrained('users');
+                ->constrained('users')
+                ->cascadeOnDelete();
             $table->integer('documentable_id');
             $table->string('documentable_type');
             $table->timestamps();

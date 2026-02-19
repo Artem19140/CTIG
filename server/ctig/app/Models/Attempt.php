@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\AttemptStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,6 +22,22 @@ class Attempt extends Model
         'total_mark',
         'started_at'
     ];
+
+    protected $casts = [
+        'status' => AttemptStatusEnum::class,
+        'expired_at' => 'datetime',
+        'finished_at' => 'datetime',
+        'started_at' => 'datetime',
+        'is_passed' => 'boolean',
+    ];
+
+    public function isExpired(){
+        return $this->expired_at->isPast();
+    }
+
+    public function finish(){
+        return $this->status = AttemptStatusEnum::Finished;
+    }
 
     public function student(): BelongsTo{
         return $this->belongsTo(Student::class, 'student_id');

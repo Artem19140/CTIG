@@ -16,6 +16,10 @@ class Answer extends Model
         'file_path'
     ];
 
+    protected $casts = [
+        'is_correct' => 'boolean'
+    ];
+
     public function taskVariant(): BelongsTo{
         return $this->belongsTo( TaskVariant::class, 'task_variant_id');
     }

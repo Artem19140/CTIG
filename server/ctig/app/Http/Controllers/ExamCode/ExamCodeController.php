@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\ExamCode;
 
 use App\Exceptions\BusinessException;
-use App\Models\ExamCode;
 use App\Models\Exam;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Student;
@@ -13,32 +13,11 @@ use App\Actions\Exam\CreateStudentsCodesForExamAction;
 
 class ExamCodeController extends Controller
 {
-    public function index()
-    {
-    }
-
     public function store(Exam $exam, CreateStudentsCodesForExamAction $createStudentsCodesForExam)
     {
-        //$studentsWithCodes = $createStudentsCodesForExam->execute($exam);
         return $createStudentsCodesForExam->execute($exam);
-        //return $this->created($studentsWithCodes);
     }
-
-    public function show()
-    {
-        //
-    }
-
-    public function update(Request $request)
-    {
-        //
-    }
-
-    public function destroy()
-    {
-        //
-    }
-    
+  
     public function verify(Request $request){
         $student = Student::where('exam_code', $request->input('examCode'))
                         ->first();
@@ -59,11 +38,17 @@ class ExamCodeController extends Controller
         if($exam->begin_time >= Carbon::now()){
             throw new BusinessException('Экзмен еще не начался');
         }
-        $token = $student->createToken(
+        $token = DB::transaction(function () use($student){
+            $student->exam_code = null;
+            $student->exam_code_expired_at = null;
+            $student->save();
+            return $student->createToken(
             'pre-exam-token',
             ['exam:prepare'],
             Carbon::now()->addMinutes(10)
             )->plainTextToken;
-        echo $token;
+        });
+        
+        return $this->created($token);
     }
 }

@@ -12,7 +12,9 @@ return new class extends Migration
             $table->id();
             $table->string('content', 1000);
             $table->string('fipi_number')->unique();
-            $table->foreignId('task_id')->constrained('tasks');
+            $table->foreignId('task_id')
+                ->constrained('tasks')
+                ->cascadeOnDelete();
             $table->boolean('is_active')->default(true);
             $table->boolean('is_audio_task_listened')->default(false);
             $table->string('group_number')->nullable()->default(null);

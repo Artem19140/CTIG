@@ -30,21 +30,21 @@ class StudentController extends Controller
             throw new BusinessException('Студент уже существует');
         }
         $student = Student::create([
-            'surname' => $request->input('surname'),
-            'name'=> $request->input('name'),
-            'patronymic'=> $request->input('patronymic'),
-            'date_birth'=> $request->input('dateBirth'),
-            'surname_latin'=> $request->input('surnameLatin'),
-            'name_latin'=> $request->input('nameLatin'),
-            'patronymic_latin'=> $request->input('patronymicLatin'),
-            'passport_number'=> $request->input('passportNumber'),
-            'passport_series'=> $request->input('passportSeries'),
-            'issued_by'=> $request->input('issuedBy'),
-            'migration_card_requisite'=> $request->input('migrationCardRequisite'),
-            'issues_date'=> $request->input('issuesDate'),
-            'address_reg'=> $request->input('addressReg'),
-            'citizenship'=> $request->input('citizenship'),
-            'phone'=> $request->input('phone'),
+            'surname' => $request->validated('surname'),
+            'name'=> $request->validated('name'),
+            'patronymic'=> $request->validated('patronymic'),
+            'date_birth'=> $request->validated('dateBirth'),
+            'surname_latin'=> $request->validated('surnameLatin'),
+            'name_latin'=> $request->validated('nameLatin'),
+            'patronymic_latin'=> $request->validated('patronymicLatin'),
+            'passport_number'=> $request->validated('passportNumber'),
+            'passport_series'=> $request->validated('passportSeries'),
+            'issued_by'=> $request->validated('issuedBy'),
+            'migration_card_requisite'=> $request->validated('migrationCardRequisite'),
+            'issues_date'=> $request->validated('issuesDate'),
+            'address_reg'=> $request->validated('addressReg'),
+            'citizenship'=> $request->validated('citizenship'),
+            'phone'=> $request->validated('phone'),
             'creator_id'=>$request->user()->id
         ]);
         return $this->created(new StudentResource($student));

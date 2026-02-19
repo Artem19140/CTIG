@@ -17,7 +17,7 @@ class StudentAnswerRequest extends FormRequest
             'examId' => 'required|integer|min:0|exists:exams,id', 
             'blockId' => 'required|integer|min:0|exists:blocks,id', 
             'taskId' => 'required|integer|min:0|exists:tasks,id', 
-            'studentAnswer' => 'nullamble|string', //вот хз прям, он же может и не ответить и это мб не строка будеты
+            'studentAnswer' => 'nullable', //вот хз прям, он же может и не ответить и это мб не строка будеты
         ];
     }
 }

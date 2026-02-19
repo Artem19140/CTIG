@@ -16,8 +16,7 @@ class StudentAnswerResource extends JsonResource
     {
         return [
             'studentAnswer' => $this->student_answer,
-            'id' => $this->id,
-            'examBlockId' => $this->exam_block_id
+            'id' => $this->id
         ];
     }
 }

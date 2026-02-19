@@ -18,7 +18,7 @@ class Exam extends Model
         'begin_time',
         'exam_type_id',
         'creator_id',
-        'session_number', //При переносе менять! Или как блин!? После проведения сессию только установить!
+        'session_number',
         'capacity',
         'status',
         'comment',

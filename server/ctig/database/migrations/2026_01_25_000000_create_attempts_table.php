@@ -18,6 +18,7 @@ return new class extends Migration
                 ->constrained('exams');
             $table->string('status')->default(AttemptStatusEnum::Started);
             $table->dateTime('expired_at');
+            $table->string('ban_reason')->nullable()->default(null);
             $table->unsignedTinyInteger('total_mark')->default(0);
             $table->boolean('is_passed')->nullable()->default(null);
             $table->dateTime('last_activity_at')->nullable()->default(null);

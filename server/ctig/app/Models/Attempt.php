@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AttemptStatusEnum;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,7 +21,8 @@ class Attempt extends Model
         'status',
         'is_passed',
         'total_mark',
-        'started_at'
+        'started_at',
+        'ban_reason'
     ];
 
     protected $casts = [
@@ -36,7 +38,12 @@ class Attempt extends Model
     }
 
     public function finish(){
+        $this->finished_at = Carbon::now();
         return $this->status = AttemptStatusEnum::Finished;
+    }
+
+    public function checked(){
+        return $this->status = AttemptStatusEnum::Checked;
     }
 
     public function student(): BelongsTo{

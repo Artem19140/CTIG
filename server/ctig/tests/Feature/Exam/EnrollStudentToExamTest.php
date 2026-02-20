@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Exam;
 
-use App\Enums\ExamStatusEnum;
 use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -122,26 +121,6 @@ class EnrollStudentToExamTest extends TestCase
         $response->assertUnprocessable();
 
         $this->assertDatabaseCount('exam_student', 1);
-    }
-
-    public function test_fail_statuses_not_allowed_to_enroll(){
-        
-        foreach (ExamStatusEnum::cases() as $status) {
-            if($status === ExamStatusEnum::Expected){
-                continue;
-            }
-            $exam = Exam::factory()
-                ->inFuture()
-                ->create([
-                    'status' => $status->value
-                ]);
-            $response =  $this->postEnrollToExam([
-                'studentId'=>$this->student->id,
-            ], $exam->id);
-            $response->assertUnprocessable();
-        }
-
-        $this->assertDatabaseEmpty('exam_student');
     }
 
     public function test_fail_student_id_is_string(){

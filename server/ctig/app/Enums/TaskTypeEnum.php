@@ -33,4 +33,17 @@ enum TaskTypeEnum:string
             default => true
         };
     }
+
+    public static function autoCheckTypes(): array
+    {
+        return array_map(fn($case) => $case->value, array_filter(self::cases(), fn($case) => $case->autoCheck()));
+    }
+
+    public static function manualCheckTypes(): array
+{
+    return array_map(
+        fn($case) => $case->value,
+        array_filter(self::cases(), fn($case) => !$case->autoCheck())
+    );
+}
 }

@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\ExamStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +14,6 @@ return new class extends Migration
             $table->dateTime('begin_time');
             $table->dateTime('end_time')->nullable();
             $table->string('time_zone')->default('Europe/Samara'); //с клиента брать 
-            $table->string('status')->default(ExamStatusEnum::Expected);
             $table->unsignedTinyInteger('capacity');
             $table->date('date');
             $table->foreignId('exam_type_id') 
@@ -29,6 +27,8 @@ return new class extends Migration
             $table->foreignId('address_id')
                 ->constrained('addresses')
                 ->cascadeOnDelete();
+            
+            $table->boolean('is_canceled')->default(false);
             $table->tinyInteger('group')->nullable()->default(null);
             $table->mediumInteger('session')->nullable()->default(null);
             $table->string('comment')->default('');

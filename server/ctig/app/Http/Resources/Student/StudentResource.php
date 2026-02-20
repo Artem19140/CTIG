@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Student;
  
+use App\Http\Resources\Attempt\AttemptResource;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -33,6 +34,7 @@ class StudentResource extends JsonResource
             'citizenship' => $this->resource->citizenship,
             'phone' => $this->resource->phone,
             'creator'=>new UserResource($this->whenLoaded('creator')),
+            'attempts' => AttemptResource::collection($this->whenLoaded('attempts')),
             'createdAt' => $this->created_at
         ];
     }

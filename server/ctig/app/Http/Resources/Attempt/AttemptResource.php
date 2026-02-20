@@ -18,10 +18,11 @@ class AttemptResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'examName' => new ExamResource($this->whenLoaded('exam')),
-            'student' => new StudentResource($this->whenLoaded('student')),
-            'answers' => new StudentAnswerResource($this->whenLoaded('students')),
-            'id' => $this->id
+            'exam' => new ExamResource($this->whenLoaded('exam')),
+            'answers' =>  StudentAnswerResource::collection($this->whenLoaded('answers')),
+            'id' => $this->id,
+            'started_at' => $this->started_at,
+            'finished_at' => $this->finished_at
         ];
     }
 }

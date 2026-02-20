@@ -26,7 +26,6 @@ class ExamResource extends JsonResource
             'students' => StudentResource::collection($this->whenLoaded('students')),//здесь если есть результаты, то и их можно взять
             'sessionNumber' => $this->session_number,
             'capacity' => $this->capacity,
-            'status' => $this->status,
             'comment'=>$this->comment,
             'group' => $this->group,
             'testers' => UserResource::collection($this->whenLoaded('testers')),

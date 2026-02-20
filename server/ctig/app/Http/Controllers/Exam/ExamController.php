@@ -64,11 +64,9 @@ class ExamController extends Controller
     }
 
     public function state(Exam $exam){
-        //Найти количество решенных заданий по каждому, загрузить нарушения по каждому
-        $exam->load(['attempts.student', 'attempts.violations']);//.violations
-        //теперь экзамен вернется с этими отношениями просто и все
-        //student->attempt->violation
-        //у попытки нарушения, а студент имеет попытку
+        
+        $exam->load(['students.attempts', 'attempts.violations']);//.violations
+        
         return new ExamResource($exam);
     }
 }

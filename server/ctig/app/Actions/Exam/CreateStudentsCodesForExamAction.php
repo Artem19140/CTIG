@@ -2,7 +2,6 @@
 
 namespace App\Actions\Exam;
 
-use App\Enums\ExamStatusEnum;
 use App\Http\Resources\Student\StudentResource;
 use App\Models\Exam;
 use Carbon\Carbon;
@@ -15,10 +14,6 @@ final class CreateStudentsCodesForExamAction{
     public function execute(Exam $exam){
         if($exam->isPassed()){
             throw new BusinessException('Экзмен уже прошел');
-        }
-
-        if($exam->status != ExamStatusEnum::Expected && $exam->status != ExamStatusEnum::Started){
-            throw new BusinessException('Коды на данный экзамен сформировать уже нельзя');
         }
 
         $examBeginTime = Carbon::parse($exam->begin_time);

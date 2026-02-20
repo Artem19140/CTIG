@@ -46,9 +46,15 @@ Route::middleware(['auth:sanctum'])->group(function (){
         Route::get('/{exam}/state', [ExamController::class, "state"]);
     });
 
+    Route::prefix("attempts")->group(function (){
+        Route::put('/{attempt}/ban', [AttemptController::class, 'ban']);
+        Route::get('/{attempt}/speaking-tasks', [AttemptController::class, 'speaking']);
+        Route::get('/{attempt}/answers-to-check', [AttemptController::class, 'answersToCheck']);
+        Route::get('/{attempt}/to-check', [AttemptController::class, 'toCheck']);
+    });
+
     Route::put('student-answers/{studentAnswer}/rate', [StudentAnswerController::class, 'rate']);
-    Route::put('attempts/{attempt}/ban', [AttemptController::class, 'ban']);
-    Route::get('attempts/{attempt}/speaking-tasks', [AttemptController::class, 'speaking']);
+    
     Route::get('violations', [ViolationController::class, 'index']);//с фильтрами по exam и student
 });
 

@@ -50,6 +50,14 @@ class Attempt extends Model
         return $this->status === AttemptStatusEnum::Active;
     }
 
+    public function isBanned(){
+        return $this->status === AttemptStatusEnum::Banned;
+    }
+
+    public function isFinished(){
+        return $this->status === AttemptStatusEnum::Finished;
+    }
+
     public function student(): BelongsTo{
         return $this->belongsTo(Student::class, 'student_id');
     }

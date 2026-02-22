@@ -16,10 +16,17 @@ enum AttemptStatusEnum:string
         };
     }
 
-    public function canBeFinished(){
+    public function canBeFinished(): bool{
         return match($this){
             self::Active => true,
             default => false
         };
+    }
+
+    public static function  unChecked(): array{
+        return [
+            self::Active,
+            self::Finished
+        ];
     }
 }

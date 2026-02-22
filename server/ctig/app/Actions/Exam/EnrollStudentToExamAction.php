@@ -23,8 +23,8 @@ final class EnrollStudentToExamAction{
             throw new BusinessException('Запись возможна только с 18 лет');
         }
 
-        if($exam->isPassed()){
-            throw new BusinessException('Экзмен уже прошел');
+        if($exam->isPassed() || $exam->isGoing()){
+            throw new BusinessException('Экзмен уже прошел или идет');
         }
 
         if($exam->is_cancelled){

@@ -21,7 +21,7 @@ class TaskVariantResource extends JsonResource
             'fipiGuid' => $this->fipi_number,
             'groupId' => $this->group_number,
             'answers' => AnswerResource::collection($this->whenLoaded('answers')),
-            'studentAnswer' => 1
+            'order' => $this->whenLoaded('task', fn () => $this->task->order),
         ];
     }
 }

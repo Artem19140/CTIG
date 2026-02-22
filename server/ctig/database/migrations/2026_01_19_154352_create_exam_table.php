@@ -29,9 +29,10 @@ return new class extends Migration
                 ->cascadeOnDelete();
             
             $table->boolean('is_cancelled')->default(false);
+            $table->string('cancelled_reason')->nullable()->default(null);
             $table->tinyInteger('group')->nullable()->default(null);
             $table->mediumInteger('session')->nullable()->default(null);
-            $table->string('comment')->default('');
+            $table->string('comment')->nullable()->default(null);
             $table->timestamps();
         });
 

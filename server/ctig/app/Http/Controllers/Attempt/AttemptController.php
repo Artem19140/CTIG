@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Attempt;
 
+use App\Actions\Attempt\FormAttemptExamVariantAction;
 use App\Actions\Attempt\GetDetailedAttemptResultsAction;
 use App\Actions\Exam\CheckPassingThresholdAction;
 use App\Enums\AttemptStatusEnum;
@@ -35,7 +36,7 @@ class AttemptController extends Controller
         return AttemptResource::collection($examAttempts);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, FormAttemptExamVariantAction $formAttemptExamVariant)
     {
         $student=$request->user();
         $hasCurrentExamAttempt = $student->attempts()
@@ -48,7 +49,7 @@ class AttemptController extends Controller
         
         $exam = Exam::with('examType.blocks.subblocks.tasks.variants') // мб урбать answers
                     ->find($student->exam_id);
-        $tasks = DB::transaction(function () use($student, $exam) {
+        $tasks = DB::transaction(function () use($student, $exam, $formAttemptExamVariant) {
             $examDuration = $exam->examType->duration;
             $attempt = Attempt::create([
                     'student_id' => $student->id,
@@ -62,32 +63,8 @@ class AttemptController extends Controller
                 ->flatten()
                 ->pluck('tasks')
                 ->flatten(); 
-            $groups = [];
-            $examVariant = [];
-            foreach($tasks as $task){    
-                $variants = $task->variants
-                            ->where('is_active',true);
-                           
-                $variant = $variants
-                            ->whereIn('group_number', $groups)
-                            ->first();
 
-                if(!$variant){
-                    $variant = $variants->random();
-                }
-
-                if($variant->group_number && !\in_array($variant->group_number, $groups)){
-                    $groups[] = $variant->group_number;
-                }
-
-                $examVariant[] = [
-                    'exam_id' => $exam->id,
-                    'task_variant_id' => $variant->id,
-                    'attempt_id' => $attempt->id, 
-                    'student_id' =>$student->id, 
-
-                ];
-            }
+            $examVariant = $formAttemptExamVariant->execute($tasks, $exam, $attempt, $student);
             
             StudentAnswer::insert($examVariant);
             //$student->tokens()->delete();
@@ -96,7 +73,7 @@ class AttemptController extends Controller
                 ['exam:access'],
                 Carbon::now()->addMinutes($examDuration + 1)
             )->plainTextToken;
-            return StudentAnswer::where('attempt_id', $attempt->id)->get(); 
+            return StudentAnswer::where('attempt_id', $attempt->id)->with(['taskVariant.answers', 'taskVariant.task'])->get(); 
         });
         return $this
             ->created(StudentAnswerResource::collection($tasks)
@@ -115,7 +92,7 @@ class AttemptController extends Controller
         $request->validate([
             'banReason' => ['required', 'string']
         ]);
-        if($attempt->ban_reason){
+        if($attempt->isBanned()){
             throw new BusinessException('Попытка уже аннулирована');
         }
         $attempt->ban_reason = $request->input('banReason');
@@ -124,7 +101,13 @@ class AttemptController extends Controller
     }
 
     public function speaking(Attempt $attempt){
+        if($attempt->isBanned()){
+            throw new BusinessException('Попытка заблокирована');
+        }
+        
         if($attempt->isExpired() || !$attempt->isActive()){
+            $attempt->finish();
+            $attempt->save();
             throw new BusinessException('Попытка неактивна');
         }
 
@@ -140,15 +123,14 @@ class AttemptController extends Controller
     public function finish(Attempt $attempt, CheckPassingThresholdAction $checkPassingThreshold)
     {
         if(!$attempt->status->canBeFinished()){
-            throw new BusinessException('Попытка уже завершена');
+            throw new BusinessException('Попытка уже завершена или аннулирована');
         }
 
         DB::transaction(function() use($attempt, $checkPassingThreshold){
-            //$attempt->finish();
+            $attempt->finish();
             //request()->user()->tokens()->delete();
             $emptyAnswers =  $attempt->answers()
                                     ->where('is_checked', false)
-                                    ->where('student_answer', null)
                                     ->whereHas('taskVariant.task', function(Builder $query){
                                         $query->whereIn('type', TaskTypeEnum::autoCheckTypes());
                                     })
@@ -172,7 +154,7 @@ class AttemptController extends Controller
                 //$attempt->checked();
                 $markCount = $attempt->answers()->sum('mark');
                 $hasPassed = $checkPassingThreshold->execute($attempt);
-                echo GetDetailedAttemptResultsAction::execute($attempt);
+                //echo GetDetailedAttemptResultsAction::execute($attempt);
                 if($hasPassed){
                     $attempt->is_passed = true;
                 }else{
@@ -200,13 +182,12 @@ class AttemptController extends Controller
 
     public function toCheck(){
         $uncheckedAttempts = Attempt::where('status', AttemptStatusEnum::Finished)->get();
-        if($uncheckedAttempts->isNotEmpty()){
-            $uncheckedAttempts->load(['exam.examType']);
-        }
         return AttemptResource::collection($uncheckedAttempts);
     }
 
-    public function full(){
-        
+    public function full(Attempt $attempt){
+        //$attempt->answers()->with('taskVariant')->get();
+        $full = $attempt->load(['answers.taskVariant.answers', 'student']);
+        return $this->ok( new AttemptResource($full)); 
     }
 }

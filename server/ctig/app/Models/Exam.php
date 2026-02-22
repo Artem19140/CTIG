@@ -23,7 +23,8 @@ class Exam extends Model
         'group',
         'end_time',
         'address_id',
-        'date'
+        'date',
+        'cancelled_reason'
     ];
 
     protected $casts = [
@@ -62,6 +63,10 @@ class Exam extends Model
 
     public function isPassed(){
         return $this->end_time->isPast();
+    }
+
+    public function isGoing(){
+        return !$this->end_time->isPast() && $this->begin_time->isPast();
     }
 
 }

@@ -6,6 +6,7 @@ use App\Models\ExamType;
 use App\Models\User;
 use App\Models\Address;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -44,7 +45,7 @@ class CreateExamTest extends TestCase
                 ->assertHeader('content-type', 'application/json');
     }
 
-    public function test_success_registration(): void{        
+    public function test_success_registration(): void{    
         $response =  $this->postExam();
         $response->assertCreated();
         $this->assertDatabaseCount('exams', 1);

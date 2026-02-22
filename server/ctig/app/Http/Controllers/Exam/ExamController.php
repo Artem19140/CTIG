@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Exam;
 
 use App\Exceptions\BusinessException;
+use App\Exceptions\EntityNotFoundExсeption;
+use App\Models\Address;
 use App\Models\Exam;
+use App\Models\ExamType;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Resources\Exam\ExamResource;
@@ -49,19 +53,33 @@ class ExamController extends Controller
 
     public function show(Exam $exam): ExamResource
     {
-        $exam->load('students'); //в параметр добавь что-нибудь, чтобы со списком и без получать
-        $exam->load('testers');
+        $exam->load(['students', 'testers', 'address', 'examType']);
         return new ExamResource($exam);
     }
 
-    public function update(Request $request, Exam $exam)
+    public function update(ExamPostRequest $request, Exam $exam)
     {
-        //
+        
     }
 
     public function destroy(Exam $exam)
     {
-        //
+        request()->validate( [
+            'cancelledReason' => ['required', 'string']
+        ]);
+
+        if($exam->isPassed() || $exam->isGoing()){
+            throw new BusinessException('Экзамен уже прошел или идет');
+        }
+
+        if($exam->is_cancelled){
+            throw new BusinessException('Экзамен уже отменен');
+        }
+        
+        $exam->cancelled_reason = request()->input('cancelledReason');
+        $exam->is_cancelled = true;
+        $exam->save();
+        return $this->noContent();
     }
 
     public function state(Exam $exam){

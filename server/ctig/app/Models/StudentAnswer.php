@@ -14,7 +14,7 @@ class StudentAnswer extends Model
         'attempt_id', //Основной поиск по этому полю
         'student_id', //Еще поиск по этому полю в карточке студента чтобы отобразить(дополнительно)
         'mark',
-        'student_answer',
+        'text_answer',
         'checked_by_id',
         'is_checked'
     ];
@@ -28,7 +28,7 @@ class StudentAnswer extends Model
     }
 
     public function taskVariant(): BelongsTo{
-         return $this->belongsTo(TaskVariant::class, 'task_variant_id');
+        return $this->belongsTo(TaskVariant::class, 'task_variant_id');
     }
 
 }

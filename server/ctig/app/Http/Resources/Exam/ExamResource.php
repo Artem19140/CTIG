@@ -2,9 +2,6 @@
 
 namespace App\Http\Resources\Exam;
 
-use App\Http\Resources\Address\AddressResource;
-use App\Http\Resources\ExamAttempt\ExamAttemptResource;
-use App\Http\Resources\ExamType\ExamTypeResource;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -24,13 +21,13 @@ class ExamResource extends JsonResource
             'beginTime' => $this->begin_time,
             'endTime' => $this->end_time,
             'students' => StudentResource::collection($this->whenLoaded('students')),//здесь если есть результаты, то и их можно взять
-            'sessionNumber' => $this->session_number,
+            'sessionNumber' => $this->session,
             'capacity' => $this->capacity,
             'comment'=>$this->comment,
             'group' => $this->group,
             'testers' => UserResource::collection($this->whenLoaded('testers')),
-            'name' => when($this->whenLoaded('examType'), $this->examType->name),
-            'address' => when($this->whenLoaded('address'), $this->address->address),
+            'name' => $this->whenLoaded('examType', fn () => $this->examType->name),
+            'address' => $this->whenLoaded('address', fn () =>$this->address->address),
             'creator'=> new UserResource($this->whenLoaded('creator')),
             'createdAt' => $this->created_at
         ];

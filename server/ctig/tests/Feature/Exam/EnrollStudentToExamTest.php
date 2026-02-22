@@ -13,9 +13,9 @@ use App\Models\Exam;
 class EnrollStudentToExamTest extends TestCase
 {
     use RefreshDatabase;
-        protected User $user;
-        protected Student $student;
-        protected Exam $exam;
+    protected User $user;
+    protected Student $student;
+    protected Exam $exam;
 
 
     protected function setUp(): void

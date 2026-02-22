@@ -4,6 +4,7 @@ use App\Http\Controllers\Address\AddressController;
 use App\Http\Controllers\Attempt\AttemptController;
 use App\Http\Controllers\ExamCode\ExamCodeController;
 use App\Http\Controllers\Login\LoginController;
+use App\Http\Controllers\Report\ReportController;
 use App\Http\Controllers\ViolationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Student\StudentController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\StudentAnswer\StudentAnswerController;
 
 
 Route::middleware(['auth:sanctum'])->group(function (){
+    Route::get('attempts/to-check', [AttemptController::class, 'toCheck']);
     Route::apiResource( 'users', UserController::class);
 
     Route::apiResource('students', StudentController::class);
@@ -28,34 +30,36 @@ Route::middleware(['auth:sanctum'])->group(function (){
 
     Route::apiResource('documents', DocumentController::class);
 
-    Route::apiResource('tasks', TaskController::class);
+    Route::apiResource('tasks', TaskController::class)
+        ->except('update', 'store', 'destroy', 'index');
 
     Route::apiResource('student-answers', StudentAnswerController::class)
         ->except('update');
 
     Route::apiResource('addresses', AddressController::class);
-    Route::apiResource('attempts', AttemptController::class);
 
-    Route::prefix("exam-types")->group(function (){
-        Route::get('/{examType}/blocks', [ExamTypeController::class, 'blocks']);
-    });
+    Route::apiResource('attempts', AttemptController::class);
 
     Route::prefix("exams")->group(function (){
         Route::post('/{exam}/students', [ExamStudentController::class, "store"]);
+        Route::delete('/{exam}/students/{student}', [ExamStudentController::class, "destroy"]); 
         Route::post('/{exam}/codes', [ExamCodeController::class, "store"]);
         Route::get('/{exam}/state', [ExamController::class, "state"]);
+        Route::post('/{exam}/students/{student}/transfer', [ExamStudentController::class, 'transfer']);
     });
 
     Route::prefix("attempts")->group(function (){
         Route::put('/{attempt}/ban', [AttemptController::class, 'ban']);
         Route::get('/{attempt}/speaking-tasks', [AttemptController::class, 'speaking']);
         Route::get('/{attempt}/answers-to-check', [AttemptController::class, 'answersToCheck']);
-        Route::get('/{attempt}/to-check', [AttemptController::class, 'toCheck']);
+        Route::get('/{attempt}/full', [AttemptController::class, 'full']);
     });
-
+    
     Route::put('student-answers/{studentAnswer}/rate', [StudentAnswerController::class, 'rate']);
     
     Route::get('violations', [ViolationController::class, 'index']);//с фильтрами по exam и student
+
+    Route::post('reports/frdo', [ReportController::class, 'frdo']);
 });
 
 
@@ -74,8 +78,7 @@ Route::post('attempts', [AttemptController::class, 'store'])
     ->middleware(['auth:sanctum']);//exam:prepare только для начинания попытки
 
 
-
-
+    
 Route::post( 'users', [UserController::class, 'store']);
 
 

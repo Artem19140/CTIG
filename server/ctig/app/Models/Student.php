@@ -40,6 +40,8 @@ class Student extends Authenticatable {
 
     protected $casts = [
         'exam_code_expired_at' => 'datetime',
+        'date_birth' => 'date',
+        'issues_date'=> 'date',
     ];
     
     public function exams(): BelongsToMany{

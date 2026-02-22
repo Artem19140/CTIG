@@ -53,7 +53,7 @@ class StudentAnswerController extends Controller
         DB::transaction(function()use($studentAnswer, $task, $request, $studentAnswerCheckService){
             if($task->type->autoCheck()){
             $answers =(array) $request->input('studentAnswer',[]);
-            $rightAnswers = $studentAnswer->taskVariant->answers->where('is_correct')->pluck("content")->toArray();
+            $rightAnswers = $studentAnswer->taskVariant->answers->where('is_correct')->toArray(); //->pluck("content")
             sort($rightAnswers);
             sort($answers);
             $isCorrect = $studentAnswerCheckService->check($task->type, $answers,$rightAnswers);

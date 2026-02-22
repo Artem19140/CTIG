@@ -18,6 +18,7 @@ class TaskVariant extends Model
         'mark'
     ];
 
+
     public function answers() : HasMany{
         return $this->hasMany(Answer::class, 'task_variant_id');
     }

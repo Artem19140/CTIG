@@ -130,4 +130,16 @@ class EnrollStudentToExamTest extends TestCase
         $response->assertUnprocessable();
         $this->assertDatabaseEmpty('exam_student');
     }
+
+    public function test_fail_cancelled_exam(){
+        $exam = Exam::factory()
+                    ->cancelled()
+                    ->inFuture()
+                    ->create();
+        $response =  $this->postEnrollToExam([
+            'studentId'=>$this->student->id,
+            ], $exam->id);
+        $response->assertUnprocessable();
+        $this->assertDatabaseEmpty('exam_student');
+    }
 }

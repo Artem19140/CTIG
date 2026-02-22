@@ -14,6 +14,7 @@ use Illuminate\Database\Seeder;
 
 class PatentSeeder extends Seeder
 {
+    private string $path = 'resources/data/PATENT/tasks/variants/';
     public function run(): void
     {
         
@@ -62,7 +63,7 @@ class PatentSeeder extends Seeder
                         $orderAnswer = 1;
                         foreach($variant['answers'] as $answer){
                             Answer::create([
-                                'content' => $answer['content'],
+                                'content' => json_encode($answer['content']),
                                 'is_correct' => $answer['is_correct'],
                                 'order' => $orderAnswer,
                                 'task_variant_id' => $taskVariantCreated->id,
@@ -101,30 +102,30 @@ class PatentSeeder extends Seeder
     }
 
     private function audioSubblock(): array{
-        $path = 'resources/data/PATENT/tasks/variants/';
+        
         return [
             'name' => 'Аудирование',
-            'min_mark' => 6,
+            'min_mark' => 2,
             'tasks' => [
                 [
                     'type' => TaskTypeEnum::SingleChoice,
                     'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($path.'task1.json')), true)
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task1.json')), true)
                 ],
                 [
                     'type' => TaskTypeEnum::SingleChoice,
                     'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($path.'task2.json')), true)
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task2.json')), true)
                 ],
                 [
                     'type' => TaskTypeEnum::SingleChoice,
                     'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($path.'task3.json')), true)
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task3.json')), true)
                 ],
                 [
                     'type' => TaskTypeEnum::SingleChoice,
                     'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($path.'task4.json')), true)
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task4.json')), true)
                 ]
                 
             ]
@@ -132,79 +133,74 @@ class PatentSeeder extends Seeder
     }
 
     private function readingSubblock(): array{
-        $path = 'resources/data/PATENT/tasks/variants/';
         return [
             'name' => 'Чтение', 
-            'min_mark' => 6,
+            'min_mark' => 0,
             'tasks' => [
                 [
                     'type' => TaskTypeEnum::SingleChoice,
                     'description' => 'Прочитайте объявление и выберите правильный ответ.',
                     'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($path.'task5.json')), true)
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task5.json')), true)
                 ],
                 [
                     'type' => TaskTypeEnum::SingleChoice,
                     'description' => 'Прочитайте текст и выберите правильный ответ.',
                     'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($path.'task6.json')), true)
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task6.json')), true)
                 ],
             ]
         ];
     }
 
     private function letterSubblock(): array{
-        $path = 'resources/data/PATENT/tasks/variants/';
         return [
             'name' => 'Письмо',
-            'min_mark' => 6,
+            'min_mark' => 0,
             'tasks' => [
                 [
                     'type' => TaskTypeEnum::SingleChoice,
-                    'description' => 'Прочитайте объявление и выберите правильный ответ.',
+                    'description' => 'Прочитайте текст и вставьте пропущенное слово.',
                     'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($path.'task7.json')), true)
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task7.json')), true)
                 ],
             ]
         ];
     }
 
     private function vocabularAndGrammarSubblock(): array{
-        $path = 'resources/data/PATENT/tasks/variants/';
         return [
             'name' => 'Лексика и грамматика',
-            'min_mark' => 6,
+            'min_mark' => 0,
             'tasks' => [
                 [
                     'type' => TaskTypeEnum::SingleChoice,
-                    'description' => 'Прочитайте объявление и выберите правильный ответ.',
                     'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($path.'task8.json')), true)
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task8.json')), true)
                 ],
                 [
                     'type' => TaskTypeEnum::SingleChoice,
                     'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($path.'task9.json')), true)
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task9.json')), true)
                 ],
                 [
                     'type' => TaskTypeEnum::SingleChoice,
                     'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($path.'task10.json')), true)
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task10.json')), true)
                 ],
                 [
                     'type' => TaskTypeEnum::SingleChoice,
                     'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($path.'task11.json')), true)
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task11.json')), true)
                 ]
             ]
         ];
     }
 
     private function historyBlock(): array{
-        $path = 'resources/data/PATENT/tasks/variants/';
         return [
             'name' => 'ИСТОРИЯ РОССИИ',
-            'min_mark'=>6,
+            'min_mark'=>2,
             'subblocks'=>[
                 [
                     'name' => 'Тест',
@@ -213,27 +209,27 @@ class PatentSeeder extends Seeder
                         [
                             'type' => TaskTypeEnum::SingleChoice,
                             'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task12.json')), true)
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task12.json')), true)
                         ],
                         [
                             'type' => TaskTypeEnum::SingleChoice,
                             'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task13.json')), true)
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task13.json')), true)
                         ],
                         [
                             'type' => TaskTypeEnum::SingleChoice,
                             'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task14.json')), true)
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task14.json')), true)
                         ],
                         [
                             'type' => TaskTypeEnum::SingleChoice,
                             'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task15.json')), true)
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task15.json')), true)
                         ],
                         [
                             'type' => TaskTypeEnum::SingleChoice,
                             'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task16.json')), true)
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task16.json')), true)
                         ]
                     ]
                 ]
@@ -242,10 +238,9 @@ class PatentSeeder extends Seeder
     }
 
     private function legislationBlock(){
-        $path = 'resources/data/PATENT/tasks/variants/';
         return [
             'name' => 'ОСНОВЫ ЗАКОНОДАТЕЛЬСТВА РОССИЙСКОЙ ФЕДЕРАЦИИ',
-            'min_mark'=>6,
+            'min_mark'=>3,
             'subblocks'=>[
                 [
                     'name' => 'Тест',
@@ -254,32 +249,32 @@ class PatentSeeder extends Seeder
                         [
                             'type' => TaskTypeEnum::SingleChoice,
                             'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task17.json')), true)
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task17.json')), true)
                         ],
                         [
                             'type' => TaskTypeEnum::SingleChoice,
                             'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task18.json')), true)
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task18.json')), true)
                         ],
                         [
                             'type' => TaskTypeEnum::SingleChoice,
                             'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task19.json')), true)
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task19.json')), true)
                         ],
                         [
                             'type' => TaskTypeEnum::SingleChoice,
                             'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task20.json')), true)
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task20.json')), true)
                         ],
                         [
                             'type' => TaskTypeEnum::SingleChoice,
                             'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task21.json')), true)
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task21.json')), true)
                         ],
                         [
                             'type' => TaskTypeEnum::SingleChoice,
                             'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($path.'task22.json')), true)
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task22.json')), true)
                         ]
                     ]
                 ]

@@ -16,7 +16,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->foreignId('exam_id')
                 ->constrained('exams');
-            $table->string('status')->default(AttemptStatusEnum::Started);
+            $table->string('status')->default(AttemptStatusEnum::Active);
             $table->dateTime('expired_at');
             $table->string('ban_reason')->nullable()->default(null);
             $table->unsignedTinyInteger('total_mark')->default(0);

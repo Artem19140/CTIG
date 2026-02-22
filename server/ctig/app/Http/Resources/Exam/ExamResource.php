@@ -29,8 +29,8 @@ class ExamResource extends JsonResource
             'comment'=>$this->comment,
             'group' => $this->group,
             'testers' => UserResource::collection($this->whenLoaded('testers')),
-            'name' => new ExamTypeResource($this->whenLoaded('examType')),
-            'address' => new AddressResource($this->whenLoaded('address')),
+            'name' => when($this->whenLoaded('examType'), $this->examType->name),
+            'address' => when($this->whenLoaded('address'), $this->address->address),
             'creator'=> new UserResource($this->whenLoaded('creator')),
             'createdAt' => $this->created_at
         ];

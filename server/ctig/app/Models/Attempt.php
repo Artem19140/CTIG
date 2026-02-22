@@ -46,6 +46,10 @@ class Attempt extends Model
         return $this->status = AttemptStatusEnum::Checked;
     }
 
+    public function isActive(){
+        return $this->status === AttemptStatusEnum::Active;
+    }
+
     public function student(): BelongsTo{
         return $this->belongsTo(Student::class, 'student_id');
     }

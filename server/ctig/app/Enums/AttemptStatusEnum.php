@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum AttemptStatusEnum:string
 {
-    case Started = 'started'; //active
+    case Active = 'active'; //active
     case Finished = 'finished';
     case Checked = 'checked';
     case Banned = 'banned';
@@ -18,7 +18,7 @@ enum AttemptStatusEnum:string
 
     public function canBeFinished(){
         return match($this){
-            self::Started => true,
+            self::Active => true,
             default => false
         };
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Exam;
 
+use App\Exceptions\BusinessException;
 use App\Models\Exam;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -64,8 +65,12 @@ class ExamController extends Controller
     }
 
     public function state(Exam $exam){
-        
-        $exam->load(['students.attempts', 'attempts.violations']);//.violations
+        if($exam->isPassed()){
+            throw new BusinessException('Экзамен уже прошел');
+        }
+        $exam->load([
+                'students.attempts' => fn ($query) => $query->where('exam_id', $exam->id)->with('violations')
+            ]);
         
         return new ExamResource($exam);
     }

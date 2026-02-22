@@ -38,17 +38,16 @@ class AttemptController extends Controller
     public function store(Request $request)
     {
         $student=$request->user();
-        $hasCurrentExamAttempt = Attempt::where('student_id', $student->id)
-                                    ->where('status',  AttemptStatusEnum::Started)
+        $hasCurrentExamAttempt = $student->attempts()
+                                    ->where('status',  AttemptStatusEnum::Active)
                                     ->exists();
                                     
-        if($hasCurrentExamAttempt){
-            throw new BusinessException('Существует текущая попытка экзамена');
-        }
+        // if($hasCurrentExamAttempt){
+        //     throw new BusinessException('Существует текущая попытка экзамена');
+        // }
         
         $exam = Exam::with('examType.blocks.subblocks.tasks.variants') // мб урбать answers
                     ->find($student->exam_id);
-
         $tasks = DB::transaction(function () use($student, $exam) {
             $examDuration = $exam->examType->duration;
             $attempt = Attempt::create([
@@ -62,13 +61,13 @@ class AttemptController extends Controller
                 ->pluck('subblocks')
                 ->flatten()
                 ->pluck('tasks')
-                ->flatten();
+                ->flatten(); 
             $groups = [];
             $examVariant = [];
             foreach($tasks as $task){    
                 $variants = $task->variants
                             ->where('is_active',true);
-                            
+                           
                 $variant = $variants
                             ->whereIn('group_number', $groups)
                             ->first();
@@ -86,10 +85,12 @@ class AttemptController extends Controller
                     'task_variant_id' => $variant->id,
                     'attempt_id' => $attempt->id, 
                     'student_id' =>$student->id, 
+
                 ];
             }
+            
             StudentAnswer::insert($examVariant);
-            $student->tokens()->delete();
+            //$student->tokens()->delete();
             $student->token = $student->createToken(
                 'exam-token',
                 ['exam:access'],
@@ -114,12 +115,19 @@ class AttemptController extends Controller
         $request->validate([
             'banReason' => ['required', 'string']
         ]);
+        if($attempt->ban_reason){
+            throw new BusinessException('Попытка уже аннулирована');
+        }
         $attempt->ban_reason = $request->input('banReason');
         $attempt->status = AttemptStatusEnum::Banned;
         $attempt->save();
     }
 
     public function speaking(Attempt $attempt){
+        if($attempt->isExpired() || !$attempt->isActive()){
+            throw new BusinessException('Попытка неактивна');
+        }
+
         $studentAnswer =  $attempt->answers()->with('taskVariant')
                                         ->whereHas('taskVariant.task', function(Builder $query){
                                             $query->where('type', TaskTypeEnum::Speaking);
@@ -196,5 +204,9 @@ class AttemptController extends Controller
             $uncheckedAttempts->load(['exam.examType']);
         }
         return AttemptResource::collection($uncheckedAttempts);
+    }
+
+    public function full(){
+        
     }
 }

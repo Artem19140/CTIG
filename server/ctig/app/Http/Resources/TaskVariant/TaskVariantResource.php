@@ -20,7 +20,8 @@ class TaskVariantResource extends JsonResource
             'content' => $this->content,
             'fipiGuid' => $this->fipi_number,
             'groupId' => $this->group_number,
-            'answers' => AnswerResource::collection($this->whenLoaded('answers'))
+            'answers' => AnswerResource::collection($this->whenLoaded('answers')),
+            'studentAnswer' => 1
         ];
     }
 }

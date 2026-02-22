@@ -28,7 +28,7 @@ return new class extends Migration
                 ->constrained('addresses')
                 ->cascadeOnDelete();
             
-            $table->boolean('is_canceled')->default(false);
+            $table->boolean('is_cancelled')->default(false);
             $table->tinyInteger('group')->nullable()->default(null);
             $table->mediumInteger('session')->nullable()->default(null);
             $table->string('comment')->default('');

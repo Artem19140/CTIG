@@ -33,7 +33,9 @@ class Student extends Authenticatable {
         'creator_id',
         'exam_code',
         'exam_code_expired_at',
-        'exam_id'
+        'exam_id',
+        'photo_path',
+        'passport_scan_path'
     ];
 
     protected $casts = [

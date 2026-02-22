@@ -5,6 +5,7 @@ namespace App\Http\Resources\Attempt;
 use App\Http\Resources\Exam\ExamResource;
 use App\Http\Resources\Student\StudentResource;
 use App\Http\Resources\StudentAnswer\StudentAnswerResource;
+use App\Http\Resources\Violation\ViolationResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,6 +21,9 @@ class AttemptResource extends JsonResource
         return [
             'exam' => new ExamResource($this->whenLoaded('exam')),
             'answers' =>  StudentAnswerResource::collection($this->whenLoaded('answers')),
+            //'solved' => $this->when(''),
+            'student' => new StudentResource($this->whenLoaded('student')),
+            'violations' =>  ViolationResource::collection($this->whenLoaded('violations')),
             'id' => $this->id,
             'started_at' => $this->started_at,
             'finished_at' => $this->finished_at

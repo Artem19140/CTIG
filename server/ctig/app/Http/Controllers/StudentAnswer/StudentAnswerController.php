@@ -38,7 +38,7 @@ class StudentAnswerController extends Controller
             throw new BusinessException('Время экзамена вышло');
         }
 
-        if($attempt->status != AttemptStatusEnum::Started){
+        if($attempt->status != AttemptStatusEnum::Active){
             $request->user()->tokens()->delete();
             throw new BusinessException('Попытка неактивна');
         }
@@ -104,16 +104,15 @@ class StudentAnswerController extends Controller
             $studentAnswer->is_checked = true;
             $studentAnswer->checked_by_id = $request->user()->id;
             $studentAnswer->save();
-            $notCheckedAnswersExist = StudentAnswer::where('attempt_id', $attempt->id)
-                            ->where('is_checked', false)
-                            ->exists();
+            $notCheckedAnswersExist = $attempt->answers()
+                                            ->where('is_checked', false)
+                                            ->exists();
             if(!$notCheckedAnswersExist){
                 $attempt->checked();
                 $markCount = StudentAnswer::where('attempt_id',$attempt->id)
                                 ->sum('mark');
                 $attempt->total_mark = $markCount;
                 $attempt->save();
-                //мб 200 с сообщением вернуть
             }
         });
         return $this->noContent();

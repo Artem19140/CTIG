@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\StudentAnswer;
+namespace App\Http\Resources\Violation;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class StudentAnswerResource extends JsonResource
+class ViolationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,8 +15,6 @@ class StudentAnswerResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'studentAnswer' => $this->student_answer,
-            
             'id' => $this->id
         ];
     }

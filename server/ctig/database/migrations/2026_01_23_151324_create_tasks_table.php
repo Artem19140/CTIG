@@ -16,6 +16,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->string('type');
             $table->string('description')->nullable()->default(null);
+            $table->string('postscriptum')->nullable()->default(null);
             $table->boolean('is_active')->default(true);
             $table->unsignedTinyInteger('mark');
             $table->unsignedTinyInteger('order');

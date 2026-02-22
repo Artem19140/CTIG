@@ -27,13 +27,17 @@ return new class extends Migration
             $table->char('citizenship', 2);
             $table->string('phone', 12);
 
+            $table->string('photo_path')->nullable()->default(null);
+            $table->string('passport_scan_path')->nullable()->default(null);
+        
             $table->char('exam_code', 6)->nullable()->unique()->default(null);
             $table->dateTime('exam_code_expired_at')->nullable()->default(null);
             $table->integer('exam_id')->nullable()->default(null);
 
             $table->foreignId('creator_id')
-                ->constrained('users')
-                ->cascadeOnDelete();
+                ->constrained('users');
+
+            $table->dateTime('storage_expired_at')->default(now()->addYears(3));
             $table->timestamps();
         });
     }

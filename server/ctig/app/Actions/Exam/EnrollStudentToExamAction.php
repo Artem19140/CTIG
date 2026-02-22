@@ -27,6 +27,10 @@ final class EnrollStudentToExamAction{
             throw new BusinessException('Экзмен уже прошел');
         }
 
+        if($exam->is_cancelled){
+            throw new BusinessException('Экзамен отменен');
+        }
+
         $exam->load(['students']);
         $students=$exam->students;
 
@@ -40,7 +44,7 @@ final class EnrollStudentToExamAction{
             
         $studentExamsConflict = $student->exams()->where('begin_time', '<=', $exam->end_time)
                                         ->where('end_time', '>=', $exam->begin_time)
-                                        ->where('is_canceled', false)
+                                        ->where('is_cancelled', false)
                                         ->exists();
 
         if($studentExamsConflict){

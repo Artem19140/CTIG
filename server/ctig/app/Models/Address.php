@@ -14,7 +14,6 @@ class Address extends Model
     protected $fillable = [
         'is_active',
         'address'
-        //'creator_id'
     ];
 
     protected $casts = [
@@ -24,8 +23,4 @@ class Address extends Model
     public function exams(): HasMany{
         return $this->hasMany(Exam::class, 'address_id');
     }
-
-    // public function creator(): BelongsTo{
-    //     return $this->belongsTo( User::class, "creator_id");
-    // }
 }

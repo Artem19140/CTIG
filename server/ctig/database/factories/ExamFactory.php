@@ -25,7 +25,7 @@ class ExamFactory extends Factory
     {
         return [
             'begin_time' => fake()->dateTimeBetween('-30 days', '+30 days')->format('Y-m-d'),
-            'exam_type_id' => ExamType::inRandomOrder()->first()->id,
+            'exam_type_id' => ExamType::factory(),
             'creator_id' => User::factory(),
             'capacity'=>fake()->numberBetween(5, 20),
             'address_id' => Address::factory(),
@@ -47,6 +47,14 @@ class ExamFactory extends Factory
             return[
                 'begin_time' => Carbon::now()->subDay(),
                 'end_time' => Carbon::now()->subDay()->addHour()
+            ];
+        });
+    }
+
+    public function cancelled(){
+        return $this->state(function(){
+            return[
+                'is_cancelled' => true,
             ];
         });
     }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
-            $table->string('content');
+            $table->json('content');
             $table->boolean('is_correct')->default(false);
             $table->foreignId('task_variant_id')
                 ->constrained('task_variants')

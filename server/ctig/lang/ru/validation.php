@@ -34,7 +34,7 @@ return [
     ],
     'boolean' => 'Значение поля :attribute должно быть булевым.',
     'can' => 'The :attribute field contains an unauthorized value.',
-    'confirmed' => 'The :attribute field confirmation does not match.',
+    'confirmed' => 'Подтверждение поля :attribute не совпадает.',
     'contains' => 'The :attribute field is missing a required value.',
     'current_password' => 'Неверный пароль.',
     'date' => 'В поле :attribute должна быть указана действительная дата.',
@@ -109,7 +109,7 @@ return [
         'array' => 'The :attribute field must have at least :min items.',
         'file' => 'The :attribute field must be at least :min kilobytes.',
         'numeric' => 'Значение поля :attribute должно быть не меньше :min.',
-        'string' => 'The :attribute field must be at least :min characters.',
+        'string' => 'Поле :attribute должно содержать не менее :min символов.',
     ],
     'min_digits' => 'The :attribute field must have at least :min digits.',
     'missing' => 'The :attribute field must be missing.',
@@ -234,7 +234,9 @@ return [
         'sublockId' => 'подблока',
         'banReason' => 'причина аннулирования',
         'cancelledReason' => 'причина отмены',
-        'date' => 'дата'
+        'date' => 'дата',
+        'newPassword'=> 'новый пароль',
+
     ],
 
 ];

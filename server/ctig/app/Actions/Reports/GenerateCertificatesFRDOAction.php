@@ -27,21 +27,21 @@ class GenerateCertificatesFRDOAction{
         $sheet->setCellValue('A3', 'Иван Иванов');
         $row = 3;
         foreach($attempts as $attempt){
-            //echo var_dump($attempt->exam->examType->certificate_name);
-            $sheet->setCellValue('A'.$row, $attempt->student->surname);
-            $sheet->setCellValue('B'.$row, $attempt->student->name);
-            $sheet->setCellValue('C'.$row, $attempt->student->patronymic);
-            $sheet->setCellValue('D'.$row, Carbon::parse($attempt->student->date_birth)->format('d.m.Y'));
-            $sheet->setCellValue('E'.$row, Carbon::parse($attempt->exam->date)->year);
-            $sheet->setCellValue('F'.$row, $attempt->exam->examType->certificate_name);
-            $sheet->setCellValue('G'.$row, $attempt->student->surname_latin);
-            $sheet->setCellValue('H'.$row, $attempt->student->name_latin);
-            $sheet->setCellValue('I'.$row, $attempt->student->patronymic_latin);
+            $sheet->setCellValue("A$row", $attempt->student->surname);
+            $sheet->setCellValue("B$row", $attempt->student->name);
+            $sheet->setCellValue("C$row", $attempt->student->patronymic);
+            $sheet->setCellValue("D$row", Carbon::parse($attempt->student->date_birth)->format('d.m.Y'));
+            $sheet->setCellValue("E$row", Carbon::parse($attempt->exam->date)->year);
+            $sheet->setCellValue("F$row", $attempt->exam->examType->certificate_name);
+            $sheet->setCellValue("G$row", $attempt->student->surname_latin);
+            $sheet->setCellValue("H$row", $attempt->student->name_latin);
+            $sheet->setCellValue("I$row", $attempt->student->patronymic_latin);
             $passportData = trim($attempt->student->passport_series.' '.$attempt->student->passport_number);
-            $sheet->setCellValue('J'.$row, $passportData);
-            $sheet->setCellValue('K'.$row, $attempt->student->citizenship);
-            $sheet->setCellValue('M'.$row, $attempt->exam->address->address);
-            $sheet->setCellValue('N'.$row, $attempt->exam->address->address);
+            $sheet->setCellValue("J$row", $passportData);
+            $sheet->setCellValue("K$row", $attempt->student->citizenship);
+            $sheet->setCellValue("M$row", $attempt->exam->address->address);
+            $sheet->setCellValue("N$row", config('organization.addressOfIssuingCertificates'));
+            $sheet->setCellValue("O$row", config('organization.director'));
             $row++;
         }
         return $spreadsheet;

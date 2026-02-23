@@ -17,7 +17,7 @@ use App\Http\Controllers\Document\DocumentController;
 use App\Http\Controllers\StudentAnswer\StudentAnswerController;
 
 
-Route::middleware(['auth:sanctum'])->group(function (){
+Route::middleware(['auth:sanctum', 'abilities:access-system'])->group(function (){
     Route::get('attempts/to-check', [AttemptController::class, 'toCheck']);
     Route::apiResource( 'users', UserController::class);
 
@@ -77,7 +77,8 @@ Route::middleware(['auth:sanctum'])->group(function (){ //во время экз
 Route::post('attempts', [AttemptController::class, 'store'])
     ->middleware(['auth:sanctum']);//exam:prepare только для начинания попытки
 
-
+Route::post('password-change', [LoginController::class, 'changePassword'])
+    ->middleware(['auth:sanctum', 'abilities:change-password']);
     
 Route::post( 'users', [UserController::class, 'store']);
 

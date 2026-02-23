@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Attempt>
  */
-class ExamAttemptFactory extends Factory
+class AttemptFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -22,8 +22,8 @@ class ExamAttemptFactory extends Factory
         return [
             'student_id' => Student::factory(),
             'exam_id' => Exam::factory(),
-            'total_mark' => fake()->numberBetween(5, 20)
-
+            'total_mark' => null, //fake()->numberBetween(5, 20)
+            'started_at'=>now(),
         ];
     }
 

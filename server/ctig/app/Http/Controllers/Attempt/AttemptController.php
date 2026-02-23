@@ -70,7 +70,7 @@ class AttemptController extends Controller
             //$student->tokens()->delete();
             $student->token = $student->createToken(
                 'exam-token',
-                ['exam:access'],
+                ['access-exam'],
                 Carbon::now()->addMinutes($examDuration + 1)
             )->plainTextToken;
             return StudentAnswer::where('attempt_id', $attempt->id)->with(['taskVariant.answers', 'taskVariant.task'])->get(); 

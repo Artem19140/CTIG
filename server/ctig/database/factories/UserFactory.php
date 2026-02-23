@@ -19,7 +19,7 @@ class UserFactory extends Factory
             'surname' => fake()->randomElement(
                 [
                     'Рязанова',
-                    'Петорова',
+                    'Петрова',
                     'Привалова',
                     'Шинкевич',
                     'Майорова']

@@ -43,8 +43,8 @@ class ExamCodeController extends Controller
             $student->exam_code_expired_at = null;
             $student->save();
             return $student->createToken(
-            'pre-exam-token',
-            ['exam:prepare'],
+            'prepare-exam-token',
+            ['prepare-exam'],
             Carbon::now()->addMinutes(10)
             )->plainTextToken;
         });

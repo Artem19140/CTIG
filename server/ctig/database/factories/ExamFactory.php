@@ -42,6 +42,15 @@ class ExamFactory extends Factory
         });
     }
 
+    public function now(){
+        return $this->state(function(){
+            return[
+                'begin_time' => Carbon::now(),
+                'end_time' => Carbon::now()->addHour()
+            ];
+        });
+    }
+
     public function inPast(){
         return $this->state(function(){
             return[

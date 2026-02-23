@@ -37,7 +37,9 @@ class GenerateReferencesFRDOAction{
             $sheet->setCellValue("K$row", $passportData);
             $sheet->setCellValue("L$row", $attempt->student->citizenship);
             $sheet->setCellValue("N$row", $attempt->exam->address->address);
-            $sheet->setCellValue("O$row", $attempt->exam->address->address);
+            $sheet->setCellValue("O$row", Carbon::parse($attempt->exam->date)->format('d.m.Y'));
+            $sheet->setCellValue("P$row", 'Неуспешно');
+            $sheet->setCellValue("Q$row", config('organization.director'));
             $row++;
         }
         return $spreadsheet;

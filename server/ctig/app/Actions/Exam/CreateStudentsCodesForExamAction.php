@@ -21,7 +21,7 @@ final class CreateStudentsCodesForExamAction{
 
         $minutes = config('exam.code_generation_before_minutes'); 
         if(-$minutesBieforeBegin >= $minutes){
-            throw new BusinessException("Коды можно сформировать минимум за 40 минут до экзамена");
+            throw new BusinessException("Коды можно сформировать минимум за $minutes минут до экзамена");
         }
 
         $studentsExists = $exam->students()->exists();
@@ -47,9 +47,9 @@ final class CreateStudentsCodesForExamAction{
                     $student->save();
                     $saved = true;
                 }catch(QueryException $e){
-                    if ($e->getCode() !== '23000') {
-                        throw $e;
-                    }
+                    // if ($e->getCode() !== '23000') {
+                    //     throw $e;
+                    // }
                     $saved = false;
                 }
             }while(!$saved);

@@ -19,6 +19,7 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use App\Enums\TokenAbilitiesEnum;
 
 class AttemptController extends Controller
 {
@@ -69,8 +70,8 @@ class AttemptController extends Controller
             StudentAnswer::insert($examVariant);
             //$student->tokens()->delete();
             $student->token = $student->createToken(
-                'exam-token',
-                ['access-exam'],
+                TokenAbilitiesEnum::EXAM_ACCESS->value,
+                [TokenAbilitiesEnum::EXAM_ACCESS->value],
                 Carbon::now()->addMinutes($examDuration + 1)
             )->plainTextToken;
             return StudentAnswer::where('attempt_id', $attempt->id)->with(['taskVariant.answers', 'taskVariant.task'])->get(); 

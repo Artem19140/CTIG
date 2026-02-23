@@ -2,15 +2,16 @@
 
 namespace App\Http\Requests\Exam;
 
+use App\Models\User;
 use DateTime;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Dto\ExamDto;
 
 class ExamPostRequest extends FormRequest
 {
-    public function authorize(): bool
+    public function authorize(User $user): bool
     {
-        return true;
+        return $user->isAdmin();
     }
 
     public function rules(): array

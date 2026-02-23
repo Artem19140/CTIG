@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Login;
 
-use App\Exceptions\BusinessException;
+use App\Enums\TokenAbilitiesEnum;
 use App\Exceptions\ForbiddenException;
 use App\Http\Resources\User\UserResource;
-use App\Models\User;
 use Hash;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+
 
 
 class LoginController extends Controller
@@ -25,8 +25,8 @@ class LoginController extends Controller
             if($user->has_to_change_password){
                 $user->tokens()->delete();
                 $token = $user->createToken(
-                    'password-change',
-                    ['change-password'],
+                    TokenAbilitiesEnum::CHANGE_PASSWORD->value,
+                    [TokenAbilitiesEnum::CHANGE_PASSWORD->value],
                     now()->addMinutes(10))->plainTextToken;
                 return (new UserResource($user))
                             ->additional([
@@ -34,8 +34,8 @@ class LoginController extends Controller
                             ]);
             }
             $token = $user->createToken(
-                            'api', 
-                            ['access-system'],
+                            TokenAbilitiesEnum::SYSTEM_ACCESS->value, 
+                            [TokenAbilitiesEnum::SYSTEM_ACCESS->value],
                             now()->addDays(14))->plainTextToken;
             return (new UserResource($user))
                         ->additional([
@@ -59,7 +59,10 @@ class LoginController extends Controller
         ]);
 
         $user->currentAccessToken()->delete();
-        $token = $user->createToken('api', ['access-system'],now()->addDays(14))->plainTextToken;
+        $token = $user->createToken(
+                                TokenAbilitiesEnum::SYSTEM_ACCESS->value,
+                                [TokenAbilitiesEnum::SYSTEM_ACCESS->value],
+                                now()->addDays(14))->plainTextToken;
             return (new UserResource($user))
                         ->additional([
                             'token' => $token

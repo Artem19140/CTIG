@@ -26,6 +26,10 @@ class User extends Authenticatable
     public function documents(){
         return $this->belongsToMany(Document::class);
     }
+
+    public function isAdmin(){
+        return $this->is_admin;
+    }
     
     protected $fillable = [
         'surname',

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Student;
 use App\Actions\Exam\CreateStudentsCodesForExamAction;
+use App\Enums\TokenAbilitiesEnum;
 
 class ExamCodeController extends Controller
 {
@@ -43,8 +44,8 @@ class ExamCodeController extends Controller
             $student->exam_code_expired_at = null;
             $student->save();
             return $student->createToken(
-            'prepare-exam-token',
-            ['prepare-exam'],
+            TokenAbilitiesEnum::EXAM_PREPARE->value,
+            [TokenAbilitiesEnum::EXAM_PREPARE->value],
             Carbon::now()->addMinutes(10)
             )->plainTextToken;
         });

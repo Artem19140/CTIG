@@ -15,6 +15,7 @@ use App\Http\Resources\TaskVariant\TaskVariantResource;
 use App\Models\Exam;
 use App\Models\Attempt;
 use App\Models\StudentAnswer;
+use App\Models\TaskVariant;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
@@ -50,7 +51,7 @@ class AttemptController extends Controller
         
         $exam = Exam::with('examType.blocks.subblocks.tasks.variants') // мб урбать answers
                     ->find($student->exam_id);
-        $tasks = DB::transaction(function () use($student, $exam, $formAttemptExamVariant) {
+        $examAttempt = DB::transaction(function () use($student, $exam, $formAttemptExamVariant) {
             $examDuration = $exam->examType->duration;
             $attempt = Attempt::create([
                     'student_id' => $student->id,
@@ -74,10 +75,11 @@ class AttemptController extends Controller
                 [TokenAbilities::ExamAccess->value],
                 Carbon::now()->addMinutes($examDuration + 1)
             )->plainTextToken;
-            return StudentAnswer::where('attempt_id', $attempt->id)->with(['taskVariant.answers', 'taskVariant.task'])->get(); 
+            $attempt->load(['answers.taskVariant.answers', 'student']);
+            return $attempt;
         });
         return $this
-            ->created(StudentAnswerResource::collection($tasks)
+            ->created(new AttemptResource($examAttempt)
                 ->additional(['token' => $student->token])
             );
     }
@@ -152,6 +154,7 @@ class AttemptController extends Controller
                                                 ->exists();
             $checkPassingThreshold->execute($attempt);
             if(!$hasUncheckedManualAnswers){
+                //вынести в action, потом мокать
                 //$attempt->checked();
                 $markCount = $attempt->answers()->sum('mark');
                 $hasPassed = $checkPassingThreshold->execute($attempt);

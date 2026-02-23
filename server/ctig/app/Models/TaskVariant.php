@@ -26,4 +26,8 @@ class TaskVariant extends Model
     public function task(): BelongsTo{
         return $this->belongsTo( Task::class, "task_id");
     }
+
+    public function studentAnswers(): HasMany{
+        return $this->hasMany(StudentAnswer::class, 'task_variant_id');
+    }
 }

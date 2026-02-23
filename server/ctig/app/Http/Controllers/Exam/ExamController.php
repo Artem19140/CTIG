@@ -65,6 +65,7 @@ class ExamController extends Controller
 
     public function destroy(Exam $exam)
     {
+        //только методист
         request()->validate( [
             'cancelledReason' => ['required', 'string']
         ]);
@@ -84,6 +85,7 @@ class ExamController extends Controller
     }
 
     public function state(Exam $exam){
+        //только тестер
         if($exam->isPassed()){
             throw new BusinessException('Экзамен уже прошел');
         }

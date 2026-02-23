@@ -18,7 +18,7 @@ use App\Http\Controllers\StudentAnswer\StudentAnswerController;
 use App\Enums\TokenAbilities;
 
 
-Route::middleware(['auth:sanctum', "abilities:".TokenAbilities::SystemAccess->value])->group(function (){
+Route::middleware(['auth:sanctum'])->group(function (){//, "abilities:".TokenAbilities::SystemAccess->value
     Route::get('attempts/to-check', [AttemptController::class, 'toCheck']);
     Route::apiResource( 'users', UserController::class);
 

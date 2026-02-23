@@ -33,28 +33,28 @@ class Attempt extends Model
         'is_passed' => 'boolean',
     ];
 
-    public function isExpired(){
+    public function isExpired(): bool{
         return $this->expired_at->isPast();
     }
 
-    public function finish(){
+    public function finish(): AttemptStatus{
         $this->finished_at = Carbon::now();
         return $this->status = AttemptStatus::Finished;
     }
 
-    public function checked(){
+    public function checked(): AttemptStatus{
         return $this->status = AttemptStatus::Checked;
     }
 
-    public function isActive(){
+    public function isActive(): bool{
         return $this->status === AttemptStatus::Active;
     }
 
-    public function isBanned(){
+    public function isBanned(): bool{
         return $this->status === AttemptStatus::Banned;
     }
 
-    public function isFinished(){
+    public function isFinished(): bool{
         return $this->status === AttemptStatus::Finished;
     }
 
@@ -70,7 +70,7 @@ class Attempt extends Model
         return $this->hasMany(StudentAnswer::class, 'attempt_id');
     }
 
-    public function violations(){
+    public function violations(): HasMany{
         return $this->hasMany(Violation::class, 'attempt_id');
     }
 }

@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Attempt;
 use App\Actions\Attempt\FormAttemptExamVariantAction;
 use App\Actions\Attempt\GetDetailedAttemptResultsAction;
 use App\Actions\Exam\CheckPassingThresholdAction;
-use App\Enums\AttemptStatusEnum;
-use App\Enums\TaskTypeEnum;
+use App\Enums\AttemptStatus;
+use App\Enums\TaskType;
 use App\Exceptions\BusinessException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Attempt\AttemptResource;
@@ -19,7 +19,7 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use App\Enums\TokenAbilitiesEnum;
+use App\Enums\TokenAbilities;
 
 class AttemptController extends Controller
 {
@@ -41,7 +41,7 @@ class AttemptController extends Controller
     {
         $student=$request->user();
         $hasCurrentExamAttempt = $student->attempts()
-                                    ->where('status',  AttemptStatusEnum::Active)
+                                    ->where('status',  AttemptStatus::Active)
                                     ->exists();
                                     
         // if($hasCurrentExamAttempt){
@@ -70,8 +70,8 @@ class AttemptController extends Controller
             StudentAnswer::insert($examVariant);
             //$student->tokens()->delete();
             $student->token = $student->createToken(
-                TokenAbilitiesEnum::EXAM_ACCESS->value,
-                [TokenAbilitiesEnum::EXAM_ACCESS->value],
+                TokenAbilities::ExamAccess->value,
+                [TokenAbilities::ExamAccess->value],
                 Carbon::now()->addMinutes($examDuration + 1)
             )->plainTextToken;
             return StudentAnswer::where('attempt_id', $attempt->id)->with(['taskVariant.answers', 'taskVariant.task'])->get(); 
@@ -97,7 +97,7 @@ class AttemptController extends Controller
             throw new BusinessException('Попытка уже аннулирована');
         }
         $attempt->ban_reason = $request->input('banReason');
-        $attempt->status = AttemptStatusEnum::Banned;
+        $attempt->status = AttemptStatus::Banned;
         $attempt->save();
     }
 
@@ -114,7 +114,7 @@ class AttemptController extends Controller
 
         $studentAnswer =  $attempt->answers()->with('taskVariant')
                                         ->whereHas('taskVariant.task', function(Builder $query){
-                                            $query->where('type', TaskTypeEnum::Speaking);
+                                            $query->where('type', TaskType::Speaking);
                                         })
                                         ->get();
         $taskVariants=$studentAnswer->pluck('taskVariant');
@@ -133,7 +133,7 @@ class AttemptController extends Controller
             $emptyAnswers =  $attempt->answers()
                                     ->where('is_checked', false)
                                     ->whereHas('taskVariant.task', function(Builder $query){
-                                        $query->whereIn('type', TaskTypeEnum::autoCheckTypes());
+                                        $query->whereIn('type', TaskType::autoCheckTypes());
                                     })
                                     ->get();
             if($emptyAnswers->isNotEmpty()){
@@ -147,7 +147,7 @@ class AttemptController extends Controller
             $hasUncheckedManualAnswers = $attempt->answers()
                                                 ->where('is_checked', false)
                                                 ->whereHas('taskVariant.task', function(Builder $query){
-                                                    $query->whereIn('type', TaskTypeEnum::manualCheckTypes());
+                                                    $query->whereIn('type', TaskType::manualCheckTypes());
                                                 })
                                                 ->exists();
             $checkPassingThreshold->execute($attempt);
@@ -172,17 +172,17 @@ class AttemptController extends Controller
         $uncheckedAnswers =  $attempt->answers()
                                     ->where('is_checked', false)
                                     ->whereHas('attempt', function(Builder $query){
-                                        $query->where('status', AttemptStatusEnum::Finished);
+                                        $query->where('status', AttemptStatus::Finished);
                                     })
                                     ->whereHas('taskVariant.task', function(Builder $query){
-                                        $query->whereIn('type', TaskTypeEnum::manualCheckTypes());
+                                        $query->whereIn('type', TaskType::manualCheckTypes());
                                     })
                                     ->get();
         return $this->ok(StudentAnswerResource::collection($uncheckedAnswers));
     }
 
     public function toCheck(){
-        $uncheckedAttempts = Attempt::where('status', AttemptStatusEnum::Finished)->get();
+        $uncheckedAttempts = Attempt::where('status', AttemptStatus::Finished)->get();
         return AttemptResource::collection($uncheckedAttempts);
     }
 

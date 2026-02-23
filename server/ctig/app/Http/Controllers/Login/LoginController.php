@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Login;
 
-use App\Enums\TokenAbilitiesEnum;
+use App\Enums\TokenAbilities;
 use App\Exceptions\ForbiddenException;
 use App\Http\Resources\User\UserResource;
 use Hash;
@@ -25,8 +25,8 @@ class LoginController extends Controller
             if($user->has_to_change_password){
                 $user->tokens()->delete();
                 $token = $user->createToken(
-                    TokenAbilitiesEnum::CHANGE_PASSWORD->value,
-                    [TokenAbilitiesEnum::CHANGE_PASSWORD->value],
+                    TokenAbilities::ChangePassword->value,
+                    [TokenAbilities::ChangePassword->value],
                     now()->addMinutes(10))->plainTextToken;
                 return (new UserResource($user))
                             ->additional([
@@ -34,8 +34,8 @@ class LoginController extends Controller
                             ]);
             }
             $token = $user->createToken(
-                            TokenAbilitiesEnum::SYSTEM_ACCESS->value, 
-                            [TokenAbilitiesEnum::SYSTEM_ACCESS->value],
+                            TokenAbilities::SystemAccess->value, 
+                            [TokenAbilities::SystemAccess->value],
                             now()->addDays(14))->plainTextToken;
             return (new UserResource($user))
                         ->additional([
@@ -60,8 +60,8 @@ class LoginController extends Controller
 
         $user->currentAccessToken()->delete();
         $token = $user->createToken(
-                                TokenAbilitiesEnum::SYSTEM_ACCESS->value,
-                                [TokenAbilitiesEnum::SYSTEM_ACCESS->value],
+                                TokenAbilities::SystemAccess->value,
+                                [TokenAbilities::SystemAccess->value],
                                 now()->addDays(14))->plainTextToken;
             return (new UserResource($user))
                         ->additional([

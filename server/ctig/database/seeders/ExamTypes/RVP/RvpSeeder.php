@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\ExamTypes\RVP;
 
-use App\Enums\TaskTypeEnum;
+use App\Enums\TaskType;
 use App\Models\Answer;
 use App\Models\Block;
 use App\Models\ExamType;
@@ -109,7 +109,7 @@ class RvpSeeder extends Seeder
             'min_mark' => 6,
             'tasks' => [
                 [
-                    'type' => TaskTypeEnum::Speaking,
+                    'type' => TaskType::Speaking,
                     'description' => 'Начните диалог.',
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($path.'task1.json')), true)

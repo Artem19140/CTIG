@@ -2,7 +2,7 @@
 
 namespace App\Actions\Reports;
 
-use App\Enums\AttemptStatusEnum;
+use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Models\Attempt;
 use Carbon\Carbon;
@@ -17,7 +17,7 @@ class GenerateCertificatesFRDOAction{
                             ->where('finished_at', '>=',$examDate->copy()->startOfDay())
                             ->where('finished_at', '<=',$examDate->copy()->endOfDay())
                             ->where('is_passed',true)
-                            ->where('status', AttemptStatusEnum::Checked)
+                            ->where('status', AttemptStatus::Checked)
                             ->get();
         if($attempts->isEmpty()){
             throw new BusinessException('Данных для сертификатов нету');

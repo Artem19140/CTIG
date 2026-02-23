@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\StudentAnswer;
 
-use App\Enums\AttemptStatusEnum;
+use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Http\Resources\StudentAnswer\StudentAnswerResource;
 use App\Models\StudentAnswer;
@@ -38,7 +38,7 @@ class StudentAnswerController extends Controller
             throw new BusinessException('Время экзамена вышло');
         }
 
-        if($attempt->status != AttemptStatusEnum::Active){
+        if($attempt->status != AttemptStatus::Active){
             $request->user()->tokens()->delete();
             throw new BusinessException('Попытка неактивна');
         }

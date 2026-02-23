@@ -11,7 +11,7 @@ class ExamPostRequest extends FormRequest
 {
     public function authorize(User $user): bool
     {
-        return $user->isAdmin();
+        return true;
     }
 
     public function rules(): array

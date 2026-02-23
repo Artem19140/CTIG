@@ -2,10 +2,10 @@
 
 namespace App\Enums;
 
-enum TaskTypeEnum:string
+enum TaskType:string
 {
-    case SingleChoice = 'single_choice';
-    case TextInput = 'text_input';
+    case SingleChoice = 'single-choice';
+    case TextInput = 'text-input';
     case Essay = 'essay';
     case Speaking = 'speaking';
 

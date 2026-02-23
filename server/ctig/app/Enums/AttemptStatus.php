@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum AttemptStatusEnum:string
+enum AttemptStatus:string
 {
     case Active = 'active'; //active
     case Finished = 'finished';

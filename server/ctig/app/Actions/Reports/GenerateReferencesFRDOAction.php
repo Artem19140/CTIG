@@ -2,7 +2,7 @@
 
 namespace App\Actions\Reports;
 
-use App\Enums\AttemptStatusEnum;
+use App\Enums\AttemptStatus;
 use App\Models\Attempt;
 use Carbon\Carbon;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -15,7 +15,7 @@ class GenerateReferencesFRDOAction{
                             ->where('finished_at', '>=',$examDate->copy()->startOfDay())
                             ->where('finished_at', '<=',$examDate->copy()->endOfDay())
                             ->where('is_passed',false)
-                            ->where('status', AttemptStatusEnum::Checked)
+                            ->where('status', AttemptStatus::Checked)
                             ->get();
         $spreadsheet = IOFactory::load($templatePath);
         $sheet = $spreadsheet->getActiveSheet();

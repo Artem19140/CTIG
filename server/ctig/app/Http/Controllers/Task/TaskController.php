@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Task;
 
-use App\Enums\TaskTypeEnum;
+use App\Enums\TaskType;
 use App\Exceptions\BusinessException;
 use App\Exceptions\EntityNotFoundExсeption;
 use App\Models\Subblock;
@@ -22,7 +22,7 @@ class TaskController extends Controller
 
     public function store(StoreTaskRequest $request)
     {       
-        if(!TaskTypeEnum::tryFrom(request()->input('type'))){
+        if(!TaskType::tryFrom(request()->input('type'))){
             throw new BusinessException('Неверный тип задания');
         }
         $subblock = Subblock::find(request()->input('subblockId'));

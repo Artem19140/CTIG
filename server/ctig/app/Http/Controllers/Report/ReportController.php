@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Report;
 
 use App\Actions\Reports\GenerateCertificatesFRDOAction;
 use App\Actions\Reports\GenerateReferencesFRDOAction;
-use App\Enums\AttemptStatusEnum;
+use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Models\Attempt;
 use Carbon\Carbon;
@@ -27,7 +27,7 @@ class ReportController extends Controller
         $examDate = Carbon::parse($request->input('date'));
         $unCheckedAttempts = Attempt::where('finished_at', '>=',$examDate->copy()->startOfDay())
                                     ->where('finished_at', '<=',$examDate->copy()->endOfDay())
-                                    ->whereIn('status', AttemptStatusEnum::unChecked())
+                                    ->whereIn('status', AttemptStatus::unChecked())
                                     ->exists();
 
         if($unCheckedAttempts){

@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Enums\AttemptStatusEnum;
+use App\Enums\AttemptStatus;
 use App\Models\Exam;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -30,7 +30,7 @@ class AttemptFactory extends Factory
     public function banned(){
         return $this->state(function (){
             return[
-                'status'=> AttemptStatusEnum::Banned
+                'status'=> AttemptStatus::Banned
             ];
         });
     }

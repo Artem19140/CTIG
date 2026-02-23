@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\ExamTypes\PATENT;
 
-use App\Enums\TaskTypeEnum;
+use App\Enums\TaskType;
 use App\Models\Answer;
 use App\Models\Block;
 use App\Models\ExamType;
@@ -108,22 +108,22 @@ class PatentSeeder extends Seeder
             'min_mark' => 2,
             'tasks' => [
                 [
-                    'type' => TaskTypeEnum::SingleChoice,
+                    'type' => TaskType::SingleChoice,
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task1.json')), true)
                 ],
                 [
-                    'type' => TaskTypeEnum::SingleChoice,
+                    'type' => TaskType::SingleChoice,
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task2.json')), true)
                 ],
                 [
-                    'type' => TaskTypeEnum::SingleChoice,
+                    'type' => TaskType::SingleChoice,
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task3.json')), true)
                 ],
                 [
-                    'type' => TaskTypeEnum::SingleChoice,
+                    'type' => TaskType::SingleChoice,
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task4.json')), true)
                 ]
@@ -138,13 +138,13 @@ class PatentSeeder extends Seeder
             'min_mark' => 0,
             'tasks' => [
                 [
-                    'type' => TaskTypeEnum::SingleChoice,
+                    'type' => TaskType::SingleChoice,
                     'description' => 'Прочитайте объявление и выберите правильный ответ.',
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task5.json')), true)
                 ],
                 [
-                    'type' => TaskTypeEnum::SingleChoice,
+                    'type' => TaskType::SingleChoice,
                     'description' => 'Прочитайте текст и выберите правильный ответ.',
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task6.json')), true)
@@ -159,7 +159,7 @@ class PatentSeeder extends Seeder
             'min_mark' => 0,
             'tasks' => [
                 [
-                    'type' => TaskTypeEnum::SingleChoice,
+                    'type' => TaskType::SingleChoice,
                     'description' => 'Прочитайте текст и вставьте пропущенное слово.',
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task7.json')), true)
@@ -174,22 +174,22 @@ class PatentSeeder extends Seeder
             'min_mark' => 0,
             'tasks' => [
                 [
-                    'type' => TaskTypeEnum::SingleChoice,
+                    'type' => TaskType::SingleChoice,
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task8.json')), true)
                 ],
                 [
-                    'type' => TaskTypeEnum::SingleChoice,
+                    'type' => TaskType::SingleChoice,
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task9.json')), true)
                 ],
                 [
-                    'type' => TaskTypeEnum::SingleChoice,
+                    'type' => TaskType::SingleChoice,
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task10.json')), true)
                 ],
                 [
-                    'type' => TaskTypeEnum::SingleChoice,
+                    'type' => TaskType::SingleChoice,
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task11.json')), true)
                 ]
@@ -207,27 +207,27 @@ class PatentSeeder extends Seeder
                     'min_mark'=> 0,
                     'tasks' => [
                         [
-                            'type' => TaskTypeEnum::SingleChoice,
+                            'type' => TaskType::SingleChoice,
                             'mark' => 1,
                             'variants'=> json_decode(file_get_contents(base_path($this->path.'task12.json')), true)
                         ],
                         [
-                            'type' => TaskTypeEnum::SingleChoice,
+                            'type' => TaskType::SingleChoice,
                             'mark' => 1,
                             'variants'=> json_decode(file_get_contents(base_path($this->path.'task13.json')), true)
                         ],
                         [
-                            'type' => TaskTypeEnum::SingleChoice,
+                            'type' => TaskType::SingleChoice,
                             'mark' => 1,
                             'variants'=> json_decode(file_get_contents(base_path($this->path.'task14.json')), true)
                         ],
                         [
-                            'type' => TaskTypeEnum::SingleChoice,
+                            'type' => TaskType::SingleChoice,
                             'mark' => 1,
                             'variants'=> json_decode(file_get_contents(base_path($this->path.'task15.json')), true)
                         ],
                         [
-                            'type' => TaskTypeEnum::SingleChoice,
+                            'type' => TaskType::SingleChoice,
                             'mark' => 1,
                             'variants'=> json_decode(file_get_contents(base_path($this->path.'task16.json')), true)
                         ]
@@ -247,32 +247,32 @@ class PatentSeeder extends Seeder
                     'min_mark'=> 0,
                     'tasks' => [
                         [
-                            'type' => TaskTypeEnum::SingleChoice,
+                            'type' => TaskType::SingleChoice,
                             'mark' => 1,
                             'variants'=> json_decode(file_get_contents(base_path($this->path.'task17.json')), true)
                         ],
                         [
-                            'type' => TaskTypeEnum::SingleChoice,
+                            'type' => TaskType::SingleChoice,
                             'mark' => 1,
                             'variants'=> json_decode(file_get_contents(base_path($this->path.'task18.json')), true)
                         ],
                         [
-                            'type' => TaskTypeEnum::SingleChoice,
+                            'type' => TaskType::SingleChoice,
                             'mark' => 1,
                             'variants'=> json_decode(file_get_contents(base_path($this->path.'task19.json')), true)
                         ],
                         [
-                            'type' => TaskTypeEnum::SingleChoice,
+                            'type' => TaskType::SingleChoice,
                             'mark' => 1,
                             'variants'=> json_decode(file_get_contents(base_path($this->path.'task20.json')), true)
                         ],
                         [
-                            'type' => TaskTypeEnum::SingleChoice,
+                            'type' => TaskType::SingleChoice,
                             'mark' => 1,
                             'variants'=> json_decode(file_get_contents(base_path($this->path.'task21.json')), true)
                         ],
                         [
-                            'type' => TaskTypeEnum::SingleChoice,
+                            'type' => TaskType::SingleChoice,
                             'mark' => 1,
                             'variants'=> json_decode(file_get_contents(base_path($this->path.'task22.json')), true)
                         ]

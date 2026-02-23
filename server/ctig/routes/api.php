@@ -15,10 +15,10 @@ use App\Http\Controllers\Task\TaskController;
 use App\Http\Controllers\ExamStudent\ExamStudentController;
 use App\Http\Controllers\Document\DocumentController;
 use App\Http\Controllers\StudentAnswer\StudentAnswerController;
-use App\Enums\TokenAbilitiesEnum;
+use App\Enums\TokenAbilities;
 
 
-Route::middleware(['auth:sanctum', "abilities:".TokenAbilitiesEnum::SYSTEM_ACCESS->value])->group(function (){
+Route::middleware(['auth:sanctum', "abilities:".TokenAbilities::SystemAccess->value])->group(function (){
     Route::get('attempts/to-check', [AttemptController::class, 'toCheck']);
     Route::apiResource( 'users', UserController::class);
 
@@ -68,7 +68,7 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::post( 'exam-codes/verify', [ExamCodeController::class, 'verify']);
 
 
-Route::middleware(['auth:sanctum', "abilities:".TokenAbilitiesEnum::EXAM_ACCESS->value])->group(function (){ //во время экзамена
+Route::middleware(['auth:sanctum', "abilities:".TokenAbilities::ExamAccess->value])->group(function (){ //во время экзамена
     Route::put('student-answers/{studentAnswer}', [StudentAnswerController::class, 'update']);
     Route::post('violations', [ViolationController::class, 'store']);
     Route::put('attempts/{attempt}/finish', [AttemptController::class, 'finish']);
@@ -76,10 +76,10 @@ Route::middleware(['auth:sanctum', "abilities:".TokenAbilitiesEnum::EXAM_ACCESS-
 
 
 Route::post('attempts', [AttemptController::class, 'store'])
-    ->middleware(['auth:sanctum', "abilities:".TokenAbilitiesEnum::EXAM_PREPARE->value]);//exam:prepare только для начинания попытки
+    ->middleware(['auth:sanctum', "abilities:".TokenAbilities::ExamPrepare->value]);//exam:prepare только для начинания попытки
 
 Route::post('password-change', [LoginController::class, 'changePassword'])
-    ->middleware(['auth:sanctum', "abilities:".TokenAbilitiesEnum::CHANGE_PASSWORD->value]);
+    ->middleware(['auth:sanctum', "abilities:".TokenAbilities::ChangePassword->value]);
     
 Route::post( 'users', [UserController::class, 'store']);
 

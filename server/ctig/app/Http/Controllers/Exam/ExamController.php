@@ -3,17 +3,14 @@
 namespace App\Http\Controllers\Exam;
 
 use App\Exceptions\BusinessException;
-use App\Exceptions\EntityNotFoundExсeption;
-use App\Models\Address;
 use App\Models\Exam;
-use App\Models\ExamType;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Resources\Exam\ExamResource;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Exam\ExamPostRequest;
 use App\Actions\Exam\CreateExamAction;
+use Illuminate\Support\Facades\Gate;
 
 class ExamController extends Controller
 {
@@ -47,6 +44,10 @@ class ExamController extends Controller
 
     public function store(ExamPostRequest $request, CreateExamAction $createExamAction)
     {       
+        // if($request->user()->cannot('create', Exam::class)){
+        //     abort(403, 'Нет доступа');
+        // }
+        //Gate::authorize('create', Exam::class);
         $exam = $createExamAction->handle($request->getDto(),$request->user()->id);
         return $this->created(new ExamResource($exam));
     }

@@ -3,13 +3,13 @@
 
 namespace App\Services;
 
-use App\Enums\TaskTypeEnum;
+use App\Enums\TaskType;
 
 
 class StudentAnswerCheckService{
     public function check($taskType, $studentAnswer, $rigthAnswer): bool{
         return match($taskType){
-            TaskTypeEnum::SingleChoice, TaskTypeEnum::TextInput=> $studentAnswer === $rigthAnswer
+            TaskType::SingleChoice, TaskType::TextInput=> $studentAnswer === $rigthAnswer
         };
     }
 

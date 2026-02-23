@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\AttemptStatusEnum;
+use App\Enums\AttemptStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +16,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->foreignId('exam_id')
                 ->constrained('exams');
-            $table->string('status')->default(AttemptStatusEnum::Active);
+            $table->string('status')->default(AttemptStatus::Active);
             $table->dateTime('expired_at');
             $table->string('ban_reason')->nullable()->default(null);
             $table->unsignedTinyInteger('total_mark')->default(0);

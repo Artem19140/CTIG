@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Enums\TaskTypeEnum;
+use App\Enums\TaskType;
 
 class Task extends Model
 {
@@ -16,7 +16,7 @@ class Task extends Model
     ];
 
     protected $casts = [
-        'type' => TaskTypeEnum::class
+        'type' => TaskType::class
     ];
 
     public function variants() : HasMany{

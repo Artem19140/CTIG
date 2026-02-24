@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\StudentAnswer;
 
+use App\Actions\StudentAnswer\HandleStudentAnswerAction;
 use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Http\Resources\StudentAnswer\StudentAnswerResource;
 use App\Models\StudentAnswer;
-use App\Services\StudentAnswerCheckService;
+
+use Carbon\Carbon;
 use DB;
 use FinalizeAttemptCheckingAction;
 use Illuminate\Http\Request;
@@ -21,12 +23,13 @@ class StudentAnswerController extends Controller
         return StudentAnswerResource::collection($answers);
     }
 
-    public function update(Request $request, StudentAnswer $studentAnswer, StudentAnswerCheckService $studentAnswerCheckService)//StudentAnswerCheckService $studentAnswerCheckService
+    public function update(
+                            Request $request,
+                            StudentAnswer $studentAnswer, 
+                            HandleStudentAnswerAction $handleStudentAnswer
+                        )
     {
         $student = $request->user();
-        $request->validate([
-            'studentAnswer' => ['nullable', 'array']
-        ]);
         $studentAnswer->load('attempt');
         $attempt = $studentAnswer->attempt;
         // if($student->id != $attempt->student_id){
@@ -44,29 +47,9 @@ class StudentAnswerController extends Controller
             throw new BusinessException('Попытка неактивна');
         }
 
-        $studentAnswer->load(['taskVariant.task', 'taskVariant.answers']);
-        $task = $studentAnswer->taskVariant->task;
-        if(!$task->type->hasAnswers()){
-            throw new BusinessException('Данному типу задания нельзя загрузить ответ');
-        }
-        DB::transaction(function()use($studentAnswer, $task, $request, $studentAnswerCheckService, $attempt){
-            if($task->type->autoCheck()){
-                $answers = (array) $request->input('studentAnswer',[]);
-                $rightAnswers = $studentAnswer->taskVariant->answers->where('is_correct')->toArray(); //->pluck("content")
-                sort($rightAnswers);
-                sort($answers);
-                $isCorrect = $studentAnswerCheckService->check($task->type, $answers,$rightAnswers);
-                if($isCorrect){
-                    $studentAnswer->mark = $task->mark;
-                }else{
-                    $studentAnswer->mark = 0;
-                }  
-                    $studentAnswer->is_checked = true;
-            }
-            
-            $studentAnswer->student_answer = $request->input('studentAnswer');
-            $studentAnswer->save();
-            $attempt->last_activity_at = now();
+        DB::transaction(function()use($studentAnswer, $request,$attempt,$handleStudentAnswer){
+            $handleStudentAnswer->execute($studentAnswer,$request->input('studentAnswer'));
+            $attempt->last_activity_at = Carbon::now();
             $attempt->save();
         });
         

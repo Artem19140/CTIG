@@ -7,7 +7,6 @@ use App\Enums\TaskType;
 
 class AnswerCheckService{
     public function check(array $answers, array $rightAnswers,  $taskType){
-        
         $result = match($taskType){
             TaskType::SingleChoice =>  $this->singleChoice($answers, $rightAnswers),
             TaskType::TextInput => $this->textInput($answers, $rightAnswers)
@@ -25,6 +24,10 @@ class AnswerCheckService{
         $normalize = fn($val) => strtolower(trim((string)$val));
         $answers = array_map($normalize, $answers);
         $rightAnswers = array_map($normalize, $rightAnswers);
-        return !empty(array_intersect($answers, $rightAnswers)) && count($answers)=== 1;
+        if (\count($answers) !== 1) {
+            return false;
+        }
+
+        return !empty(array_intersect($answers, $rightAnswers));
     }
 }

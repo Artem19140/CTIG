@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Attempt;
 
-use App\Actions\Attempt\FormAttemptExamVariantAction;
+use App\Actions\Attempt\GenerateExamVariantAction;
 use App\Actions\Attempt\GetDetailedAttemptResultsAction;
-use App\Actions\Exam\CheckPassingThresholdAction;
 use App\Enums\AttemptStatus;
 use App\Enums\TaskType;
 use App\Exceptions\BusinessException;
@@ -15,12 +14,13 @@ use App\Http\Resources\TaskVariant\TaskVariantResource;
 use App\Models\Exam;
 use App\Models\Attempt;
 use App\Models\StudentAnswer;
-use App\Models\TaskVariant;
 use Carbon\Carbon;
 use DB;
+use FinalizeAttemptCheckingAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Enums\TokenAbilities;
+use ZeroEmptyAutoCheckAnswersAction;
 
 class AttemptController extends Controller
 {
@@ -38,7 +38,7 @@ class AttemptController extends Controller
         return AttemptResource::collection($examAttempts);
     }
 
-    public function store(Request $request, FormAttemptExamVariantAction $formAttemptExamVariant)
+    public function store(Request $request, GenerateExamVariantAction $generateAttemptExamVariant)
     {
         $student=$request->user();
         $hasCurrentExamAttempt = $student->attempts()
@@ -51,7 +51,7 @@ class AttemptController extends Controller
         
         $exam = Exam::with('examType.blocks.subblocks.tasks.variants') // мб урбать answers
                     ->find($student->exam_id);
-        $examAttempt = DB::transaction(function () use($student, $exam, $formAttemptExamVariant) {
+        $examAttempt = DB::transaction(function () use($student, $exam, $generateAttemptExamVariant) {
             $examDuration = $exam->examType->duration;
             $attempt = Attempt::create([
                     'student_id' => $student->id,
@@ -66,7 +66,7 @@ class AttemptController extends Controller
                 ->pluck('tasks')
                 ->flatten(); 
 
-            $examVariant = $formAttemptExamVariant->execute($tasks, $exam, $attempt, $student);
+            $examVariant = $generateAttemptExamVariant->execute($tasks, $exam, $attempt, $student);
             
             StudentAnswer::insert($examVariant);
             //$student->tokens()->delete();
@@ -95,12 +95,15 @@ class AttemptController extends Controller
         $request->validate([
             'banReason' => ['required', 'string']
         ]);
+        
         if($attempt->isBanned()){
             throw new BusinessException('Попытка уже аннулирована');
         }
         $attempt->ban_reason = $request->input('banReason');
+        $attempt->ban_by_id = $request->user()->id;
         $attempt->status = AttemptStatus::Banned;
         $attempt->save();
+        return $this->noContent();
     }
 
     public function speaking(Attempt $attempt){
@@ -123,28 +126,24 @@ class AttemptController extends Controller
         return TaskVariantResource::collection($taskVariants);
     }
 
-    public function finish(Attempt $attempt, CheckPassingThresholdAction $checkPassingThreshold)
+    public function finish(
+                                Attempt $attempt, 
+                                FinalizeAttemptCheckingAction $finalizeAttemptChecking,
+                                ZeroEmptyAutoCheckAnswersAction $zeroEmptyAutoAnswers
+                           )
     {
-        if(!$attempt->status->canBeFinished()){
+        if(!$attempt->isActive()){
             throw new BusinessException('Попытка уже завершена или аннулирована');
         }
 
-        DB::transaction(function() use($attempt, $checkPassingThreshold){
-            $attempt->finish();
+        DB::transaction(function() use(
+                                                    $attempt,
+                                                    $finalizeAttemptChecking,
+                                                    $zeroEmptyAutoAnswers
+                                                ){
+            $attempt->finish();//lockUpdate мб
             //request()->user()->tokens()->delete();
-            $emptyAnswers =  $attempt->answers()
-                                    ->where('is_checked', false)
-                                    ->whereHas('taskVariant.task', function(Builder $query){
-                                        $query->whereIn('type', TaskType::autoCheckTypes());
-                                    })
-                                    ->get();
-            if($emptyAnswers->isNotEmpty()){
-                $emptyAnswers->each(function ($answer){
-                    $answer->is_checked = true;
-                    $answer->mark = 0;
-                    $answer->save();
-                });
-            }
+            $zeroEmptyAutoAnswers->execute($attempt);
 
             $hasUncheckedManualAnswers = $attempt->answers()
                                                 ->where('is_checked', false)
@@ -152,19 +151,8 @@ class AttemptController extends Controller
                                                     $query->whereIn('type', TaskType::manualCheckTypes());
                                                 })
                                                 ->exists();
-            $checkPassingThreshold->execute($attempt);
             if(!$hasUncheckedManualAnswers){
-                //вынести в action, потом мокать
-                //$attempt->checked();
-                $markCount = $attempt->answers()->sum('mark');
-                $hasPassed = $checkPassingThreshold->execute($attempt);
-                //echo GetDetailedAttemptResultsAction::execute($attempt);
-                if($hasPassed){
-                    $attempt->is_passed = true;
-                }else{
-                    $attempt->is_passed = false;
-                }
-                $attempt->total_mark = $markCount;
+               $finalizeAttemptChecking->execute($attempt);
             }
             $attempt->save();
         });

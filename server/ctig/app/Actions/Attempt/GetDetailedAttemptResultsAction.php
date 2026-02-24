@@ -47,6 +47,6 @@ class GetDetailedAttemptResultsAction{
 
             ];
         }
-        return json_encode($result);
+        return $result;
     }
 }

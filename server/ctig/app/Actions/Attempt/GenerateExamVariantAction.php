@@ -2,7 +2,7 @@
 
 namespace App\Actions\Attempt;
 
-class FormAttemptExamVariantAction{
+class GenerateExamVariantAction{
     public function execute($tasks, $exam, $attempt, $student){
         $groups = [];
         $examVariant = [];

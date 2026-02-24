@@ -3,6 +3,7 @@
 namespace App\Actions\Reports;
 
 use App\Enums\AttemptStatus;
+use App\Exceptions\BusinessException;
 use App\Models\Attempt;
 use Carbon\Carbon;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -17,9 +18,11 @@ class GenerateReferencesFRDOAction{
                             ->where('is_passed',false)
                             ->where('status', AttemptStatus::Checked)
                             ->get();
+        if($attempts->isEmpty()){
+            throw new BusinessException('Данных для справок нету');
+        }
         $spreadsheet = IOFactory::load($templatePath);
         $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setCellValue('A3', 'Иван Иванов');
         $row = 3;
         foreach($attempts as $attempt){
             //echo var_dump($attempt->exam->examType->certificate_name);

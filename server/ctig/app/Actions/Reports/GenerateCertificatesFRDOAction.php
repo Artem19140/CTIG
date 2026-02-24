@@ -24,7 +24,6 @@ class GenerateCertificatesFRDOAction{
         }
         $spreadsheet = IOFactory::load($templatePath);
         $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setCellValue('A3', 'Иван Иванов');
         $row = 3;
         foreach($attempts as $attempt){
             $sheet->setCellValue("A$row", $attempt->student->surname);

@@ -22,7 +22,8 @@ class Attempt extends Model
         'is_passed',
         'total_mark',
         'started_at',
-        'ban_reason'
+        'ban_reason',
+        'ban_by_id'
     ];
 
     protected $casts = [
@@ -42,20 +43,12 @@ class Attempt extends Model
         return $this->status = AttemptStatus::Finished;
     }
 
-    public function checked(): AttemptStatus{
-        return $this->status = AttemptStatus::Checked;
-    }
-
     public function isActive(): bool{
         return $this->status === AttemptStatus::Active;
     }
 
     public function isBanned(): bool{
         return $this->status === AttemptStatus::Banned;
-    }
-
-    public function isFinished(): bool{
-        return $this->status === AttemptStatus::Finished;
     }
 
     public function student(): BelongsTo{

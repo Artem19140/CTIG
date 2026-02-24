@@ -8,6 +8,7 @@ use App\Http\Resources\StudentAnswer\StudentAnswerResource;
 use App\Models\StudentAnswer;
 use App\Services\StudentAnswerCheckService;
 use DB;
+use FinalizeAttemptCheckingAction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -32,47 +33,51 @@ class StudentAnswerController extends Controller
         //     throw new ForbiddenException('Не найдено');// в Policy
         // }
 
-        if($attempt->isExpired()){
+        if($attempt->isExpired() && $attempt->isActive()){
             $request->user()->tokens()->delete();
-            $attempt->finish();
+            $attempt->status = AttemptStatus::Finished;
             throw new BusinessException('Время экзамена вышло');
         }
 
-        if($attempt->status != AttemptStatus::Active){
+        if(!$attempt->isActive()){
             $request->user()->tokens()->delete();
             throw new BusinessException('Попытка неактивна');
         }
-
-        
 
         $studentAnswer->load(['taskVariant.task', 'taskVariant.answers']);
         $task = $studentAnswer->taskVariant->task;
         if(!$task->type->hasAnswers()){
             throw new BusinessException('Данному типу задания нельзя загрузить ответ');
         }
-        DB::transaction(function()use($studentAnswer, $task, $request, $studentAnswerCheckService){
+        DB::transaction(function()use($studentAnswer, $task, $request, $studentAnswerCheckService, $attempt){
             if($task->type->autoCheck()){
-            $answers =(array) $request->input('studentAnswer',[]);
-            $rightAnswers = $studentAnswer->taskVariant->answers->where('is_correct')->toArray(); //->pluck("content")
-            sort($rightAnswers);
-            sort($answers);
-            $isCorrect = $studentAnswerCheckService->check($task->type, $answers,$rightAnswers);
-            if($isCorrect){
-                $studentAnswer->mark = $task->mark;
-            }else{
-                $studentAnswer->mark = 0;
-            }  
-                $studentAnswer->is_checked = true;
+                $answers = (array) $request->input('studentAnswer',[]);
+                $rightAnswers = $studentAnswer->taskVariant->answers->where('is_correct')->toArray(); //->pluck("content")
+                sort($rightAnswers);
+                sort($answers);
+                $isCorrect = $studentAnswerCheckService->check($task->type, $answers,$rightAnswers);
+                if($isCorrect){
+                    $studentAnswer->mark = $task->mark;
+                }else{
+                    $studentAnswer->mark = 0;
+                }  
+                    $studentAnswer->is_checked = true;
             }
-            $studentAnswer->last_activity_at = now();
+            
             $studentAnswer->student_answer = $request->input('studentAnswer');
             $studentAnswer->save();
+            $attempt->last_activity_at = now();
+            $attempt->save();
         });
         
         return $this->noContent();
     }
 
-    public function rate(Request $request, StudentAnswer $studentAnswer){
+    public function rate(
+                            Request $request,
+                            StudentAnswer $studentAnswer,
+                            FinalizeAttemptCheckingAction $finalizeAttemptChecking
+                        ){
         //лучше массивом объектов обновлять, чтобы за раз все выставить и сохранить на фронте
         $request->validate([
             'mark' => ['required', 'integer', 'min:0'] //нужно проверить, что у самого задания оценка не меньше марк
@@ -85,8 +90,8 @@ class StudentAnswerController extends Controller
         $studentAnswer->load(['taskVariant.task', 'attempt']);
         $attempt = $studentAnswer->attempt;
 
-        if(!$attempt->status->canBeRated()){
-            throw new BusinessException('Попытка аннулирована');
+        if($attempt->status !== AttemptStatus::Finished){
+            throw new BusinessException('Попытка незавершена или аннулирована');
         }
 
         $task = $studentAnswer->taskVariant->task;
@@ -99,7 +104,7 @@ class StudentAnswerController extends Controller
             throw new BusinessException('Выставленный балл больше, чем максимально возможный за задание');
         }
 
-        DB::transaction(function () use($studentAnswer, $attempt,$request) {
+        DB::transaction(function () use($studentAnswer, $attempt,$request, $finalizeAttemptChecking) {
             $studentAnswer->mark = $request->input('mark');
             $studentAnswer->is_checked = true;
             $studentAnswer->checked_by_id = $request->user()->id;
@@ -108,11 +113,7 @@ class StudentAnswerController extends Controller
                                             ->where('is_checked', false)
                                             ->exists();
             if(!$notCheckedAnswersExist){
-                $attempt->checked();
-                $markCount = StudentAnswer::where('attempt_id',$attempt->id)
-                                ->sum('mark');
-                $attempt->total_mark = $markCount;
-                $attempt->save();
+                $finalizeAttemptChecking->execute($attempt);
             }
         });
         return $this->noContent();

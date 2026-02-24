@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Exam;
+namespace App\Actions\Attempt;
 
 use App\Models\Attempt;
 

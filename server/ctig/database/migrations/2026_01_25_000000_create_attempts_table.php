@@ -12,7 +12,10 @@ return new class extends Migration
         Schema::create('attempts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')
-                ->constrained('students')
+                ->constrained('students') 
+                ->cascadeOnDelete();
+            $table->foreignId('ban_by_id')
+                ->constrained('users')
                 ->cascadeOnDelete();
             $table->foreignId('exam_id')
                 ->constrained('exams');

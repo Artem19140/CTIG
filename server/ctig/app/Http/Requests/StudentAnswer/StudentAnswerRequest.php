@@ -14,8 +14,8 @@ class StudentAnswerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'studentAnswer' => ['nullable', 'array'],
-            'studentAnswer.*' => ['required']
+            'studentAnswer' => ['nullable', 'array', 'size:1'],
+            'studentAnswer.*' => ['required', 'json']
         ];
     }
 }

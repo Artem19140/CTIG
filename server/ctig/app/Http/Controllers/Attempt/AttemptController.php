@@ -38,20 +38,20 @@ class AttemptController extends Controller
         return AttemptResource::collection($examAttempts);
     }
 
-    public function store(Request $request, GenerateExamVariantAction $generateAttemptExamVariant)
+    public function store(Request $request, GenerateExamVariantAction $generateExamVariant)
     {
         $student=$request->user();
-        $hasCurrentExamAttempt = $student->attempts()
+        $hasCurrentAttempt = $student->attempts()
                                     ->where('status',  AttemptStatus::Active)
                                     ->exists();
                                     
-        // if($hasCurrentExamAttempt){
-        //     throw new BusinessException('Существует текущая попытка экзамена');
-        // }
+        if($hasCurrentAttempt){
+            throw new BusinessException('Существует текущая попытка экзамена');
+        }
         
-        $exam = Exam::with('examType.blocks.subblocks.tasks.variants') // мб урбать answers
+        $exam = Exam::with('examType.blocks.subblocks.tasks.variants')
                     ->find($student->exam_id);
-        $examAttempt = DB::transaction(function () use($student, $exam, $generateAttemptExamVariant) {
+        $examAttempt = DB::transaction(function () use($student, $exam, $generateExamVariant) {
             $examDuration = $exam->examType->duration;
             $attempt = Attempt::create([
                     'student_id' => $student->id,
@@ -66,7 +66,7 @@ class AttemptController extends Controller
                 ->pluck('tasks')
                 ->flatten(); 
 
-            $examVariant = $generateAttemptExamVariant->execute($tasks, $exam, $attempt, $student);
+            $examVariant = $generateExamVariant->execute($tasks, $exam, $attempt, $student);
             
             StudentAnswer::insert($examVariant);
             //$student->tokens()->delete();
@@ -112,8 +112,6 @@ class AttemptController extends Controller
         }
         
         if($attempt->isExpired() || !$attempt->isActive()){
-            $attempt->finish();
-            $attempt->save();
             throw new BusinessException('Попытка неактивна');
         }
 
@@ -141,8 +139,7 @@ class AttemptController extends Controller
                                                     $finalizeAttemptChecking,
                                                     $zeroEmptyAutoAnswers
                                                 ){
-            $attempt->finish();//lockUpdate мб
-            //request()->user()->tokens()->delete();
+            $attempt->lockForUpdate()->finish();
             $zeroEmptyAutoAnswers->execute($attempt);
 
             $hasUncheckedManualAnswers = $attempt->answers()
@@ -155,6 +152,7 @@ class AttemptController extends Controller
                $finalizeAttemptChecking->execute($attempt);
             }
             $attempt->save();
+            //request()->user()->tokens()->delete();
         });
         return $this->noContent();
     }
@@ -173,12 +171,11 @@ class AttemptController extends Controller
     }
 
     public function toCheck(){
-        $uncheckedAttempts = Attempt::where('status', AttemptStatus::Finished)->get();
-        return AttemptResource::collection($uncheckedAttempts);
+        $unCheckedAttempts = Attempt::where('status', AttemptStatus::Finished)->get();
+        return AttemptResource::collection($unCheckedAttempts);
     }
 
     public function full(Attempt $attempt){
-        //$attempt->answers()->with('taskVariant')->get();
         $full = $attempt->load(['answers.taskVariant.answers', 'student']);
         return $this->ok( new AttemptResource($full)); 
     }

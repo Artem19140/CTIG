@@ -4,14 +4,14 @@ namespace App\Actions\StudentAnswer;
 
 use App\Enums\TaskType;
 use App\Exceptions\BusinessException;
+use App\Models\Answer;
 use App\Models\StudentAnswer;
 use App\Services\AnswerCheckService;
 
 
 class HandleStudentAnswerAction{
-    public function __construct(protected AnswerCheckService $answerCheckService){}
 
-    public function execute(StudentAnswer $studentAnswer, array $answers){
+    public function execute(StudentAnswer $studentAnswer, $answer){
         $studentAnswer->load(['taskVariant.task', 'taskVariant.answers']);
         $task = $studentAnswer->taskVariant->task;
 
@@ -19,53 +19,57 @@ class HandleStudentAnswerAction{
             throw new BusinessException('Данному типу задания нельзя загрузить ответ');
         }
 
-        $this->saveByType($task->type, $studentAnswer, $answers);
         if($task->type->autoCheck()){
-            $rightAnswers = $this->getRightAnswers($task->type, $studentAnswer->taskVariant); //->pluck("content")
-            $isCorrect = $this->answerCheckService->check( $answers,$rightAnswers, $task->type,);
+            $isCorrect = $this->autoChecker($task->type, $answer, $studentAnswer);
             if($isCorrect){
                 $studentAnswer->mark = $task->mark;
             }else{
                 $studentAnswer->mark = 0;
-            }  
-            $studentAnswer->is_checked = true;
+            }
+
         }
         $studentAnswer->save();
     }
 
-    public function getRightAnswers($taskType, $taskVariant){
-        return match ($taskType) {
-            TaskType::SingleChoice => $taskVariant->answers->where('is_correct')->pluck('id')->toArray(),
-            TaskType::TextInput => $taskVariant->answers->where('is_correct')->pluck('content')->toArray(),
-            default => throw new BusinessException("Неизвестный тип задания"),
+    protected function autoChecker(TaskType $taskType, int|string $answer, StudentAnswer $studentAnswer): bool{
+        return match ($taskType){
+            TaskType::SingleChoice => $this->singleChoiceChecker($answer,  $studentAnswer),
+            TaskType::TextInput => $this->textTypeChecker($answer,  $studentAnswer),
+            default => throw new BusinessException('Нет такого типа задания')
         };
+
     }
 
-    protected function saveByType($taskType, $studentAnswer, $answers){
-        match ($taskType) {
-            TaskType::SingleChoice => $this->saveSingleChoice($studentAnswer, $answers),
-            TaskType::TextInput => $this->saveTextInput($studentAnswer, $answers),
-            default => throw new BusinessException("Неизвестный тип задания"),
-        };
+    protected function singleChoiceChecker(int $answerId,StudentAnswer $studentAnswer): bool{
+        $answer = $studentAnswer->taskVariant->answers->firstWhere('id', $answerId);
+        if (!$answer) {
+            throw new BusinessException('Не существует данного ответа');
+        }
+        $studentAnswer->is_correct = $answer->is_correct;
+        $studentAnswer->answer = [
+            'value' => [
+                "id" => $answer->id,
+                'order' => $answer->order,
+                'content' => $answer->content
+            ]
+            
+        ];
+        return $answer->is_correct;
     }
 
-    protected function saveSingleChoice(StudentAnswer $studentAnswer, array $answers){
-        if (count($answers) !== 1) {
-            throw new BusinessException('Задание предполагает один вариант ответа');
+    public function textTypeChecker(string $answer,StudentAnswer $studentAnswer): bool{
+        if(!\is_string($answer)){
+            throw new BusinessException('Ответ должен быть строкой');
         }
-        $answerId = reset($answers);
-
-        $validIds = $studentAnswer->taskVariant->answers->pluck('id')->toArray();
-        if (!\in_array($answerId, $validIds, true)) {
-            throw new BusinessException('Выбран недопустимый вариант ответа');
-        }
-        $studentAnswer->student_answer_id = $answerId;
-    }
-
-    protected function saveTextInput(StudentAnswer $studentAnswer,array $answers){
-        if (count($answers) !== 1) {
-            throw new BusinessException('Задание предполагает один вариант ответа');
-        }
-        $studentAnswer->student_answer = reset($answers);
+        $rigthAnswers = $studentAnswer->taskVariant->answers
+                        ->pluck('content')
+                        ->map(fn($item) => mb_strtolower(trim($item)))
+                        ->toArray();
+        $isCorrect = \in_array(mb_strtolower(trim($answer)), $rigthAnswers); 
+        $studentAnswer->is_correct = $isCorrect;
+        $studentAnswer->answer = [
+                'value' => $answer
+            ];
+        return $isCorrect;
     }
 }

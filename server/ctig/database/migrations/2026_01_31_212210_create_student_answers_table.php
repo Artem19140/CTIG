@@ -25,12 +25,7 @@ return new class extends Migration
             $table->integer('checked_by_id')->nullable()->default(null);
             $table->boolean('is_checked')->default(false);
             $table->unsignedTinyInteger('mark')->nullable()->default(null);
-            $table->string('text_answer')->nullable()->default(null);
-            $table->json('json_answer')->nullable()->default(null);
-            $table->foreignId('answer_id')
-                ->nullable()
-                ->default(null)
-                ->constrained('answers');
+            $table->jsonb('answer')->nullable()->default(null);
             $table->timestamps();
         });
     }

@@ -14,7 +14,7 @@ class StudentAnswer extends Model
         'attempt_id', //Основной поиск по этому полю
         'student_id', //Еще поиск по этому полю в карточке студента чтобы отобразить(дополнительно)
         'mark',
-        'text_answer',
+        'answer',
         'checked_by_id',
         'is_checked'
     ];

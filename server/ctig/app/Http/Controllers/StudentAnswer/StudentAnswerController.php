@@ -5,6 +5,7 @@ namespace App\Http\Controllers\StudentAnswer;
 use App\Actions\StudentAnswer\HandleStudentAnswerAction;
 use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
+use App\Exceptions\ForbiddenException;
 use App\Http\Resources\StudentAnswer\StudentAnswerResource;
 use App\Models\StudentAnswer;
 
@@ -32,9 +33,9 @@ class StudentAnswerController extends Controller
         $student = $request->user();
         $studentAnswer->load('attempt');
         $attempt = $studentAnswer->attempt;
-        // if($student->id != $attempt->student_id){
-        //     throw new ForbiddenException('Не найдено');// в Policy
-        // }
+        if($student->id != $attempt->student_id){
+            throw new ForbiddenException('Не найдено');// в Policy
+        }
 
         if($attempt->isExpired() && $attempt->isActive()){
             $request->user()->tokens()->delete();

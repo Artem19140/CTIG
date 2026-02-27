@@ -5,12 +5,12 @@ namespace App\Actions\Reports;
 use App\Actions\Attempt\GetDetailedAttemptResultsAction;
 use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Database\Eloquent\Builder;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class GenerateExamStatementAction{
     public function execute($exam){
+        $templatePath = storage_path('app/templates/statement.xlsx');
         if(!$exam->isPassed()){
             throw new BusinessException('Экзамен еще не прошел');
         }
@@ -24,77 +24,46 @@ class GenerateExamStatementAction{
         // if($attemptsNotChecked){
         //     throw new BusinessException('Не все результаты экзамена еще проверены');
         // }
-        
-        $attempts = $exam->attempts()
-                        ->where('status', AttemptStatus::Checked)
-                        ->get();
-
-        $spreadSheet = new Spreadsheet();
-
-        $examType = $exam->examType->name;
+        $exam->load([
+            'students.attempts' => function ($query) use ($exam) {
+                $query->where('exam_id', $exam->id);
+            }
+        ]);
+        $spreadSheet = IOFactory::load($templatePath);
+        $sheet = $spreadSheet->getActiveSheet();
         $examLevel = $exam->examType->level;
-        $examAddress = $exam->address->address;
         $examCertificateName = $exam->examType->certificate_name;
         $examDate = $exam->date->format('d.m.Y');
-        $examTime = $exam->begin_time->format('H:i');
-        $sheet = $spreadSheet->getActiveSheet();
-
-        $sheet->setCellValue('A1', 'Ведомость результатов экзамена по русскому языку как иностранному, истории России и основам законодательства Российской Федерации, проведенного в ФГБОУ ВО «УдГУ»');
-        $sheet->setCellValue("A2", "$examCertificateName");
-        $sheet->setCellValue("A3", "Название: $examType");
-        $sheet->setCellValue("A4", "Уровень: $examLevel");
-        $sheet->setCellValue("A5", "Адрес: $examAddress");
-        $sheet->setCellValue("A6", "Дата: $examDate");
-        $sheet->setCellValue("A7", "Время: $examTime");
-        $sheet->setCellValue("A8", "Сессия: $exam->session/Номер: $exam->group");
-        $sheet->fromArray($this->headers, NULL, "A9");
-
-        for ($col = 'A'; $col <= 'H'; $col++) {
-            $sheet->mergeCells("{$col}9:{$col}10");
-            $sheet->getStyle("{$col}9")->getAlignment()->setHorizontal('center');
-            $sheet->getStyle("{$col}9")->getAlignment()->setVertical('top');
-            $sheet->getStyle("{$col}9")->getFont()->setBold(true);
+        $sheet->setCellValue("A2", "Экзамен на уровень $examLevel - $examCertificateName");
+        $sheet->setCellValue("A3", "Сессия № $exam->session / Дата проведения экзамена: $examDate ");
+        $row = 6;
+        $counter =1 ;
+        foreach($exam->students as $student){
+            $sheet->setCellValue("A$row", $counter);
+            $sheet->setCellValue("B$row", $student->id);
+            $sheet->setCellValue("C$row", $student->surname);
+            $sheet->setCellValue("D$row", $student->name);
+            $sheet->setCellValue("E$row", $student->patronymic);
+            $sheet->setCellValue("F$row", $student->date_birth->format('d.m.Y'));
+            $sheet->setCellValue("G$row", $student->surname_latin);
+            $sheet->setCellValue("G$row", $student->name_latin);
+            $sheet->setCellValue("H$row", $student->patronymic_latin);
+            $sheet->setCellValue("I$row", $student->patronymic_latin);
+            $sheet->setCellValue("J$row", $student->passport_series." ".$student->passport_number);
+            $sheet->setCellValue("K$row", $student->citizenship);
+            $sheet->setCellValue("L$row", $student->attempts->first()?->started_at->format('H:m'));
+            $sheet->setCellValue("M$row", $student->attempts->first()?->finished_at->format('H:m'));
         }
-
-
-        $sheet->mergeCells("I9:J9");
-        $sheet->getStyle('I9')->getAlignment()
-            ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
-            ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
-
-
-        $row = 11;
-        $exam->load('students.attempts.student');
-        foreach($attempts as $attempt){
-            $sheet->setCellValue("A$row", $attempt->student->surname);
-            $sheet->setCellValue("B$row", $attempt->student->name);
-            $sheet->setCellValue("C$row", $attempt->student->patronymic);
-            $sheet->setCellValue("D$row", $attempt->student->surname_latin);
-            $sheet->setCellValue("E$row", $attempt->student->name_latin);
-            $sheet->setCellValue("F$row", $attempt->student->patronymic_latin);
-            $sheet->setCellValue("G$row", $attempt->student->passport_series." ".$attempt->student->passport_number);
-            $sheet->setCellValue("H$row", $attempt->student->citizenship);
-        }
-
-        foreach (range('B', 'Z') as $col) {
-            $sheet->getColumnDimension($col)->setAutoSize(true);
-        }
-        
-        $writer = new Xlsx($spreadSheet);
-        
-        return $writer;
+        return $spreadSheet;
     }
-
-    protected array $headers = [
-        'Фамилия',
-        'Имя',
-        'Отчество',
-        'Фамилия лат',
-        'Имя лат',
-        'Отчество лат',
-        'Паспортные данные',
-        'Гражданство',
-        'Время начала и окончания экзаменов',
-
-    ];
 }
+
+
+
+// $examType = $exam->examType->name;
+//         $examLevel = $exam->examType->level;
+//         $examAddress = $exam->address->address;
+//         $examCertificateName = $exam->examType->certificate_name;
+//         $examDate = $exam->date->format('d.m.Y');
+//         $examTime = $exam->begin_time->format('H:i');
+//         $sheet = $spreadSheet->getActiveSheet();

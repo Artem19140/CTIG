@@ -62,15 +62,18 @@ class ReportController extends Controller
                                 Exam $exam, 
                                 GenerateExamStatementAction $generateExamStatement
                             ){
-        $writer = $generateExamStatement->execute($exam);
-        $response = new StreamedResponse(function() use ($writer) {
+        $spreadSheet = $generateExamStatement->execute($exam);
+        $writer = IOFactory::createWriter($spreadSheet, 'Xlsx');
+        
+        $fileName = "statement.xlsx";
+        $headers = [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Content-Disposition' => "attachment;filename=$fileName",
+            'Cache-Control' => 'max-age=0',
+        ];
+
+        return new StreamedResponse(function () use ($writer) {
             $writer->save('php://output');
-        });
-        $examName = "statement.xlsx";
-        // Заголовки для скачивания
-        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        $response->headers->set('Content-Disposition', "attachment;filename=$examName");
-        $response->headers->set('Cache-Control','max-age=0');
-        return $response;
+        }, 200, $headers);
     }
 }

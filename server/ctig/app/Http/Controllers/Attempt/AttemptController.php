@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Attempt;
 
+use App\Actions\Attempt\FinalizeAttemptCheckingAction;
 use App\Actions\Attempt\GenerateExamVariantAction;
 use App\Actions\Attempt\GetDetailedAttemptResultsAction;
 use App\Enums\AttemptStatus;
@@ -16,7 +17,6 @@ use App\Models\Attempt;
 use App\Models\StudentAnswer;
 use Carbon\Carbon;
 use DB;
-use FinalizeAttemptCheckingAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Enums\TokenAbilities;

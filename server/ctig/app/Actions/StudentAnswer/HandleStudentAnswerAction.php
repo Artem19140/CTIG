@@ -4,9 +4,7 @@ namespace App\Actions\StudentAnswer;
 
 use App\Enums\TaskType;
 use App\Exceptions\BusinessException;
-use App\Models\Answer;
 use App\Models\StudentAnswer;
-use App\Services\AnswerCheckService;
 
 
 class HandleStudentAnswerAction{
@@ -15,9 +13,9 @@ class HandleStudentAnswerAction{
         $studentAnswer->load(['taskVariant.task', 'taskVariant.answers']);
         $task = $studentAnswer->taskVariant->task;
 
-        if(!$task->type->hasAnswers()){
-            throw new BusinessException('Данному типу задания нельзя загрузить ответ');
-        }
+        // if(!$task->type->hasAnswers()){
+        //     throw new BusinessException('Данному типу задания нельзя загрузить ответ');
+        // }
 
         if($task->type->autoCheck()){
             $isCorrect = $this->autoChecker($task->type, $answer, $studentAnswer);
@@ -26,7 +24,9 @@ class HandleStudentAnswerAction{
             }else{
                 $studentAnswer->mark = 0;
             }
-
+            $studentAnswer->is_checked = true;
+        }else{
+            $studentAnswer->text_answer = $answer;
         }
         $studentAnswer->save();
     }
@@ -42,11 +42,12 @@ class HandleStudentAnswerAction{
 
     protected function singleChoiceChecker(int $answerId,StudentAnswer $studentAnswer): bool{
         $answer = $studentAnswer->taskVariant->answers->firstWhere('id', $answerId);
+        echo $answer;
+        // echo $studentAnswer->taskVariant->answers->pluck('id');
         if (!$answer) {
             throw new BusinessException('Не существует данного ответа');
         }
-        $studentAnswer->is_correct = $answer->is_correct;
-        $studentAnswer->answer = [
+        $studentAnswer->json_answer = [
             'value' => [
                 "id" => $answer->id,
                 'order' => $answer->order,

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Student;
 
+use App\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -35,7 +36,7 @@ class StudentCreateTest extends TestCase
             "issuesDate" => "2015-05-20",
             "addressReg" => "Moscow, Red Square 1",
             "migrationCardRequisite" => "MC123456789",
-            "citizenship" => "Uzbekistan",
+            "citizenship" => "UZ",
             "phone" => "+79161234567",
             "noPatronymic" => false,
         ],$overrides);
@@ -52,6 +53,16 @@ class StudentCreateTest extends TestCase
         $response =  $this->postStudent();
         $response->assertStatus(201);
         $this->assertDatabaseCount('students', 1);
+    }
+
+    public function test_success_deleating(): void{
+        $student = Student::factory()->create();
+        $this->assertDatabaseCount( 'students', 1);
+        $this->actingAs($this->user)
+            ->deleteJson("api/students/$student->id")
+            ->assertNoContent();
+        
+        $this->assertDatabaseEmpty('students');
     }
 
     public function test_success_18_years(): void{
@@ -77,6 +88,33 @@ class StudentCreateTest extends TestCase
         ]);
         $response->assertStatus(422);
         $this->assertDatabaseEmpty('students');
+    }
+
+    public function test_fail_not_unique_passport_update(): void{
+        $response =  $this->postStudent();
+        $response->assertStatus(201);
+        $student = Student::factory()->create();
+
+        $this->actingAs($this->user)
+            ->putJson("api/students/$student->id", [
+                "surname" => "Жонбеков",
+                "name" => "Жонбек",
+                "patronymic" => "Васыл Оглы",
+                "dateBirth" => "2008-01-30",
+                "surnameLatin" => "Ivanov",
+                "nameLatin" => "Ivan",
+                "patronymicLatin" => "Ivanovich",
+                "passportNumber" => "123456",
+                "passportSeries" => "AB",
+                "issuedBy" => "МВД по УР",
+                "issuesDate" => "2015-05-20",
+                "addressReg" => "Moscow, Red Square 1",
+                "migrationCardRequisite" => "MC123456789",
+                "citizenship" => "UZ",
+                "phone" => "+79161234567",
+                "noPatronymic" => false,
+            ])
+            ->assertUnprocessable();
     }
 
 }

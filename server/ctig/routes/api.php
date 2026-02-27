@@ -61,6 +61,7 @@ Route::middleware(['auth:sanctum'])->group(function (){//, "abilities:".TokenAbi
     Route::get('violations', [ViolationController::class, 'index']);//с фильтрами по exam и student
 
     Route::post('reports/frdo', [ReportController::class, 'frdo']);
+    Route::post('reports/{exam}/statement', [ReportController::class, 'statement']);
 });
 
 

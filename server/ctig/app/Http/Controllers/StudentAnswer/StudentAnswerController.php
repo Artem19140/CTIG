@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\StudentAnswer;
 
+use App\Actions\Attempt\FinalizeAttemptCheckingAction;
 use App\Actions\StudentAnswer\HandleStudentAnswerAction;
 use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
@@ -11,7 +12,6 @@ use App\Models\StudentAnswer;
 
 use Carbon\Carbon;
 use DB;
-use FinalizeAttemptCheckingAction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

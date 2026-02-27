@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Report;
 
 use App\Actions\Reports\GenerateCertificatesFRDOAction;
+use App\Actions\Reports\GenerateExamStatementAction;
 use App\Actions\Reports\GenerateReferencesFRDOAction;
 use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Models\Attempt;
+use App\Models\Exam;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -29,14 +31,13 @@ class ReportController extends Controller
                                     ->where('finished_at', '<=',$examDate->copy()->endOfDay())
                                     ->whereIn('status', AttemptStatus::unChecked())
                                     ->exists();
-
+        $eD = $examDate->format('d.m.Y');
         if($unCheckedAttempts){
-            $eD = $examDate->format('d.m.Y');
+            
             throw new BusinessException("За $eD не все попытки проверены" );
         }
 
         $isPassedAttempts=$request->input('isPassedAttempts');
-        $eD = $examDate->format('d.m.Y');
         if($isPassedAttempts){
             $spreadsheet = $generateCertificatesFRDO->execute($examDate);
             $fileName = "cerftificates_frdo_$eD.xlsx";
@@ -55,5 +56,21 @@ class ReportController extends Controller
         return new StreamedResponse(function () use ($writer) {
             $writer->save('php://output');
         }, 200, $headers);
+    }
+
+    public function statement(
+                                Exam $exam, 
+                                GenerateExamStatementAction $generateExamStatement
+                            ){
+        $writer = $generateExamStatement->execute($exam);
+        $response = new StreamedResponse(function() use ($writer) {
+            $writer->save('php://output');
+        });
+        $examName = "statement.xlsx";
+        // Заголовки для скачивания
+        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        $response->headers->set('Content-Disposition', "attachment;filename=$examName");
+        $response->headers->set('Cache-Control','max-age=0');
+        return $response;
     }
 }

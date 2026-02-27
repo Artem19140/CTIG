@@ -35,7 +35,7 @@ class StudentValidationTest extends TestCase
             "issuesDate" => "2015-05-20",
             "addressReg" => "Moscow, Red Square 1",
             "migrationCardRequisite" => "MC123456789",
-            "citizenship" => "Uzbekistan",
+            "citizenship" => "UZ",
             "phone" => "+79161234567",
             "noPatronymic" => false,
         ],$overrides);
@@ -86,6 +86,28 @@ class StudentValidationTest extends TestCase
         $this->assertDatabaseEmpty('students');
     }
 
+    public function test_fail_long_citezenship(): void{
+        $response =  $this->postStudent(
+            [
+                "citizenship" => "UZB"
+            ]
+        );
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['citizenship']);
+        $this->assertDatabaseEmpty('students');
+    }
+
+    public function test_fail_short_citezenship(): void{
+        $response =  $this->postStudent(
+            [
+                "citizenship" => "U"
+            ]
+        );
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['citizenship']);
+        $this->assertDatabaseEmpty('students');
+    }
+
     public function test_fail_with_patronymic_when_must_not_be(): void{
         $response =  $this->postStudent(
             [
@@ -126,8 +148,6 @@ class StudentValidationTest extends TestCase
                  'dateBirth',
                  'surnameLatin',
                  'nameLatin',
-                 'passportNumber',
-                 'passportSeries',
                  'issuedBy',
                  'issuesDate',
                  'addressReg',

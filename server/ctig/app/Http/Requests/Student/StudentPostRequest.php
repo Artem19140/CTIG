@@ -58,12 +58,12 @@ class StudentPostRequest extends FormRequest
                 ],
             'passportNumber' =>
                 [
-                    'required',
+                    'nullable',
                     'string'
                 ],
             'passportSeries' =>
                 [
-                    'required',
+                    'nullable',
                     'string'
                 ],
             'issuedBy' =>
@@ -89,7 +89,9 @@ class StudentPostRequest extends FormRequest
             'citizenship' =>
                 [
                     'required',
-                    'string'
+                    'string',
+                    'max:2',
+                    'min:2'
                 ],
             'phone' =>
                 [

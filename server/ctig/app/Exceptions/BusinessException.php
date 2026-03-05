@@ -1,19 +1,11 @@
 <?php
 
 namespace App\Exceptions;
-use Exception;
-use Illuminate\Http\JsonResponse;
 
-class BusinessException extends Exception
+class BusinessException extends BaseException
 {
     public function __construct(string $message = ""){
-        parent::__construct($message,422);
+        parent::__construct(422,$message);
     }
 
-     public function render($request): JsonResponse
-    {
-        return response()->json([
-            'message' => $this->message,
-        ], $this->code);
-    }
 }

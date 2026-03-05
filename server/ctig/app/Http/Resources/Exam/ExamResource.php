@@ -19,6 +19,7 @@ class ExamResource extends JsonResource
         return [
             'id' => $this->id,
             'beginTime' => $this->begin_time,
+            'date'=> $this->date,
             'endTime' => $this->end_time,
             'students' => StudentResource::collection($this->whenLoaded('students')),//здесь если есть результаты, то и их можно взять
             'sessionNumber' => $this->session,

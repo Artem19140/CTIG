@@ -1,20 +1,19 @@
 <?php
 
-use App\Http\Controllers\Address\AddressController;
-use App\Http\Controllers\Attempt\AttemptController;
-use App\Http\Controllers\ExamCode\ExamCodeController;
-use App\Http\Controllers\Login\LoginController;
-use App\Http\Controllers\Report\ReportController;
-use App\Http\Controllers\ViolationController;
+use App\Http\Controllers\Api\Address\AddressController;
+use App\Http\Controllers\Api\Attempt\AttemptController;
+use App\Http\Controllers\Api\ExamCode\ExamCodeController;
+use App\Http\Controllers\Api\Login\LoginController;
+use App\Http\Controllers\Api\Report\ReportController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Student\StudentController;
-use App\Http\Controllers\User\UserController;
-use App\Http\Controllers\Exam\ExamController;
-use App\Http\Controllers\ExamType\ExamTypeController;
-use App\Http\Controllers\Task\TaskController;
-use App\Http\Controllers\ExamStudent\ExamStudentController;
-use App\Http\Controllers\Document\DocumentController;
-use App\Http\Controllers\StudentAnswer\StudentAnswerController;
+use App\Http\Controllers\Api\Student\StudentController;
+use App\Http\Controllers\Api\User\UserController;
+use App\Http\Controllers\Api\Exam\ExamController;
+use App\Http\Controllers\Api\ExamType\ExamTypeController;
+use App\Http\Controllers\Api\Task\TaskController;
+use App\Http\Controllers\Api\ExamStudent\ExamStudentController;
+use App\Http\Controllers\Api\Document\DocumentController;
+use App\Http\Controllers\Api\StudentAnswer\StudentAnswerController;
 use App\Enums\TokenAbilities;
 
 
@@ -58,7 +57,6 @@ Route::middleware(['auth:sanctum'])->group(function (){//, "abilities:".TokenAbi
     
     Route::put('student-answers/{studentAnswer}/rate', [StudentAnswerController::class, 'rate']);
     
-    Route::get('violations', [ViolationController::class, 'index']);//с фильтрами по exam и student
 
     Route::post('reports/frdo', [ReportController::class, 'frdo']);
     Route::post('reports/{exam}/statement', [ReportController::class, 'statement']);
@@ -66,12 +64,11 @@ Route::middleware(['auth:sanctum'])->group(function (){//, "abilities:".TokenAbi
 
 
 Route::post('/login', [LoginController::class, 'login']);
-Route::post( 'exam-codes/verify', [ExamCodeController::class, 'verify']);
+Route::post( 'exam-codes/verify', [ExamController::class, 'verifyCode']);
 
 
 Route::middleware(['auth:sanctum', "abilities:".TokenAbilities::ExamAccess->value])->group(function (){ //во время экзамена
     Route::put('student-answers/{studentAnswer}', [StudentAnswerController::class, 'update']);
-    Route::post('violations', [ViolationController::class, 'store']);
     Route::put('attempts/{attempt}/finish', [AttemptController::class, 'finish']);
 }); 
 
@@ -83,14 +80,6 @@ Route::post('password-change', [LoginController::class, 'changePassword'])
     ->middleware(['auth:sanctum', "abilities:".TokenAbilities::ChangePassword->value]);
     
 Route::post( 'users', [UserController::class, 'store']);
-
-
-
-
-
-
-
-
 
 // use Illuminate\Support\Facades\DB;
 

@@ -3,20 +3,26 @@
     <main>
       <slot />
     </main>
-    <!-- Toast / уведомления -->
     <v-snackbar
-    v-if="flash"
-      :timeout="2000"
+    v-model="snackbar"
+      :timeout="5000"
+      :color="color"
+      prepend-icon="$complete"
+      timer="bottom"
+      timer-color="white"
+      size="large"
     >
-      {{ flash.success }}
+      {{ text }}
 
       <template v-slot:actions>
         <v-btn
-          color="blue"
+          density="comfortable"
           variant="text"
+          rounded="lg"
+          contained
           @click="snackbar = false"
         >
-          Close
+          Ok
         </v-btn>
       </template>
     </v-snackbar>
@@ -25,16 +31,27 @@
 
 <script setup>
 import { usePage } from '@inertiajs/vue3'
-import { computed } from 'vue'
+import { watch, ref } from 'vue'
 
 const page = usePage()
 
-// Глобальный flash из Laravel
-const flash = computed(() => page.value?.props?.flash || {})
-</script>
+const snackbar = ref(false)
+const text = ref('')
+const color = ref('')
 
-<style>
-    .toast { position: fixed; top: 20px; right: 20px; padding: 10px; border-radius: 4px; color: white; }
-    .success { background-color: green; }
-    .error { background-color: red; }
-</style>
+watch(
+  () => page.props.flash,
+  (flash) => {
+    if (!flash) return
+    if (flash?.success) {
+      text.value = flash.success
+      snackbar.value = true
+      color.value="success"
+    }else if(flash?.error){
+      text.value = flash.error
+      snackbar.value = true
+      color.value="error"
+    }
+  }
+)
+</script>

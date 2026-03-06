@@ -4,17 +4,17 @@ import { ref } from 'vue';
 
 const form = useForm({
     newPassword: '', //qwerty1231123@gmail.com
-    newPassword_confirmed: '' //12345678 
+    newPassword_confirmation: '' //12345678 
 })
 
 const show = ref(false)
 const showRepeat = ref(false)
 
 const change = () => {
-    // if(form.newPassword !== form.newPassword_confirmed){
-    //     alert('Пароли не совпадают')
-    //     return
-    // }
+    if(form.newPassword !== form.newPassword_confirmation){
+        alert('Пароли не совпадают')
+        return
+    }
   form.post('/password/change', {
     preserveScroll: true,
     preserveState: true, 
@@ -43,14 +43,14 @@ const change = () => {
         ></v-text-field>
 
         <v-text-field
-            v-model="form.newPassword_confirmed"
+            v-model="form.newPassword_confirmation"
             :append-inner-icon="showRepeat ? 'mdi-eye-off' : 'mdi-eye'"
             :type="showRepeat ? 'text' : 'password'"
             label="Повтор пароля"
-            name="newPassword_confirmed"
+            name="newPassword_confirmation"
             @click:append-inner="showRepeat = !showRepeat"
-            :invalid="form.errors.newPassword_confirmed"
-            :error-messages="form.errors.newPassword_confirmed"
+            :invalid="form.errors.newPassword_confirmation"
+            :error-messages="form.errors.newPassword_confirmation"
             placeholder="Повторите пароль"
         ></v-text-field>
         <v-btn 

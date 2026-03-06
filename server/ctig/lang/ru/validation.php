@@ -236,7 +236,8 @@ return [
         'cancelledReason' => 'причина отмены',
         'date' => 'дата',
         'newPassword'=> 'новый пароль',
-
+        'noPassportNumber' => 'нет номера',
+        'noPassportSeries' => 'нет серии'
     ],
 
 ];

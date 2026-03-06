@@ -9,14 +9,14 @@ const form = useForm({
     surname:'',
     name:'234',
     patronymic:'243',
-    hasPatronymic:false,
+    noPatronymic:false,
     surnameLatin:'1243',
     nameLatin:'2143',
     patronymicLatin:'2143',
     passportNumber:'',
     passportSeries:'243',
-    hasPassportNumber:false,
-    hasPassportSeries:false,
+    noPassportNumber:false,
+    noPassportSeries:false,
     issuedBy:'234',
     issuesDate:'2025-11-11',
     migrationCardRequisite:'123',
@@ -33,7 +33,7 @@ const citizenships = [
 
 const create = () => {
     form.post('/students', {
-    preserveScroll: true, // сохраняем прокрутку
+    preserveScroll: true,
     onSuccess: (page) => {
         isActive.value = false
         console.log('Форма успешно отправлена!', page)
@@ -55,10 +55,17 @@ const create = () => {
             variant="flat"
             size="large"
         ></v-btn>
-    <v-dialog persistent max-width="500"  v-model="isActive">
+    <v-dialog 
+        persistent 
+        max-width="700"  
+        v-model="isActive"
         
-    
-        <v-card title="Добавление студента"  class="pl-4 pr-4">
+    >
+        <v-card
+            title="Добавление студента"  
+            class="pl-4 pr-4" 
+            prepend-icon="mdi-account"
+        >
             <form @submit.prevent="create">
                 <AppInput 
                     label="Фамилия"
@@ -80,9 +87,9 @@ const create = () => {
                 />
 
                 <v-checkbox
-                    v-model="form.hasPatronymic" 
+                    v-model="form.noPatronymic" 
                     label="Нет отчества"
-                    :error-message="form.errors.hasPatronymic"
+                    :error-message="form.errors.noPatronymic"
                 ></v-checkbox>
 
                 <AppInput 
@@ -130,9 +137,9 @@ const create = () => {
                 />  
 
                 <v-checkbox
-                    v-model="form.hasPassportSeries" 
+                    v-model="form.noPassportSeries" 
                     label="Нет серии"
-                    :error-message="form.errors.hasPassportSeries"
+                    :error-message="form.errors.noPassportSeries"
                 ></v-checkbox>
 
                 <AppInput 
@@ -143,9 +150,9 @@ const create = () => {
                 />  
 
                 <v-checkbox
-                    v-model="form.hasPassportNumber" 
+                    v-model="form.noPassportNumber" 
                     label="Нет номера"
-                    :error-message="form.errors.hasPatronymic"
+                    :error-message="form.errors.noPatronymic"
                 ></v-checkbox>
                 
                 <AppInput 
@@ -184,12 +191,17 @@ const create = () => {
                     clearable
                 /> 
 
+                <v-file-input label="Фотография студента"></v-file-input>
+
+                <v-file-input label="Скан паспорта"></v-file-input>
+
                 <v-card-actions class="flex justify-center">
                     <v-btn
                         text="Добавить"
                         variant="flat"
                         color="green"
                         type="submit"
+                        :loading="form.processing"
                     ></v-btn>
                     
                     <v-btn

@@ -14,15 +14,10 @@ Route::get('exams/create/modal-data', [ExamController::class,'createModalData'])
 
 Route::post('login', [LoginController::class, 'login'])->name('login');
 
-Route::get('password/change', function () {
-    return Inertia::render('ChangePassword/ChangePassword');
-})->name('password.change');
-
 Route::post('password/change', [LoginController::class, 'changePassword']);
 
-Route::get('/login', function () {
-    return Inertia::render('Login/Login');
-})->name('login');
+Route::inertia('login', 'Login/Login')->name('login');
+Route::inertia('password/change', 'ChangePassword/ChangePassword')->name('password.change');
 
 
 Route::post( 'exam-codes/verify', [ExamController::class, 'verifyCode']);

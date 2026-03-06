@@ -12,9 +12,20 @@ class StudentPostRequest extends FormRequest
     }
     public function rules(): array
     {
-        return [
-            'hasPatronymic' =>
+        return [ 
+            'noPatronymic' =>
                 [
+                    'required',
+                    'boolean'
+                ],
+            'noPassportNumber' =>
+                [
+                    'required',
+                    'boolean'
+                ],
+            'noPassportSeries' =>
+                [
+                    'required',
                     'boolean'
                 ],
             'surname' =>
@@ -29,15 +40,15 @@ class StudentPostRequest extends FormRequest
                 ],
             'patronymic' =>
                 [
-                    'prohibited_if_accepted:hasPatronymic',
-                    'required_if_declined:hasPatronymic',
+                    'prohibited_if_accepted:noPatronymic',
+                    'required_if_declined:noPatronymic',
                     'nullable',
                     'string'
                 ],
             'patronymicLatin' =>
                 [
-                    'prohibited_if_accepted:hasPatronymic',
-                    'required_if_declined:hasPatronymic',
+                    'prohibited_if_accepted:noPatronymic',
+                    'required_if_declined:noPatronymic',
                     'nullable',
                     'string'
                 ],
@@ -58,11 +69,15 @@ class StudentPostRequest extends FormRequest
                 ],
             'passportNumber' =>
                 [
+                    'prohibited_if_accepted:noPassportNumber',
+                    'required_if_declined:noPassportNumber',
                     'nullable',
-                    'string'
+                    'string',
                 ],
             'passportSeries' =>
                 [
+                    'prohibited_if_accepted:noPassportSeries',
+                    'required_if_declined:noPassportSeries',
                     'nullable',
                     'string'
                 ],

@@ -3,6 +3,7 @@ import { useForm } from '@inertiajs/vue3'
 import axios from 'axios';
 import { ref } from 'vue';
 import AppInput from '../../../Components/UI/AppInput/AppInput.vue';
+import { router } from '@inertiajs/vue3';
 
 const addresses = ref()
 const testers = ref()
@@ -17,31 +18,43 @@ const form = useForm({
     beginTime:undefined
 })
 
+const isActive = ref(false)
+
 const loadModalData = async () => {
+    isActive.value = true
     const response = await axios.get('exams/create/modal-data')
     const data = response.data
     addresses.value = data.addresses
     testers.value = data.testers
     examTypes.value = data.examTypes
 }
-//@click="isActive.value = false"
+const create = () => {
+    form.post('/exams', {
+    preserveScroll: true,
+    onSuccess: (page) => {
+        isActive.value = false
+        console.log('Форма успешно отправлена!', page)
+    },
+    onError: (errors) => {
+        console.log('Ошибки валидации', errors)
+    }
+    })
+    
+}
 </script>
 
 <template>
-    <v-dialog persistent max-width="500">
-        <template v-slot:activator="{ props: activatorProps }">
-            <v-btn
-                @click="loadModalData"
-                v-bind="activatorProps"
-                color="green"
-                prepend-icon="mdi-plus"
-                text="Добавить"
-                variant="flat"
-                size="large"
-            ></v-btn>
-        </template>
     
-     <template v-slot:default="{ isActive }">
+    <v-btn
+        @click="loadModalData"
+        color="green"
+        prepend-icon="mdi-plus"
+        text="Добавить"
+        variant="flat"
+        size="large"
+    ></v-btn>
+    
+    <v-dialog persistent max-width="500" v-model="isActive">
         <v-card title="Добавление экзамена"  class="pl-4 pr-4">
             <form @submit.prevent="form.post('/exams', {preserveScroll: true})">
                 <v-autocomplete 
@@ -116,12 +129,11 @@ const loadModalData = async () => {
                     
                     <v-btn
                         text="Отменить"
-                        @click="isActive.value = false"
+                        @click="isActive = false"
                     ></v-btn>
                 </v-card-actions>
             </form>    
         </v-card>
-    </template>
     
     </v-dialog>
 </template>

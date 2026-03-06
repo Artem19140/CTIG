@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('patronymic_latin', 40)->nullable();
             $table->string('passport_number', 15);
             $table->string('passport_series', 10);
-            $table->unique(['passport_series', 'passport_number']);
+            $table->unique(['passport_series', 'passport_number', 'citizenship']);
             $table->string('issued_by', 50);
             $table->date('issues_date');
             $table->string('address_reg', 50);

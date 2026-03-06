@@ -1,5 +1,7 @@
 <?php
 
+use App\Exceptions\BusinessException;
+use App\Http\Middleware\CheckPasswordChange;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -26,15 +28,35 @@ return Application::configure(basePath: dirname(__DIR__))
             HandleInertiaRequests::class,
         ]);
 
+        $middleware->alias([
+            'passwordChange' => CheckPasswordChange::class
+        ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        
-        $exceptions->shouldRenderJsonWhen(function (Request $request, Throwable $e) {
-            if ($request->is('api/*')) {
-                return true;
-            }
-            return $request->expectsJson();
-        });
+        $exceptions
+            // ->render(function (BusinessException $e, Request $request) {
+            //     if($request->header('X-Inertia')){
+            //         return back()->with('error', $e->getMessage());
+            //     }
+            //     return null;
+            // })
 
+            ->shouldRenderJsonWhen(function (Request $request, Throwable $e) {
+                if ($request->is('api/*')) {
+                    return true;
+                }
+                return $request->expectsJson();
+            });
 
+            // ->respond(function (Response $response) {
+            //     if ($response->getStatusCode() === 419) {
+            //         return back()->with([
+            //             'message' => 'The page expired, please try again.',
+            //         ]);
+            //     }
+
+            //     return $response;
+            // });
+    
     })->create();

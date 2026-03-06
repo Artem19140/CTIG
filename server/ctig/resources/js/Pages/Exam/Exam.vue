@@ -1,25 +1,15 @@
-<script setup>
-
-import ExamCreateModal from './Components/ExamCreateModal.vue';
+<script setup lang="ts">
 import ExamList from './Components/ExamList.vue';
 
-defineProps({ exams: Array })
-
+const props = defineProps<{
+  exams: any[]
+}>()
 </script>
 
 <template>
     
-    <v-btn
-        v-bind="activatorProps"
-        color="green"
-        text="Добавить"
-        variant="flat"
-    ></v-btn>
     <div class="flex flex-col gap-4 w-auto">
-        <div >
-            <ExamCreateModal />
-        </div>
-        <ExamList :exams="exams" />
+      <ExamList :exams="props.exams" />
     </div>
     
 </template>

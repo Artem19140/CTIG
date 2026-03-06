@@ -21,9 +21,11 @@ Route::middleware(['auth:sanctum'])->group(function (){//, "abilities:".TokenAbi
     Route::get('attempts/to-check', [AttemptController::class, 'toCheck']);
     Route::apiResource( 'users', UserController::class);
 
-    Route::apiResource('students', StudentController::class);
+    Route::apiResource('students', StudentController::class)
+        ->names(['index' => 'api.students.index',]);
         
-    Route::apiResource('exams', ExamController::class);
+    Route::apiResource('exams', ExamController::class)
+        ->names(['index' => 'api.exams.index',]);
         
     Route::apiResource('exam-types', ExamTypeController::class)
         ->except('destroy', 'update', 'store');

@@ -4,8 +4,8 @@ import AppInput from '../../../Components/UI/AppInput/AppInput.vue';
 import { useForm } from '@inertiajs/vue3'
 
 const form = useForm({
-    email: '', //qwerty1231123@gmail.com
-    password: '' //12345678 
+    email: 'qwerty@gmail.com', //qwerty1231123@gmail.com
+    password: '12345678' //12345678 
 })
 
 const show = ref(false)
@@ -34,7 +34,6 @@ const show = ref(false)
                     />
 
                     <v-text-field
-
                         v-model="form.password"
                         :append-inner-icon="show ? 'mdi-eye-off' : 'mdi-eye'"
                         :type="show ? 'text' : 'password'"

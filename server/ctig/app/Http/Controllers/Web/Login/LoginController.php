@@ -2,27 +2,21 @@
 
 namespace App\Http\Controllers\Web\Login;
 
-use App\Enums\TokenAbilities;
+use App\Http\Requests\Auth\ChangePasswordRequest;
+use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Validation\ValidationException;
-use App\Http\Resources\User\UserResource;
 use Hash;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Api\Controller;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 
 
 class LoginController extends Controller
 {
-   public function login(Request $request)
+   public function login(LoginRequest $request)
     {
-        
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
-
-        if (!Auth::attempt($credentials, $request->boolean('remember'))) {
+        if (!Auth::attempt($request->validated(), )) { //$request->boolean('remember')
             throw ValidationException::withMessages([
                 'email' => 'Неверные учетные данные.',
             ]);
@@ -36,29 +30,16 @@ class LoginController extends Controller
             return redirect()->route('password.change');
         }
 
-        return redirect()->route('exams');
+        return redirect()->route('exams.index');
     }
 
-   public function changePassword(Request $request){
-        $request->validate([
-            'newPassword' => ['required', 'string', 'min:8', 'confirmed']
-        ]);
-
+   public function changePassword(ChangePasswordRequest $request){
         $user = $request->user();
         
         $user->update([
             'password' => Hash::make($request->input('newPassword')),
             'has_to_change_password' => false
         ]);
-
-        $user->currentAccessToken()->delete();
-        $token = $user->createToken(
-                                TokenAbilities::SystemAccess->value,
-                                [TokenAbilities::SystemAccess->value],
-                                now()->addDays(14))->plainTextToken;
-            return (new UserResource($user))
-                        ->additional([
-                            'token' => $token
-                        ]);
+        return redirect()->route('exams.index')->with('success', 'Пароль изменён!');
    }
 }

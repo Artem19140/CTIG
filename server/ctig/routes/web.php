@@ -1,24 +1,28 @@
 <?php
 
-use App\Http\Controllers\Web\Address\AddressController;
 use App\Http\Controllers\Web\Exam\ExamController;
 use App\Http\Controllers\Web\Login\LoginController;
+use App\Http\Controllers\Web\Student\StudentController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
 use Inertia\Inertia;
 
-Route::get( 'exams/{exam}', [ExamController::class, 'show']);
+Route::resource('exams', ExamController::class)->middleware('auth');//->middleware('auth') passwordChange
 
-Route::get( 'exams', [ExamController::class, 'index']);
+Route::resource('students', StudentController::class)->middleware('auth');//->middleware('auth') passwordChange
 
-Route::get( 'exams', [ExamController::class, 'index'])->name('exams');
+Route::get('exams/create/modal-data', [ExamController::class,'createModalData']);
 
 Route::post('login', [LoginController::class, 'login'])->name('login');
 
+Route::get('password/change', function () {
+    return Inertia::render('ChangePassword/ChangePassword');
+})->name('password.change');
+
+Route::post('password/change', [LoginController::class, 'changePassword']);
+
 Route::get('/login', function () {
     return Inertia::render('Login/Login');
-});
+})->name('login');
 
-//Route::get( 'exams', [AddressController::class, 'index'])->name('addresses');
 
 Route::post( 'exam-codes/verify', [ExamController::class, 'verifyCode']);

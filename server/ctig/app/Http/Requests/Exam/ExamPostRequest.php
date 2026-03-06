@@ -43,6 +43,7 @@ class ExamPostRequest extends FormRequest
             'comment' => [
                         'nullable',
                         'string',
+                        'max:256'
                     ],
 
             'testers' => [
@@ -62,10 +63,10 @@ class ExamPostRequest extends FormRequest
    public function getDto(): ExamDto{
         return new ExamDto(
             new DateTime($this->get('beginTime')),
-            $this->get('addressId'),
-            $this->get('capacity'),
-            $this->get('examTypeId'),
-            $this->get('comment'),
+            \intval($this->get('addressId')),
+            \intval($this->get('capacity')),
+            \intval($this->get('examTypeId')),
+            \strval($this->get('comment')),
             $this->get('testers')
         );
    }

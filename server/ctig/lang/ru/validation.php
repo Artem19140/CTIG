@@ -219,7 +219,7 @@ return [
         'migrationCardRequisite' => 'реквизиты миграционной карты',
         'citizenship' => 'гражданство',
         'phone' => 'телефон',
-        'noPatronymic' => 'нет отчества',
+        'hasPatronymic' => 'нет отчества',
         'examBlockId' => 'идентификатор блока экзамена',
         'examId' => 'идентификатор экзамена',
         'taskId' => 'идентификатор задания',

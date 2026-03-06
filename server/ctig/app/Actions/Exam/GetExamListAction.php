@@ -11,7 +11,7 @@ class GetExamListAction{
         $dateFrom = $data['dateFrom'] ?? false;
         $dateTo = $data['dateTo'] ?? false;
         $addressId = $data['addressId'] ?? false;
-        $exams = Exam::with(['examType'])
+        $exams = Exam::with(['examType', 'address', 'testers'])
             ->when($examTypeId, function (Builder $query, int $examTypeId) {
                 $query->where('exam_type_id', $examTypeId);
             })
@@ -24,7 +24,8 @@ class GetExamListAction{
             ->when($addressId, function (Builder $query, string $addressId){
                 $query->where('address_id',$addressId);
             })
-            ->paginate(15);
+            ->latest('begin_time')
+            ->paginate(10);
         return $exams;
     }
 }

@@ -13,7 +13,7 @@ class StudentPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'noPatronymic' =>
+            'hasPatronymic' =>
                 [
                     'boolean'
                 ],
@@ -29,15 +29,15 @@ class StudentPostRequest extends FormRequest
                 ],
             'patronymic' =>
                 [
-                    'prohibited_if_accepted:noPatronymic',
-                    'required_if_declined:noPatronymic',
+                    'prohibited_if_accepted:hasPatronymic',
+                    'required_if_declined:hasPatronymic',
                     'nullable',
                     'string'
                 ],
             'patronymicLatin' =>
                 [
-                    'prohibited_if_accepted:noPatronymic',
-                    'required_if_declined:noPatronymic',
+                    'prohibited_if_accepted:hasPatronymic',
+                    'required_if_declined:hasPatronymic',
                     'nullable',
                     'string'
                 ],

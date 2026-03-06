@@ -1,8 +1,45 @@
 <template>
   <div>
-    <main>
+    <v-card>
+    <v-layout>
+      <v-navigation-drawer
+        expand-on-hover
+        permanent
+        rail
+      >
+        <v-list>
+          <v-list-item
+            prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
+            subtitle="sandra_a88@gmailcom"
+            title="Sandra Adams"
+          ></v-list-item>
+        </v-list>
+
+        <v-divider></v-divider>
+
+        <v-list density="compact" nav v-model="activeItem">
+          <v-list-item prepend-icon="mdi-account-multiple" title="Студенты" @click="router.get('/students')"  value="myfiles"></v-list-item>
+          <v-list-item prepend-icon="mdi-folder" value="shared" title="Экзамены" @click="router.get('/exams')"></v-list-item>
+          <v-list-item prepend-icon="mdi-folder" title="Отчеты" value="starred"></v-list-item>
+          <v-list-item prepend-icon="mdi-folder" title="Проверка" value="starred"></v-list-item>
+        </v-list>
+      </v-navigation-drawer>
+
+    <v-main style="height: 100vh">
+      
       <slot />
-    </main>
+    </v-main>
+    </v-layout>
+  </v-card>
+
+
+
+
+
+
+
+
+
     <v-snackbar
     v-model="snackbar"
       :timeout="5000"
@@ -30,8 +67,10 @@
 </template>
 
 <script setup>
-import { usePage } from '@inertiajs/vue3'
+import { router, usePage } from '@inertiajs/vue3'
 import { watch, ref } from 'vue'
+
+const activeItem = ref('')
 
 const page = usePage()
 

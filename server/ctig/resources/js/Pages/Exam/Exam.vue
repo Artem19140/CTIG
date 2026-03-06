@@ -1,3 +1,13 @@
+<script lang="ts">
+import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
+
+export default {
+
+    // Using shorthand syntax...
+    layout: EmployeeLayout,
+}
+</script>
+
 <script setup lang="ts">
 import ExamList from './Components/ExamList.vue';
 

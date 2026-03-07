@@ -10,6 +10,16 @@ import { createVuetify } from 'vuetify'
 const vuetify = createVuetify({
   theme: {
     defaultTheme: 'light', // 'system' | 'light' | 'dark'
+    themes: {
+      light: {
+        colors: {
+          background: '#f5f5f5',
+          surface: '#ffffff',
+          'on-surface': '#1e293b',
+          'on-background': '#1e293b'
+        }
+      }
+    }
   },
 })
 createInertiaApp({

@@ -24,7 +24,7 @@ class ExamController
     public function index(ExamIndexRequest $request, GetExamListAction $getExamList)
     {
         $exams = $getExamList->execute($request->validated() ?? []);
-        
+        // $exams->load('students');
         return Inertia::render('Exam/Exam', [
             'exams' => ExamResource::collection($exams)->resolve(),
             'create' => false

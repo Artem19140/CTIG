@@ -28,7 +28,7 @@ class StudentResource extends JsonResource
             'passportNumber' => $this->resource->passport_number,
             'passportSeries' => $this->resource->passport_series,
             'issuedBy' => $this->resource->issued_by,
-            'issuesDate' => $this->resource->issues_date,
+            'issuedDate' => $this->resource->issues_date,
             'addressReg' => $this->resource->address_reg,
             'migrationCardRequisite' => $this->resource->migration_card_requisite,
             'citizenship' => $this->resource->citizenship,

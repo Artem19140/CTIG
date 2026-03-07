@@ -3,7 +3,6 @@ import { useForm } from '@inertiajs/vue3'
 import axios from 'axios';
 import { ref } from 'vue';
 import AppInput from '../../../Components/UI/AppInput/AppInput.vue';
-import { router } from '@inertiajs/vue3';
 
 const addresses = ref()
 const testers = ref()
@@ -33,6 +32,8 @@ const create = () => {
     preserveScroll: true,
     onSuccess: (page) => {
         isActive.value = false
+        form.reset()
+        form.clearErrors()
         console.log('Форма успешно отправлена!', page)
     },
     onError: (errors) => {
@@ -41,6 +42,23 @@ const create = () => {
     })
     
 }
+
+const close = () => {
+    if(form.isDirty){
+        const isCancel = confirm("Отменить добавление?")
+        if(isCancel){
+            form.reset()
+            isActive.value = false
+            form.clearErrors()
+            return
+        }else{
+            return
+        }
+    }
+    form.clearErrors()
+    form.reset()
+    isActive.value = false
+}
 </script>
 
 <template>
@@ -48,7 +66,6 @@ const create = () => {
     <v-btn
         @click="loadModalData"
         color="green"
-        prepend-icon="mdi-plus"
         text="Добавить"
         variant="flat"
         size="large"
@@ -56,7 +73,7 @@ const create = () => {
     
     <v-dialog persistent max-width="500" v-model="isActive">
         <v-card title="Добавление экзамена"  class="pl-4 pr-4">
-            <form @submit.prevent="form.post('/exams', {preserveScroll: true})">
+            <form @submit.prevent="create">
                 <v-autocomplete 
                     label="Тип экзамена"
                     item-title="name"
@@ -129,7 +146,7 @@ const create = () => {
                     
                     <v-btn
                         text="Отменить"
-                        @click="isActive = false"
+                        @click="close"
                     ></v-btn>
                 </v-card-actions>
             </form>    

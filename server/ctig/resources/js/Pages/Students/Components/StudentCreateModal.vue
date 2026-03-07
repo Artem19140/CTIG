@@ -6,24 +6,24 @@ import { ref } from 'vue';
 const isActive = ref(false)
 
 const form = useForm({
-    surname:'',
-    name:'234',
-    patronymic:'243',
+    surname:'', 
+    name:'',
+    patronymic:'',
     noPatronymic:false,
-    surnameLatin:'1243',
-    nameLatin:'2143',
-    patronymicLatin:'2143',
+    surnameLatin:'',
+    nameLatin:'',
+    patronymicLatin:'',
     passportNumber:'',
-    passportSeries:'243',
+    passportSeries:'',
     noPassportNumber:false,
     noPassportSeries:false,
-    issuedBy:'234',
-    issuesDate:'2025-11-11',
-    migrationCardRequisite:'123',
-    citizenship:'KZ',
-    phone:'243',
-    addressReg:'124',
-    dateBirth:'2005-11-11'
+    issuedBy:'',
+    issuesDate:'',
+    migrationCardRequisite:'',
+    citizenship:'',
+    phone:'',
+    addressReg:'',
+    dateBirth:''
 })
 
 const citizenships = [
@@ -36,6 +36,8 @@ const create = () => {
     preserveScroll: true,
     onSuccess: (page) => {
         isActive.value = false
+        form.reset()
+        form.clearErrors()
         console.log('Форма успешно отправлена!', page)
     },
     onError: (errors) => {
@@ -44,13 +46,29 @@ const create = () => {
     })
 }
 
+const close = () => {
+    if(form.isDirty){
+        const isCancel = confirm("Отменить добавление?")
+        if(isCancel){
+            form.reset()
+            form.clearErrors()
+            isActive.value = false
+            return
+        }else{
+            return
+        }
+    }
+    form.reset()
+    form.clearErrors()
+    isActive.value = false
+}
+
 </script>
 
 <template>
     <v-btn
            @click="isActive = true"
             color="green"
-            prepend-icon="mdi-plus"
             text="Добавить"
             variant="flat"
             size="large"
@@ -120,7 +138,7 @@ const create = () => {
                 /> 
 
                 <v-autocomplete 
-                    label="Граждество"
+                    label="Гражданство"
                     item-title="name"
                     :items="citizenships"
                     item-value="value"
@@ -206,7 +224,7 @@ const create = () => {
                     
                     <v-btn
                         text="Отменить"
-                        @click="isActive = false"
+                        @click="close"
                     ></v-btn>
                 </v-card-actions>
             </form>    

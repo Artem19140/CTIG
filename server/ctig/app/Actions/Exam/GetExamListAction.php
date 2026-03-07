@@ -12,6 +12,7 @@ class GetExamListAction{
         $dateTo = $data['dateTo'] ?? false;
         $addressId = $data['addressId'] ?? false;
         $exams = Exam::with(['examType', 'address', 'testers'])
+            ->withCount('students')
             ->when($examTypeId, function (Builder $query, int $examTypeId) {
                 $query->where('exam_type_id', $examTypeId);
             })

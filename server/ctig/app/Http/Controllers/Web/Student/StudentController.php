@@ -17,6 +17,7 @@ class StudentController
         return Inertia::render('Students/Students', [
             'students' => StudentResource::collection(
                 Student::latest('created_at')
+                ->with('creator')
                 ->paginate(10)
                 
             )->resolve() 

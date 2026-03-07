@@ -25,7 +25,7 @@
         </v-list>
       </v-navigation-drawer>
 
-    <v-main style="height: 100vh">
+    <v-main style="height: 100vh; background:#f1f5f9;">
       
       <slot />
     </v-main>

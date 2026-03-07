@@ -1,52 +1,68 @@
 <script setup lang="ts">
+    import { ref } from 'vue';
     import { formatterDate } from '../../../Helpers/heplers';
     import { formatterTime } from '../../../Helpers/heplers';
     import ExamCreateModal from './ExamCreateModal.vue';
+    import ExamShowModal from './ExamShowModal.vue';
 
     const props = defineProps<{
-        exams: any[]    // если это массив объектов
+        exams: any[]   
     }>()
-
-    const isFull = (enrolled:number, capacity:number) => {
-        return enrolled / capacity === 1
-    }
 
     const headers = [
         {title : "Название",sortable: false, key: 'name'},
         {title : "Дата",sortable: false, key: 'date'},
         {title : "Время",sortable: false, key: 'time'},
         {title : "Адрес",sortable: false, key: 'address'},
-        {title : "Тестеры",sortable: false, key: 'testers'},
         {title : "Запись",sortable: false, key: 'enrollment'},
-        {title : "Действия",sortable: false, key: 'enrollment'}
+        {title : "Действия",sortable: false}
     ]
+
+    const openModal = (id:number) => {
+        examId.value = null
+        examId.value = id
+        showModal.value = true
+    }
+
+    const showModal = ref(false)
+    const examId = ref()
 
 </script>
 
 <template>
-    <v-card  class="w-4/5 mt-30 mx-auto">
-        <ExamCreateModal />
-        <v-data-table
-            :headers="headers"
-            :items="exams"
-            hide-default-footer
-            width="1000"
-        >
+    
+    <div class="w-4/5 mt-30 mx-auto">
+        <div class="mb-3 flex items-center gap-3">
+            <div class="text-h1" style="font-size: 1.5rem;">Экзамены</div>
+            <ExamCreateModal />
+            <v-btn>Фильтры</v-btn>
+        </div>
 
-            <template v-slot:item="{item}">
-                <tr>
-                    <td>{{ item.name }}</td>
-                    <td>{{ formatterDate(item.beginTime) }}</td>
-                    <td>{{ formatterTime(item.beginTime) }}</td>
-                    <td>{{ item.address }}</td>
-                    <td></td> <!--  {{ item.testers[1] }} -->
-                    <td :class="{'text-red-500': isFull(13, item.capacity)}">13/{{ item.capacity }}</td>
-                    <td>
-                        1
-                    </td>
-                </tr>
+        <v-card  >
+            <v-data-table
+                :headers="headers"
+                :items="exams"
+                hide-default-footer
+                width="1000"
+                hover
+                title=""
+            >
 
-            </template>
-        </v-data-table>
-    </v-card>
+                <template v-slot:item="{item}">
+                    <tr @click="openModal(item.id)">
+                        <td>{{ item.name }}</td>
+                        <td>{{ formatterDate(item.beginTime) }}</td>
+                        <td>{{ formatterTime(item.beginTime) }}</td>
+                        <td>{{ item.address }}</td>
+                        <td :class="{'text-red-500': ((item.studentsCount / item.capacity) === 1)}">{{` ${item.studentsCount }/${ item.capacity }`}}</td>
+                        <td @click.stop">
+                            1
+                        </td>
+                    </tr>
+
+                </template>
+            </v-data-table>
+        </v-card>
+    </div>
+    <ExamShowModal v-model="showModal" :id="examId" />
 </template>

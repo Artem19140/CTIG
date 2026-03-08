@@ -14,11 +14,18 @@ return new class extends Migration
             $table->foreignId('student_id')
                 ->constrained('students') 
                 ->cascadeOnDelete();
+                
             $table->foreignId('ban_by_id')
                 ->constrained('users')
                 ->cascadeOnDelete();
+
             $table->foreignId('exam_id')
                 ->constrained('exams');
+
+            $table->foreignId('organization_id')
+                ->constrained('organizations')
+                ->cascadeOnDelete();
+
             $table->string('status')->default(AttemptStatus::Active);
             $table->dateTime('expired_at');
             $table->string('ban_reason')->nullable()->default(null);

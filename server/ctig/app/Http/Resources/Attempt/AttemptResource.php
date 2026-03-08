@@ -21,12 +21,14 @@ class AttemptResource extends JsonResource
         return [
             'exam' => new ExamResource($this->whenLoaded('exam')),
             'answers' =>  StudentAnswerResource::collection($this->whenLoaded('answers')),
-            //'solved' => $this->when(''),
+            //'solved' => $this->whenCounted(''),
             'student' => new StudentResource($this->whenLoaded('student')),
             'violations' =>  ViolationResource::collection($this->whenLoaded('violations')),
             'id' => $this->id,
-            'started_at' => $this->started_at,
-            'finished_at' => $this->finished_at
+            'startedAt' => $this->started_at,
+            'finishedAt' => $this->finished_at,
+            'isPassed' => $this->is_passed,
+            'status' => $this->status
         ];
     }
 }

@@ -11,9 +11,9 @@ return new class extends Migration
     {
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('begin_time');
+            $table->dateTime('begin_time')->index();
             $table->dateTime('end_time')->nullable();
-            $table->string('time_zone')->default('Europe/Samara'); //с клиента брать 
+            $table->string('time_zone')->default('Europe/Samara'); 
             $table->unsignedTinyInteger('capacity');
             $table->date('date');
             $table->foreignId('exam_type_id') 
@@ -25,7 +25,12 @@ return new class extends Migration
                 ->cascadeOnDelete();
             
             $table->foreignId('address_id')
+                ->index()
                 ->constrained('addresses')
+                ->cascadeOnDelete();
+
+            $table->foreignId('organization_id')
+                ->constrained('organizations')
                 ->cascadeOnDelete();
             
             $table->boolean('is_cancelled')->default(false);
@@ -39,17 +44,25 @@ return new class extends Migration
         Schema::create('exam_student', function (Blueprint $table) {
             $table->id();
 
+            $table->unsignedSmallInteger('reg_number');
+
+
             $table->foreignId('exam_id')
-              ->constrained()
-              ->cascadeOnDelete();
+                ->index()
+                ->constrained()
+                ->cascadeOnDelete();
 
             $table->foreignId('student_id')
-              ->constrained()
-              ->cascadeOnDelete();
+                 ->constrained()
+                ->cascadeOnDelete();
             
-            // $table->foreignId('creator_id')
-            // ->constrained('users')
-            // ->cascadeOnDelete();
+            $table->foreignId('creator_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
+
+            $table->foreignId('organization_id')
+                ->constrained('organizations')
+                ->cascadeOnDelete();
 
             $table->timestamps();
         });
@@ -62,8 +75,26 @@ return new class extends Migration
               ->cascadeOnDelete();
 
             $table->foreignId('tester_id')
-              ->constrained('users')
-              ->cascadeOnDelete();
+                ->index()
+                ->constrained('users')
+                ->cascadeOnDelete();
+
+            $table->foreignId('organization_id')
+                ->constrained('organizations')
+                ->cascadeOnDelete();
+
+            $table->timestamps();
+        });
+
+        Schema::create('exam_counters', function (Blueprint $table) {
+            $table->id();
+
+            $table->string('key');
+            $table->unsignedSmallInteger('value')->default(0);
+
+            $table->foreignId('organization_id')
+                ->constrained('organizations')
+                ->cascadeOnDelete();
 
             $table->timestamps();
         });

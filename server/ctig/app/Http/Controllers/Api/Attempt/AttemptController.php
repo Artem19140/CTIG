@@ -100,6 +100,7 @@ class AttemptController extends Controller
         }
         $attempt->ban_reason = $request->input('banReason');
         $attempt->ban_by_id = $request->user()->id;
+        $attempt->is_passed = false;
         $attempt->status = AttemptStatus::Banned;
         $attempt->save();
         return $this->noContent();

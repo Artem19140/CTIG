@@ -13,6 +13,9 @@ return new class extends Migration
             $table->id();
             $table->string('address');
             $table->boolean('is_active')->default('true');
+            $table->foreignId('organization_id')
+                ->constrained('organizations')
+                ->cascadeOnDelete();
             // $table->foreignId('creator_id')
             //     ->constrained('users')
             //     ->cascadeOnDelete();

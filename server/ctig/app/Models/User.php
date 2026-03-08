@@ -35,15 +35,15 @@ class User extends Authenticatable
         'surname',
         'name',
         'patronymic',
-        'position',
+        'job_title',
         'email',
         'password',
-        'has_to_change_password'
+        'has_to_change_password',
+        'is_work'
     ];
     protected $hidden = [
         'password',
         'remember_token',
-        
     ];
 
     protected function casts(): array
@@ -51,7 +51,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'is_admin' => 'boolean'
+            'is_admin' => 'boolean',
+            'is_work' => 'boolean'
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Student;
  
 use App\Http\Resources\Attempt\AttemptResource;
+use App\Http\Resources\Exam\ExamResource;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -35,6 +36,9 @@ class StudentResource extends JsonResource
             'phone' => $this->resource->phone,
             'creator'=>new UserResource($this->whenLoaded('creator')),
             'attempts' => AttemptResource::collection($this->whenLoaded('attempts')),
+            'exams' => ExamResource::collection($this->whenLoaded('exams')),
+            'passportScanPath' => $this->passport_scan_path,
+            'photoPath' => $this->photo_path,
             'createdAt' => $this->created_at
         ];
     }

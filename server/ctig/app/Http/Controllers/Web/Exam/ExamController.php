@@ -26,7 +26,7 @@ class ExamController
         $exams = $getExamList->execute($request->validated() ?? []);
         // $exams->load('students');
         return Inertia::render('Exam/Exam', [
-            'exams' => ExamResource::collection($exams)->resolve(),
+            'exams' => ExamResource::collection($exams),
             'create' => false
         ]);
     }
@@ -42,9 +42,9 @@ class ExamController
 
     public function createModalData(){
         return response()->json([
-            'addresses' => AddressResource::collection(Address::all())->resolve(),
-            'examTypes' => ExamTypeResource::collection(ExamType::all())->resolve(),
-            'testers' => UserResource::collection(User::all())->resolve() //Где роль тестеры
+            'addresses' => AddressResource::collection(Address::all()),
+            'examTypes' => ExamTypeResource::collection(ExamType::all()),
+            'testers' => UserResource::collection(User::all()) //Где роль тестеры
         ], 200);
     }
 

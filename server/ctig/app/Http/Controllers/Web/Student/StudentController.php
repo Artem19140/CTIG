@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Web\Student;
 
+use App\Actions\Student\GetStudentsListAction;
 use App\Exceptions\BusinessException;
+use App\Http\Requests\Student\StudentIndexRequest;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\Student\StudentPostRequest;
@@ -13,16 +15,11 @@ use Inertia\Inertia;
 class StudentController 
 {
 
-    public function index(){
+    public function index(StudentIndexRequest $request, GetStudentsListAction $getStudentsList){
+        $students = $getStudentsList->execute($request->validated() ?? []);
         return Inertia::render('Students/Students', [
-            'students' => StudentResource::collection(
-                Student::latest('created_at')
-                ->with('creator')
-                ->paginate(10)
-                
-            )->resolve() 
+            'students' => StudentResource::collection($students)
         ]);
-        return StudentResource::collection(Student::all()); //доп параметры 
     }
 
     public function store(StudentPostRequest $request){
@@ -62,6 +59,10 @@ class StudentController
     }
 
     public function show(Student $student){
+        $student->load('attempts.exam.examType');//Мб exams??
+        $student->load(['exams.attempts' => function ($query) use($student): void{
+            $query->where('student_id', $student->id);
+        }]);
         return new StudentResource($student);
     }
 

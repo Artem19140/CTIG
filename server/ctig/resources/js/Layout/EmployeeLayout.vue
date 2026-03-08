@@ -1,6 +1,4 @@
 <template>
-  <div>
-    <v-card>
     <v-layout>
       <v-navigation-drawer
         expand-on-hover
@@ -11,7 +9,7 @@
           <v-list-item
             prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
             subtitle="sandra_a88@gmailcom"
-            title="Sandra Adams"
+            :title="employeeName"
           ></v-list-item>
         </v-list>
 
@@ -26,71 +24,29 @@
       </v-navigation-drawer>
 
     <v-main style="height: 100vh; background:#f1f5f9;">
-      
       <slot />
     </v-main>
     </v-layout>
-  </v-card>
 
 
 
 
-
-
-
-
-
-    <v-snackbar
-    v-model="snackbar"
-      :timeout="5000"
-      :color="color"
-      prepend-icon="$complete"
-      timer="bottom"
-      timer-color="white"
-      size="large"
-    >
-      {{ text }}
-
-      <template v-slot:actions>
-        <v-btn
-          density="comfortable"
-          variant="text"
-          rounded="lg"
-          contained
-          @click="snackbar = false"
-        >
-          Ok
-        </v-btn>
-      </template>
-    </v-snackbar>
-  </div>
+    <app-snackbar 
+    />
+    <student-show-modal />
+    <document-show-dialog />
 </template>
 
 <script setup>
-import { router, usePage } from '@inertiajs/vue3'
-import { watch, ref } from 'vue'
-
-const activeItem = ref('')
+import { router } from '@inertiajs/vue3'
+import { ref } from 'vue'
+import AppSnackbar from '../Components/UI/AppSnackbar/AppSnackbar.vue'
+import StudentShowModal from '../Pages/Students/Components/StudentShowModal.vue';
+import DocumentShowDialog from '../Components/UI/DocumentShowDialog/DocumentShowDialog.vue';
+import { usePage } from '@inertiajs/vue3';
 
 const page = usePage()
+const employeeName = `${page?.props.auth.user.surname} ${page?.props.auth.user.name[0]}. ${page?.props.auth.user.patronymic[0]}.`
 
-const snackbar = ref(false)
-const text = ref('')
-const color = ref('')
-
-watch(
-  () => page.props.flash,
-  (flash) => {
-    if (!flash) return
-    if (flash?.success) {
-      text.value = flash.success
-      snackbar.value = true
-      color.value="success"
-    }else if(flash?.error){
-      text.value = flash.error
-      snackbar.value = true
-      color.value="error"
-    }
-  }
-)
+const activeItem = ref('')
 </script>

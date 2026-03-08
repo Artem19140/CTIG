@@ -22,6 +22,11 @@ return new class extends Migration
             $table->foreignId('student_id')
                 ->constrained('students')
                 ->cascadeOnDelete();
+
+            $table->foreignId('organization_id')
+                ->constrained('organizations')
+                ->cascadeOnDelete();
+                
             $table->integer('checked_by_id')->nullable()->default(null);
             $table->boolean('is_checked')->default(false);
             $table->unsignedTinyInteger('mark')->nullable()->default(null);

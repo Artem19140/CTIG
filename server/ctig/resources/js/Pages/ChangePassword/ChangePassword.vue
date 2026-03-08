@@ -17,13 +17,7 @@ const change = () => {
     }
   form.post('/password/change', {
     preserveScroll: true,
-    preserveState: true, 
-    onError: (errors) => {
-      console.log('Ошибки валидации:', errors);
-    },
-    onSuccess: () => {
-      console.log('Пароль успешно изменён');
-    }
+    preserveState: true
   })
 }
 </script>

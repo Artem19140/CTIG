@@ -1,14 +1,17 @@
 <script setup lang="ts">
-    import { ref } from 'vue';
-import StudentShowModal from './StudentShowModal.vue';
-import { formatterDate } from '../../../Helpers/heplers';
+    import { formatterDate } from '../../../Helpers/heplers';
+    import { modalState } from '../../../Composables/modalState'
+
+    function studentShowModal(id: number) {
+        modalState.studentId = id  
+    }
 
    const props = withDefaults(defineProps<{
         students: any[]
         width?: string
     }>(), {
-        students: () => [], // функция возвращает дефолтный массив
-        width: "100%"           // дефолтное число
+        students: () => [],
+        width: "100%"          
     });
 
     const headers = [
@@ -20,15 +23,6 @@ import { formatterDate } from '../../../Helpers/heplers';
         {title : "Номер",sortable: false, key: 'passportNumber'},
         {title : "Гражданство",sortable: false, key: 'citizenship'}
     ]
-
-    const showModal = ref(false)
-    const studentId = ref()
-
-    const openShowModal = (id : number ) => {
-        studentId.value = null
-        studentId.value = id
-        showModal.value = true
-    }
 
 </script>
 
@@ -43,7 +37,7 @@ import { formatterDate } from '../../../Helpers/heplers';
             hover
         >
             <template v-slot:item="{item}">
-                <tr @click="openShowModal(item.id)">
+                <tr @click="studentShowModal(item.id)" class="cursor-pointer">
                     <td>{{ item.id }}</td>
                     <td>{{ item.surname }}</td>
                     <td>{{ item.name }}</td>
@@ -55,5 +49,4 @@ import { formatterDate } from '../../../Helpers/heplers';
                 </tr>
             </template>
         </v-data-table>
-        <StudentShowModal v-model="showModal" :id="studentId"/>
 </template>

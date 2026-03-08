@@ -2,8 +2,6 @@
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
 
 export default {
-
-    // Using shorthand syntax...
     layout: EmployeeLayout,
 }
 </script>
@@ -12,7 +10,7 @@ export default {
 import ExamList from './Components/ExamList.vue';
 
 const props = defineProps<{
-  exams: any[]
+  exams: Object
 }>()
 </script>
 

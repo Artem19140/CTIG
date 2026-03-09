@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\Exam;
 
 use App\Actions\Exam\CancelExamAction;
 use App\Actions\Exam\CreateStudentsCodesForExamAction;
+use App\Actions\Exam\EnrollStudentToExamAction;
 use App\Actions\Exam\GetExamListAction;
 use App\Actions\Exam\VerifyExamCodeAction;
 use App\Exceptions\BusinessException;
@@ -29,6 +30,7 @@ class ExamController
         return Inertia::render('Exam/Exam', [
             'exams' => ExamResource::collection($exams)
         ]);
+        
     }
 
     public function store(ExamPostRequest $request, CreateExamAction $createExamAction)
@@ -91,5 +93,24 @@ class ExamController
     public function formCodes(Exam $exam, CreateStudentsCodesForExamAction $createStudentsCodesForExam)
     {
         return $createStudentsCodesForExam->execute($exam);
+    }
+
+    public function available(){
+        $exams = Exam::with('examType')
+                    ->where('is_cancelled', false)
+                    ->where('begin_time', '>', now())
+                    ->limit(5)
+                    ->orderByDesc('begin_time') 
+                    ->get();
+        return ExamResource::collection($exams);
+    }        
+    
+    public function enroll(Request $request,Exam $exam, EnrollStudentToExamAction $enrollStudentToExam){ 
+        $request->validate([
+            'studentId' => ['required', 'integer', 'min:1'],
+        ]);
+        $enrollStudentToExam->execute($exam, request()->input('studentId'));
+               
+        return back()->with('success', 'Запись успешно создана');
     }
 }

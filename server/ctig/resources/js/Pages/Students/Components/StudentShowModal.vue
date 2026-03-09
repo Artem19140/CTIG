@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import axios from 'axios';
-import { formatterDate, formatterTime, attemptStatus } from '../../../Helpers/heplers';
+import { formatterDate, attemptStatus } from '../../../Helpers/heplers';
 import BaseDialog from '../../../Components/UI/BaseDialog/BaseDialog.vue';
 import { modalState } from '../../../Composables/modalState';
+import ExamEnrollmentMenu from '../../Exam/Components/ExamEnrollmentMenu.vue';
 
 const isOpen = defineModel<boolean>()
 const studentData = ref<any | null>(null)
@@ -39,6 +40,9 @@ const showDocument = (url :string) => {
         
         @before-close="(done) =>  { modalState.studentId = null; done()}"
     >
+        <template #titleActions>
+            <ExamEnrollmentMenu :student="studentData" />
+        </template>
         <template #skeleton>
             <v-skeleton-loader
                 type="avatar, heading, paragraph, paragraph"

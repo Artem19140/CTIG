@@ -25,7 +25,11 @@
         
       </v-navigation-drawer>
 
-    <v-main style="height: 100vh; background:#f1f5f9;">
+    <v-main 
+      
+      style="background:#f1f5f9; min-height: 100vh;"
+     
+    >
       <slot />
     </v-main>
     </v-layout>
@@ -41,6 +45,12 @@
 </template>
 
 <script setup>
+//  <!-- style="height: 100vh;
+//         background-image: url('/storage/images/background.png');
+//         background-size: cover;
+//         background-position: center;
+//       " -->
+//background:#f1f5f9;"
 import { router } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import AppSnackbar from '../Components/UI/AppSnackbar/AppSnackbar.vue'

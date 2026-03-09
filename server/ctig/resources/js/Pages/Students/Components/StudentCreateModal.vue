@@ -68,10 +68,9 @@ const close = () => {
 <template>
     <v-btn
            @click="isActive = true"
-            color="green"
             text="Добавить"
-            variant="flat"
-            size="large"
+            color="green"
+            size="small"
         ></v-btn>
     <v-dialog 
         persistent 

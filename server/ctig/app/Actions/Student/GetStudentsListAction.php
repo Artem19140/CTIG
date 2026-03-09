@@ -15,7 +15,7 @@ class GetStudentsListAction{
                         ->orWhere('passport_series', 'like',"$search%")
                         ->orWhere('passport_number', 'like',"$search%");
             })
-            ->latest('created_at')
-            ->simplePaginate();
+            ->latest()
+            ->paginate();
     }
 }

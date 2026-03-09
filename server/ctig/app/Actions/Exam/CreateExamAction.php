@@ -44,6 +44,7 @@ final class CreateExamAction{
         $hasConflictExam = Exam::where('address_id', $examDto->addressId)
                             ->where('begin_time', '<=', $examEndTime)
                             ->where('end_time', '>=', $examBeginTime)
+                            ->where('is_cancelled', false)
                             ->exists(); 
 
         if($hasConflictExam){

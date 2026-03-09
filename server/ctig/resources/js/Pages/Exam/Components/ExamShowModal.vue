@@ -36,10 +36,9 @@ const examTestersList = (testersList :Array<any>) => {
 }
 
 const headers = [
-        {title : "Фамилия",sortable: false, key: 'surname'},
-        {title : "Имя",sortable: false, key: 'name'},
-        {title : "Серия",sortable: false, key: 'passportSeries'},
-        {title : "Номер",sortable: false, key: 'passportNumber'}
+        {title : "ФИО",sortable: false, key: 'fio', align: 'start' },
+        {title : "Паспорт",sortable: false, key: 'passport', align: 'start' },
+        {title : "",sortable: false, key: 'action', align: 'end' },
     ]
 
 </script>
@@ -110,10 +109,44 @@ const headers = [
                     >
                         <template v-slot:item="{item}">
                             <tr @click="studentShowModal(item.id)" class="cursor-pointer">
-                                <td>{{ item.surname }}</td>
-                                <td>{{ item.name }}</td>
-                                <td>{{ item.passportSeries }}</td>
-                                <td>{{ item.passportNumber }}</td>
+                                <td>{{ item?.surname ?? '' }} {{ item?.name?.[0] ?? '' }}. {{ item?.patronymic?.[0] ?? '' }}.</td>
+                                <td>{{ item.passportSeries ?? '' }} {{ item.passportNumber ?? '' }}</td>
+
+                                <td>
+                                    <v-menu
+                                        @click.stop
+                                        location="bottom end"
+                                        >
+                                        <template v-slot:activator="{ props }">
+                                            <v-btn
+                                                icon
+                                                v-bind="props"
+                                                variant="text"
+                                            >
+                                                <v-icon>mdi-dots-vertical</v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <v-list>
+                                            <v-list-item link>
+                                                <v-list-title>
+                                                    Скачать заявление
+                                                </v-list-title>
+                                            </v-list-item>
+
+                                            <v-list-item link>
+                                                <v-list-title>
+                                                    Перенести
+                                                </v-list-title>
+                                            </v-list-item>
+
+                                            <v-list-item link>
+                                                <v-list-title color="red">
+                                                    Отменить запись
+                                                </v-list-title>
+                                            </v-list-item>
+                                        </v-list>
+                                    </v-menu>
+                                </td>
                             </tr>
                         </template>
                     </v-data-table>

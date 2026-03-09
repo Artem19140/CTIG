@@ -18,11 +18,12 @@ class ExamIndexRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        return [ 
             'examTypeId' => ['nullable', 'integer', 'min:1'],
             'dateFrom' => ['nullable', 'date'],
             'dateTo' => ['nullable', 'date'],
-            'addressId' => ['nullable', 'integer', 'min:1']
+            'addressId' => ['nullable', 'integer', 'min:1'],
+            'perPage' => ['nullable', 'integer', 'min:1'],
         ];
     }
 }

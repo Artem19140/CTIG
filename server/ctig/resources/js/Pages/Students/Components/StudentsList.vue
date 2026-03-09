@@ -2,12 +2,13 @@
     import StudentCreateModal from './StudentCreateModal.vue';
     import StudentTable from './StudentTable.vue';
     import StudentFilters from './StudentFilters.vue';
-import { ref } from 'vue';
+    import { ref, watch } from 'vue';
 
     const props = defineProps<{
         students: any
     }>()
-    const loading = ref()
+    const loading = ref(false)
+    
 
 </script>
 
@@ -24,7 +25,7 @@ import { ref } from 'vue';
                 
              </template>
              
-                <StudentTable :students="students.data" :loading="loading" />
+                <StudentTable :students="students" :loading="loading" />
         </v-card>
         
     </div>

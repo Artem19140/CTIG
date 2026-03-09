@@ -8,9 +8,9 @@
         width?: string
     }>()
     const headers = [
-            {title : "Название",sortable: false, key: 'name'},
-            {title : "Дата",sortable: false, key: 'beginTime'},
-            {title : "Запись",sortable: false, key: 'enrollment'},
+            {title : "Название",sortable: false, key: 'name', align: 'start' },
+            {title : "Дата",sortable: false, key: 'beginTime', align: 'start' },
+            {title : "Запись",sortable: false, key: 'enrollment', align: 'start' },
         ]
 
     const openModal = (id:number) => {
@@ -27,13 +27,13 @@
     <v-data-table
         :headers="headers"
         :items="exams"
-
+        
         :width="width"
         hover
     >
         <template v-slot:item="{item}">
             <tr @click="openModal(item.id)">
-                <td>{{ item.name }}</td>
+                <td>{{ item.shortName }}</td>
                 <td>{{ formatterDate(item.beginTime) }} {{ formatterTime(item.beginTime) }}</td>
                 <td :class="{'text-red-500': ((item.studentsCount / item.capacity) === 1)}">{{` ${item.studentsCount }/${ item.capacity }`}}</td>
             </tr>

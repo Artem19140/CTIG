@@ -6,22 +6,16 @@
         modalState.studentId = id  
     }
 
-   const props = withDefaults(defineProps<{
-        students: any[]
-        width?: string
-    }>(), {
-        students: () => [],
-        width: "100%"          
-    });
+   const props =defineProps<{
+        students: any[],
+        loading : boolean
+    }>()
 
     const headers = [
         {title : "ID",sortable: false, key: 'id'},
-        {title : "Фамилия",sortable: false, key: 'surname'},
-        {title : "Имя",sortable: false, key: 'name'},
+        {title : "ФИО",sortable: false, key: 'fi'},
         {title : "Дата рождения",sortable: false, key: 'dateBirth'},
-        {title : "Серия",sortable: false, key: 'passportSeries'},
-        {title : "Номер",sortable: false, key: 'passportNumber'},
-        {title : "Гражданство",sortable: false, key: 'citizenship'}
+        {title : "Паспорт",sortable: false, key: 'passport'}
     ]
 
 </script>
@@ -32,21 +26,18 @@
             :headers="headers"
             :items="students"
             key="id"
-            hide-default-footer
-            :width="width"
+            width="1000px"
             hover
+            :loading="loading"
         >
+        
             <template v-slot:item="{item}">
                 <tr @click="studentShowModal(item.id)" class="cursor-pointer">
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.surname }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ formatterDate(item.dateBirth) }}</td>
-                    <td>{{ item.passportSeries }}</td>
-                    <td>{{ item.passportNumber }}</td>
-                    <td>{{ item.citizenship }}</td>
-                    <!-- creator -->
+                    <td>{{ item.id  ?? ''}}</td>
+                    <td>{{ item.surname  ?? ''}} {{ item.name[0]  ?? ''}}. {{ item.patronymic[0] ?? '' }}.</td>
+                    <td>{{ formatterDate(item.dateBirth)  ?? '-'}}</td>
+                    <td>{{ item.passportSeries  ?? ''}} {{ item.passportNumber  ?? ''}}</td>
                 </tr>
             </template>
-        </v-data-table>
+    </v-data-table>
 </template>

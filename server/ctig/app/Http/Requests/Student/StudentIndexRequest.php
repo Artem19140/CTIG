@@ -22,7 +22,7 @@ class StudentIndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'citizenship' => ['nullable', 'string']
+            'search' => ['nullable', 'string']
         ];
     }
 }

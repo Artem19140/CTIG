@@ -3,10 +3,13 @@ import { ref, watch } from 'vue'; //105
 import axios from 'axios';
 import { formatterDate } from '../../../Helpers/heplers';
 import { formatterTime } from '../../../Helpers/heplers';
-import StudentTable from '../../Students/Components/StudentTable.vue';
 import BaseDialog from '../../../Components/UI/BaseDialog/BaseDialog.vue';
 import ExamModalShowDropdown from './ExamModalShowDropdown.vue';
+import { modalState } from '../../../Composables/modalState'
 
+function studentShowModal(id: number) {
+    modalState.studentId = id  
+}
 
 const isOpen = defineModel<boolean>()
 const props = defineProps<{ id: number | undefined }>()
@@ -31,6 +34,13 @@ watch(isOpen, async () => {
 const examTestersList = (testersList :Array<any>) => {
     return testersList.map(s => s.fullName).join(', ');
 }
+
+const headers = [
+        {title : "Фамилия",sortable: false, key: 'surname'},
+        {title : "Имя",sortable: false, key: 'name'},
+        {title : "Серия",sortable: false, key: 'passportSeries'},
+        {title : "Номер",sortable: false, key: 'passportNumber'}
+    ]
 
 </script>
 
@@ -91,7 +101,22 @@ const examTestersList = (testersList :Array<any>) => {
             </v-list>
             <v-list>
                 <v-list-item>
-                    <StudentTable :students="examData.students" width="500" />
+                    <v-data-table 
+                        :items="examData.students"
+                        hide-default-footer
+                        :headers="headers"
+                        fixed-header
+                        hover
+                    >
+                        <template v-slot:item="{item}">
+                            <tr @click="studentShowModal(item.id)" class="cursor-pointer">
+                                <td>{{ item.surname }}</td>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.passportSeries }}</td>
+                                <td>{{ item.passportNumber }}</td>
+                            </tr>
+                        </template>
+                    </v-data-table>
                 </v-list-item>
             </v-list>
         </v-card-text>

@@ -110,7 +110,7 @@ final class CreateStudentsCodesForExamAction{
         $html .= '</table>';
         
         $pdf = Pdf::loadHTML($html);
-
+        return $pdf->stream('codes.pdf');
         return response($pdf->stream('codes.pdf'), 200)
             ->header('Content-Type', 'application/pdf')
             ->header('Content-Disposition', 'inline; filename="codes.pdf"');

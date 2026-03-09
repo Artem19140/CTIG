@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Builder;
 
 class GetStudentsListAction{
     public function execute(array $data = []){
-        $citizenship = $data['citizenship'] ?? false;
-        return Student::with('creator')
-            ->when($citizenship, function (Builder $query, string $citizenship) {
-                $query->where('citizenship', $citizenship);
+        $search = $data['search'] ?? false;
+        return Student::when($search, function (Builder $query, string $search) {
+                    $query->where('name', 'like',"$search%")
+                        ->orWhere('surname', 'like',"$search%")
+                        ->orWhere('patronymic', 'like',"$search%")
+                        ->orWhere('passport_series', 'like',"$search%")
+                        ->orWhere('passport_number', 'like',"$search%");
             })
             ->latest('created_at')
             ->simplePaginate();

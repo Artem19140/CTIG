@@ -14,3 +14,20 @@ export const attemptStatus = (attempt : any) => {
   if (attempt.status === 'finished' && !attempt.isPassed) return 'На проверке'
   return attempt.isPassed ? 'Пройдена' : 'Не пройдена'
 }
+export const formatterDateTime = (date: string) => {
+  if (!date) return '-'
+
+  const d = new Date(date)
+
+  const options: Intl.DateTimeFormatOptions = {
+    day: '2-digit',
+    month: 'long',   // полное название месяца
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  }
+
+  // форматируем и убираем запятую между датой и временем
+  return new Intl.DateTimeFormat('ru-RU', options).format(d).replace(', ', ' ')
+}

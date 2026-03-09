@@ -29,7 +29,6 @@ const close = () => {
         :height="height"
         :fullscreen="fullscreen"
         @keyup.esc="close"
-        
     >
        
         <v-card>

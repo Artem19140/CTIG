@@ -1,23 +1,16 @@
 <script setup lang="ts">
     import { ref } from 'vue';
-    import { formatterDate } from '../../../Helpers/heplers';
-    import { formatterTime } from '../../../Helpers/heplers';
+    import { formatterTime , formatterDate } from '../../../Helpers/heplers';
     import ExamShowModal from './ExamShowModal.vue';
 
-   const props = withDefaults(defineProps<{
+   const props = defineProps<{
         exams: any
         width?: string
-    }>(), {
-        students: () => [], // функция возвращает дефолтный массив
-        width: "100%"           // дефолтное число
-    });
+    }>()
     const headers = [
             {title : "Название",sortable: false, key: 'name'},
-            {title : "Дата",sortable: false, key: 'date'},
-            {title : "Время",sortable: false, key: 'time'},
-            {title : "Адрес",sortable: false, key: 'address'},
+            {title : "Дата",sortable: false, key: 'beginTime'},
             {title : "Запись",sortable: false, key: 'enrollment'},
-            {title : "Действия",sortable: false}
         ]
 
     const openModal = (id:number) => {
@@ -34,20 +27,15 @@
     <v-data-table
         :headers="headers"
         :items="exams"
-        hide-default-footer
+
         :width="width"
         hover
     >
         <template v-slot:item="{item}">
             <tr @click="openModal(item.id)">
                 <td>{{ item.name }}</td>
-                <td>{{ formatterDate(item.beginTime) }}</td>
-                <td>{{ formatterTime(item.beginTime) }}</td>
-                <td>{{ item.address }}</td>
+                <td>{{ formatterDate(item.beginTime) }} {{ formatterTime(item.beginTime) }}</td>
                 <td :class="{'text-red-500': ((item.studentsCount / item.capacity) === 1)}">{{` ${item.studentsCount }/${ item.capacity }`}}</td>
-                <td @click.stop">
-                    1
-                </td>
             </tr>
 
         </template>

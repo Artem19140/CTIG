@@ -54,9 +54,9 @@ const close = () :boolean => {
     
     <v-btn
         @click="loadModalData"
-        color="green"
+        color="gray"
         text="Добавить"
-        variant="flat"
+        variant="text"
         size="large"
     ></v-btn>
 

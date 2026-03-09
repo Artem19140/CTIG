@@ -16,11 +16,13 @@
         <v-divider></v-divider>
 
         <v-list density="compact" nav v-model="activeItem">
-          <v-list-item prepend-icon="mdi-account-multiple" title="Студенты" @click="router.get('/students')"  value="myfiles"></v-list-item>
-          <v-list-item prepend-icon="mdi-folder" value="shared" title="Экзамены" @click="router.get('/exams')"></v-list-item>
-          <v-list-item prepend-icon="mdi-folder" title="Отчеты" value="starred"></v-list-item>
-          <v-list-item prepend-icon="mdi-folder" title="Проверка" value="starred"></v-list-item>
+          <v-list-item prepend-icon="mdi-account-group" title="Студенты" @click="router.get('/students')"  value="myfiles"></v-list-item>
+          <v-list-item prepend-icon="mdi-school" value="shared" title="Экзамены" @click="router.get('/exams')"></v-list-item>
+          <v-list-item prepend-icon="mdi-file-document" title="Отчеты" value="reports" @click="router.get('/reports')"></v-list-item>
+          <v-list-item prepend-icon="mdi-clipboard-check" title="Проверка" value="starred"></v-list-item>
+          <v-list-item prepend-icon="mdi-logout" title="Выйти из аккаунта" value="starred"></v-list-item>
         </v-list>
+        
       </v-navigation-drawer>
 
     <v-main style="height: 100vh; background:#f1f5f9;">

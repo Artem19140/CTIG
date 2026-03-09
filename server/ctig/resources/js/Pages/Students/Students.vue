@@ -18,9 +18,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    
-    <div class="flex flex-col gap-4 w-auto">
-      <StudentsList :students="students" />
-    </div>
+    <StudentsList :students="students" />
+
     
 </template>

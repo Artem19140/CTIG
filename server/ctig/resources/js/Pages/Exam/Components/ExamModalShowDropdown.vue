@@ -13,19 +13,22 @@ const form = useForm({
 })
 
 const formCodes = async () => {
+  console.log(1)
   if(!props.examId){
     return
   }
-  const res = await axios.post(
-      `/exams/${props.examId}/codes`,
-      {},
-      {
-        responseType: 'blob'
-      }
-    )
-    const file = new Blob([res.data], { type: 'application/pdf' })
-    modalState.fileType = res.data.type
-    modalState.fileUrl = URL.createObjectURL(file)
+  modalState.fileUrl = `/exams/${props.examId}/codes`
+  console.log(modalState.fileUrl) 
+  // const res = await axios.post(
+  //     `/exams/${props.examId}/codes`,
+  //     {},
+  //     {
+  //       responseType: 'blob'
+  //     }
+  //   )
+  //   const file = new Blob([res.data], { type: 'application/pdf' })
+  //   modalState.fileType = res.data.type
+  //   modalState.fileUrl = URL.createObjectURL(file)
 }
 
 
@@ -67,9 +70,22 @@ const confirmOpen = async () => {
         <v-list>
           <v-list-item class="cursor-pointer" link>
             <v-list-item-title >
+              Скачать список
+            </v-list-item-title>
+          </v-list-item>
+
+          <v-list-item class="cursor-pointer" link>
+            <v-list-item-title >
+              Скачать ведомость
+            </v-list-item-title>
+          </v-list-item>
+
+          <v-list-item class="cursor-pointer" link>
+            <v-list-item-title >
               Редактировать
             </v-list-item-title>
           </v-list-item>
+
           <v-list-item 
             class="cursor-pointer" 
             link

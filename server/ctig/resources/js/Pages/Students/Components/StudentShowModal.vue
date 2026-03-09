@@ -32,7 +32,6 @@ const showDocument = (url :string) => {
 
 <template>
     <BaseDialog 
-        v-if="modalState.studentId"
         width="700"
         :title="`Карточка студента (ID ${studentData?.id ?? ''})`"
         :loading="loading && !studentData"

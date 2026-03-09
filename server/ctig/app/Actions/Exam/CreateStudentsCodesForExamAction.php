@@ -19,10 +19,10 @@ final class CreateStudentsCodesForExamAction{
         $examBeginTime = Carbon::parse($exam->begin_time);
         $minutesBieforeBegin = $examBeginTime->copy()->diffInMinutes(Carbon::now(), false);
 
-        $minutes = config('exam.code_generation_before_minutes'); 
-        if(-$minutesBieforeBegin >= $minutes){
-            throw new BusinessException("Коды можно сформировать минимум за $minutes минут до экзамена");
-        }
+        // $minutes = config('exam.code_generation_before_minutes'); 
+        // if(-$minutesBieforeBegin >= $minutes){
+        //     throw new BusinessException("Коды можно сформировать минимум за $minutes минут до экзамена");
+        // }
 
         $studentsExists = $exam->students()->exists();
         if(!$studentsExists){

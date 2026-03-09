@@ -25,6 +25,7 @@ class GetExamListAction{
             ->when($addressId, function (Builder $query, string $addressId){
                 $query->where('address_id',$addressId);
             })
+            ->where('is_cancelled', false)
             ->latest('begin_time')
             ->simplePaginate();
     }

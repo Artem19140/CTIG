@@ -13,6 +13,8 @@ class CancelExamAction{
         if($exam->is_cancelled){
             throw new BusinessException('Экзамен уже отменен');
         }
+
+        //Всем студентам поставить запись - отменено
         
         $exam->cancelled_reason = request()->input('cancelledReason');
         $exam->is_cancelled = true;

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Web\Exam;
 
 use App\Actions\Exam\CancelExamAction;
+use App\Actions\Exam\CreateStudentsCodesForExamAction;
 use App\Actions\Exam\GetExamListAction;
 use App\Actions\Exam\VerifyExamCodeAction;
+use App\Exceptions\BusinessException;
 use App\Http\Requests\Exam\ExamIndexRequest;
 use App\Http\Resources\Address\AddressResource;
 use App\Http\Resources\ExamType\ExamTypeResource;
@@ -24,10 +26,8 @@ class ExamController
     public function index(ExamIndexRequest $request, GetExamListAction $getExamList)
     {
         $exams = $getExamList->execute($request->validated() ?? []);
-        // $exams->load('students');
         return Inertia::render('Exam/Exam', [
-            'exams' => ExamResource::collection($exams),
-            'create' => false
+            'exams' => ExamResource::collection($exams)
         ]);
     }
 
@@ -68,23 +68,28 @@ class ExamController
         return Inertia::render('Exam');
     }
 
-    // public function destroy(Exam $exam , CancelExamAction $cancelExam)
-    // {
-    //     request()->validate( [
-    //         'cancelledReason' => ['required', 'string']
-    //     ]);
-    //     $cancelExam->execute($exam);
-    //     return response()->noContent();
-    // }
+    public function destroy(Exam $exam , CancelExamAction $cancelExam)
+    {
+        request()->validate( [
+            'cancelledReason' => ['required', 'string']
+        ]);
+        $cancelExam->execute($exam);
+        return back()->with('success', 'Экзамен отменен');
+    }
 
-    // public function state(Exam $exam){
-    //     if($exam->isPassed()){
-    //         throw new BusinessException('Экзамен уже прошел');
-    //     }
-    //     $exam->load([
-    //         'students.attempts' => fn ($query) => $query->where('exam_id', $exam->id)->with('violations')
-    //     ]);
+    public function state(Exam $exam){
+        if($exam->isPassed()){
+            throw new BusinessException('Экзамен уже прошел');
+        }
+        $exam->load([
+            'students.attempts' => fn ($query) => $query->where('exam_id', $exam->id)->with('violations')
+        ]);
         
-    //     return new ExamResource($exam);
-    // }
+        return new ExamResource($exam);
+    }
+
+    public function formCodes(Exam $exam, CreateStudentsCodesForExamAction $createStudentsCodesForExam)
+    {
+        return $createStudentsCodesForExam->execute($exam);
+    }
 }

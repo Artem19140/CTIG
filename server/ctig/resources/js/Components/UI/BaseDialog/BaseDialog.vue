@@ -17,7 +17,7 @@ const close = () => {
         isOpen.value = false
     })
 }
-     
+     //
 </script>
 
 <template>
@@ -28,14 +28,20 @@ const close = () => {
         :subtitle="subtitle"
         :height="height"
         :fullscreen="fullscreen"
+        @keyup.esc="close"
+        
     >
+       
         <v-card>
-            <v-card-title v-if="$slots.title || title" class="d-flex justify-space-between align-center">
+            <v-card-title v-if="$slots.title || title" class="d-flex align-center"> 
                 <slot name="title">
                     {{ title }}
                 </slot>
-                <v-spacer/>
-                <v-btn icon="mdi-close" variant="text" @click="close"/>
+                <v-spacer />
+                <slot name="titleActions" v-if="$slots.titleActions">
+
+                </slot>
+                <v-btn icon="mdi-close"variant="text" class="ml-16" @click="close"/>
             </v-card-title>
 
             <slot name="skeleton" v-if="loading">

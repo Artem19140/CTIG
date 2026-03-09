@@ -35,6 +35,7 @@
     />
     <student-show-modal />
     <document-show-dialog />
+    <confirm-dialog />
 </template>
 
 <script setup>
@@ -44,6 +45,7 @@ import AppSnackbar from '../Components/UI/AppSnackbar/AppSnackbar.vue'
 import StudentShowModal from '../Pages/Students/Components/StudentShowModal.vue';
 import DocumentShowDialog from '../Components/UI/DocumentShowDialog/DocumentShowDialog.vue';
 import { usePage } from '@inertiajs/vue3';
+import ConfirmDialog from '../Components/UI/ConfirmDialog/ConfirmDialog.vue';
 
 const page = usePage()
 const employeeName = `${page?.props.auth.user.surname} ${page?.props.auth.user.name[0]}. ${page?.props.auth.user.patronymic[0]}.`

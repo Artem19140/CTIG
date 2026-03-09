@@ -15,6 +15,7 @@ const vuetify = createVuetify({
         colors: {
           background: '#f5f5f5',
           surface: '#ffffff',
+          primary:'#0176ff',
           'on-surface': '#1e293b',
           'on-background': '#1e293b'
         }

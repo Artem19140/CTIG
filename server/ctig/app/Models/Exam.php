@@ -24,7 +24,8 @@ class Exam extends Model
         'end_time',
         'address_id',
         'date',
-        'cancelled_reason'
+        'cancelled_reason',
+        'is_cancelled',
     ];
 
     protected $casts = [

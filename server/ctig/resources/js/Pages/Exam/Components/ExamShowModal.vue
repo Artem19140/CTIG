@@ -5,6 +5,7 @@ import { formatterDate } from '../../../Helpers/heplers';
 import { formatterTime } from '../../../Helpers/heplers';
 import StudentTable from '../../Students/Components/StudentTable.vue';
 import BaseDialog from '../../../Components/UI/BaseDialog/BaseDialog.vue';
+import ExamModalShowDropdown from './ExamModalShowDropdown.vue';
 
 
 const isOpen = defineModel<boolean>()
@@ -21,15 +22,11 @@ watch(isOpen, async () => {
             return
         }
         loading.value = true
-        examData.value = await fetchData(props.id)
+        const res = await axios.get(`/exams/${props.id}`)
+        examData.value = res.data.data
         loading.value = false  
   }
 }, { immediate: true })
-
-async function fetchData(id: number) {
-  const res = await axios.get(`/exams/${id}`)
-  return res.data.data
-}
 
 const examTestersList = (testersList :Array<any>) => {
     return testersList.map(s => s.fullName).join(', ');
@@ -46,6 +43,9 @@ const examTestersList = (testersList :Array<any>) => {
         :subtitle="`${examData?.sessionNumber ?? '-'} / ${examData?.group ?? '-'}`"
         @before-close="(done) =>  {done()}"
     >
+        <template #titleActions>
+            <ExamModalShowDropdown :exam-id="examData?.id" />
+        </template>
         <template #skeleton>
              <v-skeleton-loader
                 type="avatar, heading, paragraph, paragraph"

@@ -3,15 +3,20 @@ import { computed, ref, watch } from 'vue';
 import BaseDialog from '../BaseDialog/BaseDialog.vue';
 import { modalState } from '../../../Composables/modalState';
 
-// const props = defineProps<{
-//     url: string
-// }>()
-
 const isOpen = ref(false)
-const isPdf = computed( () => modalState.fileUrl?.endsWith('.pdf'))
+const isPdf = computed(() => {
+  if (!modalState.fileUrl) return false
+
+
+  if (modalState.fileType) {
+    return modalState.fileType.includes('/pdf')
+  }
+
+
+  return modalState.fileUrl.toLowerCase().endsWith('.pdf')
+})
 
 watch(() => modalState.fileUrl, () => {
-    console.log(1)
     isOpen.value = true
 })
 
@@ -19,7 +24,6 @@ watch(() => modalState.fileUrl, () => {
 
 <template>
     <BaseDialog
-        v-if="modalState.fileUrl"
         v-model="isOpen" 
         width="1000"
         height = 1000

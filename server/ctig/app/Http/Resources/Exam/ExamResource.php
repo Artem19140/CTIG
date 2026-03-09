@@ -19,6 +19,7 @@ class ExamResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'isCancelled' => $this->is_cancelled,
             'beginTime' => $this->begin_time,
             'date'=> $this->date,
             'endTime' => $this->end_time,

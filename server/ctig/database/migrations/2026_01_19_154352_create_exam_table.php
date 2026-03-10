@@ -29,9 +29,9 @@ return new class extends Migration
                 ->constrained('addresses')
                 ->cascadeOnDelete();
 
-            $table->foreignId('organization_id')
-                ->constrained('organizations')
-                ->cascadeOnDelete();
+            // $table->foreignId('organization_id')
+            //     ->constrained('organizations')
+            //     ->cascadeOnDelete();
             
             $table->boolean('is_cancelled')->default(false);
             $table->string('cancelled_reason')->nullable()->default(null);
@@ -44,7 +44,7 @@ return new class extends Migration
         Schema::create('exam_student', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedSmallInteger('reg_number');
+            $table->unsignedInteger('reg_number');
 
 
             $table->foreignId('exam_id')
@@ -60,9 +60,9 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete();
 
-            $table->foreignId('organization_id')
-                ->constrained('organizations')
-                ->cascadeOnDelete();
+            // $table->foreignId('organization_id')
+            //     ->constrained('organizations')
+            //     ->cascadeOnDelete();
 
             $table->timestamps();
         });
@@ -79,9 +79,9 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete();
 
-            $table->foreignId('organization_id')
-                ->constrained('organizations')
-                ->cascadeOnDelete();
+            // $table->foreignId('organization_id')
+            //     ->constrained('organizations')
+            //     ->cascadeOnDelete();
 
             $table->timestamps();
         });
@@ -92,9 +92,9 @@ return new class extends Migration
             $table->string('key');
             $table->unsignedSmallInteger('value')->default(0);
 
-            $table->foreignId('organization_id')
-                ->constrained('organizations')
-                ->cascadeOnDelete();
+            // $table->foreignId('organization_id')
+            //     ->constrained('organizations')
+            //     ->cascadeOnDelete();
 
             $table->timestamps();
         });

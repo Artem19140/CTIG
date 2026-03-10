@@ -28,7 +28,8 @@ class AddressFactory extends Factory
     public function definition(): array
     {
         return [
-            'address' => fake()->streetAddress
+            'address' => fake()->streetAddress,
+            'max_capacity'=>fake()->numberBetween(8, 20)
         ];
     }
 }

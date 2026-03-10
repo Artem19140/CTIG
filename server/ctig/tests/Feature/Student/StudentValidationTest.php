@@ -32,7 +32,7 @@ class StudentValidationTest extends TestCase
             "passportNumber" => "123456",
             "passportSeries" => "AB",
             "issuedBy" => "МВД по УР",
-            "issuesDate" => "2015-05-20",
+            "issuedDate" => "2015-05-20",
             "addressReg" => "Moscow, Red Square 1",
             "migrationCardRequisite" => "MC123456789",
             "citizenship" => "UZ",
@@ -65,11 +65,11 @@ class StudentValidationTest extends TestCase
         $response =  $this->postStudent(
             [
                 "dateBirth" => "2008-01-30123",
-                "issuesDate" => "2015-05-20qw",
+                "issuedDate" => "2015-05-20qw",
             ]
         );
         $response->assertStatus(422)
-            ->assertJsonValidationErrors(['dateBirth', 'issuesDate']);;
+            ->assertJsonValidationErrors(['dateBirth', 'issuedDate']);;
         $this->assertDatabaseEmpty('students');
     }
 
@@ -133,7 +133,7 @@ class StudentValidationTest extends TestCase
                 "passportNumber" => "",
                 "passportSeries" => "",
                 "issuedBy" => "",
-                "issuesDate" => "",
+                "issuedDate" => "",
                 "addressReg" => "",
                 "migrationCardRequisite" => "",
                 "citizenship" => "",
@@ -149,7 +149,7 @@ class StudentValidationTest extends TestCase
                  'surnameLatin',
                  'nameLatin',
                  'issuedBy',
-                 'issuesDate',
+                 'issuedDate',
                  'addressReg',
                  'migrationCardRequisite',
                  'citizenship',
@@ -172,7 +172,7 @@ class StudentValidationTest extends TestCase
                 "passportNumber" => 123,
                 "passportSeries" => 123,
                 "issuedBy" => 123,
-                "issuesDate" => 123,
+                "issuedDate" => 123,
                 "addressReg" => 234,
                 "migrationCardRequisite" => 234,
                 "citizenship" => 234,
@@ -191,7 +191,7 @@ class StudentValidationTest extends TestCase
                  'passportNumber',
                  'passportSeries',
                  'issuedBy',
-                 'issuesDate',
+                 'issuedDate',
                  'addressReg',
                  'migrationCardRequisite',
                  'citizenship',
@@ -214,7 +214,7 @@ class StudentValidationTest extends TestCase
                 "passportNumber" => [],
                 "passportSeries" =>  [],
                 "issuedBy" =>  [],
-                "issuesDate" =>  [],
+                "issuedDate" =>  [],
                 "addressReg" =>  [],
                 "migrationCardRequisite" => [],
                 "citizenship" =>  [],
@@ -233,7 +233,7 @@ class StudentValidationTest extends TestCase
                  'passportNumber',
                  'passportSeries',
                  'issuedBy',
-                 'issuesDate',
+                 'issuedDate',
                  'addressReg',
                  'migrationCardRequisite',
                  'citizenship',

@@ -16,7 +16,8 @@ class ExamSeeder extends Seeder
     {
         
         Address::create([
-            'address'=>'Ижевск, Университетская, 1/корпус 2/каб. 124'
+            'address'=>'Ижевск, Университетская, 1/корпус 2/каб. 124',
+            'max_capacity' => 15
         ]);
         Exam::factory(10)->withRandomCreator()->create([
             'address_id' => Address::inRandomOrder()->first()->id

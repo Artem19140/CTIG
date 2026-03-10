@@ -1,35 +1,36 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import AppInput from '../../../Components/UI/AppInput/AppInput.vue';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import BaseDialog from '../../../Components/UI/BaseDialog/BaseDialog.vue';
 import axios from 'axios';
+import type {Exam, StudentCreateForm } from '../../../interfaces/interfaces';
 import { formatterTime,formatterDate } from '../../../Helpers/heplers';
 
 const isActive = ref<boolean>(false)
 const examTypeId = ref<number | null>(null)
 
-const exams = ref([])
+const exams = ref<Exam[]>()
 
-const form = useForm({
-    surname:'', 
-    name:'',
-    patronymic:'',
+const form = useForm<StudentCreateForm>({
+    surname:'Иванов', 
+    name:'Иван',
+    patronymic:"Иванович",
     noPatronymic:false,
-    surnameLatin:'',
-    nameLatin:'',
-    patronymicLatin:'',
-    passportNumber:'',
-    passportSeries:'',
+    surnameLatin:'Ivanov',
+    nameLatin:'Ivan',
+    patronymicLatin:"Ivanovich",
+    passportNumber:"",
+    passportSeries:"AB",
     noPassportNumber:false,
     noPassportSeries:false,
-    issuedBy:'',
-    issuesDate:'',
-    migrationCardRequisite:'',
-    citizenship:'',
-    phone:'',
-    addressReg:'',
-    dateBirth:'',
+    issuedBy:'МВД по УР',
+    issuedDate:'2025-10-10',
+    migrationCardRequisite:"MC234245234",
+    citizenship:'UZ',
+    phone:'89346573385',
+    addressReg:'Ижевск, Пушкинская 131',
+    dateBirth:'2005-10-10',
     noMigrationCard:false,
     passportScan:null,
     photo:null,
@@ -103,6 +104,10 @@ watch(examTypeId, async () => {
     const res = await axios.get(`/exams/available?examTypeId=${examTypeId.value}`)
     exams.value = res.data.data
 })
+
+const selectedExam = computed(() =>
+  exams.value?.find(e => e.id === form.examId)
+)
 </script>
 
 <template>
@@ -125,7 +130,7 @@ watch(examTypeId, async () => {
                 <v-card title="Экзамен" class="mb-4">
                     <v-card-text>
                         <v-container fluid>
-                            <v-row dense>
+                            <v-row density="comfortable">
                                 <v-col cols="12" class="subtitle">
                                     Выберите экзамен для записи
                                 </v-col>
@@ -137,6 +142,7 @@ watch(examTypeId, async () => {
                                         :items="examTypes"
                                         item-value="id"
                                         v-model="examTypeId"
+                                        :error-messages="form.errors.examId"
                                         clearable
                                     />
                                 </v-col>
@@ -153,13 +159,14 @@ watch(examTypeId, async () => {
                                         item-value="id"
                                         v-model="form.examId"
                                         :disabled="!examTypeId"
+                                        :error-messages="form.errors.examId"
                                         clearable
                                         >
                                     </v-select>
                                 </v-col>
                                 <v-col cols="12" md="6"></v-col>
                                 <v-col cols="12" md="6" v-if="form.examId" class="subtitle">
-                                    <strong >Адрес: </strong>{{ exams.find(e => e.id === form.examId)?.address || 'Адрес не указан'}}
+                                    <strong >Адрес: </strong>{{ selectedExam?.address || 'Адрес не указан' }}
                                 </v-col>
                             </v-row>
                         </v-container>
@@ -169,7 +176,7 @@ watch(examTypeId, async () => {
                 <v-card title="Персональные данные" class="mb-4">
                     <v-card-text>
                         <v-container fluid>
-                            <v-row dense>
+                            <v-row density="comfortable">
                                 <v-col cols="12"  class="subtitle" >
                                     Нотариальный перевод
                                 </v-col>
@@ -305,8 +312,8 @@ watch(examTypeId, async () => {
                                 <v-col cols="12" md="6">
                                     <AppInput
                                         label="Дата выдачи"
-                                        v-model="form.issuesDate"
-                                        :error-messages="form.errors.issuesDate"
+                                        v-model="form.issuedDate"
+                                        :error-messages="form.errors.issuedDate"
                                         type="date"
                                     /> 
                                 </v-col>
@@ -364,18 +371,21 @@ watch(examTypeId, async () => {
                 <v-card title="Документы" class="mb-4">
                     <v-card-text>
                         <v-container fluid>
-                            <v-row dense>
+                            <v-row density="comfortable">
                                 <v-file-input 
                                     label="Фотография студента"
                                     v-model="form.photo"
                                     clearable
                                     accept="image/*"
+                                    :error-messages="form.errors.photo"
                                 ></v-file-input>
 
                                 <v-file-input 
-                                    label="Скан паспорта"
+                                    label="Скан паспорта PDF"
                                     clearable
                                     v-model="form.passportScan"
+                                    accept=".pdf,application/pdf"
+                                    :error-messages="form.errors.passportScan"
                                 ></v-file-input>
                             </v-row>
                         </v-container>

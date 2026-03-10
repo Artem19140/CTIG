@@ -2,13 +2,14 @@
     import { formatterDate } from '../../../Helpers/heplers';
     import { modalState } from '../../../Composables/modalState'
     import AppPaginator from '../../../Components/UI/AppPaginator/AppPaginator.vue';
+    import type { Student } from '../../../interfaces/interfaces';
 
     function studentShowModal(id: number) {
         modalState.studentId = id  
     }
 
    const props =defineProps<{
-        students: any | null,
+        students: any | null, // почему студенты то ?
         loading : boolean
     }>()
 
@@ -35,13 +36,13 @@
             <template v-slot:item="{item}">
                 <tr @click="studentShowModal(item.id)" class="cursor-pointer">
                     <td>{{ item?.id  ?? ''}}</td>
-                    <td>{{ item?.surname  ?? ''}} {{ item?.name[0]  ?? ''}}. {{ item?.patronymic[0] ?? '' }}.</td>
+                    <td>{{ item?.surname  ?? ''}} {{ item?.name?.[0]  ?? ''}}. {{ item?.patronymic?.[0] ?? '' }}.</td>
                     <td>{{ formatterDate(item?.dateBirth)  ?? '-'}}</td>
                     <td>{{ item?.passportSeries  ?? ''}} {{ item?.passportNumber  ?? ''}}</td>
                 </tr>
             </template>
             <template v-slot:bottom>
-                <app-paginator :obj="students" />
+                <app-paginator :obj="students" /> <!--// почему студенты то ?-->
             </template>
     </v-data-table>
 </template>

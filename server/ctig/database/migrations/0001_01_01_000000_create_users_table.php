@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string('password');
             $table->boolean('has_to_change_password')->default(true);
             $table->boolean('is_admin')->default(false);
+            // $table->foreignId('organization_id')
+            //     ->constrained('organizations')
+            //     ->cascadeOnDelete();
+            
             
             $table->rememberToken();
             $table->timestamps();

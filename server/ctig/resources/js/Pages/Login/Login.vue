@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import EmployeeEntry from './Components/EmployeeEntry.vue';
 import StudentEntry from './Components/StudentEntry.vue';
 
-const isStudentEntry = ref(true)
+const isStudentEntry = ref<boolean>(true)
 </script>
 
 <template>

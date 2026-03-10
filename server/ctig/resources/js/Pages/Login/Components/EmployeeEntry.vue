@@ -8,7 +8,7 @@ const form = useForm({
     password: '12345678' //12345678 
 })
 
-const show = ref(false)
+const show = ref<boolean>(false)
 </script>
 
 <template>

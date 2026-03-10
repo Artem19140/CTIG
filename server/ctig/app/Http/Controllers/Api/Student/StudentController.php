@@ -41,7 +41,7 @@ class StudentController extends Controller
             'passport_series'=> $request->validated('passportSeries'),
             'issued_by'=> $request->validated('issuedBy'),
             'migration_card_requisite'=> $request->validated('migrationCardRequisite'),
-            'issues_date'=> $request->validated('issuesDate'),
+            'issues_date'=> $request->validated('issuedDate'),
             'address_reg'=> $request->validated('addressReg'),
             'citizenship'=> $request->validated('citizenship'),
             'phone'=> $request->validated('phone'),
@@ -81,7 +81,7 @@ class StudentController extends Controller
             'passport_series'=> $request->validated('passportSeries'),
             'issued_by'=> $request->validated('issuedBy'),
             'migration_card_requisite'=> $request->validated('migrationCardRequisite'),
-            'issues_date'=> $request->validated('issuesDate'),
+            'issues_date'=> $request->validated('issuedDate'),
             'address_reg'=> $request->validated('addressReg'),
             'citizenship'=> $request->validated('citizenship'),
             'phone'=> $request->validated('phone')

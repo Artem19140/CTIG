@@ -37,9 +37,9 @@ return new class extends Migration
             $table->foreignId('creator_id')
                 ->constrained('users');
 
-            $table->foreignId('organization_id')
-                ->constrained('organizations')
-                ->cascadeOnDelete();
+            // $table->foreignId('organization_id')
+            //     ->constrained('organizations')
+            //     ->cascadeOnDelete();
 
             $table->dateTime('storage_expired_at')->default(now()->addYears(3));
             $table->timestamps();

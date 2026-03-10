@@ -23,9 +23,9 @@ return new class extends Migration
                 ->constrained('students')
                 ->cascadeOnDelete();
 
-            $table->foreignId('organization_id')
-                ->constrained('organizations')
-                ->cascadeOnDelete();
+            // $table->foreignId('organization_id')
+            //     ->constrained('organizations')
+            //     ->cascadeOnDelete();
                 
             $table->integer('checked_by_id')->nullable()->default(null);
             $table->boolean('is_checked')->default(false);

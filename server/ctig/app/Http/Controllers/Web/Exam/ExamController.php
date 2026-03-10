@@ -102,7 +102,6 @@ class ExamController
         $exams = Exam::with(['examType', 'address'])
                     ->where('is_cancelled', false)
                     ->where('begin_time', '>', now())
-                    ->limit(5)
                     ->where('exam_type_id', $request->input('examTypeId'))
                     ->orderByDesc('begin_time') 
                     ->limit(10)

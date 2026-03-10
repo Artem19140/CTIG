@@ -11,7 +11,7 @@ use DB;
 use Illuminate\Database\Eloquent\Builder;
 
 final class EnrollStudentToExamAction{
-    public function execute(Exam $exam, int $studentId){
+    public function execute(Exam $exam, int $studentId, int $creatorId): bool{
         $student = Student::find($studentId);
         
         if(!$student){
@@ -51,7 +51,7 @@ final class EnrollStudentToExamAction{
             throw new BusinessException('На это время у студента уже существует запись');
         }
 
-        $exam->students()->attach($student);
+        $exam->students()->attach($student, ['reg_number' => 124532, 'creator_id' => $creatorId]);
         return true;
     }
 }

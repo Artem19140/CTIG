@@ -3,12 +3,13 @@ import axios from 'axios';
 import { ref } from 'vue';
 import { formatterTime, formatterDate } from '../../../Helpers/heplers';
 import { router } from '@inertiajs/vue3';
+import { Exam } from '../../../interfaces/interfaces';
 
 const props = defineProps<{
     student : any | null
 }>()
 
-const exams = ref()
+const exams = ref<Exam[]>()
 
 const getExams = async () => {
     const res = await axios.get('exams/available')
@@ -23,6 +24,7 @@ const enroll = (exam : any) => {
     router.post(`exams/${exam.id}/enroll`, {studentId:props.student.id})
   }
 }
+//Если нет экзаменов - тогда сообщение!
 </script>
 
 <template>
@@ -49,6 +51,10 @@ const enroll = (exam : any) => {
             <v-list-item-title>{{ exam.shortName }}</v-list-item-title>
             <v-list-item-subtitle>{{ formatterTime(exam.beginTime) }} {{ formatterDate(exam.beginTime) }}</v-list-item-subtitle>
         </v-list-item>
+        <v-list-item v-if="!exams">
+          <v-list-item-title>Нет доступных экзаменов</v-list-item-title>
+        </v-list-item>
       </v-list>
+      
     </v-menu>
 </template>

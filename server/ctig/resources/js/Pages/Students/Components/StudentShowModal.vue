@@ -8,7 +8,7 @@ import ExamEnrollmentMenu from '../../Exam/Components/ExamEnrollmentMenu.vue';
 
 const isOpen = defineModel<boolean>()
 const studentData = ref<any | null>(null)
-const loading = ref(true)
+const loading = ref<boolean>(true)
 
 watch(() => modalState.studentId, async () => {
   if (modalState.studentId) {

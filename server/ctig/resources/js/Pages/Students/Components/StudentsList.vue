@@ -3,11 +3,13 @@
     import StudentTable from './StudentTable.vue';
     import StudentFilters from './StudentFilters.vue';
     import { ref, watch } from 'vue';
+    import type { Student } from '../../../interfaces/interfaces';
 
     const props = defineProps<{
-        students: any
+        students: Array<Student>
     }>()
-    const loading = ref(false)
+
+    const loading = ref<boolean>(false)
     
 
 </script>

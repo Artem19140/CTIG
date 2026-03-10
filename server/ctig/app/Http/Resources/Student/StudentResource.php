@@ -37,8 +37,8 @@ class StudentResource extends JsonResource
             'creator'=>new UserResource($this->whenLoaded('creator')),
             'attempts' => AttemptResource::collection($this->whenLoaded('attempts')),
             'exams' => ExamResource::collection($this->whenLoaded('exams')),
-            'passportScanPath' => $this->passport_scan_path,
-            'photoPath' => $this->photo_path,
+            'passportScan' => $this->passport_scan_path,
+            'photo' => $this->photo_path,
             'createdAt' => $this->created_at
         ];
     }

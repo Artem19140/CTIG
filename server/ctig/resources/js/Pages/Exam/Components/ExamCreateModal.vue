@@ -4,12 +4,14 @@ import axios from 'axios';
 import { ref } from 'vue';
 import AppInput from '../../../Components/UI/AppInput/AppInput.vue';
 import BaseDialog from '../../../Components/UI/BaseDialog/BaseDialog.vue';
+import { Address, User, ExamType } from '../../../interfaces/interfaces';
+import { ExamForm } from '../../../interfaces/interfaces';
 
-const addresses = ref()
-const testers = ref()
-const examTypes = ref()
+const addresses = ref<Address[]>()
+const testers = ref<User[]>()
+const examTypes = ref<ExamType[]>()
 
-const form = useForm({
+const form = useForm<ExamForm>({
     examTypeId: null,
     capacity: null,
     addressId:null,
@@ -18,7 +20,7 @@ const form = useForm({
     beginTime:''
 })
 
-const isActive = ref(false)
+const isActive = ref<boolean>(false)
 
 const loadModalData = async () => {
     isActive.value = true

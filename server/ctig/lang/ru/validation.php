@@ -103,8 +103,8 @@ return [
         'string' => 'Поле :attribute должно быть не больше чем :max символа.',
     ],
     'max_digits' => 'The :attribute field must not have more than :max digits.',
-    'mimes' => 'The :attribute field must be a file of type: :values.',
-    'mimetypes' => 'The :attribute field must be a file of type: :values.',
+    'mimes' => 'Поле :attribute должно быть файлом типа: :values.',
+    'mimetypes' => 'Поле :attribute должно быть файлом типа: :values.',
     'min' => [
         'array' => 'The :attribute field must have at least :min items.',
         'file' => 'The :attribute field must be at least :min kilobytes.',
@@ -214,14 +214,14 @@ return [
         'passportNumber' => 'номер паспорта',
         'passportSeries' => 'серия паспорта',
         'issuedBy' => 'кем выдан',
-        'issuesDate' => 'дата выдачи',
+        'issuedDate' => 'дата выдачи',
         'addressReg' => 'адрес регистрации',
         'migrationCardRequisite' => 'реквизиты миграционной карты',
         'citizenship' => 'гражданство',
         'phone' => 'телефон',
         'hasPatronymic' => 'нет отчества',
         'examBlockId' => 'идентификатор блока экзамена',
-        'examId' => 'идентификатор экзамена',
+        'examId' => 'экзамен',
         'taskId' => 'идентификатор задания',
         'studentAnswer' => 'ответ студента',
         'contain'=> 'содержание',
@@ -238,7 +238,9 @@ return [
         'newPassword'=> 'новый пароль',
         'noPassportNumber' => 'нет номера',
         'noPassportSeries' => 'нет серии',
-        'noPatronymic' => 'нет отчества'
+        'noPatronymic' => 'нет отчества',
+        'photo' => 'фотография',
+        'passportScan' => 'скан паспорта'
     ],
 
 ];

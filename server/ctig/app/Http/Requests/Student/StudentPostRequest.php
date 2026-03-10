@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Student;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\File;
 
 class StudentPostRequest extends FormRequest
 {
@@ -86,7 +87,7 @@ class StudentPostRequest extends FormRequest
                     'required',
                     'string'
                 ],
-            'issuesDate' =>
+            'issuedDate' =>
                 [
                     'required',
                     'date'
@@ -98,8 +99,14 @@ class StudentPostRequest extends FormRequest
                 ],
             'migrationCardRequisite' =>
                 [
+                    'prohibited_if_accepted:noMigrationCard',
+                    'required_if_declined:noMigrationCard',
                     'required',
                     'string'
+                ],
+            'noMigrationCard'=>[
+                    'required',
+                    'boolean'
                 ],
             'citizenship' =>
                 [
@@ -112,7 +119,20 @@ class StudentPostRequest extends FormRequest
                 [
                     'required',
                     'string'
-                ]
+                ],
+            'examId'=> [
+                    'required',
+                    'integer', 
+                    'min:1'
+                ],
+            'photo' => [
+                    'required',
+                    File::image()->max(2048)
+                ],
+            'passportScan' => [
+                    'required', 
+                    File::types(['pdf'])->max(4096) //application/pdf	
+                ],
         ];
     }
 

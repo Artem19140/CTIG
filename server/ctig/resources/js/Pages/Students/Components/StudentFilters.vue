@@ -2,7 +2,7 @@
 import { useForm } from '@inertiajs/vue3'
 import { watch } from 'vue';
 
-const loading = defineModel()
+const loading = defineModel<boolean>()
 
 const form = useForm({
     search: '', 

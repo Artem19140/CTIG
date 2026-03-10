@@ -17,12 +17,12 @@ const close = () => {
         isOpen.value = false
     })
 }
-     //
 </script>
 
 <template>
     <v-dialog
         persistent 
+        
         v-model="isOpen"  
         :max-width="width"
         :subtitle="subtitle"
@@ -31,8 +31,8 @@ const close = () => {
         @keyup.esc="close"
     >
        
-        <v-card>
-            <v-card-title v-if="$slots.title || title" class="d-flex align-center"> 
+        <v-card class="dialog-card d-flex flex-column">
+            <v-card-title v-if="$slots.title || title" class="d-flex align-center sticky-top"> 
                 <slot name="title">
                     {{ title }}
                 </slot>
@@ -46,11 +46,11 @@ const close = () => {
             <slot name="skeleton" v-if="loading">
             </slot>
 
-            <v-card-text v-if="!loading">
+            <v-card-text v-if="!loading" class="dialog-content pa-4 overflow-y-auto flex-grow-1">
                 <slot />
             </v-card-text>
 
-            <v-card-actions v-if="$slots.actions && !loading">
+            <v-card-actions v-if="$slots.actions && !loading" class="sticky-bottom">
                 <slot name="actions" :close="close" />
             </v-card-actions>
             
@@ -59,3 +59,6 @@ const close = () => {
 
 
 </template>
+
+<style scoped>
+</style>

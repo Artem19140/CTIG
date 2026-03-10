@@ -8,7 +8,7 @@ export const confirmDialog = reactive({
   cancelText: '' as string,
   confirmText: '' as string,
   needConfirmText: false as boolean,
-  errorMessage: '' as string,
+  errorMessages: '' as string,
   subtitle:'' as string,
   placeholder:'' as string,
   onConfirm: null as null | ((text? :string) => void)
@@ -21,7 +21,7 @@ export const useConfirmDialog = () => {
         okText?:string,
         cancelText? :string,
         needConfirmText?:boolean,
-        errorMessage?:string,
+        errorMessages?:string,
         subtitle?:string,
         onConfirm?: (text?: string) => void,
         inputPlaceholder?:string
@@ -34,7 +34,7 @@ export const useConfirmDialog = () => {
         confirmDialog.confirmText = '',
         confirmDialog.onConfirm = opitons.onConfirm ?? null,
         confirmDialog.isOpen = true,
-        confirmDialog.errorMessage = opitons.errorMessage ?? ''
+        confirmDialog.errorMessages = opitons.errorMessages ?? ''
         confirmDialog.subtitle = opitons.subtitle ?? ''
         confirmDialog.placeholder = opitons.inputPlaceholder ?? ''
     }
@@ -43,7 +43,7 @@ export const useConfirmDialog = () => {
         confirmDialog.confirmText = ''
         confirmDialog.title = ''
         confirmDialog.subtitle = ''
-        confirmDialog.errorMessage = ''
+        confirmDialog.errorMessages = ''
         confirmDialog.onConfirm = null
         confirmDialog.placeholder = ''
         confirmDialog.message = ''

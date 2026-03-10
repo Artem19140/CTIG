@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('organization_id')
                 ->constrained('organizations')
                 ->cascadeOnDelete();
+            $table->unsignedTinyInteger('max_capacity');
             // $table->foreignId('creator_id')
             //     ->constrained('users')
             //     ->cascadeOnDelete();

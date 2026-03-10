@@ -237,7 +237,8 @@ return [
         'date' => 'дата',
         'newPassword'=> 'новый пароль',
         'noPassportNumber' => 'нет номера',
-        'noPassportSeries' => 'нет серии'
+        'noPassportSeries' => 'нет серии',
+        'noPatronymic' => 'нет отчества'
     ],
 
 ];

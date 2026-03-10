@@ -3,20 +3,18 @@ const props = defineProps<{
   name?: string,
   modelValue?:string,
   label?: string,
-  errorMessage?:string,
+  errorMessages?:string,
   placeholder?:string,
   hint?:string,
   type?:string,
+  disabled?:boolean
 }>()
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
 }>()
 
-const onInput = (event: Event) => {
-  const value = (event.target as HTMLInputElement).value
-  emit('update:modelValue', value)
-}
+
 </script>
 
 <template>
@@ -24,14 +22,12 @@ const onInput = (event: Event) => {
         :label="label"
         :hint="hint"
         :name="name"
-        :model="modelValue"
-        @input="onInput"
+        :model-value="modelValue"
+        @update:modelValue="emit('update:modelValue', $event)"
         :placeholder="placeholder"
         :type="type"
-        :error-messages="errorMessage"
+        :error-messages="errorMessages"
         clearable
+        :disabled="disabled"
       />
-      
-        
-    
 </template>

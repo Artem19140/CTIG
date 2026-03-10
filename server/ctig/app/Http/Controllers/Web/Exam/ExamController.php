@@ -95,13 +95,19 @@ class ExamController
         return $createStudentsCodesForExam->execute($exam);
     }
 
-    public function available(){
-        $exams = Exam::with('examType')
+    public function available(Request $request){
+        $request->validate([
+            'examTypeId' => ['required', 'integer', 'min:1']
+        ]);
+        $exams = Exam::with(['examType', 'address'])
                     ->where('is_cancelled', false)
                     ->where('begin_time', '>', now())
                     ->limit(5)
+                    ->where('exam_type_id', $request->input('examTypeId'))
                     ->orderByDesc('begin_time') 
+                    ->limit(10)
                     ->get();
+        
         return ExamResource::collection($exams);
     }        
     

@@ -47,7 +47,7 @@ class Exam extends Model
     }
 
     public function students():BelongsToMany{
-        return $this->belongsToMany(Student::class);
+        return $this->belongsToMany(Student::class)->withPivot('reg_number');
     }
 
     public function attempts(): HasMany{

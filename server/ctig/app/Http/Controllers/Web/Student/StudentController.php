@@ -2,19 +2,14 @@
 
 namespace App\Http\Controllers\Web\Student;
 
-use App\Actions\Exam\EnrollStudentToExamAction;
+use App\Actions\Student\CreateStudentStatementAction;
+use App\Actions\Student\CreateStudentWithExamEnrollmentAction;
 use App\Actions\Student\GetStudentsListAction;
-use App\Actions\Student\StudentStoreAction;
-use App\Exceptions\BusinessException;
-use App\Exceptions\EntityNotFoundExсeption;
 use App\Http\Requests\Student\StudentIndexRequest;
-use App\Models\Exam;
-use Carbon\Carbon;
-use DB;
-use Illuminate\Http\JsonResponse;
 use App\Http\Requests\Student\StudentPostRequest;
 use App\Models\Student;
 use App\Http\Resources\Student\StudentResource;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class StudentController 
@@ -29,22 +24,25 @@ class StudentController
 
     public function store(
                             StudentPostRequest $request, 
-                            StudentStoreAction $studentStore,
-                            EnrollStudentToExamAction $enrollStudentToExam
+                            CreateStudentWithExamEnrollmentAction $createStudentWithExamEnrollment
                         ){
-        DB::transaction(function ()use($studentStore, $request, $enrollStudentToExam) {
-            $exam = Exam::find($request->validated('examId'));
-            if(!$exam){
-                throw new EntityNotFoundExсeption('Экзамен');
-            }
-            $student = $studentStore->execute($request->validated(), $request->user()->id);
-            $enrollStudentToExam->execute($exam, $student->id,$request->user()->id);
-        });
 
-        return redirect()
-            ->route('students.index')
-            ->with('success', 'Студент добавлен');
-        //return $this->created(new StudentResource($student));
+        $student = $createStudentWithExamEnrollment
+                ->execute(
+                        $request->validated(),
+                            $request->validated('examId'),
+                            $request->user()->id
+                        );
+        return Inertia::render('Students/Students', [
+            'studentId' => $student->id,
+            'examId' => $request->validated('examId')
+        ]);
+    }
+
+    public function getApplicationForm (Request $request, Student $student, CreateStudentStatementAction $createStudentStatement){
+        $request->validate(['examId' => ['required', 'integer']]);
+        $applicationFormPdf = $createStudentStatement->execute($request->input('examId'), $student, $request->user());
+        return $applicationFormPdf->stream('exam.pdf');
     }
 
     public function show(Student $student){
@@ -57,14 +55,13 @@ class StudentController
 
     public function update(StudentPostRequest $request, Student $student)
     {
-        
         //return $this->created(new StudentResource($student));
     }
 
     public function destroy(Student $student)
     {
         $student->delete();
-        return $this->noContent();
+        //return $this->noContent();
     }
 
 }

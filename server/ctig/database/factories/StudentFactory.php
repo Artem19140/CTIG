@@ -43,7 +43,7 @@ class StudentFactory extends Factory
             'passport_number' => fake()->unique()->numerify('######'),
             'passport_series' => fake()->unique()->bothify('??'),
             'issued_by' => 'МВД РФ №' . fake()->numerify('####'),
-            'issues_date' => fake()->date('Y-m-d', '-10 years'),
+            'issued_date' => fake()->date('Y-m-d', '-10 years'),
             'address_reg' => fake()->streetAddress,
             'migration_card_requisite' => fake()->bothify('MC#######'),
             'citizenship' => fake()->randomElement(['UZ','KZ', 'AZ', 'US', 'UK']),

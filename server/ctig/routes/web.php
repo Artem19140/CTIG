@@ -15,7 +15,7 @@ Route::get('exams/create/modal-data', [ExamController::class,'createModalData'])
 
 Route::get('exams/{exam}/codes', [ExamController::class, "formCodes"]);
 
-Route::post('exams/{exam}/enroll', [ExamController::class, "enroll"]);
+Route::post('exams/{exam}/student', [ExamController::class, "enroll"]);
 
 
 Route::post('login', [LoginController::class, 'login'])->name('login');
@@ -26,6 +26,7 @@ Route::inertia('login', 'Login/Login')->name('login');
 Route::inertia('password/change', 'ChangePassword/ChangePassword')->name('password.change');
 
 // Route::inertia('password/change', 'ChangePassword/ChangePassword')->name('password.change');
-// Route::inertia('password/change', 'ChangePassword/ChangePassword')->name('password.change');
+// Route::inertia('password/change', 'ChangePassword/ChangePassword')->name('password.change'); application-forms
+Route::get('students/{student}/application-forms', [StudentController::class, "getApplicationForm"]);
 
 Route::post( 'exam-codes/verify', [ExamController::class, 'verifyCode']);

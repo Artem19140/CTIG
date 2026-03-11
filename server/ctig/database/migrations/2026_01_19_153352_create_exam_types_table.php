@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedSmallInteger('duration');
             $table->string('certificate_name');
             $table->boolean('is_active')->default(true);
+            $table->unsignedInteger('cost');
             $table->timestamps();
         });
      

@@ -84,22 +84,7 @@ return new class extends Migration
             //     ->cascadeOnDelete();
 
             $table->timestamps();
-        });
-
-        Schema::create('exam_counters', function (Blueprint $table) {
-            $table->id();
-
-            $table->string('key');
-            $table->unsignedSmallInteger('value')->default(0);
-
-            // $table->foreignId('organization_id')
-            //     ->constrained('organizations')
-            //     ->cascadeOnDelete();
-
-            $table->timestamps();
-        });
-
-        
+        });        
     }
 
     public function down(): void

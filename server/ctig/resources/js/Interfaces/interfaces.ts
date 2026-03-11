@@ -54,7 +54,7 @@ export type StudentCreateForm = Omit<
   'id' | 'creator' | 'exams' | 'createdAt' | 'passportScan' | 'photo'
 > & {
   passportScan: File | null
-  photo: File | null
+  passportScanTranslate: File | null
 
   noPassportNumber: boolean
   noPassportSeries: boolean

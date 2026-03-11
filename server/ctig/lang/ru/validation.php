@@ -239,7 +239,7 @@ return [
         'noPassportNumber' => 'нет номера',
         'noPassportSeries' => 'нет серии',
         'noPatronymic' => 'нет отчества',
-        'photo' => 'фотография',
+        'passportScanTranslate' => 'скан перевода паспорта',
         'passportScan' => 'скан паспорта'
     ],
 

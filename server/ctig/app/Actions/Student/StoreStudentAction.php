@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Storage;
 
-final class StudentStoreAction{
+final class StoreStudentAction{
     public function execute(array $data, int $creatorId): Student{
         $age = Carbon::parse($data['dateBirth'])->age;
 
@@ -22,8 +22,8 @@ final class StudentStoreAction{
         if($uniquePassportData){
             throw new BusinessException('Студент с такими паспортными данными и гражданством уже существует');
         }
-        $photoPath  = Storage::putFile('avatars', $data['photo']);
-        $passportScanPath =  Storage::putFile('avatars', $data['passportScan']); //passport_scan_path
+        // $photoPath  = Storage::putFile('avatars', $data['passportScanTranslate']);
+        // $passportScanPath =  Storage::putFile('avatars', $data['passportScan']); //passport_scan_path
         return  Student::create([
             'surname' => $data['surname'],
             'name'=> $data['name'],
@@ -36,13 +36,13 @@ final class StudentStoreAction{
             'passport_series'=> $data['passportSeries'],
             'issued_by'=> $data['issuedBy'],
             'migration_card_requisite'=> $data['migrationCardRequisite'],
-            'issues_date'=> $data['issuedDate'],
+            'issued_date'=> $data['issuedDate'],
             'address_reg'=> $data['addressReg'],
             'citizenship'=> $data['citizenship'],
             'phone'=> $data['phone'],
             'creator_id'=>$creatorId,
-            'passport_scan_path' => $passportScanPath,
-            'photo_path' =>  $photoPath
+            // 'passport_scan_path' => $passportScanPath,
+            // 'photo_path' =>  $photoPath
         ]);
     }
 }

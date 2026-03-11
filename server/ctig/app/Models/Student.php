@@ -25,7 +25,7 @@ class Student extends Authenticatable {
         'passport_number',
         'passport_series',
         'issued_by',
-        'issues_date',
+        'issued_date',
         'address_reg',
         'migration_card_requisite',
         'citizenship',
@@ -35,17 +35,19 @@ class Student extends Authenticatable {
         'exam_code_expired_at',
         'exam_id',
         'photo_path',
-        'passport_scan_path'
+        'passport_scan_path',
+        'document_type',
+        'sex'
     ];
 
     protected $casts = [
         'exam_code_expired_at' => 'datetime',
         'date_birth' => 'date',
-        'issues_date'=> 'date',
+        'issued_date'=> 'date',
     ];
     
     public function exams(): BelongsToMany{
-        return $this->belongsToMany(Exam::class);
+        return $this->belongsToMany(Exam::class)->withPivot('reg_number');
     }
  
     public function attempts(): HasMany{

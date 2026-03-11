@@ -6,7 +6,7 @@
     import type { Student } from '../../../interfaces/interfaces';
 
     const props = defineProps<{
-        students: Array<Student>
+        students: any 
     }>()
 
     const loading = ref<boolean>(false)

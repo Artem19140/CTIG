@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('organizations', function (Blueprint $table) {
+        Schema::create('counters', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name');
-            $table->string('director_fio');
-            $table->string('certificates_issue_address');
-            $table->boolean('is_work')->default(true);
-            $table->string('ogrn');
-            $table->string('inn');
-            $table->string('address');
+            $table->string('key');
+            $table->unsignedSmallInteger('value')->default(0);
+
+            // $table->foreignId('organization_id')
+            //     ->constrained('organizations')
+            //     ->cascadeOnDelete();
 
             $table->timestamps();
         });
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('organizations');
+        Schema::dropIfExists('counters');
     }
 };

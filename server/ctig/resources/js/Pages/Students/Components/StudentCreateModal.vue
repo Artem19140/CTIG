@@ -6,6 +6,7 @@ import BaseDialog from '../../../Components/UI/BaseDialog/BaseDialog.vue';
 import axios from 'axios';
 import type {Exam, StudentCreateForm } from '../../../interfaces/interfaces';
 import { formatterTime,formatterDate } from '../../../Helpers/heplers';
+import { modalState } from '../../../Composables/modalState';
 
 const isActive = ref<boolean>(false)
 const examTypeId = ref<number | null>(null)
@@ -33,7 +34,7 @@ const form = useForm<StudentCreateForm>({
     dateBirth:'2005-10-10',
     noMigrationCard:false,
     passportScan:null,
-    photo:null,
+    passportScanTranslate:null,
     examId:null
 })
 
@@ -50,10 +51,17 @@ const examTypes = [
 const create = () => {
     form.post('/students', {
     preserveScroll: true,
-    onSuccess: (page) => {
-        isActive.value = false
+    preserveState: true,
+    onSuccess: async (page) => {
+        examTypeId.value = null
+        exams.value = undefined
         form.reset()
         form.clearErrors()
+        const studentId = page.props.studentId
+        const examId = page.props.examId
+        //const res = await axios.get('documents')
+        window.open(`/students/${studentId}/application-forms?examId=${examId}`)
+        modalState.fileUrl =  `students/${studentId}/application-forms?examId=${examId}` 
         console.log('Форма успешно отправлена!', page)
     },
     onError: (errors) => {
@@ -66,6 +74,8 @@ const close = (fn: () => void) => {
     if (form.isDirty && !confirm("Отменить добавление?")) {
         return
     }
+    examTypeId.value = null
+    exams.value = undefined
     form.reset()
     form.clearErrors()
     fn()
@@ -105,9 +115,6 @@ watch(examTypeId, async () => {
     exams.value = res.data.data
 })
 
-const selectedExam = computed(() =>
-  exams.value?.find(e => e.id === form.examId)
-)
 </script>
 
 <template>
@@ -163,10 +170,6 @@ const selectedExam = computed(() =>
                                         clearable
                                         >
                                     </v-select>
-                                </v-col>
-                                <v-col cols="12" md="6"></v-col>
-                                <v-col cols="12" md="6" v-if="form.examId" class="subtitle">
-                                    <strong >Адрес: </strong>{{ selectedExam?.address || 'Адрес не указан' }}
                                 </v-col>
                             </v-row>
                         </v-container>
@@ -373,11 +376,11 @@ const selectedExam = computed(() =>
                         <v-container fluid>
                             <v-row density="comfortable">
                                 <v-file-input 
-                                    label="Фотография студента"
-                                    v-model="form.photo"
+                                    label="Скан перевода паспорта"
+                                    v-model="form.passportScanTranslate"
                                     clearable
-                                    accept="image/*"
-                                    :error-messages="form.errors.photo"
+                                    accept=".pdf,application/pdf"
+                                    :error-messages="form.errors.passportScanTranslate"
                                 ></v-file-input>
 
                                 <v-file-input 

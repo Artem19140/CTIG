@@ -21,6 +21,7 @@ class VnzhSeeder extends Seeder
             'short_name' => 'ВНЖ',
             'duration' => 90,
             'level' => 3,
+            'cost' => 5900,
             'certificate_name'=>'нету'
         ]);
 

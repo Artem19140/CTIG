@@ -6,7 +6,7 @@ use App\Exceptions\BusinessException;
 use App\Models\Student;
 use Carbon\Carbon;
 
-class StudentUpdateAction{
+final class UpdateStudentAction{
     public function execute(array $data, Student $student){
         $age = Carbon::parse($data['dateBirth'])->age;
         if($age < 18){

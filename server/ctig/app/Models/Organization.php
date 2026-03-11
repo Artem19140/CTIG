@@ -10,7 +10,10 @@ class Organization extends Model
         'name',
         'director_fio',
         'certificates_issue_address',
-        'is_work'
+        'is_work',
+        'ogrn',
+        'inn',
+        'address'
     ];
 
     protected $casts = [

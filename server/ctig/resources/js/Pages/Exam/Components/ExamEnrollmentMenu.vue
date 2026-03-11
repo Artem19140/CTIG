@@ -21,7 +21,7 @@ const enroll = (exam : any) => {
     return  
   }
   if(confirm(`Записать ${props.student?.surname} ${props.student?.name[0]}.${props.student?.patronymic[0]}. на экзамен по ${exam.shortName} на ${ formatterDate(exam.beginTime) }  в  ${ formatterTime(exam.beginTime)}`)){
-    router.post(`exams/${exam.id}/enroll`, {studentId:props.student.id})
+    router.post(`exams/${exam.id}/student`, {studentId:props.student.id})
   }
 }
 //Если нет экзаменов - тогда сообщение!

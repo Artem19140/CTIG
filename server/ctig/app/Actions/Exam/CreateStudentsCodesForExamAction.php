@@ -2,11 +2,9 @@
 
 namespace App\Actions\Exam;
 
-use App\Http\Resources\Student\StudentResource;
 use App\Models\Exam;
 use Carbon\Carbon;
 use App\Exceptions\BusinessException;
-use DB;
 use Illuminate\Database\QueryException;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -56,60 +54,14 @@ final class CreateStudentsCodesForExamAction{
 
         }
 
-                $html = '
-        <style>
-            body {
-                font-size: 16px;
-                line-height: 1.3;
-            }
-            h2 {
-                text-align: center;
-                margin-bottom: 20px;
-            }
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-bottom: 20px;
-            }
-            th, td {
-                border: 1px solid #000;
-                padding: 5px;
-                text-align: left;
-                vertical-align: top;
-            }
-            th {
-                background-color: #f0f0f0;
-                font-weight: bold;
-            }
-            tr:nth-child(even) td {
-                background-color: #f9f9f9;
-            }
-        </style>
-        <h2>Коды студентов</h2>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Фамилия</th>
-                <th>Имя</th>
-                <th>Серия</th>
-                <th>Номер</th>
-                <th>Код</th>
-            </tr>';
+              
 
-        foreach ($students as $s) {
-            $html .= '<tr>';
-            $html .= "<td>{$s->id}</td>";
-            $html .= "<td>{$s->surname}</td>";
-            $html .= "<td>{$s->name}</td>";
-            $html .= "<td>{$s->passport_series}</td>";
-            $html .= "<td>{$s->passport_number}</td>";
-            $html .= "<td>{$s->exam_code}</td>";
-            $html .= '</tr>';
-        }
-
-        $html .= '</table>';
         
-        $pdf = Pdf::loadHTML($html);
+        
+        $pdf = Pdf::loadView('templates.exam-codes', [
+            'students' => $students
+        ]);
+
         return $pdf->stream('codes.pdf');
         return response($pdf->stream('codes.pdf'), 200)
             ->header('Content-Type', 'application/pdf')

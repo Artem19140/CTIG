@@ -13,7 +13,7 @@ import StudentsList from './Components/StudentsList.vue';
 
 
 const props = defineProps<{
-  students: Array<Student>
+  students: any
 }>()
 
 </script>

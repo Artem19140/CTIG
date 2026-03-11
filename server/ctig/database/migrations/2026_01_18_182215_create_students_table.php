@@ -16,12 +16,13 @@ return new class extends Migration
             $table->date('date_birth');
             $table->string('surname_latin', 40);
             $table->string('name_latin', 40);
+            $table->string('document_type')->default('Паспорт');
             $table->string('patronymic_latin', 40)->nullable();
             $table->string('passport_number', 15);
             $table->string('passport_series', 10);
             $table->unique(['passport_series', 'passport_number', 'citizenship']);
             $table->string('issued_by', 50);
-            $table->date('issues_date');
+            $table->date('issued_date');
             $table->string('address_reg', 50);
             $table->string('migration_card_requisite', 40);
             $table->char('citizenship', 2);

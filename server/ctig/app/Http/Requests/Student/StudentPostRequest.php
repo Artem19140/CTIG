@@ -125,14 +125,14 @@ class StudentPostRequest extends FormRequest
                     'integer', 
                     'min:1'
                 ],
-            'photo' => [
-                    'required',
-                    File::image()->max(2048)
-                ],
-            'passportScan' => [
-                    'required', 
-                    File::types(['pdf'])->max(4096) //application/pdf	
-                ],
+            // 'passportScanTranslate' => [
+            //         'required',
+            //         File::types(['pdf'])->max(4096)
+            //     ],
+            // 'passportScan' => [
+            //         'required', 
+            //         File::types(['pdf'])->max(4096) //application/pdf	
+            //     ],
         ];
     }
 

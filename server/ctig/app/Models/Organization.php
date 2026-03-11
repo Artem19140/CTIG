@@ -13,7 +13,8 @@ class Organization extends Model
         'is_work',
         'ogrn',
         'inn',
-        'address'
+        'address',
+        'name_genitive'
     ];
 
     protected $casts = [

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('ogrn');
             $table->string('inn');
             $table->string('address');
+            $table->string('name_genitive');
 
             $table->timestamps();
         });

@@ -5,7 +5,7 @@
 <style>
     body {
         font-family: DejaVu Sans, sans-serif;
-        font-size: 14px;
+        font-size: 12px;
         line-height: 1.4;
         margin: 20px;
     }
@@ -61,7 +61,8 @@
                     <td style="white-space:nowrap;" class="no-border-td">Регистрационный номер:</td>
                     <td class="data no-border-td" style="width: 100%;">
                         <span style="display:inline-block; width:80%; border-bottom:1px solid black;">
-                            {{ $reg_number }}
+                            {{-- {{ $reg_number }} --}}
+                            добавить
                         </span>
                     </td>
                 </tr>
@@ -96,18 +97,12 @@
     </tr>
     <tr>
 
-        <td class="statement-td" style="font-size: 11px;">
-            Наименование услуги и ее стоимость:<br>
-            <div>
-                <input type="checkbox" {{ 0 ? 'checked' : '' }}>
-                разрешения на работу либо патента (уровень 1 (патент)) – стоимость 3800 рублей
-            </div>
-            
-            <input type="checkbox" {{ 0 ? 'checked' : '' }}>разрешения   на   временное   проживание   (уровень   2(РВП)) – стоимость 5900 рублей<br>
-            <input type="checkbox" {{ $exam->examType->short_name === 'ПАТЕНТ' ? 'checked' : '' }}>разрешения вида на жительство (уровень 3 (ВЖ))  –стоимость 5900 рублей
+        <td class="statement-td">
+            Наименование услуги и ее стоимость:
+            <p>{{ $exam->examType->name }}(уровень {{ $exam->examType->level }}) - стоимость <span class="data">{{ $exam->examType->cost ?? 3800}}</span></p>
         </td>
         <td class="statement-td">
-            Вид документа, удостоверяющего личность <br><span class="data">ПАСПОРТ</span><br>
+            Вид документа, удостоверяющего личность <br><span class="data">{{ $student->document_type ?? 'Дабавить' }}</span><br>
             Серия: <span class="data">{{ $student->passport_series }}</span> Номер: <span class="data">{{ $student->passport_number }}</span><br>
             Дата выдачи: <span class="data">{{ $student->issued_date->format('d.m.Y') }}</span><br>
             Кем выдан: <span class="data">{{$student->issued_by}}</span>
@@ -144,13 +139,11 @@
                 </tr>
             </table>
             <p class="small" style="margin-bottom: 0; font-style: italic;">Согласие на использование средств видеофиксации.</p> 
-            <p class="small" style="margin-top: 0;">Настоящим   даю   согласие  федеральному   государственному   бюджетному
-               образовательному   учреждению   высшего   
-               образования«Удмуртский государственный университет» 
-               (ИНН perem, ОГРН perem), 
-               Удмуртская Республика, г. Ижевск, улица Университетская,
+            <p class="small" style="margin-top: 0;">Настоящим   даю   согласие  {{$organization->organization_name_genitive ?? 'Дабавить'}}
+               (ИНН {{$organization->inn ?? 'Дабавить'}} , ОГРН {{$organization->ogrn ?? 'Дабавить'}}), 
+                {{$organization->address ?? 'Дабавить'}},
                 на   использование   средств   видеофиксации   при   проведении
-                экзамена   в   порядке   и   целях,   определяемыхзаконодательством и заключаемом договором.
+                экзамена   в   порядке   и   целях,   определяемых законодательством и заключаемом договором.
                 Проинформирован об использовании средств видеофиксации и хранении материаловпри проведении экзамена.</p>
             <table style="width:100%; border-collapse: collapse;margin-bottom:0">
                 <tr>

@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('migration_card_requisite', 40);
             $table->char('citizenship', 2);
             $table->string('phone', 12);
+            $table->char('gender', 1);
 
             $table->string('photo_path')->nullable()->default(null);
             $table->string('passport_scan_path')->nullable()->default(null);

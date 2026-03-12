@@ -60,6 +60,7 @@ export type StudentCreateForm = Omit<
   noPassportSeries: boolean
   noPatronymic: boolean
   noMigrationCard: boolean
+  gender:string | null
 
   examId: number | null
 }

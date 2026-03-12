@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Organization extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'name',
         'director_fio',
@@ -20,4 +23,8 @@ class Organization extends Model
     protected $casts = [
         'is_work' => 'boolean'
     ];
+
+    public function users(): HasMany{
+        return $this->hasMany(User::class, 'organization_id');
+    }
 }

@@ -21,7 +21,8 @@ class ExamTypeFactory extends Factory
             'short_name' => 'Внж',
             'level' => 1, 
             'certificate_name' => 'Имя сертификата',
-            'duration' => 80
+            'duration' => 80,
+            'cost' => fake()->numberBetween(3000, 5000)
         ];
     }
 

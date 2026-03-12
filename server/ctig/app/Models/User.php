@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -30,6 +31,10 @@ class User extends Authenticatable
     public function isAdmin(){
         return $this->is_admin;
     }
+
+    public function organization(): BelongsTo{
+        return $this->belongsTo(Organization::class,'organization_id');
+    }
     
     protected $fillable = [
         'surname',
@@ -39,7 +44,8 @@ class User extends Authenticatable
         'email',
         'password',
         'has_to_change_password',
-        'is_work'
+        'is_work',
+        'organization_id'
     ];
     protected $hidden = [
         'password',

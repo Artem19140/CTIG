@@ -11,9 +11,14 @@ class Address extends Model
 {
     /** @use HasFactory<\Database\Factories\AddressFactory> */
     use HasFactory;
+
+    public function organisation(): BelongsTo{
+        return $this->belongsTo(Organization::class,'organization_id');
+    }
     protected $fillable = [
         'is_active',
-        'address'
+        'address',
+        'organization_id'
     ];
 
     protected $casts = [

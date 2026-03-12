@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Address;
+use App\Models\Organization;
 use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -25,11 +26,12 @@ class ExamFactory extends Factory
     {
         return [
             'begin_time' => fake()->dateTimeBetween('-30 days', '+30 days')->format('Y-m-d'),
-            'exam_type_id' => ExamType::factory(),
+            'exam_type_id' => ExamType::inRandomOrder()->first()->id,
             'creator_id' => User::factory(),
             'capacity'=>fake()->numberBetween(5, 20),
             'address_id' => Address::factory(),
             'date' => fake()->dateTimeBetween('-1 week', '+1 week')->format('Y-m-d'),
+            'organization_id' => Organization::inRandomOrder()->first()->id
         ];
     }
 

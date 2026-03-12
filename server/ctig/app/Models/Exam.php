@@ -26,6 +26,7 @@ class Exam extends Model
         'date',
         'cancelled_reason',
         'is_cancelled',
+        'organization_id'
     ];
 
     protected $casts = [
@@ -68,6 +69,10 @@ class Exam extends Model
 
     public function isGoing(){
         return !$this->end_time->isPast() && $this->begin_time->isPast();
+    }
+
+    public function organisation(): BelongsTo{
+        return $this->belongsTo(Organization::class,'organization_id');
     }
 
 }

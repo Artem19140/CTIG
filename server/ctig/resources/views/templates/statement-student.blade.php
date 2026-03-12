@@ -68,7 +68,7 @@
                 </tr>
             </table>
             <div class="small" style="text-align: center;">номер счета</div>
-            <div style="width: 100%; text-align: center;">ЭКЗАМЕН ПО РУССКОМУ ЯЗЫКУ КАК ИНОСТРАННОМУ, ИСТОРИИ РОССИИ И ОСНОВАМЗАКОНОДАТЕЛЬСТВА РОССИЙСКОЙ ФЕДЕРАЦИИ</div>
+            <div style="width: 100%; text-align: center;">ЭКЗАМЕН ПО РУССКОМУ ЯЗЫКУ КАК ИНОСТРАННОМУ, ИСТОРИИ РОССИИ И ОСНОВАМ ЗАКОНОДАТЕЛЬСТВА РОССИЙСКОЙ ФЕДЕРАЦИИ</div>
         </td>
     </tr>
     <tr>
@@ -81,11 +81,16 @@
     </tr>
     <tr>
         <td class="statement-td">Отчество (при наличии, кириллица): <span class="data">{{ $student->patronymic }}</span></td>
-        <td class="statement-td">Отчество (латиница): <span class="data">{{ $student->patronymic_latin }}</span></td>
+        <td class="statement-td">Отчество (при наличии,латиница): <span class="data">{{ $student->patronymic_latin }}</span></td>
     </tr>
+
+    @php
+        $countries = collect(json_decode(file_get_contents(storage_path('app/public/countries.json')), true));
+        $countryName = $countries->firstWhere('value', $student->citizenship)['text'] ?? '';
+    @endphp
     <tr>
-        <td class="statement-td">Пол: <input type="checkbox" {{ 1 ? 'checked' : '' }}>М <input type="checkbox" {{ 1 ? 'checked' : '' }}>Ж</td>
-        <td class="statement-td">Гражданство: <span class="data">{{ $student->citizenship }}</span></td>
+        <td class="statement-td">Пол: <input type="checkbox" {{ $student->gender === 'M' ? 'checked' : '' }}>М <input type="checkbox" {{ $student->gender === 'F' ? 'checked' : '' }}>Ж</td>
+        <td class="statement-td">Гражданство: <span class="data">{{ $countryName }}</span></td>
     </tr>
     <tr>
         <td class="statement-td">Дата рождения: <span class="data">{{ $student->date_birth->format('d.m.Y') }}</span></td>
@@ -99,7 +104,7 @@
 
         <td class="statement-td">
             Наименование услуги и ее стоимость:
-            <p>{{ $exam->examType->name }}(уровень {{ $exam->examType->level }}) - стоимость <span class="data">{{ $exam->examType->cost ?? 3800}}</span></p>
+            <p>{{ $exam->examType->name }}(уровень {{ $exam->examType->level }}) - стоимость <span class="data">{{ $exam->examType->cost}} </span>рублей</p>
         </td>
         <td class="statement-td">
             Вид документа, удостоверяющего личность <br><span class="data">{{ $student->document_type ?? 'Дабавить' }}</span><br>
@@ -139,9 +144,9 @@
                 </tr>
             </table>
             <p class="small" style="margin-bottom: 0; font-style: italic;">Согласие на использование средств видеофиксации.</p> 
-            <p class="small" style="margin-top: 0;">Настоящим   даю   согласие  {{$organization->organization_name_genitive ?? 'Дабавить'}}
-               (ИНН {{$organization->inn ?? 'Дабавить'}} , ОГРН {{$organization->ogrn ?? 'Дабавить'}}), 
-                {{$organization->address ?? 'Дабавить'}},
+            <p class="small" style="margin-top: 0;">Настоящим   даю   согласие  {{$organization->name_genitive}}
+               (ИНН {{$organization->inn}} , ОГРН {{$organization->ogrn}}), 
+                {{$organization->address}},
                 на   использование   средств   видеофиксации   при   проведении
                 экзамена   в   порядке   и   целях,   определяемых законодательством и заключаемом договором.
                 Проинформирован об использовании средств видеофиксации и хранении материаловпри проведении экзамена.</p>

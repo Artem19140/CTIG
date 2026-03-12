@@ -5,16 +5,18 @@ namespace App\Actions\Student;
 use App\Exceptions\BusinessException;
 use App\Models\Student;
 use Carbon\Carbon;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Database\Eloquent\Builder;
 use Storage;
 
 final class StoreStudentAction{
     public function execute(array $data, int $creatorId): Student{
         $age = Carbon::parse($data['dateBirth'])->age;
-
+         
         if($age < 18){
             throw new BusinessException('На экзамен можно записывать с 18 лет');
         }
+
         $uniquePassportData = Student::where("passport_number", $data['passportNumber'])
                             ->where("passport_series", $data['passportSeries'])
                             ->where('citizenship', $data['citizenship'])
@@ -41,6 +43,7 @@ final class StoreStudentAction{
             'citizenship'=> $data['citizenship'],
             'phone'=> $data['phone'],
             'creator_id'=>$creatorId,
+            'gender' => $data['gender']
             // 'passport_scan_path' => $passportScanPath,
             // 'photo_path' =>  $photoPath
         ]);

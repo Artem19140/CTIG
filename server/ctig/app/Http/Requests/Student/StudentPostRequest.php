@@ -4,6 +4,7 @@ namespace App\Http\Requests\Student;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\File;
+use Illuminate\Validation\Rule;
 
 class StudentPostRequest extends FormRequest
 {
@@ -13,6 +14,9 @@ class StudentPostRequest extends FormRequest
     }
     public function rules(): array
     {
+        $countries = collect(json_decode(file_get_contents(storage_path('app/public/countries.json')), true))
+                    ->pluck('value') // получаем массив всех кодов
+                    ->toArray();
         return [ 
             'noPatronymic' =>
                 [
@@ -113,7 +117,8 @@ class StudentPostRequest extends FormRequest
                     'required',
                     'string',
                     'max:2',
-                    'min:2'
+                    'min:2',
+                    Rule::in($countries)
                 ],
             'phone' =>
                 [
@@ -124,6 +129,12 @@ class StudentPostRequest extends FormRequest
                     'required',
                     'integer', 
                     'min:1'
+                ],
+            'gender' => [
+                    'required', 
+                    'string', 
+                    'size:1', 
+                    'in:M,F'
                 ],
             // 'passportScanTranslate' => [
             //         'required',

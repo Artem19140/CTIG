@@ -29,9 +29,9 @@ return new class extends Migration
                 ->constrained('addresses')
                 ->cascadeOnDelete();
 
-            // $table->foreignId('organization_id')
-            //     ->constrained('organizations')
-            //     ->cascadeOnDelete();
+            $table->foreignId('organization_id')
+                ->constrained('organizations')
+                ->cascadeOnDelete();
             
             $table->boolean('is_cancelled')->default(false);
             $table->string('cancelled_reason')->nullable()->default(null);
@@ -79,9 +79,9 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete();
 
-            // $table->foreignId('organization_id')
-            //     ->constrained('organizations')
-            //     ->cascadeOnDelete();
+            $table->foreignId('organization_id')
+                ->constrained('organizations')
+                ->cascadeOnDelete();
 
             $table->timestamps();
         });        

@@ -37,7 +37,7 @@ class Student extends Authenticatable {
         'photo_path',
         'passport_scan_path',
         'document_type',
-        'sex'
+        'gender'
     ];
 
     protected $casts = [

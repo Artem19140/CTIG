@@ -240,7 +240,8 @@ return [
         'noPassportSeries' => 'нет серии',
         'noPatronymic' => 'нет отчества',
         'passportScanTranslate' => 'скан перевода паспорта',
-        'passportScan' => 'скан паспорта'
+        'passportScan' => 'скан паспорта',
+        'gender' => 'пол'
     ],
 
 ];

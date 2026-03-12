@@ -22,9 +22,9 @@ return new class extends Migration
             $table->foreignId('exam_id')
                 ->constrained('exams');
 
-            // $table->foreignId('organization_id')
-            //     ->constrained('organizations')
-            //     ->cascadeOnDelete();
+            $table->foreignId('organization_id')
+                ->constrained('organizations')
+                ->cascadeOnDelete();
 
             $table->string('status')->default(AttemptStatus::Active);
             $table->dateTime('expired_at');

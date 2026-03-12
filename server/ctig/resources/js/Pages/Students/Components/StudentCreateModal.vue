@@ -35,7 +35,8 @@ const form = useForm<StudentCreateForm>({
     noMigrationCard:false,
     passportScan:null,
     passportScanTranslate:null,
-    examId:null
+    examId:null,
+    gender:null
 })
 
 const citizenships = [
@@ -257,7 +258,9 @@ watch(examTypeId, async () => {
                                         /> 
                                 </v-col>
 
-                                <v-col cols="12">
+                                
+
+                                <v-col md="6" cols="12">
                                     <v-autocomplete 
                                         label="Гражданство"
                                         item-title="name"
@@ -267,6 +270,24 @@ watch(examTypeId, async () => {
                                         :error-messages="form.errors.citizenship"
                                         clearable
                                     />
+                                </v-col>
+
+                                <v-col md="6" cols="12">
+                                    <v-radio-group
+                                        v-model="form.gender"
+                                        inline
+                                        label="Пол"
+                                        :error-messages="form.errors.gender"
+                                        >
+                                        <v-radio
+                                            label="М"
+                                            value="M"
+                                        ></v-radio>
+                                        <v-radio
+                                            label="Ж"
+                                            value="F"
+                                        ></v-radio>
+                                    </v-radio-group>
                                 </v-col>
 
                                 <v-col cols="12" md="6">

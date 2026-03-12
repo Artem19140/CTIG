@@ -22,12 +22,14 @@ class CreateStudentStatementAction{
         if(!$exam){
             throw new BusinessException('Такой записи на экзамен не сущетствует');
         }
+        $user->load('organization');
 
         return Pdf::loadView('templates.statement-student',[
             'student' => $student,
             'exam' => $exam,
             'user' => $user,
-            'reg_number' => $exam->pivot->reg_number
+            'reg_number' => $exam->pivot->reg_number,
+            'organization' => $user->organization
         ]);
 
         // Отдаем клиенту на скачивание

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 
+use App\Models\Organization;
 use App\Models\User;
 use App\Models\Student;
 
@@ -19,6 +20,15 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
+        $organization = Organization::create([
+            'name' => 'УдГУ',
+            'director_fio' => 'Рязанова Анна Юрьевна',
+            'certificates_issue_address' => 'Удмуртская республика, г. Ижевск, ул. Университетская, д.1',
+            'ogrn' => '1021801503382',
+            'inn' => '1833010750',
+            'address' => 'Удмуртская Республика, г. Ижевск, улица Университетская',
+            'name_genitive' => 'федеральному государственному бюджетному образовательному учреждению высшего образования «Удмуртский государственный университет»'
+        ]);
         
         User::factory(6)->create();
         

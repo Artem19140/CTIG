@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers\Web\Exam;
 
+use App\Actions\Attempt\StartExamSessionAction;
 use App\Actions\Exam\CancelExamAction;
 use App\Actions\Exam\CreateStudentsCodesForExamAction;
 use App\Actions\Exam\EnrollStudentToExamAction;
+use App\Actions\Exam\GetAvailableExamsAction;
 use App\Actions\Exam\GetExamListAction;
+
 use App\Actions\Exam\VerifyExamCodeAction;
+use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Http\Requests\Exam\ExamIndexRequest;
 use App\Http\Resources\Address\AddressResource;
 use App\Http\Resources\ExamType\ExamTypeResource;
+use App\Models\Attempt;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\User\UserResource;
 use App\Models\Address;
 use App\Models\Exam;
@@ -20,6 +26,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\Exam\ExamResource;
 use App\Http\Requests\Exam\ExamPostRequest;
 use App\Actions\Exam\CreateExamAction;
+
 use Inertia\Inertia;
 
 class ExamController
@@ -35,7 +42,7 @@ class ExamController
 
     public function store(ExamPostRequest $request, CreateExamAction $createExamAction)
     {       
-        $createExamAction->handle($request->getDto(),$request->user()->id);
+        $createExamAction->handle($request->getDto(),$request->user());
         return redirect()
             ->route('exams.index')
             ->with('success', 'Экзамен создан');
@@ -62,12 +69,19 @@ class ExamController
         
     }
 
-    public function verifyCode(Request $request, VerifyExamCodeAction $verifyExamCode){
+    public function verifyCode(
+                                Request $request,
+                                VerifyExamCodeAction $verifyCode,
+                                StartExamSessionAction  $startExamSession
+                            ){
         $request->validate([
             'code' => ['required', 'string']
         ]);
-        $verifyExamCode->execute($request->input('code'));
-        return Inertia::render('Exam');
+        $student =  $verifyCode->execute($request->input('code'));
+        Auth::guard('students')->login($student);
+        $request->session()->regenerate();
+        $startExamSession->execute($student);
+        return redirect()->route('exam-attempts.before');
     }
 
     public function destroy(Exam $exam , CancelExamAction $cancelExam)
@@ -95,27 +109,46 @@ class ExamController
         return $createStudentsCodesForExam->execute($exam);
     }
 
-    public function available(Request $request){
+    public function available(Request $request, GetAvailableExamsAction $getAvailableExams){
         $request->validate([
-            'examTypeId' => ['required', 'integer', 'min:1']
+            'examTypeId' => ['nullable', 'integer', 'min:1']
         ]);
-        $exams = Exam::with(['examType', 'address'])
-                    ->where('is_cancelled', false)
-                    ->where('begin_time', '>', now())
-                    ->where('exam_type_id', $request->input('examTypeId'))
-                    ->orderByDesc('begin_time') 
-                    ->limit(10)
-                    ->get();
-        
+        $exams = $getAvailableExams->execute($request->input('examTypeId'));
         return ExamResource::collection($exams);
     }        
     
-    public function enroll(Request $request,Exam $exam, EnrollStudentToExamAction $enrollStudentToExam){ 
+    public function enroll(
+                            Request $request,
+                            Exam $exam, 
+                            EnrollStudentToExamAction $enrollStudentToExam,
+                            
+                        ){ 
         $request->validate([
             'studentId' => ['required', 'integer', 'min:1'],
         ]);
-        $enrollStudentToExam->execute($exam, request()->input('studentId'));
-               
+        $enrollStudentToExam->execute($exam, request()->input('studentId'), $request->user());     
         return back()->with('success', 'Запись успешно создана');
+    }
+
+    public function before(Request $request){
+        $student = $request->user();
+        $attempt = $student->attempts()->where('status', AttemptStatus::Pending)->first();
+        if(!$attempt){
+            return redirect('login')->with('У вас нет текущей попытки экзамена');
+        }
+        $exam = Exam::with([
+            'examType.blocks.subblocks'
+        ])->find($student->exam_id);
+
+        $minMark = $exam->examType
+            ->blocks
+            ->flatMap->subblocks
+            ->sum('min_mark');
+        
+        return Inertia::render('BeforeAttempt/BeforeAttempt', [
+            'exam' => new ExamResource($exam),
+            'duration' => $exam->examType->duration,
+            'minMark' => $minMark
+        ]);
     }
 }

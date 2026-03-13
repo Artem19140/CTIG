@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import { formatterTime, formatterDate } from '../../../Helpers/heplers';
 import { router } from '@inertiajs/vue3';
 import { Exam } from '../../../interfaces/interfaces';
+import { modalState } from '../../../Composables/modalState';
 
 const props = defineProps<{
     student : any | null
@@ -16,12 +17,13 @@ const getExams = async () => {
     exams.value = res.data.data
 }
 
-const enroll = (exam : any) => {
+const enroll = async (exam : any) => {
   if(!exam || !props.student.id){
     return  
   }
   if(confirm(`Записать ${props.student?.surname} ${props.student?.name[0]}.${props.student?.patronymic[0]}. на экзамен по ${exam.shortName} на ${ formatterDate(exam.beginTime) }  в  ${ formatterTime(exam.beginTime)}`)){
-    router.post(`exams/${exam.id}/student`, {studentId:props.student.id})
+    await axios.post(`exams/${exam.id}/student`, {studentId:props.student.id})
+    modalState.fileUrl = `students/${props.student.id}/application-forms?examId=${exam.id}`
   }
 }
 //Если нет экзаменов - тогда сообщение!

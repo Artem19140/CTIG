@@ -18,9 +18,9 @@
         <v-list density="compact" nav v-model="activeItem">
           <v-list-item prepend-icon="mdi-account-group" title="Студенты" @click="router.get('/students')"  value="myfiles"></v-list-item>
           <v-list-item prepend-icon="mdi-school" value="shared" title="Экзамены" @click="router.get('/exams')"></v-list-item>
-          <v-list-item prepend-icon="mdi-file-document" title="Отчеты" value="reports" @click="router.get('/reports')"></v-list-item>
-          <v-list-item prepend-icon="mdi-clipboard-check" title="Проверка" value="starred"></v-list-item>
-          <v-list-item prepend-icon="mdi-logout" title="Выйти из аккаунта" value="starred"></v-list-item>
+          <v-list-item prepend-icon="mdi-clipboard-check" title="Проверка" value="starred"  @click="router.get('/attempts/checking')"></v-list-item>
+          <v-list-item prepend-icon="mdi-monitor-eye" title="Мониторинг экзамена" value="examMonitoring" @click="router.get('/exams/monitoring')"></v-list-item>
+          <v-list-item prepend-icon="mdi-logout" title="Выйти из аккаунта" value="starred" @click="router.post('/logout')"></v-list-item>
         </v-list>
         
       </v-navigation-drawer>
@@ -60,7 +60,7 @@ import { usePage } from '@inertiajs/vue3';
 import ConfirmDialog from '../Components/UI/ConfirmDialog/ConfirmDialog.vue';
 
 const page = usePage()
-const employeeName = `${page?.props.auth.user.surname} ${page?.props.auth.user.name[0]}. ${page?.props.auth.user.patronymic[0]}.`
+const employeeName = `${page?.props.auth?.user?.surname} ${page?.props.auth?.user?.name}`
 
 const activeItem = ref('')
 </script>

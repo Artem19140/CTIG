@@ -23,7 +23,8 @@ class Attempt extends Model
         'total_mark',
         'started_at',
         'ban_reason',
-        'ban_by_id'
+        'ban_by_id',
+        'organization_id'
     ];
 
     protected $casts = [

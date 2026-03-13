@@ -5,13 +5,16 @@ namespace App\Actions\Exam;
 use App\Exceptions\EntityNotFoundExсeption;
 use App\Models\Exam;
 use App\Models\Student;
+use App\Models\User;
 use Carbon\Carbon;
 use App\Exceptions\BusinessException;
-use DB;
-use Illuminate\Database\Eloquent\Builder;
+use App\Actions\Student\CreateStudentStatementAction;
 
 final class EnrollStudentToExamAction{
-    public function execute(Exam $exam, int $studentId, int $creatorId): bool{
+    public function __construct(
+        protected CreateStudentStatementAction $createStudentStatement
+    ){}
+    public function execute(Exam $exam, int $studentId, User $user){
         $student = Student::find($studentId);
         
         if(!$student){
@@ -51,7 +54,11 @@ final class EnrollStudentToExamAction{
             throw new BusinessException('На это время у студента уже существует запись');
         }
 
-        $exam->students()->attach($student, ['reg_number' => 124532, 'creator_id' => $creatorId]);
-        return true;
+        $exam->students()->attach($student, [
+            'reg_number' => 124532, 
+            'creator_id' => $user->id,
+            'organization_id' => $user->organization_id
+        ]);
+        //return $this->createStudentStatement->execute($exam->id, $student,$user);
     }
 }

@@ -31,7 +31,7 @@ class StudentController
                 ->execute(
                         $request->validated(),
                             $request->validated('examId'),
-                            $request->user()->id
+                            $request->user()
                         );
         return Inertia::render('Students/Students', [
             'studentId' => $student->id,

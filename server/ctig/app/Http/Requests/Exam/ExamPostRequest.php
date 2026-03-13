@@ -28,11 +28,6 @@ class ExamPostRequest extends FormRequest
                         'integer', 
                         'min:0'
                     ], 
-            'capacity' => [
-                        'required',
-                        'integer',
-                        'min:0',
-                    ],
 
             'examTypeId' => [
                         'required',
@@ -64,7 +59,6 @@ class ExamPostRequest extends FormRequest
         return new ExamDto(
             new DateTime($this->get('beginTime')),
             \intval($this->get('addressId')),
-            \intval($this->get('capacity')),
             \intval($this->get('examTypeId')),
             \strval($this->get('comment')),
             $this->get('testers')

@@ -3,6 +3,7 @@
 namespace App\Http\Resources\TaskVariant;
 
 use App\Http\Resources\Answer\AnswerResource;
+use App\Http\Resources\StudentAnswer\StudentAnswerResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,6 +23,9 @@ class TaskVariantResource extends JsonResource
             'groupId' => $this->group_number,
             'answers' => AnswerResource::collection($this->whenLoaded('answers')),
             'order' => $this->whenLoaded('task', fn () => $this->task->order),
+            'type' => $this->whenLoaded('task', fn () => $this->task->type),
+            //'studentAnswer' =>  StudentAnswerResource::collection($this->whenLoaded('studentsAnswers')),
+            'studentAnswer' => new StudentAnswerResource($this->studentsAnswers->first()),
         ];
     }
 }

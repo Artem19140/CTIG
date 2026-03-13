@@ -3,16 +3,18 @@
 namespace App\Actions\Exam;
 
 use App\Exceptions\EntityNotFoundExсeption;
+use App\Http\Dto\ExamDto;
 use App\Models\Address;
 use App\Models\Exam;
 use App\Models\ExamType;
+use App\Models\User;
 use Carbon\Carbon;
 use App\Exceptions\BusinessException;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
 
 final class CreateExamAction{
-    public function handle($examDto, $creatorId){
+    public function handle(ExamDto $examDto, User $user){
         $examType =  ExamType::find($examDto->examTypeId);
         $examAddress = Address::find($examDto->addressId);
         
@@ -52,31 +54,37 @@ final class CreateExamAction{
         }
         
         $hasConflictTesters = Exam::where('begin_time', '<=', $examEndTime)
-                            ->where('end_time', '>=', $examBeginTime)
-                            ->whereHas('testers', function (Builder $query) use ($examDto): void {
-                                $query->whereIn('users.id', $examDto->testers);
-                            })
-                            ->exists();
+                                ->where('end_time', '>=', $examBeginTime)
+                                ->whereHas('testers', function (Builder $query) use ($examDto): void {
+                                    $query->whereIn('users.id', $examDto->testers);
+                                })
+                                ->exists();
         
         if($hasConflictTesters){
             throw new BusinessException("Один или несколько тестеров заняты в это время");
         }
-         
-        $exam = DB::transaction(function () use ($examDto, $creatorId,$examBeginTime, $examEndTime) {
+
+        $examBeginTimeUtc= Carbon::parse(
+                                            $examBeginTime->copy(),
+                                            $user->organization->time_zone
+                                        )->utc();
+        $exam = DB::transaction(function () use ($examDto, $user ,$examBeginTime, $examEndTime, $examBeginTimeUtc,$examAddress) {
             $exam = Exam::create(
             [
                     'begin_time' => $examDto->beginTime,
+                    'begin_time_utc' => $examBeginTimeUtc,
                     'address_id' => $examDto->addressId,
-                    'capacity' => $examDto->capacity,
+                    'capacity' => $examAddress->max_capacity,
                     'exam_type_id' => $examDto->examTypeId,
                     'comment' => $examDto->comment,
-                    'creator_id'=> $creatorId,
+                    'creator_id'=> $user->id,
                     'end_time' => $examEndTime,
+                    'organization_id' => $user->organization->id,
                     'date' => $examBeginTime->copy()->toDate()
                 ]
             );
         
-            $exam->testers()->attach($examDto->testers);
+            $exam->testers()->attach($examDto->testers, ['organization_id'  => $user->organization->id]);
             return $exam;
         });        
         return $exam;

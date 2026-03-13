@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import AppInput from '../../../Components/UI/AppInput/AppInput.vue';
-import { computed, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import BaseDialog from '../../../Components/UI/BaseDialog/BaseDialog.vue';
 import axios from 'axios';
 import type {Exam, StudentCreateForm } from '../../../interfaces/interfaces';
 import { formatterTime,formatterDate } from '../../../Helpers/heplers';
 import { modalState } from '../../../Composables/modalState';
+import countries from '../../../../../../ctig/storage/app/public/countries.json'
 
 const isActive = ref<boolean>(false)
 const examTypeId = ref<number | null>(null)
@@ -39,11 +40,6 @@ const form = useForm<StudentCreateForm>({
     gender:null
 })
 
-const citizenships = [
-    {name:'Узбекистан', value:'UZ'},
-    {name:'Казахстан', value:'KZ'}
-]
-
 const examTypes = [
     {name:'ПАТЕНТ', id:1},
     {name:'РВП', id:2},
@@ -60,9 +56,9 @@ const create = () => {
         form.clearErrors()
         const studentId = page.props.studentId
         const examId = page.props.examId
-        //const res = await axios.get('documents')
-        window.open(`/students/${studentId}/application-forms?examId=${examId}`)
-        modalState.fileUrl =  `students/${studentId}/application-forms?examId=${examId}` 
+        //window.open(`/students/${studentId}/application-forms?examId=${examId}`)
+        modalState.fileUrl =  `students/${studentId}/application-forms?examId=${examId}`
+        isActive.value = false 
         console.log('Форма успешно отправлена!', page)
     },
     onError: (errors) => {
@@ -263,8 +259,8 @@ watch(examTypeId, async () => {
                                 <v-col md="6" cols="12">
                                     <v-autocomplete 
                                         label="Гражданство"
-                                        item-title="name"
-                                        :items="citizenships"
+                                        item-title="text"
+                                        :items="countries"
                                         item-value="value"
                                         v-model="form.citizenship"
                                         :error-messages="form.errors.citizenship"

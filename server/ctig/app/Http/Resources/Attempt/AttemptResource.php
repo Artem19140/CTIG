@@ -21,9 +21,9 @@ class AttemptResource extends JsonResource
         return [
             'exam' => new ExamResource($this->whenLoaded('exam')),
             'answers' =>  StudentAnswerResource::collection($this->whenLoaded('answers')),
+            'expiredAt' => $this->expired_at,
             //'solved' => $this->whenCounted(''),
             'student' => new StudentResource($this->whenLoaded('student')),
-            'violations' =>  ViolationResource::collection($this->whenLoaded('violations')),
             'id' => $this->id,
             'startedAt' => $this->started_at,
             'finishedAt' => $this->finished_at,

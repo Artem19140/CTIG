@@ -12,8 +12,8 @@ return new class extends Migration
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
             $table->dateTime('begin_time')->index();
-            $table->dateTime('end_time')->nullable();
-            $table->string('time_zone')->default('Europe/Samara'); 
+            $table->dateTime('begin_time_utc')->index();
+            $table->dateTime('end_time')->index();
             $table->unsignedTinyInteger('capacity');
             $table->date('date');
             $table->foreignId('exam_type_id') 
@@ -60,9 +60,9 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete();
 
-            // $table->foreignId('organization_id')
-            //     ->constrained('organizations')
-            //     ->cascadeOnDelete();
+            $table->foreignId('organization_id')
+                ->constrained('organizations')
+                ->cascadeOnDelete();
 
             $table->timestamps();
         });

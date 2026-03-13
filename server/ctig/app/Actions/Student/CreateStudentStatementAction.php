@@ -10,7 +10,7 @@ use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class CreateStudentStatementAction{
-    public function execute(int $examId, Student $student, User $user){ //Student $student, Exam $exam
+    public function execute(int $examId, Student $student, User $user){ 
         $exam = Exam::with(['examType'])
                     ->find($examId);
         if(!$exam){
@@ -30,9 +30,6 @@ class CreateStudentStatementAction{
             'user' => $user,
             'reg_number' => $exam->pivot->reg_number,
             'organization' => $user->organization
-        ]);
-
-        // Отдаем клиенту на скачивание
-        
+        ]);  
     }
 }

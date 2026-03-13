@@ -17,7 +17,8 @@ class Organization extends Model
         'ogrn',
         'inn',
         'address',
-        'name_genitive'
+        'name_genitive',
+        'time_zone'
     ];
 
     protected $casts = [

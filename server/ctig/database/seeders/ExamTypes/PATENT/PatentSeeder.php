@@ -64,7 +64,7 @@ class PatentSeeder extends Seeder
                         $orderAnswer = 1;
                         foreach($variant['answers'] as $answer){
                             Answer::create([
-                                'content' => json_encode($answer['content']),
+                                'content' => $answer['content'],
                                 'is_correct' => $answer['is_correct'],
                                 'order' => $orderAnswer,
                                 'task_variant_id' => $taskVariantCreated->id,

@@ -16,6 +16,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
                 
             $table->foreignId('ban_by_id')
+                ->nullable()
                 ->constrained('users')
                 ->cascadeOnDelete();
 
@@ -26,15 +27,17 @@ return new class extends Migration
                 ->constrained('organizations')
                 ->cascadeOnDelete();
 
-            $table->string('status')->default(AttemptStatus::Active);
-            $table->dateTime('expired_at');
+            $table->string('status')->default(AttemptStatus::Pending);
+            $table->dateTime('expired_at')->nullable()->default(null);
             $table->string('ban_reason')->nullable()->default(null);
             $table->unsignedTinyInteger('total_mark')->default(0);
             $table->boolean('is_passed')->nullable()->default(null);
             $table->dateTime('last_activity_at')->nullable()->default(null);
-            $table->dateTime('started_at');
+            $table->dateTime('started_at')->nullable()->default(null);
             $table->dateTime('finished_at')->nullable()->default(null);
             $table->timestamps();
+
+            $table->unique(['exam_id', 'student_id']);
         });
     }
 

@@ -2,10 +2,8 @@
 
 namespace App\Actions\Reports;
 
-use App\Actions\Attempt\GetDetailedAttemptResultsAction;
 use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
-use Illuminate\Database\Eloquent\Builder;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class GenerateExamStatementAction{

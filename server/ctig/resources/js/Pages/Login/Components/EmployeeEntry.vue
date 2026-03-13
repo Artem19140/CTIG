@@ -4,7 +4,7 @@ import AppInput from '../../../Components/UI/AppInput/AppInput.vue';
 import { useForm } from '@inertiajs/vue3'
 
 const form = useForm({
-    email: 'qwerty@gmail.com', //qwerty1231123@gmail.com
+    email: 'anna_ryasanova@gmail.com', //qwerty1231123@gmail.com
     password: '12345678' //12345678 
 })
 

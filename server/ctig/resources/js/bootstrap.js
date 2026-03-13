@@ -44,7 +44,7 @@ axios.interceptors.response.use(
       default:
         console.error('API error', error.response);
     }
-
+    throw error;
     return Promise.reject(error);
   }
 );

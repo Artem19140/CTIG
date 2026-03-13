@@ -50,6 +50,7 @@ class AttemptController extends Controller
         
         $exam = Exam::with('examType.blocks.subblocks.tasks.variants')
                     ->find($student->exam_id);
+                    
         $examAttempt = DB::transaction(function () use($student, $exam, $generateExamVariant) {
             $examDuration = $exam->examType->duration;
             $attempt = Attempt::create([

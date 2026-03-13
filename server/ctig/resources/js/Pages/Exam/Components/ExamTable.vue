@@ -27,7 +27,6 @@
     <v-data-table
         :headers="headers"
         :items="exams"
-        
         :width="width"
         hover
     >

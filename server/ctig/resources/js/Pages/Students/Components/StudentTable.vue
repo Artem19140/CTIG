@@ -30,7 +30,6 @@
             width="1000px"
             hover
             :loading="loading"
-            items-per-page=""
         >
         
             <template v-slot:item="{item}">

@@ -1,7 +1,9 @@
 <?php
 
 use App\Exceptions\BusinessException;
+use App\Http\Middleware\CheckOrganizationIsWork;
 use App\Http\Middleware\CheckPasswordChange;
+use App\Http\Middleware\CheckUserIsWork;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -29,7 +31,9 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'passwordChange' => CheckPasswordChange::class
+            'password.change' => CheckPasswordChange::class,
+            'user.is.work' => CheckUserIsWork::class,
+            'organization.is.work' => CheckOrganizationIsWork::class
         ]);
 
     })

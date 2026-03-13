@@ -45,8 +45,16 @@ class HandleInertiaRequests extends Middleware
                 'error' => $request->session()->get('error'),
             ],
             'auth.user' => fn () => $request->user()
-                ? $request->user()->only('id', 'surname', 'name', 'patronymic', 'email')
-                : null,
+            ? match (true) {
+                $request->user() instanceof \App\Models\Student =>
+                    $request->user()->only('id', 'surname', 'name', 'patronymic'),
+
+                $request->user() instanceof \App\Models\User =>
+                    $request->user()->only('id', 'surname', 'name', 'email'),
+
+                default => null,
+            }
+            : null,
         ]);
     }
 }

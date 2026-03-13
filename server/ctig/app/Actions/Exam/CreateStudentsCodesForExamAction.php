@@ -14,6 +14,8 @@ final class CreateStudentsCodesForExamAction{
             throw new BusinessException('Экзмен уже прошел');
         }
 
+        //отменен
+
         $examBeginTime = Carbon::parse($exam->begin_time);
         $minutesBieforeBegin = $examBeginTime->copy()->diffInMinutes(Carbon::now(), false);
 
@@ -53,19 +55,12 @@ final class CreateStudentsCodesForExamAction{
             }while(!$saved);
 
         }
-
-              
-
-        
         
         $pdf = Pdf::loadView('templates.exam-codes', [
             'students' => $students
         ]);
 
         return $pdf->stream('codes.pdf');
-        return response($pdf->stream('codes.pdf'), 200)
-            ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'inline; filename="codes.pdf"');
     }
 
     protected function createCode(){

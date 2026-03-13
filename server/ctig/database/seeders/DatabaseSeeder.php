@@ -20,8 +20,9 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        $organization = Organization::create([
+        Organization::create([
             'name' => 'УдГУ',
+            'time_zone' => 'Europe/Samara',
             'director_fio' => 'Рязанова Анна Юрьевна',
             'certificates_issue_address' => 'Удмуртская республика, г. Ижевск, ул. Университетская, д.1',
             'ogrn' => '1021801503382',

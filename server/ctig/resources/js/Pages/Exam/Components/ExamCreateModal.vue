@@ -13,7 +13,6 @@ const examTypes = ref<ExamType[]>()
 
 const form = useForm<ExamForm>({
     examTypeId: null,
-    capacity: null,
     addressId:null,
     comment:'',
     testers:[],
@@ -89,14 +88,6 @@ const close = () :boolean => {
                 :error-messages="form.errors.beginTime"
                 clearable
             />
-
-            <v-number-input
-                :min="0"
-                label="Количество студентов"
-                v-model="form.capacity"
-                clearable
-                :error-messages="form.errors.capacity"
-            ></v-number-input>
             
             <v-autocomplete 
                 label="Адрес"

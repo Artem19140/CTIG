@@ -3,6 +3,5 @@
 </script>
 
 <template>
-
-    <h1>Тест</h1>
+    1
 </template>

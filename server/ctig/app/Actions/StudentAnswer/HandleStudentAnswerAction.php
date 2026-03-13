@@ -13,12 +13,13 @@ class HandleStudentAnswerAction{
         $studentAnswer->load(['taskVariant.task', 'taskVariant.answers']);
         $task = $studentAnswer->taskVariant->task;
 
-        // if(!$task->type->hasAnswers()){
-        //     throw new BusinessException('Данному типу задания нельзя загрузить ответ');
-        // }
+        if(!$task->type->hasAnswers()){
+            throw new BusinessException('Данному типу задания нельзя загрузить ответ');
+        }
 
         if($task->type->autoCheck()){
             $isCorrect = $this->autoChecker($task->type, $answer, $studentAnswer);
+
             if($isCorrect){
                 $studentAnswer->mark = $task->mark;
             }else{
@@ -26,7 +27,7 @@ class HandleStudentAnswerAction{
             }
             $studentAnswer->is_checked = true;
         }else{
-            $studentAnswer->text_answer = $answer;
+            $studentAnswer->answer = $answer;
         }
         $studentAnswer->save();
     }
@@ -41,13 +42,14 @@ class HandleStudentAnswerAction{
     }
 
     protected function singleChoiceChecker(int $answerId,StudentAnswer $studentAnswer): bool{
+
         $answer = $studentAnswer->taskVariant->answers->firstWhere('id', $answerId);
-        echo $answer;
-        // echo $studentAnswer->taskVariant->answers->pluck('id');
+        // echo $answer;
+        //echo $studentAnswer->taskVariant->answers->pluck('id');
         if (!$answer) {
             throw new BusinessException('Не существует данного ответа');
         }
-        $studentAnswer->json_answer = [
+        $studentAnswer->answer = [
             'value' => [
                 "id" => $answer->id,
                 'order' => $answer->order,

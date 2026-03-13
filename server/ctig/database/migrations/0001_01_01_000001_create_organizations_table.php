@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('inn');
             $table->string('address');
             $table->string('name_genitive');
+            $table->string('time_zone');
 
             $table->timestamps();
         });

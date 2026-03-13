@@ -86,7 +86,6 @@ export interface ExamType{
 
 export interface ExamForm{
     examTypeId: number | null,
-    capacity: number | null,
     addressId: number | null,
     comment:string,
     testers: Array<number>,

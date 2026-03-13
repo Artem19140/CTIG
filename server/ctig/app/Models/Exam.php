@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
@@ -15,23 +16,25 @@ class Exam extends Model
     use HasFactory, Notifiable;
     protected $fillable=[
         'begin_time',
+        'begin_time_utc',
         'exam_type_id',
         'creator_id',
         'session_number',
         'capacity',
         'comment',
         'group',
-        'end_time',
         'address_id',
         'date',
         'cancelled_reason',
         'is_cancelled',
-        'organization_id'
+        'organization_id',
+        'end_time'
     ];
 
     protected $casts = [
         'end_time' => 'datetime',
         'begin_time' => 'datetime',
+        'begin_time_utc' => 'datetime',
         'date'=>'date'
     ];
 
@@ -73,6 +76,13 @@ class Exam extends Model
 
     public function organisation(): BelongsTo{
         return $this->belongsTo(Organization::class,'organization_id');
+    }
+
+    protected function duration(): Attribute
+    {
+        return Attribute::get(function () {
+            return $this->examType->duration;
+        });
     }
 
 }

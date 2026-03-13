@@ -27,7 +27,7 @@ class GenerateExamVariantAction{
                 'task_variant_id' => $variant->id,
                 'attempt_id' => $attempt->id, 
                 'student_id' =>$student->id, 
-
+                'organization_id' => $exam->organization_id
             ];
         }
         return $examVariant;

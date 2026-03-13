@@ -4,6 +4,7 @@ namespace App\Enums;
 
 enum AttemptStatus:string
 {
+    case Pending = 'pending';
     case Active = 'active'; //active
     case Finished = 'finished';
     case Checked = 'checked';
@@ -11,7 +12,7 @@ enum AttemptStatus:string
 
     public function canBeRated(): bool{
         return match($this){
-            self::Banned => false,
+            self::Banned, self::Pending => false,
             default => true
         };
     }
@@ -25,6 +26,7 @@ enum AttemptStatus:string
 
     public static function  unChecked(): array{
         return [
+            self::Pending,
             self::Active,
             self::Finished
         ];

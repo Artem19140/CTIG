@@ -18,17 +18,6 @@ const formCodes = async () => {
     return
   }
   modalState.fileUrl = `/exams/${props.examId}/codes`
-  console.log(modalState.fileUrl) 
-  // const res = await axios.post(
-  //     `/exams/${props.examId}/codes`,
-  //     {},
-  //     {
-  //       responseType: 'blob'
-  //     }
-  //   )
-  //   const file = new Blob([res.data], { type: 'application/pdf' })
-  //   modalState.fileType = res.data.type
-  //   modalState.fileUrl = URL.createObjectURL(file)
 }
 
 

@@ -1,7 +1,6 @@
 <script lang="ts">
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
 import type { Student } from '../../interfaces/interfaces';
-
 export default {
   layout: EmployeeLayout,
 }
@@ -16,10 +15,12 @@ const props = defineProps<{
   students: any
 }>()
 
+
+
 </script>
 
 <template>
-    <StudentsList :students="students" />
+    <StudentsList :students="students"/>
 
     
 </template>

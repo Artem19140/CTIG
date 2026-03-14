@@ -6,6 +6,7 @@ import AppInput from '../../../Components/UI/AppInput/AppInput.vue';
 import BaseDialog from '../../../Components/UI/BaseDialog/BaseDialog.vue';
 import { Address, User, ExamType } from '../../../interfaces/interfaces';
 import { ExamForm } from '../../../interfaces/interfaces';
+import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
 
 const addresses = ref<Address[]>()
 const testers = ref<User[]>()
@@ -40,14 +41,15 @@ const create =  () => {
     
 }
 
-const close = () :boolean => {
+const {confirmOpen} = useConfirmDialog()
+const close = async (fn:  ()  => void) => {
     if(form.isDirty){
-        if(!confirm("Отменить добавление?") ){
-            return false
+        if(! await confirmOpen("Отменить добавление экзамена?") ){
+            return
         }
     }
     form.resetAndClearErrors()
-    return true
+    fn()
 }
 </script>
 
@@ -64,9 +66,7 @@ const close = () :boolean => {
         title="Добавление экзамена"
         v-model="isActive"
         width="500"
-        @before-close="(done) => {
-            if (close()) done()
-        }"
+        @before-close="(done) => close(done)"
     >
         <form>
             <v-autocomplete 

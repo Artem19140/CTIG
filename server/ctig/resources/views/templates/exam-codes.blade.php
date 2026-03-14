@@ -41,7 +41,8 @@ tr:nth-child(even) td {
 <body>
 
 <h2>Коды студентов</h2>
-
+<div>Экзамен: {{ $exam->examType->short_name }}</div>
+<div style="margin-bottom: 10px;">Дата и время: {{ $exam->begin_time->format('d.m.Y в H:i') }}</div>
 <table>
     <tr>
         <th>ID</th>

@@ -55,9 +55,9 @@ final class CreateStudentsCodesForExamAction{
             }while(!$saved);
 
         }
-        
         $pdf = Pdf::loadView('templates.exam-codes', [
-            'students' => $students
+            'students' => $students,
+            'exam' => $exam
         ]);
 
         return $pdf->stream('codes.pdf');

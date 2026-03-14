@@ -45,6 +45,7 @@ const send = async () => {
                 
 
             {{ task.content }}
+            
         </v-card-text>
 
         <v-card-text>

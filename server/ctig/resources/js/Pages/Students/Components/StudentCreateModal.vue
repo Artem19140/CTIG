@@ -8,6 +8,7 @@ import type {Exam, StudentCreateForm } from '../../../interfaces/interfaces';
 import { formatterTime,formatterDate } from '../../../Helpers/heplers';
 import { modalState } from '../../../Composables/modalState';
 import countries from '../../../../../../ctig/storage/app/public/countries.json'
+import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
 
 const isActive = ref<boolean>(false)
 const examTypeId = ref<number | null>(null)
@@ -67,10 +68,15 @@ const create = () => {
     })
 }
 
-const close = (fn: () => void) => {
-    if (form.isDirty && !confirm("Отменить добавление?")) {
-        return
+const {confirmOpen} = useConfirmDialog()
+
+const  close  = async (fn:  ()  => void)  =>  {
+    if (form.isDirty) {
+        if(!await confirmOpen("Отменить добавление студента?")){
+            return
+        }
     }
+    
     examTypeId.value = null
     exams.value = undefined
     form.reset()

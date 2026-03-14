@@ -3,7 +3,7 @@ import { useForm } from '@inertiajs/vue3'
 
 
 const form = useForm({
-    code: '', //qwerty1231123@gmail.com
+    code: '',
 })
 
 const submit = () => {
@@ -41,7 +41,6 @@ const submit = () => {
                     <v-otp-input
                         v-model="form.code"
                         class="mb-8"
-                        divider="•"
                         length="4"
                         variant="outlined"
                     ></v-otp-input>

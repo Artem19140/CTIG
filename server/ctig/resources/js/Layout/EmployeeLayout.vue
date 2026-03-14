@@ -42,6 +42,7 @@
     <student-show-modal />
     <document-show-dialog />
     <confirm-dialog />
+    <alert />
 </template>
 
 <script setup>
@@ -58,6 +59,7 @@ import StudentShowModal from '../Pages/Students/Components/StudentShowModal.vue'
 import DocumentShowDialog from '../Components/UI/DocumentShowDialog/DocumentShowDialog.vue';
 import { usePage } from '@inertiajs/vue3';
 import ConfirmDialog from '../Components/UI/ConfirmDialog/ConfirmDialog.vue';
+import Alert from '../Components/Alert/Alert.vue';
 
 const page = usePage()
 const employeeName = `${page?.props.auth?.user?.surname} ${page?.props.auth?.user?.name}`

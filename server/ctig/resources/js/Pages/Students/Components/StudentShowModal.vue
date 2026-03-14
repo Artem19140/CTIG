@@ -27,8 +27,6 @@ watch(() => modalState.studentId, async () => {
 const showDocument = (url :string) => {
     modalState.fileUrl = url
 }
-
-
 </script>
 
 <template>

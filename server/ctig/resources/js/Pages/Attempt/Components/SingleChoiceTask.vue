@@ -1,30 +1,43 @@
 <script setup lang="ts">
 import axios from 'axios'
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 const props = defineProps<{
-    task:any
+    task:any,
+    attempt:any
 }>()
 
-// const studentAnswer = ref<number>(props.task.studentAnswer.id)
+const attemptAnswer = ref<number | null>(
+  props.task.attemptAnswer
+    ? Number(props.task.attemptAnswer)
+    : null
+)
 
-// const send = async () => {
-//     console.log(studentAnswer.value)
-//     await axios.put(`/student-answers/${props.task.id}`, {
-//         studentAnswer: studentAnswer.value
-//     })
-// }
-// v-model="studentAnswer"
-//                 @update:modelValue="send"
+// watch(
+//     () => props.task.attemptAnswer,
+//     (newVal) => {
+//         attemptAnswer.value = newVal ? Number(newVal) : null
+//     },
+//     { immediate: true }
+// )
+
+const send = async () => {
+    await axios.put(`/exam-attempts/${props.attempt.id}/answers`, {
+        attemptAnswer: attemptAnswer.value,
+        taskVariantId:props.task.id
+    })
+}
+
 </script>
 
 <template>
-    {{ task }}
+    <!-- <pre>{{ task }}</pre>
+    {{ attemptAnswer }} -->
     <v-card
         :subtitle = "`Номер ${task.order}`"
         width="600"
     >
-        <v-card-text>
+        <v-card-text v-if="task.answers?.length">
             <v-img 
                 v-if="task.file_path"
                 :src="task.file_path"
@@ -33,10 +46,12 @@ const props = defineProps<{
 
             {{ task.content }}
         </v-card-text>
+
         <v-card-text>
             <div class="mb-4">Выберите один вариант ответа</div>
             <v-radio-group 
-                
+                v-model="attemptAnswer"
+                @update:modelValue="send"
             >
                 <v-radio 
                     v-for="answer in props.task.answers"

@@ -1,22 +1,22 @@
 <script setup lang="ts">
+import Timer from './Timer.vue';
+import TaskSideList from './TaskSideList.vue';
+
 const props = defineProps<{
-    attempt:any
+    attempt:any,
+    tasks:any
 }>()
 </script>
 
 <template>
     <v-list>
         <v-list-item>
-            Время
+           <Timer 
+                :time-begin="attempt.startedAt"
+                :time-end="attempt.expiredAt"
+           />
         </v-list-item>
-        <v-list-item
-            v-for="task in attempt"
-            :key="task.id"
-        >
-            <v-list-title>
-                Задание {{ task}}
-            </v-list-title>
 
-        </v-list-item>
+        <TaskSideList :tasks="tasks" />
     </v-list>
 </template>

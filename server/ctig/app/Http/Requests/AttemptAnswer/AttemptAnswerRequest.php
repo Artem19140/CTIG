@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\StudentAnswer;
+namespace App\Http\Requests\AttemptAnswer;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StudentAnswerRequest extends FormRequest
+class AttemptAnswerRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,7 +14,8 @@ class StudentAnswerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'studentAnswer' => ['nullable']
+            'attemptAnswer' => ['nullable'],
+            'taskVariantId' => ['required', 'integer', 'min:1']
         ];
     }
 }

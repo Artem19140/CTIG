@@ -61,7 +61,7 @@ class Attempt extends Model
     }
 
     public function answers():HasMany{
-        return $this->hasMany(StudentAnswer::class, 'attempt_id');
+        return $this->hasMany(AttemptAnswer::class, 'attempt_id');
     }
 
     public function violations(): HasMany{

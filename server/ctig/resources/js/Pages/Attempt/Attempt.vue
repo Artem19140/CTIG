@@ -15,8 +15,10 @@ const props = defineProps<{
             <v-container>
                     <div class="flex flex-column items-center gap-10">
                         <SingleChoiceTask
-                            v-for="task in tasks.data"
+                            v-for="task in tasks.data|| []"
                             :task="task"
+                            :key="task.id"
+                            :attempt="attempt.data?.data"
                         />
                     </div>
                     <div class="flex flex-column items-center ">
@@ -37,7 +39,7 @@ const props = defineProps<{
       permanent
       width="300"
     >
-        <SidePanel :attempt="attempt" />
+        <SidePanel :attempt="attempt.data" :tasks="tasks.data"/>
     </v-navigation-drawer>
 </v-app>
 </template>

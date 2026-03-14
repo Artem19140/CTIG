@@ -205,7 +205,7 @@ class PatentSeeder extends Seeder
             'subblocks'=>[
                 [
                     'name' => 'Тест',
-                    'min_mark'=> 0,
+                    'min_mark'=> 2,
                     'tasks' => [
                         [
                             'type' => TaskType::SingleChoice,
@@ -245,7 +245,7 @@ class PatentSeeder extends Seeder
             'subblocks'=>[
                 [
                     'name' => 'Тест',
-                    'min_mark'=> 0,
+                    'min_mark'=> 3,
                     'tasks' => [
                         [
                             'type' => TaskType::SingleChoice,

@@ -9,9 +9,11 @@ use App\Enums\TaskType;
 use App\Exceptions\BusinessException;
 use App\Http\Controllers\Api\Controller;
 use App\Http\Resources\Attempt\AttemptResource;
-use App\Http\Resources\StudentAnswer\StudentAnswerResource;
+use App\Http\Resources\attemptAnswer\AttemptAnswerResource;
+use App\Http\Resources\Exam\ExamResource;
 use App\Http\Resources\TaskVariant\TaskVariantResource;
 use App\Models\Attempt;
+use App\Models\Exam;
 use App\Models\TaskVariant;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
@@ -35,49 +37,58 @@ class AttemptController extends Controller
         return AttemptResource::collection($examAttempts);
     }
 
-    public function current(Request $request){
+    public function current(Request $request, Attempt $attempt){
+        
         $student = $request->user();
-        $currentAttempt = $student->attempts()->where('status', AttemptStatus::Active)->first();
-        if(!$currentAttempt){
-            return redirect('login')->with('У вас нет текущей попытки экзамена');
+        if($attempt->student_id !== $student->id){
+            abort(403);
         }
-        if($currentAttempt->isExpired() || !$currentAttempt->isActive()){
-            $currentAttempt->finish();
-            $currentAttempt->save();
+
+        if($attempt->isExpired() || !$attempt->isActive()){
+            $attempt->finish();
+            $attempt->save();
             return redirect('login')->with('Попытка неактивна');
         }
-        // $attemptTasks = TaskVariant::with(['answers', 'task', 'studentsAnswers'])
-        //                                 ->whereHas('studentsAnswers', function (Builder $query) use($currentAttempt){
-        //                                     $query->where('attempt_id', $currentAttempt->id);
-        //                                 })->get();
-        $attemptTasks = TaskVariant::with([
-            'answers',
-            'task',
-            'studentsAnswers' => function ($query) use ($currentAttempt) {
-                $query->where('attempt_id', $currentAttempt->id);
-            }
-        ])->get();
+        $attemptTasks = TaskVariant::with(['answers', 'task', 'attemptsAnswers' => function ($query) use ($attempt) {
+                                                $query->where('attempt_id', $attempt->id);
+                                            }])
+                                        ->whereHas('attemptsAnswers', function (Builder $query) use($attempt){
+                                            $query->where('attempt_id', $attempt->id);
+                                        })
+                                        ->join('tasks', 'task_variants.task_id', '=', 'tasks.id')
+                                            ->orderBy('tasks.order')
+                                            ->select('task_variants.*') 
+                                        ->get();
+        // $attemptTasks = TaskVariant::with([
+        //     'answers',
+        //     'task',
+        //     'studentsAnswers' => function ($query) use ($currentAttempt) {
+        //         $query->where('attempt_id', $currentAttempt->id);
+        //     }
+        // ])->get();
 
-        // foreach($attemptTasks as $e){
-        //     echo $e;
-        // }die;
         return Inertia::render('Attempt/Attempt', [
-            'attempt' => new AttemptResource($currentAttempt),
+            'attempt' => new AttemptResource($attempt),
             'tasks'=> TaskVariantResource::collection($attemptTasks)
         ]);
     }
 
-    public function start(Request $request, StartAttemptAction $startAttempt)
+    public function start(Request $request, StartAttemptAction $startAttempt, Attempt $attempt)
     {
         $student = $request->user();
-        $pendingAttempt = $student->attempts()->where('status', AttemptStatus::Pending)->first();
-        if(!$pendingAttempt){
-            return redirect('login')->with('У вас нет попытки экзамена');
+        if($attempt->student_id != $student->id){
+            abort(403);
+
         }
-        DB::transaction(function() use($pendingAttempt, $student, $startAttempt){
-            $startAttempt->execute($pendingAttempt, $student);
+        if($attempt->status != AttemptStatus::Pending){
+            abort(403);
+        }
+        
+        $startedAttempt = DB::transaction(function() use($attempt, $student, $startAttempt){
+            return $startAttempt->execute($attempt, $student);
         });
-        return redirect('exam-attempts');
+        
+        return redirect()->route('exam-attempts', ['attempt' => $startedAttempt->id]);
     }
 
     public function show(Attempt $attempt)
@@ -112,12 +123,12 @@ class AttemptController extends Controller
             throw new BusinessException('Попытка неактивна');
         }
 
-        $studentAnswer =  $attempt->answers()->with('taskVariant')
+        $attemptAnswer =  $attempt->answers()->with('taskVariant')
                                         ->whereHas('taskVariant.task', function(Builder $query){
                                             $query->where('type', TaskType::Speaking);
                                         })
                                         ->get();
-        $taskVariants=$studentAnswer->pluck('taskVariant');
+        $taskVariants=$attemptAnswer->pluck('taskVariant');
         return TaskVariantResource::collection($taskVariants);
     }
 
@@ -164,7 +175,7 @@ class AttemptController extends Controller
                                         $query->whereIn('type', TaskType::manualCheckTypes());
                                     })
                                     ->get();
-        return $this->ok(StudentAnswerResource::collection($uncheckedAnswers));
+        return $this->ok(AttemptAnswerResource::collection($uncheckedAnswers));
     }
 
     public function toCheck(){
@@ -175,5 +186,31 @@ class AttemptController extends Controller
     public function full(Attempt $attempt){
         $full = $attempt->load(['answers.taskVariant.answers', 'student']);
         return $this->ok( new AttemptResource($full)); 
+    }
+
+    public function before(Request $request, Attempt $attempt){
+        $student = $request->user();
+
+        if(!$attempt->status === AttemptStatus::Pending){
+            return redirect('login')->with('У вас нет текущей попытки экзамена');
+        }
+        $exam = Exam::with([
+            'examType.blocks.subblocks'
+        ])->find($student->exam_id);
+
+        // $minMark = $exam->examType
+        //     ->blocks
+        //     ->flatMap->subblocks
+        //     ->sum('min_mark');
+        $minMark = $exam->examType
+            ->blocks
+            ->sum('min_mark');
+        
+        return Inertia::render('BeforeAttempt/BeforeAttempt', [
+            'exam' => new ExamResource($exam),
+            'duration' => $exam->examType->duration,
+            'minMark' => $minMark,
+            'attempt' => $attempt
+        ]);
     }
 }

@@ -80,8 +80,8 @@ class ExamController
         $student =  $verifyCode->execute($request->input('code'));
         Auth::guard('students')->login($student);
         $request->session()->regenerate();
-        $startExamSession->execute($student);
-        return redirect()->route('exam-attempts.before');
+        $attempt = $startExamSession->execute($student);
+        return redirect()->route('exam-attempts.before', ['attempt' => $attempt->id]);
     }
 
     public function destroy(Exam $exam , CancelExamAction $cancelExam)
@@ -130,25 +130,5 @@ class ExamController
         return back()->with('success', 'Запись успешно создана');
     }
 
-    public function before(Request $request){
-        $student = $request->user();
-        $attempt = $student->attempts()->where('status', AttemptStatus::Pending)->first();
-        if(!$attempt){
-            return redirect('login')->with('У вас нет текущей попытки экзамена');
-        }
-        $exam = Exam::with([
-            'examType.blocks.subblocks'
-        ])->find($student->exam_id);
-
-        $minMark = $exam->examType
-            ->blocks
-            ->flatMap->subblocks
-            ->sum('min_mark');
-        
-        return Inertia::render('BeforeAttempt/BeforeAttempt', [
-            'exam' => new ExamResource($exam),
-            'duration' => $exam->examType->duration,
-            'minMark' => $minMark
-        ]);
-    }
+    
 }

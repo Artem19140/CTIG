@@ -6,7 +6,8 @@ import { computed } from 'vue';
 const props = defineProps<{
     exam:any,
     duration:number,
-    minMark:number
+    minMark:number, 
+    attempt:any
 }>()
 const page = usePage()
 
@@ -15,7 +16,7 @@ const name = computed(() => {
 })
 
 const begin = () => {
-    router.put('/exam-attempts')
+    router.put(`/exam-attempts/${props.attempt.id}`)
 }
 </script>
 

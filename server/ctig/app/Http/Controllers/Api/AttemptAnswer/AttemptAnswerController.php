@@ -1,37 +1,37 @@
 <?php
 
-namespace App\Http\Controllers\Api\StudentAnswer;
+namespace App\Http\Controllers\Api\AttemptAnswer;
 
 use App\Actions\Attempt\FinalizeAttemptCheckingAction;
-use App\Actions\StudentAnswer\HandleStudentAnswerAction;
+use App\Actions\AttemptAnswer\HandleAttemptAnswerrAction;
 use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Exceptions\ForbiddenException;
-use App\Http\Resources\StudentAnswer\StudentAnswerResource;
-use App\Models\StudentAnswer;
+use App\Http\Resources\AttemptAnswer\AttemptAnswerResource;
+use App\Models\AttemptAnswer;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\Controller;
 
-class StudentAnswerController extends Controller
+class AttemptAnswerController extends Controller
 {
     public function index(Request $request)
     {
-        $answers = StudentAnswer::where('attempt_id',$request->input('attemptId'))
+        $answers = AttemptAnswer::where('attempt_id',$request->input('attemptId'))
                     ->get();
-        return StudentAnswerResource::collection($answers);
+        return AttemptAnswerResource::collection($answers);
     }
 
     public function update(
                             Request $request,
-                            StudentAnswer $studentAnswer, 
-                            HandleStudentAnswerAction $handleStudentAnswer
+                            AttemptAnswer $attemptAnswer, 
+                            HandleAttemptAnswerAction $handleAttemptAnswer
                         )
     {
         $student = $request->user();
-        $studentAnswer->load('attempt');
-        $attempt = $studentAnswer->attempt;
+        $attemptAnswer->load('attempt');
+        $attempt = $attemptAnswer->attempt;
         if($student->id != $attempt->student_id){
             throw new ForbiddenException('Не найдено');// в Policy
         }
@@ -47,8 +47,8 @@ class StudentAnswerController extends Controller
             throw new BusinessException('Попытка неактивна');
         }
 
-        DB::transaction(function()use($studentAnswer, $request,$attempt,$handleStudentAnswer){
-            $handleStudentAnswer->execute($studentAnswer,$request->input('studentAnswer'));
+        DB::transaction(function()use($attemptAnswer, $request,$attempt,$attemptAnswer){
+            $attemptAnswer->execute($attemptAnswer,$request->input('attemptAnswer'));
             $attempt->last_activity_at = Carbon::now();
             $attempt->save();
         });
@@ -58,7 +58,7 @@ class StudentAnswerController extends Controller
 
     public function rate(
                             Request $request,
-                            StudentAnswer $studentAnswer,
+                            AttemptAnswer $attemptAnswer,
                             FinalizeAttemptCheckingAction $finalizeAttemptChecking
                         ){
         //лучше массивом объектов обновлять, чтобы за раз все выставить и сохранить на фронте
@@ -66,18 +66,18 @@ class StudentAnswerController extends Controller
             'mark' => ['required', 'integer', 'min:0'] //нужно проверить, что у самого задания оценка не меньше марк
         ]);
 
-        if($studentAnswer->is_checked){
+        if($attemptAnswer->is_checked){
             throw new BusinessException('Задание уже проверено и оценено');
         }
 
-        $studentAnswer->load(['taskVariant.task', 'attempt']);
-        $attempt = $studentAnswer->attempt;
+        $attemptAnswer->load(['taskVariant.task', 'attempt']);
+        $attempt = $attemptAnswer->attempt;
 
         if($attempt->status !== AttemptStatus::Finished){
             throw new BusinessException('Попытка незавершена или аннулирована');
         }
 
-        $task = $studentAnswer->taskVariant->task;
+        $task = $attemptAnswer->taskVariant->task;
 
         if($task->type->autoCheck()){
             throw new BusinessException('Задание проверяется автоматически');
@@ -87,11 +87,11 @@ class StudentAnswerController extends Controller
             throw new BusinessException('Выставленный балл больше, чем максимально возможный за задание');
         }
 
-        DB::transaction(function () use($studentAnswer, $attempt,$request, $finalizeAttemptChecking) {
-            $studentAnswer->mark = $request->input('mark');
-            $studentAnswer->is_checked = true;
-            $studentAnswer->checked_by_id = $request->user()->id;
-            $studentAnswer->save();
+        DB::transaction(function () use($attemptAnswer, $attempt,$request, $finalizeAttemptChecking) {
+            $attemptAnswer->mark = $request->input('mark');
+            $attemptAnswer->is_checked = true;
+            $attemptAnswer->checked_by_id = $request->user()->id;
+            $attemptAnswer->save();
             $notCheckedAnswersExist = $attempt->answers()
                                             ->where('is_checked', false)
                                             ->exists();

@@ -6,7 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class StudentAnswer extends Model
+class AttemptAnswer extends Model
 {
     protected $fillable = [
         'exam_id', //Основной поиск по этому полю

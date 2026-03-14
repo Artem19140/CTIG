@@ -6,9 +6,9 @@ use App\Models\Attempt;
 
 class GetDetailedAttemptResultsAction{
     public static function execute(Attempt $attempt){
-        $studentAnswers = $attempt->answers()->with('taskVariant.task.subblock.block')->get();
+        $attemptAnswers = $attempt->answers()->with('taskVariant.task.subblock.block')->get();
         $result = [];
-        $answersByBlock = $studentAnswers->groupBy(function($answer){
+        $answersByBlock = $attemptAnswers->groupBy(function($answer){
             return $answer->taskVariant->task->subblock->block->id;
         });
 

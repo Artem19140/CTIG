@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Resources\StudentAnswer;
+namespace App\Http\Resources\AttemptAnswer;
 
 use App\Http\Resources\TaskVariant\TaskVariantResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class StudentAnswerResource extends JsonResource
+class AttemptAnswerResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,7 +16,7 @@ class StudentAnswerResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'studentAnswer' => $this->answer,
+            'attemptAnswer' => $this->answer,
             'task' => new TaskVariantResource($this->whenLoaded('taskVariant')),
             'id' => $this->id
         ];

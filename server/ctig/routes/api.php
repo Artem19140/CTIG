@@ -13,7 +13,7 @@ use App\Http\Controllers\Api\ExamType\ExamTypeController;
 use App\Http\Controllers\Api\Task\TaskController;
 use App\Http\Controllers\Api\ExamStudent\ExamStudentController;
 use App\Http\Controllers\Api\Document\DocumentController;
-use App\Http\Controllers\Api\StudentAnswer\StudentAnswerController;
+use App\Http\Controllers\Api\AttemptAnswer\AttemptAnswerController;
 use App\Enums\TokenAbilities;
 
 
@@ -35,7 +35,7 @@ Route::middleware(['auth:sanctum'])->group(function (){//, "abilities:".TokenAbi
     Route::apiResource('tasks', TaskController::class)
         ->except('update', 'store', 'destroy', 'index');
 
-    Route::apiResource('student-answers', StudentAnswerController::class)
+    Route::apiResource('student-answers', AttemptAnswerController::class)
         ->except('update');
 
     Route::apiResource('addresses', AddressController::class);
@@ -57,7 +57,7 @@ Route::middleware(['auth:sanctum'])->group(function (){//, "abilities:".TokenAbi
         Route::get('/{attempt}/full', [AttemptController::class, 'full']);
     });
     
-    Route::put('student-answers/{studentAnswer}/rate', [StudentAnswerController::class, 'rate']);
+    Route::put('attempts-answers/{attemptAnswer}/rate', [AttemptAnswerController::class, 'rate']);
     
 
     Route::post('reports/frdo', [ReportController::class, 'frdo']);
@@ -70,7 +70,7 @@ Route::post( 'exam-codes/verify', [ExamController::class, 'verifyCode']);
 
 
 Route::middleware(['auth:sanctum', "abilities:".TokenAbilities::ExamAccess->value])->group(function (){ //во время экзамена
-    Route::put('student-answers/{studentAnswer}', [StudentAnswerController::class, 'update']);
+    Route::put('attempts-answers/{attemptAnswer}', [AttemptAnswerController::class, 'update']);
     Route::put('attempts/{attempt}/finish', [AttemptController::class, 'finish']);
 }); 
 

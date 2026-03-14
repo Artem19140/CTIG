@@ -5,7 +5,7 @@ use App\Http\Controllers\Web\Exam\ExamController;
 use App\Http\Controllers\Web\Login\LoginController;
 use App\Http\Controllers\Web\Report\ReportController;
 use App\Http\Controllers\Web\Student\StudentController;
-use App\Http\Controllers\Web\StudentAnswer\StudentAnswerController;
+use App\Http\Controllers\Web\AttemptAnswer\AttemptAnswerController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -45,8 +45,9 @@ Route::middleware('guest')->group(function (){
 });
 
 Route::middleware('auth:students')->group(function (){
-    Route::get('exam-attempts/before', [ExamController::class, 'before'])->name('exam-attempts.before');
-    Route::put('exam-attempts', [AttemptController::class, 'start']);
-    Route::put('student-answers/{studentAnswer}/', [StudentAnswerController::class, 'update']);
-    Route::get('exam-attempts', [AttemptController::class, 'current'])->name('exam-attempts');
+    Route::get('exam-attempts/{attempt}/before', [AttemptController::class, 'before'])->name('exam-attempts.before');
+    Route::put('exam-attempts/{attempt}', [AttemptController::class, 'start']);
+    //Route::put('student-answers/{studentAnswer}/', [StudentAnswerController::class, 'update']);
+    Route::put('exam-attempts/{attempt}/answers', [AttemptAnswerController::class, 'update']);
+    Route::get('exam-attempts/{attempt}', [AttemptController::class, 'current'])->name('exam-attempts');
 });

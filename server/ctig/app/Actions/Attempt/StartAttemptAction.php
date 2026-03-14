@@ -9,7 +9,7 @@ use App\Models\Student;
 use Carbon\Carbon;
 
 class StartAttemptAction{
-    public function execute(Attempt $attempt, Student $student){
+    public function execute(Attempt $attempt, Student $student):Attempt{
         $exam=Exam::find($student->exam_id);
         $attempt->lockForUpdate();
         $attempt->status = AttemptStatus::Active;

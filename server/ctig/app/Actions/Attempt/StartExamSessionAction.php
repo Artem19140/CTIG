@@ -9,7 +9,7 @@ use App\Http\Resources\Attempt\AttemptResource;
 use App\Models\Attempt;
 use App\Models\Exam;
 use App\Models\Student;
-use App\Models\StudentAnswer;
+use App\Models\AttemptAnswer;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -20,11 +20,13 @@ class StartExamSessionAction{
         protected VerifyExamCodeAction $verifyCode,
         protected GenerateExamVariantAction $generateExamVariant
     ){}
-    public function execute(Student $student){
-        DB::transaction(function () use($student){
+    public function execute(Student $student):Attempt{
+        return DB::transaction(function () use($student){
             $exam = Exam::with('examType.blocks.subblocks.tasks.variants')
                         ->find($student->exam_id);
-
+            if(!$exam->isGoing()){
+                throw new BusinessException('Начать попытку можно только во время экзамена');
+            }
             
             $attempt =  $this->createAttempt($student, $exam->examType->duration, $exam);
 
@@ -34,7 +36,8 @@ class StartExamSessionAction{
                 ->pluck('tasks')
                 ->flatten(); 
             $examVariant = $this->generateExamVariant->execute($tasks, $exam, $attempt, $student);
-            StudentAnswer::insert($examVariant);
+            AttemptAnswer::insert($examVariant);
+            return $attempt;
         });
     }
 

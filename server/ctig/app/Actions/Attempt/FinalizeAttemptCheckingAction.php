@@ -21,9 +21,9 @@ class FinalizeAttemptCheckingAction{
     }
 
     private function checkPassingThreshold(Attempt $attempt): bool{
-        $studentAnswers = $attempt->answers()->with('taskVariant.task.subblock.block')->get();
+        $attemptAnswers = $attempt->answers()->with('taskVariant.task.subblock.block')->get();
 
-        $answersByBlock = $studentAnswers->groupBy(function($answer){
+        $answersByBlock = $attemptAnswers->groupBy(function($answer){
             return $answer->taskVariant->task->subblock->block->id;
         });
 
@@ -35,7 +35,7 @@ class FinalizeAttemptCheckingAction{
             }
         }
 
-        $answersBySubBlock = $studentAnswers->groupBy(function($answer){
+        $answersBySubBlock = $attemptAnswers->groupBy(function($answer){
             return $answer->taskVariant->task->subblock->id;
         });
 

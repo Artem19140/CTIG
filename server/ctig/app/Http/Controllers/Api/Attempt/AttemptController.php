@@ -9,11 +9,11 @@ use App\Enums\TaskType;
 use App\Exceptions\BusinessException;
 use App\Http\Controllers\Api\Controller;
 use App\Http\Resources\Attempt\AttemptResource;
-use App\Http\Resources\StudentAnswer\StudentAnswerResource;
+use App\Http\Resources\AttemptAnswer\AttemptAnswersResource;
 use App\Http\Resources\TaskVariant\TaskVariantResource;
 use App\Models\Exam;
 use App\Models\Attempt;
-use App\Models\StudentAnswer;
+use App\Models\AttemptAnswer;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
@@ -68,7 +68,7 @@ class AttemptController extends Controller
 
             $examVariant = $generateExamVariant->execute($tasks, $exam, $attempt, $student);
             
-            StudentAnswer::insert($examVariant);
+            AttemptAnswers::insert($examVariant);
             //$student->tokens()->delete();
             $student->token = $student->createToken(
                 TokenAbilities::ExamAccess->value,
@@ -116,12 +116,12 @@ class AttemptController extends Controller
             throw new BusinessException('Попытка неактивна');
         }
 
-        $studentAnswer =  $attempt->answers()->with('taskVariant')
+        $attemptAnswers =  $attempt->answers()->with('taskVariant')
                                         ->whereHas('taskVariant.task', function(Builder $query){
                                             $query->where('type', TaskType::Speaking);
                                         })
                                         ->get();
-        $taskVariants=$studentAnswer->pluck('taskVariant');
+        $taskVariants=$attemptAnswers->pluck('taskVariant');
         return TaskVariantResource::collection($taskVariants);
     }
 
@@ -168,7 +168,7 @@ class AttemptController extends Controller
                                         $query->whereIn('type', TaskType::manualCheckTypes());
                                     })
                                     ->get();
-        return $this->ok(StudentAnswerResource::collection($uncheckedAnswers));
+        return $this->ok(AttemptAnswerResource::collection($uncheckedAnswers));
     }
 
     public function toCheck(){

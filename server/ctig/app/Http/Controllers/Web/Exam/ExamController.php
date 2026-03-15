@@ -4,18 +4,15 @@ namespace App\Http\Controllers\Web\Exam;
 
 use App\Actions\Attempt\StartExamSessionAction;
 use App\Actions\Exam\CancelExamAction;
-use App\Actions\Exam\CreateStudentsCodesForExamAction;
-use App\Actions\Exam\EnrollStudentToExamAction;
+use App\Actions\Exam\CreateCodesAction;
 use App\Actions\Exam\GetAvailableExamsAction;
 use App\Actions\Exam\GetExamListAction;
-
 use App\Actions\Exam\VerifyExamCodeAction;
-use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Http\Requests\Exam\ExamIndexRequest;
 use App\Http\Resources\Address\AddressResource;
 use App\Http\Resources\ExamType\ExamTypeResource;
-use App\Models\Attempt;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\User\UserResource;
 use App\Models\Address;
@@ -59,7 +56,6 @@ class ExamController
 
     public function show(Exam $exam)
     {
-        //return Inertia::render('Exam');
         $exam->load(['students', 'testers', 'address', 'examType']);
         return new ExamResource($exam);
     }
@@ -93,20 +89,9 @@ class ExamController
         return back()->with('success', 'Экзамен отменен');
     }
 
-    public function state(Exam $exam){
-        if($exam->isPassed()){
-            throw new BusinessException('Экзамен уже прошел');
-        }
-        $exam->load([
-            'students.attempts' => fn ($query) => $query->where('exam_id', $exam->id)->with('violations')
-        ]);
-        
-        return new ExamResource($exam);
-    }
-
-    public function formCodes(Exam $exam, CreateStudentsCodesForExamAction $createStudentsCodesForExam)
+    public function formCodes(Exam $exam, CreateCodesAction $createCodes)
     {
-        return $createStudentsCodesForExam->execute($exam);
+        return $createCodes->execute($exam);
     }
 
     public function available(Request $request, GetAvailableExamsAction $getAvailableExams){
@@ -117,18 +102,8 @@ class ExamController
         return ExamResource::collection($exams);
     }        
     
-    public function enroll(
-                            Request $request,
-                            Exam $exam, 
-                            EnrollStudentToExamAction $enrollStudentToExam,
-                            
-                        ){ 
-        $request->validate([
-            'studentId' => ['required', 'integer', 'min:1'],
-        ]);
-        $enrollStudentToExam->execute($exam, request()->input('studentId'), $request->user());     
-        return back()->with('success', 'Запись успешно создана');
-    }
+    
 
     
+
 }

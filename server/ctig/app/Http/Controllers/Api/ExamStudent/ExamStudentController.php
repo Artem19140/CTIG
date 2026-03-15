@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\ExamStudent;
 
-use App\Actions\Exam\EnrollStudentToExamAction;
+use App\Actions\Exam\Enrollment\CreateEnrollmentAction;
 use App\Exceptions\BusinessException;
 use App\Exceptions\EntityNotFoundExсeption;
 use App\Http\Controllers\Api\Controller;
@@ -21,16 +21,16 @@ class ExamStudentController extends Controller
         return new ExamResource($exam);
     }
 
-    public function store(Exam $exam, EnrollStudentToExamAction $enrollStudentToExam)
+    public function store(Exam $exam, CreateEnrollmentAction $createEnrollment)
     {
         request()->validate([
             'studentId' => ['required', 'integer', 'min:1'],
         ]);
-        $enrollStudentToExam->execute($exam, request()->input('studentId'));
+        $createEnrollment->execute($exam, request()->input('studentId'));
         return $this->created();
     }
 
-    public function transfer(Exam $exam, Student $student, EnrollStudentToExamAction $enrollStudentToExam)
+    public function transfer(Exam $exam, Student $student, CreateEnrollmentAction $createEnrollment)
     {
         request()->validate([
             'examId' => ['required', 'integer', 'min:1'],
@@ -57,9 +57,9 @@ class ExamStudentController extends Controller
             throw new BusinessException('Студент уже имеет запись на экзамене для переноса');
         }
 
-        DB::transaction(function () use($enrollStudentToExam, $newExam, $student, $exam){
+        DB::transaction(function () use($createEnrollment, $newExam, $student, $exam){
             $exam->students()->detach($student->id);
-            $enrollStudentToExam->execute($newExam, $student->id);
+            $createEnrollment->execute($newExam, $student->id, request()->user());
         });
         return $this->noContent();
     }

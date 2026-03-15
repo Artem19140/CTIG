@@ -46,6 +46,12 @@ return new class extends Migration
 
             $table->unsignedInteger('reg_number');
 
+            $table->boolean('is_cancelled')->default(false);
+
+            $table->foreignId('cancelled_by_id')
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnDelete();
 
             $table->foreignId('exam_id')
                 ->index()

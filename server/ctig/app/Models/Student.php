@@ -72,6 +72,15 @@ class Student extends Authenticatable {
         });
     }
 
+    protected function fullName(): Attribute
+    {
+        return Attribute::get(function () {
+            return trim(
+                ($this->surname  ?? '') . ' ' . (mb_strtoupper(mb_substr($this->name, 0, 1)).'.' ?? '') . ' ' .( mb_strtoupper(mb_substr($this->patronymic, 0, 1)).'.' ?? '')
+            );
+        });
+    }
+
 }
 
 

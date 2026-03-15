@@ -2,7 +2,7 @@
     import StudentCreateModal from './StudentCreateModal.vue';
     import StudentTable from './StudentTable.vue';
     import StudentFilters from './StudentFilters.vue';
-    import { ref, watch } from 'vue';
+    import { ref } from 'vue';
     import type { Student } from '../../../interfaces/interfaces';
 
     const props = defineProps<{

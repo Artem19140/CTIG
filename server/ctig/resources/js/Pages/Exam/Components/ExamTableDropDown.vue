@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import FrdoModal from './FrdoModal.vue';
+import AppListItem from '../../../Components/UI/AppListItem/AppListItem.vue';
 
 const isFrdoModalOpen = ref<boolean>(false)
 
@@ -15,17 +16,8 @@ const isFrdoModalOpen = ref<boolean>(false)
         </template>
             
         <v-list>
-            <v-list-item class="cursor-pointer" link @click="isFrdoModalOpen = true">
-                <v-list-item-title >
-                    Скачать отчет ФИС ФРДО
-                </v-list-item-title>
-            </v-list-item>
-
-            <v-list-item class="cursor-pointer" link>
-                <v-list-item-title >
-                Скачать плоскую таблицу
-                </v-list-item-title>
-            </v-list-item>
+            <AppListItem title="Скачать отчет ФИС ФРДО" @click="isFrdoModalOpen = true" />
+            <AppListItem title="Скачать плоскую таблицу"/>
         </v-list>
         
     </v-menu>

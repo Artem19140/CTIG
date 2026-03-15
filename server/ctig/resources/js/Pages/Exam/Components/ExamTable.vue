@@ -1,21 +1,21 @@
 <script setup lang="ts">
     import { ref } from 'vue';
     import { formatterTime , formatterDate } from '../../../Helpers/heplers';
-    import ExamShowModal from './ExamShowModal.vue';
+    import ExamShowModal from './ExamShowModal/ExamShowModal.vue';
 
    const props = defineProps<{
         exams: any
         width?: string
     }>()
     const headers = [
-            {title : "Название",sortable: false, key: 'name', align: 'start' },
+            {title : "Название",sortable: false, key: 'shortName', align: 'start' },
             {title : "Дата",sortable: false, key: 'beginTime', align: 'start' },
-            {title : "Запись",sortable: false, key: 'enrollment', align: 'start' },
+            {title : "Запись",sortable: false, key: 'studentsCount', align: 'start' },
         ]
 
-    const openModal = (id:number) => {
+    const openModal = (event :Event, {item} :any) => {
         examId.value = null
-        examId.value = id
+        examId.value = item.id
         showModal.value = true
     }
 
@@ -24,20 +24,20 @@
 </script>
 
 <template>
-    <v-data-table
+    <v-data-table-server
         :headers="headers"
         :items="exams"
         :width="width"
         hover
+        @click:row="openModal"
     >
-        <template v-slot:item="{item}">
-            <tr @click="openModal(item.id)">
-                <td>{{ item.shortName }}</td>
-                <td>{{ formatterDate(item.beginTime) }} {{ formatterTime(item.beginTime) }}</td>
-                <td :class="{'text-red-500': ((item.studentsCount / item.capacity) === 1)}">{{` ${item.studentsCount }/${ item.capacity }`}}</td>
-            </tr>
-
+    <!-- <td :class="{'text-red-500': ((item.studentsCount / item.capacity) === 1)}">{{` ${item.studentsCount }/${ item.capacity }`}}</td> -->
+        <template #item.beginTime="{item}">
+            {{ formatterDate(item.beginTime) }} {{ formatterTime(item.beginTime) }}
         </template>
-    </v-data-table>
+        <template #item.studentsCount="{item}">
+            <div :class="{'text-red-500': ((item.studentsCount / item.capacity) === 1)}">{{` ${item.studentsCount }/${ item.capacity }`}}</div>
+        </template>
+    </v-data-table-server>
     <ExamShowModal v-model="showModal" :id="examId" />
 </template>

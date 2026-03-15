@@ -34,7 +34,9 @@ class ExamResource extends JsonResource
             'createdAt' => $this->created_at,
             'studentsCount' => $this->whenCounted('students_count'),
             'attempts' => AttemptResource::collection( $this->whenLoaded('attempts')),
-            'duration' => $this->whenLoaded('examType', fn () => $this->examType->duration)
+            'duration' => $this->whenLoaded('examType', fn () => $this->examType->duration),
+            'endTime' => $this->end_time,
+            //'tasksCount' => $this->whenCounted('examType.blocks.subblocks.tasks'),
         ];
     }
 }

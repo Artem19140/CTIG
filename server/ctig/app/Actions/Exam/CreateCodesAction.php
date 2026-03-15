@@ -8,7 +8,7 @@ use App\Exceptions\BusinessException;
 use Illuminate\Database\QueryException;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-final class CreateStudentsCodesForExamAction{
+final class CreateCodesAction{
     public function execute(Exam $exam){
         if($exam->isPassed()){
             throw new BusinessException('Экзмен уже прошел');

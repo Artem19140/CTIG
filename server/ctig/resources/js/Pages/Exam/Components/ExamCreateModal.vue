@@ -134,7 +134,7 @@ const close = async (fn:  ()  => void) => {
             
             <v-btn
                 text="Отменить"
-                @click="close()"
+                @click="close"
             ></v-btn>
         </template>
 

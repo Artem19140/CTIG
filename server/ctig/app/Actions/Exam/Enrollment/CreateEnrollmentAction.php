@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Exam;
+namespace App\Actions\Exam\Enrollment;
 
 use App\Exceptions\EntityNotFoundExсeption;
 use App\Models\Exam;
@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use App\Exceptions\BusinessException;
 use App\Actions\Student\CreateStudentStatementAction;
 
-final class EnrollStudentToExamAction{
+final class CreateEnrollmentAction{
     public function __construct(
         protected CreateStudentStatementAction $createStudentStatement
     ){}

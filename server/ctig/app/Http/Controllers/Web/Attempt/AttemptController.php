@@ -15,6 +15,7 @@ use App\Http\Resources\TaskVariant\TaskVariantResource;
 use App\Models\Attempt;
 use App\Models\Exam;
 use App\Models\TaskVariant;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -99,16 +100,18 @@ class AttemptController extends Controller
 
     public function ban(Request $request, Attempt $attempt)
     {
-        $request->validate([
-            'banReason' => ['required', 'string']
-        ]);
+        // $request->validate([
+        //     'banReason' => ['required', 'string']
+        // ]);
         
         if($attempt->isBanned()){
             throw new BusinessException('Попытка уже аннулирована');
         }
+
         $attempt->ban_reason = $request->input('banReason');
         $attempt->ban_by_id = $request->user()->id;
         $attempt->is_passed = false;
+        $attempt->finished_at = Carbon::now();
         $attempt->status = AttemptStatus::Banned;
         $attempt->save();
         return $this->noContent();
@@ -165,8 +168,9 @@ class AttemptController extends Controller
         return $this->noContent();
     }
 
-    public function answersToCheck(Attempt $attempt){
+    public function tasksToCheck(Attempt $attempt){
         $uncheckedAnswers =  $attempt->answers()
+                                    ->with(['taskVariant.task'])
                                     ->where('is_checked', false)
                                     ->whereHas('attempt', function(Builder $query){
                                         $query->where('status', AttemptStatus::Finished);
@@ -179,13 +183,12 @@ class AttemptController extends Controller
     }
 
     public function toCheck(){
-        $unCheckedAttempts = Attempt::where('status', AttemptStatus::Finished)->get();
-        return AttemptResource::collection($unCheckedAttempts);
-    }
+        //Только свои попытки тестера
+        $unCheckedAttempts = Attempt::where('status', AttemptStatus::Finished)->paginate();
 
-    public function full(Attempt $attempt){
-        $full = $attempt->load(['answers.taskVariant.answers', 'student']);
-        return $this->ok( new AttemptResource($full)); 
+        return Inertia::render('AttemptsChecking/AttemptsChecking',[
+           'attempts' => AttemptResource::collection($unCheckedAttempts) 
+        ]);
     }
 
     public function before(Request $request, Attempt $attempt){

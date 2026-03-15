@@ -9,14 +9,14 @@ use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\Controller;
 use App\Models\Student;
-use App\Actions\Exam\CreateStudentsCodesForExamAction;
+use App\Actions\Exam\CreateCodesAction;
 use App\Enums\TokenAbilities;
 
 class ExamCodeController extends Controller
 {
-    public function store(Exam $exam, CreateStudentsCodesForExamAction $createStudentsCodesForExam)
+    public function store(Exam $exam, CreateCodesAction $createCodes)
     {
-        return $createStudentsCodesForExam->execute($exam);
+        return $createCodes->execute($exam);
     }
   
     public function verify(Request $request){

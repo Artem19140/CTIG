@@ -9,8 +9,6 @@ const model = defineModel<boolean>()
 const loading = ref<boolean>(false)
 const isAvailable=ref<boolean>(false)
 
-
-
 const items = [
     {
         name: 'Сертификаты',
@@ -26,16 +24,6 @@ const form = reactive({
     examDate:'',
     success:null
 })
-
-// watch(form,async () => {
-//     if(!form.examDate && form.success === null){
-//         return
-//     }
-//     loading.value = true
-//     const res = await axios.get(`reports/frdo/available?examDate=${form.examDate}&success=${form.success ? 1: 0}`)
-//     loading.value = false
-//     console.log(res.data.avalable)
-// })
 
 
 const  download = async () => {

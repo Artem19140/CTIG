@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'; //105
 import axios from 'axios';
-import { formatterDate } from '../../../Helpers/heplers';
-import { formatterTime } from '../../../Helpers/heplers';
-import BaseDialog from '../../../Components/UI/BaseDialog/BaseDialog.vue';
-import ExamModalShowDropdown from './ExamModalShowDropdown.vue';
-import { modalState } from '../../../Composables/modalState'
-
-function studentShowModal(id: number) {
-    modalState.studentId = id  
-}
+import { formatterDate, formatterTime } from '../../../../Helpers/heplers';
+import BaseDialog from '../../../../Components/UI/BaseDialog/BaseDialog.vue';
+import ExamModalShowDropdown from '../ExamShowModal/ExamModalShowDropdown.vue';
+import StudentsTable from './StudentsTable.vue';
 
 const isOpen = defineModel<boolean>()
 const props = defineProps<{ id: number | undefined }>()
@@ -34,12 +29,6 @@ watch(isOpen, async () => {
 const examTestersList = (testersList :Array<any>) => {
     return testersList.map(s => s.fullName).join(', ');
 }
-
-const headers = [
-        {title : "ФИО",sortable: false, key: 'fio', align: 'start' },
-        {title : "Паспорт",sortable: false, key: 'passport', align: 'start' },
-        {title : "",sortable: false, key: 'action', align: 'end' },
-    ]
 
 </script>
 
@@ -100,56 +89,7 @@ const headers = [
             </v-list>
             <v-list>
                 <v-list-item>
-                    <v-data-table 
-                        :items="examData.students"
-                        hide-default-footer
-                        :headers="headers"
-                        fixed-header
-                        hover
-                    >
-                        <template v-slot:item="{item}">
-                            <tr @click="studentShowModal(item.id)" class="cursor-pointer">
-                                <td>{{ item?.surname ?? '' }} {{ item?.name?.[0] ?? '' }}. {{ item?.patronymic?.[0] ?? '' }}.</td>
-                                <td>{{ item.passportSeries ?? '' }} {{ item.passportNumber ?? '' }}</td>
-
-                                <td>
-                                    <v-menu
-                                        @click.stop
-                                        location="bottom end"
-                                        >
-                                        <template v-slot:activator="{ props }">
-                                            <v-btn
-                                                icon
-                                                v-bind="props"
-                                                variant="text"
-                                            >
-                                                <v-icon>mdi-dots-vertical</v-icon>
-                                            </v-btn>
-                                        </template>
-                                        <v-list>
-                                            <v-list-item link>
-                                                <v-list-title>
-                                                    Скачать заявление
-                                                </v-list-title>
-                                            </v-list-item>
-
-                                            <v-list-item link>
-                                                <v-list-title>
-                                                    Перенести
-                                                </v-list-title>
-                                            </v-list-item>
-
-                                            <v-list-item link>
-                                                <v-list-title color="red">
-                                                    Отменить запись
-                                                </v-list-title>
-                                            </v-list-item>
-                                        </v-list>
-                                    </v-menu>
-                                </td>
-                            </tr>
-                        </template>
-                    </v-data-table>
+                    <StudentsTable :students="examData.students" :exam-id="examData.id" />
                 </v-list-item>
             </v-list>
         </v-card-text>

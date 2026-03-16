@@ -100,9 +100,9 @@ class AttemptController extends Controller
 
     public function ban(Request $request, Attempt $attempt)
     {
-        // $request->validate([
-        //     'banReason' => ['required', 'string']
-        // ]);
+        $request->validate([
+            'banReason' => ['required', 'string']
+        ]);
         
         if($attempt->isBanned()){
             throw new BusinessException('Попытка уже аннулирована');
@@ -163,14 +163,13 @@ class AttemptController extends Controller
                $finalizeAttemptChecking->execute($attempt);
             }
             $attempt->save();
-            //request()->user()->tokens()->delete();
         });
         return $this->noContent();
     }
 
     public function tasksToCheck(Attempt $attempt){
         $uncheckedAnswers =  $attempt->answers()
-                                    ->with(['taskVariant.task'])
+                                    ->with(['taskVariant.task', 'exam'])
                                     ->where('is_checked', false)
                                     ->whereHas('attempt', function(Builder $query){
                                         $query->where('status', AttemptStatus::Finished);

@@ -50,7 +50,7 @@ class HandleInertiaRequests extends Middleware
                     $request->user()->only('id', 'surname', 'name', 'patronymic'),
 
                 $request->user() instanceof \App\Models\User =>
-                    $request->user()->only('id', 'surname', 'name', 'email'),
+                    $request->user()->only('id', 'surname', 'name', 'email', 'organization_id'),
 
                 default => null,
             }

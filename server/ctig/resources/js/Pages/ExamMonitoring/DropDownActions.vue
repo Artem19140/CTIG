@@ -2,6 +2,7 @@
 import axios from 'axios';
 import AppListItem from '../../Components/UI/AppListItem/AppListItem.vue';
 import { useConfirmDialog } from '../../Composables/useConfirmDialog';
+import { usePromptDialog } from '../../Composables/usePromptDialog';
 
 const props = defineProps<{
     student:any
@@ -9,12 +10,14 @@ const props = defineProps<{
 
 
 const ban = async () => {
-    const {confirmOpen} = useConfirmDialog()
-    const ok = await confirmOpen(`Снять ${props.student.fullName} с экзамена?`)
-    if(!ok){
+    const {open} = usePromptDialog()
+    // const {confirmOpen} = useConfirmDialog()
+    // const ok = await confirmOpen(`Снять ${props.student.fullName} с экзамена?`)
+    const res = await open(`Укажите причину снятия ${props.student.fullName} с экзамена`)
+    if(!res){
         return
     }
-    axios.put(`/attempts/${props.student?.attempts[0]?.id}/ban`)
+    axios.put(`/attempts/${props.student?.attempts[0]?.id}/ban`, {banReason : res})
 }
 </script>
 

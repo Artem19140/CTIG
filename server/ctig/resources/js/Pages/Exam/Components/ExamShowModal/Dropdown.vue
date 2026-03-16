@@ -2,8 +2,8 @@
 import axios from 'axios';
 import { modalState } from '../../../../Composables/modalState';
 import { useForm, usePage } from '@inertiajs/vue3'
-import { useConfirmDialog } from '../../../../Composables/useConfirmDialog';
-import AppInput from '../../../../Components/UI/AppInput/AppInput.vue';
+import { usePromptDialog } from '../../../../Composables/usePromptDialog';
+import AppListItem from '../../../../Components/UI/AppListItem/AppListItem.vue';
 
 const props = defineProps<{examId : number | null | undefined}>()
 
@@ -21,16 +21,21 @@ const formCodes = async () => {
   modalState.fileUrl = `/exams/${props.examId}/codes`
 }
 
-const { confirmOpen } = useConfirmDialog()
+const { open } = usePromptDialog()
 const cancellExam = async () => {
-  const ok = await confirmOpen('Отменить экзамен?')
-  if(!ok){
+  const res = await open('Укажите причину отмены экзамена')
+  if(!res){
     return
   }
+  form.cancelledReason = res
   form.delete(`exams/${props.examId}`,{
     onSuccess: () => {close()}
   })
   
+}
+
+const downloadStudList = () => {
+  modalState.fileUrl = `exams/${props.examId}/students/list`
 }
 //Только для тестера!
 </script>
@@ -53,13 +58,13 @@ const cancellExam = async () => {
       </template>
         
         <v-list>
-          <AppInput title="Скачать список" />
+          <AppListItem title="Скачать список" @click="downloadStudList" />
 
-          <AppInput title="Скачать ведомость" />
+          <AppListItem title="Скачать ведомость" />
 
-          <AppInput title="Редактировать" />
+          <AppListItem title="Редактировать" />
 
-          <AppInput title="Отменить" @click="cancellExam" />
+          <AppListItem title="Отменить" @click="cancellExam" />
         </v-list>
         
     </v-menu>

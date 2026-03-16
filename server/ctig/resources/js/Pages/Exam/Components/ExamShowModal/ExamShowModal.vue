@@ -3,7 +3,7 @@ import { ref, watch } from 'vue'; //105
 import axios from 'axios';
 import { formatterDate, formatterTime } from '../../../../Helpers/heplers';
 import BaseDialog from '../../../../Components/UI/BaseDialog/BaseDialog.vue';
-import ExamModalShowDropdown from '../ExamShowModal/ExamModalShowDropdown.vue';
+import Dropdown from '../ExamShowModal/Dropdown.vue';
 import StudentsTable from './StudentsTable.vue';
 
 const isOpen = defineModel<boolean>()
@@ -42,7 +42,7 @@ const examTestersList = (testersList :Array<any>) => {
         @before-close="(done) =>  {done()}"
     >
         <template #titleActions>
-            <ExamModalShowDropdown :exam-id="examData?.id" />
+            <Dropdown :exam-id="examData?.id" />
         </template>
         <template #skeleton>
              <v-skeleton-loader

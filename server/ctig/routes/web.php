@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\Web\Attempt\AttemptController;
 use App\Http\Controllers\Web\Exam\ExamController;
+use App\Http\Controllers\Web\Exam\ExamDocumentController;
 use App\Http\Controllers\Web\Exam\ExamEnrollmentController;
 use App\Http\Controllers\Web\Exam\ExamMonitoringController;
 use App\Http\Controllers\Web\Login\LoginController;
+use App\Http\Controllers\Web\Organization\OrganizationController;
 use App\Http\Controllers\Web\Report\ReportController;
 use App\Http\Controllers\Web\Student\StudentController;
 use App\Http\Controllers\Web\AttemptAnswer\AttemptAnswerController;
@@ -26,6 +28,7 @@ Route::middleware(['auth', 'user.is.work', 'organization.is.work', 'password.cha
         Route::post('{exam}/students/{student}', [ExamEnrollmentController::class, "transfer"]);
         Route::get('monitoring', [ExamMonitoringController::class, 'index'])->name('exam.monitoring');
         Route::get('{exam}/monitoring', [ExamMonitoringController::class, 'show']);
+        Route::get('{exam}/students/list', [ExamDocumentController::class, 'studentsList']);
     });
     Route::resource('exams', ExamController::class)->where(['exam' => '[0-9]+']);
     
@@ -41,6 +44,8 @@ Route::middleware(['auth', 'user.is.work', 'organization.is.work', 'password.cha
     
     Route::get('reports/frdo', [ReportController::class, "frdo"]);
     Route::get('reports/frdo/available', [ReportController::class, "available"]);
+
+    Route::get('organizations/{organization}', [OrganizationController::class, "show"]);
 });
 
 

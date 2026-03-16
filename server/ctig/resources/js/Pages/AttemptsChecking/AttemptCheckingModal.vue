@@ -18,9 +18,9 @@ const canClose = (fn:  ()  => void) =>{
         v-model="isOpen"
         @before-close="(done) => canClose(done)"
     >
-    <pre>
+    <!-- <pre>
         {{ tasks }}
-    </pre>
+    </pre> -->
         <SingleChoiceTask
             v-for="task in tasks?.data"
             :task="task.task"

@@ -58,7 +58,6 @@ const showDocument = (url :string) => {
         <v-card-text>
             <v-list>
                 <v-list-item>
-                    
                     <v-list-item-subtitle>Паспорт</v-list-item-subtitle>
                     <v-list-item-title>{{`${student?.fullPassport ?? ''}, выдан ${formatterDate(student?.issuedDate ?? '')} (${student?.issuedBy ?? ''})`}}</v-list-item-title>
                 </v-list-item>

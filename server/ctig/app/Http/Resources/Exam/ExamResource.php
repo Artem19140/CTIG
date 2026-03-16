@@ -27,7 +27,7 @@ class ExamResource extends JsonResource
             'comment'=>$this->comment,
             'group' => $this->group,
             'testers' => UserResource::collection($this->whenLoaded('testers')),
-            'name' => $this->whenLoaded('examType', fn () => $this->examType->name),
+            //'name' => $this->whenLoaded('examType', fn () => $this->examType->name),
             'shortName' => $this->whenLoaded('examType', fn () => $this->examType->short_name),
             'address' => $this->whenLoaded('address', fn () =>$this->address->address),
             'creator'=> new UserResource($this->whenLoaded('creator')),
@@ -36,7 +36,15 @@ class ExamResource extends JsonResource
             'attempts' => AttemptResource::collection( $this->whenLoaded('attempts')),
             'duration' => $this->whenLoaded('examType', fn () => $this->examType->duration),
             'endTime' => $this->end_time,
+            'start' => $this->begin_time->format('Y-m-d H:i'), 
             //'tasksCount' => $this->whenCounted('examType.blocks.subblocks.tasks'),
+            'name' => $this->whenLoaded('examType', function () {
+                if (request()->routeIs('exams.schedule')) {
+                    return $this->examType->short_name;
+                }
+
+                return $this->examType->name;
+            }),
         ];
     }
 }

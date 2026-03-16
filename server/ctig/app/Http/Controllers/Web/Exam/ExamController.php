@@ -8,7 +8,6 @@ use App\Actions\Exam\CreateCodesAction;
 use App\Actions\Exam\GetAvailableExamsAction;
 use App\Actions\Exam\GetExamListAction;
 use App\Actions\Exam\VerifyExamCodeAction;
-use App\Exceptions\BusinessException;
 use App\Http\Requests\Exam\ExamIndexRequest;
 use App\Http\Resources\Address\AddressResource;
 use App\Http\Resources\ExamType\ExamTypeResource;
@@ -40,8 +39,7 @@ class ExamController
     public function store(ExamPostRequest $request, CreateExamAction $createExamAction)
     {       
         $createExamAction->handle($request->getDto(),$request->user());
-        return redirect()
-            ->route('exams.index')
+        return back()
             ->with('success', 'Экзамен создан');
 
     }
@@ -102,8 +100,23 @@ class ExamController
         return ExamResource::collection($exams);
     }        
     
-    
-
-    
+    public function schedule(Request $request){
+        $dateFrom = $request->input('dateFrom') ?? false;
+        $dateTo = $request->input('dateTo') ?? false;
+        $exams = Exam::with('examType')
+                    ->when($dateFrom, function(Builder $query, $dateFrom) {
+                        $query->where('date', '>=', $dateFrom);
+                    })
+                    ->when($dateTo, function(Builder $query, $dateTo) {
+                        $query->where('date','<=', $dateTo);
+                    })
+                    ->when(!$dateFrom, function(Builder $query, $dateFrom) {
+                        $query->whereBetween('begin_time', [now()->startOfWeek(), now() ->endOfWeek()]);
+                    })
+                    ->get();
+        return Inertia::render('Schedule/Schedule',[
+            'exams' => ExamResource::collection($exams )
+        ]);
+    }
 
 }

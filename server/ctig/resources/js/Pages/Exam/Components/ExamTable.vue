@@ -1,7 +1,6 @@
 <script setup lang="ts">
-    import { ref } from 'vue';
     import { formatterTime , formatterDate } from '../../../Helpers/heplers';
-    import ExamShowModal from './ExamShowModal/ExamShowModal.vue';
+    import { useExamShowModal } from '../../../Composables/modalWindows/useExamShowModal';
 
    const props = defineProps<{
         exams: any
@@ -14,13 +13,9 @@
         ]
 
     const openModal = (event :Event, {item} :any) => {
-        examId.value = null
-        examId.value = item.id
-        showModal.value = true
+       const {open} = useExamShowModal()
+        open(item.id)
     }
-
-    const showModal = ref(false)
-    const examId = ref()
 </script>
 
 <template>
@@ -39,5 +34,4 @@
             <div :class="{'text-red-500': ((item.studentsCount / item.capacity) === 1)}">{{` ${item.studentsCount }/${ item.capacity }`}}</div>
         </template>
     </v-data-table-server>
-    <ExamShowModal v-model="showModal" :id="examId" />
 </template>

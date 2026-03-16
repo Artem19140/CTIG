@@ -12,19 +12,23 @@ const addresses = ref<Address[]>()
 const testers = ref<User[]>()
 const examTypes = ref<ExamType[]>()
 
+const props = defineProps<{
+    datetime?:string | null
+}>()
+
 const form = useForm<ExamForm>({
     examTypeId: null,
     addressId:null,
     comment:'',
     testers:[],
-    beginTime:''
+    beginTime:props.datetime ?? ''
 })
 
 const isActive = ref<boolean>(false)
 
 const loadModalData = async () => {
     isActive.value = true
-    const response = await axios.get('exams/create/modal-data')
+    const response = await axios.get('/exams/create/modal-data')
     const data = response.data
     addresses.value = data.addresses
     testers.value = data.testers

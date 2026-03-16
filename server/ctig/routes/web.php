@@ -29,6 +29,7 @@ Route::middleware(['auth', 'user.is.work', 'organization.is.work', 'password.cha
         Route::get('monitoring', [ExamMonitoringController::class, 'index'])->name('exam.monitoring');
         Route::get('{exam}/monitoring', [ExamMonitoringController::class, 'show']);
         Route::get('{exam}/students/list', [ExamDocumentController::class, 'studentsList']);
+        Route::get('schedule', [ExamController::class, 'schedule'])->name('exams.schedule');
     });
     Route::resource('exams', ExamController::class)->where(['exam' => '[0-9]+']);
     

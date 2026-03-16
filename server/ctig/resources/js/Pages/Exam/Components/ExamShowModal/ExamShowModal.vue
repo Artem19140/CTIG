@@ -1,30 +1,11 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'; //105
-import axios from 'axios';
 import { formatterDate, formatterTime } from '../../../../Helpers/heplers';
 import BaseDialog from '../../../../Components/UI/BaseDialog/BaseDialog.vue';
 import Dropdown from '../ExamShowModal/Dropdown.vue';
 import StudentsTable from './StudentsTable.vue';
+import { useExamShowModal } from '../../../../Composables/modalWindows/useExamShowModal';
 
-const isOpen = defineModel<boolean>()
-const props = defineProps<{ id: number | undefined }>()
-const examData = ref()
-const loading = ref(true)
-
-watch(isOpen, async () => {
-  if (props.id) {
-        if(!isOpen.value){
-                return
-            }
-        if(props.id === examData.value?.id){
-            return
-        }
-        loading.value = true
-        const res = await axios.get(`/exams/${props.id}`)
-        examData.value = res.data.data
-        loading.value = false  
-  }
-}, { immediate: true })
+const {isOpen, close , exam, loading} = useExamShowModal()
 
 const examTestersList = (testersList :Array<any>) => {
     return testersList.map(s => s.fullName).join(', ');
@@ -36,13 +17,13 @@ const examTestersList = (testersList :Array<any>) => {
     <BaseDialog 
         width="800"
         title="Экзамен"
-        :loading="loading && !examData"
+        :loading="loading && !exam"
         v-model="isOpen"
-        :subtitle="`${examData?.sessionNumber ?? '-'} / ${examData?.group ?? '-'}`"
-        @before-close="(done) =>  {done()}"
+        :subtitle="`${exam?.sessionNumber ?? '-'} / ${exam?.group ?? '-'}`"
+        @before-close="(done) =>  close()"
     >
         <template #titleActions>
-            <Dropdown :exam-id="examData?.id" />
+            <Dropdown :exam-id="exam?.id" />
         </template>
         <template #skeleton>
              <v-skeleton-loader
@@ -58,24 +39,24 @@ const examTestersList = (testersList :Array<any>) => {
             </div>
             <v-list-item>  
                 <v-list-item-subtitle>Тип</v-list-item-subtitle>
-                <v-list-item-title style="white-space: normal; word-break: break-word;">{{examData?.name}}</v-list-item-title>
+                <v-list-item-title style="white-space: normal; word-break: break-word;">{{exam?.name}}</v-list-item-title>
             </v-list-item>
             <v-list-item> 
                 <v-list-item-subtitle> Дата и время</v-list-item-subtitle>
-                <v-list-item-title>{{`${formatterTime(examData?.beginTime)},  ${formatterDate(examData?.beginTime)} `}}</v-list-item-title>
+                <v-list-item-title>{{`${formatterTime(exam?.beginTime)},  ${formatterDate(exam?.beginTime)} `}}</v-list-item-title>
             </v-list-item>
             
             <v-list-item>  
                 <v-list-item-subtitle>Адрес </v-list-item-subtitle>
-                <v-list-item-title style="white-space: normal; word-break: break-word;">{{examData?.address}}</v-list-item-title>
+                <v-list-item-title style="white-space: normal; word-break: break-word;">{{exam?.address}}</v-list-item-title>
             </v-list-item>
             <v-list-item>
                 <v-list-item-subtitle>Тестеры</v-list-item-subtitle>
-                <v-list-item-title style="white-space: normal; word-break: break-word;">{{examTestersList(examData?.testers ?? [])}}</v-list-item-title>
+                <v-list-item-title style="white-space: normal; word-break: break-word;">{{examTestersList(exam?.testers ?? [])}}</v-list-item-title>
             </v-list-item>
             <v-list-item>
                 <v-list-item-subtitle>Комментарий</v-list-item-subtitle>
-                <v-list-item-title style="white-space: normal; word-break: break-word;">{{examData?.comment ?? '-'}}</v-list-item-title>
+                <v-list-item-title style="white-space: normal; word-break: break-word;">{{exam?.comment ?? '-'}}</v-list-item-title>
             </v-list-item>
         </v-list>
         </v-card-text>
@@ -84,12 +65,12 @@ const examTestersList = (testersList :Array<any>) => {
             <v-list>
                 <v-list-item>
                     <v-list-item-subtitle>Запись</v-list-item-subtitle>
-                    <v-list-item-title>{{` ${examData.students.length }/${examData?.capacity}  `}}</v-list-item-title>
+                    <v-list-item-title>{{` ${exam.students.length }/${exam?.capacity}  `}}</v-list-item-title>
                 </v-list-item>
             </v-list>
             <v-list>
                 <v-list-item>
-                    <StudentsTable :students="examData.students" :exam-id="examData.id" />
+                    <StudentsTable :students="exam.students" :exam-id="exam.id" />
                 </v-list-item>
             </v-list>
         </v-card-text>

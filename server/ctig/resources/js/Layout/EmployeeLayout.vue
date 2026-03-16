@@ -20,6 +20,7 @@
           <v-list-item prepend-icon="mdi-school" value="shared" title="Экзамены" @click="router.get('/exams')"></v-list-item>
           <v-list-item prepend-icon="mdi-clipboard-check" title="Проверка" value="starred"  @click="router.get('/attempts/checking')"></v-list-item>
           <v-list-item prepend-icon="mdi-monitor-eye" title="Мониторинг экзамена" value="examMonitoring" @click="router.get('/exams/monitoring')"></v-list-item>
+          <v-list-item prepend-icon="mdi-calendar-month" value="schedule" title="Расписание" @click="router.get('/exams/schedule')"></v-list-item>
           <v-list-item prepend-icon="mdi-office-building" title="Организация" value="organization" @click="router.get(`/organizations/${page.props?.auth?.user?.organization_id}`)"></v-list-item>
           <v-list-item prepend-icon="mdi-logout" title="Выйти из аккаунта" value="logout" @click="router.post('/logout')"></v-list-item>
         </v-list>
@@ -45,6 +46,7 @@
     <confirm-dialog />
     <alert />
     <prompt-dialog />
+    <exam-show-modal />
 </template>
 
 <script setup>
@@ -63,6 +65,7 @@ import { usePage } from '@inertiajs/vue3';
 import ConfirmDialog from '../Components/UI/ConfirmDialog/ConfirmDialog.vue';
 import Alert from '../Components/Alert/Alert.vue';
 import PromptDialog from '../Components/UI/PromptDialog/PromptDialog.vue';
+import ExamShowModal from '../Pages/Exam/Components/ExamShowModal/ExamShowModal.vue';
 
 const page = usePage()
 const employeeName = `${page?.props.auth?.user?.surname} ${page?.props.auth?.user?.name}`

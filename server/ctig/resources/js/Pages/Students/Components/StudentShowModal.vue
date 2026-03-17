@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { formatterDate, attemptStatus } from '../../../Helpers/heplers';
+import { formatterDate } from '../../../Helpers/heplers';
 import BaseDialog from '../../../Components/UI/BaseDialog/BaseDialog.vue';
 import { modalState } from '../../../Composables/modalState';
 import ExamEnrollmentMenu from '../../Exam/Components/ExamEnrollmentMenu.vue';
 import { useStudentShowModal } from '../../../Composables/modalWindows/useStudentShowModal';
+import StudentExamsList from './StudentExamsList.vue';
 
 const {isOpen, loading,close, student} = useStudentShowModal()
 
 const showDocument = (url :string) => {
-    modalState.fileUrl = url
+    console.log(url)
+    modalState.fileUrl = `/files?path=${url}`
 }
 </script>
 
@@ -37,17 +39,15 @@ const showDocument = (url :string) => {
                 <div class="flex">
                     <v-avatar color="surface-variant cursor-pointer hover:opacity-80 transition-opacity"  size="150" >
                         <v-img 
-                            
-                            src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"
+                            :src="student?.photoPath"
                             cover 
-                            @click="showDocument('https://cdn.vuetifyjs.com/images/profiles/marcus.jpg')"
+                            @click="showDocument('')"
                         />
                     </v-avatar>
                 <div class="flex flex-col justify-center ml-8">
                     <div class="text-headline-small">{{`${student?.surname} ${student?.name} ${student?.patronymic}`}}</div>
                     <div class="text-subtitle-1">{{`${student?.surnameLatin} ${student?.nameLatin} ${student?.patronymicLatin}`}}</div>
-                    <div class="text-subtitle-2">{{formatterDate(student?.dateBirth)}}</div>
-                    
+                    <div class="text-subtitle-2">{{formatterDate(student?.dateBirth)}}</div> 
                 </div>
                 </div>
             </v-card-text>
@@ -82,13 +82,13 @@ const showDocument = (url :string) => {
             <v-list>
                 <v-list-item>
                     <v-list-item-subtitle>Скан паспорта</v-list-item-subtitle>
-                    <v-list-item-title v-if="student?.passportScanPath">-</v-list-item-title>
+                    <v-list-item-title v-if="!student?.passportScan">-</v-list-item-title>
                     <v-img
                         v-else 
                         :width="50"
                         class="mt-4 cursor-pointer hover:opacity-80 transition-opacity"
                         src="https://cdn-icons-png.flaticon.com/512/9034/9034536.png"
-                        @click="showDocument('storage/Spetsifikatsiya_ekzamen_Inostr_grazhd_1-3 (1).pdf')"
+                        @click="showDocument(student?.passportScan)"
                     ></v-img>
                 </v-list-item>
             </v-list>
@@ -97,28 +97,7 @@ const showDocument = (url :string) => {
         <v-divider></v-divider>
 
         <v-card-text>
-            <v-list>
-                <v-list-item>
-                    <v-list-item-subtitle class="mb-4">Экзамены</v-list-item-subtitle>
-                    <v-list-item-title v-if="student?.attempts.length === 0">-</v-list-item-title>
-                            <v-list 
-                                scrollable 
-                                max-height="200"
-                            >
-                                <v-list-item 
-                                    :class="['px-2', Number(index) % 2 === 0 ?  '' : 'bg-grey-lighten-4']"
-                                    v-for="(attempt, index) in student?.attempts" :key="attempt.id"
-                                    link
-                                    >
-                                        <v-list-item-title>{{attempt.exam.name}}</v-list-item-title>
-                                        <v-list-item-subtitle> {{formatterDate(attempt.exam.date)}} </v-list-item-subtitle>
-                                        <!-- <v-list-item-subtitle> {{formatterTime(attempt.startedAt)}} - {{formatterTime(attempt.finishedAt)}}</v-list-item-subtitle> -->
-                                        <v-list-item-subtitle>{{attemptStatus(attempt)}}</v-list-item-subtitle>
-                                </v-list-item>
-                            </v-list>
-                    
-                </v-list-item>
-            </v-list>
+            <StudentExamsList :exams="student?.exams" />
         </v-card-text>
 
         <template #actions="{close}">

@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import ExamTable from './Components/ExamTable.vue';
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
+import EmployeesTable from './EmployeesTable.vue';
+
 defineOptions({
   layout: EmployeeLayout,
 })
 
 const props = defineProps<{
-  exams: any
+  employees : any
 }>()
 </script>
 
 <template>
-    
   <v-container>
     <v-card>
-      <ExamTable :exams="exams" />
+      <EmployeesTable :employees="employees" />
     </v-card>
   </v-container>
-    
+  
 </template>

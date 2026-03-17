@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 class GetStudentsListAction{
     public function execute(array $data = []){
         $search = $data['search'] ?? false;
+        $perPage = $data['perPage'] ?? 15;
         return Student::when($search, function (Builder $query, string $search) {
                     $query->where('name', 'like',"$search%")
                         ->orWhere('surname', 'like',"$search%")
@@ -16,6 +17,6 @@ class GetStudentsListAction{
                         ->orWhere('passport_number', 'like',"$search%");
             })
             ->latest('id')
-            ->paginate();
+            ->paginate($perPage)->withQueryString();
     }
 }

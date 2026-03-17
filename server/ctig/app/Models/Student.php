@@ -37,6 +37,7 @@ class Student extends Authenticatable {
         'exam_id',
         'photo_path',
         'passport_scan_path',
+        'passport_translate_scan',
         'document_type',
         'gender'
     ];

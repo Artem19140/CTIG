@@ -31,7 +31,7 @@ class GenerateExamStatementAction{
         $sheet = $spreadSheet->getActiveSheet();
         $examLevel = $exam->examType->level;
         $examCertificateName = $exam->examType->certificate_name;
-        $examDate = $exam->date->format('d.m.Y');
+        $examDate = $exam->begin_time->format('d.m.Y');
         $sheet->setCellValue("A2", "Экзамен на уровень $examLevel - $examCertificateName");
         $sheet->setCellValue("A3", "Сессия № $exam->session / Дата проведения экзамена: $examDate ");
         $row = 6;

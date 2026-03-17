@@ -88,7 +88,7 @@ class GenerateFRDOReportsAction{
             $attempt->student->name,
             $attempt->student->patronymic,
             Carbon::parse($attempt->student->date_birth)->format('d.m.Y'),
-            Carbon::parse($attempt->exam->date)->year,
+            Carbon::parse($attempt->exam->begin_time)->year,
             $attempt->exam->examType->certificate_name,
             $attempt->student->surname_latin,
             $attempt->student->name_latin,
@@ -125,7 +125,7 @@ class GenerateFRDOReportsAction{
             $attempt->student->full_passport,
             $attempt->student->citizenship,
             $attempt->exam->address->address,
-            Carbon::parse($attempt->exam->date)->format('d.m.Y'),
+            Carbon::parse($attempt->exam->begin_time)->format('d.m.Y'),
             'Неуспешно',
             $organization->director_fio
         ];

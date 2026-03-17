@@ -9,11 +9,7 @@ export const formatterTime = (date:string) :string => {
     return new Date(date).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
 }
 
-export const attemptStatus = (attempt : any) => {
-  if (attempt.status === 'banned') return 'Аннулирована'
-  if (attempt.status === 'finished' && !attempt.isPassed) return 'На проверке'
-  return attempt.isPassed ? 'Пройдена' : 'Не пройдена'
-}
+
 export const formatterDateTime = (date: string) => {
   if (!date) return '-'
 

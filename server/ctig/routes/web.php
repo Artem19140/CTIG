@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Web\File\FileController;
+use App\Http\Controllers\Web\User\UserController;
 use App\Http\Controllers\Web\Attempt\AttemptController;
 use App\Http\Controllers\Web\Exam\ExamController;
 use App\Http\Controllers\Web\Exam\ExamDocumentController;
@@ -11,7 +13,6 @@ use App\Http\Controllers\Web\Report\ReportController;
 use App\Http\Controllers\Web\Student\StudentController;
 use App\Http\Controllers\Web\AttemptAnswer\AttemptAnswerController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('exams/available', [ExamController::class, "available"]);
 
@@ -47,6 +48,11 @@ Route::middleware(['auth', 'user.is.work', 'organization.is.work', 'password.cha
     Route::get('reports/frdo/available', [ReportController::class, "available"]);
 
     Route::get('organizations/{organization}', [OrganizationController::class, "show"]);
+    Route::get('organizations/{organization}/employees', [UserController::class, "index"]);
+    Route::delete('employees/{user}', [UserController::class, "destroy"]);
+    Route::post('employees', [UserController::class, "store"]);
+
+    Route::get('files', [FileController::class, "show"]);
 });
 
 

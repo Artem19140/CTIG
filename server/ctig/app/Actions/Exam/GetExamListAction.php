@@ -19,16 +19,16 @@ class GetExamListAction{
                 $query->where('exam_type_id', $examTypeId);
             })
             ->when($dateFrom, function (Builder $query, string $dateFrom){
-                $query->where('date', '>=',$dateFrom);
+                $query->where('begin_time', '>=',$dateFrom);
             })
             ->when($dateTo, function (Builder $query, string $dateTo){
-                $query->where('date', '<=',$dateTo);
+                $query->where('begin_time', '<=',$dateTo);
             })
             ->when($addressId, function (Builder $query, string $addressId){
                 $query->where('address_id',$addressId);
             })
-            ->where('is_cancelled', false)
+            //->where('is_cancelled', false)
             ->latest('begin_time')
-            ->simplePaginate($perPage);
+            ->paginate($perPage);
     }
 }

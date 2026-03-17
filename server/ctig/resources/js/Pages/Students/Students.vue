@@ -1,13 +1,10 @@
-<script lang="ts">
-import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
-import type { Student } from '../../interfaces/interfaces';
-export default {
-  layout: EmployeeLayout,
-}
-</script>
-
 <script setup lang="ts">
-import StudentsList from './Components/StudentsList.vue';
+import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
+
+defineOptions({
+  layout: EmployeeLayout,
+})
+import StudentTable from './Components/StudentTable.vue';
 
 
 
@@ -20,7 +17,9 @@ const props = defineProps<{
 </script>
 
 <template>
-    <StudentsList :students="students"/>
-
-    
+  <v-container>
+    <v-card>
+      <StudentTable :students="students" />
+    </v-card>
+  </v-container> 
 </template>

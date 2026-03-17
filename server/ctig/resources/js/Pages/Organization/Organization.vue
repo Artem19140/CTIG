@@ -1,14 +1,12 @@
-<script lang="ts">
+<script setup lang="ts">
 import { ref } from 'vue';
-import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
 import ShowData from './Components/ShowData.vue';
 import UpdateData from './Components/UpdateData.vue';
-export default {
-  layout: EmployeeLayout,
-}
-</script>
+import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
 
-<script setup lang="ts">
+defineOptions({
+  layout: EmployeeLayout,
+})
 const props = defineProps<{
     organization : any | null
 }>()
@@ -40,7 +38,12 @@ const mode = ref<string>('show')
                 Отмена
             </v-btn>
 
-            <v-btn @click="mode = 'update'" v-if="mode === 'show'">Редактировать</v-btn>
+            <v-btn 
+                @click="mode = 'update'"
+                v-if="mode === 'show'"
+                variant="flat"
+                color="primary"
+            >Редактировать</v-btn>
         </v-card-actions>
     </v-card>
 </template>

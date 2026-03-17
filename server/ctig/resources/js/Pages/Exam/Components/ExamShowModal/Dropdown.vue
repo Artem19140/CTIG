@@ -3,7 +3,7 @@ import axios from 'axios';
 import { modalState } from '../../../../Composables/modalState';
 import { useForm, usePage } from '@inertiajs/vue3'
 import { usePromptDialog } from '../../../../Composables/usePromptDialog';
-import AppListItem from '../../../../Components/UI/AppListItem/AppListItem.vue';
+import AppListDropDownItem from '../../../../Components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 
 const props = defineProps<{examId : number | null | undefined}>()
 
@@ -58,13 +58,13 @@ const downloadStudList = () => {
       </template>
         
         <v-list>
-          <AppListItem title="Скачать список" @click="downloadStudList" />
+          <AppListDropDownItem title="Скачать список" @click="downloadStudList" />
 
-          <AppListItem title="Скачать ведомость" />
+          <AppListDropDownItem title="Скачать ведомость" />
 
-          <AppListItem title="Редактировать" />
+          <AppListDropDownItem title="Редактировать" />
 
-          <AppListItem title="Отменить" @click="cancellExam" />
+          <AppListDropDownItem color="text-red" title="Отменить" @click="cancellExam" />
         </v-list>
         
     </v-menu>

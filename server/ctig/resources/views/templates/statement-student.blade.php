@@ -89,7 +89,9 @@
         $countryName = $countries->firstWhere('value', $student->citizenship)['text'] ?? '';
     @endphp
     <tr>
-        <td class="statement-td">Пол: <input type="checkbox" {{ $student->gender === 'M' ? 'checked' : '' }}>М <input type="checkbox" {{ $student->gender === 'F' ? 'checked' : '' }}>Ж</td>
+        <td class="statement-td">
+            Пол: <input type="checkbox" {{ $student->gender === 'M' ? 'checked' : '' }}>М <input type="checkbox" {{ $student->gender === 'F' ? 'checked' : '' }}>Ж
+        </td>
         <td class="statement-td">Гражданство: <span class="data">{{ $countryName }}</span></td>
     </tr>
     <tr>
@@ -107,7 +109,7 @@
             <p>{{ $exam->examType->name }}(уровень {{ $exam->examType->level }}) - стоимость <span class="data">{{ $exam->examType->cost}} </span>рублей</p>
         </td>
         <td class="statement-td">
-            Вид документа, удостоверяющего личность <br><span class="data">{{ $student->document_type ?? 'Дабавить' }}</span><br>
+            Вид документа, удостоверяющего личность <br><span class="data">{{ $student->document_type}}</span><br>
             Серия: <span class="data">{{ $student->passport_series }}</span> Номер: <span class="data">{{ $student->passport_number }}</span><br>
             Дата выдачи: <span class="data">{{ $student->issued_date->format('d.m.Y') }}</span><br>
             Кем выдан: <span class="data">{{$student->issued_by}}</span>
@@ -126,7 +128,7 @@
                     <td class="data no-border-td" style="border-bottom:1px solid black; width:60%"></td>
                     <td class="data no-border-td" style="width:3%; text-align:center">/</td>
                     <td class="data no-border-td" style="border:none;border-bottom:1px solid black; width:20%">
-                        {{ $exam->begin_time->format('m.d.Y') }}
+                        {{ $exam->begin_time->format('d.m.Y') }}
                     </td>
                 </tr>
             </table>
@@ -157,7 +159,7 @@
                     <td class="data no-border-td" style="border-bottom:1px solid black; width:60%"></td>
                     <td class="data no-border-td" style="width:3%; text-align:center">/</td>
                     <td class="data no-border-td" style="border:none;border-bottom:1px solid black; width:20%">
-                        {{ $exam->begin_time->format('m.d.Y') }}
+                        {{ $exam->begin_time->format('d.m.Y') }}
                     </td>
                 </tr>
             </table>

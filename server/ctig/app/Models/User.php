@@ -45,7 +45,7 @@ class User extends Authenticatable
         'password',
         'has_to_change_password',
         'is_work',
-        'organization_id'
+        'organization_id',
     ];
     protected $hidden = [
         'password',

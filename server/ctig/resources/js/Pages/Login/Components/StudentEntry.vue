@@ -23,39 +23,25 @@ const submit = () => {
 </script>
 
 <template>
-    <div>   
+    <form @submit.prevent="submit">
+            <v-img width="90" src="/storage/images/tigr.png" />
+            <span class="text-base">Введите код из 4 цифр</span>
+        <v-otp-input
+            v-model="form.code"
+            class="mb-8"
+            length="4"
+            variant="outlined"
+        ></v-otp-input>
         
-        <form @submit.prevent="submit">
-            
-            <v-card
-                width="400"
-                class="mx-auto pt-4 my-64"
-            >
-                <template v-slot:title>
-                    <div class="flex items-center flex-col justify-center">
-                        <span class="font-weight-black">ТИГР</span>
-                        <span class="text-base">Введите код из 4 цифр</span>
-                    </div>
-                </template>
-                <v-card-item>
-                    <v-otp-input
-                        v-model="form.code"
-                        class="mb-8"
-                        length="4"
-                        variant="outlined"
-                    ></v-otp-input>
-                    
-                    <div style="display: flex; justify-content: center;" class="pb-4">
-                        <v-btn
-                            size="large" 
-                            type="submit" 
-                            :loading="form.processing"
-                            :disabled="form.code.length < 4 || form.processing"
-                        >Войти
-                        </v-btn>
-                    </div>
-                </v-card-item>
-            </v-card>
-        </form>
-    </div>
+        <div style="display: flex; justify-content: center;" class="pb-4">
+            <v-btn
+                size="large" 
+                color="primary"
+                type="submit" 
+                :loading="form.processing"
+                :disabled="form.code.length < 4 || form.processing"
+            >Войти
+            </v-btn>
+        </div>
+    </form>
 </template>

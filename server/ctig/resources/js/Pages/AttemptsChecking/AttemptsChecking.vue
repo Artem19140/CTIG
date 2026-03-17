@@ -1,15 +1,11 @@
-<script lang="ts">
-import { useAttemptCheckingModal } from '../../Composables/modalWindows/useAttemptCheckingModal';
-import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
-import AttemptCheckingModal from './AttemptCheckingModal.vue';
-
-export default {
-    layout: EmployeeLayout,
-}
-
-</script>
-
 <script setup lang="ts">
+import { useAttemptCheckingModal } from '../../Composables/modalWindows/useAttemptCheckingModal';
+import AttemptCheckingModal from './AttemptCheckingModal.vue';
+import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
+
+defineOptions({
+  layout: EmployeeLayout,
+})
 
 const {open} = useAttemptCheckingModal()
 

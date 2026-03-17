@@ -105,12 +105,12 @@ class ExamController
         $dateTo = $request->input('dateTo') ?? false;
         $exams = Exam::with('examType')
                     ->when($dateFrom, function(Builder $query, $dateFrom) {
-                        $query->where('date', '>=', $dateFrom);
+                        $query->where('begin_time', '>=', $dateFrom);
                     })
                     ->when($dateTo, function(Builder $query, $dateTo) {
-                        $query->where('date','<=', $dateTo);
+                        $query->where('begin_time','<=', $dateTo);
                     })
-                    ->when(!$dateFrom, function(Builder $query, $dateFrom) {
+                    ->when(!$dateFrom, function(Builder $query) {
                         $query->whereBetween('begin_time', [now()->startOfWeek(), now() ->endOfWeek()]);
                     })
                     ->get();

@@ -9,6 +9,7 @@ import { formatterTime,formatterDate } from '../../../Helpers/heplers';
 import { modalState } from '../../../Composables/modalState';
 import countries from '../../../../../../ctig/storage/app/public/countries.json'
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
+import AddButton from '../../../Components/UI/AddButton/AddButton.vue';
 
 const isActive = ref<boolean>(false)
 const examTypeId = ref<number | null>(null)
@@ -36,7 +37,7 @@ const form = useForm<StudentCreateForm>({
     dateBirth:'2005-10-10',
     noMigrationCard:false,
     passportScan:null,
-    passportScanTranslate:null,
+    passportTranslateScan:null,
     examId:null,
     gender:null
 })
@@ -57,7 +58,6 @@ const create = () => {
         form.clearErrors()
         const studentId = page.props.studentId
         const examId = page.props.examId
-        //window.open(`/students/${studentId}/application-forms?examId=${examId}`)
         modalState.fileUrl =  `students/${studentId}/application-forms?examId=${examId}`
         isActive.value = false 
         console.log('Форма успешно отправлена!', page)
@@ -121,12 +121,9 @@ watch(examTypeId, async () => {
 </script>
 
 <template>
-    <v-btn
-           @click="isActive = true"
-            text="Добавить"
-            color="green"
-            size="small"
-        ></v-btn>
+
+           
+    <AddButton text="Добавить" @click="isActive = true" />
         <BaseDialog
             v-model="isActive"
             title="Добавление студента"
@@ -399,11 +396,11 @@ watch(examTypeId, async () => {
                         <v-container fluid>
                             <v-row density="comfortable">
                                 <v-file-input 
-                                    label="Скан перевода паспорта"
-                                    v-model="form.passportScanTranslate"
+                                    label="Скан перевода паспорта PDF"
+                                    v-model="form.passportTranslateScan"
                                     clearable
                                     accept=".pdf,application/pdf"
-                                    :error-messages="form.errors.passportScanTranslate"
+                                    :error-messages="form.errors.passportTranslateScan"
                                 ></v-file-input>
 
                                 <v-file-input 
@@ -413,6 +410,10 @@ watch(examTypeId, async () => {
                                     accept=".pdf,application/pdf"
                                     :error-messages="form.errors.passportScan"
                                 ></v-file-input>
+                                
+                            </v-row>
+                            <v-row>
+                                
                             </v-row>
                         </v-container>
                     </v-card-text>

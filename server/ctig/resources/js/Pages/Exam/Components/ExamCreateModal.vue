@@ -7,6 +7,7 @@ import BaseDialog from '../../../Components/UI/BaseDialog/BaseDialog.vue';
 import { Address, User, ExamType } from '../../../interfaces/interfaces';
 import { ExamForm } from '../../../interfaces/interfaces';
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
+import AddButton from '../../../Components/UI/AddButton/AddButton.vue';
 
 const addresses = ref<Address[]>()
 const testers = ref<User[]>()
@@ -21,7 +22,7 @@ const form = useForm<ExamForm>({
     addressId:null,
     comment:'',
     testers:[],
-    beginTime:props.datetime ?? ''
+    beginTime:''
 })
 
 const isActive = ref<boolean>(false)
@@ -58,14 +59,7 @@ const close = async (fn:  ()  => void) => {
 </script>
 
 <template>
-    
-    <v-btn
-        @click="loadModalData"
-        color="green"
-        text="Добавить"
-        size="small"
-    ></v-btn>
-
+    <AddButton text="Добавить" @click="loadModalData" />
     <BaseDialog 
         title="Добавление экзамена"
         v-model="isActive"

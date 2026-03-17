@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             'name_genitive' => 'федеральному государственному бюджетному образовательному учреждению высшего образования «Удмуртский государственный университет»'
         ]);
         
-        User::factory(6)->create();
+        User::factory(5)->create();
         
         $this->call([
             PatentSeeder::class,
@@ -41,15 +41,7 @@ class DatabaseSeeder extends Seeder
             ExamStudentSeeder::class
         ]);
         
-        Student::factory(100) 
-            ->sequence(fn ($sequence) => [
-                'surname' => 'Фамилия ' . $sequence->index + 1,
-                'name' => 'Имя ' . $sequence->index + 1,
-                'patronymic' => 'Отчество' . $sequence->index + 1 ,
-                'surname_latin' => 'Фамилия лат ' . $sequence->index + 1,
-                'name_latin' => 'Имя лат ' . $sequence->index + 1,
-                'patronymic_latin' => 'Отчество лат ' . $sequence->index + 1,
-            ])
+        Student::factory(200000) 
             ->withRandomCreator()
             ->create();
     }

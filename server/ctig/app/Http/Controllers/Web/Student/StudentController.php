@@ -29,7 +29,7 @@ class StudentController
 
         $student = $createStudentWithExamEnrollment
                 ->execute(
-                        $request->validated(),
+                            $request->validated(),
                             $request->validated('examId'),
                             $request->user()
                         );
@@ -46,10 +46,11 @@ class StudentController
     }
 
     public function show(Student $student){
-        $student->load('attempts.exam.examType');//Мб exams??
-        $student->load(['exams.attempts' => function ($query) use($student): void{
+        $student->load(['exams' => ['attempts' => function ($query) use($student): void{
             $query->where('student_id', $student->id);
-        }]);
+            },
+            'examType']
+        ]);
         return new StudentResource($student);
     }
 

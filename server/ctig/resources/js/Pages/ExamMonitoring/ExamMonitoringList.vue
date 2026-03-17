@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3';
+import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
+import { formatterDate, formatterTime } from '../../Helpers/heplers';
 
+defineOptions({
+  layout: EmployeeLayout,
+})
 const props = defineProps<{
     exams:any
 }>()
@@ -13,15 +18,6 @@ const headers = [
 
 const open = (event:Event, {item} : any) => {
     router.visit(`/exams/${item.id}/monitoring`)
-}
-</script>
-
-<script lang="ts">
-import { formatterDate, formatterTime } from '../../Helpers/heplers';
-import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
-
-export default {
-    layout: EmployeeLayout,
 }
 </script>
 

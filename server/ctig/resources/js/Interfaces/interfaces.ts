@@ -12,8 +12,10 @@ export interface Exam{
     creator:User | null,
     createdAt:string | null,
     studentsCount:number,
-    attempts:Attempt | null,
-    isCancelled:boolean
+    attempts: Array<Attempt> | null,
+    isCancelled:boolean,
+    date:string,
+    isPast:boolean
 }
 
 export interface User{
@@ -46,15 +48,16 @@ export interface Student{
     createdAt:string,
     citizenship:string,
     dateBirth:string,
-   
+    attempts:Array<Attempt>,
+    exam:Array<Exam>
 }
 
 export type StudentCreateForm = Omit<
   Student,
-  'id' | 'creator' | 'exams' | 'createdAt' | 'passportScan' | 'photo'
+  'id' | 'creator' | 'exams' | 'createdAt' | 'passportScan' | 'photo' | 'attempts' | 'exam'
 > & {
   passportScan: File | null
-  passportScanTranslate: File | null
+  passportTranslateScan: File | null
 
   noPassportNumber: boolean
   noPassportSeries: boolean
@@ -71,7 +74,8 @@ export interface Attempt{
     finishedAt:string | null,
     isPassed:boolean | null,
     status:string,
-    student:User
+    student:User,
+    exam:Array<Exam>
 }
 
 export interface Address{
@@ -90,4 +94,11 @@ export interface ExamForm{
     comment:string,
     testers: Array<number>,
     beginTime:string
+}
+
+export type Paginated<T> = {
+    data: T[]
+    meta: {
+        total: number
+    }
 }

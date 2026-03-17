@@ -1,25 +1,21 @@
-<script lang="ts">
+<script setup lang="ts">
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
 import { useExamShowModal } from '../../Composables/modalWindows/useExamShowModal';
 import ExamCreateModal from '../Exam/Components/ExamCreateModal.vue';
-
-export default {
-  layout: EmployeeLayout,
-}
-</script>
-
-
-
-<script setup lang="ts">
-import { onMounted, ref } from 'vue';
 import { router } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import { Exam } from '../../interfaces/interfaces';
 
+defineOptions({
+  layout: EmployeeLayout,
+})
 const props = defineProps<{
     exams : any | null
 }>()
 
 const calendar = ref()
 const focus = ref('')
+const dayDate= ref('')
 
 const type = ref<string>('week')
 const types = [
@@ -28,19 +24,16 @@ const types = [
     {value:'month', label:'Месяц'}
 ]
 
-const open = () => {
-    alert(1)
-}
 const openExam = (nativeEvent : Event, { event } :any) => {
     const {open} = useExamShowModal()
     open(event.id)
 }
 
-const getColor = (event : any) => {
-    if(event.isCancelled === true){
+const getColor = (event : Exam) => {
+    if(event?.isCancelled === true){
         return 'black'
     }
-    if (new Date(event.beginTime) < new Date()) { //endTime
+    if (event?.isPast) {
         return 'grey'
     }
     return 'blue'
@@ -55,10 +48,21 @@ const next = () => {
 }
 
 function getEvents ({ start, end } :any) {
-  router.get('/exams/schedule', {dateFrom:start.date, dateTo:end.date}, {preserveState:true, preserveScroll:true})
-  console.log(start, end)
+  router.reload({
+      data: {
+        dateFrom: start.date,
+        dateTo:end.date
+      },
+  })
 }
+// function getEvents(payload: any) {
+//   console.log(payload)
+// }
 
+// const addExam = (nativeEvent : Event, { date } : any) => {
+//   console.log(date)
+//   dayDate.value=date
+// }
 </script>
 
 <template>
@@ -72,8 +76,7 @@ function getEvents ({ start, end } :any) {
         <v-icon>mdi-chevron-left</v-icon>
       </v-btn>
       <div class="flex items-center gap-8 mr-8">
-        <ExamCreateModal />
-        {{ calendar.title }}
+        {{ calendar?.title }}
       </div>
       <v-select
         v-model="type"
@@ -88,6 +91,10 @@ function getEvents ({ start, end } :any) {
         
       ></v-select>
       <v-spacer></v-spacer>
+      <div class="flex items-center gap-8 mr-8">
+        <ExamCreateModal />
+      </div>
+      
       <v-btn
         class="ma-2"
         variant="text"
@@ -97,17 +104,18 @@ function getEvents ({ start, end } :any) {
         <v-icon>mdi-chevron-right</v-icon>
       </v-btn>
     </v-sheet>
-        <v-calendar
-            v-model="focus"
-            color="primary"
-            ref="calendar"
-            :events="exams.data"
-            :event-color="getColor"
-            @click:event="openExam"
-            @click:more="openExam"
-            :type="type"
-            @change="getEvents"
-        >
-        </v-calendar>
-<!-- @click:date="openExam" -->
+      <v-calendar
+        event-name = 'shortName'
+        v-model="focus"
+        color="primary"
+        ref="calendar"
+        :events="exams?.data"
+        :event-color="getColor"
+        @click:event="openExam"
+        @click:more="openExam"
+        :type="type"
+        @change="getEvents"
+        @click:date=""
+      >
+      </v-calendar>
 </template>

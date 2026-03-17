@@ -5,8 +5,6 @@ namespace App\Actions\Student;
 use App\Exceptions\BusinessException;
 use App\Models\Student;
 use Carbon\Carbon;
-use Dotenv\Exception\ValidationException;
-use Illuminate\Database\Eloquent\Builder;
 use Storage;
 
 final class StoreStudentAction{
@@ -24,8 +22,9 @@ final class StoreStudentAction{
         if($uniquePassportData){
             throw new BusinessException('Студент с такими паспортными данными и гражданством уже существует');
         }
-        // $photoPath  = Storage::putFile('avatars', $data['passportScanTranslate']);
-        // $passportScanPath =  Storage::putFile('avatars', $data['passportScan']); //passport_scan_path
+        $passportTranslateScan  = Storage::putFile('avatars', $data['passportTranslateScan']);
+        //$photoPath  = Storage::putFile('avatars', $data['photoScan']);
+        $passportScanPath =  Storage::putFile('avatars', $data['passportScan']); //passport_scan_path
         return  Student::create([
             'surname' => $data['surname'],
             'name'=> $data['name'],
@@ -43,9 +42,10 @@ final class StoreStudentAction{
             'citizenship'=> $data['citizenship'],
             'phone'=> $data['phone'],
             'creator_id'=>$creatorId,
-            'gender' => $data['gender']
-            // 'passport_scan_path' => $passportScanPath,
-            // 'photo_path' =>  $photoPath
+            'gender' => $data['gender'],
+            'passport_scan_path' => $passportScanPath,
+            //'photo_path' => $photoPath,
+            'passport_translate_scan' => $passportTranslateScan
         ]);
     }
 }

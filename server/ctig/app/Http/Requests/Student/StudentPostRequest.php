@@ -136,14 +136,18 @@ class StudentPostRequest extends FormRequest
                     'size:1', 
                     'in:M,F'
                 ],
-            // 'passportScanTranslate' => [
-            //         'required',
-            //         File::types(['pdf'])->max(4096)
-            //     ],
-            // 'passportScan' => [
-            //         'required', 
-            //         File::types(['pdf'])->max(4096) //application/pdf	
-            //     ],
+            'passportTranslateScan' => [
+                    'required',
+                    File::types(['pdf'])->max(4096)
+                ],
+            'passportScan' => [
+                    'required', 
+                    File::types(['pdf'])->max(4096) //application/pdf	
+                ],
+            'photoScan' => [
+                    'nullable', 
+                    File::types(['pdf'])->max(4096) //application/pdf	
+                ],
         ];
     }
 

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import axios from 'axios';
-import AppListItem from '../../Components/UI/AppListItem/AppListItem.vue';
-import { useConfirmDialog } from '../../Composables/useConfirmDialog';
+import AppListDropDownItem from '../../Components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import { usePromptDialog } from '../../Composables/usePromptDialog';
 
 const props = defineProps<{
@@ -11,8 +10,6 @@ const props = defineProps<{
 
 const ban = async () => {
     const {open} = usePromptDialog()
-    // const {confirmOpen} = useConfirmDialog()
-    // const ok = await confirmOpen(`Снять ${props.student.fullName} с экзамена?`)
     const res = await open(`Укажите причину снятия ${props.student.fullName} с экзамена`)
     if(!res){
         return
@@ -32,7 +29,7 @@ const ban = async () => {
             </v-btn>
         </template>
         <v-list>
-            <AppListItem title="Снять с экзамена" @click="ban"/>
+            <AppListDropDownItem title="Снять с экзамена" @click="ban"/>
         </v-list>
     </v-menu>
 </template>

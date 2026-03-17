@@ -5,6 +5,12 @@
         permanent
         rail
       >
+        <v-img
+          width="50"
+          src="/storage/images/tigr.png"
+        >
+
+        </v-img>
         <v-list>
           <v-list-item
             prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
@@ -22,15 +28,17 @@
           <v-list-item prepend-icon="mdi-monitor-eye" title="Мониторинг экзамена" value="examMonitoring" @click="router.get('/exams/monitoring')"></v-list-item>
           <v-list-item prepend-icon="mdi-calendar-month" value="schedule" title="Расписание" @click="router.get('/exams/schedule')"></v-list-item>
           <v-list-item prepend-icon="mdi-office-building" title="Организация" value="organization" @click="router.get(`/organizations/${page.props?.auth?.user?.organization_id}`)"></v-list-item>
+          <v-list-item prepend-icon="mdi-account-group" title="Сотрудники" value="employees" @click="router.get(`/organizations/${page.props?.auth?.user?.organization_id}/employees`)"></v-list-item>
           <v-list-item prepend-icon="mdi-logout" title="Выйти из аккаунта" value="logout" @click="router.post('/logout')"></v-list-item>
         </v-list>
         
       </v-navigation-drawer>
 
     <v-main 
-      
-      style="background:#f1f5f9; min-height: 100vh;"
-     
+      style="background-image: url('/storage/images/background.png');
+              min-height: 100vh;
+              background-size: cover;
+              background-position: center"
     >
       <slot />
     </v-main>

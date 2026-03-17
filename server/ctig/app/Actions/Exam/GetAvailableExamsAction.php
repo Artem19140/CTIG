@@ -13,7 +13,7 @@ class GetAvailableExamsAction{ //По студенту еще ты поиск
                     })
                     ->where('is_cancelled', false)
                     ->where('begin_time', '>', now())
-                    ->orderByDesc('begin_time') 
+                    ->orderBy('begin_time') 
                     ->limit(10)
                     ->get();
     }

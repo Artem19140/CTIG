@@ -19,10 +19,12 @@ class UserPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'surname'=>'required|string',
-            'name'=>'required|string',
-            'patronymic'=>'required|email',
-            'password'=>'required'
+            'surname'=>['required','string'],
+            'name'=>['required','string'],
+            'patronymic'=>['required','string'],
+            'email'=>['required','email'],
+            'password'=>['required', 'min:8'],
+            'jobTitle' => ['required', 'string']
         ];
     }
 }

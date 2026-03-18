@@ -20,7 +20,7 @@ use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use ZeroEmptyAutoCheckAnswersAction;
+use App\Actions\Attempt\ZeroEmptyAutoCheckAnswersAction;
 
 class AttemptController extends Controller
 {
@@ -138,33 +138,42 @@ class AttemptController extends Controller
     public function finish(
                                 Attempt $attempt, 
                                 FinalizeAttemptCheckingAction $finalizeAttemptChecking,
-                                ZeroEmptyAutoCheckAnswersAction $zeroEmptyAutoAnswers
+                                ZeroEmptyAutoCheckAnswersAction $zeroEmptyAutoAnswers,
+                                Request $request
                            )
     {
+        if($attempt->student_id != $request->user()->id){
+            abort(403);
+        }
         if(!$attempt->isActive()){
             throw new BusinessException('Попытка уже завершена или аннулирована');
         }
 
         DB::transaction(function() use(
-                                                    $attempt,
-                                                    $finalizeAttemptChecking,
-                                                    $zeroEmptyAutoAnswers
-                                                ){
-            $attempt->lockForUpdate()->finish();
+                                            $attempt,
+                                            $finalizeAttemptChecking,
+                                            $zeroEmptyAutoAnswers
+                                        ){
+            $attempt->lockForUpdate();
+            $attempt->finish();
             $zeroEmptyAutoAnswers->execute($attempt);
 
             $hasUncheckedManualAnswers = $attempt->answers()
-                                                ->where('is_checked', false)
-                                                ->whereHas('taskVariant.task', function(Builder $query){
-                                                    $query->whereIn('type', TaskType::manualCheckTypes());
-                                                })
-                                                ->exists();
+                                            ->where('is_checked', false)
+                                            ->whereHas('taskVariant.task', function(Builder $query){
+                                                $query->whereIn('type', TaskType::manualCheckTypes());
+                                            })
+                                            ->exists();
             if(!$hasUncheckedManualAnswers){
                $finalizeAttemptChecking->execute($attempt);
             }
             $attempt->save();
         });
-        return $this->noContent();
+        $exam = Exam::with('examType')->find($attempt->exam_id);
+        return Inertia::render('Attempt/AfterAttempt', [
+            'student' => $request->user(),
+            'examName' => $exam->examType->name
+        ]);
     }
 
     public function tasksToCheck(Attempt $attempt){
@@ -200,11 +209,12 @@ class AttemptController extends Controller
             'examType'
         ])->find($student->exam_id);
         
-        return Inertia::render('BeforeAttempt/BeforeAttempt', [
+        return Inertia::render('Attempt/BeforeAttempt', [
             'exam' => new ExamResource($exam),
             'duration' => $exam->examType->duration,
             'minMark' => $exam->examType->min_mark,
-            'attempt' => $attempt
+            'attempt' => $attempt,
+            'tasksCount' => $exam->examType->tasks_count,
         ]);
     }
 }

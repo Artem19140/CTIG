@@ -1,199 +1,419 @@
 [
   {
-    "content": "– Как вас зовут?",
+    "content": [
+      {
+        "type": "text",
+        "value": "– Как вас зовут?"
+      }
+    ],
     "fipi_number": "34C713",
     "answers": [
       {
-        "content": "Мне",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Мне"
+          }
+        ]
       },
       {
-        "content": "Меня",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Меня"
+          }
+        ]
       },
       {
-        "content": "Я",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Я"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Сколько _______________ лет?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Сколько _______________ лет?"
+      }
+    ],
     "fipi_number": "1DBF31",
     "answers": [
       {
-        "content": "ты",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "ты"
+          }
+        ]
       },
       {
-        "content": "тебе",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "тебе"
+          }
+        ]
       },
       {
-        "content": "у тебя",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "у тебя"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Скажите, _______________ есть семья?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Скажите, _______________ есть семья?"
+      }
+    ],
     "fipi_number": "F64157",
     "answers": [
       {
-        "content": "Вы",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Вы"
+          }
+        ]
       },
       {
-        "content": "Вам",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Вам"
+          }
+        ]
       },
       {
-        "content": "у Вас",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "у Вас"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Извините, это ________ документы?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Извините, это ________ документы?"
+      }
+    ],
     "fipi_number": "3F2AED",
     "answers": [
       {
-        "content": "ваша",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "ваша"
+          }
+        ]
       },
       {
-        "content": "ваш",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "ваш"
+          }
+        ]
       },
       {
-        "content": "ваши",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "ваши"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Моя подруга сейчас учится, она будет __________.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Моя подруга сейчас учится, она будет __________."
+      }
+    ],
     "fipi_number": "B2D65A",
     "answers": [
-        {
-        "content": "повара",
-        "is_correct": false
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "повара"
+          }
+        ]
       },
       {
-        "content": "повар",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "повар"
+          }
+        ]
       },
       {
-        "content": "поваром",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "поваром"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Утром мы были ____________.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Утром мы были ____________."
+      }
+    ],
     "fipi_number": "4EFDA0",
     "answers": [
       {
-        "content": "поликлиника",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "поликлиника"
+          }
+        ]
       },
       {
-        "content": "в поликлинике",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в поликлинике"
+          }
+        ]
       },
       {
-        "content": "поликлинику",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "поликлинику"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Познакомьтесь, это моя сестра. Она ____________.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Познакомьтесь, это моя сестра. Она ____________."
+      }
+    ],
     "fipi_number": "8ABC44",
     "answers": [
       {
-        "content": "врачом",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "врачом"
+          }
+        ]
       },
       {
-        "content": "врач",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "врач"
+          }
+        ]
       },
       {
-        "content": "врача",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "врача"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Завтра мы первый раз идём _________.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Завтра мы первый раз идём _________."
+      }
+    ],
     "fipi_number": "8B9EE2",
     "answers": [
-        {
-        "content": "на работу",
-        "is_correct": true
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "на работу"
+          }
+        ]
       },
       {
-        "content": "работа",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "работа"
+          }
+        ]
       },
       {
-        "content": "на работе",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на работе"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Они приехали в Тверь ______________ .",
+    "content": [
+      {
+        "type": "text",
+        "value": "Они приехали в Тверь ______________ ."
+      }
+    ],
     "fipi_number": "7ED315",
     "answers": [
       {
-        "content": "март",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "март"
+          }
+        ]
       },
       {
-        "content": "в марте",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в марте"
+          }
+        ]
       },
       {
-        "content": "марта",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "марта"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Это мой друг, ______________ двадцать пять лет.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Это мой друг, ______________ двадцать пять лет."
+      }
+    ],
     "fipi_number": "181834",
     "answers": [
       {
-        "content": "он",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "он"
+          }
+        ]
       },
       {
-        "content": "ему",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "ему"
+          }
+        ]
       },
       {
-        "content": "его",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "его"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Позвоните _____________, пожалуйста, завтра.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Позвоните _____________, пожалуйста, завтра."
+      }
+    ],
     "fipi_number": "1E6A63",
     "answers": [
       {
-        "content": "мне",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "мне"
+          }
+        ]
       },
       {
-        "content": "я",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "я"
+          }
+        ]
       },
       {
-        "content": "меня",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "меня"
+          }
+        ]
       }
     ]
   }

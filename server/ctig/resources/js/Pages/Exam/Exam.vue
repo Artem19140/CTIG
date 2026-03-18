@@ -2,7 +2,8 @@
 import ExamTable from './Components/ExamTable.vue';
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
 defineOptions({
-  layout: EmployeeLayout,
+  layout: EmployeeLayout
+
 })
 
 const props = defineProps<{

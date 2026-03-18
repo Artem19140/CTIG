@@ -1,199 +1,419 @@
 [
-    {
-    "content": "Столица Российской Федерации-__________.",
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Столица Российской Федерации-__________."
+      }
+    ],
     "fipi_number": "32FDC4",
     "answers": [
       {
-        "content": "Москва",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Москва"
+          }
+        ]
       },
       {
-        "content": "Екатеринбург",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Екатеринбург"
+          }
+        ]
       },
       {
-        "content": "Самара",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Самара"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "В Российской Федерации находится город",
+    "content": [
+      {
+        "type": "text",
+        "value": "В Российской Федерации находится город"
+      }
+    ],
     "fipi_number": "D60A11",
     "answers": [
       {
-        "content": "София",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "София"
+          }
+        ]
       },
       {
-        "content": "Владивосток",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Владивосток"
+          }
+        ]
       },
       {
-        "content": "Берлин",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Берлин"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Какой город Российской Федерации называют «второй столицей» России?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Какой город Российской Федерации называют «второй столицей» России?"
+      }
+    ],
     "fipi_number": "47EB7F",
     "answers": [
       {
-        "content": "Екатеринбург",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Екатеринбург"
+          }
+        ]
       },
       {
-        "content": "Владивосток",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Владивосток"
+          }
+        ]
       },
       {
-        "content": "Санкт-Петербург",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Санкт-Петербург"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Какой из этих городов находится в России?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Какой из этих городов находится в России?"
+      }
+    ],
     "fipi_number": "326760",
     "answers": [
       {
-        "content": "София",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "София"
+          }
+        ]
       },
       {
-        "content": "Прага",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Прага"
+          }
+        ]
       },
       {
-        "content": "Новосибирск",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Новосибирск"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "В  России находится город",
+    "content": [
+      {
+        "type": "text",
+        "value": "В  России находится город"
+      }
+    ],
     "fipi_number": "3021A0",
     "answers": [
       {
-        "content": "Самара",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Самара"
+          }
+        ]
       },
       {
-        "content": "Будапешт",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Будапешт"
+          }
+        ]
       },
       {
-        "content": "Пекин",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Пекин"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "В России находится город",
+    "content": [
+      {
+        "type": "text",
+        "value": "В России находится город"
+      }
+    ],
     "fipi_number": "A3E0A8",
     "answers": [
       {
-        "content": "Хельсинки",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Хельсинки"
+          }
+        ]
       },
       {
-        "content": "Рига",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Рига"
+          }
+        ]
       },
       {
-        "content": "Екатеринбург",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Екатеринбург"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "В России находится город",
+    "content": [
+      {
+        "type": "text",
+        "value": "В России находится город"
+      }
+    ],
     "fipi_number": "B2AA4C",
     "answers": [
       {
-        "content": "Вильнюс",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Вильнюс"
+          }
+        ]
       },
       {
-        "content": "Ростов-на-Дону",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Ростов-на-Дону"
+          }
+        ]
       },
       {
-        "content": "Бухарест",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Бухарест"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "В России находится город",
+    "content": [
+      {
+        "type": "text",
+        "value": "В России находится город"
+      }
+    ],
     "fipi_number": "6335E9",
     "answers": [
       {
-        "content": "Вашингтон",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Вашингтон"
+          }
+        ]
       },
       {
-        "content": "Омск",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Омск"
+          }
+        ]
       },
       {
-        "content": "Париж",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Париж"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "В России находится город",
+    "content": [
+      {
+        "type": "text",
+        "value": "В России находится город"
+      }
+    ],
     "fipi_number": "B15AC6",
     "answers": [
       {
-        "content": "Рига",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Рига"
+          }
+        ]
       },
       {
-        "content": "Красноярск",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Красноярск"
+          }
+        ]
       },
       {
-        "content": "Мадрид",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Мадрид"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "В России находится город",
+    "content": [
+      {
+        "type": "text",
+        "value": "В России находится город"
+      }
+    ],
     "fipi_number": "5CEBE6",
     "answers": [
       {
-        "content": "Рим",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Рим"
+          }
+        ]
       },
       {
-        "content": "Токио",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Токио"
+          }
+        ]
       },
       {
-        "content": "Пермь",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Пермь"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "В России находится город",
+    "content": [
+      {
+        "type": "text",
+        "value": "В России находится город"
+      }
+    ],
     "fipi_number": "B13622",
     "answers": [
       {
-        "content": "Париж",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Париж"
+          }
+        ]
       },
       {
-        "content": "Севастополь",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Севастополь"
+          }
+        ]
       },
       {
-        "content": "Пекин",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Пекин"
+          }
+        ]
       }
     ]
   }

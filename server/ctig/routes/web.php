@@ -70,4 +70,5 @@ Route::middleware('auth:students')->group(function (){
     //Route::put('student-answers/{studentAnswer}/', [StudentAnswerController::class, 'update']);
     Route::put('exam-attempts/{attempt}/answers', [AttemptAnswerController::class, 'update']);
     Route::get('exam-attempts/{attempt}', [AttemptController::class, 'current'])->name('exam-attempts');
+    Route::put('exam-attempts/{attempt}/finish', [AttemptController::class, 'finish']);
 });

@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Actions\Attempt;
+
 use App\Enums\TaskType;
 use App\Models\Attempt;
 use Illuminate\Database\Eloquent\Builder;

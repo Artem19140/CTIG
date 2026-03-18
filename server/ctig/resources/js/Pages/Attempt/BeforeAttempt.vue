@@ -6,7 +6,8 @@ const props = defineProps<{
     exam:any,
     duration:number,
     minMark:number, 
-    attempt:any
+    attempt:any,
+    tasksCount : number
 }>()
 const page = usePage()
 
@@ -31,6 +32,7 @@ const begin = () => {
         <v-card-text>
                 <div class="mb-2 ">Название экзамена: <strong>{{ exam.data?.name }}</strong></div>
                 <div class="mb-2 ">Количество попыток: <strong>1</strong></div>
+                <div class="mb-2 ">Количество заданий: <strong>{{ tasksCount }}</strong></div>
                 <div class="mb-2">Время экзамена: <strong>{{ duration }}</strong> минут</div>
                 <div>Минимальный балл: <strong>{{ minMark }}</strong></div>
         </v-card-text>

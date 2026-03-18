@@ -27,9 +27,9 @@ const props = defineProps<{
             @click="open(attempt.id)"
             width="500"
         >
-            <v-title>
+            <v-card-title>
                 {{ attempt.id }}
-            </v-title>
+            </v-card-title>
             <v-card-text>
 
             </v-card-text>

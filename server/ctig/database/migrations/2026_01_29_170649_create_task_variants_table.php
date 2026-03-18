@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('task_variants', function (Blueprint $table) {
             $table->id();
-            $table->string('content', 1000);
+            $table->jsonb('content');
             $table->string('fipi_number')->unique();
             $table->foreignId('task_id')
                 ->constrained('tasks')

@@ -11,26 +11,38 @@ return new class extends Migration
         Schema::create('attempt_answers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('exam_id')
+                ->index()
                 ->constrained('exams')
                 ->cascadeOnDelete();
             $table->foreignId('task_variant_id')
+                ->index()
                 ->constrained('task_variants')
                 ->cascadeOnDelete();
             $table->foreignId('attempt_id')
+                ->index()
                 ->constrained('attempts')
                 ->cascadeOnDelete();
             $table->foreignId('student_id')
+                ->index()
                 ->constrained('students')
                 ->cascadeOnDelete();
 
+            $table->foreignId('answer_id')
+                ->index()
+                ->nullable()
+                ->default(null)
+                ->constrained('answers')
+                ->cascadeOnDelete();
+
             $table->foreignId('organization_id')
+                ->index()
                 ->constrained('organizations')
                 ->cascadeOnDelete();
                 
             $table->integer('checked_by_id')->nullable()->default(null);
-            $table->boolean('is_checked')->default(false);
+            $table->boolean('is_checked')->index()->default(false);
             $table->unsignedTinyInteger('mark')->nullable()->default(null);
-            $table->jsonb('answer')->nullable()->default(null);
+            $table->jsonb('answer')->index()->nullable()->default(null);
             $table->timestamps();
         });
     }

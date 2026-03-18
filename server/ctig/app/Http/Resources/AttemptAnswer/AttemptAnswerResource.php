@@ -18,7 +18,8 @@ class AttemptAnswerResource extends JsonResource
         return [
             'attemptAnswer' => $this->answer,
             'task' => new TaskVariantResource($this->whenLoaded('taskVariant')),
-            'id' => $this->id
+            'id' => $this->id,
+            'answerId' => $this->answer_id
         ];
     }
 }

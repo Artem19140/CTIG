@@ -58,12 +58,6 @@
 </template>
 
 <script setup>
-//  <!-- style="height: 100vh;
-//         background-image: url('/storage/images/background.png');
-//         background-size: cover;
-//         background-position: center;
-//       " -->
-//background:#f1f5f9;"
 import { router } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import AppSnackbar from '../Components/AppSnackbar/AppSnackbar.vue'
@@ -74,6 +68,11 @@ import ConfirmDialog from '../Components/ConfirmDialog/ConfirmDialog.vue';
 import Alert from '../Components/Alert/Alert.vue';
 import PromptDialog from '../Components/PromptDialog/PromptDialog.vue';
 import ExamShowModal from '../Pages/Exam/Components/ExamShowModal/ExamShowModal.vue';
+import BaseLayout from './BaseLayout.vue';
+
+defineOptions({
+  layout: BaseLayout,
+})
 
 const page = usePage()
 const employeeName = `${page?.props.auth?.user?.surname} ${page?.props.auth?.user?.name}`

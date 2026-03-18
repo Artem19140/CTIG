@@ -11,16 +11,16 @@ const props = defineProps<{
 
 const taskComponent = (type: string) => {
     switch (type) {
-    case 'single_choice':
-        return SingleChoiceTask
-    case 'speaking':
-        return SpeakingTask
-    case 'essay':
-        return EssayTask
-    case 'text-input':
-        return TextInputTask
-    default:
-        return SingleChoiceTask
+        case 'single_choice':
+            return SingleChoiceTask
+        case 'speaking':
+            return SpeakingTask
+        case 'essay':
+            return EssayTask
+        case 'text-input':
+            return TextInputTask
+        default:
+            return SingleChoiceTask
     }
 }
 </script>

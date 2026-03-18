@@ -3,10 +3,12 @@ import { ref } from 'vue';
 import ShowData from './Components/ShowData.vue';
 import UpdateData from './Components/UpdateData.vue';
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
+import PrimaryButton from '../../Components/PrimaryButton/PrimaryButton.vue';
 
 defineOptions({
   layout: EmployeeLayout,
 })
+
 const props = defineProps<{
     organization : any | null
 }>()
@@ -26,24 +28,19 @@ const mode = ref<string>('show')
             <UpdateData :organization="organization" v-if="mode === 'update'"  />
         </v-card-text>
         <v-card-actions  class="flex justify-center">
-            <v-btn
-                variant="flat"
-                color="primary"
+            <PrimaryButton
+                text="Обновить"
                 v-if="mode === 'update'"
-            >
-                Обновить
-            </v-btn>
-
+            />
             <v-btn @click="mode = 'show'" v-if="mode === 'update'">
                 Отмена
             </v-btn>
 
-            <v-btn 
+            <PrimaryButton
+                text="Редактировать"
                 @click="mode = 'update'"
                 v-if="mode === 'show'"
-                variant="flat"
-                color="primary"
-            >Редактировать</v-btn>
+            />
         </v-card-actions>
     </v-card>
 </template>

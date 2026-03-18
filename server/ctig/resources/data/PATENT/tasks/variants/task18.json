@@ -1,201 +1,420 @@
 [
   {
-    "content": "Где происходит регистрация брака в Российской Федерации?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Где происходит регистрация брака в Российской Федерации?"
+      }
+    ],
     "fipi_number": "EF581D",
     "answers": [
       {
-        "content": "в суде",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в суде"
+          }
+        ]
       },
       {
-        "content": "в отделе ЗАГС (записи актов гражданского состояния)",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в отделе ЗАГС (записи актов гражданского состояния)"
+          }
+        ]
       },
       {
-        "content": "в полиции",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в полиции"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "В какой форме согласно Трудовому кодексу Российской Федерации заключается трудовой договор?",
+    "content": [
+      {
+        "type": "text",
+        "value": "В какой форме согласно Трудовому кодексу Российской Федерации заключается трудовой договор?"
+      }
+    ],
     "fipi_number": "23992E",
     "answers": [
       {
-        "content": "только в письменной",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "только в письменной"
+          }
+        ]
       },
       {
-        "content": "только в устной",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "только в устной"
+          }
+        ]
       },
       {
-        "content": "любой",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "любой"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Имеет ли иностранный гражданин право приобретать недвижимое имущество на территории Российской Федерации?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Имеет ли иностранный гражданин право приобретать недвижимое имущество на территории Российской Федерации?"
+      }
+    ],
     "fipi_number": "B757AE",
     "answers": [
       {
-        "content": "имеет",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "имеет"
+          }
+        ]
       },
       {
-        "content": "не имеет",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "не имеет"
+          }
+        ]
       },
       {
-        "content": "только с разрешения суда",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "только с разрешения суда"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Иностранный гражданин в Российской Федерации обязан",
+    "content": [
+      {
+        "type": "text",
+        "value": "Иностранный гражданин в Российской Федерации обязан"
+      }
+    ],
     "fipi_number": "FC4CFA",
     "answers": [
       {
-        "content": "однократно пройти дактилоскопическую регистрацию и фотографирование при получении разрешения на работу",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "однократно пройти дактилоскопическую регистрацию и фотографирование при получении разрешения на работу"
+          }
+        ]
       },
       {
-        "content": "участвовать в выборах органов власти",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "участвовать в выборах органов власти"
+          }
+        ]
       },
       {
-        "content": "уметь ориентироваться на территории субъекта Российской Федерации",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "уметь ориентироваться на территории субъекта Российской Федерации"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Право  на медицинскую помощь для иностранных граждан",
+    "content": [
+      {
+        "type": "text",
+        "value": "Право  на медицинскую помощь для иностранных граждан"
+      }
+    ],
     "fipi_number": "4203BA",
     "answers": [
       {
-        "content": "не распространяется на детей иностранных граждан",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "не распространяется на детей иностранных граждан"
+          }
+        ]
       },
       {
-        "content": "не распространяется на иностранных пенсионеров",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "не распространяется на иностранных пенсионеров"
+          }
+        ]
       },
       {
-        "content": "обеспечивается законодательством Российской Федерации",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "обеспечивается законодательством Российской Федерации"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Участие иностранных граждан в выборах в государственные органы",
+    "content": [
+      {
+        "type": "text",
+        "value": "Участие иностранных граждан в выборах в государственные органы"
+      }
+    ],
     "fipi_number": "C30389",
     "answers": [
       {
-        "content": "является обязанностью",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "является обязанностью"
+          }
+        ]
       },
       {
-        "content": "является правом",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "является правом"
+          }
+        ]
       },
       {
-        "content": "не является правом",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "не является правом"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Прохождение дактилоскопической регистрации и фотографирование иностранного гражданина в Российской Федерации при получении разрешения на работу – это",
+    "content": [
+      {
+        "type": "text",
+        "value": "Прохождение дактилоскопической регистрации и фотографирование иностранного гражданина в Российской Федерации при получении разрешения на работу – это"
+      }
+    ],
     "fipi_number": "FDF72B",
     "answers": [
       {
-        "content": "обязанность",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "обязанность"
+          }
+        ]
       },
       {
-        "content": "право",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "право"
+          }
+        ]
       },
       {
-        "content": "рекомендация",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "рекомендация"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Иностранные граждане в Российской Федерации",
+    "content": [
+      {
+        "type": "text",
+        "value": "Иностранные граждане в Российской Федерации"
+      }
+    ],
     "fipi_number": "44E0B9",
     "answers": [
       {
-        "content": "могут быть призваны на срочную военную службу",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "могут быть призваны на срочную военную службу"
+          }
+        ]
       },
       {
-        "content": "могут поступить на военную службу по контракту",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "могут поступить на военную службу по контракту"
+          }
+        ]
       },
       {
-        "content": "обязаны поступить на военную службупо контракту",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "обязаны поступить на военную службупо контракту"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Право на свободу вероисповедания распространяется",
+    "content": [
+      {
+        "type": "text",
+        "value": "Право на свободу вероисповедания распространяется"
+      }
+    ],
     "fipi_number": "735050",
     "answers": [
       {
-        "content": "на иностранных граждан, законно находящихся на территории Российской Федерации",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "на иностранных граждан, законно находящихся на территории Российской Федерации"
+          }
+        ]
       },
       {
-        "content": "только на граждан Российской Федерации",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "только на граждан Российской Федерации"
+          }
+        ]
       },
       {
-        "content": "только на священнослужителей, находящихся в Российской Федерации",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "только на священнослужителей, находящихся в Российской Федерации"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Конституция Российской Федерации устанавливает обязанность иностранных граждан",
+    "content": [
+      {
+        "type": "text",
+        "value": "Конституция Российской Федерации устанавливает обязанность иностранных граждан"
+      }
+    ],
     "fipi_number": "B0D32D",
     "answers": [
       {
-        "content": "получать образование",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "получать образование"
+          }
+        ]
       },
       {
-        "content": "сохранять культурное наследие",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "сохранять культурное наследие"
+          }
+        ]
       },
       {
-        "content": "защищать свои права в суде",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "защищать свои права в суде"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Трудящийся иностранный гражданин в Российской Федерации обязан",
+    "content": [
+      {
+        "type": "text",
+        "value": "Трудящийся иностранный гражданин в Российской Федерации обязан"
+      }
+    ],
     "fipi_number": "EA7C8F",
     "answers": [
       {
-        "content": "вступить в брак",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "вступить в брак"
+          }
+        ]
       },
       {
-        "content": "уплачивать налоги",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "уплачивать налоги"
+          }
+        ]
       },
       {
-        "content": "делать покупки в магазине",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "делать покупки в магазине"
+          }
+        ]
       }
     ]
   }
 ]
-

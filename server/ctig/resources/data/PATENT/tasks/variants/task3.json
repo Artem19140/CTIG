@@ -1,122 +1,431 @@
 [
-    {
-    "content": "Объявление можно услышать",
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Объявление можно услышать"
+      }
+    ],
     "fipi_number": "EC6ACA",
     "group_number": "1AE94C",
     "answers": [
-      {"content": "в ресторане", "is_correct": false},
-      {"content": "в магазине", "is_correct": true},
-      {"content": "в библиотеке", "is_correct": false}
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в ресторане"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в магазине"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в библиотеке"
+          }
+        ]
+      }
     ]
   },
-
   {
-    "content": "Объявление можно услышать",
+    "content": [
+      {
+        "type": "text",
+        "value": "Объявление можно услышать"
+      }
+    ],
     "fipi_number": "1FD052",
     "group_number": "53B443",
     "answers": [
-        {"content": "в торговом центре", "is_correct": true},
-        {"content": "в банке", "is_correct": false},
-        {"content": "в спортзале", "is_correct": false}
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в торговом центре"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в банке"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в спортзале"
+          }
+        ]
+      }
     ]
   },
-
   {
-    "content": "В новом магазине можно купить одежду",
+    "content": [
+      {
+        "type": "text",
+        "value": "В новом магазине можно купить одежду"
+      }
+    ],
     "fipi_number": "C9FC34",
     "group_number": "CC0848",
     "answers": [
-        {"content": "для мужчин", "is_correct": true},
-        {"content": "для детей", "is_correct": false},
-        {"content": "для женщин", "is_correct": false}
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "для мужчин"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "для детей"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "для женщин"
+          }
+        ]
+      }
     ]
   },
-
   {
-    "content": "Вы можете услышать это объявление",
+    "content": [
+      {
+        "type": "text",
+        "value": "Вы можете услышать это объявление"
+      }
+    ],
     "fipi_number": "7D4778",
     "group_number": "F3AB1D",
     "answers": [
-        {"content": "в торговом центре", "is_correct": true},
-        {"content": "в школе", "is_correct": false},
-        {"content": "в больнице", "is_correct": false}
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в торговом центре"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в школе"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в больнице"
+          }
+        ]
+      }
     ]
   },
-
   {
-    "content": "Детский праздник будет",
+    "content": [
+      {
+        "type": "text",
+        "value": "Детский праздник будет"
+      }
+    ],
     "fipi_number": "317D7A",
     "group_number": "034315",
     "answers": [
-        {"content": "в воскресенье", "is_correct": false},
-        {"content": "в пятницу", "is_correct": false},
-        {"content": "в субботу", "is_correct": true}
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в воскресенье"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в пятницу"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в субботу"
+          }
+        ]
+      }
     ]
   },
-
   {
-    "content": "Вы слышите объявление",
+    "content": [
+      {
+        "type": "text",
+        "value": "Вы слышите объявление"
+      }
+    ],
     "fipi_number": "19EA75",
     "group_number": "51C9DE",
     "answers": [
-        {"content": "о работе", "is_correct": true},
-        {"content": "об учёбе", "is_correct": false},
-        {"content": "об отдыхе", "is_correct": false}
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "о работе"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "об учёбе"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "об отдыхе"
+          }
+        ]
+      }
     ]
   },
-
   {
-    "content": "Этот банк",
+    "content": [
+      {
+        "type": "text",
+        "value": "Этот банк"
+      }
+    ],
     "fipi_number": "D594FE",
     "group_number": "6975AA",
     "answers": [
-        {"content": "открылся", "is_correct": false},
-        {"content": "закрылся", "is_correct": false},
-        {"content": "изменил часы работы", "is_correct": true}
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "открылся"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "закрылся"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "изменил часы работы"
+          }
+        ]
+      }
     ]
   },
-
   {
-    "content": "Вы можете услышать это объявление",
+    "content": [
+      {
+        "type": "text",
+        "value": "Вы можете услышать это объявление"
+      }
+    ],
     "fipi_number": "DF3519",
     "group_number": "43F3C9",
     "answers": [
-        {"content": "в торговом центре", "is_correct": true},
-        {"content": "в банке", "is_correct": false},
-        {"content": "в поликлинике", "is_correct": false}
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в торговом центре"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в банке"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в поликлинике"
+          }
+        ]
+      }
     ]
   },
-
   {
-    "content": "Вы можете услышать это объявление",
+    "content": [
+      {
+        "type": "text",
+        "value": "Вы можете услышать это объявление"
+      }
+    ],
     "fipi_number": "02AF01",
     "group_number": "2F7CCD",
     "answers": [
-        {"content": "в магазине", "is_correct": true},
-        {"content": "в полиции", "is_correct": false},
-        {"content": "в больнице", "is_correct": false}
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в магазине"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в полиции"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в больнице"
+          }
+        ]
+      }
     ]
   },
-
   {
-    "content": "Поезд едет",
+    "content": [
+      {
+        "type": "text",
+        "value": "Поезд едет"
+      }
+    ],
     "fipi_number": "D9F80E",
     "group_number": "9EB6E2",
     "answers": [
-        {"content": "из Казани", "is_correct": true},
-        {"content": "из Саратова", "is_correct": false},
-        {"content": "из Самары", "is_correct": false}
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "из Казани"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "из Саратова"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "из Самары"
+          }
+        ]
+      }
     ]
   },
-
   {
-    "content": "Самолёт летит",
+    "content": [
+      {
+        "type": "text",
+        "value": "Самолёт летит"
+      }
+    ],
     "fipi_number": "C4634B",
     "group_number": "6C3C8D",
     "answers": [
-        {"content": "из Казани", "is_correct": false},
-        {"content": "из Екатеринбурга", "is_correct": true},
-        {"content": "из Москвы", "is_correct": false}
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "из Казани"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "из Екатеринбурга"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "из Москвы"
+          }
+        ]
+      }
     ]
   }
 ]

@@ -14,7 +14,7 @@ class AttemptAnswerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'attemptAnswer' => ['nullable'],
+            'answer' => ['nullable'],
             'taskVariantId' => ['required', 'integer', 'min:1']
         ];
     }

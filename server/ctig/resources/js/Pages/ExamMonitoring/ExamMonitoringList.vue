@@ -2,6 +2,7 @@
 import { router } from '@inertiajs/vue3';
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
 import { formatterDate, formatterTime } from '../../Helpers/heplers';
+import DropDownExamList from './DropDownExamList.vue';
 
 defineOptions({
   layout: EmployeeLayout,
@@ -13,7 +14,8 @@ const props = defineProps<{
 const headers = [
     {title:'Название', key:"shortName",sortable:false},
     {title:'Дата и время', key:"beginTime",sortable:false},
-    {title:'Запись', key:"capacity", sortable:false, align:'center'}
+    {title:'Запись', key:"capacity", sortable:false, align:'center'},
+    {title:'', key:"actions", sortable:false, align:'center'}
 ]
 
 const open = (event:Event, {item} : any) => {
@@ -29,17 +31,23 @@ const open = (event:Event, {item} : any) => {
 
         <v-card-text>
             <v-data-table
-                :items="exams.data"
+                :items="exams.data ?? []"
                 :headers="headers"
                 hover
+   
                 hide-default-footer
                 @click:row="open"
             >
                 <template #item.beginTime="{ item }">
                     {{ formatterTime(item?.beginTime)  ?? '-'}}, {{ formatterDate(item?.beginTime)  ?? '-'}}
                 </template>
+                <template #item.capacity="{ item }">
+                    {{` ${item.studentsCount }/${ item.capacity }`}}
+                </template>
+                <template #item.actions="{ item }">
+                    <DropDownExamList :exam="item" />
+                </template>
             </v-data-table>
-            
         </v-card-text>
     </v-card>
 </template>

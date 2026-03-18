@@ -1,199 +1,419 @@
 [
   {
-    "content": "В салоне сотовой связи я купил __________.",
+    "content": [
+      {
+        "type": "text",
+        "value": "В салоне сотовой связи я купил __________."
+      }
+    ],
     "fipi_number": "85113F",
     "answers": [
       {
-        "content": "молоко",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "молоко"
+          }
+        ]
       },
       {
-        "content": "куртку",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "куртку"
+          }
+        ]
       },
       {
-        "content": "true",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "true"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Мой друг _______________ в магазине.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Мой друг _______________ в магазине."
+      }
+    ],
     "fipi_number": "22E13F",
     "answers": [
-        {
-        "content": "живёт",
-        "is_correct": false
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "живёт"
+          }
+        ]
       },
       {
-        "content": "гуляет",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "гуляет"
+          }
+        ]
       },
       {
-        "content": "работает",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "работает"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Я люблю _______________ хорошую музыку.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Я люблю _______________ хорошую музыку."
+      }
+    ],
     "fipi_number": "1D24A8",
     "answers": [
       {
-        "content": "читать",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "читать"
+          }
+        ]
       },
       {
-        "content": "слушать",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "слушать"
+          }
+        ]
       },
       {
-        "content": "смотреть",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "смотреть"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Моя сестра работает в больнице _____________________.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Моя сестра работает в больнице _____________________."
+      }
+    ],
     "fipi_number": "FC5621",
     "answers": [
       {
-        "content": "учителем",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "учителем"
+          }
+        ]
       },
       {
-        "content": "врачом",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "врачом"
+          }
+        ]
       },
       {
-        "content": "парикмахером",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "парикмахером"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Вчера мы ______________ в парке.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Вчера мы ______________ в парке."
+      }
+    ],
     "fipi_number": "8E3188",
     "answers": [
       {
-        "content": "отдыхаем",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "отдыхаем"
+          }
+        ]
       },
       {
-        "content": "будем отдыхать",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "будем отдыхать"
+          }
+        ]
       },
       {
-        "content": "отдыхали",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "отдыхали"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Вчера они _______________ в лесу.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Вчера они _______________ в лесу."
+      }
+    ],
     "fipi_number": "166EDB",
     "answers": [
       {
-        "content": "была",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "была"
+          }
+        ]
       },
       {
-        "content": "были",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "были"
+          }
+        ]
       },
       {
-        "content": "был",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "был"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Назовите, пожалуйста, Ваш ____________.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Назовите, пожалуйста, Ваш ____________."
+      }
+    ],
     "fipi_number": "D4EC20",
     "answers": [
       {
-        "content": "адрес",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "адрес"
+          }
+        ]
       },
       {
-        "content": "профессия",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "профессия"
+          }
+        ]
       },
       {
-        "content": "имя",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "имя"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "У тебя новые ____________? Можно посмотреть?",
+    "content": [
+      {
+        "type": "text",
+        "value": "У тебя новые ____________? Можно посмотреть?"
+      }
+    ],
     "fipi_number": "85012E",
     "answers": [
       {
-        "content": "телефон",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "телефон"
+          }
+        ]
       },
       {
-        "content": "сумка",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "сумка"
+          }
+        ]
       },
       {
-        "content": "часы",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "часы"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Ты помнишь, _________ сегодня день?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Ты помнишь, _________ сегодня день?"
+      }
+    ],
     "fipi_number": "28280E",
     "answers": [
       {
-        "content": "какая",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "какая"
+          }
+        ]
       },
       {
-        "content": "какое",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "какое"
+          }
+        ]
       },
       {
-        "content": "какой",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "какой"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "В субботу мы с друзьями ___________ по городу.",
+    "content": [
+      {
+        "type": "text",
+        "value": "В субботу мы с друзьями ___________ по городу."
+      }
+    ],
     "fipi_number": "BD1EBF",
     "answers": [
       {
-        "content": "гулял",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "гулял"
+          }
+        ]
       },
       {
-        "content": "гуляла",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "гуляла"
+          }
+        ]
       },
       {
-        "content": "гуляли",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "гуляли"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Раньше она ______________ в кафе.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Раньше она ______________ в кафе."
+      }
+    ],
     "fipi_number": "281DD9",
     "answers": [
       {
-        "content": "работала",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "работала"
+          }
+        ]
       },
       {
-        "content": "будет работать",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "будет работать"
+          }
+        ]
       },
       {
-        "content": "гуляли",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "гуляли"
+          }
+        ]
       }
     ]
   }

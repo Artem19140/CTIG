@@ -7,14 +7,11 @@ import { Exam } from '../../../../interfaces/interfaces';
 
 const props = defineProps<{exam : Exam}>()
 
-const page = usePage<any>()
-
 const form = useForm({
   cancelledReason: ''
 })
 
 const formCodes = async () => {
-  console.log(1)
   if(!props.exam?.id){
     return
   }
@@ -35,7 +32,7 @@ const cancellExam = async () => {
 }
 
 const downloadStudList = () => {
-  modalState.fileUrl = `exams/${props.exam.id}/students/list`
+  modalState.fileUrl = `/exams/${props.exam.id}/students/list`
 }
 //Только для тестера!
 </script>

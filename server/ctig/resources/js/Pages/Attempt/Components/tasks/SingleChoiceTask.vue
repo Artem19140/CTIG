@@ -1,61 +1,62 @@
 <script setup lang="ts">
 import axios from 'axios'
-import { ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import BaseTask from './BaseTask.vue';
+import RenderBlocks from './TaskContentBlocks/RenderBlocks.vue';
 
 const props = defineProps<{
     task:any,
     attempt:any
 }>()
 
-const attemptAnswer = ref<number | null>(
-  props.task.attemptAnswer
-    ? Number(props.task.attemptAnswer)
-    : null
+const attemptAnswer = ref<number>(
+  props.task.attemptAnswer.answerId
 )
-
-// watch(
-//     () => props.task.attemptAnswer,
-//     (newVal) => {
-//         attemptAnswer.value = newVal ? Number(newVal) : null
-//     },
-//     { immediate: true }
-// )
 
 const send = async () => {
     await axios.put(`/exam-attempts/${props.attempt.id}/answers`, {
-        attemptAnswer: attemptAnswer.value,
+        answer: attemptAnswer.value,
         taskVariantId:props.task.id
     })
 }
 
+watch(attemptAnswer, () => {
+    send()
+})
+
 </script>
 
 <template>
-    <!-- <pre>{{ task }}</pre>
-    {{ attemptAnswer }} -->
+    <!-- <pre>
+        {{ task }}
+    </pre> -->
+
     <base-task
         :subtitle = "`Номер ${task.order}`"
     >
-        <div class="mb-4">Выберите один вариант ответа</div>
-            <v-radio-group 
-                v-model="attemptAnswer"
-                @update:modelValue="send"
-            >
-                <v-img 
-                    v-if="task.file_path"
-                    :src="task.file_path"
-                />
-                    
+        <template #answers>
 
-                {{ task.content }}
-                <v-radio 
-                    v-for="answer in props.task.answers"
-                    :label="answer.content" 
-                    :key="answer.id"
-                    :value="answer.id">
-                </v-radio>
-            
-            </v-radio-group>
+        <div class="mb-4 flex flex-column">
+
+        
+            <div class="mb-4 flex flex-column">Выберите один вариант ответа</div>
+                
+                <v-radio-group 
+                    v-model="attemptAnswer"
+                >      
+                    <v-radio 
+                        v-for="answer in props.task.answers"
+                        :key="answer.id"
+                        :value="answer.id"
+                    >
+                        <template #label>
+                            <div class="">
+                                <render-blocks :content="answer.content" />
+                            </div>
+                        </template>
+                    </v-radio>
+                </v-radio-group>
+            </div>
+        </template>
     </base-task>
 </template>

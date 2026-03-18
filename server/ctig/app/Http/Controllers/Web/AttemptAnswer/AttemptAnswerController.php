@@ -12,10 +12,8 @@ use App\Http\Resources\Attempt\AttemptResource;
 use App\Http\Resources\AttemptAnswer\AttemptAnswerResource;
 use App\Models\Attempt;
 use App\Models\AttemptAnswer;
-use App\Models\TaskVariant;
 use Carbon\Carbon;
 use DB;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\Controller;
 use Inertia\Inertia;
@@ -40,16 +38,16 @@ class AttemptAnswerController extends Controller
         if($attempt->student_id !== $student->id){
             abort(403);
         }
-        $isActive = $checkAttempt->execute($attempt);
+        // $isActive = $checkAttempt->execute($attempt);
 
-        if(!$isActive){
-            $attempt->finish();
-            return redirect()->route('login');
-        }
-        $attemptAnswer = 1;
-
-        DB::transaction(function()use($attemptAnswer, $request,$attempt,$handleAttemptAnswer){
-            $handleAttemptAnswer->execute($attemptAnswer,$request->input('attemptAnswer'));
+        // if(!$isActive){
+        //     $attempt->finish();
+        //     return redirect()->route('login');
+        // }
+        $answer = $request->input('answer');
+        $taskVariantId = $request->input('taskVariantId');
+        DB::transaction(function()use($answer, $attempt,$taskVariantId, $handleAttemptAnswer){
+            $handleAttemptAnswer->execute($answer, $attempt, $taskVariantId);
             $attempt->last_activity_at = Carbon::now();
             $attempt->save();
         });

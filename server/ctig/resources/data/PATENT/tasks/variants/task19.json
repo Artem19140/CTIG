@@ -1,199 +1,419 @@
 [
   {
-    "content": "На территории Российской Федерации в отношении иностранного гражданина совершено преступление. Куда он должен обратиться за помощью?",
+    "content": [
+      {
+        "type": "text",
+        "value": "На территории Российской Федерации в отношении иностранного гражданина совершено преступление. Куда он должен обратиться за помощью?"
+      }
+    ],
     "fipi_number": "68F7F1",
     "answers": [
       {
-        "content": "в полицию",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в полицию"
+          }
+        ]
       },
       {
-        "content": "в Министерство иностранных дел Российской Федерации",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Министерство иностранных дел Российской Федерации"
+          }
+        ]
       },
       {
-        "content": "в посольство своей страны",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в посольство своей страны"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Вы потеряли паспорт. Куда следует обратиться?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Вы потеряли паспорт. Куда следует обратиться?"
+      }
+    ],
     "fipi_number": "5AE624",
     "answers": [
       {
-        "content": "в полицию и консульство своей страны",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в полицию и консульство своей страны"
+          }
+        ]
       },
       {
-        "content": "в суд",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в суд"
+          }
+        ]
       },
       {
-        "content": "в отдел кадров по месту работы",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в отдел кадров по месту работы"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Имеет ли право иностранный гражданин вступить в брак на территории Российской Федерации?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Имеет ли право иностранный гражданин вступить в брак на территории Российской Федерации?"
+      }
+    ],
     "fipi_number": "73B84C",
     "answers": [
       {
-        "content": "да",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "да"
+          }
+        ]
       },
       {
-        "content": "да, но только с гражданками Российской Федерации",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "да, но только с гражданками Российской Федерации"
+          }
+        ]
       },
       {
-        "content": "нет",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "нет"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Куда следует обратиться человеку, если его ограбили?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Куда следует обратиться человеку, если его ограбили?"
+      }
+    ],
     "fipi_number": "0634DA",
     "answers": [
       {
-        "content": "в полицию",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в полицию"
+          }
+        ]
       },
       {
-        "content": "в суд",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в суд"
+          }
+        ]
       },
       {
-        "content": "в отдел кадров по месту работы",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в отдел кадров по месту работы"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Иностранному гражданину исполнилось 18 лет. Может ли он осуществлять трудовую деятельность на территории Российской Федерации?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Иностранному гражданину исполнилось 18 лет. Может ли он осуществлять трудовую деятельность на территории Российской Федерации?"
+      }
+    ],
     "fipi_number": "D7B234",
     "answers": [
       {
-        "content": "да",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "да"
+          }
+        ]
       },
       {
-        "content": "нет",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "нет"
+          }
+        ]
       },
       {
-        "content": "да, но после специального распоряжения",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "да, но после специального распоряжения"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Иностранный гражданин потерял удостоверение личности. В какой правоохранительный орган ему следует прежде всего обратиться?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Иностранный гражданин потерял удостоверение личности. В какой правоохранительный орган ему следует прежде всего обратиться?"
+      }
+    ],
     "fipi_number": "CAEE7B",
     "answers": [
       {
-        "content": "в прокуратуру",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в прокуратуру"
+          }
+        ]
       },
       {
-        "content": "в полицию",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в полицию"
+          }
+        ]
       },
       {
-        "content": "в консульство своей страны",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в консульство своей страны"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Иностранному гражданину исполнился 21 год. Может ли он вести трудовую деятельность на территории Российской Федерации?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Иностранному гражданину исполнился 21 год. Может ли он вести трудовую деятельность на территории Российской Федерации?"
+      }
+    ],
     "fipi_number": "9B5488",
     "answers": [
       {
-        "content": "да",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "да"
+          }
+        ]
       },
       {
-        "content": "нет",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "нет"
+          }
+        ]
       },
       {
-        "content": "да, но после специального распоряжения",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "да, но после специального распоряжения"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Иностранному гражданину исполнилось 18 лет. При каком условии он может устроиться на работу?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Иностранному гражданину исполнилось 18 лет. При каком условии он может устроиться на работу?"
+      }
+    ],
     "fipi_number": "F72374",
     "answers": [
       {
-        "content": "при наличии патента или разрешения на работу",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "при наличии патента или разрешения на работу"
+          }
+        ]
       },
       {
-        "content": "при наличии миграционной карты",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "при наличии миграционной карты"
+          }
+        ]
       },
       {
-        "content": "при наличии медицинского полиса",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "при наличии медицинского полиса"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Иностранный гражданин испытывает острую боль. Каким правом он обладает в данной ситуации?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Иностранный гражданин испытывает острую боль. Каким правом он обладает в данной ситуации?"
+      }
+    ],
     "fipi_number": "D10588",
     "answers": [
       {
-        "content": "на получение медицинского полиса",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на получение медицинского полиса"
+          }
+        ]
       },
       {
-        "content": "на бесплатную медицинскую помощь",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "на бесплатную медицинскую помощь"
+          }
+        ]
       },
       {
-        "content": "на получение денежной компенсации",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на получение денежной компенсации"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Иностранный гражданин хочет устроиться на работу санитаром. Какой документ он должен предъявить?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Иностранный гражданин хочет устроиться на работу санитаром. Какой документ он должен предъявить?"
+      }
+    ],
     "fipi_number": "3FE1CB",
     "answers": [
       {
-        "content": "свидетельство о браке",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "свидетельство о браке"
+          }
+        ]
       },
       {
-        "content": "документ о медицинском освидетельствовании",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "документ о медицинском освидетельствовании"
+          }
+        ]
       },
       {
-        "content": "страховой полис",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "страховой полис"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Иностранный гражданин решил устроиться на работу. Какой договор с ним должен быть заключён?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Иностранный гражданин решил устроиться на работу. Какой договор с ним должен быть заключён?"
+      }
+    ],
     "fipi_number": "1043B0",
     "answers": [
       {
-        "content": "трудовой",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "трудовой"
+          }
+        ]
       },
       {
-        "content": "аренды",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "аренды"
+          }
+        ]
       },
       {
-        "content": "купли-продажи",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "купли-продажи"
+          }
+        ]
       }
     ]
   }

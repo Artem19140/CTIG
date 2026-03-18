@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DropDownActions from './DropDownActions.vue';
+import DropDownStudentsList from './DropDownStudentsList.vue';
 import { formatterDate, formatterTime } from '../../Helpers/heplers';
 import { router, usePoll } from '@inertiajs/vue3'
 import { useStudentShowModal } from '../../Composables/modalWindows/useStudentShowModal';
@@ -79,7 +79,7 @@ export default {
             <div>{{ formatterDate(exam.data?.beginTime) }}</div>
         </v-card-subtitle>
         <v-card-text>
-            <v-data-table-server
+            <v-data-table
                 :items="students.data"
                 :headers="headers"
                 hover
@@ -88,7 +88,7 @@ export default {
                 @click:row="open"
             >
                 <template  #item.actions="{ item }">
-                    <DropDownActions :student="item" :hasSpeakingTasks="hasSpeakingTasks" />
+                    <DropDownStudentsList :student="item" :hasSpeakingTasks="hasSpeakingTasks" />
                 </template>
                 <template  #item.status="{ item }">
                     {{getAttemptStatus(item.attempts[0]?.status ?? null)}}
@@ -102,7 +102,7 @@ export default {
                 <template  #item.endTime="{ item }">
                     {{item.attempts[0]?.finishedAt ? formatterTime(item.attempts[0]?.finishedAt) : '-'}}
                 </template>
-            </v-data-table-server>
+            </v-data-table>
         </v-card-text>
     </v-card>
 

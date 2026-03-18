@@ -7,8 +7,8 @@ const props = defineProps<{
 
 <template>
     <v-list-item link class="cursor-pointer">
-        <v-list-title :class="color">
+        <v-list-item-title :class="color">
             {{ title }}
-        </v-list-title>
+        </v-list-item-title>
     </v-list-item>
 </template>

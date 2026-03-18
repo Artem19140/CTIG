@@ -15,10 +15,11 @@ class ExamMonitoringController
     public function index(Request $request){
         $user = $request->user();
         
-        $exams = Exam::with('examType')
+        $exams = Exam::with(['examType'])
             ->whereHas('testers', function(Builder $query) use($user){
                 $query->where('tester_id', $user->id);
             })
+            ->withCount('students')
             ->where('is_cancelled', false)
             ->orderBy('id')
             ->paginate();
@@ -43,7 +44,8 @@ class ExamMonitoringController
             'examType',
             'students.attempts' => fn ($query) => $query->where('exam_id', $exam->id)
                                                     ->withCount(['answers' => function ($q){
-                                                        $q->where('answer', '<>', null);
+                                                        $q->where('answer', '<>', null)
+                                                        ->orWhere('answer_id', '<>', null);
                                                     }])
         ]);
         return Inertia::render('ExamMonitoring/ExamMonitoring', [

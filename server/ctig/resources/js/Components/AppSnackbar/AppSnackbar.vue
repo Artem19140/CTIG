@@ -35,11 +35,11 @@ watch(
 
       <template v-slot:actions>
         <v-btn
-          color="blue"
+          color="white"
           variant="text"
           @click="snackbar = false"
         >
-          Close
+          Ok
         </v-btn>
       </template>
     </v-snackbar>

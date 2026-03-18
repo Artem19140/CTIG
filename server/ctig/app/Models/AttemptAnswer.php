@@ -16,7 +16,8 @@ class AttemptAnswer extends Model
         'mark',
         'answer',
         'checked_by_id',
-        'is_checked'
+        'is_checked',
+        'answer_id'
     ];
     
     protected $casts = [

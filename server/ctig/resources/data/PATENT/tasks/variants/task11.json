@@ -1,199 +1,419 @@
 [
   {
-    "content": "Мы приехали в Россию, __________ здесь есть работа.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Мы приехали в Россию, __________ здесь есть работа."
+      }
+    ],
     "fipi_number": "302B7F",
     "answers": [
       {
-        "content": "потому что",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "потому что"
+          }
+        ]
       },
       {
-        "content": "поэтому",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "поэтому"
+          }
+        ]
       },
       {
-        "content": "чтобы",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "чтобы"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Врач спросил меня: «_______________ вы себя чувствуете?»",
+    "content": [
+      {
+        "type": "text",
+        "value": "Врач спросил меня: «_______________ вы себя чувствуете?»"
+      }
+    ],
     "fipi_number": "4B802B",
     "answers": [
       {
-        "content": "Как",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Как"
+          }
+        ]
       },
       {
-        "content": "Какой",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Какой"
+          }
+        ]
       },
       {
-        "content": "Что",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Что"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Вы не можете работать в России, _______________ не получили разрешение на работу.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Вы не можете работать в России, _______________ не получили разрешение на работу."
+      }
+    ],
     "fipi_number": "D9D40E",
     "answers": [
       {
-        "content": "чтобы",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "чтобы"
+          }
+        ]
       },
       {
-        "content": "потому что",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "потому что"
+          }
+        ]
       },
       {
-        "content": "который",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "который"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Скажите, пожалуйста, _________ находится поликлиника?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Скажите, пожалуйста, _________ находится поликлиника?"
+      }
+    ],
     "fipi_number": "A63DB7",
     "answers": [
       {
-        "content": "где",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "где"
+          }
+        ]
       },
       {
-        "content": "как",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "как"
+          }
+        ]
       },
       {
-        "content": "откуда",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "откуда"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Ты смотрел, _____________ завтра будет погода?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Ты смотрел, _____________ завтра будет погода?"
+      }
+    ],
     "fipi_number": "FAE364",
     "answers": [
       {
-        "content": "какая",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "какая"
+          }
+        ]
       },
       {
-        "content": "что",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "что"
+          }
+        ]
       },
       {
-        "content": "чья",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "чья"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Мы не работаем, _______________ сегодня воскресенье.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Мы не работаем, _______________ сегодня воскресенье."
+      }
+    ],
     "fipi_number": "F9D082",
     "answers": [
       {
-        "content": "потому что",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "потому что"
+          }
+        ]
       },
       {
-        "content": "что",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "что"
+          }
+        ]
       },
       {
-        "content": "какое",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "какое"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Мы сегодня много работали, _____________ я хочу спать.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Мы сегодня много работали, _____________ я хочу спать."
+      }
+    ],
     "fipi_number": "8AC4E7",
     "answers": [
       {
-        "content": "поэтому",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "поэтому"
+          }
+        ]
       },
       {
-        "content": "что",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "что"
+          }
+        ]
       },
       {
-        "content": "потому что",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "потому что"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Она спросила, __________ стоит билет на автобус.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Она спросила, __________ стоит билет на автобус."
+      }
+    ],
     "fipi_number": "B5482F",
     "answers": [
       {
-        "content": "сколько",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "сколько"
+          }
+        ]
       },
       {
-        "content": "какой",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "какой"
+          }
+        ]
       },
       {
-        "content": "что",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "что"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Напишите в анкете, ______________ Вы живёте в настоящее время.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Напишите в анкете, ______________ Вы живёте в настоящее время."
+      }
+    ],
     "fipi_number": "35A915",
     "answers": [
       {
-        "content": "где",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "где"
+          }
+        ]
       },
       {
-        "content": "откуда",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "откуда"
+          }
+        ]
       },
       {
-        "content": "что",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "что"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Извините, я не понял, ______________ надо идти.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Извините, я не понял, ______________ надо идти."
+      }
+    ],
     "fipi_number": "733BCD",
     "answers": [
       {
-        "content": "куда",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "куда"
+          }
+        ]
       },
       {
-        "content": "где",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "где"
+          }
+        ]
       },
       {
-        "content": "кто",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "кто"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Он спросил, ____________ называется эта улица.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Он спросил, ____________ называется эта улица."
+      }
+    ],
     "fipi_number": "52101E",
     "answers": [
       {
-        "content": "что",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "что"
+          }
+        ]
       },
       {
-        "content": "как",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "как"
+          }
+        ]
       },
       {
-        "content": "какая",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "какая"
+          }
+        ]
       }
     ]
   }

@@ -1,199 +1,419 @@
 [
   {
-    "content": "Сегодня суббота, а мама приехала вчера, _____________________.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Сегодня суббота, а мама приехала вчера, _____________________."
+      }
+    ],
     "fipi_number": "ACA631",
     "answers": [
       {
-        "content": "в среду",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в среду"
+          }
+        ]
       },
       {
-        "content": "в пятницу",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в пятницу"
+          }
+        ]
       },
       {
-        "content": "во вторник",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "во вторник"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "В магазине «Мебель» я купил _______________.",
+    "content": [
+      {
+        "type": "text",
+        "value": "В магазине «Мебель» я купил _______________."
+      }
+    ],
     "fipi_number": "C529EC",
     "answers": [
       {
-        "content": "хлеб",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "хлеб"
+          }
+        ]
       },
       {
-        "content": "брюки",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "брюки"
+          }
+        ]
       },
       {
-        "content": "стол",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "стол"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "А.С. Пушкин родился летом, _______________.",
+    "content": [
+      {
+        "type": "text",
+        "value": "А.С. Пушкин родился летом, _______________."
+      }
+    ],
     "fipi_number": "5820ED",
     "answers": [
       {
-        "content": "6 июня",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "6 июня"
+          }
+        ]
       },
       {
-        "content": "6 сентября",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "6 сентября"
+          }
+        ]
       },
       {
-        "content": "6 января",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "6 января"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "– Станция метро находится здесь?\n– Нет, ___________________.",
+    "content": [
+      {
+        "type": "text",
+        "value": "– Станция метро находится здесь?\n– Нет, ___________________."
+      }
+    ],
     "fipi_number": "CA0085",
     "answers": [
       {
-        "content": "там",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "там"
+          }
+        ]
       },
       {
-        "content": "оттуда",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "оттуда"
+          }
+        ]
       },
       {
-        "content": "куда",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "куда"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "В магазине «Фрукты и овощи» я купил _____________.",
+    "content": [
+      {
+        "type": "text",
+        "value": "В магазине «Фрукты и овощи» я купил _____________."
+      }
+    ],
     "fipi_number": "EEE465",
     "answers": [
       {
-        "content": "конфеты",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "конфеты"
+          }
+        ]
       },
       {
-        "content": "яблоки",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "яблоки"
+          }
+        ]
       },
       {
-        "content": "молоко",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "молоко"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Я _______________ свой велосипед другу.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Я _______________ свой велосипед другу."
+      }
+    ],
     "fipi_number": "4C108F",
     "answers": [
       {
-        "content": "дал",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "дал"
+          }
+        ]
       },
       {
-        "content": "сделал",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "сделал"
+          }
+        ]
       },
       {
-        "content": "взял",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "взял"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Сегодня четверг, завтра будет _______________.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Сегодня четверг, завтра будет _______________."
+      }
+    ],
     "fipi_number": "A9FAFF",
     "answers": [
       {
-        "content": "среда",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "среда"
+          }
+        ]
       },
       {
-        "content": "вторник",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "вторник"
+          }
+        ]
       },
       {
-        "content": "пятница",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "пятница"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Она очень хорошо говорит __________.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Она очень хорошо говорит __________."
+      }
+    ],
     "fipi_number": "1B9F8C",
     "answers": [
       {
-        "content": "по-русски",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "по-русски"
+          }
+        ]
       },
       {
-        "content": "русский",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "русский"
+          }
+        ]
       },
       {
-        "content": "русский язык",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "русский язык"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "По вечерам я люблю ______________ по телевизору футбол.",
+    "content": [
+      {
+        "type": "text",
+        "value": "По вечерам я люблю ______________ по телевизору футбол."
+      }
+    ],
     "fipi_number": "CE4ED0",
     "answers": [
       {
-        "content": "читать",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "читать"
+          }
+        ]
       },
       {
-        "content": "смотреть",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "смотреть"
+          }
+        ]
       },
       {
-        "content": "слушать",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "слушать"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "В магазине «Техника» вы можете купить ______________ .",
+    "content": [
+      {
+        "type": "text",
+        "value": "В магазине «Техника» вы можете купить ______________ ."
+      }
+    ],
     "fipi_number": "526FB9",
     "answers": [
       {
-        "content": "телефон",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "телефон"
+          }
+        ]
       },
       {
-        "content": "мебель",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "мебель"
+          }
+        ]
       },
       {
-        "content": "книги",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "книги"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Что ты _____________ в субботу и в воскресенье?",
+    "content": [
+      {
+        "type": "text",
+        "value": "Что ты _____________ в субботу и в воскресенье?"
+      }
+    ],
     "fipi_number": "6863E8",
     "answers": [
       {
-        "content": "делаешь",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "делаешь"
+          }
+        ]
       },
       {
-        "content": "отдыхаешь",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "отдыхаешь"
+          }
+        ]
       },
       {
-        "content": "занимаешься",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "занимаешься"
+          }
+        ]
       }
     ]
   }

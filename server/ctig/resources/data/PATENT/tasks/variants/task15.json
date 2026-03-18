@@ -1,199 +1,419 @@
 [
   {
-    "content": "Содружество Независимых Государств (СНГ) было образовано после",
+    "content": [
+      {
+        "type": "text",
+        "value": "Содружество Независимых Государств (СНГ) было образовано после"
+      }
+    ],
     "fipi_number": "1E9E90",
     "answers": [
       {
-        "content": "распада СССР в 1991 г.",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "распада СССР в 1991 г."
+          }
+        ]
       },
       {
-        "content": "Великой Отечественной войны в 1941–1945 гг.",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Великой Отечественной войны в 1941–1945 гг."
+          }
+        ]
       },
       {
-        "content": "Великой российской революции 1917–1922 гг.",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Великой российской революции 1917–1922 гг."
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Прославленный полководец Великой Отечественной войны – ___________.",
+    "content": [
+      {
+        "type": "text",
+        "value": "Прославленный полководец Великой Отечественной войны – ___________."
+      }
+    ],
     "fipi_number": "2CD978",
     "answers": [
       {
-        "content": "А.В. Суворов",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "А.В. Суворов"
+          }
+        ]
       },
       {
-        "content": "Г.К. Жуков",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Г.К. Жуков"
+          }
+        ]
       },
       {
-        "content": "Ю.А. Гагарин",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Ю.А. Гагарин"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Содружество Независимых Государств (СНГ) было создано",
+    "content": [
+      {
+        "type": "text",
+        "value": "Содружество Независимых Государств (СНГ) было создано"
+      }
+    ],
     "fipi_number": "99C690",
     "answers": [
       {
-        "content": "в 1612 г.",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1612 г."
+          }
+        ]
       },
       {
-        "content": "в 1941 г.",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1941 г."
+          }
+        ]
       },
       {
-        "content": "в 1991 г.",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1991 г."
+          }
+        ]
       }
     ]
   },
   {
-    "content": "В создании Содружества Независимых Государств (СНГ) участвовал",
+    "content": [
+      {
+        "type": "text",
+        "value": "В создании Содружества Независимых Государств (СНГ) участвовал"
+      }
+    ],
     "fipi_number": "0FB39E",
     "answers": [
       {
-        "content": "Иван Грозный",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Иван Грозный"
+          }
+        ]
       },
       {
-        "content": "Борис Ельцин",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Борис Ельцин"
+          }
+        ]
       },
       {
-        "content": "Дмитрий Пожарский",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Дмитрий Пожарский"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "В 1961 г. совершил полёт в космос",
+    "content": [
+      {
+        "type": "text",
+        "value": "В 1961 г. совершил полёт в космос"
+      }
+    ],
     "fipi_number": "41E6E7",
     "answers": [
       {
-        "content": "Ю.А. Гагарин",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Ю.А. Гагарин"
+          }
+        ]
       },
       {
-        "content": "Б.Н. Ельцин",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Б.Н. Ельцин"
+          }
+        ]
       },
       {
-        "content": "Г.К. Жуков",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Г.К. Жуков"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "В 1945 г. советские войска взяли",
+    "content": [
+      {
+        "type": "text",
+        "value": "В 1945 г. советские войска взяли"
+      }
+    ],
     "fipi_number": "9986B1",
     "answers": [
       {
-        "content": "Берлин",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Берлин"
+          }
+        ]
       },
       {
-        "content": "Париж",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Париж"
+          }
+        ]
       },
       {
-        "content": "Мадрид",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Мадрид"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "В 1941 г. на СССР напали войска",
+    "content": [
+      {
+        "type": "text",
+        "value": "В 1941 г. на СССР напали войска"
+      }
+    ],
     "fipi_number": "EB1176",
     "answers": [
       {
-        "content": "Германии",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Германии"
+          }
+        ]
       },
       {
-        "content": "Франции",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Франции"
+          }
+        ]
       },
       {
-        "content": "Японии",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Японии"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Г.К. Жуков–это",
+    "content": [
+      {
+        "type": "text",
+        "value": "Г.К. Жуков–это"
+      }
+    ],
     "fipi_number": "03A1B7",
     "answers": [
       {
-        "content": "военачальник",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "военачальник"
+          }
+        ]
       },
       {
-        "content": "поэт",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "поэт"
+          }
+        ]
       },
       {
-        "content": "музыкант",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "музыкант"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Ю.А. Гагарин – это",
+    "content": [
+      {
+        "type": "text",
+        "value": "Ю.А. Гагарин – это"
+      }
+    ],
     "fipi_number": "CECF31",
     "answers": [
       {
-        "content": "первый космонавт",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "первый космонавт"
+          }
+        ]
       },
       {
-        "content": "первый Президент России",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "первый Президент России"
+          }
+        ]
       },
       {
-        "content": "военачальник",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "военачальник"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "В 2014 г. в состав России вошёл",
+    "content": [
+      {
+        "type": "text",
+        "value": "В 2014 г. в состав России вошёл"
+      }
+    ],
     "fipi_number": "EFC417",
     "answers": [
       {
-        "content": "Крым",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Крым"
+          }
+        ]
       },
       {
-        "content": "Сахалин",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Сахалин"
+          }
+        ]
       },
       {
-        "content": "Кипр",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Кипр"
+          }
+        ]
       }
     ]
   },
   {
-    "content": "Конституция России была принята",
+    "content": [
+      {
+        "type": "text",
+        "value": "Конституция России была принята"
+      }
+    ],
     "fipi_number": "7A147A",
     "answers": [
       {
-        "content": "в 1812 г.",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1812 г."
+          }
+        ]
       },
       {
-        "content": "в 1941 г.",
-        "is_correct": false
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1941 г."
+          }
+        ]
       },
       {
-        "content": "в 1993 г.",
-        "is_correct": true
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1993 г."
+          }
+        ]
       }
     ]
   }

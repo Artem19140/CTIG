@@ -2,25 +2,17 @@
 import { ref } from 'vue';
 import FrdoModal from './FrdoModal.vue';
 import AppListDropDownItem from '../../../Components/AppListDropDownItem/AppListDropDownItem.vue';
+import ThreeDotDropdown from '../../../Components/ThreeDotDropdown/ThreeDotDropdown.vue';
 
 const isFrdoModalOpen = ref<boolean>(false)
 
 </script>
 
 <template>
-    <v-menu>  
-        <template v-slot:activator="{ props }">
-            <v-btn icon v-bind="props" variant="text">
-                <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn>
-        </template>
-            
-        <v-list>
+    <ThreeDotDropdown>
             <AppListDropDownItem title="Скачать отчет ФИС ФРДО" @click="isFrdoModalOpen = true" />
             <AppListDropDownItem title="Скачать плоскую таблицу"/>
-        </v-list>
-        
-    </v-menu>
+    </ThreeDotDropdown>
 
     <FrdoModal v-model="isFrdoModalOpen"/>
 </template>

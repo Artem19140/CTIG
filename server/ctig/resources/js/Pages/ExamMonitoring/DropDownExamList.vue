@@ -3,6 +3,7 @@ import AppListDropDownItem from '../../Components/AppListDropDownItem/AppListDro
 import { modalState } from '../../Composables/modalState';
 import { Exam } from '../../interfaces/interfaces';
 import { useAlert } from '../../Composables/useAlert';
+import ThreeDotDropdown from '../../Components/ThreeDotDropdown/ThreeDotDropdown.vue';
 
 const props = defineProps<{
     exam: Exam
@@ -32,18 +33,8 @@ const formCodes = async () => {
 </script>
 
 <template>
-    <v-menu>
-        <template v-slot:activator="{ props }">
-            <v-btn icon
-                variant="text"
-                v-bind="props"
-            >
-                <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn>
-        </template>
-        <v-list>
-            <AppListDropDownItem title="Скачать список" @click="downloadStudentsList"/>
-            <AppListDropDownItem title="Скачать коды" @click="formCodes" />
-        </v-list>
-    </v-menu>
+    <ThreeDotDropdown>
+        <AppListDropDownItem title="Скачать список" @click="downloadStudentsList"/>
+        <AppListDropDownItem title="Скачать коды" @click="formCodes" />
+    </ThreeDotDropdown>
 </template>

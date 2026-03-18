@@ -2,6 +2,8 @@
 import axios from 'axios';
 import { modalState } from '../../../../Composables/modalState'
 import { useConfirmDialog } from '../../../../Composables/useConfirmDialog';
+import ThreeDotDropdown from '../../../../Components/ThreeDotDropdown/ThreeDotDropdown.vue';
+import AppListDropDownItem from '../../../../Components/AppListDropDownItem/AppListDropDownItem.vue';
 
 
 const props = defineProps<{
@@ -49,39 +51,21 @@ const cancell = async (studentId :number) => {
         @click:row="studentShowModal"
     >
         <template #item.actions="{item}">
-            <v-menu
-                    @click.stop
-                    location="bottom end"
-                >
-                <template v-slot:activator="{ props }">
-                    <v-btn
-                        icon
-                        v-bind="props"
-                        variant="text"
-                    >
-                        <v-icon>mdi-dots-vertical</v-icon>
-                    </v-btn>
-                </template>
-                <v-list>
-                    <v-list-item link @click="download(item.id)">
-                        <v-list-title>
-                            Скачать заявление
-                        </v-list-title>
-                    </v-list-item>
-
-                    <v-list-item link @click="transfer">
-                        <v-list-title>
-                            Перенести
-                        </v-list-title>
-                    </v-list-item>
-
-                    <v-list-item link @click="cancell(item.id)">
-                        <v-list-title color="red">
-                            Отменить запись
-                        </v-list-title>
-                    </v-list-item>
-                </v-list>
-            </v-menu>
+            <ThreeDotDropdown>
+                <AppListDropDownItem 
+                    title="Скачать заявление" 
+                    @click="download(item.id)"
+                />
+                <AppListDropDownItem 
+                    title="Перенести запись" 
+                    @click="transfer"
+                />
+                <AppListDropDownItem 
+                    title="Отменить запись" 
+                    @click="cancell(item.id)"
+                    color="text-red"
+                />
+            </ThreeDotDropdown>
         </template>
     </v-data-table>
 </template>

@@ -4,6 +4,7 @@
     import ExamCreateModal from './ExamCreateModal.vue';
     import type { Exam, Paginated } from '../../../interfaces/interfaces';
     import BaseServerTable from '../../../Components/BaseServerTable.vue';
+import ExamTableDropDown from './ExamTableDropDown.vue';
 
    const props = defineProps<{
         exams: Paginated<Exam>
@@ -36,6 +37,7 @@
         </template>
         <template #toolbar-actions>
             <ExamCreateModal />
+            <ExamTableDropDown />
         </template>
         <template #item.beginTime="{item}">
             {{ formatterDate(item.beginTime) }} {{ formatterTime(item.beginTime) }}

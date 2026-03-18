@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppInput from '../../../Components/UI/AppInput/AppInput.vue';
+import AppInput from '../../../Components/AppInput/AppInput.vue';
 const props = defineProps<{
     organization : any | null
 }>()

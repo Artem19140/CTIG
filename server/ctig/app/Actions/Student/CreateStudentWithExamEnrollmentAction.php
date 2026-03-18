@@ -18,12 +18,12 @@ class CreateStudentWithExamEnrollmentAction{
         if(!$exam){
             throw new EntityNotFoundExсeption('Экзамен');
         }
-        return DB::transaction(function () use($studentData, $user, $exam) {
+        $student = DB::transaction(function () use($studentData, $user, $exam) {
             $student = $this->storeStudent->execute($studentData, $user->id);
             $this->createEnrollment->execute($exam, $student->id, $user);
             return $student;
         });//Удалить файлы загруженные при исключении?
-        
+        return $student;
 
     }
 }

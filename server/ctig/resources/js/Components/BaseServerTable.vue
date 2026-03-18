@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Paginated } from '../../interfaces/interfaces';
+import { Paginated } from '../interfaces/interfaces';
 import { router } from '@inertiajs/vue3';
 
     const props = defineProps<{

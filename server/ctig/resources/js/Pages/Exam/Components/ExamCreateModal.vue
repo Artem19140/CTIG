@@ -2,12 +2,12 @@
 import { useForm } from '@inertiajs/vue3'
 import axios from 'axios';
 import { ref } from 'vue';
-import AppInput from '../../../Components/UI/AppInput/AppInput.vue';
-import BaseDialog from '../../../Components/UI/BaseDialog/BaseDialog.vue';
+import AppInput from '../../../Components/AppInput/AppInput.vue';
+import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
 import { Address, User, ExamType } from '../../../interfaces/interfaces';
 import { ExamForm } from '../../../interfaces/interfaces';
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
-import AddButton from '../../../Components/UI/AddButton/AddButton.vue';
+import AddButton from '../../../Components/AddButton/AddButton.vue';
 
 const addresses = ref<Address[]>()
 const testers = ref<User[]>()
@@ -123,13 +123,12 @@ const close = async (fn:  ()  => void) => {
             ></v-textarea>
         </form>
         <template #actions="{ close }" >
-            <v-btn
+            <AddButton  
                 text="Добавить"
-                variant="flat"
-                color="green"
                 @click="create"
-            ></v-btn>
-            
+                :disabled="form.processing"
+                :loading="form.processing"
+            />
             <v-btn
                 text="Отменить"
                 @click="close"

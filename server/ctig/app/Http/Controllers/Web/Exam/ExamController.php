@@ -8,6 +8,7 @@ use App\Actions\Exam\CreateCodesAction;
 use App\Actions\Exam\GetAvailableExamsAction;
 use App\Actions\Exam\GetExamListAction;
 use App\Actions\Exam\VerifyExamCodeAction;
+use App\Exceptions\BusinessException;
 use App\Http\Requests\Exam\ExamIndexRequest;
 use App\Http\Resources\Address\AddressResource;
 use App\Http\Resources\ExamType\ExamTypeResource;
@@ -59,8 +60,10 @@ class ExamController
     }
 
     public function update(ExamPostRequest $request, Exam $exam)
-    {
-        
+    {   
+        if($exam->students()->count() > 0){
+            throw new BusinessException('Нельзя редактировать экзамен, на который уже записаны студенты');
+        }
     }
 
     public function verifyCode(

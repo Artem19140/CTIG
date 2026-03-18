@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import FrdoModal from './FrdoModal.vue';
-import AppListDropDownItem from '../../../Components/UI/AppListDropDownItem/AppListDropDownItem.vue';
+import AppListDropDownItem from '../../../Components/AppListDropDownItem/AppListDropDownItem.vue';
 
 const isFrdoModalOpen = ref<boolean>(false)
 

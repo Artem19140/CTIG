@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
 
             $table->string('key');
-            $table->unsignedSmallInteger('value')->default(0);
+            $table->unsignedInteger('value')->default(0);
 
-            // $table->foreignId('organization_id')
-            //     ->constrained('organizations')
-            //     ->cascadeOnDelete();
+            $table->foreignId('organization_id')
+                ->constrained('organizations')
+                ->cascadeOnDelete();
 
             $table->timestamps();
         });

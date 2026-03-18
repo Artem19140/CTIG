@@ -21,12 +21,16 @@ class PatentSeeder extends Seeder
         $exam = ExamType::firstOrCreate(
         ['level' => 1],
             [
-                        'name' => "Разрешение на работу (патент)",
-                        'short_name' => 'ПАТЕНТ',
-                        'cost' => 3800,
-                        'duration' => 80,
-                        'certificate_name'=>'Сертификат о владении русским языком, знании истории России и основ законодательства Российской Федерации на уровне, соответствующем цели получения разрешения на работу или патента'
-                    ]);
+                'name' => "Разрешение на работу (патент)",
+                'need_human_check' => false,
+                'tasks_count' => 22,
+                'short_name' => 'ПАТЕНТ',
+                'cost' => 3800,
+                'duration' => 80,
+                'min_mark' => 11,
+                'has_speaking_tasks' => false,
+                'certificate_name'=>'Сертификат о владении русским языком, знании истории России и основ законодательства Российской Федерации на уровне, соответствующем цели получения разрешения на работу или патента'
+            ]);
         $orderTask = 1;
         $orderBlock = 1;
         foreach($this->examBlocks() as $block){

@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import AppInput from '../../../Components/UI/AppInput/AppInput.vue';
+import AppInput from '../../../Components/AppInput/AppInput.vue';
 import { ref, watch } from 'vue';
-import BaseDialog from '../../../Components/UI/BaseDialog/BaseDialog.vue';
+import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
 import axios from 'axios';
 import type {Exam, StudentCreateForm } from '../../../interfaces/interfaces';
 import { formatterTime,formatterDate } from '../../../Helpers/heplers';
 import { modalState } from '../../../Composables/modalState';
 import countries from '../../../../../../ctig/storage/app/public/countries.json'
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
-import AddButton from '../../../Components/UI/AddButton/AddButton.vue';
+import AddButton from '../../../Components/AddButton/AddButton.vue';
 
 const isActive = ref<boolean>(false)
 const examTypeId = ref<number | null>(null)
@@ -421,15 +421,11 @@ watch(examTypeId, async () => {
                 </v-card>
                   
             <template #actions="{close}">
-                    <v-btn
+                    <AddButton text="Добавить" 
                         :disabled="form.processing"
                         :loading="form.processing"
                         @click="create"
-                        color="green"
-                        variant="flat"
-                    >
-                        Добавить
-                    </v-btn>
+                    />
                     <v-btn
                         @click="close"
                     >

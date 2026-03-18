@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import BaseDialog from '../../Components/UI/BaseDialog/BaseDialog.vue';
+import BaseDialog from '../../Components/BaseDialog/BaseDialog.vue';
 import { useAttemptCheckingModal } from '../../Composables/modalWindows/useAttemptCheckingModal';
-import SingleChoiceTask from '../Attempt/Components/SingleChoiceTask.vue';
+import SingleChoiceTask from '../Attempt/Components/tasks/SingleChoiceTask.vue';
 
 const {isOpen, close, tasks, loading, attemptId} = useAttemptCheckingModal()
 

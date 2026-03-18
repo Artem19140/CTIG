@@ -13,11 +13,15 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('short_name');
-            $table->unsignedTinyInteger('level'); //У экзамена еще, оказывается, есть уровень
+            $table->unsignedTinyInteger('level'); 
             $table->unsignedSmallInteger('duration');
             $table->string('certificate_name');
             $table->boolean('is_active')->default(true);
             $table->unsignedInteger('cost');
+            $table->unsignedTinyInteger('tasks_count');
+            $table->unsignedTinyInteger('min_mark');
+            $table->boolean('need_human_check');
+            $table->boolean('has_speaking_tasks');
             $table->timestamps();
         });
      

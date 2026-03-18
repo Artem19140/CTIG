@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Dropdown from './Dropdown.vue';
-import BaseServerTable from '../../Components/UI/BaseServerTable.vue';
+import BaseServerTable from '../../Components/BaseServerTable.vue';
 import EmployeeCreateModal from './EmployeeCreateModal.vue';
 
 const props = defineProps<{

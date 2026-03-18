@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppListDropDownItem from '../../Components/UI/AppListDropDownItem/AppListDropDownItem.vue';
+import AppListDropDownItem from '../../Components/AppListDropDownItem/AppListDropDownItem.vue';
 import { router } from '@inertiajs/vue3';
 import { useConfirmDialog } from '../../Composables/useConfirmDialog';
 

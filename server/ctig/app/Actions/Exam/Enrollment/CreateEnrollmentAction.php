@@ -2,6 +2,7 @@
 
 namespace App\Actions\Exam\Enrollment;
 
+use App\Actions\Counter\GetRegNumberAction;
 use App\Exceptions\EntityNotFoundExсeption;
 use App\Models\Exam;
 use App\Models\Student;
@@ -12,7 +13,8 @@ use App\Actions\Student\CreateStudentStatementAction;
 
 final class CreateEnrollmentAction{
     public function __construct(
-        protected CreateStudentStatementAction $createStudentStatement
+        protected CreateStudentStatementAction $createStudentStatement,
+        protected GetRegNumberAction $getRegNumber
     ){}
     public function execute(Exam $exam, int $studentId, User $user){
         $student = Student::find($studentId);
@@ -53,9 +55,9 @@ final class CreateEnrollmentAction{
         if($studentExamsConflict){
             throw new BusinessException('На это время у студента уже существует запись');
         }
-
+        $regNumber = $this->getRegNumber->execute();
         $exam->students()->attach($student, [
-            'reg_number' => 124532, 
+            'reg_number' =>$regNumber, 
             'creator_id' => $user->id,
             'organization_id' => $user->organization_id
         ]);

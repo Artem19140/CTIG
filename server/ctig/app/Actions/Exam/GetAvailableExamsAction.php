@@ -13,6 +13,9 @@ class GetAvailableExamsAction{ //По студенту еще ты поиск
                     })
                     ->where('is_cancelled', false)
                     ->where('begin_time', '>', now())
+                    // ->whereHas('students',function(Builder $query,){
+                        
+                    // })
                     ->orderBy('begin_time') 
                     ->limit(10)
                     ->get();

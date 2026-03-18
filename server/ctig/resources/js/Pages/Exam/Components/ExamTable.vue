@@ -3,7 +3,7 @@
     import { useExamShowModal } from '../../../Composables/modalWindows/useExamShowModal';
     import ExamCreateModal from './ExamCreateModal.vue';
     import type { Exam, Paginated } from '../../../interfaces/interfaces';
-    import BaseServerTable from '../../../Components/UI/BaseServerTable.vue';
+    import BaseServerTable from '../../../Components/BaseServerTable.vue';
 
    const props = defineProps<{
         exams: Paginated<Exam>

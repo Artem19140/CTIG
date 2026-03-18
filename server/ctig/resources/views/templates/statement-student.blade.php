@@ -61,8 +61,8 @@
                     <td style="white-space:nowrap;" class="no-border-td">Регистрационный номер:</td>
                     <td class="data no-border-td" style="width: 100%;">
                         <span style="display:inline-block; width:80%; border-bottom:1px solid black;">
-                            {{-- {{ $reg_number }} --}}
-                            добавить
+                            {{ $reg_number ?? '-'}} 
+                            
                         </span>
                     </td>
                 </tr>

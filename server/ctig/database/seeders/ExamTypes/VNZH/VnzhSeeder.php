@@ -17,13 +17,17 @@ class VnzhSeeder extends Seeder
         $exam = ExamType::firstOrCreate(
             ['level' => 3],
             [
-            'name' => "Вид на жительство",
-            'short_name' => 'ВНЖ',
-            'duration' => 90,
-            'level' => 3,
-            'cost' => 5900,
-            'certificate_name'=>'нету'
-        ]);
+                'name' => "Вид на жительство",
+                'short_name' => 'ВНЖ',
+                'need_human_check' => true,
+                'tasks_count' => 38,
+                'min_mark' => 21,
+                'duration' => 90,
+                'level' => 3,
+                'cost' => 5900,
+                'has_speaking_tasks' => true,
+                'certificate_name'=>'нету'
+            ]);
 
         $russianBlock = Block::create([
             'name' => 'РУССКИЙ ЯЗЫК КАК ИНОСТРАННЫЙ',

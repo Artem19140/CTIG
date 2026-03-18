@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useConfirmDialog } from '../../../Composables/useConfirmDialog';
+import { useConfirmDialog } from '../../Composables/useConfirmDialog';
 
 const {isOpen, message, confirmOk, confirmClose} = useConfirmDialog()
 </script>

@@ -22,13 +22,17 @@ class RvpSeeder extends Seeder
         $exam = ExamType::firstOrCreate(
             ['level' => 2],
             [
-                        'name' => "Разрешение на временное проживание в РФ",
-                        'short_name' => 'РВП',
-                        'duration' => 90,
-                        'level' => 2,
-                        'cost' => 5900,
-                        'certificate_name'=>'нету'
-                    ]);
+                'name' => "Разрешение на временное проживание в РФ",
+                'short_name' => 'РВП',
+                'need_human_check' => true,
+                'tasks_count' => 34,
+                'duration' => 90,
+                'level' => 2,
+                'cost' => 5900,
+                'min_mark' => 19,
+                'has_speaking_tasks' => true,
+                'certificate_name'=>'нету'
+            ]);
         $orderTask = 1;
         $orderBlock = 1;
         foreach($this->examBlocks() as $block){

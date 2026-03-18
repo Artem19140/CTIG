@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import axios from 'axios';
-import AppListDropDownItem from '../../Components/UI/AppListDropDownItem/AppListDropDownItem.vue';
+import AppListDropDownItem from '../../Components/AppListDropDownItem/AppListDropDownItem.vue';
 import { usePromptDialog } from '../../Composables/usePromptDialog';
 
 const props = defineProps<{
-    student:any
+    student:any, 
+    hasSpeakingTasks : boolean
 }>()
 
 
@@ -15,6 +16,10 @@ const ban = async () => {
         return
     }
     axios.put(`/attempts/${props.student?.attempts[0]?.id}/ban`, {banReason : res})
+}
+
+const getSpeakingTasks = () => {
+    alert('Тут будет устная часть')
 }
 </script>
 
@@ -30,6 +35,7 @@ const ban = async () => {
         </template>
         <v-list>
             <AppListDropDownItem title="Снять с экзамена" @click="ban"/>
+            <AppListDropDownItem title="Устная часть" @click="getSpeakingTasks" v-if="hasSpeakingTasks" />
         </v-list>
     </v-menu>
 </template>

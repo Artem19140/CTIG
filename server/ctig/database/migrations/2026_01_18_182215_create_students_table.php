@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('issued_by', 50);
             $table->date('issued_date');
             $table->string('address_reg', 50);
-            $table->string('migration_card_requisite', 40);
+            $table->string('migration_card_requisite', 40)->nullable()->default(null);
             $table->char('citizenship', 2);
             $table->string('phone', 12);
             $table->char('gender', 1);

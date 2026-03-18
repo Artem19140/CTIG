@@ -15,7 +15,9 @@ export interface Exam{
     attempts: Array<Attempt> | null,
     isCancelled:boolean,
     date:string,
-    isPast:boolean
+    isPast:boolean,
+    students:Array<Student>,
+    hasSpeakingTasks:boolean
 }
 
 export interface User{

@@ -1,10 +1,9 @@
 <script setup lang="ts">
     import { formatterDate } from '../../../Helpers/heplers';
-    import AppPaginator from '../../../Components/UI/AppPaginator/AppPaginator.vue';
     import { useStudentShowModal } from '../../../Composables/modalWindows/useStudentShowModal';
     import StudentCreateModal from './StudentCreateModal.vue';
     import type { Student, Paginated } from '../../../interfaces/interfaces';
-    import BaseServerTable from '../../../Components/UI/BaseServerTable.vue';
+    import BaseServerTable from '../../../Components/BaseServerTable.vue';
 
     function studentShowModal(item : any) {
         const {open} = useStudentShowModal()

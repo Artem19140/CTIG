@@ -1,10 +1,13 @@
 export const formatterDate = (date:string) => {
-    return new Date(date).toLocaleDateString('ru-RU')
+  if(!date){
+      return '-'
+  }
+  return new Date(date).toLocaleDateString('ru-RU')
 }
 
 export const formatterTime = (date:string) :string => {
     if(!date){
-        return 'не установлено'
+      return '-'
     }
     return new Date(date).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
 }

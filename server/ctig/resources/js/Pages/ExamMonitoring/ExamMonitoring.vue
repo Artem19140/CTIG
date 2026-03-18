@@ -7,7 +7,8 @@ import { useStudentShowModal } from '../../Composables/modalWindows/useStudentSh
 const props = defineProps<{
     students:any,
     exam:any,
-    tasksCount:number
+    tasksCount:number,
+    hasSpeakingTasks:boolean
 }>()
 
 usePoll(4000, {
@@ -16,7 +17,7 @@ usePoll(4000, {
 
 const headers = [
     {title:'ФИО', key:"fullName",sortable: false},
-    {title:'Пасспорт', key:"fullPassport",sortable: false},
+    {title:'Паспорт', key:"fullPassport",sortable: false},
     {title:'Решенные', key:"solved",sortable: false, align:'center'},
     {title:'Попытка', key:"status",sortable: false},
     {
@@ -87,7 +88,7 @@ export default {
                 @click:row="open"
             >
                 <template  #item.actions="{ item }">
-                    <DropDownActions :student="item" />
+                    <DropDownActions :student="item" :hasSpeakingTasks="hasSpeakingTasks" />
                 </template>
                 <template  #item.status="{ item }">
                     {{getAttemptStatus(item.attempts[0]?.status ?? null)}}
@@ -96,7 +97,7 @@ export default {
                     {{item.attempts[0]?.solved ?? '-'}}/ {{ props.tasksCount }}
                 </template>
                 <template  #item.startTime="{ item }">
-                    {{formatterTime(item.attempts[0]?.startedAt ?? '-')}}
+                    {{formatterTime(item.attempts[0]?.startedAt)}}
                 </template>
                 <template  #item.endTime="{ item }">
                     {{item.attempts[0]?.finishedAt ? formatterTime(item.attempts[0]?.finishedAt) : '-'}}

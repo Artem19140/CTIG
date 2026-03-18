@@ -197,21 +197,13 @@ class AttemptController extends Controller
             return redirect('login')->with('У вас нет текущей попытки экзамена');
         }
         $exam = Exam::with([
-            'examType.blocks.subblocks'
+            'examType'
         ])->find($student->exam_id);
-
-        // $minMark = $exam->examType
-        //     ->blocks
-        //     ->flatMap->subblocks
-        //     ->sum('min_mark');
-        $minMark = $exam->examType
-            ->blocks
-            ->sum('min_mark');
         
         return Inertia::render('BeforeAttempt/BeforeAttempt', [
             'exam' => new ExamResource($exam),
             'duration' => $exam->examType->duration,
-            'minMark' => $minMark,
+            'minMark' => $exam->examType->min_mark,
             'attempt' => $attempt
         ]);
     }

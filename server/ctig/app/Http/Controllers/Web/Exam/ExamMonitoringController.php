@@ -49,7 +49,8 @@ class ExamMonitoringController
         return Inertia::render('ExamMonitoring/ExamMonitoring', [
             'students' => fn () => StudentResource::collection($exam->students),
             'exam' => new ExamResource($exam),
-            //'tasksCount' =>   $exam->examType->tasks_count
+            'hasSpeakingTasks' => $exam->examType->has_speaking_tasks,
+            'tasksCount' =>   $exam->examType->tasks_count
         ]);
     }
 }

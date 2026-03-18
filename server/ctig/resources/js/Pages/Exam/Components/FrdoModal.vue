@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3';
-import AppInput from '../../../Components/UI/AppInput/AppInput.vue';
-import BaseDialog from '../../../Components/UI/BaseDialog/BaseDialog.vue';
+import AppInput from '../../../Components/AppInput/AppInput.vue';
+import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
 import { reactive, ref, watch } from 'vue';
 import axios from 'axios';
 

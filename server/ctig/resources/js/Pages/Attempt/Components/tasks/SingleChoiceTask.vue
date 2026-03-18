@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios'
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
+import BaseTask from './BaseTask.vue';
 
 const props = defineProps<{
     task:any,
@@ -33,27 +34,21 @@ const send = async () => {
 <template>
     <!-- <pre>{{ task }}</pre>
     {{ attemptAnswer }} -->
-    <v-card
+    <base-task
         :subtitle = "`Номер ${task.order}`"
-        width="600"
     >
-        <v-card-text v-if="task.answers?.length">
-            <v-img 
-                v-if="task.file_path"
-                :src="task.file_path"
-            />
-                
-
-            {{ task.content }}
-            
-        </v-card-text>
-
-        <v-card-text>
-            <div class="mb-4">Выберите один вариант ответа</div>
+        <div class="mb-4">Выберите один вариант ответа</div>
             <v-radio-group 
                 v-model="attemptAnswer"
                 @update:modelValue="send"
             >
+                <v-img 
+                    v-if="task.file_path"
+                    :src="task.file_path"
+                />
+                    
+
+                {{ task.content }}
                 <v-radio 
                     v-for="answer in props.task.answers"
                     :label="answer.content" 
@@ -62,6 +57,5 @@ const send = async () => {
                 </v-radio>
             
             </v-radio-group>
-        </v-card-text>
-    </v-card>
+    </base-task>
 </template>

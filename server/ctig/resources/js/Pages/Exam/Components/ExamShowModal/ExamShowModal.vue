@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { formatterDate, formatterTime } from '../../../../Helpers/heplers';
-import BaseDialog from '../../../../Components/UI/BaseDialog/BaseDialog.vue';
+import BaseDialog from '../../../../Components/BaseDialog/BaseDialog.vue';
 import Dropdown from '../ExamShowModal/Dropdown.vue';
 import StudentsTable from './StudentsTable.vue';
 import { useExamShowModal } from '../../../../Composables/modalWindows/useExamShowModal';
@@ -23,7 +23,7 @@ const examTestersList = (testersList :Array<any>) => {
         @before-close="(done) =>  close()"
     >
         <template #titleActions>
-            <Dropdown :exam-id="exam?.id" />
+            <Dropdown :exam="exam" />
         </template>
         <template #skeleton>
              <v-skeleton-loader
@@ -70,7 +70,7 @@ const examTestersList = (testersList :Array<any>) => {
             </v-list>
             <v-list>
                 <v-list-item  v-if="exam?.students?.length">
-                    <StudentsTable :students="exam.students" :exam-id="exam.id" />
+                    <StudentsTable :students="exam.students ?? []" :exam-id="exam.id" />
                 </v-list-item>
                 <v-list-item  v-else class="text-center">
                     <v-list-item-subtitle>Запись пуста</v-list-item-subtitle>

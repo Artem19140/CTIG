@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import axios from 'axios';
 import { modalState } from '../../../../Composables/modalState';
 import { useForm, usePage } from '@inertiajs/vue3'
 import { usePromptDialog } from '../../../../Composables/usePromptDialog';
-import AppListDropDownItem from '../../../../Components/UI/AppListDropDownItem/AppListDropDownItem.vue';
+import AppListDropDownItem from '../../../../Components/AppListDropDownItem/AppListDropDownItem.vue';
+import { Exam } from '../../../../interfaces/interfaces';
 
-const props = defineProps<{examId : number | null | undefined}>()
+const props = defineProps<{exam : Exam}>()
 
 const page = usePage<any>()
 
@@ -15,10 +15,10 @@ const form = useForm({
 
 const formCodes = async () => {
   console.log(1)
-  if(!props.examId){
+  if(!props.exam?.id){
     return
   }
-  modalState.fileUrl = `/exams/${props.examId}/codes`
+  modalState.fileUrl = `/exams/${props.exam?.id}/codes`
 }
 
 const { open } = usePromptDialog()
@@ -28,20 +28,20 @@ const cancellExam = async () => {
     return
   }
   form.cancelledReason = res
-  form.delete(`exams/${props.examId}`,{
+  form.delete(`exams/${props.exam.id}`,{
     onSuccess: () => {close()}
   })
   
 }
 
 const downloadStudList = () => {
-  modalState.fileUrl = `exams/${props.examId}/students/list`
+  modalState.fileUrl = `exams/${props.exam.id}/students/list`
 }
 //Только для тестера!
 </script>
 
 <template>
-  <v-btn-group density="compact" v-if="page?.props.auth.user.name">
+  <v-btn-group density="compact" v-if="!exam?.isCancelled">
     <v-btn
       color="primary"
       variant="flat"
@@ -60,9 +60,9 @@ const downloadStudList = () => {
         <v-list>
           <AppListDropDownItem title="Скачать список" @click="downloadStudList" />
 
-          <AppListDropDownItem title="Скачать ведомость" />
+          <AppListDropDownItem title="Скачать ведомость" v-if="!exam?.isPast" />
 
-          <AppListDropDownItem title="Редактировать" />
+          <AppListDropDownItem title="Редактировать" v-if="!exam?.students?.length" />
 
           <AppListDropDownItem color="text-red" title="Отменить" @click="cancellExam" />
         </v-list>

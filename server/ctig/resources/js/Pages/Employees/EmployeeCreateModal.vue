@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import AddButton from '../../Components/UI/AddButton/AddButton.vue';
-import BaseDialog from '../../Components/UI/BaseDialog/BaseDialog.vue';
-import AppInput from '../../Components/UI/AppInput/AppInput.vue';
+import AddButton from '../../Components/AddButton/AddButton.vue';
+import BaseDialog from '../../Components/BaseDialog/BaseDialog.vue';
+import AppInput from '../../Components/AppInput/AppInput.vue';
 import { useForm } from '@inertiajs/vue3';
 import { useConfirmDialog } from '../../Composables/useConfirmDialog';
 
@@ -88,16 +88,12 @@ const create = () => {
         />
         <template #actions="{ close }">
             <div>
-                <v-btn
-                    color="primary"
-                    variant="flat"
+                <AddButton 
+                    text="Добавить"
                     @click="create"
                     :loading="form.processing"
                     :disabled="form.processing"
-                >
-                    Добавить
-                </v-btn>
-
+                />
                 <v-btn
                     @click="close"
                 >

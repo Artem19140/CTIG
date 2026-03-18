@@ -11,11 +11,17 @@ class ExamType extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'is_active'
+        'is_active',
+        'has_speaking_tasks',
+        'tasks_count',
+        'need_human_check',
+        'min_mark'
     ];
 
     protected $casts = [
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
+        'has_speaking_tasks' => 'boolean',
+        'need_human_check'  => 'boolean'
     ];
     
     public function exams():HasMany{

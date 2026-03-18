@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ref } from "vue";
+import { Exam } from "../../interfaces/interfaces";
 
 const isOpen = ref<boolean>(false)
 const exam = ref()

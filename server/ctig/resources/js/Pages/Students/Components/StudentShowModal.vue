@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { formatterDate } from '../../../Helpers/heplers';
-import BaseDialog from '../../../Components/UI/BaseDialog/BaseDialog.vue';
+import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
 import { modalState } from '../../../Composables/modalState';
 import ExamEnrollmentMenu from '../../Exam/Components/ExamEnrollmentMenu.vue';
 import { useStudentShowModal } from '../../../Composables/modalWindows/useStudentShowModal';

@@ -24,9 +24,9 @@ class StartExamSessionAction{
         return DB::transaction(function () use($student){
             $exam = Exam::with('examType.blocks.subblocks.tasks.variants')
                         ->find($student->exam_id);
-            if(!$exam->isGoing()){
-                throw new BusinessException('Начать попытку можно только во время экзамена');
-            }
+            // if(!$exam->isGoing()){
+            //     throw new BusinessException('Начать попытку можно только во время экзамена');
+            // }
             
             $attempt =  $this->createAttempt($student, $exam->examType->duration, $exam);
 

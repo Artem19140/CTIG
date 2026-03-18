@@ -2,16 +2,18 @@
 import { ref } from 'vue';
 import EmployeeEntry from './Components/EmployeeEntry.vue';
 import StudentEntry from './Components/StudentEntry.vue';
-import AppListDropDownItem from '../../Components/UI/AppListDropDownItem/AppListDropDownItem.vue';
+import AppListDropDownItem from '../../Components/AppListDropDownItem/AppListDropDownItem.vue';
 
 const isStudentEntry = ref<boolean>(true)
 </script>
 
 <template>
-    <v-container width="500">
+    <v-container width="450">
         <v-card>
-            <StudentEntry v-if="isStudentEntry" />
-            <EmployeeEntry v-else  />
+            <v-card-text>
+                <StudentEntry v-if="isStudentEntry" />
+                <EmployeeEntry v-else  />
+            </v-card-text>
         </v-card>
     </v-container>
     

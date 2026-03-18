@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import AppInput from '../../../Components/UI/AppInput/AppInput.vue';
+import AppInput from '../../../Components/AppInput/AppInput.vue';
 import { useForm } from '@inertiajs/vue3'
 
 const form = useForm({
@@ -33,6 +33,7 @@ const show = ref<boolean>(false)
             :error-messages="form.errors.password"
             placeholder="Введите пароль"
         ></v-text-field>
+        <div class="flex justify-center"> 
             <v-btn 
                 size="large" 
                 type="submit" 
@@ -40,5 +41,6 @@ const show = ref<boolean>(false)
                 color="primary"
                 :disabled="!form.email ||  !form.password || form.processing"
             >Войти</v-btn>
+        </div>
     </form>
 </template>

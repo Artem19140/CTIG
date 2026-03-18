@@ -66,13 +66,13 @@
 //background:#f1f5f9;"
 import { router } from '@inertiajs/vue3'
 import { ref } from 'vue'
-import AppSnackbar from '../Components/UI/AppSnackbar/AppSnackbar.vue'
+import AppSnackbar from '../Components/AppSnackbar/AppSnackbar.vue'
 import StudentShowModal from '../Pages/Students/Components/StudentShowModal.vue';
-import DocumentShowDialog from '../Components/UI/DocumentShowDialog/DocumentShowDialog.vue';
+import DocumentShowDialog from '../Components/DocumentShowDialog/DocumentShowDialog.vue';
 import { usePage } from '@inertiajs/vue3';
-import ConfirmDialog from '../Components/UI/ConfirmDialog/ConfirmDialog.vue';
+import ConfirmDialog from '../Components/ConfirmDialog/ConfirmDialog.vue';
 import Alert from '../Components/Alert/Alert.vue';
-import PromptDialog from '../Components/UI/PromptDialog/PromptDialog.vue';
+import PromptDialog from '../Components/PromptDialog/PromptDialog.vue';
 import ExamShowModal from '../Pages/Exam/Components/ExamShowModal/ExamShowModal.vue';
 
 const page = usePage()

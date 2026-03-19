@@ -16,8 +16,8 @@ class ExamMonitoringController
         $user = $request->user();
         
         $exams = Exam::with(['examType'])
-            ->whereHas('testers', function(Builder $query) use($user){
-                $query->where('tester_id', $user->id);
+            ->whereHas('examiners', function(Builder $query) use($user){
+                $query->where('examiner_id', $user->id);
             })
             ->withCount('students')
             ->where('is_cancelled', false)
@@ -32,7 +32,7 @@ class ExamMonitoringController
         //Только свой тестер и только тестер!
         $user = $request->user();
         
-        $canGet = $exam->testers()->where('tester_id', $user->id)->first();
+        $canGet = $exam->examiners()->where('examiner_id', $user->id)->first();
 
         if(!$canGet){
             abort(404);
@@ -43,10 +43,6 @@ class ExamMonitoringController
         $exam->load([
             'examType',
             'students.attempts' => fn ($query) => $query->where('exam_id', $exam->id)
-                                                    ->withCount(['answers' => function ($q){
-                                                        $q->where('answer', '<>', null)
-                                                        ->orWhere('answer_id', '<>', null);
-                                                    }])
         ]);
         return Inertia::render('ExamMonitoring/ExamMonitoring', [
             'students' => fn () => StudentResource::collection($exam->students),

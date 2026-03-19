@@ -19,6 +19,7 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use App\Actions\Attempt\ZeroEmptyAutoCheckAnswersAction;
 
@@ -39,11 +40,7 @@ class AttemptController extends Controller
     }
 
     public function current(Request $request, Attempt $attempt){
-        
         $student = $request->user();
-        if($attempt->student_id !== $student->id){
-            abort(403);
-        }
 
         if($attempt->isExpired() || !$attempt->isActive()){
             $attempt->finish();
@@ -77,10 +74,6 @@ class AttemptController extends Controller
     public function start(Request $request, StartAttemptAction $startAttempt, Attempt $attempt)
     {
         $student = $request->user();
-        if($attempt->student_id != $student->id){
-            abort(403);
-
-        }
         if($attempt->status != AttemptStatus::Pending){
             abort(403);
         }
@@ -142,9 +135,6 @@ class AttemptController extends Controller
                                 Request $request
                            )
     {
-        if($attempt->student_id != $request->user()->id){
-            abort(403);
-        }
         if(!$attempt->isActive()){
             throw new BusinessException('Попытка уже завершена или аннулирована');
         }
@@ -191,7 +181,6 @@ class AttemptController extends Controller
     }
 
     public function toCheck(){
-        //Только свои попытки тестера
         $unCheckedAttempts = Attempt::where('status', AttemptStatus::Finished)->paginate();
 
         return Inertia::render('AttemptsChecking/AttemptsChecking',[

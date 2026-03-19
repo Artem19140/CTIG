@@ -50,8 +50,13 @@ class HandleInertiaRequests extends Middleware
                     $request->user()->only('id', 'surname', 'name', 'patronymic'),
 
                 $request->user() instanceof \App\Models\User =>
-                    $request->user()->only('id', 'surname', 'name', 'email', 'organization_id'),
-
+                    array_merge(
+                        $request->user()->only('id', 'surname', 'name', 'email', 'organization_id', 'job_title', 'is_admin'),
+                        [
+                            'roles' => $request->user()->roles->pluck('name'),
+                        ]
+                    ),
+                    
                 default => null,
             }
             : null,

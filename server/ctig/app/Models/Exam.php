@@ -46,8 +46,8 @@ class Exam extends Model
         return $this->belongsTo(User::class, 'creator_id');
     }
 
-    public function testers():BelongsToMany{
-        return $this->belongsToMany(User::class, 'exam_tester','exam_id', 'tester_id');
+    public function examiners():BelongsToMany{
+        return $this->belongsToMany(User::class, 'exam_examiner','exam_id', 'examiner_id');
     }
 
     public function students():BelongsToMany{

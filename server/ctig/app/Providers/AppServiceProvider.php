@@ -2,11 +2,15 @@
 
 namespace App\Providers;
 
+use App\Models\Attempt;
+use App\Models\Student;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Auth\Access\Response;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +27,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Gate::define('attempt-access', function (Student $student, Attempt $attempt){
+            return $student->id === $attempt->student_id;
+        });
+
         Model::preventLazyLoading(
             !app()->environment('production')
         );

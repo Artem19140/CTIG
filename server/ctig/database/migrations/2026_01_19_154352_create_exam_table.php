@@ -74,14 +74,14 @@ return new class extends Migration
             $table->timestamps();
         });
 
-         Schema::create('exam_tester', function (Blueprint $table) {
+         Schema::create('exam_examiner', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('exam_id')
               ->constrained('exams')
               ->cascadeOnDelete();
 
-            $table->foreignId('tester_id')
+            $table->foreignId('examiner_id')
                 ->index()
                 ->constrained('users')
                 ->cascadeOnDelete();
@@ -97,7 +97,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('exam_student');
-        Schema::dropIfExists('exam_tester');
+        Schema::dropIfExists('exam_examiner');
         Schema::dropIfExists('exams'); 
     }
 };

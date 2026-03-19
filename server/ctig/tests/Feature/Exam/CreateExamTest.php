@@ -33,7 +33,7 @@ class CreateExamTest extends TestCase
             'examTypeId' => $this->examType->id,
             'addressId'   => $this->address->id,
             'capacity'     => 10,
-            'testers'      => [$this->user->id],
+            'examiners'      => [$this->user->id],
             'comment'      => 'Да, я добавил экзамен!'
         ],$overrides);
     }
@@ -58,7 +58,7 @@ class CreateExamTest extends TestCase
         $response =  $this->postExam(
             [
                             'addressId'   => Address::factory()->create()->id,
-                            'testers' => [User::factory()->create()->id]
+                            'examiners' => [User::factory()->create()->id]
                         ]);
         $response->assertCreated();
         $this->assertDatabaseCount('exams', 2);
@@ -100,8 +100,8 @@ class CreateExamTest extends TestCase
         $this->assertDatabaseEmpty('exams');
     }
     
-    public function test_fail_testers_not_exists(): void{        
-        $response =  $this->postExam(['testers'   => [$this->user->id+10]]);
+    public function test_fail_examiners_not_exists(): void{        
+        $response =  $this->postExam(['examiners'   => [$this->user->id+10]]);
         $response->assertUnprocessable();
         $this->assertDatabaseEmpty('exams');
     }
@@ -124,7 +124,7 @@ class CreateExamTest extends TestCase
         $this->assertDatabaseCount('exams', 1);
     }
 
-    public function test_fail_conflict_testers(): void{
+    public function test_fail_conflict_examiners(): void{
         $response =  $this->postExam(['addressId'   => $this->address->id]);
         $response->assertCreated();
         

@@ -7,7 +7,7 @@ export interface Exam{
     group:number | null,
     sessionNumber:number | null,
     comment:string,
-    testers:Array<User>,
+    examiners:Array<User>,
     address:string,
     creator:User | null,
     createdAt:string | null,
@@ -94,7 +94,7 @@ export interface ExamForm{
     examTypeId: number | null,
     addressId: number | null,
     comment:string,
-    testers: Array<number>,
+    examiners: Array<number>,
     beginTime:string
 }
 

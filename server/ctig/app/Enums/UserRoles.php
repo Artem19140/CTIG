@@ -1,8 +1,11 @@
 <?php 
 
+namespace App\Enums;
+
 enum UserRoles :string {
-    case Employee = 'employee';
-    case Methodologist = 'methodologist';
-    case Tester = 'tester';
+    case Operator = 'operator';
+    case Scheduler = 'scheduler';
+    case EXAMINER = 'examiner';
     case Director = 'director';
+    case OrgAdmin = 'org_admin';
 }

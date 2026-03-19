@@ -50,13 +50,13 @@ class ExamController
         return response()->json([
             'addresses' => AddressResource::collection(Address::all()),
             'examTypes' => ExamTypeResource::collection(ExamType::all()),
-            'testers' => UserResource::collection(User::all()) //Где роль тестеры
+            'examiners' => UserResource::collection(User::all()) //Где роль тестеры
         ], 200);
     }
 
     public function show(Exam $exam)
     {
-        $exam->load(['students', 'testers', 'address', 'examType']);
+        $exam->load(['students', 'examiners', 'address', 'examType']);
         return new ExamResource($exam);
     }
 

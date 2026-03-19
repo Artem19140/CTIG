@@ -7,8 +7,8 @@ import { useExamShowModal } from '../../../../Composables/modalWindows/useExamSh
 
 const {isOpen, close , exam, loading} = useExamShowModal()
 
-const examTestersList = (testersList :Array<any>) => {
-    return testersList.map(s => s.fullName).join(', ');
+const examinersList = (examinersList :Array<any>) => {
+    return examinersList.map(s => s.fullName).join(', ');
 }
 
 </script>
@@ -55,8 +55,8 @@ const examTestersList = (testersList :Array<any>) => {
                 <v-list-item-title style="white-space: normal; word-break: break-word;">{{exam?.address}}</v-list-item-title>
             </v-list-item>
             <v-list-item>
-                <v-list-item-subtitle>Тестеры</v-list-item-subtitle>
-                <v-list-item-title style="white-space: normal; word-break: break-word;">{{examTestersList(exam?.testers ?? [])}}</v-list-item-title>
+                <v-list-item-subtitle>Экзаменаторы</v-list-item-subtitle>
+                <v-list-item-title style="white-space: normal; word-break: break-word;">{{examinersList(exam?.examiners ?? [])}}</v-list-item-title>
             </v-list-item>
             <v-list-item>
                 <v-list-item-subtitle>Комментарий</v-list-item-subtitle>

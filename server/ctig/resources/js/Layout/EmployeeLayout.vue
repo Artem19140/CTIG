@@ -5,16 +5,16 @@
         permanent
         rail
       >
-        <v-img
+        <!-- <v-img
           width="50"
           src="/storage/images/tigr.png"
         >
 
-        </v-img>
+        </v-img> -->
         <v-list>
           <v-list-item
-            prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
-            subtitle="sandra_a88@gmailcom"
+            prepend-avatar="/storage/images/tigr.png"
+            :subtitle="user?.job_title"
             :title="employeeName"
           ></v-list-item>
         </v-list>
@@ -22,14 +22,58 @@
         <v-divider></v-divider>
 
         <v-list density="compact" nav v-model="activeItem">
-          <v-list-item prepend-icon="mdi-account-group" title="Студенты" @click="router.get('/students')"  value="myfiles"></v-list-item>
-          <v-list-item prepend-icon="mdi-school" value="shared" title="Экзамены" @click="router.get('/exams')"></v-list-item>
-          <v-list-item prepend-icon="mdi-clipboard-check" title="Проверка" value="starred"  @click="router.get('/attempts/checking')"></v-list-item>
-          <v-list-item prepend-icon="mdi-monitor-eye" title="Мониторинг экзамена" value="examMonitoring" @click="router.get('/exams/monitoring')"></v-list-item>
-          <v-list-item prepend-icon="mdi-calendar-month" value="schedule" title="Расписание" @click="router.get('/exams/schedule')"></v-list-item>
-          <v-list-item prepend-icon="mdi-office-building" title="Организация" value="organization" @click="router.get(`/organizations/${page.props?.auth?.user?.organization_id}`)"></v-list-item>
-          <v-list-item prepend-icon="mdi-account-group" title="Сотрудники" value="employees" @click="router.get(`/organizations/${page.props?.auth?.user?.organization_id}/employees`)"></v-list-item>
-          <v-list-item prepend-icon="mdi-logout" title="Выйти из аккаунта" value="logout" @click="router.post('/logout')"></v-list-item>
+          <v-list-item 
+            prepend-icon="mdi-account-group" 
+            title="Студенты" 
+            @click="router.get('/students')"  
+            value="students"
+          ></v-list-item>
+          <v-list-item 
+            prepend-icon="mdi-school" 
+            title="Экзамены" 
+            @click="router.get('/exams')"
+            value="exams" 
+          ></v-list-item>
+          <v-list-item 
+            prepend-icon="mdi-clipboard-check" 
+            v-if="can([Roles.EXAMINER])"
+            title="Проверка"
+            @click="router.get('/attempts/checking')"
+            value="checking" 
+          ></v-list-item>
+          <v-list-item 
+            prepend-icon="mdi-monitor-eye" 
+            v-if="can([Roles.EXAMINER])"
+            title="Мониторинг экзамена" 
+            value="monitoring" 
+            @click="router.get('/exams/monitoring')"
+          ></v-list-item>
+          <v-list-item 
+            prepend-icon="mdi-calendar-month" 
+            title="Расписание" 
+            @click="router.get('/exams/schedule')"
+            value="schedule"
+            ></v-list-item>
+          <v-list-item 
+            prepend-icon="mdi-office-building" 
+            v-if="can([Roles.ORG_ADMIN, Roles.DIRECTOR])" 
+            title="Организация" 
+            value="organization" 
+            @click="router.get(`/organizations/${organizationId}`)"
+          ></v-list-item>
+          <v-list-item 
+            prepend-icon="mdi-account-group" 
+            v-if="can([Roles.ORG_ADMIN, Roles.DIRECTOR])" 
+            title="Сотрудники" 
+            @click="router.get(`/organizations/${organizationId}/employees`)"
+            value="employees" 
+            ></v-list-item>
+          <v-list-item 
+            prepend-icon="mdi-logout" 
+            title="Выйти из аккаунта" 
+            @click="router.post('/logout')"
+            value="logout" 
+          ></v-list-item>
         </v-list>
         
       </v-navigation-drawer>
@@ -70,14 +114,18 @@ import Alert from '../Components/Alert/Alert.vue';
 import PromptDialog from '../Components/PromptDialog/PromptDialog.vue';
 import ExamShowModal from '../Pages/Exam/Components/ExamShowModal/ExamShowModal.vue';
 import BaseLayout from './BaseLayout.vue';
+import { useAuth } from '../Composables/useAuth';
+import { Roles } from '../Constants/Roles';
+
+const {can, user} = useAuth()
 
 defineOptions({
   layout: BaseLayout,
 })
 
 const page = usePage()
-const employeeName = `${page?.props.auth?.user?.surname} ${page?.props.auth?.user?.name}`
-
+const organizationId = user?.organization_id
+const employeeName = `${user?.surname} ${user?.name}`
 const activeItem = ref('')
 </script>
 

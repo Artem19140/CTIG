@@ -8,10 +8,14 @@ import { Address, User, ExamType } from '../../../interfaces/interfaces';
 import { ExamForm } from '../../../interfaces/interfaces';
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
 import AddButton from '../../../Components/AddButton/AddButton.vue';
+import { useAuth } from '../../../Composables/useAuth';
+import { Roles } from '../../../Constants/Roles';
 
 const addresses = ref<Address[]>()
-const testers = ref<User[]>()
+const examiners = ref<User[]>()
 const examTypes = ref<ExamType[]>()
+
+const {can} = useAuth()
 
 const props = defineProps<{
     datetime?:string | null
@@ -21,7 +25,7 @@ const form = useForm<ExamForm>({
     examTypeId: null,
     addressId:null,
     comment:'',
-    testers:[],
+    examiners:[],
     beginTime:''
 })
 
@@ -32,7 +36,7 @@ const loadModalData = async () => {
     const response = await axios.get('/exams/create/modal-data')
     const data = response.data
     addresses.value = data.addresses
-    testers.value = data.testers
+    examiners.value = data.examiners
     examTypes.value = data.examTypes
 }
 const create =  () => {
@@ -59,7 +63,11 @@ const close = async (fn:  ()  => void) => {
 </script>
 
 <template>
-    <AddButton text="Добавить" @click="loadModalData" />
+    <AddButton 
+        text="Добавить" 
+        @click="loadModalData" 
+        v-if="can([Roles.SCHEDULER])"
+    />
     <BaseDialog 
         title="Добавление экзамена"
         v-model="isActive"
@@ -101,13 +109,13 @@ const close = async (fn:  ()  => void) => {
             <v-autocomplete 
                 label="Тестеры"
                 item-title="fullName"
-                :items="testers"
-                v-model="form.testers"
+                :items="examiners"
+                v-model="form.examiners"
                 item-value="id"
-                :error-messages="form.errors.testers"
+                :error-messages="form.errors.examiners"
                 clearable
                 multiple    
-                :loading="!testers"
+                :loading="!examiners"
             />
 
             <v-textarea

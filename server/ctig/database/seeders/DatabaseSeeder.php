@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use App\Enums\CounterKey;
 use App\Models\Counter;
 use App\Models\Organization;
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Student;
 
@@ -15,6 +16,7 @@ use Database\Seeders\ExamTypes\RVP\RvpSeeder;
 use Database\Seeders\ExamTypes\VNZH\VnzhSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Enums\UserRoles;
 
 
 class DatabaseSeeder extends Seeder
@@ -45,6 +47,26 @@ class DatabaseSeeder extends Seeder
             'value' => 1,
             'organization_id' => 1
         ]);
+
+        $roleSpecialist = Role::create([
+            'name' => UserRoles::Operator,
+        ]);
+
+        $roleEXAMINER = Role::create([
+            'name' => UserRoles::EXAMINER,
+        ]);
+
+        $roleScheduler = Role::create([
+            'name' => UserRoles::Scheduler,
+        ]);
+
+        $roleDirector = Role::create([
+            'name' => UserRoles::Director,
+        ]);
+
+        $roleOrgAdmin = Role::create([
+            'name' => UserRoles::OrgAdmin,
+        ]);
         
         User::factory(5)->create();
         
@@ -56,7 +78,7 @@ class DatabaseSeeder extends Seeder
             ExamStudentSeeder::class
         ]);
         
-        Student::factory(1000) 
+        Student::factory(200) 
             ->withRandomCreator()
             ->create();
     }

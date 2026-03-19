@@ -16,7 +16,7 @@ class GetExamListAction{
         $cancelled = $data['cancelled'] ?? false;
         $completed = $data['completed'] ?? false;
         $perPage = $data['perPage'] ?? 10;
-        return Exam::with(['examType', 'address', 'testers'])
+        return Exam::with(['examType', 'address', 'examiners'])
             ->withCount('students')
             ->when($examTypeId, function (Builder $query, int $examTypeId) {
                 $query->where('exam_type_id', $examTypeId);

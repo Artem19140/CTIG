@@ -33,7 +33,7 @@ class ValidationCreateExamTest extends TestCase
             'examTypeId' => $this->examType->id,
             'addressId'   => $this->address->id,
             'capacity'     => 10,
-            'testers'      => [$this->user->id],
+            'examiners'      => [$this->user->id],
             'comment'      => 'Да, я добавил экзамен!'
         ],$overrides);
     }
@@ -51,11 +51,11 @@ class ValidationCreateExamTest extends TestCase
                                         'examTypeId' => '',
                                         'addressId'   => '',
                                         'capacity'     => '',
-                                        'testers'      => '',
+                                        'examiners'      => '',
                                         'comment'      => '',
                                     ]);
         $response->assertUnprocessable()
-            ->assertJsonValidationErrors(['beginTime', 'examTypeId', 'addressId', 'capacity', 'testers']);
+            ->assertJsonValidationErrors(['beginTime', 'examTypeId', 'addressId', 'capacity', 'examiners']);
     }
 
     public function test_fail_wrong_date(): void{
@@ -64,7 +64,7 @@ class ValidationCreateExamTest extends TestCase
             'examTypeId' => 4,
             'addressId'   => 3,
             'capacity'     => 2,
-            'testers'      => [1],
+            'examiners'      => [1],
             'comment'      => '',
         ]);
         $response->assertUnprocessable()
@@ -77,11 +77,11 @@ class ValidationCreateExamTest extends TestCase
             'examTypeId' => "sdf",
             'addressId'   => "wer",
             'capacity'     => "sdf",
-            'testers'      => ["asdf"],
+            'examiners'      => ["asdf"],
             'comment'      => '',
         ]);
         $response->assertUnprocessable()
-            ->assertJsonValidationErrors(['examTypeId', 'addressId', 'capacity', 'testers.0']);
+            ->assertJsonValidationErrors(['examTypeId', 'addressId', 'capacity', 'examiners.0']);
     }
 
     public function test_fail_int_instead_string(): void{
@@ -90,7 +90,7 @@ class ValidationCreateExamTest extends TestCase
             'examTypeId' => 123,
             'addressId'   => 123,
             'capacity'     => 1,
-            'testers'      => [123],
+            'examiners'      => [123],
             'comment'      => 123,
         ]);
         $response->assertUnprocessable()
@@ -103,11 +103,11 @@ class ValidationCreateExamTest extends TestCase
             'examTypeId' => -123,
             'addressId'   => -45,
             'capacity'     => -123,
-            'testers'      => [-1],
+            'examiners'      => [-1],
             'comment'      =>'',
         ]);
         $response->assertUnprocessable()
-            ->assertJsonValidationErrors(['examTypeId', 'addressId', 'capacity', 'testers.0']);
+            ->assertJsonValidationErrors(['examTypeId', 'addressId', 'capacity', 'examiners.0']);
     }
 
     public function test_fail_arr_instead_other_types(): void{
@@ -116,7 +116,7 @@ class ValidationCreateExamTest extends TestCase
             'examTypeId' => [],
             'addressId'   => [],
             'capacity'     => [],
-            'testers'      => [1],
+            'examiners'      => [1],
             'comment'      =>[],
         ]);
         $response->assertUnprocessable()

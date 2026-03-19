@@ -34,7 +34,7 @@ class ExamController extends Controller
 
     public function show(Exam $exam): ExamResource
     {
-        $exam->load(['students', 'testers', 'address', 'examType']);
+        $exam->load(['students', 'examiners', 'address', 'examType']);
         return new ExamResource($exam);
     }
 

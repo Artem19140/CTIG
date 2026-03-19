@@ -12,6 +12,7 @@ use App\Http\Controllers\Web\Organization\OrganizationController;
 use App\Http\Controllers\Web\Report\ReportController;
 use App\Http\Controllers\Web\Student\StudentController;
 use App\Http\Controllers\Web\AttemptAnswer\AttemptAnswerController;
+use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 
 Route::get('exams/available', [ExamController::class, "available"]);
@@ -53,6 +54,10 @@ Route::middleware(['auth', 'user.is.work', 'organization.is.work', 'password.cha
     Route::post('employees', [UserController::class, "store"]);
 
     Route::get('files', [FileController::class, "show"]);
+
+    Route::get('roles', function(){
+        return Role::select(['id', 'name'])->get();;
+    });
 });
 
 
@@ -65,10 +70,14 @@ Route::middleware('guest')->group(function (){
 });
 
 Route::middleware('auth:students')->group(function (){
-    Route::get('exam-attempts/{attempt}/before', [AttemptController::class, 'before'])->name('exam-attempts.before');
-    Route::put('exam-attempts/{attempt}', [AttemptController::class, 'start']);
-    //Route::put('student-answers/{studentAnswer}/', [StudentAnswerController::class, 'update']);
-    Route::put('exam-attempts/{attempt}/answers', [AttemptAnswerController::class, 'update']);
-    Route::get('exam-attempts/{attempt}', [AttemptController::class, 'current'])->name('exam-attempts');
-    Route::put('exam-attempts/{attempt}/finish', [AttemptController::class, 'finish']);
+    Route::get('exam-attempts/{attempt}/before', [AttemptController::class, 'before'])->name('exam-attempts.before')
+        ->can('attempt-access', 'attempt');
+    Route::put('exam-attempts/{attempt}', [AttemptController::class, 'start'])
+        ->can('attempt-access', 'attempt');
+    Route::put('exam-attempts/{attempt}/answers', [AttemptAnswerController::class, 'update'])
+        ->can('attempt-access', 'attempt');
+    Route::get('exam-attempts/{attempt}', [AttemptController::class, 'current'])->name('exam-attempts')
+        ->can('attempt-access', 'attempt');
+    Route::put('exam-attempts/{attempt}/finish', [AttemptController::class, 'finish'])
+        ->can('attempt-access', 'attempt');
 });

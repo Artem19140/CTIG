@@ -16,26 +16,7 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
     use HasApiTokens, HasFactory, Notifiable;
-    public function examsCreated():HasMany {
-        return $this->hasMany(Exam::class, 'creator_id');
-    }
 
-    public function examTester(): BelongsToMany{
-        return $this->belongsToMany(Exam::class, 'exam_tester','tester_id', 'exam_id');
-    }
-
-    public function documents(){
-        return $this->belongsToMany(Document::class);
-    }
-
-    public function isAdmin(){
-        return $this->is_admin;
-    }
-
-    public function organization(): BelongsTo{
-        return $this->belongsTo(Organization::class,'organization_id');
-    }
-    
     protected $fillable = [
         'surname',
         'name',
@@ -61,4 +42,23 @@ class User extends Authenticatable
             'is_work' => 'boolean'
         ];
     }
+
+    public function roles(){
+        return $this->belongsToMany(Role::class,'role_user', 'user_id', 'role_id');
+    }
+    
+
+    public function examiner(): BelongsToMany{
+        return $this->belongsToMany(Exam::class, 'exam_examiner','examiner_id', 'exam_id');
+    }
+
+    public function isAdmin(){
+        return $this->is_admin;
+    }
+
+    public function organization(): BelongsTo{
+        return $this->belongsTo(Organization::class,'organization_id');
+    }
+    
+    
 }

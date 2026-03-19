@@ -4,6 +4,8 @@ import ShowData from './Components/ShowData.vue';
 import UpdateData from './Components/UpdateData.vue';
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
 import PrimaryButton from '../../Components/PrimaryButton/PrimaryButton.vue';
+import { useAuth } from '../../Composables/useAuth';
+import { Roles } from '../../Constants/Roles';
 
 defineOptions({
   layout: EmployeeLayout,
@@ -14,6 +16,8 @@ const props = defineProps<{
 }>()
 
 const mode = ref<string>('show')
+
+const {can} = useAuth()
 </script>
 
 <template>
@@ -39,7 +43,7 @@ const mode = ref<string>('show')
             <PrimaryButton
                 text="Редактировать"
                 @click="mode = 'update'"
-                v-if="mode === 'show'"
+                v-if="mode === 'show' && can([Roles.ORG_ADMIN])"
             />
         </v-card-actions>
     </v-card>

@@ -53,14 +53,14 @@ final class CreateExamAction{
             throw new BusinessException("В это время по данному адресу уже проводится экзамен");
         }
         
-        $hasConflictTesters = Exam::where('begin_time', '<=', $examEndTime)
+        $hasConflictExaminers = Exam::where('begin_time', '<=', $examEndTime)
                                 ->where('end_time', '>=', $examBeginTime)
-                                ->whereHas('testers', function (Builder $query) use ($examDto): void {
-                                    $query->whereIn('users.id', $examDto->testers);
+                                ->whereHas('examiners', function (Builder $query) use ($examDto): void {
+                                    $query->whereIn('users.id', $examDto->examiners);
                                 })
                                 ->exists();
         
-        if($hasConflictTesters){
+        if($hasConflictExaminers){
             throw new BusinessException("Один или несколько тестеров заняты в это время");
         }
 
@@ -84,7 +84,7 @@ final class CreateExamAction{
                 ]
             );
         
-            $exam->testers()->attach($examDto->testers, ['organization_id'  => $user->organization->id]);
+            $exam->examiners()->attach($examDto->examiners, ['organization_id'  => $user->organization->id]);
             return $exam;
         });        
         return $exam;

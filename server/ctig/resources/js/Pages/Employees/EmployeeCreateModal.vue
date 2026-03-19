@@ -5,8 +5,11 @@ import BaseDialog from '../../Components/BaseDialog/BaseDialog.vue';
 import AppInput from '../../Components/AppInput/AppInput.vue';
 import { useForm } from '@inertiajs/vue3';
 import { useConfirmDialog } from '../../Composables/useConfirmDialog';
+import axios from 'axios';
 
 const isOpen = ref<boolean>(false)
+const loading = ref<boolean>(false)
+const roles = ref()
 
 const form = useForm({
     surname:'',
@@ -37,10 +40,18 @@ const create = () => {
         }
     })
 }
+const open =  async () => {
+    loading.value = true
+    isOpen.value = true
+    const res = await axios.get('/roles')
+    roles.value = res.data
+    loading.value = false
+    
+}
 </script>
 
 <template>
-    <AddButton text="Добавить" @click="isOpen = true" />
+    <AddButton text="Добавить" @click="open" />
     <BaseDialog 
         width="500"
         title='Добавить'
@@ -69,9 +80,14 @@ const create = () => {
             :error-messages="form?.errors?.jobTitle"
         />
 
-        <v-select 
+        <v-autocomplete 
             label="Роли"
+            :loading="loading"
             v-model="form.roles"
+            :items="roles"
+            item-title="name"
+            item-value="id"
+            multiple
             :error-messages="form?.errors?.roles"
         />
 

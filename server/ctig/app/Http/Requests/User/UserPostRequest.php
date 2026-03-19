@@ -19,6 +19,8 @@ class UserPostRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'roles' => ['required', 'array'],
+            'roles.*'=>['required', 'integer', 'min:1','exists:roles,id'],
             'surname'=>['required','string'],
             'name'=>['required','string'],
             'patronymic'=>['required','string'],

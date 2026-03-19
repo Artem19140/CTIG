@@ -41,12 +41,12 @@ class ExamPostRequest extends FormRequest
                         'max:256'
                     ],
 
-            'testers' => [
+            'examiners' => [
                         'required',
                         'array',
                     ],
 
-            'testers.*' => [
+            'examiners.*' => [
                         'required',
                         'integer',
                         'min:0',
@@ -61,7 +61,7 @@ class ExamPostRequest extends FormRequest
             \intval($this->get('addressId')),
             \intval($this->get('examTypeId')),
             \strval($this->get('comment')),
-            $this->get('testers')
+            $this->get('examiners')
         );
    }
 }

@@ -24,7 +24,8 @@ class Attempt extends Model
         'started_at',
         'ban_reason',
         'ban_by_id',
-        'organization_id'
+        'organization_id',
+        'solved'
     ];
 
     protected $casts = [

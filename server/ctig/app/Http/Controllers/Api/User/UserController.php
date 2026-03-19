@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Exceptions\BusinessException;
 use App\Http\Controllers\Api\Controller;
+use App\Http\Requests\User\UserPostRequest;
+use Hash;
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,14 +23,23 @@ class UserController extends Controller{
         return UserResource::collection(User::all());
     }
 
-    public function store(Request $request):JsonResponse{
+    public function store(UserPostRequest $request):JsonResponse{
         $user = User::where("email", $request->input('email'))->first();
 
         if($user){
             throw new BusinessException("Пользователь с таким email уже существует");
         }
 
-        User::create(request()->all());
+        $user = User::create([
+            'email' => $request->validated('email'),
+            'name' => $request->validated('name'),
+            'surname' => $request->validated('surname'),
+            'patronymic' => $request->validated('patronymic'),
+            'job_title' => $request->validated('jobTitle'),
+            'password' => Hash::make($request->validated('password')),
+            'organization_id' => 1
+        ]);
+        $user->roles()->sync($request->validated('roles'));
         return response()->json(["result" => "ok"]);
     }
 }

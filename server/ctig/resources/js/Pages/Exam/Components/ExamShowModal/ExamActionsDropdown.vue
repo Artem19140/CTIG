@@ -7,6 +7,8 @@ import { Exam } from '../../../../interfaces/interfaces';
 import ThreeDotDropdown from '../../../../Components/ThreeDotDropdown/ThreeDotDropdown.vue';
 import { useAlert } from '../../../../Composables/useAlert';
 import { computed } from 'vue';
+import { useAuth } from '../../../../Composables/useAuth';
+import { Roles } from '../../../../Constants/Roles';
 
 const props = defineProps<{exam : Exam}>()
 
@@ -53,19 +55,38 @@ const formCodes = async () => {
     }
     modalState.fileUrl = `/exams/${props.exam.id}/codes`
 }
-//Только для тестера!
+
+const {can} = useAuth()
 </script>
 
 <template>
     <ThreeDotDropdown>
-      <AppListDropDownItem title="Скачать кода" @click="formCodes" />
+      <AppListDropDownItem 
+        title="Скачать кода" 
+        @click="formCodes" 
+        v-if="can([Roles.EXAMINER])"
+      />
 
-      <AppListDropDownItem title="Скачать список" @click="downloadStudentsList" />
+      <AppListDropDownItem 
+        title="Скачать список" 
+        @click="downloadStudentsList" 
+      />
 
-      <AppListDropDownItem title="Скачать ведомость" v-if="!exam?.isPast" />
+      <AppListDropDownItem 
+        title="Скачать ведомость" 
+        v-if="!exam?.isPast" 
+      />
 
-      <AppListDropDownItem title="Редактировать" v-if="canEdit" />
+      <AppListDropDownItem 
+        title="Редактировать" 
+        v-if="canEdit && can([Roles.SCHEDULER])" 
+      />
 
-      <AppListDropDownItem color="text-red" title="Отменить" @click="cancelExam" />
+      <AppListDropDownItem 
+        color="text-red" 
+        title="Отменить" 
+        @click="cancelExam" 
+        v-if="can([Roles.SCHEDULER])" 
+      />
     </ThreeDotDropdown>
 </template>

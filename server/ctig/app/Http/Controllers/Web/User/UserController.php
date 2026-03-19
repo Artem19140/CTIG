@@ -31,7 +31,7 @@ class UserController extends Controller{
             throw new BusinessException("Пользователь с таким email уже существует");
         }
 
-        User::create([
+        $user = User::create([
             'email' => $request->validated('email'),
             'name' => $request->validated('name'),
             'surname' => $request->validated('surname'),
@@ -40,6 +40,9 @@ class UserController extends Controller{
             'password' => Hash::make($request->validated('password')),
             'organization_id' => $request->user()->organization_id
         ]);
+        
+        $user->roles()->sync($request->validated('roles'));
+
         return back()->with('success', 'Сотрудник добавлен');
     }
 

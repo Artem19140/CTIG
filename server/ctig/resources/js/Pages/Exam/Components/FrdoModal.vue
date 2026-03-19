@@ -3,7 +3,6 @@ import { useForm } from '@inertiajs/vue3';
 import AppInput from '../../../Components/AppInput/AppInput.vue';
 import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
 import { reactive, ref, watch } from 'vue';
-import axios from 'axios';
 
 const model = defineModel<boolean>()
 const loading = ref<boolean>(false)
@@ -28,7 +27,6 @@ const form = reactive({
 
 const  download = async () => {
     loading.value=true
-    //const res = await axios.get(`/reports/frdo?examDate=${form.examDate}&success=${form.success  ? 1: 0}`)
     window.location.href = `/reports/frdo?examDate=${form.examDate}&success=${form.success ? 1: 0}`;
 }
 
@@ -64,7 +62,6 @@ const  download = async () => {
         <!-- :loading="loading" -->
         <template #actions>
             <v-btn 
-                
                 @click="download"
                 color="green"
                 variant="flat"

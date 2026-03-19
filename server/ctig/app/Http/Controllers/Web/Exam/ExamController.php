@@ -32,7 +32,8 @@ class ExamController
     {
         $exams = $getExamList->execute($request->validated() ?? []);
         return Inertia::render('Exam/Exam', [
-            'exams' => ExamResource::collection($exams)
+            'exams' => ExamResource::collection($exams),
+            'filters' => request()->all()
         ]);
         
     }

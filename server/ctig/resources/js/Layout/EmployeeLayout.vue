@@ -39,6 +39,7 @@
               min-height: 100vh;
               background-size: cover;
               background-position: center"
+              
     >
       <slot />
     </v-main>
@@ -79,3 +80,9 @@ const employeeName = `${page?.props.auth?.user?.surname} ${page?.props.auth?.use
 
 const activeItem = ref('')
 </script>
+
+<style>
+  html {
+    overflow-y: scroll;
+  }
+</style>

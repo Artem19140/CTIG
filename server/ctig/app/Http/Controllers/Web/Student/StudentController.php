@@ -18,7 +18,9 @@ class StudentController
     public function index(StudentIndexRequest $request, GetStudentsListAction $getStudentsList){
         $students = $getStudentsList->execute($request->validated() ?? []);
         return Inertia::render('Students/Students', [
-            'students' => StudentResource::collection($students)
+            'students' => StudentResource::collection($students),
+            'filters' => request()->all()
+            
         ]);
     }
 

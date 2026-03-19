@@ -242,7 +242,8 @@ return [
         'passportTranslateScan' => 'скан перевода паспорта',
         'passportScan' => 'скан паспорта',
         'gender' => 'пол',
-        'noMigrationCard' => 'нет миграционной карты'
+        'noMigrationCard' => 'нет миграционной карты',
+        'cancelled' => 'отмененные'
     ],
 
 ];

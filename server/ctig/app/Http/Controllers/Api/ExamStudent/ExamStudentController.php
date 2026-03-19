@@ -42,7 +42,7 @@ class ExamStudentController extends Controller
             throw new BusinessException('Такой записи на экзамен не существует');
         }
 
-        if($exam->isPassed() || $exam->isGoing()){
+        if($exam->isCompleted() || $exam->isGoing()){
             throw new BusinessException('Нельзя перенести студента с прошедшего или идущего экзамена');
         }
 
@@ -72,7 +72,7 @@ class ExamStudentController extends Controller
             throw new BusinessException('Такой записи на экзамен не существует');
         }
 
-        if($exam->isPassed() || $exam->isGoing()){
+        if($exam->isCompleted() || $exam->isGoing()){
             throw new BusinessException('Невозможно отменить запись на прошедший или идущий экзамен');
         }
         $exam->students()->detach($student->id);

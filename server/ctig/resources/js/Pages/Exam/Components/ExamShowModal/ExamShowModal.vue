@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { formatterDate, formatterTime } from '../../../../Helpers/heplers';
 import BaseDialog from '../../../../Components/BaseDialog/BaseDialog.vue';
-import Dropdown from '../ExamShowModal/Dropdown.vue';
+import ExamActionsDropdown from './ExamActionsDropdown.vue';
 import StudentsTable from './StudentsTable.vue';
 import { useExamShowModal } from '../../../../Composables/modalWindows/useExamShowModal';
 
@@ -16,14 +16,18 @@ const examTestersList = (testersList :Array<any>) => {
 <template>
     <BaseDialog 
         width="800"
-        title="Экзамен"
         :loading="loading && !exam"
         v-model="isOpen"
         :subtitle="`${exam?.sessionNumber ?? '-'} / ${exam?.group ?? '-'}`"
         @before-close="(done) =>  close()"
     >
+        <template #title>
+            Экзамен <span v-if="exam?.isCancelled" class="text-red-500 ml-2">
+                        (отменён)
+                    </span>
+        </template>
         <template #titleActions>
-            <Dropdown :exam="exam" />
+            <ExamActionsDropdown :exam="exam" />
         </template>
         <template #skeleton>
              <v-skeleton-loader

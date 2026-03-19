@@ -66,7 +66,7 @@ class Exam extends Model
         return $this->belongsTo(Address::class, 'address_id');
     }
 
-    public function isPassed(){
+    public function isCompleted(){
         return $this->end_time->isPast();
     }
 

@@ -36,6 +36,7 @@ return new class extends Migration
             $table->dateTime('started_at')->nullable()->default(null);
             $table->dateTime('finished_at')->nullable()->default(null);
             $table->timestamps();
+            $table->unsignedTinyInteger('solved')->default(0);
 
             $table->unique(['exam_id', 'student_id']);
         });

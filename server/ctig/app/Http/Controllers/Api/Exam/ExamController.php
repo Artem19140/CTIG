@@ -58,7 +58,7 @@ class ExamController extends Controller
     }
 
     public function state(Exam $exam){
-        if($exam->isPassed()){
+        if($exam->isCompleted()){
             throw new BusinessException('Экзамен уже прошел');
         }
         $exam->load([

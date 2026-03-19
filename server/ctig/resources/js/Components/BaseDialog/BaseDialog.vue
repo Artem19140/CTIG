@@ -4,7 +4,7 @@ const isOpen = defineModel<boolean>()
 const emit = defineEmits<{ (e: 'beforeClose', done: ()=>void) :void} >()
 
 const props = defineProps<{
-    title:string,
+    title?:string,
     width:string,
     loading?:boolean,
     subtitle?:string,
@@ -40,7 +40,7 @@ const close = () => {
                 <slot name="titleActions" v-if="$slots.titleActions">
 
                 </slot>
-                <v-btn icon="mdi-close"variant="text" class="ml-16" @click="close"/>
+                <v-btn icon="mdi-close"variant="text" class="ml-4" @click="close"/>
             </v-card-title>
 
             <slot name="skeleton" v-if="loading">

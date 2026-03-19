@@ -6,7 +6,7 @@ import { router } from '@inertiajs/vue3';
         elements : Paginated<any>,
         headers : Array<any>,
         title?:string
-        
+        loading?:boolean
     }>()
 
     const emit = defineEmits<{
@@ -19,6 +19,7 @@ import { router } from '@inertiajs/vue3';
                 page: page,
                 perPage:itemsPerPage
             },
+            
         })
     }
 </script>
@@ -26,13 +27,14 @@ import { router } from '@inertiajs/vue3';
 <template>
     <div>
         <v-data-table-server
-        @update:options="loadItems" 
-        :items="elements?.data"
-        :headers="headers"
-            @click:row="(event :Event, { item } : any) => emit('row-click', item)"
-        :items-length="elements?.meta?.total"
-        key="id"
-        hover
+            @update:options="loadItems" 
+            :items="elements?.data"
+            :headers="headers"
+                @click:row="(event :Event, { item } : any) => emit('row-click', item)"
+            :items-length="elements?.meta?.total"
+            key="id"
+            hover
+            :loading="loading"
         >
             <template v-slot:top>
                 <v-toolbar flat>

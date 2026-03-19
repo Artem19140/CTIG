@@ -36,7 +36,6 @@ class StudentResource extends JsonResource
             'phone' => $this->when($request->routeIs('students.show'),$this->resource->phone),
             'creator'=>new UserResource($this->whenLoaded('creator')),
             'attempts' => AttemptResource::collection($this->whenLoaded('attempts')),
-            //'attempts' => $this->whenLoaded('attempts',$this->attempts->first()),
             'exams' => ExamResource::collection($this->whenLoaded('exams')),
             'passportScan' => $this->when($request->routeIs('students.show'),$this->passport_scan_path),
             'photo' => $this->when($request->routeIs('students.show'),$this->photo_path),

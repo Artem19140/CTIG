@@ -4,10 +4,13 @@
     import ExamCreateModal from './ExamCreateModal.vue';
     import type { Exam, Paginated } from '../../../interfaces/interfaces';
     import BaseServerTable from '../../../Components/BaseServerTable.vue';
-import ExamTableDropDown from './ExamTableDropDown.vue';
+    import ExamTableDropDown from './ExamTableDropDown.vue';
+    import ExamTableFilter from './ExamTableFilter.vue';
+    import { useForm } from '@inertiajs/vue3';
 
    const props = defineProps<{
-        exams: Paginated<Exam>
+        exams: Paginated<Exam>,
+        filters:any
     }>()
 
     const headers = [
@@ -20,6 +23,15 @@ import ExamTableDropDown from './ExamTableDropDown.vue';
         const {open} = useExamShowModal()
         open(item.id)
     }
+
+    const formFilters = useForm({
+        dateFrom: props.filters.dateFrom ?? undefined,
+        cancelled: props.filters.dateFrom ?? undefined,
+        examTypeId: props.filters.examTypeId ?? undefined,
+        dateTo: props.filters.dateTo ?? undefined,
+        completed: props.filters.completed ?? undefined,
+    })
+
 </script>
 
 <template>
@@ -28,12 +40,14 @@ import ExamTableDropDown from './ExamTableDropDown.vue';
         :headers="headers"
         :elements="exams"
         title="Экзамены"
+        :loading="formFilters.processing"
         @row-click="openModal"
     >
         <template #toolbar-left>
-            <v-btn icon variant="text">
-                <v-icon>mdi-filter-menu</v-icon>
-            </v-btn>
+            <ExamTableFilter 
+                :filters="filters"
+                :form="formFilters"
+            />
         </template>
         <template #toolbar-actions>
             <ExamCreateModal />

@@ -32,7 +32,7 @@ class ExamCodeController extends Controller
 
         $exam = Exam::find($student->exam_id);
 
-        if($exam->isPassed()){
+        if($exam->isCompleted()){
             throw new BusinessException('Экзмен уже прошел');
         }
 

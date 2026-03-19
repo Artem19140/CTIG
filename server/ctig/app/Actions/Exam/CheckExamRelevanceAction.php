@@ -21,7 +21,7 @@ class CheckExamRelevanceAction{
             throw new BusinessException('Экзамен отменен');
         }
 
-        if($exam->isPassed()){
+        if($exam->isCompleted()){
             throw new BusinessException('Экзмен уже прошел');
         }
         return $exam;

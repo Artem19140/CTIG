@@ -6,7 +6,7 @@ use App\Exceptions\BusinessException;
 use App\Models\Exam;
 class CancelExamAction{
     public function execute(Exam $exam){
-        if($exam->isPassed() || $exam->isGoing()){
+        if($exam->isCompleted() || $exam->isGoing()){
             throw new BusinessException('Экзамен уже прошел или идет');
         }
 

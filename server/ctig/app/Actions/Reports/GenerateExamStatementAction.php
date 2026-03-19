@@ -9,7 +9,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 class GenerateExamStatementAction{
     public function execute($exam){
         $templatePath = storage_path('app/templates/statement.xlsx');
-        if(!$exam->isPassed()){
+        if(!$exam->isCompleted()){
             throw new BusinessException('Экзамен еще не прошел');
         }
 

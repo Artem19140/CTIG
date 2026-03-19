@@ -10,6 +10,13 @@ class ExamIndexRequest extends FormRequest
     {
         return true;
     }
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'cancelled' => $this->boolean('cancelled'),
+            'completed'  => $this->boolean('completed')
+        ]);
+    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -19,6 +26,8 @@ class ExamIndexRequest extends FormRequest
     public function rules(): array
     {
         return [ 
+            'completed' =>  ['nullable', 'boolean'],
+            'cancelled' =>  ['nullable', 'boolean'],
             'examTypeId' => ['nullable', 'integer', 'min:1'],
             'dateFrom' => ['nullable', 'date'],
             'dateTo' => ['nullable', 'date'],

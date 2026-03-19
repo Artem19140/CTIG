@@ -37,9 +37,7 @@ class ExamResource extends JsonResource
             'duration' => $this->whenLoaded('examType', fn () => $this->examType->duration),
             'endTime' => $this->end_time,
             'start' => $this->begin_time->format('Y-m-d H:i'), 
-            //'end' => $this->end_time->format('Y-m-d H:i'),
             'end' => $this->begin_time->addMinutes($this->duration)->format('Y-m-d H:i'),
-            //'isPassed' =>  $this->end_time->isPast()
             'isPast' =>  $this->begin_time->addMinutes($this->duration)->isPast(),
             'tasksCount' => $this->whenLoaded('examType', fn () => $this->examType->tasks_count),
             'hasSpeakingTasks' => $this->whenLoaded('examType', fn () => $this->examType->has_speaking_tasks),

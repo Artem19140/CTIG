@@ -14,7 +14,7 @@ class CancellEnrollmentAction{
             throw new BusinessException('У студента нет записи на этот экзамен');
         }
 
-        if($exam->isPassed() || $exam->isGoing()){
+        if($exam->isCompleted() || $exam->isGoing()){
             throw new BusinessException('Невозможно отменить запись на прошедший или идущий экзамен');
         }
         $exam->students()->detach($student->id);

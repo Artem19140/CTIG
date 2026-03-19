@@ -10,7 +10,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 final class CreateCodesAction{
     public function execute(Exam $exam){
-        if($exam->isPassed()){
+        if($exam->isCompleted()){
             throw new BusinessException('Экзмен уже прошел');
         }
 

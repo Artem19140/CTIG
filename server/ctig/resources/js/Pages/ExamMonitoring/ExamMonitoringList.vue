@@ -2,7 +2,7 @@
 import { router } from '@inertiajs/vue3';
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
 import { formatterDate, formatterTime } from '../../Helpers/heplers';
-import DropDownExamList from './DropDownExamList.vue';
+import ExamActionsDropdown from '../Exam/Components/ExamShowModal/ExamActionsDropdown.vue';
 
 defineOptions({
   layout: EmployeeLayout,
@@ -45,7 +45,7 @@ const open = (event:Event, {item} : any) => {
                     {{` ${item.studentsCount }/${ item.capacity }`}}
                 </template>
                 <template #item.actions="{ item }">
-                    <DropDownExamList :exam="item" />
+                    <ExamActionsDropdown :exam="item" />
                 </template>
             </v-data-table>
         </v-card-text>

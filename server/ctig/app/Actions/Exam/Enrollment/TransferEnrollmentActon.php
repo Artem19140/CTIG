@@ -20,7 +20,7 @@ class TransferEnrollmentActon{
             throw new BusinessException('Такой записи на экзамен не существует');
         }
 
-        if($exam->isPassed() || $exam->isGoing()){
+        if($exam->isCompleted() || $exam->isGoing()){
             throw new BusinessException('Нельзя перенести студента с прошедшего или идущего экзамена');
         }
 

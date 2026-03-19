@@ -3,6 +3,7 @@
 namespace App\Actions\Exam;
 
 use App\Models\Exam;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -12,7 +13,9 @@ class GetExamListAction{
         $dateFrom = $data['dateFrom'] ?? false;
         $dateTo = $data['dateTo'] ?? false;
         $addressId = $data['addressId'] ?? false;
-        $perPage = $data['perPage'] ?? 15;
+        $cancelled = $data['cancelled'] ?? false;
+        $completed = $data['completed'] ?? false;
+        $perPage = $data['perPage'] ?? 10;
         return Exam::with(['examType', 'address', 'testers'])
             ->withCount('students')
             ->when($examTypeId, function (Builder $query, int $examTypeId) {
@@ -27,8 +30,11 @@ class GetExamListAction{
             ->when($addressId, function (Builder $query, string $addressId){
                 $query->where('address_id',$addressId);
             })
-            //->where('is_cancelled', false)
+            ->when($completed, function (Builder $query){
+                $query->where('end_time', '<=', Carbon::now());
+            })
+            ->where('is_cancelled', $cancelled)
             ->latest('begin_time')
-            ->paginate($perPage);
+            ->paginate($perPage)->withQueryString();
     }
 }

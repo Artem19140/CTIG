@@ -37,7 +37,7 @@ class ExamMonitoringController
         if(!$canGet){
             abort(404);
         }
-        if($exam->isPassed()){
+        if($exam->isCompleted()){
             throw new BusinessException('Экзамен уже прошел');
         }
         $exam->load([

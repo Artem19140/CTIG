@@ -25,7 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'has_to_change_password',
-        'is_work',
+        'is_active',
         'organization_id',
     ];
     protected $hidden = [
@@ -38,8 +38,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'is_admin' => 'boolean',
-            'is_work' => 'boolean'
+            'is_active' => 'boolean'
         ];
     }
 
@@ -47,13 +46,12 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class,'role_user', 'user_id', 'role_id');
     }
     
+    public function hasRole(string $role){
+        return $this->roles()->where('name', $role)->exists();
+    }
 
     public function examiner(): BelongsToMany{
         return $this->belongsToMany(Exam::class, 'exam_examiner','examiner_id', 'exam_id');
-    }
-
-    public function isAdmin(){
-        return $this->is_admin;
     }
 
     public function organization(): BelongsTo{

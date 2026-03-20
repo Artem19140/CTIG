@@ -2,6 +2,7 @@
 import { useForm } from '@inertiajs/vue3'
 
 
+
 const form = useForm({
     code: '',
 })
@@ -14,9 +15,6 @@ const submit = () => {
     },
     onError: (errors) => {
       console.log('Ошибки валидации:', errors)
-    },
-    onFinish: () => {
-      console.log('Запрос завершён')
     },
   })
 }

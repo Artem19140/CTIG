@@ -25,11 +25,10 @@ const enroll = async (exam : any) => {
     return  
   }
   if(await confirmOpen(`Записать ${props.student?.surname} ${props.student?.name[0]}.${props.student?.patronymic[0]}. на экзамен по ${exam.shortName} на ${ formatterDate(exam.beginTime) }  в  ${ formatterTime(exam.beginTime)}`)){
-    await axios.post(`exams/${exam.id}/students`, {studentId:props.student.id})
-    modalState.fileUrl = `students/${props.student.id}/application-forms?examId=${exam.id}`
+    const res = await axios.post(`exams/${exam.id}/students`, {studentId:props.student.id})
+    //modalState.fileUrl = `students/${props.student.id}/application-forms?examId=${exam.id}`
   }
 }
-//Если нет экзаменов - тогда сообщение!
 </script>
 
 <template>

@@ -74,7 +74,7 @@ const examinersList = (examinersList :Array<any>) => {
             </v-list>
             <v-list>
                 <v-list-item  v-if="exam?.students?.length">
-                    <StudentsTable :students="exam.students ?? []" :exam-id="exam.id" />
+                    <StudentsTable :students="exam.students ?? []" :exam="exam" />
                 </v-list-item>
                 <v-list-item  v-else class="text-center">
                     <v-list-item-subtitle>Запись пуста</v-list-item-subtitle>

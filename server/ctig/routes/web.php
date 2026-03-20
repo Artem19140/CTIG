@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\UserRoles;
 use App\Http\Controllers\Web\File\FileController;
 use App\Http\Controllers\Web\User\UserController;
 use App\Http\Controllers\Web\Attempt\AttemptController;
@@ -18,13 +19,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('exams/available', [ExamController::class, "available"]);
 
 
-Route::middleware(['auth', 'user.is.work', 'organization.is.work', 'password.change'])->group(function(){
-    Route::resource('students', StudentController::class)->middleware('auth');//->middleware('auth') password.change
-    Route::get('students/{student}/application-forms', [StudentController::class, "getApplicationForm"]);
+Route::middleware(['auth', 'user.is.active', 'organization.is.active', 'password.change'])->group(function(){
+    Route::resource('students', StudentController::class);
+    Route::get('students/{student}/application-forms', [StudentController::class, "getApplicationForm"])
+            ->name('students.application-forms');
+        //->middleware('user.has.role:operator');
     
     Route::prefix('exams')->group(function(){
-        Route::get('{exam}/codes', [ExamController::class, "formCodes"]);
-        Route::get('create/modal-data', [ExamController::class,'createModalData']);
+        Route::get('{exam}/codes', [ExamController::class, "formCodes"]);//->middleware('user.has.role:examiner');
+        Route::get('create/modal-data', [ExamController::class,'createModalData']);//->middleware('user.has.role:scheduler');
         Route::post('{exam}/students', [ExamEnrollmentController::class, "store"]);
         Route::delete('{exam}/students/{student}', [ExamEnrollmentController::class, "destroy"]);
         Route::post('{exam}/students/{student}', [ExamEnrollmentController::class, "transfer"]);

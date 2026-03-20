@@ -1,9 +1,10 @@
 <?php
 
 use App\Exceptions\BusinessException;
-use App\Http\Middleware\CheckOrganizationIsWork;
-use App\Http\Middleware\CheckPasswordChange;
-use App\Http\Middleware\CheckUserIsWork;
+use App\Http\Middleware\EnsureOrganizationIsActive;
+use App\Http\Middleware\EnsurePasswordChange;
+use App\Http\Middleware\EnsureUserIsActive;
+use App\Http\Middleware\EnsureUserHasRole;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -31,36 +32,24 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'password.change' => CheckPasswordChange::class,
-            'user.is.work' => CheckUserIsWork::class,
-            'organization.is.work' => CheckOrganizationIsWork::class
+            'password.change' => EnsurePasswordChange::class,
+            'user.is.active' => EnsureUserIsActive::class,
+            'organization.is.active' => EnsureOrganizationIsActive::class,
+            'user.has.role' => EnsureUserHasRole::class
         ]);
 
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions
-            // ->render(function (BusinessException $e, Request $request) {
-            //     if($request->header('X-Inertia')){
-            //         return back()->with('error', $e->getMessage());
-            //     }
-            //     return null;
-            // })
-
+            ->render(function (BusinessException $e, Request $request) {
+                Inertia::flash('error', $e->getMessage());
+                return back();
+            })
             ->shouldRenderJsonWhen(function (Request $request, Throwable $e) {
                 if ($request->is('api/*')) {
                     return true;
                 }
                 return $request->expectsJson();
             });
-
-            // ->respond(function (Response $response) {
-            //     if ($response->getStatusCode() === 419) {
-            //         return back()->with([
-            //             'message' => 'The page expired, please try again.',
-            //         ]);
-            //     }
-
-            //     return $response;
-            // });
     
     })->create();

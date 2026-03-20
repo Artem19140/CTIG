@@ -43,8 +43,13 @@ const create =  () => {
     form.post('/exams', {
     preserveScroll: true,
     onSuccess: (page) => {
-        isActive.value = false
-        form.resetAndClearErrors()
+        if(page.flash.success){
+            isActive.value = false
+            form.resetAndClearErrors()
+        }
+    },
+    onError:() => {
+
     }
     })
     

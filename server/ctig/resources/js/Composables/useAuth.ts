@@ -4,7 +4,7 @@ export const useAuth = () => {
     const page = usePage()
     const user  = page.props?.auth?.user ?? null
     const roles = user?.roles ?? [];
-    const isSuperAdmin = user?.is_admin ?? false
+    const isSuperAdmin = user?.roles?.includes('super_admin') ?? false
 
     const can = (rolesAllowed: Array<string>): boolean => {
         if (isSuperAdmin) return true;

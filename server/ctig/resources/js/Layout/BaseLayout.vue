@@ -1,5 +1,13 @@
 <template>
-    
+    <v-main 
+      style="background-image: url('/storage/images/background.png');
+              min-height: 100vh;
+              background-size: cover;
+              background-position: center"
+              
+    >
+      <slot />
+    </v-main>
     <app-snackbar 
     />
     <student-show-modal />

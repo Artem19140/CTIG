@@ -17,9 +17,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('has_to_change_password')->default(true);
-            $table->boolean('is_admin')->default(false);
             $table->string( 'job_title');
-            $table->boolean('is_work')->default(true);
+            $table->boolean('is_active')->default(true);
             $table->foreignId('organization_id')
                 ->constrained('organizations')
                 ->cascadeOnDelete();

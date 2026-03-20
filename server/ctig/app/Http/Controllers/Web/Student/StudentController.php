@@ -35,10 +35,15 @@ class StudentController
                             $request->validated('examId'),
                             $request->user()
                         );
-        return Inertia::render('Students/Students', [
+        Inertia::flash([
+            'success' => 'Студент создан',
             'studentId' => $student->id,
-            'examId' => $request->validated('examId')
+            'redirectUrl' => route('students.application-forms', [
+                'student' =>$student->id,
+                'examId' => $request->validated('examId'),
+            ])
         ]);
+        return back();
     }
 
     public function getApplicationForm (Request $request, Student $student, CreateStudentStatementAction $createStudentStatement){

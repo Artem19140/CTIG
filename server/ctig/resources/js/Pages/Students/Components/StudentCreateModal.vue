@@ -6,7 +6,6 @@ import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
 import axios from 'axios';
 import type {Exam, StudentCreateForm } from '../../../interfaces/interfaces';
 import { formatterTime,formatterDate } from '../../../Helpers/heplers';
-import { modalState } from '../../../Composables/modalState';
 import countries from '../../../../../../ctig/storage/app/public/countries.json'
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
 import AddButton from '../../../Components/AddButton/AddButton.vue';
@@ -51,19 +50,15 @@ const create = () => {
     form.post('/students', {
     preserveScroll: true,
     preserveState: true,
-    onSuccess: async (page) => {
+    onSuccess: (page) => {
+        const studentId = page.flash?.studentId
+        if(!page.flash?.redirectUrl || !studentId) return
         examTypeId.value = null
         exams.value = undefined
-        form.reset()
-        form.clearErrors()
-        const studentId = page.props.studentId
-        const examId = page.props.examId
-        modalState.fileUrl =  `students/${studentId}/application-forms?examId=${examId}`
+        form.resetAndClearErrors()
+        console.log(page.props.redirectUrl)
+        window.open(String(page.flash?.redirectUrl))
         isActive.value = false 
-        console.log('Форма успешно отправлена!', page)
-    },
-    onError: (errors) => {
-        console.log('Ошибки валидации', errors)
     }
     })
 }

@@ -9,17 +9,13 @@ const text = ref('')
 const color = ref('')
 
 watch(
-  () => page.props.flash,
+  () => page.flash,
   (flash:any) => {
     if (!flash) return
     if (flash?.success) {
       text.value = flash.success
       snackbar.value = true
       color.value="success"
-    }else if(flash?.error){
-      text.value = flash.error
-      snackbar.value = true
-      color.value="error"
     }
   }
 )

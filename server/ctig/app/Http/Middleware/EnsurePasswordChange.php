@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckUserIsWork
+class EnsurePasswordChange
 {
     /**
      * Handle an incoming request.
@@ -15,8 +15,8 @@ class CheckUserIsWork
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!$request->user()->is_work){
-            return redirect()->route('login');
+        if($request->user()->has_to_change_password){
+            return redirect()->route('password.change');
         }
         return $next($request);
     }

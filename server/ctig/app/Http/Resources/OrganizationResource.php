@@ -20,7 +20,7 @@ class OrganizationResource extends JsonResource
             'directorFio' => $this->director_fio,
             'certificatesIssueAddress' => $this->certificates_issue_address,
             'ogrn' => $this->ogrn,
-            'isWork' => $this->is_work,
+            'isActive' => $this->is_active,
             'inn' => $this->inn,
             'address' => $this->address,
             'nameGenitive' => $this->name_genitive,

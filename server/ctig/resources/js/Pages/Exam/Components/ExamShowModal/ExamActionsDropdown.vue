@@ -32,10 +32,10 @@ const cancelExam = async () => {
   })
   
 }
-
+const hasStudents = computed(()=>!props.exam?.studentsCount && props.exam?.students?.length > 0)
 const noStudents = () => {
   console.log(props.exam)
-    if(!props.exam?.studentsCount && props.exam?.students?.length > 0){
+    if(!props.exam?.studentsCount && !(props.exam?.students?.length > 0)){
         const {open} = useAlert()
         open('На экзамен не записано ни одного студента!')
         return true
@@ -45,7 +45,7 @@ const noStudents = () => {
 
 const downloadStudentsList = () => {
     if(noStudents()) return
-    modalState.fileUrl = `/exams/${props.exam.id}/students/list`
+    window.open(`/exams/${props.exam.id}/students/list`)
 }
 
 const formCodes = async () => {
@@ -53,7 +53,7 @@ const formCodes = async () => {
     if(!props.exam.id){
         return
     }
-    modalState.fileUrl = `/exams/${props.exam.id}/codes`
+    window.open(`/exams/${props.exam.id}/codes`)
 }
 
 const {can} = useAuth()
@@ -63,8 +63,9 @@ const {can} = useAuth()
     <ThreeDotDropdown>
       <AppListDropDownItem 
         title="Скачать кода" 
+        
         @click="formCodes" 
-        v-if="can([Roles.EXAMINER])"
+        v-if="can([Roles.EXAMINER]) && hasStudents"
       />
 
       <AppListDropDownItem 

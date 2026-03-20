@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('director_fio');
             $table->string('certificates_issue_address');
-            $table->boolean('is_work')->default(true);
+            $table->boolean('is_active')->default(true);
             $table->string('ogrn');
             $table->string('inn');
             $table->string('address');

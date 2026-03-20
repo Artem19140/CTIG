@@ -10,21 +10,21 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id()->index();
-            $table->string('surname', 40);
-            $table->string('name', 40);
-            $table->string('patronymic', 40)->nullable();
+            $table->string('surname');
+            $table->string('name');
+            $table->string('patronymic')->nullable();
             $table->date('date_birth');
-            $table->string('surname_latin', 40);
-            $table->string('name_latin', 40);
+            $table->string('surname_latin');
+            $table->string('name_latin');
             $table->string('document_type')->default('Паспорт');
-            $table->string('patronymic_latin', 40)->nullable();
-            $table->string('passport_number', 15);
-            $table->string('passport_series', 10);
+            $table->string('patronymic_latin')->nullable();
+            $table->string('passport_number');
+            $table->string('passport_series');
             $table->unique(['passport_series', 'passport_number', 'citizenship']);
-            $table->string('issued_by', 50);
+            $table->string('issued_by');
             $table->date('issued_date');
-            $table->string('address_reg', 50);
-            $table->string('migration_card_requisite', 40)->nullable()->default(null);
+            $table->string('address_reg');
+            $table->string('migration_card_requisite')->nullable()->default(null);
             $table->char('citizenship', 2);
             $table->string('phone', 12);
             $table->char('gender', 1);
@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('passport_scan_path')->nullable()->default(null);
             $table->string('passport_translate_scan')->nullable()->default(null);
         
-            $table->char('exam_code', 6)->nullable()->unique()->default(null);
+            $table->string('exam_code')->nullable()->unique()->default(null);
             $table->dateTime('exam_code_expired_at')->nullable()->default(null);
             $table->integer('exam_id')->nullable()->default(null);
 

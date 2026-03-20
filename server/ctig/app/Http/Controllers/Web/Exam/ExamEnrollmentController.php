@@ -29,7 +29,7 @@ class ExamEnrollmentController
     public function destroy(Exam $exam, Student $student, CancellEnrollmentAction $cancellErollment)
     {
         $cancellErollment->execute($exam, $student);
-        return response()->noContent();
+        return back()->with('success','Запись отменена');
     }
 
     public function transfer(Exam $exam, Student $student, TransferEnrollmentActon $transferEnrollment){

@@ -4,8 +4,8 @@ import AppInput from '../../../Components/AppInput/AppInput.vue';
 import { useForm } from '@inertiajs/vue3'
 
 const form = useForm({
-    email: 'anna_ryasanova@gmail.com', //qwerty1231123@gmail.com
-    password: '12345678' //12345678 
+    email: 'anna_ryasanova@gmail.com', 
+    password: '12345678'
 })
 
 const show = ref<boolean>(false)

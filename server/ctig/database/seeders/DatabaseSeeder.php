@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Database\Seeders\ExamTypes\PATENT\PatentSeeder;
 use Database\Seeders\ExamTypes\RVP\RvpSeeder;
 use Database\Seeders\ExamTypes\VNZH\VnzhSeeder;
+use Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Enums\UserRoles;
@@ -67,8 +68,25 @@ class DatabaseSeeder extends Seeder
         $roleOrgAdmin = Role::create([
             'name' => UserRoles::OrgAdmin,
         ]);
+
+        $SuperAdmin = Role::create([
+            'name' => UserRoles::SuperAdmin,
+        ]);
         
         User::factory(5)->create();
+
+        $user = User::create([
+            'surname' => 'Петров',
+            'name' => 'Николай',
+            'patronymic' => 'Дмитрович',
+            'email' => env('SUPER_ADMIN_LOGIN'),
+            'password' => Hash::make(env('SUPER_ADMIN_PASSWORD')),
+            'job_title' => 'Админ', 
+            'organization_id' => 1,
+            'has_to_change_password' => false
+        ]);
+
+        $user->roles()->attach($SuperAdmin);
         
         $this->call([
             PatentSeeder::class,

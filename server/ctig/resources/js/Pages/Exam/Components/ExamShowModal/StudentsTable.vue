@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import axios from 'axios';
-import { modalState } from '../../../../Composables/modalState'
 import { useConfirmDialog } from '../../../../Composables/useConfirmDialog';
 import ThreeDotDropdown from '../../../../Components/ThreeDotDropdown/ThreeDotDropdown.vue';
 import AppListDropDownItem from '../../../../Components/AppListDropDownItem/AppListDropDownItem.vue';
-
+import { useStudentShowModal } from '../../../../Composables/modalWindows/useStudentShowModal';
+import { router } from '@inertiajs/vue3';
+import { Exam } from '../../../../interfaces/interfaces';
 
 const props = defineProps<{
     students : any,
-    examId: number
+    exam: Exam
 }>()
 
 function studentShowModal(event:Event, {item}: any) {
-    modalState.studentId = item.id  
+    const {open} = useStudentShowModal()
+    open(item.id)  
 }
 
 const headers = [
@@ -22,7 +24,7 @@ const headers = [
 ]
 
 const download = (studentId :number) => {
-    modalState.fileUrl = `students/${studentId}/application-forms?examId=${props.examId}`
+    window.open(`students/${studentId}/application-forms?examId=${props.exam?.id}`)
 }
 
 const transfer = () => {
@@ -34,10 +36,11 @@ const cancell = async (studentId :number) => {
     if(!ok){
         return
     }
-    const res = await axios.delete(`exams/${props.examId}/students/${studentId}`)
-    if( res.status === 204 ){
-        
-    }
+    router.delete(`exams/${props.exam?.id}/students/${studentId}`,{
+        onSuccess: (page) =>{
+            const success = page.flash.success
+        }
+    })
 }
 </script>
 

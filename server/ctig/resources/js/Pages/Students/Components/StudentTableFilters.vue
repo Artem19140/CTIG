@@ -7,8 +7,6 @@ const props = defineProps<{
     form : any
 }>()
 
-
-
 </script>
 
 <template>

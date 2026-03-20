@@ -41,8 +41,8 @@ class ExamController
     public function store(ExamPostRequest $request, CreateExamAction $createExamAction)
     {       
         $createExamAction->handle($request->getDto(),$request->user());
-        return back()
-            ->with('success', 'Экзамен создан');
+        Inertia::flash('success', 'Экзамен создан');
+        return back();
 
     }
 
@@ -88,7 +88,8 @@ class ExamController
             'cancelledReason' => ['required', 'string']
         ]);
         $cancelExam->execute($exam);
-        return back()->with('success', 'Экзамен отменен');
+        Inertia::flash('success', 'Экзамен отменен');
+        return back();
     }
 
     public function formCodes(Exam $exam, CreateCodesAction $createCodes)

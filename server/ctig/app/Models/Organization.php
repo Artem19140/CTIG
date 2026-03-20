@@ -13,7 +13,7 @@ class Organization extends Model
         'name',
         'director_fio',
         'certificates_issue_address',
-        'is_work',
+        'is_active',
         'ogrn',
         'inn',
         'address',
@@ -22,7 +22,7 @@ class Organization extends Model
     ];
 
     protected $casts = [
-        'is_work' => 'boolean'
+        'is_active' => 'boolean'
     ];
 
     public function users(): HasMany{

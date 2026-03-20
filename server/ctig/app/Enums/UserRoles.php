@@ -8,4 +8,5 @@ enum UserRoles :string {
     case EXAMINER = 'examiner';
     case Director = 'director';
     case OrgAdmin = 'org_admin';
+    case SuperAdmin = 'super_admin';
 }

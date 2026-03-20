@@ -47,11 +47,11 @@ class UserController extends Controller{
     }
 
     public function destroy(User $user){
-        if(!$user->is_work){
-            throw new BusinessException('Сотрудник уже удален');
+        if(!$user->is_active){
+            throw new BusinessException('Сотрудник уже уволен');
         }
-        $user->is_work = false;
+        $user->is_active = false;
         $user->save();
-        return back()->with('success', 'Сотрудник удален');
+        return back()->with('success', 'Сотрудник уволен');
     }
 }

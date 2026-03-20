@@ -1,8 +1,10 @@
 import axios from 'axios';
+import { useAlert } from './Composables/useAlert';
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+const {open} = useAlert()
 
 axios.interceptors.response.use(
   function (response) {
@@ -25,6 +27,7 @@ axios.interceptors.response.use(
 
       case 403:
         console.error('Forbidden');
+        open('Нет доступа')
         alert('Нет доступа');
         break;
 
@@ -33,6 +36,7 @@ axios.interceptors.response.use(
         break;
 
       case 422:
+        open(error.response.data)
         console.error('Validation error', error.response.data);
         break;
 

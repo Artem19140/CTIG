@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppAutocomplete from '../../../Components/AppAutocomplete/AppAutocomplete.vue';
 import AppInput from '../../../Components/AppInput/AppInput.vue';
 import BaseFilter from '../../../Components/BaseFilter/BaseFilter.vue';
 
@@ -15,7 +16,7 @@ const props = defineProps<{
         :form="form"
         :appliedFilters="filters"
     >
-        <v-autocomplete 
+        <AppAutocomplete
             label="Тип экзамена"
             v-model="form.examTypeId"
             :error-messages="form.errors.examTypeId"

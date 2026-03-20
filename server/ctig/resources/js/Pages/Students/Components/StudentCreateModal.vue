@@ -9,6 +9,7 @@ import { formatterTime,formatterDate } from '../../../Helpers/heplers';
 import countries from '../../../../../../ctig/storage/app/public/countries.json'
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
 import AddButton from '../../../Components/AddButton/AddButton.vue';
+import AppAutocomplete from '../../../Components/AppAutocomplete/AppAutocomplete.vue';
 
 const isActive = ref<boolean>(false)
 const examTypeId = ref<number | null>(null)
@@ -138,7 +139,7 @@ watch(examTypeId, async () => {
                                 </v-col>
 
                                 <v-col cols="12" md="6">
-                                    <v-autocomplete 
+                                    <AppAutocomplete 
                                         label="Тип экзамена"
                                         item-title="name"
                                         :items="examTypes"
@@ -255,7 +256,7 @@ watch(examTypeId, async () => {
                                 
 
                                 <v-col md="6" cols="12">
-                                    <v-autocomplete 
+                                    <AppAutocomplete
                                         label="Гражданство"
                                         item-title="text"
                                         :items="countries"

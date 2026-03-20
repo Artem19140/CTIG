@@ -6,6 +6,7 @@ import AppInput from '../../Components/AppInput/AppInput.vue';
 import { useForm } from '@inertiajs/vue3';
 import { useConfirmDialog } from '../../Composables/useConfirmDialog';
 import axios from 'axios';
+import AppAutocomplete from '../../Components/AppAutocomplete/AppAutocomplete.vue';
 
 const isOpen = ref<boolean>(false)
 const loading = ref<boolean>(false)
@@ -80,7 +81,7 @@ const open =  async () => {
             :error-messages="form?.errors?.jobTitle"
         />
 
-        <v-autocomplete 
+        <AppAutocomplete 
             label="Роли"
             :loading="loading"
             v-model="form.roles"

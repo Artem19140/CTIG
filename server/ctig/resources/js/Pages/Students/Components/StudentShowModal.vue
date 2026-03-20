@@ -2,9 +2,10 @@
 import { formatterDate } from '../../../Helpers/heplers';
 import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
 import { modalState } from '../../../Composables/modalState';
-import ExamEnrollmentMenu from '../../Exam/Components/ExamEnrollmentMenu.vue';
+
 import { useStudentShowModal } from '../../../Composables/modalWindows/useStudentShowModal';
 import StudentExamsList from './StudentExamsList.vue';
+import StudentActionsDropdown from './StudentActionsDropdown.vue';
 
 const {isOpen, loading,close, student} = useStudentShowModal()
 
@@ -24,7 +25,9 @@ const showDocument = (url :string) => {
         @before-close="() => close()"
     >
         <template #titleActions>
-            <ExamEnrollmentMenu :student="student" />
+            <StudentActionsDropdown 
+                :student="student"
+            />
         </template>
         <template #skeleton>
             <v-skeleton-loader

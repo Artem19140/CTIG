@@ -13,10 +13,12 @@ use App\Http\Controllers\Web\Organization\OrganizationController;
 use App\Http\Controllers\Web\Report\ReportController;
 use App\Http\Controllers\Web\Student\StudentController;
 use App\Http\Controllers\Web\AttemptAnswer\AttemptAnswerController;
+use App\Models\ExamType;
 use App\Models\Role;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
-Route::get('exams/available', [ExamController::class, "available"]);
+
 
 
 Route::middleware(['auth', 'user.is.active', 'organization.is.active', 'password.change'])->group(function(){
@@ -35,6 +37,7 @@ Route::middleware(['auth', 'user.is.active', 'organization.is.active', 'password
         Route::get('{exam}/monitoring', [ExamMonitoringController::class, 'show']);
         Route::get('{exam}/students/list', [ExamDocumentController::class, 'studentsList']);
         Route::get('schedule', [ExamController::class, 'schedule'])->name('exams.schedule');
+        
     });
     Route::resource('exams', ExamController::class)->where(['exam' => '[0-9]+']);
     
@@ -60,6 +63,13 @@ Route::middleware(['auth', 'user.is.active', 'organization.is.active', 'password
 
     Route::get('roles', function(){
         return Role::select(['id', 'name'])->get();;
+    });
+
+    Route::get('exams/available', [ExamController::class, "available"]);
+
+    Route::get('exams/types', function(){
+        Inertia::flash('examTypes', ExamType::select(['id', 'name'])->get());
+        return back();
     });
 });
 

@@ -51,12 +51,13 @@ export interface Student{
     citizenship:string,
     dateBirth:string,
     attempts:Array<Attempt>,
-    exam:Array<Exam>
+    exam:Array<Exam>,
+    fullName:string
 }
 
 export type StudentCreateForm = Omit<
   Student,
-  'id' | 'creator' | 'exams' | 'createdAt' | 'passportScan' | 'photo' | 'attempts' | 'exam'
+  'id' | 'creator' | 'exams' | 'createdAt' | 'passportScan' | 'photo' | 'attempts' | 'exam' | 'fullName'
 > & {
   passportScan: File | null
   passportTranslateScan: File | null

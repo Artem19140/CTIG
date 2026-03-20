@@ -10,6 +10,7 @@ use App\Exceptions\EntityNotFoundExсeption;
 use App\Models\Exam;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ExamEnrollmentController
 {
@@ -22,8 +23,15 @@ class ExamEnrollmentController
         $request->validate([
             'studentId' => ['required', 'integer', 'min:1'],
         ]);
-        $createEnrollment->execute($exam, request()->input('studentId'), $request->user());     
-        return back()->with('success', 'Запись успешно создана');
+        $student = $createEnrollment->execute($exam, request()->input('studentId'), $request->user()); 
+        Inertia::flash([
+            'success' => 'Запись успешно создана',
+            'redirectUrl' => route('students.application-forms', [
+                'student' =>$student->id,
+                'examId' => $exam->id,
+            ])
+        ]);
+        return back();
     }
 
     public function destroy(Exam $exam, Student $student, CancellEnrollmentAction $cancellErollment)

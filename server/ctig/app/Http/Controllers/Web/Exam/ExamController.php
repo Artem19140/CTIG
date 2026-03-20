@@ -102,7 +102,8 @@ class ExamController
             'examTypeId' => ['nullable', 'integer', 'min:1']
         ]);
         $exams = $getAvailableExams->execute($request->input('examTypeId'));
-        return ExamResource::collection($exams);
+        Inertia::flash(['exams' => $exams]);
+        return back();
     }        
     
     public function schedule(Request $request){

@@ -10,6 +10,7 @@ import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
 import AddButton from '../../../Components/AddButton/AddButton.vue';
 import { useAuth } from '../../../Composables/useAuth';
 import { Roles } from '../../../Constants/Roles';
+import AppAutocomplete from '../../../Components/AppAutocomplete/AppAutocomplete.vue';
 
 const addresses = ref<Address[]>()
 const examiners = ref<User[]>()
@@ -80,7 +81,7 @@ const close = async (fn:  ()  => void) => {
         @before-close="(done) => close(done)"
     >
         <form>
-            <v-autocomplete 
+            <AppAutocomplete 
                 label="Тип экзамена"
                 item-title="name"
                 :items="examTypes"
@@ -100,7 +101,7 @@ const close = async (fn:  ()  => void) => {
                 clearable
             />
             
-            <v-autocomplete 
+            <AppAutocomplete 
                 label="Адрес"
                 item-title="address"
                 :items="addresses"
@@ -111,7 +112,7 @@ const close = async (fn:  ()  => void) => {
                 clearable
             />
 
-            <v-autocomplete 
+            <AppAutocomplete 
                 label="Тестеры"
                 item-title="fullName"
                 :items="examiners"

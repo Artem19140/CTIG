@@ -52,13 +52,14 @@ class StudentController
         return $applicationFormPdf->stream('exam.pdf');
     }
 
-    public function show(Student $student){
+    public function show(Request $request, Student $student){
         $student->load(['exams' => ['attempts' => function ($query) use($student): void{
             $query->where('student_id', $student->id);
             },
             'examType']
         ]);
-        return new StudentResource($student);
+        
+        return Inertia::flash(['student' => StudentResource::make($student)->resolve()])->back();
     }
 
     public function update(StudentPostRequest $request, Student $student)

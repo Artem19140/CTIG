@@ -16,7 +16,7 @@ final class CreateEnrollmentAction{
         protected CreateStudentStatementAction $createStudentStatement,
         protected GetRegNumberAction $getRegNumber
     ){}
-    public function execute(Exam $exam, int $studentId, User $user){
+    public function execute(Exam $exam, int $studentId, User $user):Student{
         $student = Student::find($studentId);
         
         if(!$student){
@@ -61,6 +61,7 @@ final class CreateEnrollmentAction{
             'creator_id' => $user->id,
             'organization_id' => $user->organization_id
         ]);
+        return $student;
         //return $this->createStudentStatement->execute($exam->id, $student,$user);
     }
 }

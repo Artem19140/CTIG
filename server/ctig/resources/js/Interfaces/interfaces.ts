@@ -51,17 +51,18 @@ export interface Student{
     citizenship:string,
     dateBirth:string,
     attempts:Array<Attempt>,
-    exam:Array<Exam>,
-    fullName:string
+    fullName:string,
+    fullPassport:string,
+    photoPath:string
 }
 
 export type StudentCreateForm = Omit<
   Student,
-  'id' | 'creator' | 'exams' | 'createdAt' | 'passportScan' | 'photo' | 'attempts' | 'exam' | 'fullName'
+  'id' | 'creator' | 'exams' | 'createdAt' | 'passportScan' | 'photo' | 'attempts' | 'exam' | 'fullName' | 'fullPassport' | 'photoPath'
 > & {
   passportScan: File | null
   passportTranslateScan: File | null
-
+  photo:File | null
   noPassportNumber: boolean
   noPassportSeries: boolean
   noPatronymic: boolean
@@ -96,7 +97,8 @@ export interface ExamForm{
     addressId: number | null,
     comment:string,
     examiners: Array<number>,
-    beginTime:string
+    time:string,
+    date:string
 }
 
 export type Paginated<T> = {
@@ -104,4 +106,8 @@ export type Paginated<T> = {
     meta: {
         total: number
     }
+}
+
+export type api<T> = {
+    data: T | null
 }

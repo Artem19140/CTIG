@@ -58,7 +58,7 @@ class StudentController
             },
             'examType']
         ]);
-        
+        return new StudentResource($student);
         return Inertia::flash(['student' => StudentResource::make($student)->resolve()])->back();
     }
 

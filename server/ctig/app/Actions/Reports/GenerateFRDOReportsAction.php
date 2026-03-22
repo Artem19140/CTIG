@@ -26,26 +26,28 @@ class GenerateFRDOReportsAction{
     }
 
 
-    // protected function isAllAttemptsChecked(Carbon $examDate, bool $success): void{
-    //     $notCheckedAttempts = Attempt::where('finished_at', '>=',$examDate->copy()->startOfDay())
-    //                                 ->where('finished_at', '<=',$examDate->copy()->endOfDay())
-    //                                 ->whereIn('status', AttemptStatus::unChecked())
-    //                                 ->where('is_passed', $success)
-    //                                 ->exists();
-    //     $examDate = $examDate->format('d.m.Y');
-    //     if($notCheckedAttempts){
-    //         $name = $success ? 'сертификатов' : 'справок';
-    //         throw new BusinessException("За $examDate не все попытки для $name проверены" );
-    //     }
-    // }
+    protected function isAllAttemptsChecked(Carbon $examDate, bool $success): void{
+        $notCheckedAttempts = Attempt::where('finished_at', '>=',$examDate->copy()->startOfDay())
+                                    ->where('finished_at', '<=',$examDate->copy()->endOfDay())
+                                    ->whereIn('status', AttemptStatus::unChecked())
+                                    ->where('is_passed', $success)
+                                    ->exists();
+        $examDate = $examDate->format('d.m.Y');
+        if($notCheckedAttempts){
+            $name = $success ? 'сертификатов' : 'справок';
+            throw new BusinessException("За $examDate не все попытки для $name проверены" );
+        }
+    }
 
     protected function hasAttemptsForReport($examDate, bool $success): Collection{
+        
         $attempts = Attempt::with(['exam.examType','student','exam.address'])
                             ->where('finished_at', '>=',$examDate->copy()->startOfDay())
                             ->where('finished_at', '<=',$examDate->copy()->endOfDay())
                             ->where('is_passed',$success)
                             ->where('status', AttemptStatus::Checked)
                             ->get();
+                            //echo $attempts;die;
         if($attempts->isEmpty()){
             $name = $success ? 'сертификатов' : 'справок';
             //throw new BusinessException("Данных для $name нету");
@@ -58,7 +60,7 @@ class GenerateFRDOReportsAction{
         if($success){
             $templatePath = storage_path('app/templates/certificates_frdo.xlsx');
         }else{
-            $templatePath = storage_path('app/templates/references_frdo.xls');
+            $templatePath = storage_path('app/templates/references_frdo.xlsx');
         }
         
         $spreadsheet = IOFactory::load($templatePath);

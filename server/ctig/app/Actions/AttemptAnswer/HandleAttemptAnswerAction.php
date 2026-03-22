@@ -37,8 +37,14 @@ class HandleAttemptAnswerAction{
             $isCorrect = $this->autoChecking($answer, $taskVariant, $task->type);
             $attemptAnswer->mark = $isCorrect ? $task->mark : 0;
             $attemptAnswer->is_checked = true;
+
             if($task->type === TaskType::SingleChoice){
                 $attemptAnswer->answer_id = $answer;
+                $answer= $taskVariant->answers->firstWhere('id', $answer);
+                $attemptAnswer->answer= [
+                    'id' => $answer->id,
+                    'order' =>$answer->order
+                ];
             }else{
                 $attemptAnswer->answer= $answer;
             }

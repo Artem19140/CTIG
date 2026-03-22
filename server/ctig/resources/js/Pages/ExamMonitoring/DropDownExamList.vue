@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import AppListDropDownItem from '../../Components/AppListDropDownItem/AppListDropDownItem.vue';
-import { modalState } from '../../Composables/modalState';
 import { Exam } from '../../interfaces/interfaces';
 import { useAlert } from '../../Composables/useAlert';
 import ThreeDotDropdown from '../../Components/ThreeDotDropdown/ThreeDotDropdown.vue';
@@ -20,7 +19,7 @@ const noStudents = () => {
 
 const downloadStudentsList = () => {
     if(noStudents()) return
-    modalState.fileUrl = `/exams/${props.exam.id}/students/list`
+    window.open(`/exams/${props.exam.id}/students/list`)
 }
 
 const formCodes = async () => {
@@ -28,7 +27,7 @@ const formCodes = async () => {
     if(!props.exam.id){
         return
     }
-    modalState.fileUrl = `/exams/${props.exam.id}/codes`
+    window.open(`/exams/${props.exam.id}/codes`)
 }
 </script>
 

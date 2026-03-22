@@ -4,9 +4,12 @@ import AppListDropDownItem from '../../../Components/AppListDropDownItem/AppList
 import ThreeDotDropdown from '../../../Components/ThreeDotDropdown/ThreeDotDropdown.vue';
 import { Student } from '../../../interfaces/interfaces';
 import EnrollmentModal from './EnrollmentModal.vue';
+import { useModals } from '../../../Composables/useModals';
+
+const {open} = useModals()
 
 const props = defineProps<{
-    student:Student
+    student:Student | null
 }>()
 const isOpen = ref<boolean>(false)
 </script>
@@ -15,8 +18,16 @@ const isOpen = ref<boolean>(false)
     <ThreeDotDropdown>
         <AppListDropDownItem 
             title="Записать на экзамен"
-            @click="isOpen=true"
-            :student="student"
+            @click="open('enrollment', {student})"
+        />
+        <AppListDropDownItem 
+            title="Редактировать"
+            @click=""
+        />
+        <AppListDropDownItem 
+            title="Удалить"
+            @click=""
+            color="text-red"
         />
     </ThreeDotDropdown>
     <EnrollmentModal :student="student" v-model="isOpen" />

@@ -20,7 +20,7 @@ class ExamResource extends JsonResource
         return [
             'id' => $this->id,
             'isCancelled' => $this->is_cancelled,
-            'beginTime' => $this->begin_time,
+            'beginTime' => $this->begin_time->format('H:i d.m.Y'),
             'students' => StudentResource::collection($this->whenLoaded('students')),//здесь если есть результаты, то и их можно взять
             'sessionNumber' => $this->session,
             'capacity' => $this->capacity,

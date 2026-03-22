@@ -3,23 +3,45 @@ import { formatterDate, formatterTime } from '../../../../Helpers/heplers';
 import BaseDialog from '../../../../Components/BaseDialog/BaseDialog.vue';
 import ExamActionsDropdown from './ExamActionsDropdown.vue';
 import StudentsTable from './StudentsTable.vue';
-import { useExamShowModal } from '../../../../Composables/modalWindows/useExamShowModal';
+import { onMounted, ref } from 'vue';
+import axios from 'axios';
+import { Exam } from '../../../../interfaces/interfaces';
+import { useApi } from '../../../../Composables/Api/useApi';
 
-const {isOpen, close , exam, loading} = useExamShowModal()
+const props = defineProps<{
+    examId:number
+}>()
+
+const exam = ref<Exam |null>(null)
+
+const isOpen = defineModel<boolean>({default:false})
 
 const examinersList = (examinersList :Array<any>) => {
     return examinersList.map(s => s.fullName).join(', ');
 }
+const {data, loading,request, error} = useApi()
+
+onMounted( async () => {
+    if(!props.examId) return
+    const res = await axios.get(`/exams/${props.examId}`)
+    await request(() =>  axios.get(`/exams/${props.examId}?profile=true`))
+
+    if(!error.value && data.value){
+        exam.value = data.value
+    }  
+
+    exam.value = res.data.data
+})
 
 </script>
 
 <template>
     <BaseDialog 
         width="800"
-        :loading="loading && !exam"
+        :loading="!exam || loading"
         v-model="isOpen"
         :subtitle="`${exam?.sessionNumber ?? '-'} / ${exam?.group ?? '-'}`"
-        @before-close="(done) =>  close()"
+        @before-close="(done) =>  done()"
     >
         <template #title>
             Экзамен <span v-if="exam?.isCancelled" class="text-red-500 ml-2">
@@ -47,7 +69,7 @@ const examinersList = (examinersList :Array<any>) => {
             </v-list-item>
             <v-list-item> 
                 <v-list-item-subtitle> Дата и время</v-list-item-subtitle>
-                <v-list-item-title>{{`${formatterTime(exam?.beginTime)},  ${formatterDate(exam?.beginTime)} `}}</v-list-item-title>
+                <v-list-item-title>{{exam?.beginTime }}</v-list-item-title>
             </v-list-item>
             
             <v-list-item>  

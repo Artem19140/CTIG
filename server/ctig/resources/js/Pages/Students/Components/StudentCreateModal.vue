@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import AppInput from '../../../Components/AppInput/AppInput.vue';
-import { ref, watch } from 'vue';
+import {ref, watch } from 'vue';
 import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
-import axios from 'axios';
-import type {Exam, StudentCreateForm } from '../../../interfaces/interfaces';
-import { formatterTime,formatterDate } from '../../../Helpers/heplers';
+import {type Exam, type StudentCreateForm } from '../../../interfaces/interfaces';
 import countries from '../../../../../../ctig/storage/app/public/countries.json'
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
 import AddButton from '../../../Components/AddButton/AddButton.vue';
 import AppAutocomplete from '../../../Components/AppAutocomplete/AppAutocomplete.vue';
+import ExamEnrollment from '../../Exam/Components/ExamEnrollment.vue';
+import { useAlert } from '../../../Composables/useAlert';
 
-const isActive = ref<boolean>(false)
+const isOpen = defineModel<boolean>({default:false})
 const examTypeId = ref<number | null>(null)
 
 const exams = ref<Exam[]>()
@@ -39,15 +39,17 @@ const form = useForm<StudentCreateForm>({
     passportScan:null,
     passportTranslateScan:null,
     examId:null,
-    gender:null
+    gender:null,
+    photo:null
 })
 
-const examTypes = [
-    {name:'ПАТЕНТ', id:1},
-    {name:'РВП', id:2},
-    {name:'ВНЖ', id:3}
-]
 const create = () => {
+    const {open} = useAlert()
+    if(!form.examId){
+        open('Выберите экзамен для записи')
+        return   
+    }
+        
     form.post('/students', {
     preserveScroll: true,
     preserveState: true,
@@ -57,9 +59,8 @@ const create = () => {
         examTypeId.value = null
         exams.value = undefined
         form.resetAndClearErrors()
-        console.log(page.props.redirectUrl)
         window.open(String(page.flash?.redirectUrl))
-        isActive.value = false 
+        isOpen.value=false
     }
     })
 }
@@ -72,7 +73,6 @@ const  close  = async (fn:  ()  => void)  =>  {
             return
         }
     }
-    
     examTypeId.value = null
     exams.value = undefined
     form.reset()
@@ -104,24 +104,12 @@ watch(() => form.noMigrationCard, (val) => {
         form.migrationCardRequisite = ''
     } 
 })
- 
-watch(examTypeId, async () => {
-    if(!examTypeId.value){
-        form.examId = null
-        return
-    }
-    const res = await axios.get(`/exams/available?examTypeId=${examTypeId.value}`)
-    exams.value = res.data.data
-})
 
 </script>
 
-<template>
-
-           
-    <AddButton text="Добавить" @click="isActive = true" />
+<template>  
         <BaseDialog
-            v-model="isActive"
+            v-model="isOpen"
             title="Добавление студента"
             width="1000"
             height="100%"
@@ -130,44 +118,14 @@ watch(examTypeId, async () => {
         <template #skeleton>
             <v-skeleton-loader type="article" />
         </template>
+            
                 <v-card title="Экзамен" class="mb-4">
                     <v-card-text>
-                        <v-container fluid>
-                            <v-row density="comfortable">
-                                <v-col cols="12" class="subtitle">
+                        <v-container>
+                            <v-col cols="12" class="subtitle mb-4">
                                     Выберите экзамен для записи
-                                </v-col>
-
-                                <v-col cols="12" md="6">
-                                    <AppAutocomplete 
-                                        label="Тип экзамена"
-                                        item-title="name"
-                                        :items="examTypes"
-                                        item-value="id"
-                                        v-model="examTypeId"
-                                        :error-messages="form.errors.examId"
-                                        clearable
-                                    />
-                                </v-col>
-
-                                <v-col cols="12" class="subtitle" >
-                                    Выберите время и дату
-                                </v-col>
-
-                                <v-col cols="12" md="6">
-                                    <v-select
-                                        label="Дата и время"
-                                        :items="exams"
-                                        item-title="beginTime"
-                                        item-value="id"
-                                        v-model="form.examId"
-                                        :disabled="!examTypeId"
-                                        :error-messages="form.errors.examId"
-                                        clearable
-                                        >
-                                    </v-select>
-                                </v-col>
-                            </v-row>
+                            </v-col>
+                            <ExamEnrollment v-model="form.examId" />
                         </v-container>
                     </v-card-text>
                 </v-card>

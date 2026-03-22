@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 final class CreateExamAction{
     public function handle(ExamDto $examDto, User $user){
+        
         $examType =  ExamType::find($examDto->examTypeId);
         $examAddress = Address::find($examDto->addressId);
         
@@ -34,7 +35,7 @@ final class CreateExamAction{
             throw new BusinessException('Данный экзамен неактуален');
         }
 
-        $examBeginTime = Carbon::parse($examDto->beginTime);
+        $examBeginTime = $examDto->beginTime;
 
         if($examBeginTime < Carbon::now()){
             throw new BusinessException('Экзамен нельзя создать на прошедшие даты');

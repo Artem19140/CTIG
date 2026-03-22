@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import BaseDialog from '../BaseDialog/BaseDialog.vue';
-import { modalState } from '../../Composables/modalState';
-
+const modalState  = {}
 const isOpen = computed({
   get: () => !!modalState.fileUrl,
   set: (v) => {

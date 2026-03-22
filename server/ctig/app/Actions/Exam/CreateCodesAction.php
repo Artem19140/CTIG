@@ -32,7 +32,7 @@ final class CreateCodesAction{
         $students = $exam->students;
         
         foreach($students as $student){
-            if($student->exam_code || $student->exam_id === $exam->id){
+            if($student->exam_code && $student->exam_id === $exam->id){
                 continue;
             }
             
@@ -40,6 +40,7 @@ final class CreateCodesAction{
                 $rnd = random_int(1, 9999);
                 $code = str_pad($rnd, 4, '0', STR_PAD_LEFT);
                 $saved = false;
+                
                 try{
                     $student->exam_code = $code;
                     $student->exam_id = $exam->id;

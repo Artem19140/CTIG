@@ -21,8 +21,13 @@ class AttemptAnswer extends Model
     ];
     
     protected $casts = [
-        'is_checked' => 'boolean'
+        'is_checked' => 'boolean',
+        'answer' => 'array'
     ];
+
+    public function answer(): BelongsTo{
+        return $this->belongsTo(Answer::class, 'answer_id');
+    }
 
     public function attempt(): BelongsTo{
         return $this->belongsTo(Attempt::class, 'attempt_id');

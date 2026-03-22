@@ -99,11 +99,15 @@ class ExamController
 
     public function available(Request $request, GetAvailableExamsAction $getAvailableExams){
         $request->validate([
-            'examTypeId' => ['nullable', 'integer', 'min:1']
+            'examTypeId' => ['required', 'integer', 'min:1']
         ]);
         $exams = $getAvailableExams->execute($request->input('examTypeId'));
-        Inertia::flash(['exams' => $exams]);
-        return back();
+        return $exams->map(function ($exam) {
+            return [
+                'id' => $exam->id,
+                'begin_time' => $exam->begin_time->format('H:i d.m.Y'),
+            ];
+        });
     }        
     
     public function schedule(Request $request){

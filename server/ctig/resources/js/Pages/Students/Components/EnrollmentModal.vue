@@ -9,9 +9,11 @@ import { useAlert } from '../../../Composables/useAlert';
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
 
 const props = defineProps<{
-    student: Student
+    student: Student | null
 }>()
-const {confirmOpen} = useConfirmDialog()
+
+const isOpen = defineModel<boolean>()
+
 const enroll = async () => {
     const {open} = useAlert()
     
@@ -19,10 +21,9 @@ const enroll = async () => {
         open('Выберите время экзамена')
         return
     }
-    const ok = await confirmOpen(`Записать ${props.student.fullName} на экзамен?`)
-    if(!ok) return
-    console.log(`exams/${examId.value}/students`)
-    if(!form.studentId) console.log(`Студента нет ${form.studentId}`)
+    if(!form.studentId){
+        open('Неизвестная ошибка')
+    }
     form.post(`exams/${examId.value}/students`,
     {
         onSuccess: (page) => {
@@ -37,6 +38,9 @@ const enroll = async () => {
 const form = useForm({
     studentId:props.student?.id ?? null
 })
+
+const {confirmOpen} = useConfirmDialog()
+
 const examId = ref<number | null>(null)
 const canClose  = async (fn: () => void) => {
     if(examId.value){
@@ -47,7 +51,7 @@ const canClose  = async (fn: () => void) => {
     fn()
 }
 
-const isOpen = defineModel<boolean>()
+
 </script>
 
 <template>

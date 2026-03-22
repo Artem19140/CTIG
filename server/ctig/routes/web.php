@@ -53,6 +53,7 @@ Route::middleware(['auth', 'user.is.active', 'organization.is.active', 'password
     
     Route::get('reports/frdo', [ReportController::class, "frdo"]);
     Route::get('reports/frdo/available', [ReportController::class, "available"]);
+    Route::get('reports/flat-table', [ReportController::class, "flatTable"]);
 
     Route::get('organizations/{organization}', [OrganizationController::class, "show"]);
     Route::get('organizations/{organization}/employees', [UserController::class, "index"]);
@@ -68,8 +69,7 @@ Route::middleware(['auth', 'user.is.active', 'organization.is.active', 'password
     Route::get('exams/available', [ExamController::class, "available"]);
 
     Route::get('exams/types', function(){
-        Inertia::flash('examTypes', ExamType::select(['id', 'name'])->get());
-        return back();
+        return ExamType::select(['id', 'name'])->get();
     });
 });
 

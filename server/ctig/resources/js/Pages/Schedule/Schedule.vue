@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
-import { useExamShowModal } from '../../Composables/modalWindows/useExamShowModal';
-import ExamCreateModal from '../Exam/Components/ExamCreateModal.vue';
 import { router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import { Exam } from '../../interfaces/interfaces';
+import { useModals } from '../../Composables/useModals';
+import AddButton from '../../Components/AddButton/AddButton.vue';
+import { useAuth } from '../../Composables/useAuth';
+import { Roles } from '../../Constants/Roles';
 
 defineOptions({
   layout: EmployeeLayout,
@@ -13,11 +15,13 @@ const props = defineProps<{
     exams : any | null
 }>()
 
+const {can} = useAuth()
+const {open} = useModals()
+
 const calendar = ref()
 const focus = ref('')
-const dayDate= ref('')
 
-const type = ref<string>('week')
+const type = ref<string>('month')
 const types = [
     {value:'day', label:'День'},
     {value:'week', label:'Неделя'},
@@ -25,8 +29,7 @@ const types = [
 ]
 
 const openExam = (nativeEvent : Event, { event } :any) => {
-    const {open} = useExamShowModal()
-    open(event.id)
+  open('examShow', {examId:event.id})
 }
 
 const getColor = (event : Exam) => {
@@ -55,14 +58,10 @@ function getEvents ({ start, end } :any) {
       },
   })
 }
-// function getEvents(payload: any) {
-//   console.log(payload)
-// }
-
-// const addExam = (nativeEvent : Event, { date } : any) => {
-//   console.log(date)
-//   dayDate.value=date
-// }
+const addExam = (nativeEvent : Event, { date } : any) => {
+  console.log(date)
+  open('examCreate', {date})
+}
 </script>
 
 <template>
@@ -92,7 +91,11 @@ function getEvents ({ start, end } :any) {
       ></v-select>
       <v-spacer></v-spacer>
       <div class="flex items-center gap-8 mr-8">
-        <ExamCreateModal />
+        <AddButton
+            text="Добавить"
+            @click="open('examCreate', {})"
+            v-if="can([Roles.SCHEDULER])"
+        />
       </div>
       
       <v-btn
@@ -115,7 +118,7 @@ function getEvents ({ start, end } :any) {
         @click:more="openExam"
         :type="type"
         @change="getEvents"
-        @click:date=""
+        @click:date="addExam"
       >
       </v-calendar>
 </template>

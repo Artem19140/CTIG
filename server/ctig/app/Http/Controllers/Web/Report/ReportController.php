@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Web\Report;
 
 use App\Actions\Reports\GenerateCertificatesFRDOAction;
 use App\Actions\Reports\GenerateExamStatementAction;
+use App\Actions\Reports\GenerateFlatTableAction;
 use App\Actions\Reports\GenerateFRDOReportsAction;
 use App\Actions\Reports\GenerateReferencesFRDOAction;
 use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
+use App\Http\Requests\Report\FlatTableRequest;
 use App\Http\Requests\Report\FrdoReportRequest;
 use App\Models\Attempt;
 use App\Models\Exam;
@@ -73,5 +75,17 @@ class ReportController extends Controller
         return new StreamedResponse(function () use ($writer) {
             $writer->save('php://output');
         }, 200, $headers);
+    }
+
+    public function flatTable(FlatTableRequest $request, GenerateFlatTableAction $generateFlatTable){
+        return response()->streamDownload(function () use ($generateFlatTable, $request) {
+            $handle = fopen('php://output', 'w');
+
+            fwrite($handle, "\xEF\xBB\xBF");
+
+            $generateFlatTable->execute( $request->validated('dateFrom'), $request->validated('dateTo'),$handle);
+
+            fclose($handle); 
+        }, 'report.csv');  
     }
 }

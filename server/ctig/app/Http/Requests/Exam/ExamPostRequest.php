@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Exam;
 
 use App\Models\User;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Dto\ExamDto;
@@ -17,7 +18,12 @@ class ExamPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'beginTime'=>
+            'time'=>
+                    [
+                        'required',
+                        'date_format:H:i'
+                    ],
+            'date'=>
                     [
                         'required',
                         'date'
@@ -57,11 +63,11 @@ class ExamPostRequest extends FormRequest
 
    public function getDto(): ExamDto{
         return new ExamDto(
-            new DateTime($this->get('beginTime')),
-            \intval($this->get('addressId')),
-            \intval($this->get('examTypeId')),
-            \strval($this->get('comment')),
-            $this->get('examiners')
+            Carbon::createFromFormat('Y-m-d H:i',$this->input('date'). ' ' . $this->input('time'), request()->user()->organization->time_zone),
+            \intval($this->input('addressId')),
+            \intval($this->input('examTypeId')),
+            \strval($this->input('comment')),
+            $this->input('examiners')
         );
    }
 }

@@ -3,11 +3,11 @@
 
 namespace App\Http\Dto;
 
-use DateTime;
+use Carbon\Carbon;
 
 final readonly class ExamDto{
     public function __construct(
-        public DateTime $beginTime,
+        public Carbon $beginTime,
         public int $addressId,
         public int $examTypeId,
         public string $comment,

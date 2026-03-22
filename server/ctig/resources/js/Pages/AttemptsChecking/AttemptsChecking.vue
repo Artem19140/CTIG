@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import { useAttemptCheckingModal } from '../../Composables/modalWindows/useAttemptCheckingModal';
 import AttemptCheckingModal from './AttemptCheckingModal.vue';
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
 
 defineOptions({
   layout: EmployeeLayout,
 })
-
-const {open} = useAttemptCheckingModal()
 
 const props = defineProps<{
     attempts: any

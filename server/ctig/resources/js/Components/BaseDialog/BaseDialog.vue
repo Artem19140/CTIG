@@ -21,8 +21,7 @@ const close = () => {
 
 <template>
     <v-dialog
-        persistent 
-        
+        persistent
         v-model="isOpen"  
         :max-width="width"
         :subtitle="subtitle"

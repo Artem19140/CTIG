@@ -19,9 +19,6 @@ class GetAvailableExamsAction{ //По студенту еще ты поиск
                     ->orderBy('begin_time') 
                     ->limit(10)
                     ->get();
-        $exams->each(function ($exam) {
-            $exam->begin_time->format('H:i d.m.Y ');
-        });
         return $exams;
     }
 }

@@ -18,23 +18,19 @@ class StudentResource extends JsonResource
     public function toArray(Request $request): array
     {
         $profile = $request->boolean('profile');
-        // if($request->routeIs('students.show')){
-        //     dd($request->all());
-        // }
-        // dd($request->all());
         return [
             'id' => $this->resource->id,
             'surname' => $this->resource->surname,
             'name' => $this->resource->name,
             'patronymic' => $this->resource->patronymic,
-            'dateBirth' => $this->resource->date_birth,
+            'dateBirth' => $this->resource->date_birth->format('m.d.Y'),
             'surnameLatin' => $this->when($profile,$this->surname_latin),
             'nameLatin' => $this->when($profile,$this->resource->name_latin),
             'patronymicLatin' => $this->when($profile,$this->resource->patronymic_latin),
             'passportNumber' => $this->when($profile,$this->resource->passport_number),
             'passportSeries' => $this->when($profile,$this->resource->passport_series),
             'issuedBy' => $this->when($profile,$this->resource->issued_by),
-            'issuedDate' => $this->when($profile,$this->resource->issued_date),
+            'issuedDate' => $this->when($profile,$this->resource->issued_date->format('m.d.Y')),
             'addressReg' => $this->when($profile,$this->resource->address_reg),
             'migrationCardRequisite' => $this->when($profile,$this->resource->migration_card_requisite),
             'citizenship' => $this->when($profile,$this->resource->citizenship),

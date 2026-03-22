@@ -2,7 +2,6 @@
 import DropDownStudentsList from './DropDownStudentsList.vue';
 import { formatterDate, formatterTime } from '../../Helpers/heplers';
 import { router, usePoll } from '@inertiajs/vue3'
-import { useStudentShowModal } from '../../Composables/modalWindows/useStudentShowModal';
 
 const props = defineProps<{
     students:any,
@@ -49,14 +48,15 @@ const getAttemptStatus = (status : string) =>{
 }
 
 const open = (event : Event, {item} :any) => {
-    const {open} = useStudentShowModal()
-    open(item.id)
+    const {open} = useModals()
+    open('studentShow', {studentId:item.id})
 }
 </script>
 
 <script lang="ts">
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
 import StudentShowModal from '../Students/Components/StudentShowModal.vue';
+import { useModals } from '../../Composables/useModals';
 
 export default {
     layout: EmployeeLayout,

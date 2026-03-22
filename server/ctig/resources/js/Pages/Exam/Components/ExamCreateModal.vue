@@ -1,57 +1,54 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import axios from 'axios';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import AppInput from '../../../Components/AppInput/AppInput.vue';
 import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
 import { Address, User, ExamType } from '../../../interfaces/interfaces';
 import { ExamForm } from '../../../interfaces/interfaces';
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
 import AddButton from '../../../Components/AddButton/AddButton.vue';
-import { useAuth } from '../../../Composables/useAuth';
-import { Roles } from '../../../Constants/Roles';
+
 import AppAutocomplete from '../../../Components/AppAutocomplete/AppAutocomplete.vue';
+import { useApi } from '../../../Composables/Api/useApi';
+
+const props = defineProps<{
+    date?:string
+}>()
 
 const addresses = ref<Address[]>()
 const examiners = ref<User[]>()
 const examTypes = ref<ExamType[]>()
+const isOpen = defineModel<boolean>({default:false})
 
-const {can} = useAuth()
-
-const props = defineProps<{
-    datetime?:string | null
-}>()
+const date = ref('')
+const time = ref('')
 
 const form = useForm<ExamForm>({
     examTypeId: null,
     addressId:null,
     comment:'',
     examiners:[],
-    beginTime:''
+    time:'',
+    date:props.date ?? ''
 })
 
-const isActive = ref<boolean>(false)
-
-const loadModalData = async () => {
-    isActive.value = true
-    const response = await axios.get('/exams/create/modal-data')
-    const data = response.data
-    addresses.value = data.addresses
-    examiners.value = data.examiners
-    examTypes.value = data.examTypes
-}
+const {data, loading,request, error} = useApi()
+onMounted( async () => {
+    await request(() => axios.get('/exams/create/modal-data'))
+    if(!error.value && !data.value) return
+    addresses.value = data.value.addresses
+    examiners.value = data.value.examiners
+    examTypes.value = data.value.examTypes
+})
 const create =  () => {
     form.post('/exams', {
     preserveScroll: true,
     onSuccess: (page) => {
         if(page.flash.success){
-            isActive.value = false
             form.resetAndClearErrors()
         }
     },
-    onError:() => {
-
-    }
     })
     
 }
@@ -69,15 +66,10 @@ const close = async (fn:  ()  => void) => {
 </script>
 
 <template>
-    <AddButton 
-        text="Добавить" 
-        @click="loadModalData" 
-        v-if="can([Roles.SCHEDULER])"
-    />
     <BaseDialog 
         title="Добавление экзамена"
-        v-model="isActive"
         width="500"
+        v-model="isOpen"
         @before-close="(done) => close(done)"
     >
         <form>
@@ -88,18 +80,29 @@ const close = async (fn:  ()  => void) => {
                 v-model="form.examTypeId"
                 key="id"
                 :error-messages="form.errors.examTypeId"
-                :loading="!examTypes"
+                :loading="loading"
                 item-value="id"
                 clearable
             />
-            
-            <AppInput 
-                label="Дата и время"
-                type="datetime-local"
-                v-model="form.beginTime"
-                :error-messages="form.errors.beginTime"
-                clearable
-            />
+           <div class="flex gap-5">
+                <div class="flex-1">
+                    <AppInput 
+                    label="Дата"
+                    type="date"
+                    v-model="form.date"
+                    :error-messages="form.errors.date"
+                    />
+                </div>
+
+                <div class="flex-1">
+                    <AppInput 
+                    label="Время"
+                    type="time"
+                    v-model="form.time"
+                    :error-messages="form.errors.time"
+                    />
+                </div>
+            </div>
             
             <AppAutocomplete 
                 label="Адрес"
@@ -108,8 +111,7 @@ const close = async (fn:  ()  => void) => {
                 item-value="id"
                 v-model="form.addressId"
                 :error-messages="form.errors.addressId"
-                :loading="!addresses"
-                clearable
+                :loading="loading"
             />
 
             <AppAutocomplete 
@@ -119,9 +121,8 @@ const close = async (fn:  ()  => void) => {
                 v-model="form.examiners"
                 item-value="id"
                 :error-messages="form.errors.examiners"
-                clearable
                 multiple    
-                :loading="!examiners"
+                :loading="loading"
             />
 
             <v-textarea
@@ -133,7 +134,6 @@ const close = async (fn:  ()  => void) => {
                 maxlength="256"
                 auto-grow
                 counter
-                clearable
             ></v-textarea>
         </form>
         <template #actions="{ close }" >
@@ -148,6 +148,5 @@ const close = async (fn:  ()  => void) => {
                 @click="close"
             ></v-btn>
         </template>
-
     </BaseDialog>
 </template>

@@ -1,12 +1,13 @@
 <script setup lang="ts">
-    import { formatterTime , formatterDate } from '../../../Helpers/heplers';
-    import { useExamShowModal } from '../../../Composables/modalWindows/useExamShowModal';
-    import ExamCreateModal from './ExamCreateModal.vue';
+    import { useModals } from '../../../Composables/useModals';
     import type { Exam, Paginated } from '../../../interfaces/interfaces';
     import BaseServerTable from '../../../Components/BaseServerTable.vue';
     import ExamTableDropDown from './ExamTableDropDown.vue';
     import ExamTableFilter from './ExamTableFilter.vue';
     import { useForm } from '@inertiajs/vue3';
+    import AddButton from '../../../Components/AddButton/AddButton.vue';
+    import { useAuth } from '../../../Composables/useAuth';
+    import { Roles } from '../../../Constants/Roles';
 
    const props = defineProps<{
         exams: Paginated<Exam>,
@@ -18,10 +19,10 @@
             {title : "Дата",sortable: false, key: 'beginTime', align: 'start' },
             {title : "Запись",sortable: false, key: 'studentsCount', align: 'start' },
         ]
-
+    const {open} = useModals()
     const openModal = (item :any) => {
-        const {open} = useExamShowModal()
-        open(item.id)
+
+        open('examShow', {examId:item.id})
     }
 
     const formFilters = useForm({
@@ -31,7 +32,7 @@
         dateTo: props.filters.dateTo ?? undefined,
         completed: props.filters.completed ?? undefined,
     })
-
+    const {can} = useAuth()
 </script>
 
 <template>
@@ -50,11 +51,12 @@
             />
         </template>
         <template #toolbar-actions>
-            <ExamCreateModal />
+            <AddButton
+                text="Добавить"
+                @click="open('examCreate', {})"
+                v-if="can([Roles.SCHEDULER])"
+            />
             <ExamTableDropDown />
-        </template>
-        <template #item.beginTime="{item}">
-            {{ formatterDate(item.beginTime) }} {{ formatterTime(item.beginTime) }}
         </template>
         <template #item.studentsCount="{item}">
             <div :class="{'text-red-500': ((item.studentsCount / item.capacity) === 1)}">{{` ${item.studentsCount }/${ item.capacity }`}}</div>

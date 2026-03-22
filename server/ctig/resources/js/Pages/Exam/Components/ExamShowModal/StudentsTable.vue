@@ -3,9 +3,9 @@ import axios from 'axios';
 import { useConfirmDialog } from '../../../../Composables/useConfirmDialog';
 import ThreeDotDropdown from '../../../../Components/ThreeDotDropdown/ThreeDotDropdown.vue';
 import AppListDropDownItem from '../../../../Components/AppListDropDownItem/AppListDropDownItem.vue';
-import { useStudentShowModal } from '../../../../Composables/modalWindows/useStudentShowModal';
 import { router } from '@inertiajs/vue3';
 import { Exam } from '../../../../interfaces/interfaces';
+import { useModals } from '../../../../Composables/useModals';
 
 const props = defineProps<{
     students : any,
@@ -13,8 +13,8 @@ const props = defineProps<{
 }>()
 
 function studentShowModal(event:Event, {item}: any) {
-    const {open} = useStudentShowModal()
-    open(item.id)  
+    const {open} = useModals()
+    open('studentShow', {studentId:item.id})  
 }
 
 const headers = [

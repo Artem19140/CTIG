@@ -3,7 +3,7 @@ import { formatterDate } from '../../../Helpers/heplers';
 import type { Attempt, Exam } from '../../../interfaces/interfaces';
 
 const props = defineProps<{
-    exams:Array<Exam>
+    exams:Array<Exam> | null
 }>()
 
 const attemptStatus = (attempt: Attempt): string => {

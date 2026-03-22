@@ -1,17 +1,34 @@
 <script setup lang="ts">
-import { formatterDate } from '../../../Helpers/heplers';
 import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
-import { modalState } from '../../../Composables/modalState';
-
-import { useStudentShowModal } from '../../../Composables/modalWindows/useStudentShowModal';
 import StudentExamsList from './StudentExamsList.vue';
 import StudentActionsDropdown from './StudentActionsDropdown.vue';
+import { onMounted, ref } from 'vue';
+import axios from 'axios';
+import type { Student } from '../../../interfaces/interfaces';
+import { useApi } from '../../../Composables/Api/useApi';
 
-const {isOpen, loading,close, student} = useStudentShowModal()
+const props = defineProps<{
+    studentId?:number
+}>()
+
+const isOpen = defineModel<boolean>({default:false})
+const student = ref<Student | null>(null)
+
+const {data, loading,request, error} = useApi()
+
+onMounted(async() => {
+    if(!props.studentId) return
+    
+    await request(() =>  axios.get(`/students/${props.studentId}?profile=true`))
+
+    if(!error.value && data.value){
+        student.value = data.value.data
+    }  
+})
 
 const showDocument = (url :string) => {
-    console.log(url)
-    modalState.fileUrl = `/files?path=${url}`
+    if(!url) return
+    window.open(`/files?path=${url}`)
 }
 </script>
 
@@ -19,10 +36,10 @@ const showDocument = (url :string) => {
     <BaseDialog 
         width="700"
         :title="`Карточка студента (ID ${student?.id ?? ''})`"
-        :loading="loading && !student"
+        :loading="!student || loading"
         v-model="isOpen"
-        
-        @before-close="() => close()"
+        @before-close="(done) => done()"
+
     >
         <template #titleActions>
             <StudentActionsDropdown 
@@ -50,7 +67,7 @@ const showDocument = (url :string) => {
                 <div class="flex flex-col justify-center ml-8">
                     <div class="text-headline-small">{{`${student?.surname} ${student?.name} ${student?.patronymic}`}}</div>
                     <div class="text-subtitle-1">{{`${student?.surnameLatin} ${student?.nameLatin} ${student?.patronymicLatin}`}}</div>
-                    <div class="text-subtitle-2">{{formatterDate(student?.dateBirth)}}</div> 
+                    <div class="text-subtitle-2">{{student?.dateBirth}}</div> 
                 </div>
                 </div>
             </v-card-text>
@@ -62,7 +79,7 @@ const showDocument = (url :string) => {
             <v-list>
                 <v-list-item>
                     <v-list-item-subtitle>Паспорт</v-list-item-subtitle>
-                    <v-list-item-title>{{`${student?.fullPassport ?? ''}, выдан ${formatterDate(student?.issuedDate ?? '')} (${student?.issuedBy ?? ''})`}}</v-list-item-title>
+                    <v-list-item-title>{{`${student?.fullPassport ?? ''}, выдан ${student?.issuedDate ?? ''} (${student?.issuedBy ?? ''})`}}</v-list-item-title>
                 </v-list-item>
                 <v-list-item>  
                     <v-list-item-subtitle>Миграционная карта</v-list-item-subtitle>

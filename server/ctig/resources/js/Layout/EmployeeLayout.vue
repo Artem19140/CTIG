@@ -89,33 +89,24 @@
     </v-main>
     </v-layout>
 
-
-
-
-    <app-snackbar 
-    />
-    <student-show-modal />
-    <document-show-dialog />
+    <app-snackbar />
     <confirm-dialog />
     <alert />
     <prompt-dialog />
-    <exam-show-modal />
+    <modals />
 </template>
 
 <script setup>
 import { router } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import AppSnackbar from '../Components/AppSnackbar/AppSnackbar.vue'
-import StudentShowModal from '../Pages/Students/Components/StudentShowModal.vue';
-import DocumentShowDialog from '../Components/DocumentShowDialog/DocumentShowDialog.vue';
-import { usePage } from '@inertiajs/vue3';
 import ConfirmDialog from '../Components/ConfirmDialog/ConfirmDialog.vue';
 import Alert from '../Components/Alert/Alert.vue';
 import PromptDialog from '../Components/PromptDialog/PromptDialog.vue';
-import ExamShowModal from '../Pages/Exam/Components/ExamShowModal/ExamShowModal.vue';
 import BaseLayout from './BaseLayout.vue';
 import { useAuth } from '../Composables/useAuth';
 import { Roles } from '../Constants/Roles';
+import Modals from '../Components/Modals/Modals.vue';
 
 const {can, user} = useAuth()
 
@@ -123,7 +114,6 @@ defineOptions({
   layout: BaseLayout,
 })
 
-const page = usePage()
 const organizationId = user?.organization_id
 const employeeName = `${user?.surname} ${user?.name}`
 const activeItem = ref('')

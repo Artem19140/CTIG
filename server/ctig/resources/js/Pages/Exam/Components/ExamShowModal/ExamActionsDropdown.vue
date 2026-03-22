@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { modalState } from '../../../../Composables/modalState';
 import { useForm } from '@inertiajs/vue3'
 import { usePromptDialog } from '../../../../Composables/usePromptDialog';
 import AppListDropDownItem from '../../../../Components/AppListDropDownItem/AppListDropDownItem.vue';
@@ -10,7 +9,7 @@ import { computed } from 'vue';
 import { useAuth } from '../../../../Composables/useAuth';
 import { Roles } from '../../../../Constants/Roles';
 
-const props = defineProps<{exam : Exam}>()
+const props = defineProps<{exam : Exam | null}>()
 
 const form = useForm({
   cancelledReason: ''
@@ -25,17 +24,18 @@ const cancelExam = async () => {
     return
   }
   form.cancelledReason = res
-  form.delete(`exams/${props.exam.id}`,{
+  form.delete(`exams/${props.exam?.id}`,{
     onSuccess:()=>{
+      if(!props.exam) return
       props.exam.isCancelled = true
     }
   })
   
 }
-const hasStudents = computed(()=>!props.exam?.studentsCount && props.exam?.students?.length > 0)
+const hasStudents = computed(()=>!props.exam?.studentsCount && (props.exam?.students.length ?? 0) > 0)
 const noStudents = () => {
   console.log(props.exam)
-    if(!props.exam?.studentsCount && !(props.exam?.students?.length > 0)){
+    if(!props.exam?.studentsCount && !(props.exam?.students.length ?? 0)){
         const {open} = useAlert()
         open('На экзамен не записано ни одного студента!')
         return true
@@ -45,12 +45,12 @@ const noStudents = () => {
 
 const downloadStudentsList = () => {
     if(noStudents()) return
-    window.open(`/exams/${props.exam.id}/students/list`)
+    window.open(`/exams/${props.exam?.id}/students/list`)
 }
 
 const formCodes = async () => {
     if(noStudents()) return
-    if(!props.exam.id){
+    if(!props.exam?.id){
         return
     }
     window.open(`/exams/${props.exam.id}/codes`)

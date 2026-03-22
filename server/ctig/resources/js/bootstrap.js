@@ -1,5 +1,9 @@
 import axios from 'axios';
 import { useAlert } from './Composables/useAlert';
+import { router } from '@inertiajs/vue3'
+
+
+
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -14,7 +18,7 @@ axios.interceptors.response.use(
 
     if (!error.response) {
       console.error('Network error');
-      alert('Ошибка сети');
+      open('Ошибка сети');
       return Promise.reject(error);
     }
 
@@ -22,17 +26,18 @@ axios.interceptors.response.use(
 
     switch (status) {
       case 401:
-        window.location.href = '/login';
+        router.visit('/login')
+        open('Вы не авторизованы')
         break;
 
       case 403:
         console.error('Forbidden');
         open('Нет доступа')
-        alert('Нет доступа');
         break;
 
       case 404:
         console.error('Not found');
+        open('Не найдено')
         break;
 
       case 422:
@@ -41,14 +46,14 @@ axios.interceptors.response.use(
         break;
 
       case 500:
+        open('Ошибка сервера')
         console.error('Server error');
-        alert('Ошибка сервера');
         break;
 
       default:
+        open('Неизвестная ошибка')
         console.error('API error', error.response);
     }
-    throw error;
     return Promise.reject(error);
   }
 );

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\ExamType;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -60,6 +61,9 @@ class HandleInertiaRequests extends Middleware
                 default => null,
             }
             : null,
+            
+            'examTypes' => ExamType::select('id', 'name')->get()
+            
         ]);
     }
 }

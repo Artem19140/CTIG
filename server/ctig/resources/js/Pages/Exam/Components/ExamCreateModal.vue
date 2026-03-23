@@ -136,17 +136,13 @@ const close = async (fn:  ()  => void) => {
                 counter
             ></v-textarea>
         </form>
-        <template #actions="{ close }" >
+        <template #actions >
             <AddButton  
                 text="Добавить"
                 @click="create"
                 :disabled="form.processing"
                 :loading="form.processing"
             />
-            <v-btn
-                text="Отменить"
-                @click="close"
-            ></v-btn>
         </template>
     </BaseDialog>
 </template>

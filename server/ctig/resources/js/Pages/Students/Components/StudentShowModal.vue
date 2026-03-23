@@ -35,24 +35,17 @@ const showDocument = (url :string) => {
 <template>
     <BaseDialog 
         width="700"
+        height="900"
         :title="`Карточка студента (ID ${student?.id ?? ''})`"
         :loading="!student || loading"
         v-model="isOpen"
         @before-close="(done) => done()"
-
+        skeleton="avatar, heading, paragraph, paragraph, divider, list-item-two-line, list-item-two-line, list-item-two-line, list-item-two-line, divider, image, divider, table"
     >
         <template #titleActions>
             <StudentActionsDropdown 
                 :student="student"
             />
-        </template>
-        <template #skeleton>
-            <v-skeleton-loader
-                width="700"
-                type="avatar, heading, paragraph, paragraph, divider, list-item-two-line, list-item-two-line, list-item-two-line, list-item-two-line, divider, image, divider, table"
-                height="100%"
-                max-width="100%"
-            ></v-skeleton-loader>
         </template>
 
         <v-card-text>
@@ -120,9 +113,5 @@ const showDocument = (url :string) => {
         <v-card-text>
             <StudentExamsList :exams="student?.exams" />
         </v-card-text>
-
-        <template #actions="{close}">
-            <v-btn text @click="close">Закрыть</v-btn>
-        </template>
     </BaseDialog>
 </template>

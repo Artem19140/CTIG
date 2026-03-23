@@ -59,7 +59,7 @@ function getEvents ({ start, end } :any) {
   })
 }
 const addExam = (nativeEvent : Event, { date } : any) => {
-  console.log(date)
+  if(!can([Roles.SCHEDULER])) return
   open('examCreate', {date})
 }
 </script>

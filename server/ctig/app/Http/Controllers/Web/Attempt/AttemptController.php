@@ -168,7 +168,7 @@ class AttemptController extends Controller
 
     public function tasksToCheck(Attempt $attempt){
         $uncheckedAnswers =  $attempt->answers()
-                                    ->with(['taskVariant.task', 'exam'])
+                                    ->with(['taskVariant.task'])
                                     ->where('is_checked', false)
                                     ->whereHas('attempt', function(Builder $query){
                                         $query->where('status', AttemptStatus::Finished);
@@ -177,7 +177,7 @@ class AttemptController extends Controller
                                         $query->whereIn('type', TaskType::manualCheckTypes());
                                     })
                                     ->get();
-        return $this->ok(AttemptAnswerResource::collection($uncheckedAnswers));
+        return AttemptAnswerResource::collection($uncheckedAnswers);
     }
 
     public function toCheck(){

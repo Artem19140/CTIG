@@ -103,7 +103,7 @@ const open =  async () => {
             v-model="form.password"
             :error-messages="form?.errors?.password"
         />
-        <template #actions="{ close }">
+        <template #actions>
             <div>
                 <AddButton 
                     text="Добавить"
@@ -111,11 +111,6 @@ const open =  async () => {
                     :loading="form.processing"
                     :disabled="form.processing"
                 />
-                <v-btn
-                    @click="close"
-                >
-                    Отменить
-                </v-btn>
             </div>
         </template>
 

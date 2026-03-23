@@ -114,11 +114,7 @@ watch(() => form.noMigrationCard, (val) => {
             width="1000"
             height="100%"
             @before-close="(done) => {close(done); }"
-        >
-        <template #skeleton>
-            <v-skeleton-loader type="article" />
-        </template>
-            
+        >   
                 <v-card title="Экзамен" class="mb-4">
                     <v-card-text>
                         <v-container>
@@ -374,17 +370,12 @@ watch(() => form.noMigrationCard, (val) => {
                     
                 </v-card>
                   
-            <template #actions="{close}">
-                    <AddButton text="Добавить" 
-                        :disabled="form.processing"
-                        :loading="form.processing"
-                        @click="create"
-                    />
-                    <v-btn
-                        @click="close"
-                    >
-                        Отменить
-                    </v-btn>
+            <template #actions>
+                <AddButton text="Добавить" 
+                    :disabled="form.processing"
+                    :loading="form.processing"
+                    @click="create"
+                />
             </template>
         </BaseDialog>
 </template>

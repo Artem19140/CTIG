@@ -65,16 +65,11 @@ const canClose = async (fn : () => void) => {
             Отчет не доступен
         </span> -->
         <!-- :loading="loading" -->
-        <template #actions="{close}">
+        <template #actions>
             <AddButton
                 @click="download"
                 text="Скачать"
             />
-            <v-btn
-                @click="close"
-            >
-                Отмена
-            </v-btn>
         </template>
     </BaseDialog>
 </template>

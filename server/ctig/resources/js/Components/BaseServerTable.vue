@@ -3,7 +3,7 @@ import { Paginated } from '../interfaces/interfaces';
 import { router } from '@inertiajs/vue3';
 
     const props = defineProps<{
-        elements : Paginated<any>,
+        elements? : Paginated<any>,
         headers : Array<any>,
         title?:string
         loading?:boolean
@@ -25,7 +25,7 @@ import { router } from '@inertiajs/vue3';
 </script>
 
 <template>
-    <div>
+
         <v-data-table-server
             @update:options="loadItems" 
             :items="elements?.data"
@@ -54,5 +54,5 @@ import { router } from '@inertiajs/vue3';
                 <slot :name="slotName" v-bind="slotProps" />
             </template>
         </v-data-table-server>
-    </div>
+
 </template>

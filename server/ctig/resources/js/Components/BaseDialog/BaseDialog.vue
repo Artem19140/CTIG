@@ -10,6 +10,7 @@ const props = defineProps<{
     subtitle?:string,
     height?:string,
     fullscreen?: boolean
+    skeleton?:string
 }>()
 
 const close = () => {
@@ -23,11 +24,12 @@ const close = () => {
     <v-dialog
         persistent
         v-model="isOpen"  
-        :max-width="width"
+        :width="width"
         :subtitle="subtitle"
         :height="height"
         :fullscreen="fullscreen"
         @keyup.esc="close"
+        
     >
        
         <v-card class="dialog-card d-flex flex-column">
@@ -42,15 +44,23 @@ const close = () => {
                 <v-btn icon="mdi-close"variant="text" class="ml-4" @click="close"/>
             </v-card-title>
 
-            <slot name="skeleton" v-if="loading">
-            </slot>
+            <v-skeleton-loader
+                v-if="loading"
+                :height="height"
+                :width="width"
+                :type="skeleton"
+            />
 
             <v-card-text v-if="!loading" class="dialog-content pa-4 overflow-y-auto flex-grow-1">
                 <slot />
             </v-card-text>
 
-            <v-card-actions v-if="$slots.actions && !loading" class="sticky-bottom">
+            <v-card-actions v-if="!loading" class="sticky-bottom">
                 <slot name="actions" :close="close" />
+                <v-btn 
+                    @click="close"
+                >
+                Закрыть</v-btn>
             </v-card-actions>
             
         </v-card>

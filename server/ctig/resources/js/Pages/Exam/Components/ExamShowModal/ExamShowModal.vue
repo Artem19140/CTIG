@@ -43,6 +43,7 @@ onMounted( async () => {
         v-model="isOpen"
         :subtitle="`${exam?.sessionNumber ?? '-'} / ${exam?.group ?? '-'}`"
         @before-close="(done) =>  done()"
+        skeleton="heading, list-item-two-line, list-item-two-line, list-item-three-line, divider, table"
     >
         <template #title>
             Экзамен <span v-if="exam?.isCancelled" class="text-red-500 ml-2">
@@ -51,13 +52,6 @@ onMounted( async () => {
         </template>
         <template #titleActions>
             <ExamActionsDropdown :exam="exam" />
-        </template>
-        <template #skeleton>
-             <v-skeleton-loader
-                height="800"
-                type="heading, list-item-two-line, list-item-two-line, list-item-three-line, divider, table"
-                max-width="800"
-            ></v-skeleton-loader>
         </template> 
         <v-card-text>
         <v-list>
@@ -104,8 +98,5 @@ onMounted( async () => {
                 </v-list-item>
             </v-list>
         </v-card-text>
-        <template #actions="{close}">
-            <v-btn text @click="close">Закрыть</v-btn>
-        </template>
     </BaseDialog>
 </template>

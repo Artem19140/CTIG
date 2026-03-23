@@ -7,6 +7,7 @@ import FrdoModal from '../../Pages/Exam/Components/FrdoModal.vue';
 import StudentCreateModal from '../../Pages/Students/Components/StudentCreateModal.vue';
 import FlatTableModal from '../../Pages/Exam/Components/FlatTableModal.vue';
 import EnrollmentModal from '../../Pages/Students/Components/EnrollmentModal.vue';
+import AttemptCheckingModal from '../../Pages/AttemptsChecking/AttemptCheckingModal.vue';
 
 
 const {modals, close} = useModals()
@@ -27,6 +28,8 @@ const modalComponent = (name: string) => {
             return FlatTableModal
         case 'enrollment':
             return EnrollmentModal
+        case 'attemptChecking':
+            return AttemptCheckingModal
     }
 }
 

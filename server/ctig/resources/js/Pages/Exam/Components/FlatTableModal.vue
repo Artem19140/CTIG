@@ -34,17 +34,12 @@ const donwload = () => {
             label="Дата по"
             type="date"
         />
-        <template #actions="{close}">
+        <template #actions>
             <AddButton 
                 :disabled="!form.dateFrom || !form.dateTo"
                 text="Скачать"
                 @click="donwload"
             />
-            <v-btn
-                @click="close"
-            >
-                Отмена
-            </v-btn>
         </template>
     </BaseDialog>
 </template>

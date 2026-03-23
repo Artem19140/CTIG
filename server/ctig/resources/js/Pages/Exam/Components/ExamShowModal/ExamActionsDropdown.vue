@@ -32,10 +32,9 @@ const cancelExam = async () => {
   })
   
 }
-const hasStudents = computed(()=>!props.exam?.studentsCount && (props.exam?.students.length ?? 0) > 0)
+const hasStudents = computed(()=>!props.exam?.studentsCount && (props.exam?.students?.length ?? 0) > 0)
 const noStudents = () => {
-  console.log(props.exam)
-    if(!props.exam?.studentsCount && !(props.exam?.students.length ?? 0)){
+    if(!props.exam?.studentsCount && !(props.exam?.students?.length ?? 0)){
         const {open} = useAlert()
         open('На экзамен не записано ни одного студента!')
         return true

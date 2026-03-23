@@ -38,6 +38,7 @@ onMounted( async () => {
 <template>
     <BaseDialog 
         width="800"
+        height="800"
         :loading="!exam || loading"
         v-model="isOpen"
         :subtitle="`${exam?.sessionNumber ?? '-'} / ${exam?.group ?? '-'}`"
@@ -53,8 +54,8 @@ onMounted( async () => {
         </template>
         <template #skeleton>
              <v-skeleton-loader
-                type="avatar, heading, paragraph, paragraph"
-                height="100%"
+                height="800"
+                type="heading, list-item-two-line, list-item-two-line, list-item-three-line, divider, table"
                 max-width="800"
             ></v-skeleton-loader>
         </template> 

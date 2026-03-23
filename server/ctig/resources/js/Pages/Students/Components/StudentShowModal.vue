@@ -23,7 +23,7 @@ onMounted(async() => {
 
     if(!error.value && data.value){
         student.value = data.value.data
-    }  
+    }
 })
 
 const showDocument = (url :string) => {
@@ -48,7 +48,8 @@ const showDocument = (url :string) => {
         </template>
         <template #skeleton>
             <v-skeleton-loader
-                type="avatar, heading, paragraph, paragraph"
+                width="700"
+                type="avatar, heading, paragraph, paragraph, divider, list-item-two-line, list-item-two-line, list-item-two-line, list-item-two-line, divider, image, divider, table"
                 height="100%"
                 max-width="100%"
             ></v-skeleton-loader>

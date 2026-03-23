@@ -37,9 +37,6 @@ watch(attemptAnswer, () => {
         <template #answers>
 
         <div class="mb-4 flex flex-column">
-
-        
-            <div class="mb-4 flex flex-column">Выберите один вариант ответа</div>
                 
                 <v-radio-group 
                     v-model="attemptAnswer"
@@ -57,6 +54,9 @@ watch(attemptAnswer, () => {
                     </v-radio>
                 </v-radio-group>
             </div>
+        </template>
+        <template #description>
+            Выберите правильный вариант ответа
         </template>
     </base-task>
 </template>

@@ -38,9 +38,6 @@ const open = (event:Event, {item} : any) => {
                 hide-default-footer
                 @click:row="open"
             >
-                <template #item.beginTime="{ item }">
-                    {{ formatterTime(item?.beginTime)  ?? '-'}}, {{ formatterDate(item?.beginTime)  ?? '-'}}
-                </template>
                 <template #item.capacity="{ item }">
                     {{` ${item.studentsCount }/${ item.capacity }`}}
                 </template>

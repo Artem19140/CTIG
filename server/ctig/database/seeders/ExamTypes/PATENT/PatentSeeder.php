@@ -100,7 +100,7 @@ class PatentSeeder extends Seeder
             'subblocks'=>[
                 $this->audioSubblock(),
                 $this->readingSubblock(),
-                //$this->letterSubblock(),
+                $this->letterSubblock(),
                 $this->vocabularAndGrammarSubblock()
             ]
         ];
@@ -164,7 +164,7 @@ class PatentSeeder extends Seeder
             'min_mark' => 0,
             'tasks' => [
                 [
-                    'type' => TaskType::SingleChoice,
+                    'type' => TaskType::TextInput,
                     'description' => 'Прочитайте текст и вставьте пропущенное слово.',
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task7.json')), true)

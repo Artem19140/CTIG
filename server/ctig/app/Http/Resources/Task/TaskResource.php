@@ -18,7 +18,9 @@ class TaskResource extends JsonResource
         return [
             'id' => $this->resource->id,
             'order' => $this->order,
-            'variants' =>  TaskVariantResource::collection($this->whenLoaded('variants'))
+            'variants' =>  TaskVariantResource::collection($this->whenLoaded('variants')),
+            'postscriptum' => $this->postscriptum,
+            'description' => $this->description,
         ];
     }
 }

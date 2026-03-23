@@ -8,6 +8,7 @@ use App\Exceptions\EntityNotFoundExсeption;
 use App\Models\Attempt;
 use App\Models\AttemptAnswer;
 use App\Models\TaskVariant;
+use finfo;
 
 
 class HandleAttemptAnswerAction{
@@ -57,6 +58,7 @@ class HandleAttemptAnswerAction{
     protected function autoChecking($answer, $taskVariant, $type){
         return  match($type) {
             TaskType::SingleChoice => $this->singleChoiceChecking($answer, $taskVariant),
+            TaskType::TextInput => $this->textInputChecking($answer, $taskVariant),
             default => throw new BusinessException('Такой тип задания не существует')
         };
     }
@@ -68,5 +70,15 @@ class HandleAttemptAnswerAction{
             throw new BusinessException('Такого ответа у задания не существует');
         }
         return $answer->is_correct;
+    }
+
+    protected function textInputChecking(string $answer,TaskVariant $taskVariant){
+        $answers = $taskVariant->answers->pluck('content');
+        $answersToCompare = $answers->map(function ($item) {
+            return mb_strtolower(trim($item), 'UTF-8');
+        });
+        
+        $answerToCompare = mb_strtolower(trim($answer), 'UTF-8');
+        return \in_array($answerToCompare, $answersToCompare->toArray());
     }
 }

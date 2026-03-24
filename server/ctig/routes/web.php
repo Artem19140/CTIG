@@ -13,6 +13,7 @@ use App\Http\Controllers\Web\Organization\OrganizationController;
 use App\Http\Controllers\Web\Report\ReportController;
 use App\Http\Controllers\Web\Student\StudentController;
 use App\Http\Controllers\Web\AttemptAnswer\AttemptAnswerController;
+use App\Http\Resources\Role\RoleResource;
 use App\Models\ExamType;
 use App\Models\Role;
 use Illuminate\Support\Facades\Route;
@@ -37,7 +38,7 @@ Route::middleware(['auth', 'user.is.active', 'organization.is.active', 'password
         Route::get('{exam}/monitoring', [ExamMonitoringController::class, 'show']);
         Route::get('{exam}/students/list', [ExamDocumentController::class, 'studentsList']);
         Route::get('schedule', [ExamController::class, 'schedule'])->name('exams.schedule');
-        
+        Route::get('{exam}/statement', [ReportController::class, 'statement']);
     });
     Route::resource('exams', ExamController::class)->where(['exam' => '[0-9]+']);
     
@@ -62,9 +63,7 @@ Route::middleware(['auth', 'user.is.active', 'organization.is.active', 'password
 
     Route::get('files', [FileController::class, "show"]);
 
-    Route::get('roles', function(){
-        return Role::select(['id', 'name'])->get();;
-    });
+    Route::get('roles',  [UserController::class, "rolesShow"]);
 
     Route::get('exams/available', [ExamController::class, "available"]);
 

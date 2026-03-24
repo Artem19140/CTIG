@@ -6,7 +6,7 @@ import TextInputTask from './TextInputTask.vue';
 
 const props = defineProps<{
     tasks:any,
-    attempt:any
+    attempt?:any
 }>()
 
 const taskComponent = (type: string) => {

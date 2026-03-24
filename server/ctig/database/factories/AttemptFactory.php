@@ -21,18 +21,18 @@ class AttemptFactory extends Factory
     public function definition(): array
     {
         return [
-            'student_id' => Student::factory(),
-            'exam_id' => Exam::factory(),
-            'total_mark' => null, //fake()->numberBetween(5, 20)
+            'student_id' => Student::inRandomOrder()->first()->id,
+            'exam_id' => Exam::inRandomOrder()->first()->id,
+            'total_mark' =>  fake()->numberBetween(5, 20),
             'started_at'=>now(),
             'organization_id' => Organization::inRandomOrder()->first()->id
         ];
     }
 
-    public function banned(){
-        return $this->state(function (){
+    public function status(AttemptStatus $status){
+        return $this->state(function () use($status){
             return[
-                'status'=> AttemptStatus::Banned
+                'status'=> $status
             ];
         });
     }
@@ -40,7 +40,8 @@ class AttemptFactory extends Factory
     public function passed(){
         return $this->state(function (){
             return[
-                'is_passed'=> true
+                'is_passed'=> true,
+                'total_mark' => fake()->numberBetween(19, 22), 
             ];
         });
     }
@@ -48,7 +49,18 @@ class AttemptFactory extends Factory
     public function failed(){
         return $this->state(function (){
             return[
-                'is_passed'=> false
+                'is_passed'=> false,
+                'total_mark' => fake()->numberBetween(0, 10)
+            ];
+        });
+    }
+
+    public function today(){
+        return $this->state(function (){
+            return[
+                'expired_at' => now()->addMinutes(80),
+                'finished_at'=> now()->addMinutes(30),
+                'started_at' => now()
             ];
         });
     }

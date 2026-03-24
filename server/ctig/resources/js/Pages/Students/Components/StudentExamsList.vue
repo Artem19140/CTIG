@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { formatterDate } from '../../../Helpers/heplers';
 import type { Attempt, Exam } from '../../../interfaces/interfaces';
 
 const props = defineProps<{
@@ -29,7 +28,7 @@ const attemptStatus = (attempt: Attempt): string => {
                         link
                         >
                             <v-list-item-title>{{exam.name}}</v-list-item-title>
-                            <v-list-item-subtitle> {{formatterDate(exam.beginTime)}} </v-list-item-subtitle>
+                            <v-list-item-subtitle> {{exam.beginTime}} </v-list-item-subtitle>
                             <v-list-item-subtitle v-if="exam.attempts?.length && exam.isPast"> Попытки: </v-list-item-subtitle>
                             <v-list-item-subtitle 
                                 v-for="(attempt) in exam.attempts ?? []"  

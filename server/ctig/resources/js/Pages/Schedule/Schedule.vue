@@ -50,12 +50,23 @@ const next = () => {
   calendar.value?.next()
 }
 
+let cancelRequest: any = null;
+
 function getEvents ({ start, end } :any) {
+  if(cancelRequest){
+    cancelRequest()
+  }
   router.reload({
       data: {
         dateFrom: start.date,
         dateTo:end.date
       },
+      onCancelToken:(cancelToken) => {
+        cancelRequest = cancelToken
+      },
+      onFinish: () => {
+          cancelRequest = null; 
+      }
   })
 }
 const addExam = (nativeEvent : Event, { date } : any) => {

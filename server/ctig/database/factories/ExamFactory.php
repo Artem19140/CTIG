@@ -24,6 +24,7 @@ class ExamFactory extends Factory
 
     public function definition(): array
     {
+        
         return [
             'begin_time' => fake()->dateTimeBetween('-30 days', '+30 days')->format('Y-m-d'),
             'end_time' => fake()->dateTimeBetween('-30 days', '+30 days')->format('Y-m-d'),

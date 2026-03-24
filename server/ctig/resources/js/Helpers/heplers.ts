@@ -1,3 +1,5 @@
+
+
 export const formatterDate = (date:string) => {
   if(!date){
       return '-'
@@ -6,27 +8,22 @@ export const formatterDate = (date:string) => {
 }
 
 export const formatterTime = (date:string) :string => {
-    if(!date){
-      return '-'
-    }
-    return new Date(date).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
-}
-
-
-export const formatterDateTime = (date: string) => {
-  if (!date) return '-'
-
-  const d = new Date(date)
-
-  const options: Intl.DateTimeFormatOptions = {
-    day: '2-digit',
-    month: 'long',   // полное название месяца
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false
+  if(!date){
+    return '-'
   }
-
-  // форматируем и убираем запятую между датой и временем
-  return new Intl.DateTimeFormat('ru-RU', options).format(d).replace(', ', ' ')
+  return new Date(date).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
 }
+
+export const downloadFile = (blob: Blob) => {
+  if(!blob) return
+  const url = window.URL.createObjectURL(blob);
+  
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "file";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  window.URL.revokeObjectURL(url);
+} 

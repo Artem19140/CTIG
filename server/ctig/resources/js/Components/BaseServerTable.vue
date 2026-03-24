@@ -30,7 +30,7 @@ import { router } from '@inertiajs/vue3';
             @update:options="loadItems" 
             :items="elements?.data"
             :headers="headers"
-                @click:row="(event :Event, { item } : any) => emit('row-click', item)"
+            @click:row="(event :Event, { item } : any) => emit('row-click', item)"
             :items-length="elements?.meta?.total"
             key="id"
             hover

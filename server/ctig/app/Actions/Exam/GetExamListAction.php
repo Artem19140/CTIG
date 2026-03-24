@@ -22,10 +22,12 @@ class GetExamListAction{
                 $query->where('exam_type_id', $examTypeId);
             })
             ->when($dateFrom, function (Builder $query, string $dateFrom){
-                $query->where('begin_time', '>=',$dateFrom);
+                $begin= Carbon::parse($dateFrom)->startOfDay();
+                $query->where('begin_time', '>=',$begin);
             })
             ->when($dateTo, function (Builder $query, string $dateTo){
-                $query->where('begin_time', '<=',$dateTo);
+                $end= Carbon::parse($dateTo)->endOfDay();
+                $query->where('begin_time', '<=',$end);
             })
             ->when($addressId, function (Builder $query, string $addressId){
                 $query->where('address_id',$addressId);
@@ -33,8 +35,10 @@ class GetExamListAction{
             ->when($completed, function (Builder $query){
                 $query->where('end_time', '<=', Carbon::now());
             })
-            ->where('is_cancelled', $cancelled)
+            ->when($cancelled, function (Builder $query) use($cancelled){
+                $query->where('is_cancelled', $cancelled);
+            })
             ->latest('begin_time')
-            ->paginate($perPage)->withQueryString();
+            ->paginate($perPage);
     }
 }

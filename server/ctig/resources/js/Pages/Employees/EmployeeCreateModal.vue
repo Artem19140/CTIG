@@ -23,7 +23,7 @@ const form = useForm({
 
 })
 
-const checkEmpty = async (fn: () => void) => {
+const canClose = async (fn: () => void) => {
     if(form.isDirty){
         const {confirmOpen} = useConfirmDialog()
         const ok = await confirmOpen('Отменить добавление?')
@@ -45,7 +45,7 @@ const open =  async () => {
     loading.value = true
     isOpen.value = true
     const res = await axios.get('/roles')
-    roles.value = res.data
+    roles.value = res.data.data
     loading.value = false
     
 }
@@ -57,7 +57,7 @@ const open =  async () => {
         width="500"
         title='Добавить'
         v-model="isOpen"
-        @before-close="(done) => checkEmpty(done)"
+        @before-close="(done) => canClose(done)"
     >
         <AppInput 
             label="Фамилия"
@@ -86,7 +86,7 @@ const open =  async () => {
             :loading="loading"
             v-model="form.roles"
             :items="roles"
-            item-title="name"
+            item-title="label"
             item-value="id"
             multiple
             :error-messages="form?.errors?.roles"

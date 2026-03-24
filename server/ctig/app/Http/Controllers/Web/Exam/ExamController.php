@@ -12,7 +12,9 @@ use App\Exceptions\BusinessException;
 use App\Http\Requests\Exam\ExamIndexRequest;
 use App\Http\Resources\Address\AddressResource;
 use App\Http\Resources\ExamType\ExamTypeResource;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\User\UserResource;
 use App\Models\Address;
@@ -56,7 +58,9 @@ class ExamController
 
     public function show(Exam $exam)
     {
-        $exam->load(['students', 'examiners', 'address', 'examType']);
+        $exam->load(['students.attempts' => function (HasMany $query) use($exam){
+            $query->where('exam_id', $exam->id);
+        }, 'examiners', 'address', 'examType']);
         return new ExamResource($exam);
     }
 
@@ -99,9 +103,10 @@ class ExamController
 
     public function available(Request $request, GetAvailableExamsAction $getAvailableExams){
         $request->validate([
-            'examTypeId' => ['required', 'integer', 'min:1']
+            'examTypeId' => ['required', 'integer', 'min:1'],
+            'studentId' => ['nullable', 'integer', 'min:1'],
         ]);
-        $exams = $getAvailableExams->execute($request->input('examTypeId'));
+        $exams = $getAvailableExams->execute($request->input('examTypeId'), $request->input('studentId'));
         return $exams->map(function ($exam) {
             return [
                 'id' => $exam->id,
@@ -115,13 +120,15 @@ class ExamController
         $dateTo = $request->input('dateTo') ?? false;
         $exams = Exam::with('examType')
                     ->when($dateFrom, function(Builder $query, $dateFrom) {
-                        $query->where('begin_time', '>=', $dateFrom);
+                        $begin= Carbon::parse($dateFrom)->startOfDay();
+                        $query->where('begin_time', '>=', $begin);
                     })
                     ->when($dateTo, function(Builder $query, $dateTo) {
-                        $query->where('begin_time','<=', $dateTo);
+                        $end= Carbon::parse($dateTo)->endOfDay();
+                        $query->where('begin_time','<=', $end);
                     })
                     ->when(!$dateFrom, function(Builder $query) {
-                        $query->whereBetween('begin_time', [now()->startOfWeek(), now() ->endOfWeek()]);
+                        $query->whereBetween('begin_time', [now()->startOfMonth(), now() ->endOfMonth()]);
                     })
                     ->get();
         return Inertia::render('Schedule/Schedule',[

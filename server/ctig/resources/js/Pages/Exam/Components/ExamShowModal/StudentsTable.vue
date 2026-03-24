@@ -20,6 +20,7 @@ function studentShowModal(event:Event, {item}: any) {
 const headers = [
     {title : "ФИО",sortable: false, key: 'fullName', align: 'start' },
     {title : "Паспорт",sortable: false, key: 'fullPassport', align: 'start' },
+    {title : "Результаты",sortable: false, key: 'results', align: 'center' },
     {title : "",sortable: false, key: 'actions', align: 'end' },
 ]
 
@@ -41,6 +42,10 @@ const cancell = async (studentId :number) => {
             const success = page.flash.success
         }
     })
+}
+
+const getAttemptResultLabel = (result: boolean) => {
+    return result ? 'Пройдено' : 'Не пройдено'
 }
 </script>
 
@@ -69,6 +74,19 @@ const cancell = async (studentId :number) => {
                     color="text-red"
                 />
             </ThreeDotDropdown>
+        </template>
+        <template #item.results="{item}">
+            <span
+            :class="!item?.attempts[0]
+                ? 'text-gray-400'
+                : item?.attempts[0]?.isPassed
+                ? 'text-green-500'
+                : 'text-red-500'"
+            >
+            {{ (item?.attempts[0] && exam?.isPast)
+                ? getAttemptResultLabel(item?.attempts[0].isPassed)
+                : '-' }}
+            </span>
         </template>
     </v-data-table>
 </template>

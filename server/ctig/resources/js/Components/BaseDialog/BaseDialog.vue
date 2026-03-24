@@ -10,7 +10,9 @@ const props = defineProps<{
     subtitle?:string,
     height?:string,
     fullscreen?: boolean
-    skeleton?:string
+    skeleton?:string,
+    error?:boolean,
+    onRetry?:Function
 }>()
 
 const close = () => {
@@ -38,7 +40,7 @@ const close = () => {
                     {{ title }}
                 </slot>
                 <v-spacer />
-                <slot name="titleActions" v-if="$slots.titleActions">
+                <slot name="titleActions" v-if="$slots.titleActions && !error && !loading">
 
                 </slot>
                 <v-btn icon="mdi-close"variant="text" class="ml-4" @click="close"/>
@@ -51,9 +53,27 @@ const close = () => {
                 :type="skeleton"
             />
 
-            <v-card-text v-if="!loading" class="dialog-content pa-4 overflow-y-auto flex-grow-1">
+            <v-card-text v-if="!loading && !error" class="dialog-content pa-4 overflow-y-auto flex-grow-1">
                 <slot />
             </v-card-text>
+
+            <v-card-text 
+                v-if="error" 
+                class="flex justify-center items-center flex-column"
+                
+                >
+                Повторить
+                <v-btn 
+                    @click="onRetry"
+                    icon
+                    variant="text"
+                    size="large"
+                >
+                    <v-icon size="36">mdi-refresh</v-icon>
+                </v-btn>
+                
+            </v-card-text>
+            
 
             <v-card-actions v-if="!loading" class="sticky-bottom">
                 <slot name="actions" :close="close" />

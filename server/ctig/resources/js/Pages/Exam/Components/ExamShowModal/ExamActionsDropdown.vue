@@ -8,6 +8,7 @@ import { useAlert } from '../../../../Composables/useAlert';
 import { computed } from 'vue';
 import { useAuth } from '../../../../Composables/useAuth';
 import { Roles } from '../../../../Constants/Roles';
+import { useModals } from '../../../../Composables/useModals';
 
 const props = defineProps<{exam : Exam | null}>()
 
@@ -17,9 +18,12 @@ const form = useForm({
 
 const canEdit = computed(() => !props.exam?.students?.length)
 
-const { open } = usePromptDialog()
+const alert = useAlert()
+const modals= useModals()
+const prompt = usePromptDialog()
+
 const cancelExam = async () => {
-  const res = await open('Укажите причину отмены экзамена')
+  const res = await prompt.open('Укажите причину отмены экзамена')
   if(!res){
     return
   }
@@ -32,34 +36,44 @@ const cancelExam = async () => {
   })
   
 }
+
 const hasStudents = computed(()=>!props.exam?.studentsCount && (props.exam?.students?.length ?? 0) > 0)
+
+
+
 const noStudents = () => {
     if(!props.exam?.studentsCount && !(props.exam?.students?.length ?? 0)){
-        const {open} = useAlert()
-        open('На экзамен не записано ни одного студента!')
+        alert.open('На экзамен не записано ни одного студента!')
         return true
     }
     return false
 }
 
 const downloadStudentsList = () => {
-    if(noStudents()) return
-    window.open(`/exams/${props.exam?.id}/students/list`)
+  if(noStudents()) return
+  window.open(`/exams/${props.exam?.id}/students/list`)
 }
 
 const formCodes = async () => {
+
     if(noStudents()) return
     if(!props.exam?.id){
         return
     }
+    //modals.open('pdf', {url:`/exams/${props.exam.id}/codes`})
     window.open(`/exams/${props.exam.id}/codes`)
+}
+
+const downloadStatement = () => {
+  if(noStudents())return
+  window.location.href = `/exams/${props.exam?.id}/statement`
 }
 
 const {can} = useAuth()
 </script>
 
 <template>
-    <ThreeDotDropdown>
+    <ThreeDotDropdown v-if="!exam?.isCancelled">
       <AppListDropDownItem 
         title="Скачать кода" 
         
@@ -74,7 +88,8 @@ const {can} = useAuth()
 
       <AppListDropDownItem 
         title="Скачать ведомость" 
-        v-if="!exam?.isPast" 
+        v-if="exam?.isPast"
+        @click="downloadStatement" 
       />
 
       <AppListDropDownItem 

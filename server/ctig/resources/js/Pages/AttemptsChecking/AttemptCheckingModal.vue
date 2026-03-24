@@ -3,6 +3,8 @@ import { onMounted, ref } from 'vue';
 import BaseDialog from '../../Components/BaseDialog/BaseDialog.vue';
 import { useApi } from '../../Composables/Api/useApi';
 import axios from 'axios';
+import AddButton from '../../Components/AddButton/AddButton.vue';
+import TasksList from '../Attempt/Components/tasks/TasksList.vue';
 
 const isOpen = defineModel<boolean>({default:false})
 
@@ -35,14 +37,16 @@ onMounted(async() => {
         @before-close="(done) => canClose(done)"
     >
         <pre>
-            {{ tasks }}
+            {{ tasks?.data[0] }}
         </pre>
         Здесь будут задания
-        
+        <TasksList :tasks="tasks?.data" />
     
         
         <template #actions>
-            <v-btn>Сохранить</v-btn>
+            <AddButton 
+                text="Сохранить"
+            />
         </template>
     </BaseDialog>
 </template>

@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\DB;
 class StartExamSessionAction{
 
     public function __construct(
-        protected VerifyExamCodeAction $verifyCode,
         protected GenerateExamVariantAction $generateExamVariant
     ){}
     public function execute(Student $student):Attempt{
@@ -28,7 +27,7 @@ class StartExamSessionAction{
             //     throw new BusinessException('Начать попытку можно только во время экзамена');
             // }
             
-            $attempt =  $this->createAttempt($student, $exam->examType->duration, $exam);
+            $attempt =  $this->createAttempt($student, $exam);
 
             $tasks = $exam->examType->blocks
                 ->pluck('subblocks')
@@ -41,7 +40,7 @@ class StartExamSessionAction{
         });
     }
 
-    protected function createAttempt(Student $student, int $examDuration, Exam $exam){
+    protected function createAttempt(Student $student, Exam $exam){
         $hasAttempt = $student->attempts()->where('exam_id', $exam->id)->exists();
         if($hasAttempt){
             throw new BusinessException('Сущестует текущая попытка экзамен');

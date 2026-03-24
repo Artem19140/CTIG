@@ -53,8 +53,8 @@ class DatabaseSeeder extends Seeder
             'name' => UserRoles::Operator,
         ]);
 
-        $roleEXAMINER = Role::create([
-            'name' => UserRoles::EXAMINER,
+        $roleExaminer = Role::create([
+            'name' => UserRoles::Examiner,
         ]);
 
         $roleScheduler = Role::create([

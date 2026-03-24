@@ -21,7 +21,6 @@
         ]
     const {open} = useModals()
     const openModal = (item :any) => {
-
         open('examShow', {examId:item.id})
     }
 

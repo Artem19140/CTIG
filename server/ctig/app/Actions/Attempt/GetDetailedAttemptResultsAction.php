@@ -31,6 +31,7 @@ class GetDetailedAttemptResultsAction{
                 }
                 $subblockResults[] = [
                     'id' => $subblockId,
+                    'order' => $subblock->order,
                     'min_mark' => $subblock->min_mark,
                     'name' => $subblock->name,
                     'answers_mark_sum' => $answersSubblockMarkSum,
@@ -44,7 +45,7 @@ class GetDetailedAttemptResultsAction{
                 'answers_mark_sum' => $answersBlockMarkSum,
                 'is_passed' => $allSubblocksPassed,
                 'subblocks' => $subblockResults,
-
+                'order' => $block->order
             ];
         }
         return $result;

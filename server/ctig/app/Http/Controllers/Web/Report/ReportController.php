@@ -62,7 +62,9 @@ class ReportController extends Controller
                                 Exam $exam, 
                                 GenerateExamStatementAction $generateExamStatement
                             ){
+                                
         $spreadSheet = $generateExamStatement->execute($exam);
+        
         $writer = IOFactory::createWriter($spreadSheet, 'Xlsx');
         
         $fileName = "statement.xlsx";
@@ -71,7 +73,7 @@ class ReportController extends Controller
             'Content-Disposition' => "attachment;filename=$fileName",
             'Cache-Control' => 'max-age=0',
         ];
-
+        
         return new StreamedResponse(function () use ($writer) {
             $writer->save('php://output');
         }, 200, $headers);

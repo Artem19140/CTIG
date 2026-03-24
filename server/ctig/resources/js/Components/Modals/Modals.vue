@@ -8,6 +8,7 @@ import StudentCreateModal from '../../Pages/Students/Components/StudentCreateMod
 import FlatTableModal from '../../Pages/Exam/Components/FlatTableModal.vue';
 import EnrollmentModal from '../../Pages/Students/Components/EnrollmentModal.vue';
 import AttemptCheckingModal from '../../Pages/AttemptsChecking/AttemptCheckingModal.vue';
+import PdfDialogViewer from '../PdfDialogViewer/PdfDialogViewer.vue';
 
 
 const {modals, close} = useModals()
@@ -30,6 +31,8 @@ const modalComponent = (name: string) => {
             return EnrollmentModal
         case 'attemptChecking':
             return AttemptCheckingModal
+        case 'pdf':
+            return PdfDialogViewer
     }
 }
 

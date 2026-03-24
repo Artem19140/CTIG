@@ -181,7 +181,8 @@ class AttemptController extends Controller
     }
 
     public function toCheck(){
-        $unCheckedAttempts = Attempt::where('status', AttemptStatus::Finished)->paginate();
+        $unCheckedAttempts = Attempt::with('exam.examType')
+                                ->where('status', AttemptStatus::Finished)->paginate();
 
         return Inertia::render('AttemptsChecking/AttemptsChecking',[
            'attempts' => AttemptResource::collection($unCheckedAttempts) 

@@ -4,8 +4,8 @@ import AppInput from '../../../Components/AppInput/AppInput.vue';
 import { useForm } from '@inertiajs/vue3'
 
 const form = useForm({
-    email: 'anna_ryasanova@gmail.com', 
-    password: '12345678'
+    email: 'qwerty@bk.com', 
+    password: '123456789'
 })
 
 const show = ref<boolean>(false)
@@ -22,7 +22,7 @@ const show = ref<boolean>(false)
             placeholder="Введите логин"
         />
 
-        <v-text-field
+        <AppInput
             v-model="form.password"
             :append-inner-icon="show ? 'mdi-eye-off' : 'mdi-eye'"
             :type="show ? 'text' : 'password'"
@@ -32,7 +32,7 @@ const show = ref<boolean>(false)
             :invalid="form.errors.password"
             :error-messages="form.errors.password"
             placeholder="Введите пароль"
-        ></v-text-field>
+        ></AppInput>
         <div class="flex justify-center"> 
             <v-btn 
                 size="large" 

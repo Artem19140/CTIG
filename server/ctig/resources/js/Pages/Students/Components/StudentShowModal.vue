@@ -6,6 +6,7 @@ import { onMounted, ref } from 'vue';
 import axios from 'axios';
 import type { Student } from '../../../interfaces/interfaces';
 import { useApi } from '../../../Composables/Api/useApi';
+import { useModals } from '../../../Composables/useModals';
 
 const props = defineProps<{
     studentId?:number
@@ -16,14 +17,18 @@ const student = ref<Student | null>(null)
 
 const {data, loading,request, error} = useApi()
 
-onMounted(async() => {
-    if(!props.studentId) return
-    
+const getStudent = async () => {
     await request(() =>  axios.get(`/students/${props.studentId}?profile=true`))
 
     if(!error.value && data.value){
         student.value = data.value.data
     }
+}
+
+onMounted(async() => {
+    if(!props.studentId) return
+    getStudent()
+    
 })
 
 const showDocument = (url :string) => {
@@ -37,8 +42,10 @@ const showDocument = (url :string) => {
         width="700"
         height="900"
         :title="`Карточка студента (ID ${student?.id ?? ''})`"
-        :loading="!student || loading"
+        :loading="loading"
         v-model="isOpen"
+        :error="error"
+        :onRetry="getStudent"
         @before-close="(done) => done()"
         skeleton="avatar, heading, paragraph, paragraph, divider, list-item-two-line, list-item-two-line, list-item-two-line, list-item-two-line, divider, image, divider, table"
     >

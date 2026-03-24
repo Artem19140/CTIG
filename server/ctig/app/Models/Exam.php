@@ -67,7 +67,7 @@ class Exam extends Model
     }
 
     public function isCompleted(){
-        return $this->end_time->isPast();
+        return $this->begin_time->addMinutes($this->examType->duration)->isPast();
     }
 
     public function isGoing(){

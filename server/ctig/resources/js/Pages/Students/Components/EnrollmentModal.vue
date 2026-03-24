@@ -63,19 +63,15 @@ const canClose  = async (fn: () => void) => {
     >
         <ExamEnrollment 
             v-model="examId"
+            :student-id="student?.id"
         />
-        <template #actions="{close}">
-            <div class="flex justify-center">
-                <PrimaryButton
-                    @click="enroll"
-                    text="Записать"
-                    :loading="form.processing"
-                    :disabled="form.processing || !examId"
-                />
-                <v-btn @click="close">
-                    Отменить
-                </v-btn>
-            </div>
+        <template #actions>
+            <PrimaryButton
+                @click="enroll"
+                text="Записать"
+                :loading="form.processing"
+                :disabled="form.processing || !examId"
+            />
         </template>
 
     </BaseDialog>

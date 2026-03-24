@@ -10,16 +10,18 @@ const page = usePage()
 const examsTypes = page.props.examTypes
 const examDates = ref<any[]>([])
 
-const examType = ref<number | null>(null)
+const examTypeId = ref<number | null>(null)
 const examId = defineModel<number |null>()
 
+const props = defineProps<{
+  studentId?:number
+}>()
 
 const datesApi =  useApi()
-watch(examType, async () => {
-  console.log(1)
-  if(examType.value === null) return
+watch(examTypeId, async () => {
+  if(examTypeId.value === null) return
   examDates.value = []
-  await datesApi.request(()=> axios.get(`/exams/available?examTypeId=${examType.value}`))
+  await datesApi.request(()=> axios.get(`/exams/available?examTypeId=${examTypeId?.value}${props?.studentId ? `&studentId=${props?.studentId}` : ''}`))
   if(!datesApi.error.value && datesApi.data.value !== null){
     examDates.value = datesApi.data.value
   }
@@ -32,7 +34,7 @@ onUnmounted(() => {
 
 <template>
   <AppAutocomplete
-    v-model="examType"
+    v-model="examTypeId"
     :items="examsTypes"
     item-title="name"
     item-value="id"

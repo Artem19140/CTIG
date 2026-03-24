@@ -20,9 +20,10 @@ class ExamMonitoringController
                 $query->where('examiner_id', $user->id);
             })
             ->withCount('students')
+            ->where('begin_time_utc', '>', now())
             ->where('is_cancelled', false)
             ->orderBy('id')
-            ->paginate();
+            ->paginate(10);
         return Inertia::render('ExamMonitoring/ExamMonitoringList', [
             'exams' => ExamResource::collection($exams)
         ]);
@@ -40,10 +41,12 @@ class ExamMonitoringController
         if($exam->isCompleted()){
             throw new BusinessException('Экзамен уже прошел');
         }
+
         $exam->load([
             'examType',
             'students.attempts' => fn ($query) => $query->where('exam_id', $exam->id)
         ]);
+        
         return Inertia::render('ExamMonitoring/ExamMonitoring', [
             'students' => fn () => StudentResource::collection($exam->students),
             'exam' => new ExamResource($exam),

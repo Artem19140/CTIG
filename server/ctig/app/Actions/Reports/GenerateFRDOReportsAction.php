@@ -50,7 +50,7 @@ class GenerateFRDOReportsAction{
                             //echo $attempts;die;
         if($attempts->isEmpty()){
             $name = $success ? 'сертификатов' : 'справок';
-            //throw new BusinessException("Данных для $name нету");
+            throw new BusinessException("Данных для $name нету");
         }
         return $attempts;
     }
@@ -65,9 +65,22 @@ class GenerateFRDOReportsAction{
         
         $spreadsheet = IOFactory::load($templatePath);
         $sheet = $spreadsheet->getActiveSheet();
+        $templateRow = 3;
         $row = 3;
         
         foreach($attempts as $attempt){
+            if ($row > $templateRow) {
+                $lastColumn = $success ? 'O' : 'Q';
+
+                $sheet->duplicateStyle(
+                    $sheet->getStyle("A{$templateRow}:{$lastColumn}{$templateRow}"),
+                    "A{$row}:{$lastColumn}{$row}"
+                );
+
+                // (опционально) копируем высоту строки
+                $sheet->getRowDimension($row)
+                    ->setRowHeight($sheet->getRowDimension($templateRow)->getRowHeight());
+            }
             if($success){
                 $markUp = $this->certificateMarkup($attempt, $organization, $row);
             }else{
@@ -76,8 +89,9 @@ class GenerateFRDOReportsAction{
             
             foreach ( $markUp as $key => $value){
                 $sheet->setCellValue($key, $value);
-                $row++;
+                
             }
+            $row++;
         }
         return $spreadsheet;
     }
@@ -96,6 +110,7 @@ class GenerateFRDOReportsAction{
             $attempt->student->name_latin,
             $attempt->student->patronymic_latin,
             $attempt->student->full_passport,
+            $attempt->student->citizenship,
             $attempt->exam->address->address,
             $organization->certificates_issue_address,
             $organization->director_fio,

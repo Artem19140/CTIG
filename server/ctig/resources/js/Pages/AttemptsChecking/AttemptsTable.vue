@@ -10,9 +10,7 @@ const props = defineProps<{
 
 const headers = [
     {title : "Экзамен",sortable: false, key: 'examName', align: 'start' },
-    {title : "ФИО",sortable: false, key: 'fullName', align: 'start' },
-    {title : "Паспорт",sortable: false, key: 'fullPassport', align: 'start' },
-    {title : "Дата рождения",sortable: false, key: 'dateBirth', align: 'center' }
+    {title : "Дата",sortable: false, key: 'date', align: 'start' },
 ]
 
 const openAttempt =  (item : any) => {
@@ -21,11 +19,15 @@ const openAttempt =  (item : any) => {
 </script>
 
 <template>
+    <!-- <pre>
+    {{ attempts }}
+    </pre> -->
     <BaseServerTable 
         title="Проверка"
         :headers="headers"
         :elements="attempts"
         @row-click="openAttempt"
-    />
+    >
+    </BaseServerTable>
 
 </template>

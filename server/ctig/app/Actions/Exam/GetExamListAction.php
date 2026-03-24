@@ -16,11 +16,14 @@ class GetExamListAction{
         $cancelled = $data['cancelled'] ?? false;
         $completed = $data['completed'] ?? false;
         $perPage = $data['perPage'] ?? 10;
-        return Exam::with(['examType', 'address', 'examiners'])
+        return Exam::with(['examType'])
             ->withCount('students')
             ->when($examTypeId, function (Builder $query, int $examTypeId) {
                 $query->where('exam_type_id', $examTypeId);
             })
+            // ->when(!$dateFrom && !$dateTo, function (Builder $query){
+            //     $query->where('begin_time_utc', '>=', now());
+            // } )
             ->when($dateFrom, function (Builder $query, string $dateFrom){
                 $begin= Carbon::parse($dateFrom)->startOfDay();
                 $query->where('begin_time', '>=',$begin);

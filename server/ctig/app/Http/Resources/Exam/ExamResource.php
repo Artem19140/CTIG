@@ -17,6 +17,11 @@ class ExamResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+//         dd(
+//     now(),
+//     $this->begin_time_utc,
+//     $this->begin_time_utc->copy()->addMinutes($this->examType->duration)
+// );
         return [
             'id' => $this->id,
             'isCancelled' => $this->is_cancelled,
@@ -41,6 +46,10 @@ class ExamResource extends JsonResource
             'isPast' =>  $this->begin_time_utc->addMinutes($this->duration)->isPast(),
             'tasksCount' => $this->whenLoaded('examType', fn () => $this->examType->tasks_count),
             'hasSpeakingTasks' => $this->whenLoaded('examType', fn () => $this->examType->has_speaking_tasks),
+            'isGoing' => now()->between(
+                $this->begin_time_utc,
+                $this->begin_time_utc->copy()->addMinutes($this->examType->duration)
+            ),
         ];
     }
 }

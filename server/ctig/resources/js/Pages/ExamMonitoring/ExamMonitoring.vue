@@ -10,8 +10,26 @@ const props = defineProps<{
     hasSpeakingTasks:boolean
 }>()
 
-usePoll(4000, {
-    only: ['students'],
+const { start, stop } = usePoll(5000, {
+        only: ['students'],
+        onStart() {
+                console.log('Polling request started')
+        },
+        onFinish() {
+                console.log('Polling request finished')
+        }
+        }, {
+    autoStart: false,
+})
+
+onMounted(()=>{
+    if(props.exam?.data?.isGoing && props.exam?.data?.students?.length>0){
+        start()
+    }
+})
+
+onUnmounted(()=>{
+    stop()
 })
 
 const headers = [
@@ -57,6 +75,7 @@ const open = (event : Event, {item} :any) => {
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
 import StudentShowModal from '../Students/Components/StudentShowModal.vue';
 import { useModals } from '../../Composables/useModals';
+import { onMounted, onUnmounted } from 'vue';
 
 export default {
     layout: EmployeeLayout,

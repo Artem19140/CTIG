@@ -29,8 +29,9 @@ const cancelExam = async () => {
   }
   form.cancelledReason = res
   form.delete(`exams/${props.exam?.id}`,{
-    onSuccess:()=>{
+    onSuccess:(page)=>{
       if(!props.exam) return
+      if(!page.flash.success)return
       props.exam.isCancelled = true
     }
   })

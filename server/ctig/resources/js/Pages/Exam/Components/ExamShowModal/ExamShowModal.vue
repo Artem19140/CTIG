@@ -53,6 +53,12 @@ onMounted( async () => {
             Экзамен <span v-if="exam?.isCancelled" class="text-red-500 ml-2">
                         (отменён)
                     </span>
+                    <span v-else-if="exam?.isPast && !exam?.isCancelled" class="text-gray-500 ml-2">
+                        (прошел)
+                    </span>
+                    <span v-else-if="exam?.isGoing && !exam?.isCancelled" class="text-green-500 ml-2">
+                        (в процессе)
+                    </span>
         </template>
         <template #titleActions>
             <ExamActionsDropdown :exam="exam" />

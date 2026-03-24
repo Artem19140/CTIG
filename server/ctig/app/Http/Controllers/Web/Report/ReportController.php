@@ -47,14 +47,22 @@ class ReportController extends Controller
     }
 
     public function available(FrdoReportRequest $request){
+        $isAvailable = false;
         $examDate = Carbon::parse($request->validated('examDate'));
         $exists = Attempt::where('finished_at', '>=',$examDate->copy()->startOfDay())
-                                    ->where('finished_at', '<=',$examDate->copy()->endOfDay())
-                                    ->where('is_passed', $request->validated('success'))
-                                    ->whereIn('status', AttemptStatus::unChecked())
-                                    ->exists();
+                            ->where('finished_at', '<=',$examDate->copy()->endOfDay())
+                            ->exists();
+        if($exists){
+            $unchecked = Attempt::where('finished_at', '>=',$examDate->copy()->startOfDay())
+                ->where('finished_at', '<=',$examDate->copy()->endOfDay())
+                ->whereIn('status', AttemptStatus::unChecked())
+                ->exists();
+            if(!$unchecked){
+                $isAvailable = true;
+            }
+        }
         return response()->json([
-            'available' => $exists
+            'available' => $isAvailable
         ], 200);
     }
 

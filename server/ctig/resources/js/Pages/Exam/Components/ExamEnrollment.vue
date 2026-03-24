@@ -46,7 +46,7 @@ onUnmounted(() => {
     :items="examDates"
     :disabled="datesApi.loading.value"
     :loading="datesApi.loading.value"
-    item-title="begin_time"
+    item-title="beginTime"
     item-value="id"
     label="Дата и время"
   />

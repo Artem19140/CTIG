@@ -4,7 +4,6 @@ namespace App\Actions\Exam;
 
 use App\Models\Exam;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 
 class GetAvailableExamsAction{ //По студенту еще ты поиск
@@ -20,7 +19,6 @@ class GetAvailableExamsAction{ //По студенту еще ты поиск
                         });
                     })
                     ->whereHas('students', function ($q) {
-                        // тут оставляем только экзамены с количеством студентов меньше capacity
                     }, '<', DB::raw('exams.capacity'))
                     ->orderBy('begin_time') 
                     ->limit(10)

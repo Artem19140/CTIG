@@ -4,10 +4,11 @@ import AppInput from '../../../Components/AppInput/AppInput.vue';
 import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
 import { reactive, ref, watch } from 'vue';
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
+import { useApi } from '../../../Composables/Api/useApi';
+import axios from 'axios';
 
 const isOpen = defineModel<boolean>()
-const loading = ref<boolean>(false)
-const isAvailable=ref<boolean>(false)
+const isAvailable=ref<boolean | null>(null)
 
 const items = [
     { name: 'Сертификаты', success : true},
@@ -19,9 +20,7 @@ const form = reactive({
 })
 
 const  download = async () => {
-    loading.value=true
     window.location.href = `/reports/frdo?examDate=${form.examDate}&success=${form.success ? 1: 0}`;
-    loading.value=false
 }
 
 const canClose = async (fn : () => void) => {
@@ -35,6 +34,19 @@ const canClose = async (fn : () => void) => {
     fn()
 }
 
+const checkAvailableApi = useApi()
+
+watch(form, async () => {
+    if(form.examDate && form.success !== null){
+        await checkAvailableApi.request(() => axios.get(`/reports/frdo/available?examDate=${form.examDate}`))
+        isAvailable.value = checkAvailableApi.data?.value.available
+        if(!checkAvailableApi.error){
+            console.log(checkAvailableApi.data?.value.available)
+            isAvailable.value = checkAvailableApi.data?.value.available
+        }
+    }
+})
+
 </script>
 
 <template>
@@ -46,7 +58,7 @@ const canClose = async (fn : () => void) => {
         @before-close="(done) => canClose(done)"
     >
         <v-select
-            label=""
+            label="Тип"
             :items=items
             item-value="success"
             item-title="name"
@@ -61,14 +73,19 @@ const canClose = async (fn : () => void) => {
             type="date"
             :disabled="form.success === null"
         />
-        <!-- <span v-if="!isAvailable && form.examDate && form.success !== null">
-            Отчет не доступен
-        </span> -->
-        <!-- :loading="loading" -->
+        
         <template #actions>
+            <div v-if="checkAvailableApi.loading.value">
+                <v-progress-circular
+                    color="primary"
+                    indeterminate ></v-progress-circular>
+                    Идет проверка, подождите
+            </div>
+            <div class="text-red" v-if="isAvailable === false">Отчет недоступен</div>
             <AddButton
                 @click="download"
                 text="Скачать"
+                :disabled="(!form.examDate || !form.success) || isAvailable === false ||checkAvailableApi.loading.value"
             />
         </template>
     </BaseDialog>

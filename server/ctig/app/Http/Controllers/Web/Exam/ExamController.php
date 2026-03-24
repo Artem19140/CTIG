@@ -8,6 +8,7 @@ use App\Actions\Exam\CreateCodesAction;
 use App\Actions\Exam\GetAvailableExamsAction;
 use App\Actions\Exam\GetExamListAction;
 use App\Actions\Exam\VerifyExamCodeAction;
+use App\Enums\UserRoles;
 use App\Exceptions\BusinessException;
 use App\Http\Requests\Exam\ExamIndexRequest;
 use App\Http\Resources\Address\AddressResource;
@@ -49,10 +50,14 @@ class ExamController
     }
 
     public function createModalData(){
+        $examiners=User::whereHas('roles', function(Builder $query){
+                        $query->where('name',UserRoles::Examiner->value);
+                    })
+                    ->get();
         return response()->json([
             'addresses' => AddressResource::collection(Address::all()),
             'examTypes' => ExamTypeResource::collection(ExamType::all()),
-            'examiners' => UserResource::collection(User::all()) //Где роль тестеры
+            'examiners' => UserResource::collection($examiners) //Где роль тестеры
         ], 200);
     }
 
@@ -110,7 +115,7 @@ class ExamController
         return $exams->map(function ($exam) {
             return [
                 'id' => $exam->id,
-                'begin_time' => $exam->begin_time->format('H:i d.m.Y'),
+                'beginTime' => $exam->begin_time->format('H:i d.m.Y'),
             ];
         });
     }        

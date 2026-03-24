@@ -7,8 +7,8 @@ import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
 const isOpen = defineModel<boolean>({default:false})
 
 const form = ref({
-    dateFrom:'2026-03-21',
-    dateTo:'2026-03-23'
+    dateFrom:'',
+    dateTo:''
 })
 
 const donwload = () => {

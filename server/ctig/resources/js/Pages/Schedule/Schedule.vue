@@ -34,10 +34,14 @@ const openExam = (nativeEvent : Event, { event } :any) => {
 
 const getColor = (event : Exam) => {
     if(event?.isCancelled === true){
-        return 'black'
+        return 'red'
     }
-    if (event?.isPast) {
+    if (event?.isPast && !event?.isCancelled) {
         return 'grey'
+    }
+
+    if (event?.isGoing && !event?.isCancelled) {
+        return 'green'
     }
     return 'blue'
 }

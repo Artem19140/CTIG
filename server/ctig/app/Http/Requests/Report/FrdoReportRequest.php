@@ -11,6 +11,13 @@ class FrdoReportRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'success' => $this->boolean('success')
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -19,7 +26,7 @@ class FrdoReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'success' =>['required', 'boolean'],
+            'success' =>['nullable', 'boolean'],
             'examDate' => ['required', 'date']
         ];
     }

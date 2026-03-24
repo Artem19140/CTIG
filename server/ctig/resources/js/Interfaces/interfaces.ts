@@ -16,6 +16,7 @@ export interface Exam{
     isCancelled:boolean,
     date:string,
     isPast:boolean,
+    isGoing:boolean,
     students:Array<Student>,
     hasSpeakingTasks:boolean
 }

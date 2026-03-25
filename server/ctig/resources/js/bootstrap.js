@@ -40,6 +40,11 @@ axios.interceptors.response.use(
         open('Не найдено')
         break;
 
+      case 400:
+        open(error.response.data)
+        console.error('Validation error', error.response.data);
+        break;
+
       case 422:
         open(error.response.data)
         console.error('Validation error', error.response.data);

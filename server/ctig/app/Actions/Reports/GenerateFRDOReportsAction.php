@@ -19,36 +19,27 @@ class GenerateFRDOReportsAction{
     ){
         
     }
-    public function execute(Carbon $examDate, bool $success, Organization $organization): IWriter{
-        $this->checkAvailableGenerate->execute($examDate, $success);
+    public function execute(string $examDate, bool $success, Organization $organization): IWriter{
+        $examDate = Carbon::parse($examDate);
+        $isAvailable = $this->checkAvailableGenerate->execute($examDate);
+        if(!$isAvailable){
+            $dateString = $examDate->format('d.m.Y');
+            throw new BusinessException("Не все попытки за $dateString проверены");
+        }
         $spreadsheet = $this->generateReport($examDate, $success, $organization);
         return IOFactory::createWriter($spreadsheet, 'Xlsx');
     }
 
-
-    protected function isAllAttemptsChecked(Carbon $examDate): void{
-        $notCheckedAttempts = Attempt::where('finished_at', '>=',$examDate->copy()->startOfDay())
-                                    ->where('finished_at', '<=',$examDate->copy()->endOfDay())
-                                    ->whereIn('status', AttemptStatus::unChecked())
-                                    ->exists();
-        $examDate = $examDate->format('d.m.Y');
-        if($notCheckedAttempts){
-            throw new BusinessException("За $examDate не все попытки проверены" );
-        }
-    }
-
     protected function hasAttemptsForReport($examDate, bool $success): Collection{
-        
         $attempts = Attempt::with(['exam.examType','student','exam.address'])
                             ->where('finished_at', '>=',$examDate->copy()->startOfDay())
                             ->where('finished_at', '<=',$examDate->copy()->endOfDay())
                             ->where('is_passed',$success)
                             ->where('status', AttemptStatus::Checked)
                             ->get();
-                            //echo $attempts;die;
         if($attempts->isEmpty()){
             $name = $success ? 'сертификатов' : 'справок';
-            throw new BusinessException("Данных для $name нету");
+            throw new BusinessException("Нет данных для $name");
         }
         return $attempts;
     }
@@ -75,7 +66,6 @@ class GenerateFRDOReportsAction{
                     "A{$row}:{$lastColumn}{$row}"
                 );
 
-                // (опционально) копируем высоту строки
                 $sheet->getRowDimension($row)
                     ->setRowHeight($sheet->getRowDimension($templateRow)->getRowHeight());
             }
@@ -101,8 +91,8 @@ class GenerateFRDOReportsAction{
             $attempt->student->surname,
             $attempt->student->name,
             $attempt->student->patronymic,
-            Carbon::parse($attempt->student->date_birth)->format('d.m.Y'),
-            Carbon::parse($attempt->exam->begin_time)->year,
+            $attempt->student->date_birth->format('d.m.Y'),
+            $attempt->exam->begin_time->year,
             $attempt->exam->examType->certificate_name,
             $attempt->student->surname_latin,
             $attempt->student->name_latin,
@@ -130,8 +120,8 @@ class GenerateFRDOReportsAction{
             $attempt->student->surname,
             $attempt->student->name,
             $attempt->student->patronymic,
-            Carbon::parse($attempt->student->date_birth)->format('d.m.Y'),
-            Carbon::parse($attempt->exam->date)->year,
+            $attempt->student->date_birth->format('d.m.Y'),
+            $attempt->exam->date->year,
             $attempt->exam->examType->certificate_name,
             $attempt->student->surname_latin,
             $attempt->student->name_latin,
@@ -140,7 +130,7 @@ class GenerateFRDOReportsAction{
             $attempt->student->full_passport,
             $attempt->student->citizenship,
             $attempt->exam->address->address,
-            Carbon::parse($attempt->exam->begin_time)->format('d.m.Y'),
+            $attempt->exam->begin_time->format('d.m.Y'),
             'Неуспешно',
             $organization->director_fio
         ];

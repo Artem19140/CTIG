@@ -51,6 +51,7 @@ const open = (event:Event, {item} : any) => {
                 :elements="exams"
                 :headers="headers"
                 @click:row="open"
+                title="Мониторинг"
             >
                 
                 <template #item.capacity="{ item }">

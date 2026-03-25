@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\Report;
 
+use App\Actions\Reports\CheckAvailableFrdoGenerateAction;
 use App\Actions\Reports\GenerateCertificatesFRDOAction;
 use App\Actions\Reports\GenerateExamStatementAction;
 use App\Actions\Reports\GenerateFlatTableAction;
@@ -46,21 +47,8 @@ class ReportController extends Controller
         }, 200, $headers);
     }
 
-    public function available(FrdoReportRequest $request){
-        $isAvailable = false;
-        $examDate = Carbon::parse($request->validated('examDate'));
-        $exists = Attempt::where('finished_at', '>=',$examDate->copy()->startOfDay())
-                            ->where('finished_at', '<=',$examDate->copy()->endOfDay())
-                            ->exists();
-        if($exists){
-            $unchecked = Attempt::where('finished_at', '>=',$examDate->copy()->startOfDay())
-                ->where('finished_at', '<=',$examDate->copy()->endOfDay())
-                ->whereIn('status', AttemptStatus::unChecked())
-                ->exists();
-            if(!$unchecked){
-                $isAvailable = true;
-            }
-        }
+    public function available(FrdoReportRequest $request, CheckAvailableFrdoGenerateAction $checkAvailableGenerate){
+        $isAvailable =  $checkAvailableGenerate->execute($request->input('examDate'));
         return response()->json([
             'available' => $isAvailable
         ], 200);

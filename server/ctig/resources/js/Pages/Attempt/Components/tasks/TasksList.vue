@@ -6,7 +6,8 @@ import TextInputTask from './TextInputTask.vue';
 
 const props = defineProps<{
     tasks:any,
-    attempt?:any
+    attempt?:any,
+    checking?:boolean 
 }>()
 
 const taskComponent = (type: string) => {
@@ -23,6 +24,7 @@ const taskComponent = (type: string) => {
             return SingleChoiceTask
     }
 }
+//v-bind="task"
 </script>
 
 <template>
@@ -33,5 +35,6 @@ const taskComponent = (type: string) => {
         v-bind="task"
         :task="task"
         :attempt="attempt"
+        :chicking="checking"
     />
 </template>

@@ -27,10 +27,12 @@ const onTimeEnd = () => {
 }
 
 const formattedTime = computed(() => {
-    const minutes = Math.floor(timeLeft.value / 60)
     const seconds = timeLeft.value % 60
+    return `${minutes.value}:${seconds.toString().padStart(2, '0')}`
+})
 
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`
+const minutes = computed(() => {
+    return Math.floor(timeLeft.value / 60)
 })
 
 onMounted(() => {
@@ -41,8 +43,9 @@ onMounted(() => {
 onUnmounted(() => {
     clearInterval(interval)
 })
+
 </script>
 
 <template>
-    <div> Время:{{formattedTime}}</div>
+    <div> Время: <span :class="(minutes < 5) ? 'text-red' : ''">{{formattedTime}}</span></div>
 </template>

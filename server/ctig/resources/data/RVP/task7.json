@@ -1,0 +1,436 @@
+[
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Детскую одежду можно купить"
+      }
+    ],
+    "fipi_number": "2C754F",
+    "group_number": "FAD648",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "на первом этаже"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на втором этаже"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на третьем этаже"
+          }
+        ]
+      }
+    ]
+  },
+  
+  
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Россияне называют Волгу"
+      }
+    ],
+    "fipi_number": "EBA5FA",
+    "group_number": "C29DB1",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Волга-батюшка"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Волга-матушка"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Волга-сестрица"
+          }
+        ]
+      }
+    ]
+  },
+  
+  
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Официальная часть праздника начнётся"
+      }
+    ],
+    "fipi_number": "B027CD",
+    "group_number": "548193",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "утром"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "днём"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "вечером"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "В это году всероссийская ярмарка мёда будет"
+      }
+    ],
+    "fipi_number": "4AF2AA",
+    "group_number": "20B508",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Сибири"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Казани"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Москве"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Из озера вытекает"
+      }
+    ],
+    "fipi_number": "C5E746",
+    "group_number": "9FF6CD",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "336 рек"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "1 река"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "40 рек"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Город Мышкин находится"
+      }
+    ],
+    "fipi_number": "A16C9B",
+    "group_number": "7087E9",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на берегу озера"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "на берегу реки"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "рядом с лесом"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Город Псков появился"
+      }
+    ],
+    "fipi_number": "EE9629",
+    "group_number": "AB7819",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "несколько лет назад"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в одиннадцатом веке"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "раньше, чем Москва"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Москвичи называют парк Сокольники"
+      }
+    ],
+    "fipi_number": "E00AE7",
+    "group_number": "36453D",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "парком Петра Первого"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "спортивным парком"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "самым европейским парком"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "В воскресенье в Нижнем Новгороде пройдёт"
+      }
+    ],
+    "fipi_number": "9D82A5",
+    "group_number": "7CE60C",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "чемпионат России по футболу"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "большой спортивный праздник"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "ежегодная городская ярмарка"
+          }
+        ]
+      }
+    ]
+  },
+  
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "В парке-музее «этномир» можно интересно провести"
+      }
+    ],
+    "fipi_number": "9AF961",
+    "group_number": "7B5D08",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "выходные"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "лето"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "отпуск"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Озеро Байкал находится"
+      }
+    ],
+    "fipi_number": "5A77A4",
+    "group_number": "045DE2",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на Дальнем Востоке"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на юге России"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Сибири"
+          }
+        ]
+      }
+    ]
+  }
+]

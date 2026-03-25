@@ -19,7 +19,7 @@ const props = defineProps<{
             <v-list-item-title class="text-wrap">{{ organization?.data?.inn }}</v-list-item-title>
         </v-list-item>
         <v-list-item>
-            <v-list-item-subtitle>Адрес</v-list-item-subtitle>
+            <v-list-item-subtitle>Адрес организации</v-list-item-subtitle>
             <v-list-item-title class="text-wrap">{{ organization?.data?.address }}</v-list-item-title>
         </v-list-item>
         <v-list-item>

@@ -20,7 +20,7 @@ class ExamMonitoringController
                 $query->where('examiner_id', $user->id);
             })
             ->withCount('students')
-            ->where('begin_time_utc', '>', now())
+            ->where('end_time', '>', now($request->user()->organization->time_zone))
             ->where('is_cancelled', false)
             ->orderBy('id')
             ->paginate(10);

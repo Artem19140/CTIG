@@ -1,0 +1,365 @@
+[
+  {
+    "content": [],
+    "fipi_number": "B8C414",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Я живу здесь с женой."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "У меня большая семья."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Моя жена работает."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [],
+    "fipi_number": "5E65E9",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Вы свободны?"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Сколько вам лет?"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "На какое время?"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [],
+    "fipi_number": "EB90C0",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Люблю солнце."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Мне холодно."
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Будет дождь."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [],
+    "fipi_number": "536450",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Я не знаю, где."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Я не знаю, с кем."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Я не знаю, когда."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [],
+    "fipi_number": "84DAC9",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Мой родной язык узбекский."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Я хорошо говорю по-русски."
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Я учил русский язык в школе."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [],
+    "fipi_number": "9D674B",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Нет, я не люблю картофель."
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Да, особенно кефир и сметану."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Я не люблю сладкое."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [],
+    "fipi_number": "5A70F3",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Да, тепло."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Нет, холодно."
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Да, очень."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [],
+    "fipi_number": "F405F9",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Спасибо, я здоров!"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Да, у меня сегодня день рождения."
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Спасибо за поздравление!"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [],
+    "fipi_number": "D4087F",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Нет, у меня есть муж."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "У меня большая семья."
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Я замужем."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [],
+    "fipi_number": "D711AA",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Я рад."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Нет, плохо."
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Спасибо, сейчас хорошо."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [],
+    "fipi_number": "4EE712",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Да, я согласен."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Я всё прочитал."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Да, я еду домой."
+          }
+        ]
+      }
+    ]
+  }
+]

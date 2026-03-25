@@ -33,7 +33,7 @@ const props = defineProps<{
                 auto-grow
                 rows="1"
                 v-model="organization.data.address"
-                label="Адрес"
+                label="Адрес организации"
             />
         </v-list-item>
 

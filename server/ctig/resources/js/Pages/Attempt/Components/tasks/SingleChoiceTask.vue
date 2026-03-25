@@ -10,7 +10,7 @@ const props = defineProps<{
 }>()
 
 const attemptAnswer = ref<number>(
-  props.task.attemptAnswer.answerId
+  props.task?.attemptAnswer?.answerId
 )
 
 const send = async () => {
@@ -18,6 +18,7 @@ const send = async () => {
         answer: attemptAnswer.value,
         taskVariantId:props.task.id
     })
+    props.task.attemptAnswer
 }
 
 watch(attemptAnswer, () => {
@@ -27,36 +28,35 @@ watch(attemptAnswer, () => {
 </script>
 
 <template>
-    <!-- <pre>
-        {{ task }}
-    </pre> -->
 
     <base-task
-        :subtitle = "`Номер ${task.order}`"
+        :subtitle = "`Номер ${task?.order}`"
     >
+        <template #description>
+            Выберите правильный вариант ответа
+        </template>
         <template #answers>
 
         <div class="mb-4 flex flex-column">
-                
                 <v-radio-group 
                     v-model="attemptAnswer"
                 >      
                     <v-radio 
-                        v-for="answer in props.task.answers"
-                        :key="answer.id"
-                        :value="answer.id"
+                        v-for="answer in props.task?.answers"
+                        :key="answer?.id"
+                        :value="answer?.id"
                     >
                         <template #label>
                             <div class="">
-                                <render-blocks :content="answer.content" />
+                                <render-blocks :content="answer?.content" />
                             </div>
                         </template>
                     </v-radio>
                 </v-radio-group>
             </div>
         </template>
-        <template #description>
-            Выберите правильный вариант ответа
-        </template>
+        
+        
     </base-task>
+    
 </template>

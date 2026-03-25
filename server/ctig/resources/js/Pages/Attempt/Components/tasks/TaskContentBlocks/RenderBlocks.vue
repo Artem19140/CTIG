@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AudioBlock from './AudioBlock.vue';
-import ImageBlock from './/ImageBlock.vue';
+import ImageBlock from './ImageBlock.vue';
 import TextBlock from  './TextBlock.vue';
 import TableBlock from './TableBlock.vue';
 import FrameBlock from './FrameBlock.vue';

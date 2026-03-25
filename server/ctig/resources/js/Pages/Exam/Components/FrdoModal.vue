@@ -36,12 +36,10 @@ const canClose = async (fn : () => void) => {
 
 const checkAvailableApi = useApi()
 
-watch(form, async () => {
+watch(() => form.examDate, async () => {
     if(form.examDate && form.success !== null){
         await checkAvailableApi.request(() => axios.get(`/reports/frdo/available?examDate=${form.examDate}`))
-        isAvailable.value = checkAvailableApi.data?.value.available
-        if(!checkAvailableApi.error){
-            console.log(checkAvailableApi.data?.value.available)
+        if(!checkAvailableApi.error.value){
             isAvailable.value = checkAvailableApi.data?.value.available
         }
     }
@@ -85,7 +83,7 @@ watch(form, async () => {
             <AddButton
                 @click="download"
                 text="Скачать"
-                :disabled="(!form.examDate || !form.success) || isAvailable === false ||checkAvailableApi.loading.value"
+                :disabled="(!form.examDate || form.success === null) || isAvailable === false || checkAvailableApi.loading.value"
             />
         </template>
     </BaseDialog>

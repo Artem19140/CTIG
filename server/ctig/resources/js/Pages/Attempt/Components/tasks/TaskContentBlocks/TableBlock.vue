@@ -7,24 +7,20 @@ const props = defineProps<{
 </script>
 
 <template>
-
+    
     <v-table class="table-bordered mt-5">
-
         <tbody>
             <tr
                 v-for="(row, index) in value"
                 :key="index"
             >
-
                 <td 
                     v-for="(data,i) in row" :key="i"
                 >
                     <RenderBlocks :content="[data]" />
                 </td>
             </tr>
-        
         </tbody>
-    
     </v-table>
 </template>
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\AttemptAnswer;
 
 use App\Actions\Attempt\FinalizeAttemptCheckingAction;
-use App\Actions\AttemptAnswer\HandleAttemptAnswerrAction;
+use App\Actions\AttemptAnswer\HandleAttemptAnswerAction;
 use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Exceptions\ForbiddenException;

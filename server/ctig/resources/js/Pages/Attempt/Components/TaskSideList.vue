@@ -6,20 +6,11 @@ const props = defineProps<{
 
 <template>
     <v-list-item>
-        <v-list-item-title>
-           Задания 
-        </v-list-item-title>
-    </v-list-item>
-    
-    <v-list-item
-        v-for="task in tasks"
-        :key="task.id"
-    >
-        <v-list-item-title>
-           
-        </v-list-item-title>
-        <v-list-item-subtitle>
-            {{ task.order}} {{ task?.attemptAnswer?.attemptAnswer || task?.attemptAnswer?.answerId ? "Есть" : "нет" }}
-        </v-list-item-subtitle>
+        <div
+            v-for="task in tasks"
+            :key="task.id"
+        >
+                {{ task.order}} {{ task?.attemptAnswer?.attemptAnswer || task?.attemptAnswer?.answerId ? "Есть" : "нет" }}
+        </div>
     </v-list-item>
 </template>

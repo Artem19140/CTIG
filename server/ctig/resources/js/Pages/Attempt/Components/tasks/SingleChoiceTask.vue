@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import axios from 'axios'
-import { onMounted, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import BaseTask from './BaseTask.vue';
 import RenderBlocks from './TaskContentBlocks/RenderBlocks.vue';
 
@@ -31,7 +31,6 @@ watch(attemptAnswer, () => {
     <base-task
         :subtitle ="`Номер ${task?.order}`"
         :task="task"
-        description="Выберите правильный вариант ответа"
     >
         <template #answers>
             <div class="mb-4 flex flex-column">

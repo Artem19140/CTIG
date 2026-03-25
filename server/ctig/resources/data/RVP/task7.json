@@ -2,6 +2,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/FAD648.mp3"
+      },
+      {
         "type": "text",
         "value": "Детскую одежду можно купить"
       }
@@ -38,10 +42,12 @@
       }
     ]
   },
-  
-  
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/C29DB1.mp3"
+      },
       {
         "type": "text",
         "value": "Россияне называют Волгу"
@@ -79,10 +85,12 @@
       }
     ]
   },
-  
-  
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/548193.mp3"
+      },
       {
         "type": "text",
         "value": "Официальная часть праздника начнётся"
@@ -123,6 +131,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/20B508.mp3"
+      },
+      {
         "type": "text",
         "value": "В это году всероссийская ярмарка мёда будет"
       }
@@ -161,6 +173,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/9FF6CD.mp3"
+      },
       {
         "type": "text",
         "value": "Из озера вытекает"
@@ -201,6 +217,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/7087E9.mp3"
+      },
+      {
         "type": "text",
         "value": "Город Мышкин находится"
       }
@@ -239,6 +259,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/AB7819.mp3"
+      },
       {
         "type": "text",
         "value": "Город Псков появился"
@@ -279,6 +303,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/36453D.mp3"
+      },
+      {
         "type": "text",
         "value": "Москвичи называют парк Сокольники"
       }
@@ -318,6 +346,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/7CE60C.mp3"
+      },
+      {
         "type": "text",
         "value": "В воскресенье в Нижнем Новгороде пройдёт"
       }
@@ -354,9 +386,12 @@
       }
     ]
   },
-  
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/7B5D08.mp3"
+      },
       {
         "type": "text",
         "value": "В парке-музее «этномир» можно интересно провести"
@@ -396,6 +431,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/045DE2.mp3"
+      },
       {
         "type": "text",
         "value": "Озеро Байкал находится"

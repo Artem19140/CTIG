@@ -115,6 +115,7 @@ class PatentSeeder extends Seeder
                 [
                     'type' => TaskType::SingleChoice,
                     'mark' => 1,
+                    'description' =>'Прослушайте аудиозапись и ответьте на задания 1-2',
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task1.json')), true)
                 ],
                 [
@@ -125,6 +126,7 @@ class PatentSeeder extends Seeder
                 [
                     'type' => TaskType::SingleChoice,
                     'mark' => 1,
+                    'description' =>'Прослушайте аудиозапись и ответьте на задания 3-4',
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task3.json')), true)
                 ],
                 [

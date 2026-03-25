@@ -24,10 +24,8 @@ class TaskVariantResource extends JsonResource
             'answers' => AnswerResource::collection($this->whenLoaded('answers')),
             'order' => $this->whenLoaded('task', fn () => $this->task->order),
             'type' => $this->whenLoaded('task', fn () => $this->task->type),
-            //'attemptAnswer' => $this->whenLoaded('attemptsAnswers', fn () => $this->attemptsAnswers()->first()->answer), 
-            //'attemptAnswer' => $this->attemptsAnswers()->first()->answer,
             'attemptAnswer' => new AttemptAnswerResource( $this->attemptsAnswers()->first()),
-            'description' => $this->whenLoaded('task', $this->task->description)
+            'description' => $this->whenLoaded('task', fn () => $this->task->description)
         ];
     }
 }

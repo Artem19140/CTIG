@@ -2,7 +2,7 @@
 import RenderBlocks from './RenderBlocks.vue';
 
 const props = defineProps<{
-    value : string
+    rows : string
 }>()
 </script>
 
@@ -11,7 +11,7 @@ const props = defineProps<{
     <v-table class="table-bordered mt-5">
         <tbody>
             <tr
-                v-for="(row, index) in value"
+                v-for="(row, index) in rows"
                 :key="index"
             >
                 <td 

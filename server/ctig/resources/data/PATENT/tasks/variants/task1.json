@@ -2,6 +2,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/A7B6CE.mp3"
+      },
+      {
         "type": "text",
         "value": "Они говорят"
       }
@@ -40,6 +44,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/BF6366.mp3"
+      },
       {
         "type": "text",
         "value": "Они говорят"
@@ -80,6 +88,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/9172AE.mp3"
+      },
+      {
         "type": "text",
         "value": "Они говорят"
       }
@@ -118,6 +130,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/671409.mp3"
+      },
       {
         "type": "text",
         "value": "Вы слышите разговор"
@@ -158,6 +174,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/4E58BC.mp3"
+      },
+      {
         "type": "text",
         "value": "Они говорят"
       }
@@ -196,6 +216,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/685DEA.mp3"
+      },
       {
         "type": "text",
         "value": "Они говорят"
@@ -236,6 +260,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/090744.mp3"
+      },
+      {
         "type": "text",
         "value": "Они говорят"
       }
@@ -274,6 +302,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/2F994E.mp3"
+      },
       {
         "type": "text",
         "value": "Они говорят"
@@ -314,6 +346,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/A79867.mp3"
+      },
+      {
         "type": "text",
         "value": "Они говорят"
       }
@@ -353,6 +389,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/999A1E.mp3"
+      },
+      {
         "type": "text",
         "value": "Они говорят"
       }
@@ -391,6 +431,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/75B100.mp3"
+      },
       {
         "type": "text",
         "value": "Они говорят"

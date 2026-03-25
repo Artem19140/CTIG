@@ -13,8 +13,9 @@ const props = defineProps<{
 
 const headers = [
     {title:'Название', key:"shortName",sortable:false},
-    {title:'Дата и время', key:"beginTime",sortable:false},
+    {title:'Дата', key:"beginTime",sortable:false},
     {title:'Запись', key:"capacity", sortable:false, align:'center'},
+    {title:'Статус', key:"status", sortable:false, align:'center'},
     {title:'', key:"actions", sortable:false, align:'center'}
 ]
 
@@ -41,12 +42,6 @@ const open = (event:Event, {item} : any) => {
 <template>
     <v-container>
         <v-card>
-            <!-- <v-btn 
-                border
-                variant="text"
-                class="mr-4 mt-2"
-            >Прошедшие</v-btn>
-        </div> -->
             <BaseServerTable
                 :elements="exams"
                 :headers="headers"
@@ -57,9 +52,16 @@ const open = (event:Event, {item} : any) => {
                 <template #item.capacity="{ item }">
                     {{` ${item.studentsCount }/${ item.capacity }`}}
                 </template>
+                <template #item.status="{item}">
+                    <span v-if="item.isGoing && !item.isCancelled" class="text-green">в процессе</span>
+                    <span v-else-if="item.isPast && !item.isCancelled" class="text-grey">прошел</span>
+                    <span v-else-if="item.isCancelled" class="text-red">отменен</span>
+                    <span v-else>ожидается</span>
+                </template>
                 <template #item.actions="{ item }">
                     <ExamActionsDropdown :exam="item" />
                 </template>
+                
             </BaseServerTable>
         </v-card>
     </v-container>

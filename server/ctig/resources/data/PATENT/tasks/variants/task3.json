@@ -2,6 +2,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/1AE94C.mp3"
+      },
+      {
         "type": "text",
         "value": "Объявление можно услышать"
       }
@@ -40,6 +44,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/53B443.mp3"
+      },
       {
         "type": "text",
         "value": "Объявление можно услышать"
@@ -80,6 +88,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/CC0848.mp3"
+      },
+      {
         "type": "text",
         "value": "В новом магазине можно купить одежду"
       }
@@ -118,6 +130,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/F3AB1D.mp3"
+      },
       {
         "type": "text",
         "value": "Вы можете услышать это объявление"
@@ -158,6 +174,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/034315.mp3"
+      },
+      {
         "type": "text",
         "value": "Детский праздник будет"
       }
@@ -196,6 +216,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/51C9DE.mp3"
+      },
       {
         "type": "text",
         "value": "Вы слышите объявление"
@@ -236,6 +260,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/6975AA.mp3"
+      },
+      {
         "type": "text",
         "value": "Этот банк"
       }
@@ -274,6 +302,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/43F3C9.mp3"
+      },
       {
         "type": "text",
         "value": "Вы можете услышать это объявление"
@@ -314,6 +346,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/2F7CCD.mp3"
+      },
+      {
         "type": "text",
         "value": "Вы можете услышать это объявление"
       }
@@ -353,6 +389,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/9EB6E2.mp3"
+      },
+      {
         "type": "text",
         "value": "Поезд едет"
       }
@@ -391,6 +431,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/6C3C8D.mp3"
+      },
       {
         "type": "text",
         "value": "Самолёт летит"

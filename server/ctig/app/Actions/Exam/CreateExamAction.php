@@ -77,7 +77,7 @@ final class CreateExamAction{
                                             $examBeginTime->copy(),
                                             $user->organization->time_zone
                                         )->utc();
-        $exam = DB::transaction(function () use ($examDto, $user ,$examBeginTime, $examEndTime, $examBeginTimeUtc,$examAddress) {
+        $exam = DB::transaction(function () use ($examDto, $user,$examEndTime, $examBeginTimeUtc,$examAddress) {
             $exam = Exam::create(
             [
                     'begin_time' => $examDto->beginTime,
@@ -88,8 +88,7 @@ final class CreateExamAction{
                     'comment' => $examDto->comment,
                     'creator_id'=> $user->id,
                     'end_time' => $examEndTime,
-                    'organization_id' => $user->organization->id,
-                    'date' => $examBeginTime->copy()->toDate()
+                    'organization_id' => $user->organization->id
                 ]
             );
         

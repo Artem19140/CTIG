@@ -2,22 +2,21 @@
 
 namespace App\Actions\Attempt;
 
-use App\Actions\Exam\VerifyExamCodeAction;
 use App\Actions\Attempt\GenerateExamVariantAction;
 use App\Exceptions\BusinessException;
-use App\Http\Resources\Attempt\AttemptResource;
 use App\Models\Attempt;
 use App\Models\Exam;
 use App\Models\Student;
 use App\Models\AttemptAnswer;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Actions\Exam\SetSessionAndGroupNumberAction;
 
 
 class StartExamSessionAction{
 
     public function __construct(
-        protected GenerateExamVariantAction $generateExamVariant
+        protected GenerateExamVariantAction $generateExamVariant,
+        protected SetSessionAndGroupNumberAction $setSessionAndGroupNumber
     ){}
     public function execute(Student $student):Attempt{
         return DB::transaction(function () use($student){
@@ -36,6 +35,10 @@ class StartExamSessionAction{
                 ->flatten(); 
             $examVariant = $this->generateExamVariant->execute($tasks, $exam, $attempt, $student);
             AttemptAnswer::insert($examVariant);
+            if(!$exam->group || !$exam->session){
+                $this->setSessionAndGroupNumber->execute($exam);
+            }
+            
             return $attempt;
         });
     }

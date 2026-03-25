@@ -4,17 +4,27 @@ import RenderBlocks from './TaskContentBlocks/RenderBlocks.vue';
 const props = defineProps<{
     content?:any,
     task?:any, 
-    checking?:boolean,
-    description?:string
+    checking?:boolean
 }>()
+
+const getDefaultDescription = (type:string) => {
+    switch(type){
+        case 'single-choice':
+        return 'Выберите один вариант ответа'
+    }
+}
+        
 
 </script>
 
 <template>
+    <!-- <pre>
+        {{ task }}
+    </pre> -->
     <v-card width="600"
     >
         <div class="description">
-            {{ task?.description !== "" ? task?.description : description }}
+            {{ task?.description && task.description.trim() !== "" ? task.description : getDefaultDescription(task?.type) }}
         </div>
         
         

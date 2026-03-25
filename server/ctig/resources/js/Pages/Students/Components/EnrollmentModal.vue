@@ -30,6 +30,8 @@ const enroll = async () => {
             console.log(page.flash)
             if(page.flash.redirectUrl){
                 window.open(String(page.flash.redirectUrl))
+                isOpen.value=false
+                form.resetAndClearErrors()
             }
         }
     })

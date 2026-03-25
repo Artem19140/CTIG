@@ -23,7 +23,6 @@ const finish = async () => {
 <template>
     <v-app>
         <v-main style="background:#f1f5f9; min-height: 100vh;">
-            {{ attempt }}
             <v-container class="flex flex-column gap-10 items-center">
                 <TasksList :tasks="tasks.data|| []" :attempt="attempt?.data" />
 

@@ -28,16 +28,13 @@ watch(attemptAnswer, () => {
 </script>
 
 <template>
-
     <base-task
-        :subtitle = "`Номер ${task?.order}`"
+        :subtitle ="`Номер ${task?.order}`"
+        :task="task"
+        description="Выберите правильный вариант ответа"
     >
-        <template #description>
-            Выберите правильный вариант ответа
-        </template>
         <template #answers>
-
-        <div class="mb-4 flex flex-column">
+            <div class="mb-4 flex flex-column">
                 <v-radio-group 
                     v-model="attemptAnswer"
                 >      

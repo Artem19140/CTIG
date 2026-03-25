@@ -34,4 +34,5 @@ const taskBlocks = (type: string) => {
         :is="taskBlocks(block.type)"
         v-bind="block"
     />
+    <!-- {{ content }} -->
 </template>

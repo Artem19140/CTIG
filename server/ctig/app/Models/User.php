@@ -11,6 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable
 {
@@ -61,6 +62,15 @@ class User extends Authenticatable
 
     public function organization(): BelongsTo{
         return $this->belongsTo(Organization::class,'organization_id');
+    }
+
+    protected function fullName(): Attribute
+    {
+        return Attribute::get(function () {
+            return trim(
+                ($this->surname  ?? '') . ' ' . (mb_strtoupper(mb_substr($this->name, 0, 1)).'.' ?? '') . ' ' .( mb_strtoupper(mb_substr($this->patronymic, 0, 1)).'.' ?? '')
+            );
+        });
     }
     
     

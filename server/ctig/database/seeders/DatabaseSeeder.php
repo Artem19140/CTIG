@@ -87,13 +87,17 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $user->roles()->attach($SuperAdmin);
+        $user->roles()->attach($roleSpecialist);
+        $user->roles()->attach($roleExaminer);
+        $user->roles()->attach($roleScheduler);
+        $user->roles()->attach($roleDirector);
+        $user->roles()->attach($roleOrgAdmin);
         
         $this->call([
             PatentSeeder::class,
             // VnzhSeeder::class,
             RvpSeeder::class,
-            ExamSeeder::class,
-            ExamStudentSeeder::class
+            ExamSeeder::class
         ]);
         
         Student::factory(200) 

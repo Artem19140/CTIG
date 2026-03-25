@@ -9,6 +9,7 @@ import FlatTableModal from '../../Pages/Exam/Components/FlatTableModal.vue';
 import EnrollmentModal from '../../Pages/Students/Components/EnrollmentModal.vue';
 import AttemptCheckingModal from '../../Pages/AttemptsChecking/AttemptCheckingModal.vue';
 import PdfDialogViewer from '../PdfDialogViewer/PdfDialogViewer.vue';
+import ExamCommentModal from '../../Pages/ExamMonitoring/ExamCommentModal.vue';
 
 
 const {modals, close} = useModals()
@@ -33,6 +34,8 @@ const modalComponent = (name: string) => {
             return AttemptCheckingModal
         case 'pdf':
             return PdfDialogViewer
+        case 'examComment':
+            return ExamCommentModal
     }
 }
 

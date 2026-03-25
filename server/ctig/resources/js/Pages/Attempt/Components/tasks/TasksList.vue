@@ -28,6 +28,7 @@ const taskComponent = (type: string) => {
 </script>
 
 <template>
+    
     <component 
         v-for="task in tasks"
         :key="task.id"

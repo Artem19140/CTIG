@@ -47,6 +47,7 @@ const create =  () => {
     onSuccess: (page) => {
         if(page.flash.success){
             form.resetAndClearErrors()
+            isOpen.value = false
         }
     },
     })

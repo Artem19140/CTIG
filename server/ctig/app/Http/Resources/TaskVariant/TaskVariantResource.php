@@ -27,6 +27,7 @@ class TaskVariantResource extends JsonResource
             //'attemptAnswer' => $this->whenLoaded('attemptsAnswers', fn () => $this->attemptsAnswers()->first()->answer), 
             //'attemptAnswer' => $this->attemptsAnswers()->first()->answer,
             'attemptAnswer' => new AttemptAnswerResource( $this->attemptsAnswers()->first()),
+            'description' => $this->whenLoaded('task', $this->task->description)
         ];
     }
 }

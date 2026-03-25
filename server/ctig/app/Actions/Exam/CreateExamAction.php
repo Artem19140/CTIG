@@ -2,6 +2,7 @@
 
 namespace App\Actions\Exam;
 
+use App\Enums\UserRoles;
 use App\Exceptions\EntityNotFoundExсeption;
 use App\Http\Dto\ExamDto;
 use App\Models\Address;
@@ -39,6 +40,13 @@ final class CreateExamAction{
 
         if($examBeginTime < Carbon::now()){
             throw new BusinessException('Экзамен нельзя создать на прошедшие даты');
+        }
+
+        $examiners = User::with('roles')->whereIn('id', $examDto->examiners)->get();
+        foreach($examiners as $examiner){
+            if(!$examiner->hasRole(UserRoles::Examiner->value)){
+                throw new BusinessException("$examiner->full_name не имеет роли экзаменатора");
+            }
         }
 
         $examDuration = $examType->duration;

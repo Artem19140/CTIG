@@ -99,7 +99,7 @@ class RvpSeeder extends Seeder
             'min_mark'=>6,
             'subblocks'=>[
                 $this->speakingSubblock(),
-                // $this->audioSubblock(),
+                $this->audioSubblock(),
                 // $this->readingSubblock(),
                 // $this->letterSubblock(),
                 // $this->vocabularAndGrammarSubblock()
@@ -119,16 +119,64 @@ class RvpSeeder extends Seeder
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($path.'task1.json')), true)
                 ],
+                [
+                    'type' => TaskType::Speaking,
+                    'description' => 'Примите участие в диалоге. Ответьте на вопросы собеседника полными предложениями.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task2.json')), true)
+                ],
+                [
+                    'type' => TaskType::Speaking,
+                    'description' => 'Подготовьте сообщение на заданную тему. Время на подготовку –до 3 мин. \nВаш ответ должен быть полным.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task3.json')), true)
+                ],
             ]
         ];
     }
 
      private function audioSubblock(): array{
+        $path = 'resources/data/RVP/';
         return [
             'name' => 'Аудирование',
             'min_mark' => 6,
             'tasks' => [
-
+                [
+                    'type' => TaskType::SingleChoice,
+                    'description' => 'Прослушайте диалог и определите, где происходит разговор. Выберите правильный ответ.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task4.json')), true)
+                ],
+                [
+                    'type' => TaskType::SingleChoice,
+                    'description' => 'Прослушайте объявление и выберите правильный ответ.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task5.json')), true)
+                ],
+                [
+                    'type' => TaskType::SingleChoice,
+                    'description' => 'Прослушайте начало диалога и выберите правильную ответную реплику.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task6.json')), true)
+                ],
+                [
+                    'type' => TaskType::SingleChoice,
+                    'description' => 'Прослушайте аудиозапись и ответьте на задания 7-9',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task7.json')), true)
+                ],
+                [
+                    'type' => TaskType::SingleChoice,
+                    'description' => '',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task8.json')), true)
+                ],
+                [
+                    'type' => TaskType::SingleChoice,
+                    'description' => '',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task9.json')), true)
+                ],
             ]
         ];
     }

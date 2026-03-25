@@ -12,7 +12,8 @@ const props = defineProps<{
     <BaseTask 
         :subtitle = "`Номер ${task.order}`"
         :content="task.content"
+        :task="task"
     >
-        {{ task }}
+        
     </BaseTask>
 </template>

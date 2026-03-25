@@ -4,7 +4,8 @@ import RenderBlocks from './TaskContentBlocks/RenderBlocks.vue';
 const props = defineProps<{
     content?:any,
     task?:any, 
-    checking?:boolean
+    checking?:boolean,
+    description?:string
 }>()
 
 </script>
@@ -12,19 +13,17 @@ const props = defineProps<{
 <template>
     <v-card width="600"
     >
-        <v-card-subtitle>
-            <slot name=description />
-        </v-card-subtitle>
+        <div class="description">
+            {{ task?.description !== "" ? task?.description : description }}
+        </div>
+        
         
         <v-card-text>
             <RenderBlocks :content="content" />
         </v-card-text>
 
-        <v-card-subtitle>
-            <slot name=postscriptum />
-        </v-card-subtitle>
-
         <v-card-actions>
+            <!-- <RenderBlocks :content="task" /> -->
             <slot name="answers" />
         </v-card-actions>
 
@@ -36,3 +35,12 @@ const props = defineProps<{
         </v-card-text>
     </v-card>
 </template>
+
+<style lang="css" scoped>
+.description {
+  padding: 12px 16px;
+  background: #f5f5f5;
+  border-left: 4px solid #1976d2;
+  font-weight: 500;
+}
+</style>

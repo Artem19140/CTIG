@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import DropDownStudentsList from './DropDownStudentsList.vue';
-import { formatterDate, formatterTime } from '../../Helpers/heplers';
 import { router, usePoll } from '@inertiajs/vue3'
 
 const props = defineProps<{
@@ -48,6 +47,21 @@ const headers = [
     {title:'', key:"actions",sortable: false,align: 'end'}
 ]
 
+const color = (status : string) => {
+    switch (status) {
+        case "active":
+            return "text-green";
+        case "finished":
+            return  "text-grey";
+        case "banned":
+            return "text-red";
+        case "checked":
+            return "text-blue";
+        default:
+            return ''
+    }
+}
+
 const getAttemptStatus = (status : string) =>{
     switch (status) {
         case "pending":
@@ -64,9 +78,9 @@ const getAttemptStatus = (status : string) =>{
             return '-'
     }
 }
-
-const open = (event : Event, {item} :any) => {
-    const {open} = useModals()
+const {open} = useModals()
+const openStudent = (event : Event, {item} :any) => {
+    
     open('studentShow', {studentId:item.id})
 }
 </script>
@@ -89,14 +103,23 @@ export default {
         class="mx-auto mt-16"
         title="Мониторинг"
     >
-        <!-- <pre>
-            {{ exam }}
-        </pre> -->
-        <v-card-subtitle>
-            <div>{{ exam.data.shortName }}</div>
-            <div>{{ formatterTime(exam.data?.beginTime) }} - {{formatterTime(exam.data?.endTime) }}</div>
-            <div>{{ formatterDate(exam.data?.beginTime) }}</div>
+
+        <v-card-subtitle >
+            <div class="flex">
+                <div>
+                    <div>{{ exam.data.shortName }}</div>
+                    <div>{{ exam.data?.beginTime }}</div>
+                </div>
+                <v-spacer />
+                <v-btn 
+                    border 
+                    variant="text" 
+                    class="mr-4 text-black"
+                    @click="open('examComment', {})"
+                >Комментарий</v-btn>
+            </div>
         </v-card-subtitle>
+
         <v-card-text>
             <v-data-table
                 :items="students.data"
@@ -104,22 +127,22 @@ export default {
                 hover
                 hide-default-footer
                 :loading="students.lenght === 0"
-                @click:row="open"
+                @click:row="openStudent"
             >
                 <template  #item.actions="{ item }">
                     <DropDownStudentsList :student="item" :hasSpeakingTasks="hasSpeakingTasks" />
                 </template>
                 <template  #item.status="{ item }">
-                    {{getAttemptStatus(item.attempts[0]?.status ?? null)}}
+                    <span :class="color(item.attempts[0]?.status ?? null)">{{getAttemptStatus(item.attempts[0]?.status ?? null)}}</span>
                 </template>
                 <template  #item.solved="{ item }">
-                    {{item.attempts[0]?.solved ?? '-'}}/ {{ props.tasksCount }}
+                    {{item.attempts[0]?.solved ?? '-'}} / {{ props.tasksCount }}
                 </template>
                 <template  #item.startTime="{ item }">
-                    {{formatterTime(item.attempts[0]?.startedAt)}}
+                    {{item.attempts[0]?.startedAt}}
                 </template>
                 <template  #item.endTime="{ item }">
-                    {{item.attempts[0]?.finishedAt ? formatterTime(item.attempts[0]?.finishedAt) : '-'}}
+                    {{item.attempts[0]?.finishedAt ? item.attempts[0]?.finishedAt : '-'}}
                 </template>
             </v-data-table>
         </v-card-text>

@@ -21,6 +21,12 @@ class ExamSeeder extends Seeder
             'max_capacity' => 15,
             'organization_id' => Organization::inRandomOrder()->first()->id
         ]);
+
+        Address::create([
+            'address'=>'Ижевск, Удмуртская, 2 каб. 542',
+            'max_capacity' => 14,
+            'organization_id' => Organization::inRandomOrder()->first()->id
+        ]);
         // Exam::factory(10)->withRandomCreator()->create([
         //     'address_id' => Address::inRandomOrder()->first()->id
         // ]);

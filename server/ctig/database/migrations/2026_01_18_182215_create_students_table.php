@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('passport_scan_path')->nullable()->default(null);
             $table->string('passport_translate_scan')->nullable()->default(null);
         
-            $table->string('exam_code')->nullable()->unique()->default(null);
+            $table->string('exam_code')->index()->nullable()->unique()->default(null);
             $table->dateTime('exam_code_expired_at')->nullable()->default(null);
             $table->integer('exam_id')->nullable()->default(null);
 

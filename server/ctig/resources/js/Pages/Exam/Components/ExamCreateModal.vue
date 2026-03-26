@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { useForm, useHttp } from '@inertiajs/vue3'
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import AppInput from '../../../Components/AppInput/AppInput.vue';
@@ -10,7 +10,6 @@ import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
 import AddButton from '../../../Components/AddButton/AddButton.vue';
 
 import AppAutocomplete from '../../../Components/AppAutocomplete/AppAutocomplete.vue';
-import { useApi } from '../../../Composables/Api/useApi';
 
 const props = defineProps<{
     date?:string
@@ -21,9 +20,6 @@ const examiners = ref<User[]>()
 const examTypes = ref<ExamType[]>()
 const isOpen = defineModel<boolean>({default:false})
 
-const date = ref('')
-const time = ref('')
-
 const form = useForm<ExamForm>({
     examTypeId: null,
     addressId:null,
@@ -33,13 +29,15 @@ const form = useForm<ExamForm>({
     date:props.date ?? ''
 })
 
-const {data, loading,request, error} = useApi()
+const http = useHttp()
 onMounted( async () => {
-    await request(() => axios.get('/exams/create/modal-data'))
-    if(!error.value && !data.value) return
-    addresses.value = data.value.addresses
-    examiners.value = data.value.examiners
-    examTypes.value = data.value.examTypes
+    http.get('/exams/create/modal-data', {
+        onSuccess:(response:any) => {
+            addresses.value = response.addresses
+            examiners.value = response.examiners
+            examTypes.value = response.examTypes
+        }
+    })
 })
 const create =  () => {
     form.post('/exams', {
@@ -81,7 +79,7 @@ const close = async (fn:  ()  => void) => {
                 v-model="form.examTypeId"
                 key="id"
                 :error-messages="form.errors.examTypeId"
-                :loading="loading"
+                :loading="http.processing"
                 item-value="id"
                 clearable
             />
@@ -112,7 +110,7 @@ const close = async (fn:  ()  => void) => {
                 item-value="id"
                 v-model="form.addressId"
                 :error-messages="form.errors.addressId"
-                :loading="loading"
+                :loading="http.processing"
             />
 
             <AppAutocomplete 
@@ -123,7 +121,7 @@ const close = async (fn:  ()  => void) => {
                 item-value="id"
                 :error-messages="form.errors.examiners"
                 multiple    
-                :loading="loading"
+                :loading="http.processing"
             />
 
             <v-textarea

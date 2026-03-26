@@ -19,7 +19,8 @@ const {can} = useAuth()
 const {open} = useModals()
 
 const calendar = ref()
-const focus = ref('')
+const focus = ref<string>('')
+const loading = ref<boolean>(false)
 
 const type = ref<string>('month')
 const types = [
@@ -54,22 +55,16 @@ const next = () => {
   calendar.value?.next()
 }
 
-let cancelRequest: any = null;
 
 function getEvents ({ start, end } :any) {
-  if(cancelRequest){
-    cancelRequest()
-  }
+  loading.value=true
   router.reload({
       data: {
         dateFrom: start.date,
         dateTo:end.date
       },
-      onCancelToken:(cancelToken) => {
-        cancelRequest = cancelToken
-      },
-      onFinish: () => {
-          cancelRequest = null; 
+      onFinish:()=>{
+        loading.value=false
       }
   })
 }
@@ -85,6 +80,8 @@ const addExam = (nativeEvent : Event, { date } : any) => {
         class="ma-2"
         variant="text"
         icon
+        :disabled="loading"
+        :loading="loading"
         @click="prev"
       >
         <v-icon>mdi-chevron-left</v-icon>
@@ -118,11 +115,14 @@ const addExam = (nativeEvent : Event, { date } : any) => {
         variant="text"
         icon
         @click="next"
+        :loading="loading"
+        :disabled="loading"
       >
         <v-icon>mdi-chevron-right</v-icon>
       </v-btn>
     </v-sheet>
       <v-calendar
+      
         event-name = 'shortName'
         v-model="focus"
         color="primary"

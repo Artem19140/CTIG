@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import Dropdown from './Dropdown.vue';
 import BaseServerTable from '../../Components/BaseServerTable.vue';
-import EmployeeCreateModal from './EmployeeCreateModal.vue';
+import { useModals } from '../../Composables/useModals';
+import AddButton from '../../Components/AddButton/AddButton.vue';
 
 const props = defineProps<{
   employees : any
 }>()
+
+const {open} = useModals()
 
 const headers = [
     {title : "ФИО",sortable: false, key: 'fullName', align: 'start' },
@@ -21,7 +24,8 @@ const headers = [
         :elements="employees"
     >
         <template #toolbar-actions>
-            <EmployeeCreateModal />
+            <AddButton text="Добавить" 
+            @click="open('employeeCreate')" />
         </template>
         <template #item.actions="{item}">
             <Dropdown :employee="item" />

@@ -8,7 +8,6 @@ use App\Exceptions\EntityNotFoundExсeption;
 use App\Models\Attempt;
 use App\Models\AttemptAnswer;
 use App\Models\TaskVariant;
-use finfo;
 
 
 class HandleAttemptAnswerAction{

@@ -18,7 +18,7 @@ class AttemptResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'examName' =>$this->whenLoaded('exam', $this->exam->examType->short_name),
+            'examName' =>$this->whenLoaded('exam', fn () => $this->exam->examType->short_name),
             'answers' =>  AttemptAnswerResource::collection($this->whenLoaded('answers')),
             'expiredAt' => $this->expired_at,
             'solved' => $this->solved,

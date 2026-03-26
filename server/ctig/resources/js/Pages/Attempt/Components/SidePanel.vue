@@ -29,7 +29,8 @@ const progress = ref(props.attempt.solved/22 * 100)
                 :model-value="progress"
             ><span>{{ attempt?.solved }} / 22</span></v-progress-linear>
         </v-list-item>
-        
-        <TaskSideList :tasks="tasks" />
+        <v-list-item>
+            <TaskSideList :tasks="tasks" />
+        </v-list-item>
     </v-list>
 </template>

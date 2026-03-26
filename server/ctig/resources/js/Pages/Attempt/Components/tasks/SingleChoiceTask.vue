@@ -1,24 +1,30 @@
 <script setup lang="ts">
-import axios from 'axios'
+import { useHttp } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 import BaseTask from './BaseTask.vue';
 import RenderBlocks from './TaskContentBlocks/RenderBlocks.vue';
+
 
 const props = defineProps<{
     task:any,
     attempt:any
 }>()
 
-const attemptAnswer = ref<number>(
-  props.task?.attemptAnswer?.answerId
+const attemptAnswer = ref<number | null>(
+  props.task?.answer?.id
 )
+const http = useHttp<{ answer: number | null, taskVariantId:number }>({
+    answer: null,
+    taskVariantId:props.task.id
+})
 
 const send = async () => {
-    await axios.put(`/exam-attempts/${props.attempt.id}/answers`, {
-        answer: attemptAnswer.value,
-        taskVariantId:props.task.id
+    http.answer = attemptAnswer.value
+    http.put(`/exam-attempts/${props.attempt.id}/answers`,{
+        onSuccess:(response) => {
+            
+        }
     })
-    props.task.attemptAnswer
 }
 
 watch(attemptAnswer, () => {
@@ -29,7 +35,6 @@ watch(attemptAnswer, () => {
 
 <template>
     <base-task
-        :subtitle ="`Номер ${task?.order}`"
         :task="task"
     >
         <template #answers>
@@ -51,7 +56,9 @@ watch(attemptAnswer, () => {
                 </v-radio-group>
             </div>
         </template>
-        
+        <template #saved v-if="attemptAnswer">
+            <div>sdf</div>
+        </template>
         
     </base-task>
     

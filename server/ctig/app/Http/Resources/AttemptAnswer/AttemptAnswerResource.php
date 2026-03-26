@@ -16,7 +16,7 @@ class AttemptAnswerResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'attemptAnswer' => $this->answer,
+            'answer' => $this->answer,
             'task' => new TaskVariantResource($this->whenLoaded('taskVariant')),
             'id' => $this->id,
             'answerId' => $this->answer_id

@@ -13,21 +13,11 @@ import { router } from '@inertiajs/vue3';
         (e: 'row-click', item: any): void
     }>()
 
-    let cancelRequest: any = null 
     const loadItems = ({ page, itemsPerPage, sortBy }: any) => {
-        if(cancelRequest){
-            cancelRequest()
-        }
         router.reload({
             data: {
                 page: page,
                 perPage:itemsPerPage
-            },
-            onCancelToken:(cancelToken) => {
-                cancelRequest = cancelToken
-            },
-            onFinish:()=>{
-                cancelRequest = null
             }
         })
     }

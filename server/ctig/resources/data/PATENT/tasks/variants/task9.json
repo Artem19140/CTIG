@@ -27,11 +27,11 @@
         ]
       },
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
-            "value": "true"
+            "value": "телефон"
           }
         ]
       }

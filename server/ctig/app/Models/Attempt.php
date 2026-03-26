@@ -68,4 +68,8 @@ class Attempt extends Model
     public function violations(): HasMany{
         return $this->hasMany(Violation::class, 'attempt_id');
     }
+
+    public function organization(): BelongsTo{
+        return $this->belongsTo(Organization::class, 'organization_id');
+    }
 }

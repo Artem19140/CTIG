@@ -30,7 +30,7 @@ class StudentResource extends JsonResource
             'passportNumber' => $this->when($profile,$this->resource->passport_number),
             'passportSeries' => $this->when($profile,$this->resource->passport_series),
             'issuedBy' => $this->when($profile,$this->resource->issued_by),
-            'issuedDate' => $this->when($profile,$this->resource->issued_date->format('m.d.Y')),
+            'issuedDate' => $this->when($profile,$this->issued_date->format('m.d.Y')),
             'addressReg' => $this->when($profile,$this->resource->address_reg),
             'migrationCardRequisite' => $this->when($profile,$this->resource->migration_card_requisite),
             'citizenship' => $this->when($profile,$this->resource->citizenship),

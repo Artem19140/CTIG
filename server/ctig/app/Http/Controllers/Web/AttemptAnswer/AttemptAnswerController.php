@@ -48,7 +48,7 @@ class AttemptAnswerController extends Controller
         $taskVariantId = $request->input('taskVariantId');
         DB::transaction(function()use($answer, $attempt,$taskVariantId, $handleAttemptAnswer){
             $handleAttemptAnswer->execute($answer, $attempt, $taskVariantId);
-            $attempt->last_activity_at = Carbon::now();
+            $attempt->last_activity_at = Carbon::now($attempt->organization->time_zone);
             $attempt->save();
         });
         return response()->noContent();

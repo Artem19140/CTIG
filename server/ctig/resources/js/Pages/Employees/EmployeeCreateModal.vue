@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import AddButton from '../../Components/AddButton/AddButton.vue';
 import BaseDialog from '../../Components/BaseDialog/BaseDialog.vue';
 import AppInput from '../../Components/AppInput/AppInput.vue';
 import { useForm } from '@inertiajs/vue3';
 import { useConfirmDialog } from '../../Composables/useConfirmDialog';
-import axios from 'axios';
 import AppAutocomplete from '../../Components/AppAutocomplete/AppAutocomplete.vue';
+import {useHttp} from '@inertiajs/vue3';
 
-const isOpen = ref<boolean>(false)
-const loading = ref<boolean>(false)
+const isOpen = defineModel<boolean>({default:false})
 const roles = ref()
 
 const form = useForm({
@@ -36,23 +35,23 @@ const canClose = async (fn: () => void) => {
 const create = () => {
     form.post('/employees',{
         onSuccess:(page) => {
+            if(!page.flash.success) return
             isOpen.value=false
             form.resetAndClearErrors()
         }
     })
 }
-const open =  async () => {
-    loading.value = true
-    isOpen.value = true
-    const res = await axios.get('/roles')
-    roles.value = res.data.data
-    loading.value = false
-    
-}
+const http = useHttp()
+onMounted(() => {
+    http.get('/roles', {
+        onSuccess:(response : any) => {
+            roles.value = response.data
+        }
+    })
+})
 </script>
 
 <template>
-    <AddButton text="Добавить" @click="open" />
     <BaseDialog 
         width="500"
         title='Добавить'
@@ -83,7 +82,7 @@ const open =  async () => {
 
         <AppAutocomplete 
             label="Роли"
-            :loading="loading"
+            :loading="http.processing"
             v-model="form.roles"
             :items="roles"
             item-title="label"

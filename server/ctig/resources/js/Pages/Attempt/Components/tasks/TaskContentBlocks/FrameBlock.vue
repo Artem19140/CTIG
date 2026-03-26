@@ -1,9 +1,15 @@
 <script setup lang="ts">
+import RenderBlocks from './RenderBlocks.vue';
 const props = defineProps<{
-    value : string
+    value : any
 }>()
+
 </script>
 
 <template>
-    {{ value }}
+    <v-card class="mt-4">
+        <v-card-text>
+                <RenderBlocks :content="value[0]" />
+        </v-card-text>
+    </v-card>
 </template>

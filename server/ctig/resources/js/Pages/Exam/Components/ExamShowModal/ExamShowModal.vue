@@ -3,13 +3,14 @@ import BaseDialog from '../../../../Components/BaseDialog/BaseDialog.vue';
 import ExamActionsDropdown from './ExamActionsDropdown.vue';
 import StudentsTable from './StudentsTable.vue';
 import { onMounted, ref } from 'vue';
-import axios from 'axios';
 import { Exam } from '../../../../interfaces/interfaces';
-import { useApi } from '../../../../Composables/Api/useApi';
+import { useHttp } from '@inertiajs/vue3';
 
 const props = defineProps<{
     examId:number
 }>()
+
+const http = useHttp()
 
 const exam = ref<Exam |null>(null)
 
@@ -18,16 +19,14 @@ const isOpen = defineModel<boolean>({default:false})
 const examinersList = (examinersList :Array<any>) => {
     return examinersList.map(s => s.fullName).join(', ');
 }
-const {data, loading,request, error} = useApi()
+
 
 const getExam = async () => {
-    await request(() =>  axios.get(`/exams/${props.examId}`))
-
-    if(!error.value && data.value){
-        exam.value = data.value
-    }  
-
-    exam.value = data.value.data
+    http.get(`/exams/${props.examId}`,{
+        onSuccess:(response : any)=>{
+            exam.value = response.data
+        }
+    })
 }
 
 onMounted( async () => {
@@ -41,9 +40,9 @@ onMounted( async () => {
     <BaseDialog 
         width="800"
         height="800"
-        :loading="loading"
+        :loading="http.processing"
         v-model="isOpen"
-        :error="error"
+        :error="http.hasErrors"
         :onRetry="getExam"
         :subtitle="`${exam?.sessionNumber ?? '-'} / ${exam?.group ?? '-'}`"
         @before-close="(done) =>  done()"

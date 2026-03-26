@@ -4,8 +4,7 @@ import AppInput from '../../../Components/AppInput/AppInput.vue';
 import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
 import { reactive, ref, watch } from 'vue';
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
-import { useApi } from '../../../Composables/Api/useApi';
-import axios from 'axios';
+import { useHttp } from '@inertiajs/vue3';
 
 const isOpen = defineModel<boolean>()
 const isAvailable=ref<boolean | null>(null)
@@ -14,34 +13,34 @@ const items = [
     { name: 'Сертификаты', success : true},
     { name: 'Справки', success : false}
 ]
-const form = reactive({
-    examDate:'',
+const  download = async () => {
+    window.location.href = `/reports/frdo?examDate=${http.examDate}&success=${http.success ? 1: 0}`;
+}
+
+const http = useHttp({
+    examDate:null,
     success:null
 })
 
-const  download = async () => {
-    window.location.href = `/reports/frdo?examDate=${form.examDate}&success=${form.success ? 1: 0}`;
-}
-
 const canClose = async (fn : () => void) => {
     const {confirmOpen} = useConfirmDialog()
-    if(form.examDate || form.success){
+    if(http.isDirty){
         const ok = await confirmOpen('Закрыть окно? Выбор не сохранится')
         if(!ok) return
     }
-    form.examDate = ''
-    form.success = null
+    http.examDate = null
+    http.success = null
     fn()
 }
 
-const checkAvailableApi = useApi()
 
-watch(() => form.examDate, async () => {
-    if(form.examDate && form.success !== null){
-        await checkAvailableApi.request(() => axios.get(`/reports/frdo/available?examDate=${form.examDate}`))
-        if(!checkAvailableApi.error.value){
-            isAvailable.value = checkAvailableApi.data?.value.available
-        }
+watch(() => http.examDate, async () => {
+    if(http.examDate !== null ){
+        http.get('/reports/frdo/available',{
+            onSuccess:(response :any) =>{
+                isAvailable.value = response.available
+            }
+        })
     }
 })
 
@@ -61,19 +60,21 @@ watch(() => form.examDate, async () => {
             item-value="success"
             item-title="name"
             clearable
-            :rules="[form.success  === !!form.success]"
-            v-model="form.success"
+            :error-messages="http.errors.success"
+            :rules="[http.success  === !!http.success]"
+            v-model="http.success"
         />
 
         <AppInput
             label="Дата"
-            v-model="form.examDate"
+            v-model="http.examDate"
             type="date"
-            :disabled="form.success === null"
+            :error-messages="http.errors.examDate"
+            :disabled="http.success === null"
         />
         
         <template #actions>
-            <div v-if="checkAvailableApi.loading.value">
+            <div v-if="http.processing">
                 <v-progress-circular
                     color="primary"
                     indeterminate ></v-progress-circular>
@@ -83,7 +84,7 @@ watch(() => form.examDate, async () => {
             <AddButton
                 @click="download"
                 text="Скачать"
-                :disabled="(!form.examDate || form.success === null) || isAvailable === false || checkAvailableApi.loading.value"
+                :disabled="(!http.examDate || http.success === null) || isAvailable === false || http.processing"
             />
         </template>
     </BaseDialog>

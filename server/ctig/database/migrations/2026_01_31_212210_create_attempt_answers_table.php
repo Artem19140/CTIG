@@ -38,6 +38,8 @@ return new class extends Migration
                 ->index()
                 ->constrained('organizations')
                 ->cascadeOnDelete();
+
+            $table->boolean('audio_is_played')->default(false);
                 
             $table->integer('checked_by_id')->nullable()->default(null);
             $table->boolean('is_checked')->index()->default(false);

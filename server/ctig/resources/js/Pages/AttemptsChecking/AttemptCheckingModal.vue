@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import BaseDialog from '../../Components/BaseDialog/BaseDialog.vue';
-import { useApi } from '../../Composables/Api/useApi';
-import axios from 'axios';
 import AddButton from '../../Components/AddButton/AddButton.vue';
 import TasksList from '../Attempt/Components/tasks/TasksList.vue';
+import { useHttp } from '@inertiajs/vue3';
 
 const isOpen = defineModel<boolean>({default:false})
 
@@ -14,16 +13,16 @@ const props = defineProps<{
 
 const tasks = ref()
 
-const {request, loading, error, data} = useApi()
 const canClose = (fn:  ()  => void) =>{
     fn()
 }
-
+const http = useHttp()
 onMounted(async() => {
-    await request(() => axios.get(`/attempts/${props.attemptId}/checking/tasks`))
-    if(!error.value && data.value){
-        tasks.value = data.value
-    }
+    http.get(`/attempts/${props.attemptId}/checking/tasks`,{
+        onSuccess:(response :any) => {
+            tasks.value = response.data
+        }
+    })
 })
 </script>
 
@@ -33,7 +32,7 @@ onMounted(async() => {
         width="1000"
         height="1000"
         v-model="isOpen"
-        :loading="loading"
+        :loading="http.processing"
         @before-close="(done) => canClose(done)"
     >
         <pre>

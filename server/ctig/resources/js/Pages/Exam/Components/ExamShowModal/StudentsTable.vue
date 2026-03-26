@@ -67,8 +67,11 @@ const getAttemptResultLabel = (result: boolean) => {
                 <AppListDropDownItem 
                     title="Перенести запись" 
                     @click="transfer"
+                    v-if="!exam?.isGoing && !exam?.isPast"
                 />
+
                 <AppListDropDownItem 
+                    v-if="!exam?.isGoing && !exam?.isPast"
                     title="Отменить запись" 
                     @click="cancell(item.id)"
                     color="text-red"

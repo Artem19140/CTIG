@@ -6,7 +6,7 @@ use App\Models\Exam;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
-class GetAvailableExamsAction{ //По студенту еще ты поиск
+class GetAvailableExamsAction{
     public function execute(int  $examTypeId, int | null $studentId){
         $exams = Exam::select('id', 'begin_time')
                     ->withCount('students')

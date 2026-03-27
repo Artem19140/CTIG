@@ -11,7 +11,7 @@ const props = defineProps<{
 
 <template>
     <BaseFilter
-        :url="'/students'"
+        :url="'/foreign-nationals'"
         :form="form"
         :appliedFilters="filters"
     >
@@ -43,7 +43,8 @@ const props = defineProps<{
             label="ID" 
             control-variant="hidden" 
             :error-messages="form.errors.id"
-            v-model="form.id"    
+            v-model="form.id"  
+            :min="0"  
         />
     </BaseFilter>
 </template>

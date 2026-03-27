@@ -42,7 +42,10 @@ class ForeignNationalResource extends JsonResource
             'photo' => $this->when($profile,$this->photo_path),
             'createdAt' => $this->when($profile,$this->created_at),
             'fullName' => $this->full_name,
-            'fullPassport' => $this->full_passport
+            'fullPassport' => $this->full_passport,
+            'hasPayment' => $this->whenPivotLoaded('exam_foreign_national', function () {
+                return $this->pivot->has_payment;
+            })
         ];
     }
 }

@@ -49,7 +49,7 @@ class ForeignNational extends Authenticatable {
     ];
     
     public function exams(): BelongsToMany{
-        return $this->belongsToMany(Exam::class)->withPivot('reg_number');
+        return $this->belongsToMany(Exam::class)->withPivot('reg_number', 'has_payment');
     }
  
     public function attempts(): HasMany{

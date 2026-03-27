@@ -56,7 +56,7 @@ class ForeignNationalController
 
     public function show(Request $request, ForeignNational $foreignNational){
         $foreignNational->load(['exams' => ['attempts' => function ($query) use($foreignNational): void{
-            $query->where('foreignNational_id', $foreignNational->id);
+            $query->where('foreign_national_id', $foreignNational->id);
             },
             'examType']
         ]);

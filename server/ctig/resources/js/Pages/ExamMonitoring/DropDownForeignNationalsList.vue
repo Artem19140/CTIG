@@ -25,8 +25,10 @@ const getSpeakingTasks = () => {
 </script>
 
 <template>
-    <ThreeDotDropdown>
-        <AppListDropDownItem title="Снять с экзамена" @click="ban"/>
+    <ThreeDotDropdown width="250">
+        <AppListDropDownItem v-if="!foreignNational?.hasPayment" title="Установить факт оплаты" @click="ban"/>
         <AppListDropDownItem title="Устная часть" @click="getSpeakingTasks" v-if="hasSpeakingTasks" />
+        <AppListDropDownItem title="Снять с экзамена" @click="ban"/>
+        
     </ThreeDotDropdown>
 </template>

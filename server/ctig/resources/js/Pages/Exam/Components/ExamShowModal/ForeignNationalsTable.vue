@@ -6,6 +6,7 @@ import AppListDropDownItem from '../../../../Components/AppListDropDownItem/AppL
 import { router } from '@inertiajs/vue3';
 import { Exam } from '../../../../interfaces/interfaces';
 import { useModals } from '../../../../Composables/useModals';
+import { attemptResultStatus } from '../../../../Helpers/heplers';
 
 const props = defineProps<{
     foreignNationals : any,
@@ -78,18 +79,14 @@ const getAttemptResultLabel = (result: boolean) => {
                 />
             </ThreeDotDropdown>
         </template>
-        <template #item.results="{item}">
-            <span
-            :class="!item?.attempts[0]
-                ? 'text-gray-400'
-                : item?.attempts[0]?.isPassed
-                ? 'text-green-500'
-                : 'text-red-500'"
+        <template #item.results="{ item }">
+            <v-chip
+                small
+                dark
+                :color="attemptResultStatus(item?.attempts?.[0] ?? null, exam?.isPast).color"
             >
-            {{ (item?.attempts[0] && exam?.isPast)
-                ? getAttemptResultLabel(item?.attempts[0].isPassed)
-                : '-' }}
-            </span>
+                {{ attemptResultStatus(item?.attempts?.[0] ?? null, exam?.isPast).text }}
+            </v-chip>
         </template>
     </v-data-table>
 </template>

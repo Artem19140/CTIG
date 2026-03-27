@@ -3,6 +3,7 @@ import { router } from '@inertiajs/vue3';
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
 import ExamActionsDropdown from '../Exam/Components/ExamShowModal/ExamActionsDropdown.vue';
 import BaseServerTable from '../../Components/BaseServerTable.vue';
+import { examStatus } from '../../Helpers/heplers';
 
 defineOptions({
   layout: EmployeeLayout,
@@ -12,8 +13,8 @@ const props = defineProps<{
 }>()
 
 const headers = [
-    {title:'Название', key:"shortName",sortable:false},
-    {title:'Дата', key:"beginTime",sortable:false},
+    {title:'Название', key:"shortName",sortable:false, align:'center'},
+    {title:'Дата', key:"beginTime",sortable:false, align:'center'},
     {title:'Запись', key:"capacity", sortable:false, align:'center'},
     {title:'Статус', key:"status", sortable:false, align:'center'},
     {title:'', key:"actions", sortable:false, align:'center'}
@@ -48,15 +49,24 @@ const open = (event:Event, {item} : any) => {
                 @click:row="open"
                 title="Мониторинг"
             >
-                
                 <template #item.capacity="{ item }">
-                    {{` ${item.foreignNationalsCount }/${ item.capacity }`}}
+                    <v-chip
+                        small
+                        :color="item.capacity && item.foreignNationalsCount / item.capacity === 1 ? 'red' : 'grey lighten-2'"
+                        dark
+                    >
+                        {{ `${item.foreignNationalsCount}/${item.capacity}` }}
+                    </v-chip>
                 </template>
-                <template #item.status="{item}">
-                    <span v-if="item.isGoing && !item.isCancelled" class="text-green">в процессе</span>
-                    <span v-else-if="item.isPast && !item.isCancelled" class="text-grey">прошел</span>
-                    <span v-else-if="item.isCancelled" class="text-red">отменен</span>
-                    <span v-else>ожидается</span>
+                
+                <template #item.status="{ item }">
+                    <v-chip
+                        small
+                        dark
+                        :color="examStatus(item).color.replace('text-', '')"
+                    >
+                        {{ examStatus(item).text }}
+                    </v-chip>
                 </template>
                 <template #item.actions="{ item }">
                     <ExamActionsDropdown :exam="item" />

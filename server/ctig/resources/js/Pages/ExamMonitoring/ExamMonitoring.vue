@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import DropDownForeignNationalsList from './DropDownForeignNationalsList.vue';
 import { router, usePoll } from '@inertiajs/vue3'
+import { attemptStatus } from '../../Helpers/heplers';
+
 
 const props = defineProps<{
     foreignNationals:any,
     exam:any,
-    tasksCount:number,
     hasSpeakingTasks:boolean
 }>()
 
-const { start, stop } = usePoll(5000, {
+const { start, stop } = usePoll(10000, {
         only: ['foreignNationals'],
         onStart() {
                 console.log('Polling request started')
@@ -34,8 +35,7 @@ onUnmounted(()=>{
 const headers = [
     {title:'ФИО', key:"fullName",sortable: false},
     {title:'Паспорт', key:"fullPassport",sortable: false},
-    {title:'Решенные', key:"solved",sortable: false, align:'center'},
-    {title:'Попытка', key:"status",sortable: false},
+    {title:'Попытка', key:"status",sortable: false, align:'center'},
     {
         title:'Время',
         align:'center',
@@ -44,50 +44,18 @@ const headers = [
             {title:'Завершения',key:'endTime',sortable: false, align:'center'}
         ]
     },
+    {title:'Оплата', key:"hasPayment",sortable: false,align: 'center'},
     {title:'', key:"actions",sortable: false,align: 'end'}
 ]
 
-const color = (status : string) => {
-    switch (status) {
-        case "active":
-            return "text-green";
-        case "finished":
-            return  "text-grey";
-        case "banned":
-            return "text-red";
-        case "checked":
-            return "text-blue";
-        default:
-            return ''
-    }
-}
-
-const getAttemptStatus = (status : string) =>{
-    switch (status) {
-        case "pending":
-            return 'Введен код'
-        case "active":
-            return "Активна";
-        case "finished":
-            return  "Завершена";
-        case "banned":
-            return "Аннулирована";
-        case "checked":
-            return "Проверена";
-        default:
-            return '-'
-    }
-}
 const {open} = useModals()
 const openForeignNational = (event : Event, {item} :any) => {
-    
     open('foreignNationalShow', {foreignNationalId:item.id})
 }
 </script>
 
 <script lang="ts">
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
-import ForeignNationalShowModal from '../ForeignNationals/Components/ForeignNationalShowModal.vue';
 import { useModals } from '../../Composables/useModals';
 import { onMounted, onUnmounted } from 'vue';
 
@@ -132,17 +100,27 @@ export default {
                 <template  #item.actions="{ item }">
                     <DropDownForeignNationalsList :foreignNational="item" :hasSpeakingTasks="hasSpeakingTasks" />
                 </template>
-                <template  #item.status="{ item }">
-                    <span :class="color(item.attempts[0]?.status ?? null)">{{getAttemptStatus(item.attempts[0]?.status ?? null)}}</span>
-                </template>
-                <template  #item.solved="{ item }">
-                    {{item.attempts[0]?.solved ?? '-'}} / {{ props.tasksCount }}
+                <template #item.status="{ item }">
+                    <v-chip
+                        v-if="item.attempts.length"
+                        :color="attemptStatus(item.attempts[0].status).color.replace('text-', '')"
+                        dark
+                        small
+                    >
+                        {{ attemptStatus(item.attempts[0].status).text }}
+                    </v-chip>
+                    <span v-else>-</span>
                 </template>
                 <template  #item.startTime="{ item }">
                     {{item.attempts[0]?.startedAt}}
                 </template>
                 <template  #item.endTime="{ item }">
                     {{item.attempts[0]?.finishedAt ? item.attempts[0]?.finishedAt : '-'}}
+                </template>
+                <template #item.hasPayment="{ item }">
+                    <v-icon :color="item ? 'green' : 'red'">
+                        {{ item ? 'mdi-check-circle' : 'mdi-close-circle' }}
+                    </v-icon>
                 </template>
             </v-data-table>
         </v-card-text>

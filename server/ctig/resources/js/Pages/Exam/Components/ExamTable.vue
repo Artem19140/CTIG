@@ -1,38 +1,40 @@
 <script setup lang="ts">
-    import { useModals } from '../../../Composables/useModals';
-    import type { Exam, Paginated } from '../../../interfaces/interfaces';
-    import BaseServerTable from '../../../Components/BaseServerTable.vue';
-    import ExamTableDropDown from './ExamTableDropDown.vue';
-    import ExamTableFilter from './ExamTableFilter.vue';
-    import { useForm } from '@inertiajs/vue3';
-    import AddButton from '../../../Components/AddButton/AddButton.vue';
-    import { useAuth } from '../../../Composables/useAuth';
-    import { Roles } from '../../../Constants/Roles';
+import { useModals } from '../../../Composables/useModals';
+import type { Exam, Paginated } from '../../../interfaces/interfaces';
+import BaseServerTable from '../../../Components/BaseServerTable.vue';
+import ExamTableDropDown from './ExamTableDropDown.vue';
+import ExamTableFilter from './ExamTableFilter.vue';
+import { useForm } from '@inertiajs/vue3';
+import AddButton from '../../../Components/AddButton/AddButton.vue';
+import { useAuth } from '../../../Composables/useAuth';
+import { Roles } from '../../../Constants/Roles';
+import { examStatus } from '../../../Helpers/heplers';
 
-   const props = defineProps<{
-        exams: Paginated<Exam>,
-        filters:any
-    }>()
+const props = defineProps<{
+    exams: Paginated<Exam>,
+    filters:any
+}>()
 
-    const headers = [
-            {title : "Название",sortable: false, key: 'shortName', align: 'start' },
-            {title : "Дата",sortable: false, key: 'beginTime', align: 'start' },
-            {title : "Запись",sortable: false, key: 'foreignNationalsCount', align: 'start' },
-            {title : "Статус",sortable: false, key: 'status', align: 'center' },
-        ]
-    const {open} = useModals()
-    const openModal = (item :any) => {
-        open('examShow', {examId:item.id})
-    }
+const headers = [
+        {title : "Название",sortable: false, key: 'shortName', align: 'center' },
+        {title : "Дата",sortable: false, key: 'beginTime', align: 'center' },
+        {title : "Запись",sortable: false, key: 'foreignNationalsCount', align: 'center' },
+        {title : "Статус",sortable: false, key: 'status', align: 'center' },
+    ]
+const {open} = useModals()
 
-    const formFilters = useForm({
-        dateFrom: props.filters.dateFrom ?? undefined,
-        cancelled: props.filters.dateFrom ?? undefined,
-        examTypeId: props.filters.examTypeId ?? undefined,
-        dateTo: props.filters.dateTo ?? undefined,
-        completed: props.filters.completed ?? undefined,
-    })
-    const {can} = useAuth()
+const openModal = (item :any) => {
+    open('examShow', {examId:item.id})
+}
+
+const formFilters = useForm({
+    dateFrom: props.filters.dateFrom ?? undefined,
+    cancelled: props.filters.dateFrom ?? undefined,
+    examTypeId: props.filters.examTypeId ?? undefined,
+    dateTo: props.filters.dateTo ?? undefined,
+    completed: props.filters.completed ?? undefined,
+})
+const {can} = useAuth()
 </script>
 
 <template>
@@ -58,16 +60,23 @@
             />
             <ExamTableDropDown />
         </template>
-        <template #item.foreignNationalsCount="{item}">
-            <div :class="{'text-red-500': ((item.foreignNationalsCount / item.capacity) === 1)}">
-                {{` ${item.foreignNationalsCount }/${ item.capacity }`}}
-            </div>
+        <template #item.foreignNationalsCount="{ item }">
+            <v-chip
+                small
+                :color="item.capacity && item.foreignNationalsCount / item.capacity === 1 ? 'red' : 'grey lighten-2'"
+                dark
+            >
+                {{ `${item.foreignNationalsCount}/${item.capacity}` }}
+            </v-chip>
         </template>
-        <template #item.status="{item}">
-            <span v-if="item.isGoing && !item.isCancelled" class="text-green">в процессе</span>
-            <span v-else-if="item.isPast && !item.isCancelled" class="text-grey">прошел</span>
-            <span v-else-if="item.isCancelled" class="text-red">отменен</span>
-            <span v-else>ожидается</span>
+        <template #item.status="{ item }">
+            <v-chip
+                small
+                dark
+                :color="examStatus(item).color.replace('text-', '')"
+            >
+                {{ examStatus(item).text }}
+            </v-chip>
         </template>
     </BaseServerTable>
 </template>

@@ -5,6 +5,7 @@ import ForeignNationalsTable from './ForeignNationalsTable.vue';
 import { onMounted, ref } from 'vue';
 import { Exam } from '../../../../interfaces/interfaces';
 import { useHttp } from '@inertiajs/vue3';
+import { examStatus } from '../../../../Helpers/heplers';
 
 const props = defineProps<{
     examId:number
@@ -49,15 +50,17 @@ onMounted( async () => {
         skeleton="heading, list-item-two-line, list-item-two-line, list-item-three-line, divider, table"
     >
         <template #title>
-            Экзамен <span v-if="exam?.isCancelled" class="text-red-500 ml-2">
-                        (отменён)
-                    </span>
-                    <span v-else-if="exam?.isPast && !exam?.isCancelled" class="text-gray-500 ml-2">
-                        (прошел)
-                    </span>
-                    <span v-else-if="exam?.isGoing && !exam?.isCancelled" class="text-green-500 ml-2">
-                        (в процессе)
-                    </span>
+            <div class="flex gap-2">
+                Экзамен
+                <v-chip
+                    small
+                    dark
+                    v-if="exam"
+                    :color="examStatus(exam).color.replace('text-', '')"
+                >
+                    {{ examStatus(exam).text }}
+                </v-chip>
+            </div>
         </template>
         <template #titleActions>
             <ExamActionsDropdown :exam="exam" />
@@ -95,9 +98,15 @@ onMounted( async () => {
             <v-list>
                 <v-list-item>
                     <div class="flex justify-between">
-                        <div>
+                        <div class="flex items-center gap-2">
                             <v-list-item-subtitle>Запись</v-list-item-subtitle>
-                            <v-list-item-title>{{` ${exam?.foreignNationals?.length }/${exam?.capacity}  `}}</v-list-item-title>
+                            <v-chip
+                                small
+                                :color="(exam?.foreignNationals?.length ?? 0) / (exam?.capacity ?? 1) === 1 ? 'red' : 'grey lighten-2'"
+                                dark
+                            >
+                                {{ `${exam?.foreignNationals?.length ?? 0}/${exam?.capacity ?? 0}` }}
+                            </v-chip>
                         </div>
                         <v-btn border variant="text">Результаты</v-btn>
                     </div>

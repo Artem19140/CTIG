@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Actions\Student;
+namespace App\Actions\ForeignNational;
 
-use App\Models\Student;
+use App\Models\ForeignNational;
 use Illuminate\Database\Eloquent\Builder;
 
-class GetStudentsListAction{
+class GetForeignNationalsListAction{
     public function execute(array $data = []){
         $surname = $data['surname'] ?? false;
         $name = $data['name'] ?? false;
@@ -14,7 +14,7 @@ class GetStudentsListAction{
         $passportNumber = $data['passportNumber'] ?? false;
         $id = $data['id'] ?? false;
         $perPage = $data['perPage'] ?? 10;
-        return Student::when($surname, function (Builder $query, string $surname) {
+        return ForeignNational::when($surname, function (Builder $query, string $surname) {
                     $query->where('surname', 'like',trim($surname) ."%");
                 })
                 ->when($name, function (Builder $query, string $name) {

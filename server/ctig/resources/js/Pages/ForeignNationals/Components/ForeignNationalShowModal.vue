@@ -1,32 +1,32 @@
 <script setup lang="ts">
 import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
-import StudentExamsList from './StudentExamsList.vue';
-import StudentActionsDropdown from './StudentActionsDropdown.vue';
+import ForeignNationalExamsList from './ForeignNationalExamsList.vue';
+import ForeignNationalActionsDropdown from './ForeignNationalActionsDropdown.vue';
 import { onMounted, ref } from 'vue';
-import type { Student } from '../../../interfaces/interfaces';
+import type { ForeignNational } from '../../../interfaces/interfaces';
 import { useHttp } from '@inertiajs/vue3'
 
 const props = defineProps<{
-    studentId?:number
+    foreignNationalId?:number
 }>()
 
 const http = useHttp()
 
 const isOpen = defineModel<boolean>({default:false})
-const student = ref<Student | null>(null)
+const foreignNational = ref<ForeignNational | null>(null)
 
 
-const getStudent = async () => {
-    http.get(`/students/${props.studentId}?profile=true`,{
+const getForeignNational = async () => {
+    http.get(`/foreign-nationals/${props.foreignNationalId}?profile=true`,{
         onSuccess:(response : any)=>{
-            student.value = response.data
+            foreignNational.value = response.data
         }
     })
 }
 
 onMounted(async() => {
-    if(!props.studentId) return
-    getStudent()
+    if(!props.foreignNationalId) return
+    getForeignNational()
 })
 
 const showDocument = (url :string) => {
@@ -39,17 +39,17 @@ const showDocument = (url :string) => {
     <BaseDialog 
         width="700"
         height="900"
-        :title="`Карточка студента (ID ${student?.id ?? ''})`"
+        :title="`Карточка ИГ (ID ${foreignNational?.id ?? ''})`"
         :loading="http.processing"
         v-model="isOpen"
         :error="http.hasErrors"
-        :onRetry="getStudent"
+        :onRetry="getForeignNational"
         @before-close="(done) => done()"
         skeleton="avatar, heading, paragraph, paragraph, divider, list-item-two-line, list-item-two-line, list-item-two-line, list-item-two-line, divider, image, divider, table"
     >
         <template #titleActions>
-            <StudentActionsDropdown 
-                :student="student"
+            <ForeignNationalActionsDropdown 
+                :foreignNational="foreignNational"
             />
         </template>
 
@@ -58,15 +58,15 @@ const showDocument = (url :string) => {
                 <div class="flex">
                     <v-avatar color="surface-variant cursor-pointer hover:opacity-80 transition-opacity"  size="150" >
                         <v-img 
-                            :src="student?.photoPath"
+                            :src="foreignNational?.photoPath"
                             cover 
                             @click="showDocument('')"
                         />
                     </v-avatar>
                 <div class="flex flex-col justify-center ml-8">
-                    <div class="text-headline-small">{{`${student?.surname} ${student?.name} ${student?.patronymic}`}}</div>
-                    <div class="text-subtitle-1">{{`${student?.surnameLatin} ${student?.nameLatin} ${student?.patronymicLatin}`}}</div>
-                    <div class="text-subtitle-2">{{student?.dateBirth}}</div> 
+                    <div class="text-headline-small">{{`${foreignNational?.surname} ${foreignNational?.name} ${foreignNational?.patronymic}`}}</div>
+                    <div class="text-subtitle-1">{{`${foreignNational?.surnameLatin} ${foreignNational?.nameLatin} ${foreignNational?.patronymicLatin}`}}</div>
+                    <div class="text-subtitle-2">{{foreignNational?.dateBirth}}</div> 
                 </div>
                 </div>
             </v-card-text>
@@ -78,19 +78,19 @@ const showDocument = (url :string) => {
             <v-list>
                 <v-list-item>
                     <v-list-item-subtitle>Паспорт</v-list-item-subtitle>
-                    <v-list-item-title>{{`${student?.fullPassport ?? ''}, выдан ${student?.issuedDate ?? ''} (${student?.issuedBy ?? ''})`}}</v-list-item-title>
+                    <v-list-item-title>{{`${foreignNational?.fullPassport ?? ''}, выдан ${foreignNational?.issuedDate ?? ''} (${foreignNational?.issuedBy ?? ''})`}}</v-list-item-title>
                 </v-list-item>
                 <v-list-item>  
                     <v-list-item-subtitle>Миграционная карта</v-list-item-subtitle>
-                    <v-list-item-title>{{student?.migrationCardRequisite ?? ''}}</v-list-item-title>
+                    <v-list-item-title>{{foreignNational?.migrationCardRequisite ?? ''}}</v-list-item-title>
                 </v-list-item>
                 <v-list-item>  
                     <v-list-item-subtitle>Адрес регистрации</v-list-item-subtitle>
-                    <v-list-item-title>{{student?.addressReg ?? ''}}</v-list-item-title>
+                    <v-list-item-title>{{foreignNational?.addressReg ?? ''}}</v-list-item-title>
                 </v-list-item>
                 <v-list-item>
                     <v-list-item-subtitle>Номер телефона</v-list-item-subtitle>
-                    <v-list-item-title>{{student?.phone ?? ''}}</v-list-item-title>
+                    <v-list-item-title>{{foreignNational?.phone ?? ''}}</v-list-item-title>
                 </v-list-item>
             </v-list>
         </v-card-text>
@@ -101,13 +101,13 @@ const showDocument = (url :string) => {
             <v-list>
                 <v-list-item>
                     <v-list-item-subtitle>Скан паспорта</v-list-item-subtitle>
-                    <v-list-item-title v-if="!student?.passportScan">-</v-list-item-title>
+                    <v-list-item-title v-if="!foreignNational?.passportScan">-</v-list-item-title>
                     <v-img
                         v-else 
                         :width="50"
                         class="mt-4 cursor-pointer hover:opacity-80 transition-opacity"
                         src="https://cdn-icons-png.flaticon.com/512/9034/9034536.png"
-                        @click="showDocument(student?.passportScan)"
+                        @click="showDocument(foreignNational?.passportScan)"
                     ></v-img>
                 </v-list-item>
             </v-list>
@@ -116,7 +116,7 @@ const showDocument = (url :string) => {
         <v-divider></v-divider>
 
         <v-card-text>
-            <StudentExamsList :exams="student?.exams ?? []" />
+            <ForeignNationalExamsList :exams="foreignNational?.exams ?? []" />
         </v-card-text>
     </BaseDialog>
 </template>

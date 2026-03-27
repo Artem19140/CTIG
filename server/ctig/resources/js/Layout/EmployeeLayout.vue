@@ -24,9 +24,9 @@
         <v-list density="compact" nav v-model="activeItem">
           <v-list-item 
             prepend-icon="mdi-account-group" 
-            title="Студенты" 
-            @click="router.get('/students')"  
-            value="students"
+            title="Иностранные граждане" 
+            @click="router.get('/foreign-nationals')"  
+            value="foreignNationals"
           ></v-list-item>
           <v-list-item 
             prepend-icon="mdi-school" 

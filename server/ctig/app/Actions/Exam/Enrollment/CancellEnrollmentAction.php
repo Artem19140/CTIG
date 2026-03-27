@@ -4,19 +4,19 @@ namespace App\Actions\Exam\Enrollment;
 
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
-use App\Models\Student;
+use App\Models\ForeignNational;
 
 class CancellEnrollmentAction{
-    public function execute(Exam $exam, Student $student) {
+    public function execute(Exam $exam, ForeignNational $foreignNational) {
         
-        $isEnrollmentExists = $exam->students()->where('student_id', $student->id)->exists();
+        $isEnrollmentExists = $exam->foreignNationals()->where('foreign_national_id', $foreignNational->id)->exists();
         if(!$isEnrollmentExists){
-            throw new BusinessException('У студента нет записи на этот экзамен');
+            throw new BusinessException('У ИГ нет записи на этот экзамен');
         }
 
         if($exam->isCompleted() || $exam->isGoing()){
             throw new BusinessException('Невозможно отменить запись на прошедший или идущий экзамен');
         }
-        $exam->students()->detach($student->id);
+        $exam->foreignNationals()->detach($foreignNational->id);
     }
 }

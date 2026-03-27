@@ -29,10 +29,10 @@ class AttemptAnswerController extends Controller
                             HandleAttemptAnswerAction $handleAttemptAnswer
                         )
     {
-        $student = $request->user();
+        $foreignNational = $request->user();
         $attemptAnswer->load('attempt');
         $attempt = $attemptAnswer->attempt;
-        if($student->id != $attempt->student_id){
+        if($foreignNational->id != $attempt->foreign_national_id){
             throw new ForbiddenException('Не найдено');// в Policy
         }
 

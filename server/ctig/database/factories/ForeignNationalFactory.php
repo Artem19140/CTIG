@@ -6,12 +6,12 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Student>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ForeignNational>
  */
-class StudentFactory extends Factory
+class ForeignNationalFactory extends Factory
 {
 
-    public function withRandomCreator(): StudentFactory{
+    public function withRandomCreator(): ForeignNationalFactory{
         return $this->state(function(){
             return[
                 'creator_id'=>User::inRandomOrder()->first()->id
@@ -19,7 +19,7 @@ class StudentFactory extends Factory
         });
     }
 
-    public function namesLikeExam(): StudentFactory{
+    public function namesLikeExam(): ForeignNationalFactory{
         return $this->state(function(int $examId){
             return[
                 'surname' => 'Экзамен ' .$examId,

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Student;
+namespace App\Http\Resources\ForeignNational;
  
 use App\Http\Resources\Attempt\AttemptResource;
 use App\Http\Resources\Exam\ExamResource;
@@ -8,7 +8,7 @@ use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class StudentResource extends JsonResource
+class ForeignNationalResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

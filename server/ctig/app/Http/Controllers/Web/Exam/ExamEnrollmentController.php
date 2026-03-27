@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Web\Exam;
 use App\Actions\Exam\Enrollment\CancellEnrollmentAction;
 use App\Actions\Exam\Enrollment\CreateEnrollmentAction;
 use App\Actions\Exam\Enrollment\TransferEnrollmentActon;
-use App\Exceptions\BusinessException;
-use App\Exceptions\EntityNotFoundExсeption;
 use App\Models\Exam;
-use App\Models\Student;
+use App\Models\ForeignNational;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -21,30 +19,30 @@ class ExamEnrollmentController
                             
                         ){ 
         $request->validate([
-            'studentId' => ['required', 'integer', 'min:1'],
+            'foreignNationalId' => ['required', 'integer', 'min:1'],
         ]);
-        $student = $createEnrollment->execute($exam, request()->input('studentId'), $request->user()); 
+        $foreignNational = $createEnrollment->execute($exam, request()->input('foreignNationalId'), $request->user()); 
         Inertia::flash([
             'success' => 'Запись успешно создана',
-            'redirectUrl' => route('students.application-forms', [
-                'student' =>$student->id,
+            'redirectUrl' => route('foreign_nationals.application-forms', [
+                'foreignNational' =>$foreignNational->id,
                 'examId' => $exam->id,
             ])
         ]);
         return back();
     }
 
-    public function destroy(Exam $exam, Student $student, CancellEnrollmentAction $cancellErollment)
+    public function destroy(Exam $exam, ForeignNational $foreignNational, CancellEnrollmentAction $cancellErollment)
     {
-        $cancellErollment->execute($exam, $student);
+        $cancellErollment->execute($exam, $foreignNational);
         return back()->with('success','Запись отменена');
     }
 
-    public function transfer(Exam $exam, Student $student, TransferEnrollmentActon $transferEnrollment){
+    public function transfer(Exam $exam, ForeignNational $foreignNational, TransferEnrollmentActon $transferEnrollment){
         request()->validate([
             'newExamId' => ['required', 'integer', 'min:1'],
         ]);
-        $transferEnrollment->exectute($exam, $student, request()->user());
+        $transferEnrollment->exectute($exam, $foreignNational, request()->user());
         return response()->noContent();
     }
 }

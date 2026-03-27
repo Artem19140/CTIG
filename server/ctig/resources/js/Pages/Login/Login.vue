@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EmployeeEntry from './Components/EmployeeEntry.vue';
-import StudentEntry from './Components/StudentEntry.vue';
+import ForeignNationalEntry from './Components/ForeignNationalEntry.vue';
 import AppListDropDownItem from '../../Components/AppListDropDownItem/AppListDropDownItem.vue';
 
-const isStudentEntry = ref<boolean>(true)
+const isForeignNationalEntry = ref<boolean>(true)
 </script>
 
 <template>
     <v-container width="450">
         <v-card>
             <v-card-text>
-                <StudentEntry v-if="isStudentEntry" />
+                <ForeignNationalEntry v-if="isForeignNationalEntry" />
                 <EmployeeEntry v-else  />
             </v-card-text>
         </v-card>
@@ -33,8 +33,8 @@ const isStudentEntry = ref<boolean>(true)
       </template>
       <v-list>
         <AppListDropDownItem 
-            :title="isStudentEntry ? 'Вход сотрудник' : 'Вход студент'"
-            @click="isStudentEntry = !isStudentEntry" 
+            :title="isForeignNationalEntry ? 'Вход сотрудник' : 'Вход ИГ'"
+            @click="isForeignNationalEntry = !isForeignNationalEntry" 
         />
       </v-list>
     </v-menu>

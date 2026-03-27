@@ -41,8 +41,10 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('exam_student', function (Blueprint $table) {
+        Schema::create('exam_foreign_national', function (Blueprint $table) {
             $table->id();
+
+            $table->boolean('has_payment')->default(false);
 
             $table->unsignedInteger('reg_number');
 
@@ -58,7 +60,7 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete();
 
-            $table->foreignId('student_id')
+            $table->foreignId('foreign_national_id')
                  ->constrained()
                 ->cascadeOnDelete();
             
@@ -69,7 +71,7 @@ return new class extends Migration
             $table->foreignId('organization_id')
                 ->constrained('organizations')
                 ->cascadeOnDelete();
-            $table->unique(['student_id', 'exam_id']);
+            $table->unique(['foreign_national_id', 'exam_id']);
 
             $table->timestamps();
         });
@@ -96,7 +98,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('exam_student');
+        Schema::dropIfExists('exam_foreign_national');
         Schema::dropIfExists('exam_examiner');
         Schema::dropIfExists('exams'); 
     }

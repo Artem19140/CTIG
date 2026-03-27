@@ -14,7 +14,7 @@ class Attempt extends Model
     /** @use HasFactory<\Database\Factories\AttemptFactory> */
     use HasFactory;
     protected $fillable = [
-        'student_id',
+        'foreign_national_id',
         'exam_id',
         'finished_at',
         'expired_at',
@@ -53,8 +53,8 @@ class Attempt extends Model
         return $this->status === AttemptStatus::Banned;
     }
 
-    public function student(): BelongsTo{
-        return $this->belongsTo(Student::class, 'student_id');
+    public function foreignNational(): BelongsTo{
+        return $this->belongsTo(ForeignNational::class, 'foreign_national_id');
     }
 
     public function exam(): BelongsTo{

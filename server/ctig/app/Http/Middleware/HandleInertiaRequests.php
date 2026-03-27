@@ -47,7 +47,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'auth.user' => fn () => $request->user()
             ? match (true) {
-                $request->user() instanceof \App\Models\Student =>
+                $request->user() instanceof \App\Models\ForeignNational =>
                     $request->user()->only('id', 'surname', 'name', 'patronymic'),
 
                 $request->user() instanceof \App\Models\User =>

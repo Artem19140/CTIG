@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web\Exam;
 
 use App\Exceptions\BusinessException;
 use App\Http\Resources\Exam\ExamResource;
-use App\Http\Resources\Student\StudentResource;
+use App\Http\Resources\ForeignNational\ForeignNationalResource;
 use App\Models\Exam;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -19,7 +19,7 @@ class ExamMonitoringController
             ->whereHas('examiners', function(Builder $query) use($user){
                 $query->where('examiner_id', $user->id);
             })
-            ->withCount('students')
+            ->withCount('foreignNationals')
             ->where('end_time', '>', now($request->user()->organization->time_zone))
             ->where('is_cancelled', false)
             ->orderBy('id')
@@ -44,11 +44,11 @@ class ExamMonitoringController
 
         $exam->load([
             'examType',
-            'students.attempts' => fn ($query) => $query->where('exam_id', $exam->id)
+            'foreignNationals.attempts' => fn ($query) => $query->where('exam_id', $exam->id)
         ]);
         
         return Inertia::render('ExamMonitoring/ExamMonitoring', [
-            'students' => fn () => StudentResource::collection($exam->students),
+            'foreignNationals' => fn () => ForeignNationalResource::collection($exam->foreignNationals),
             'exam' => new ExamResource($exam),
             'hasSpeakingTasks' => $exam->examType->has_speaking_tasks,
             'tasksCount' =>   $exam->examType->tasks_count

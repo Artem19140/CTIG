@@ -5,7 +5,7 @@ namespace Database\Factories;
 use App\Enums\AttemptStatus;
 use App\Models\Exam;
 use App\Models\Organization;
-use App\Models\Student;
+use App\Models\ForeignNational;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,7 +21,7 @@ class AttemptFactory extends Factory
     public function definition(): array
     {
         return [
-            'student_id' => Student::inRandomOrder()->first()->id,
+            'foreign_national_id' => ForeignNational::inRandomOrder()->first()->id,
             'exam_id' => Exam::inRandomOrder()->first()->id,
             'total_mark' =>  fake()->numberBetween(5, 20),
             'started_at'=>now(),

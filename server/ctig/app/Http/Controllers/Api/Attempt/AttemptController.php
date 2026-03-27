@@ -25,10 +25,10 @@ class AttemptController extends Controller
 {
     public function index(Request $request)
     {
-        $studentId = $request->input('studentId');
+        $foreignNationalId = $request->input('foreignNationalId');
         $examId = $request->input('examId');
-        $examAttempts = Attempt::when($studentId, function (Builder $query, int $studentId){
-                $query->where('student_id', $studentId);
+        $examAttempts = Attempt::when($foreignNationalId, function (Builder $query, int $foreignNationalId){
+                $query->where('foreign_national_id', $foreignNationalId);
             })
             ->when($examId, function (Builder $query, int $examId){
                 $query->where('exam_id', $examId);
@@ -39,8 +39,8 @@ class AttemptController extends Controller
 
     public function store(Request $request, GenerateExamVariantAction $generateExamVariant)
     {
-        $student=$request->user();
-        $hasCurrentAttempt = $student->attempts()
+        $foreignNational=$request->user();
+        $hasCurrentAttempt = $foreignNational->attempts()
                                     ->where('status',  AttemptStatus::Active)
                                     ->exists();
                                     
@@ -49,12 +49,12 @@ class AttemptController extends Controller
         }
         
         $exam = Exam::with('examType.blocks.subblocks.tasks.variants')
-                    ->find($student->exam_id);
+                    ->find($foreignNational->exam_id);
                     
-        $examAttempt = DB::transaction(function () use($student, $exam, $generateExamVariant) {
+        $examAttempt = DB::transaction(function () use($foreignNational, $exam, $generateExamVariant) {
             $examDuration = $exam->examType->duration;
             $attempt = Attempt::create([
-                    'student_id' => $student->id,
+                    'foreign_national_id' => $foreignNational->id,
                     'exam_id' => $exam->id,
                     'expired_at' => Carbon::now()->addMinutes($examDuration),
                     'started_at' => Carbon::now()
@@ -66,21 +66,21 @@ class AttemptController extends Controller
                 ->pluck('tasks')
                 ->flatten(); 
 
-            $examVariant = $generateExamVariant->execute($tasks, $exam, $attempt, $student);
+            $examVariant = $generateExamVariant->execute($tasks, $exam, $attempt, $foreignNational);
             
             AttemptAnswers::insert($examVariant);
             //$student->tokens()->delete();
-            $student->token = $student->createToken(
+            $foreignNational->token = $foreignNational->createToken(
                 TokenAbilities::ExamAccess->value,
                 [TokenAbilities::ExamAccess->value],
                 Carbon::now()->addMinutes($examDuration + 1)
             )->plainTextToken;
-            $attempt->load(['answers.taskVariant.answers', 'student']);
+            $attempt->load(['answers.taskVariant.answers', 'foreignNational']);
             return $attempt;
         });
         return $this
             ->created(new AttemptResource($examAttempt)
-                ->additional(['token' => $student->token])
+                ->additional(['token' => $foreignNational->token])
             );
     }
 
@@ -177,7 +177,7 @@ class AttemptController extends Controller
     }
 
     public function full(Attempt $attempt){
-        $full = $attempt->load(['answers.taskVariant.answers', 'student']);
+        $full = $attempt->load(['answers.taskVariant.answers', 'foreignNational']);
         return $this->ok( new AttemptResource($full)); 
     }
 }

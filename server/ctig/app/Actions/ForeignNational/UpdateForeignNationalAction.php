@@ -1,27 +1,27 @@
 <?php
 
-namespace App\Actions\Student;
+namespace App\Actions\ForeignNational;
 
 use App\Exceptions\BusinessException;
-use App\Models\Student;
+use App\Models\ForeignNational;
 use Carbon\Carbon;
 
-final class UpdateStudentAction{
-    public function execute(array $data, Student $student){
+final class UpdateForeignNationalAction{
+    public function execute(array $data, ForeignNational $foreignNational){
         $age = Carbon::parse($data['dateBirth'])->age;
         if($age < 18){
             throw new BusinessException('На экзамен можно записывать с 18 лет');
         }
-        $uniquePassportData = Student::where("passport_number", $data['passportNumber'])
+        $uniquePassportData = ForeignNational::where("passport_number", $data['passportNumber'])
                             ->where("passport_series", $data['passportSeries'])
-                            ->where('id', '<>', $student->id)
+                            ->where('id', '<>', $foreignNational->id)
                             ->where('citizenship', $data['citizenship'])
                             ->exists();
 
         if($uniquePassportData){
-            throw new BusinessException('Студент с такими паспортными данными и гражданством уже существует');
+            throw new BusinessException('ИГ с такими паспортными данными и гражданством уже существует');
         }
-        $student->update(
+        $foreignNational->update(
             [
                 'surname' => $data['surname'],
                 'name'=> $data['name'],

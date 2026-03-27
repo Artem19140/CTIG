@@ -8,22 +8,22 @@ const props = defineProps<{
     exam: Exam
 }>()
 
-const noStudents = () => {
-    if(!props.exam.studentsCount){
+const noForeignNationals = () => {
+    if(!props.exam.foreignNationalsCount){
         const {open} = useAlert()
-        open('На экзамен не записано ни одного студента!')
+        open('На экзамен не записано ни одного человека!')
         return true
     }
     return false
 }
 
-const downloadStudentsList = () => {
-    if(noStudents()) return
-    window.open(`/exams/${props.exam.id}/students/list`)
+const downloadForeignNationalsList = () => {
+    if(noForeignNationals()) return
+    window.open(`/exams/${props.exam.id}/foreign-nationals/list`)
 }
 
 const formCodes = async () => {
-    if(noStudents()) return
+    if(noForeignNationals()) return
     if(!props.exam.id){
         return
     }
@@ -33,7 +33,7 @@ const formCodes = async () => {
 
 <template>
     <ThreeDotDropdown>
-        <AppListDropDownItem title="Скачать список" @click="downloadStudentsList"/>
+        <AppListDropDownItem title="Скачать список" @click="downloadForeignNationalsList"/>
         <AppListDropDownItem title="Скачать коды" @click="formCodes" />
     </ThreeDotDropdown>
 </template>

@@ -7,18 +7,18 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
 class GetAvailableExamsAction{
-    public function execute(int  $examTypeId, int | null $studentId){
+    public function execute(int  $examTypeId, int | null $foreignNationalId){
         $exams = Exam::select('id', 'begin_time')
-                    ->withCount('students')
+                    ->withCount('foreignNationals')
                     ->where('exam_type_id',$examTypeId)
                     ->where('is_cancelled', false)
                     ->where('begin_time', '>', now())
-                    ->when($studentId, function (Builder $query) use ($studentId){
-                        $query->whereDoesntHave('students', function (Builder $q) use($studentId){
-                            $q->where('student_id',$studentId);
+                    ->when($foreignNationalId, function (Builder $query) use ($foreignNationalId){
+                        $query->whereDoesntHave('foreignNationals', function (Builder $q) use($foreignNationalId){
+                            $q->where('foreign_national_id',$foreignNationalId);
                         });
                     })
-                    ->whereHas('students', function ($q) {
+                    ->whereHas('foreignNationals', function ($q) {
                     }, '<', DB::raw('exams.capacity'))
                     ->orderBy('begin_time') 
                     ->limit(10)

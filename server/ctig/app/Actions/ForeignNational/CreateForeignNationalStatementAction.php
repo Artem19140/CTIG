@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Actions\Student;
+namespace App\Actions\ForeignNational;
 
 use App\Exceptions\BusinessException;
 use App\Exceptions\EntityNotFoundExсeption;
 use App\Models\Exam;
-use App\Models\Student;
+use App\Models\ForeignNational;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-class CreateStudentStatementAction{
-    public function execute(int $examId, Student $student, User $user){ 
+class CreateForeignNationalStatementAction{
+    public function execute(int $examId, ForeignNational $foreignNational, User $user){ 
         $exam = Exam::with(['examType'])
                     ->find($examId);
         if(!$exam){
             throw new EntityNotFoundExсeption('Экзамен');
         }
-        $exam = $student->exams()
+        $exam = $foreignNational->exams()
             ->where('exams.id', $examId)
             ->first();
         if(!$exam){
@@ -24,8 +24,8 @@ class CreateStudentStatementAction{
         }
         $user->load('organization');
 
-        return Pdf::loadView('templates.statement-student',[
-            'student' => $student,
+        return Pdf::loadView('templates.statement-foreign-national',[
+            'foreignNational' => $foreignNational,
             'exam' => $exam,
             'user' => $user,
             'reg_number' => $exam->pivot->reg_number,

@@ -5,12 +5,12 @@ namespace  App\Actions\Attempt;
 use App\Enums\AttemptStatus;
 use App\Models\Attempt;
 use App\Models\Exam;
-use App\Models\Student;
+use App\Models\ForeignNational;
 use Carbon\Carbon;
 
 class StartAttemptAction{
-    public function execute(Attempt $attempt, Student $student):Attempt{
-        $exam=Exam::find($student->exam_id);
+    public function execute(Attempt $attempt, ForeignNational $foreignNational):Attempt{
+        $exam=Exam::find($foreignNational->exam_id);
         $attempt->lockForUpdate();
         $attempt->status = AttemptStatus::Active;
         $attempt->started_at = Carbon::now($exam->organisation->time_zone);

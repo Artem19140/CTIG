@@ -50,7 +50,7 @@ const open = (event:Event, {item} : any) => {
             >
                 
                 <template #item.capacity="{ item }">
-                    {{` ${item.studentsCount }/${ item.capacity }`}}
+                    {{` ${item.foreignNationalsCount }/${ item.capacity }`}}
                 </template>
                 <template #item.status="{item}">
                     <span v-if="item.isGoing && !item.isCancelled" class="text-green">в процессе</span>

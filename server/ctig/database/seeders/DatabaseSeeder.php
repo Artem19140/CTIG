@@ -8,7 +8,7 @@ use App\Models\Counter;
 use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\Student;
+use App\Models\ForeignNational;
 
 use Carbon\Carbon;
 use Database\Seeders\ExamTypes\PATENT\PatentSeeder;
@@ -100,7 +100,7 @@ class DatabaseSeeder extends Seeder
             ExamSeeder::class
         ]);
         
-        Student::factory(200) 
+        ForeignNational::factory(200) 
             ->withRandomCreator()
             ->create();
     }

@@ -16,7 +16,7 @@ const form = useForm({
   cancelledReason: ''
 })
 
-const canEdit = computed(() => !props.exam?.students?.length)
+const canEdit = computed(() => !props.exam?.foreignNationals?.length)
 
 const alert = useAlert()
 const modals= useModals()
@@ -38,26 +38,26 @@ const cancelExam = async () => {
   
 }
 
-const hasStudents = computed(()=>!props.exam?.studentsCount && (props.exam?.students?.length ?? 0) > 0)
+const hasForeignNationals = computed(()=>!props.exam?.foreignNationalsCount && (props.exam?.foreignNationals?.length ?? 0) > 0)
 
 
 
-const noStudents = () => {
-    if(!props.exam?.studentsCount && !(props.exam?.students?.length ?? 0)){
-        alert.open('На экзамен не записано ни одного студента!')
+const noForeignNationals = () => {
+    if(!props.exam?.foreignNationalsCount && !(props.exam?.foreignNationals?.length ?? 0)){
+        alert.open('На экзамен не записано ни одного ИГ!')
         return true
     }
     return false
 }
 
-const downloadStudentsList = () => {
-  if(noStudents()) return
-  window.open(`/exams/${props.exam?.id}/students/list`)
+const downloadForeignNationalsList = () => {
+  if(noForeignNationals()) return
+  window.open(`/exams/${props.exam?.id}/foreign-nationals/list`)
 }
 
 const formCodes = async () => {
 
-    if(noStudents()) return
+    if(noForeignNationals()) return
     if(!props.exam?.id){
         return
     }
@@ -66,7 +66,7 @@ const formCodes = async () => {
 }
 
 const downloadStatement = () => {
-  if(noStudents())return
+  if(noForeignNationals())return
   window.location.href = `/exams/${props.exam?.id}/statement`
 }
 
@@ -79,12 +79,12 @@ const {can} = useAuth()
         title="Скачать кода" 
         
         @click="formCodes" 
-        v-if="can([Roles.EXAMINER]) && hasStudents"
+        v-if="can([Roles.EXAMINER]) && hasForeignNationals"
       />
 
       <AppListDropDownItem 
         title="Скачать список" 
-        @click="downloadStudentsList" 
+        @click="downloadForeignNationalsList" 
       />
 
       <AppListDropDownItem 

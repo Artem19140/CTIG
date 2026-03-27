@@ -17,7 +17,7 @@ class GetExamListAction{
         $completed = $data['completed'] ?? false;
         $perPage = $data['perPage'] ?? 10;
         return Exam::with(['examType'])
-            ->withCount('students')
+            ->withCount('foreignNationals')
             ->when($examTypeId, function (Builder $query, int $examTypeId) {
                 $query->where('exam_type_id', $examTypeId);
             })

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import BaseDialog from '../../../../Components/BaseDialog/BaseDialog.vue';
 import ExamActionsDropdown from './ExamActionsDropdown.vue';
-import StudentsTable from './StudentsTable.vue';
+import ForeignNationalsTable from './ForeignNationalsTable.vue';
 import { onMounted, ref } from 'vue';
 import { Exam } from '../../../../interfaces/interfaces';
 import { useHttp } from '@inertiajs/vue3';
@@ -97,7 +97,7 @@ onMounted( async () => {
                     <div class="flex justify-between">
                         <div>
                             <v-list-item-subtitle>Запись</v-list-item-subtitle>
-                            <v-list-item-title>{{` ${exam?.students?.length }/${exam?.capacity}  `}}</v-list-item-title>
+                            <v-list-item-title>{{` ${exam?.foreignNationals?.length }/${exam?.capacity}  `}}</v-list-item-title>
                         </div>
                         <v-btn border variant="text">Результаты</v-btn>
                     </div>
@@ -105,8 +105,8 @@ onMounted( async () => {
                 
             </v-list>
             <v-list>
-                <v-list-item  v-if="exam?.students?.length">
-                    <StudentsTable :students="exam.students ?? []" :exam="exam" />
+                <v-list-item  v-if="exam?.foreignNationals?.length">
+                    <ForeignNationalsTable :foreignNationals="exam.foreignNationals ?? []" :exam="exam" />
                 </v-list-item>
                 <v-list-item  v-else class="text-center">
                     <v-list-item-subtitle>Запись пуста</v-list-item-subtitle>

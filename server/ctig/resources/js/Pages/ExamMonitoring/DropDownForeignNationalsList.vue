@@ -5,18 +5,18 @@ import { usePromptDialog } from '../../Composables/usePromptDialog';
 import ThreeDotDropdown from '../../Components/ThreeDotDropdown/ThreeDotDropdown.vue';
 
 const props = defineProps<{
-    student:any, 
+    foreignNational:any, 
     hasSpeakingTasks : boolean
 }>()
 
 
 const ban = async () => {
     const {open} = usePromptDialog()
-    const res = await open(`Укажите причину снятия ${props.student.fullName} с экзамена`)
+    const res = await open(`Укажите причину снятия ${props.foreignNational.fullName} с экзамена`)
     if(!res){
         return
     }
-    axios.put(`/attempts/${props.student?.attempts[0]?.id}/ban`, {banReason : res})
+    axios.put(`/attempts/${props.foreignNational?.attempts[0]?.id}/ban`, {banReason : res})
 }
 
 const getSpeakingTasks = () => {

@@ -6,7 +6,7 @@ use App\Http\Resources\Attempt\AttemptResource;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Student\StudentResource;
+use App\Http\Resources\ForeignNational\ForeignNationalResource;
 
 class ExamResource extends JsonResource
 {
@@ -26,7 +26,7 @@ class ExamResource extends JsonResource
             'id' => $this->id,
             'isCancelled' => $this->is_cancelled,
             'beginTime' => $this->begin_time->format('H:i d.m.Y'),
-            'students' => StudentResource::collection($this->whenLoaded('students')),//здесь если есть результаты, то и их можно взять
+            'foreignNationals' => ForeignNationalResource::collection($this->whenLoaded('foreignNational')),//здесь если есть результаты, то и их можно взять
             'sessionNumber' => $this->session,
             'capacity' => $this->capacity,
             'comment'=>$this->comment,
@@ -37,7 +37,7 @@ class ExamResource extends JsonResource
             'address' => $this->whenLoaded('address', fn () =>$this->address->address),
             'creator'=> new UserResource($this->whenLoaded('creator')),
             'createdAt' => $this->created_at,
-            'studentsCount' => $this->whenCounted('students_count'),
+            'foreignNationalsCount' => $this->whenCounted('foreignNationals_count'),
             'attempts' => AttemptResource::collection( $this->whenLoaded('attempts')),
             'duration' => $this->whenLoaded('examType', fn () => $this->examType->duration),
             'endTime' => $this->end_time,

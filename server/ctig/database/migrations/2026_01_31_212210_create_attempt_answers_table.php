@@ -22,9 +22,9 @@ return new class extends Migration
                 ->index()
                 ->constrained('attempts')
                 ->cascadeOnDelete();
-            $table->foreignId('student_id')
+            $table->foreignId('foreign_national_id')
                 ->index()
-                ->constrained('students')
+                ->constrained('foreign_nationals')
                 ->cascadeOnDelete();
 
             $table->foreignId('answer_id')
@@ -51,6 +51,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('student_answers');
+        Schema::dropIfExists('foreign_national_answers');
     }
 };

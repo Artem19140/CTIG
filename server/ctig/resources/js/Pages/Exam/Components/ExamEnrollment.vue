@@ -12,12 +12,12 @@ const examDates = ref<any[]>([])
 const examId = defineModel<number |null>()
 
 const props = defineProps<{
-  studentId?:number
+  foreignNationalId?:number
 }>()
 
 const http = useHttp({
   examTypeId:null,
-  studentId:props.studentId ?? undefined
+  foreignNationalId:props.foreignNationalId ?? undefined
 })
 
 watch(() => http.examTypeId, async () => {

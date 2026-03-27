@@ -34,8 +34,8 @@ class AttemptAnswerController extends Controller
                             HandleAttemptAnswerAction $handleAttemptAnswer
                         )
     {
-        $student = $request->user();
-        if($attempt->student_id !== $student->id){
+        $foreignNational = $request->user();
+        if($attempt->foreign_national_id !== $foreignNational->id){
             abort(403);
         }
         // $isActive = $checkAttempt->execute($attempt);
@@ -52,10 +52,6 @@ class AttemptAnswerController extends Controller
             $attempt->save();
         });
         return response()->noContent();
-        //$attempt->load(['answers.taskVariant'=>['answers','task']]);
-        return Inertia::render('Attempt/Attempt', [
-            'attempt' => new AttemptResource($attempt),
-        ]);
     }
 
     public function rate(

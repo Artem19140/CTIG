@@ -5,20 +5,20 @@ namespace App\Actions\Exam;
 use App\Enums\TokenAbilities;
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
-use App\Models\Student;
+use App\Models\ForeignNational;
 use Carbon\Carbon;
 use DB;
 
 class VerifyExamCodeAction{
 
-    public function execute(string $code):Student{
-        $student = Student::where('exam_code', $code)
+    public function execute(string $code):ForeignNational{
+        $foreignNational = ForeignNational::where('exam_code', $code)
                         ->first();
-        if(!$student){
+        if(!$foreignNational){
             throw new BusinessException('Код не найден');
         }
 
-        if($student->exam_code_expired_at < Carbon::now()){
+        if($foreignNational->exam_code_expired_at < Carbon::now()){
             throw new BusinessException('Истек срок действия кода');
         }
 
@@ -29,6 +29,6 @@ class VerifyExamCodeAction{
         //     $student->exam_code_expired_at = null;
         //     $student->save();
         // });
-       return $student;
+       return $foreignNational;
     }
 }

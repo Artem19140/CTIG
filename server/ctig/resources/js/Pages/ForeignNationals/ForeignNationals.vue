@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
-import StudentTable from './Components/StudentTable.vue';
+import ForeignNationalTable from './Components/ForeignNationalTable.vue';
 
 defineOptions({
   layout: EmployeeLayout,
 })
 
 const props = defineProps<{
-  students: any,
+  foreignNationals: any,
   filters:any
 }>()
 </script>
@@ -15,9 +15,9 @@ const props = defineProps<{
 <template>
   <v-container>
     <v-card>
-      <StudentTable 
+      <ForeignNationalTable 
         :filters="filters" 
-        :students="students" 
+        :foreignNationals="foreignNationals" 
       />
     </v-card>
   </v-container> 

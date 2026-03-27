@@ -63,7 +63,7 @@ class ExamController
 
     public function show(Exam $exam)
     {
-        $exam->load(['students.attempts' => function (HasMany $query) use($exam){
+        $exam->load(['foreignNationals.attempts' => function (HasMany $query) use($exam){
             $query->where('exam_id', $exam->id);
         }, 'examiners', 'address', 'examType']);
         return new ExamResource($exam);
@@ -71,8 +71,8 @@ class ExamController
 
     public function update(ExamPostRequest $request, Exam $exam)
     {   
-        if($exam->students()->count() > 0){
-            throw new BusinessException('Нельзя редактировать экзамен, на который уже записаны студенты');
+        if($exam->foreignNationals()->count() > 0){
+            throw new BusinessException('Нельзя редактировать экзамен, на который уже записаны ИГ');
         }
     }
 
@@ -84,10 +84,10 @@ class ExamController
         $request->validate([
             'code' => ['required', 'string']
         ]);
-        $student =  $verifyCode->execute($request->input('code'));
-        Auth::guard('students')->login($student);
+        $foreignNational =  $verifyCode->execute($request->input('code'));
+        Auth::guard('foreignNationals')->login($foreignNational);
         $request->session()->regenerate();
-        $attempt = $startExamSession->execute($student);
+        $attempt = $startExamSession->execute($foreignNational);
         return redirect()->route('exam-attempts.before', ['attempt' => $attempt->id]);
     }
 
@@ -109,9 +109,9 @@ class ExamController
     public function available(Request $request, GetAvailableExamsAction $getAvailableExams){
         $request->validate([
             'examTypeId' => ['required', 'integer', 'min:1'],
-            'studentId' => ['nullable', 'integer', 'min:1'],
+            'foreignNationalId' => ['nullable', 'integer', 'min:1'],
         ]);
-        $exams = $getAvailableExams->execute($request->input('examTypeId'), $request->input('studentId'));
+        $exams = $getAvailableExams->execute($request->input('examTypeId'), $request->input('foreignNationalId'));
         return $exams->map(function ($exam) {
             return [
                 'id' => $exam->id,

@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Student extends Authenticatable {
+class ForeignNational extends Authenticatable {
 
     use HasFactory, Notifiable, HasApiTokens;
     protected $fillable=[
@@ -53,7 +53,7 @@ class Student extends Authenticatable {
     }
  
     public function attempts(): HasMany{
-        return $this->hasMany(Attempt::class, 'student_id');
+        return $this->hasMany(Attempt::class, 'foreign_national_id');
     }
 
     public function documents(): MorphMany{

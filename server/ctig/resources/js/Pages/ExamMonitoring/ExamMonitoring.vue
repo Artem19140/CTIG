@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import DropDownStudentsList from './DropDownStudentsList.vue';
+import DropDownForeignNationalsList from './DropDownForeignNationalsList.vue';
 import { router, usePoll } from '@inertiajs/vue3'
 
 const props = defineProps<{
-    students:any,
+    foreignNationals:any,
     exam:any,
     tasksCount:number,
     hasSpeakingTasks:boolean
 }>()
 
 const { start, stop } = usePoll(5000, {
-        only: ['students'],
+        only: ['foreignNationals'],
         onStart() {
                 console.log('Polling request started')
         },
@@ -22,7 +22,7 @@ const { start, stop } = usePoll(5000, {
 })
 
 onMounted(()=>{
-    if(props.exam?.data?.isGoing && props.exam?.data?.students?.length>0){
+    if(props.exam?.data?.isGoing && props.exam?.data?.foreignNationals?.length>0){
         start()
     }
 })
@@ -79,15 +79,15 @@ const getAttemptStatus = (status : string) =>{
     }
 }
 const {open} = useModals()
-const openStudent = (event : Event, {item} :any) => {
+const openForeignNational = (event : Event, {item} :any) => {
     
-    open('studentShow', {studentId:item.id})
+    open('foreignNationalShow', {foreignNationalId:item.id})
 }
 </script>
 
 <script lang="ts">
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
-import StudentShowModal from '../Students/Components/StudentShowModal.vue';
+import ForeignNationalShowModal from '../ForeignNationals/Components/ForeignNationalShowModal.vue';
 import { useModals } from '../../Composables/useModals';
 import { onMounted, onUnmounted } from 'vue';
 
@@ -122,15 +122,15 @@ export default {
 
         <v-card-text>
             <v-data-table
-                :items="students.data"
+                :items="foreignNationals.data"
                 :headers="headers"
                 hover
                 hide-default-footer
-                :loading="students.lenght === 0"
-                @click:row="openStudent"
+                :loading="foreignNationals.lenght === 0"
+                @click:row="openForeignNational"
             >
                 <template  #item.actions="{ item }">
-                    <DropDownStudentsList :student="item" :hasSpeakingTasks="hasSpeakingTasks" />
+                    <DropDownForeignNationalsList :foreignNational="item" :hasSpeakingTasks="hasSpeakingTasks" />
                 </template>
                 <template  #item.status="{ item }">
                     <span :class="color(item.attempts[0]?.status ?? null)">{{getAttemptStatus(item.attempts[0]?.status ?? null)}}</span>
@@ -147,6 +147,4 @@ export default {
             </v-data-table>
         </v-card-text>
     </v-card>
-
-    <StudentShowModal />
 </template>

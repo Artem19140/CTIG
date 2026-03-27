@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Attempt;
 
 use App\Http\Resources\Exam\ExamResource;
-use App\Http\Resources\Student\StudentResource;
+use App\Http\Resources\ForeignNational\ForeignNationalResource;
 use App\Http\Resources\AttemptAnswer\AttemptAnswerResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -22,7 +22,7 @@ class AttemptResource extends JsonResource
             'answers' =>  AttemptAnswerResource::collection($this->whenLoaded('answers')),
             'expiredAt' => $this->expired_at,
             'solved' => $this->solved,
-            'student' => new StudentResource($this->whenLoaded('student')),
+            'foreignNational' => new ForeignNationalResource($this->whenLoaded('foreignNational')),
             'id' => $this->id,
             'startedAt' => $this->started_at?->format('H:i'),
             'finishedAt' => $this->finished_at?->format('H:i'),

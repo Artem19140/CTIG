@@ -6,7 +6,7 @@ use App\Actions\Attempt\GetDetailedAttemptResultsAction;
 use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Models\Attempt;
-use App\Models\Student;
+use App\Models\ForeignNational;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class GenerateExamStatementAction{
@@ -20,8 +20,8 @@ class GenerateExamStatementAction{
             throw new BusinessException('Экзамен еще не прошел');
         }
         
-        if($exam->students()->count() < 1){
-            throw new BusinessException('На экзамене не было ни одного студента');
+        if($exam->foreignNationals()->count() < 1){
+            throw new BusinessException('На экзамене не было ни одного ИГ');
         }
         
         $attemptsNotChecked = $exam->attempts()
@@ -32,7 +32,7 @@ class GenerateExamStatementAction{
             throw new BusinessException('Не все результаты экзамена еще проверены');
         }
         $exam->load([
-            'students.attempts' => function ($query) use ($exam) {
+            'foreignNationals.attempts' => function ($query) use ($exam) {
                 $query->where('exam_id', $exam->id);
             }
         ]);
@@ -46,28 +46,28 @@ class GenerateExamStatementAction{
         $row = 6;
         $counter =1 ;
         
-        foreach($exam->students as $student){
+        foreach($exam->foreignNationals as $foreignNational){
             $sheet->setCellValue("A$row", $counter);
-            $sheet->setCellValue("B$row", $student->id);
-            $sheet->setCellValue("C$row", $student->surname);
-            $sheet->setCellValue("D$row", $student->name);
-            $sheet->setCellValue("E$row", $student->patronymic);
-            $sheet->setCellValue("F$row", $student->date_birth->format('d.m.Y'));
-            $sheet->setCellValue("G$row", $student->surname_latin);
-            $sheet->setCellValue("G$row", $student->name_latin);
-            $sheet->setCellValue("H$row", $student->patronymic_latin);
-            $sheet->setCellValue("I$row", $student->patronymic_latin);
-            $sheet->setCellValue("J$row", $student->passport_series." ".$student->passport_number);
-            $sheet->setCellValue("K$row", $student->citizenship);
-            $sheet->setCellValue("L$row", $student->attempts->first()?->started_at->format('H:i') ?? 'н/я');
-            $sheet->setCellValue("M$row", $student->attempts->first()?->finished_at->format('H:i'));
-            $sheet->setCellValue("R$row", $student->attempts->first()?->total_mark);
+            $sheet->setCellValue("B$row", $foreignNational->id);
+            $sheet->setCellValue("C$row", $foreignNational->surname);
+            $sheet->setCellValue("D$row", $foreignNational->name);
+            $sheet->setCellValue("E$row", $foreignNational->patronymic);
+            $sheet->setCellValue("F$row", $foreignNational->date_birth->format('d.m.Y'));
+            $sheet->setCellValue("G$row", $foreignNational->surname_latin);
+            $sheet->setCellValue("G$row", $foreignNational->name_latin);
+            $sheet->setCellValue("H$row", $foreignNational->patronymic_latin);
+            $sheet->setCellValue("I$row", $foreignNational->patronymic_latin);
+            $sheet->setCellValue("J$row", $foreignNational->passport_series." ".$foreignNational->passport_number);
+            $sheet->setCellValue("K$row", $foreignNational->citizenship);
+            $sheet->setCellValue("L$row", $foreignNational->attempts->first()?->started_at->format('H:i') ?? 'н/я');
+            $sheet->setCellValue("M$row", $foreignNational->attempts->first()?->finished_at->format('H:i'));
+            $sheet->setCellValue("R$row", $foreignNational->attempts->first()?->total_mark);
              
-            $sheet->setCellValue("S$row", $this->getDocumentType($student));
-            if(!$student->attempts->first()){
+            $sheet->setCellValue("S$row", $this->getDocumentType($foreignNational));
+            if(!$foreignNational->attempts->first()){
                 continue;
             }
-            $blocks = $this->getDetailedAttemptResults->execute($student->attempts->first());
+            $blocks = $this->getDetailedAttemptResults->execute($foreignNational->attempts->first());
             foreach($blocks as $block){
                 if($block['order'] === 1){
                     $sheet->setCellValue("O$row", $block['answers_mark_sum']);
@@ -91,8 +91,8 @@ class GenerateExamStatementAction{
         return $spreadSheet;
     }
 
-    protected function getDocumentType(Student $student):string{
-        $attempt = $student->attempts->first();
+    protected function getDocumentType(ForeignNational $foreignNational):string{
+        $attempt = $foreignNational->attempts->first();
         if(!$attempt){
             return '';
         }

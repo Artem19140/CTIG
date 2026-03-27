@@ -3,8 +3,8 @@ import { useForm } from '@inertiajs/vue3'
 import AppInput from '../../../Components/AppInput/AppInput.vue';
 import {ref, watch } from 'vue';
 import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
-import {type Exam, type StudentCreateForm } from '../../../interfaces/interfaces';
-import countries from '../../../../../../ctig/storage/app/public/countries.json'
+import {type Exam, type ForeignNationalCreateForm } from '../../../interfaces/interfaces';
+import countries from '../../../../../storage/app/public/countries.json'
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
 import AddButton from '../../../Components/AddButton/AddButton.vue';
 import AppAutocomplete from '../../../Components/AppAutocomplete/AppAutocomplete.vue';
@@ -16,7 +16,7 @@ const examTypeId = ref<number | null>(null)
 
 const exams = ref<Exam[]>()
 
-const form = useForm<StudentCreateForm>({
+const form = useForm<ForeignNationalCreateForm>({
     surname:'Иванов', 
     name:'Иван',
     patronymic:"Иванович",
@@ -40,7 +40,8 @@ const form = useForm<StudentCreateForm>({
     passportTranslateScan:null,
     examId:null,
     gender:null,
-    photo:null
+    photo:null,
+    hasPayment:false
 })
 
 const create = () => {
@@ -50,12 +51,12 @@ const create = () => {
         return   
     }
         
-    form.post('/students', {
+    form.post('/foreign-nationals', {
     preserveScroll: true,
     preserveState: true,
     onSuccess: (page) => {
-        const studentId = page.flash?.studentId
-        if(!page.flash?.redirectUrl || !studentId) return
+        const foreignNationalId = page.flash?.foreignNationalId
+        if(!page.flash?.redirectUrl || !foreignNationalId) return
         examTypeId.value = null
         exams.value = undefined
         form.resetAndClearErrors()
@@ -69,7 +70,7 @@ const {confirmOpen} = useConfirmDialog()
 
 const  close  = async (fn:  ()  => void)  =>  {
     if (form.isDirty) {
-        if(!await confirmOpen("Отменить добавление студента?")){
+        if(!await confirmOpen("Отменить добавление ИГ?")){
             return
         }
     }
@@ -110,7 +111,7 @@ watch(() => form.noMigrationCard, (val) => {
 <template>  
         <BaseDialog
             v-model="isOpen"
-            title="Добавление студента"
+            title="Добавление ИГ"
             width="1000"
             height="100%"
             @before-close="(done) => {close(done); }"
@@ -123,6 +124,13 @@ watch(() => form.noMigrationCard, (val) => {
                             </v-col>
                             <ExamEnrollment v-model="form.examId" />
                         </v-container>
+                    </v-card-text>
+                    <v-card-text>
+                        <v-checkbox
+                            v-model="form.hasPayment" 
+                            label="Есть оплата"
+                            :error-messages="form.errors.hasPayment"
+                        ></v-checkbox>
                     </v-card-text>
                 </v-card>
 

@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->string('address');
-            $table->boolean('is_active')->default('true');
+            $table->boolean('is_active')->default(true);
             $table->foreignId('organization_id')
                 ->constrained('organizations')
                 ->cascadeOnDelete();
@@ -21,7 +21,7 @@ return new class extends Migration
             //     ->constrained('users')
             //     ->cascadeOnDelete();
             $table->timestamps();
-        }); //Мб сделать полиморфную связь? Чтобы и адрес сертификата тоже туда же впихивать
+        });
     }
     
     public function down(): void

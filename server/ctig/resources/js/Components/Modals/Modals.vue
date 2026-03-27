@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useModals } from '../../Composables/useModals';
-import StudentShowModal from '../../Pages/Students/Components/StudentShowModal.vue';
+import ForeignNationalShowModal from '../../Pages/ForeignNationals/Components/ForeignNationalShowModal.vue';
 import ExamShowModal from '../../Pages/Exam/Components/ExamShowModal/ExamShowModal.vue';
 import ExamCreateModal from '../../Pages/Exam/Components/ExamCreateModal.vue';
 import FrdoModal from '../../Pages/Exam/Components/FrdoModal.vue';
-import StudentCreateModal from '../../Pages/Students/Components/StudentCreateModal.vue';
+import ForeignNationalCreateModal from '../../Pages/ForeignNationals/Components/ForeignNationalCreateModal.vue';
 import FlatTableModal from '../../Pages/Exam/Components/FlatTableModal.vue';
-import EnrollmentModal from '../../Pages/Students/Components/EnrollmentModal.vue';
+import EnrollmentModal from '../../Pages/ForeignNationals/Components/EnrollmentModal.vue';
 import AttemptCheckingModal from '../../Pages/AttemptsChecking/AttemptCheckingModal.vue';
 import PdfDialogViewer from '../PdfDialogViewer/PdfDialogViewer.vue';
 import ExamCommentModal from '../../Pages/ExamMonitoring/ExamCommentModal.vue';
@@ -17,16 +17,16 @@ const {modals, close} = useModals()
 
 const modalComponent = (name: string) => {
     switch(name){
-        case 'studentShow':
-            return StudentShowModal
+        case 'foreignNationalShow':
+            return ForeignNationalShowModal
         case 'examShow':
             return ExamShowModal
         case 'examCreate':
             return ExamCreateModal
         case 'frdo':
             return FrdoModal
-        case 'studentCreate':
-            return StudentCreateModal
+        case 'foreignNationalCreate':
+            return ForeignNationalCreateModal
         case 'flatTable':
             return FlatTableModal
         case 'enrollment':

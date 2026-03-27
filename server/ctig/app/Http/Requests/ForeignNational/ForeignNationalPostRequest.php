@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Student;
+namespace App\Http\Requests\ForeignNational;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Validation\Rule;
 
-class StudentPostRequest extends FormRequest
+class ForeignNationalPostRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -18,6 +18,11 @@ class StudentPostRequest extends FormRequest
                     ->pluck('value') // получаем массив всех кодов
                     ->toArray();
         return [ 
+            'hasPayment' =>
+                [
+                    'required',
+                    'boolean'
+                ],
             'noPatronymic' =>
                 [
                     'required',

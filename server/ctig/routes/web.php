@@ -11,32 +11,30 @@ use App\Http\Controllers\Web\Exam\ExamMonitoringController;
 use App\Http\Controllers\Web\Login\LoginController;
 use App\Http\Controllers\Web\Organization\OrganizationController;
 use App\Http\Controllers\Web\Report\ReportController;
-use App\Http\Controllers\Web\Student\StudentController;
+use App\Http\Controllers\Web\ForeignNational\ForeignNationalController;
 use App\Http\Controllers\Web\AttemptAnswer\AttemptAnswerController;
-use App\Http\Resources\Role\RoleResource;
 use App\Models\ExamType;
-use App\Models\Role;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+
 
 
 
 
 Route::middleware(['auth', 'user.is.active', 'organization.is.active', 'password.change'])->group(function(){
-    Route::resource('students', StudentController::class);
-    Route::get('students/{student}/application-forms', [StudentController::class, "getApplicationForm"])
-            ->name('students.application-forms');
+    Route::resource('foreign-nationals', ForeignNationalController::class);
+    Route::get('foreign-nationals/{foreignNational}/application-forms', [ForeignNationalController::class, "getApplicationForm"])
+            ->name('foreign-nationals.application-forms');
         //->middleware('user.has.role:operator');
     
     Route::prefix('exams')->group(function(){
         Route::get('{exam}/codes', [ExamController::class, "formCodes"]);//->middleware('user.has.role:examiner');
         Route::get('create/modal-data', [ExamController::class,'createModalData']);//->middleware('user.has.role:scheduler');
-        Route::post('{exam}/students', [ExamEnrollmentController::class, "store"]);
-        Route::delete('{exam}/students/{student}', [ExamEnrollmentController::class, "destroy"]);
-        Route::post('{exam}/students/{student}', [ExamEnrollmentController::class, "transfer"]);
+        Route::post('{exam}/foreign-nationals', [ExamEnrollmentController::class, "store"]);
+        Route::delete('{exam}/foreign-nationals/{foreignNational}', [ExamEnrollmentController::class, "destroy"]);
+        Route::post('{exam}/foreign-nationals/{foreignNational}', [ExamEnrollmentController::class, "transfer"]);
         Route::get('monitoring', [ExamMonitoringController::class, 'index'])->name('exam.monitoring');
         Route::get('{exam}/monitoring', [ExamMonitoringController::class, 'show']);
-        Route::get('{exam}/students/list', [ExamDocumentController::class, 'studentsList']);
+        Route::get('{exam}/foreign-nationals/list', [ExamDocumentController::class, 'foreignNationalsList']);
         Route::get('schedule', [ExamController::class, 'schedule'])->name('exams.schedule');
         Route::get('{exam}/statement', [ReportController::class, 'statement']);
     });
@@ -81,7 +79,7 @@ Route::middleware('guest')->group(function (){
     Route::post( 'exam-codes/verify', [ExamController::class, 'verifyCode']);
 });
 
-Route::middleware('auth:students')->group(function (){
+Route::middleware('auth:foreignNationals')->group(function (){
     Route::get('exam-attempts/{attempt}/before', [AttemptController::class, 'before'])->name('exam-attempts.before')
         ->can('attempt-access', 'attempt');
     Route::put('exam-attempts/{attempt}', [AttemptController::class, 'start'])

@@ -40,9 +40,9 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'students'=>[
+        'foreignNationals'=>[
             'driver' => 'session',
-            'provider' => 'students'
+            'provider' => 'foreignNationals'
         ]
     ],
 
@@ -68,9 +68,9 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
-        'students' => [
+        'foreignNationals' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Student::class,
+            'model' => App\Models\ForeignNational::class,
         ]
 
         // 'users' => [

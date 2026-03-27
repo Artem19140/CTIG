@@ -9,18 +9,18 @@ use Illuminate\Http\Request;
 
 class ExamDocumentController
 {
-    public function studentsList(Request $request, Exam $exam){
-        $exam->load(['students', 'examType']);
-        $exam->students;
-        if($exam->students->isEmpty()){
-            throw new BusinessException('На экзамен не записано ни одного студента');
+    public function foreignNationalsList(Request $request, Exam $exam){
+        $exam->load(['foreignNationals', 'examType']);
+        $exam->foreignNationals;
+        if($exam->foreignNationals->isEmpty()){
+            throw new BusinessException('На экзамен не записано ни одного ИГ');
         }
-        $pdf = Pdf::loadView('templates.exam-students-list', [
-            'students' => $exam->students,
+        $pdf = Pdf::loadView('templates.exam-foreign_nationals-list', [
+            'foreignNationals' => $exam->foreignNationals,
             'exam' => $exam
         ]);
         $stringDate = $exam->begin_time->copy()->format('_H:i_d.m.Y_');
-        
-        return $pdf->stream("students$stringDate.pdf");
+        $name = $exam->examType->short_name;
+        return $pdf->stream("список_$name _ $stringDate.pdf");
     }
 }

@@ -43,7 +43,7 @@ class ExamStudentController extends Controller
         }
 
         if($exam->isCompleted() || $exam->isGoing()){
-            throw new BusinessException('Нельзя перенести студента с прошедшего или идущего экзамена');
+            throw new BusinessException('Нельзя перенести запись с прошедшего или идущего экзамена');
         }
 
         $newExam = Exam::find(request()->input('examId'));

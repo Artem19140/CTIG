@@ -34,7 +34,7 @@ class ExamController extends Controller
 
     public function show(Exam $exam): ExamResource
     {
-        $exam->load(['students', 'examiners', 'address', 'examType']);
+        $exam->load(['foreignNationals', 'examiners', 'address', 'examType']);
         return new ExamResource($exam);
     }
 
@@ -62,7 +62,7 @@ class ExamController extends Controller
             throw new BusinessException('Экзамен уже прошел');
         }
         $exam->load([
-            'students.attempts' => fn ($query) => $query->where('exam_id', $exam->id)->with('violations')
+            'foreignNationals.attempts' => fn ($query) => $query->where('exam_id', $exam->id)->with('violations')
         ]);
         
         return new ExamResource($exam);

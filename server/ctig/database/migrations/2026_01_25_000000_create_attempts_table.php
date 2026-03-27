@@ -11,8 +11,8 @@ return new class extends Migration
     {
         Schema::create('attempts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')
-                ->constrained('students') 
+            $table->foreignId('foreign_national_id')
+                ->constrained('foreign_nationals') 
                 ->cascadeOnDelete();
                 
             $table->foreignId('ban_by_id')
@@ -38,7 +38,7 @@ return new class extends Migration
             $table->timestamps();
             $table->unsignedTinyInteger('solved')->default(0);
 
-            $table->unique(['exam_id', 'student_id']);
+            $table->unique(['exam_id', 'foreign_national_id']);
         });
     }
 

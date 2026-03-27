@@ -8,13 +8,13 @@ import { Exam } from '../../../../interfaces/interfaces';
 import { useModals } from '../../../../Composables/useModals';
 
 const props = defineProps<{
-    students : any,
+    foreignNationals : any,
     exam: Exam
 }>()
 
-function studentShowModal(event:Event, {item}: any) {
+function foreignNationalShowModal(event:Event, {item}: any) {
     const {open} = useModals()
-    open('studentShow', {studentId:item.id})  
+    open('foreignNationalShow', {foreignNationalId:item.id})  
 }
 
 const headers = [
@@ -24,20 +24,20 @@ const headers = [
     {title : "",sortable: false, key: 'actions', align: 'end' },
 ]
 
-const download = (studentId :number) => {
-    window.open(`students/${studentId}/application-forms?examId=${props.exam?.id}`)
+const download = (foreignNationalId :number) => {
+    window.open(`foreignNationals/${foreignNationalId}/application-forms?examId=${props.exam?.id}`)
 }
 
 const transfer = () => {
     axios.post(``)
 }
 const {confirmOpen} = useConfirmDialog()
-const cancell = async (studentId :number) => {
+const cancell = async (foreignNationalId :number) => {
     const ok = await confirmOpen('Отменить запись на экзамен?')
     if(!ok){
         return
     }
-    router.delete(`exams/${props.exam?.id}/students/${studentId}`,{
+    router.delete(`exams/${props.exam?.id}/foreign-nationals/${foreignNationalId}`,{
         onSuccess: (page) =>{
             const success = page.flash.success
         }
@@ -51,12 +51,12 @@ const getAttemptResultLabel = (result: boolean) => {
 
 <template>
     <v-data-table 
-        :items="students"
+        :items="foreignNationals"
         hide-default-footer
         :headers="headers"
         fixed-header
         hover
-        @click:row="studentShowModal"
+        @click:row="foreignNationalShowModal"
     >
         <template #item.actions="{item}">
             <ThreeDotDropdown>

@@ -5,26 +5,26 @@ namespace App\Actions\Exam\Enrollment;
 use App\Actions\Counter\GetRegNumberAction;
 use App\Exceptions\EntityNotFoundExсeption;
 use App\Models\Exam;
-use App\Models\Student;
+use App\Models\ForeignNational;
 use App\Models\User;
 use Carbon\Carbon;
 use App\Exceptions\BusinessException;
-use App\Actions\Student\CreateStudentStatementAction;
+use App\Actions\ForeignNational\CreateForeignNationalStatementAction;
 
 final class CreateEnrollmentAction{
     public function __construct(
-        protected CreateStudentStatementAction $createStudentStatement,
+        protected CreateForeignNationalStatementAction $createForeignNationalStatement,
         protected GetRegNumberAction $getRegNumber
     ){}
-    public function execute(Exam $exam, int $studentId, User $user):Student{
-        $student = Student::find($studentId);
+    public function execute(Exam $exam, int $foreignNationalId, User $user, bool $hasPayment):ForeignNational{
+        $foreignNational = ForeignNational::find($foreignNationalId);
         
-        if(!$student){
-            throw new EntityNotFoundExсeption('Студент');
+        if(!$foreignNational){
+            throw new EntityNotFoundExсeption('ИГ');
         }
         
-        $studentAge = Carbon::parse($student->date_birth)->age;
-        if($studentAge < 18){
+        $foreignNationalAge = Carbon::parse($foreignNational->date_birth)->age;
+        if($foreignNationalAge < 18){
             throw new BusinessException('Запись возможна только с 18 лет');
         }
 
@@ -36,32 +36,33 @@ final class CreateEnrollmentAction{
             throw new BusinessException('Экзамен отменен');
         }
 
-        $exam->load(['students']);
-        $students=$exam->students;
+        $exam->load(['foreignNationals']);
+        $foreignNationals=$exam->foreignNationals;
 
-        if($students->contains($student)){
+        if($foreignNationals->contains($foreignNational)){
             throw new BusinessException('Запись уже существует');
         }
         
-        if($students->count() >= $exam->capacity){
+        if($foreignNationals->count() >= $exam->capacity){
             throw new BusinessException('Запись уже заполена');
         }
             
-        $studentExamsConflict = $student->exams()->where('begin_time', '<=', $exam->end_time)
+        $foreignNationalExamsConflict = $foreignNational->exams()->where('begin_time', '<=', $exam->end_time)
                                         ->where('end_time', '>=', $exam->begin_time)
                                         ->where('exams.is_cancelled', false)
                                         ->exists();
 
-        if($studentExamsConflict){
-            throw new BusinessException('На это время у студента уже существует запись');
+        if($foreignNationalExamsConflict){
+            throw new BusinessException('На это время у ИГ уже существует запись');
         }
         $regNumber = $this->getRegNumber->execute();
-        $exam->students()->attach($student, [
+        $exam->foreignNationals()->attach($foreignNational, [
             'reg_number' =>$regNumber, 
             'creator_id' => $user->id,
-            'organization_id' => $user->organization_id
+            'organization_id' => $user->organization_id,
+            'has_payment' => $hasPayment
         ]);
-        return $student;
+        return $foreignNational;
         //return $this->createStudentStatement->execute($exam->id, $student,$user);
     }
 }

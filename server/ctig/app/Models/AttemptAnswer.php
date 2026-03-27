@@ -12,7 +12,7 @@ class AttemptAnswer extends Model
         'exam_id', //Основной поиск по этому полю
         'task_variant_id',
         'attempt_id', //Основной поиск по этому полю
-        'student_id', //Еще поиск по этому полю в карточке студента чтобы отобразить(дополнительно)
+        'foreign_national_id', //Еще поиск по этому полю в карточке ИГ чтобы отобразить(дополнительно)
         'mark',
         'answer',
         'checked_by_id',

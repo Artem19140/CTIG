@@ -31,7 +31,7 @@ class GenerateFRDOReportsAction{
     }
 
     protected function hasAttemptsForReport($examDate, bool $success): Collection{
-        $attempts = Attempt::with(['exam.examType','student','exam.address'])
+        $attempts = Attempt::with(['exam.examType','foreignNational','exam.address'])
                             ->where('finished_at', '>=',$examDate->copy()->startOfDay())
                             ->where('finished_at', '<=',$examDate->copy()->endOfDay())
                             ->where('is_passed',$success)
@@ -88,17 +88,17 @@ class GenerateFRDOReportsAction{
     {
         $columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'M', 'N', 'O'];
         $values = [
-            $attempt->student->surname,
-            $attempt->student->name,
-            $attempt->student->patronymic,
-            $attempt->student->date_birth->format('d.m.Y'),
+            $attempt->foreignNational->surname,
+            $attempt->foreignNational->name,
+            $attempt->foreignNational->patronymic,
+            $attempt->foreignNational->date_birth->format('d.m.Y'),
             $attempt->exam->begin_time->year,
             $attempt->exam->examType->certificate_name,
-            $attempt->student->surname_latin,
-            $attempt->student->name_latin,
-            $attempt->student->patronymic_latin,
-            $attempt->student->full_passport,
-            $attempt->student->citizenship,
+            $attempt->foreignNational->surname_latin,
+            $attempt->foreignNational->name_latin,
+            $attempt->foreignNational->patronymic_latin,
+            $attempt->foreignNational->full_passport,
+            $attempt->foreignNational->citizenship,
             $attempt->exam->address->address,
             $organization->certificates_issue_address,
             $organization->director_fio,
@@ -117,18 +117,18 @@ class GenerateFRDOReportsAction{
         $columns = ['A','B','C','D','E','F','G','H','I','J','K','L','N','O','P','Q'];
 
         $values = [
-            $attempt->student->surname,
-            $attempt->student->name,
-            $attempt->student->patronymic,
-            $attempt->student->date_birth->format('d.m.Y'),
+            $attempt->foreignNational->surname,
+            $attempt->foreignNational->name,
+            $attempt->foreignNational->patronymic,
+            $attempt->foreignNational->date_birth->format('d.m.Y'),
             $attempt->exam->date->year,
             $attempt->exam->examType->certificate_name,
-            $attempt->student->surname_latin,
-            $attempt->student->name_latin,
-            $attempt->student->patronymic_latin,
+            $attempt->foreignNational->surname_latin,
+            $attempt->foreignNational->name_latin,
+            $attempt->foreignNational->patronymic_latin,
             'Справка',
-            $attempt->student->full_passport,
-            $attempt->student->citizenship,
+            $attempt->foreignNational->full_passport,
+            $attempt->foreignNational->citizenship,
             $attempt->exam->address->address,
             $attempt->exam->begin_time->format('d.m.Y'),
             'Неуспешно',

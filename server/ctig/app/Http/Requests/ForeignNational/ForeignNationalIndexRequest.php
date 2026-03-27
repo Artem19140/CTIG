@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Student;
+namespace App\Http\Requests\ForeignNational;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StudentIndexRequest extends FormRequest
+class ForeignNationalIndexRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

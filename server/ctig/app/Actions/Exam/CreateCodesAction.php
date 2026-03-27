@@ -24,15 +24,15 @@ final class CreateCodesAction{
         //     throw new BusinessException("Коды можно сформировать минимум за $minutes минут до экзамена");
         // }
 
-        $studentsExists = $exam->students()->exists();
-        if(!$studentsExists){
-            throw new BusinessException('На экзамен не записано ни одного студента');
+        $foreignNationalsExists = $exam->foreignNationals()->exists();
+        if(!$foreignNationalsExists){
+            throw new BusinessException('На экзамен не записано ни одного ИГ');
         }
 
-        $students = $exam->students;
+        $foreignNationals = $exam->foreignNationals;
         
-        foreach($students as $student){
-            if($student->exam_code && $student->exam_id === $exam->id){
+        foreach($foreignNationals as $foreignNational){
+            if($foreignNational->exam_code && $foreignNational->exam_id === $exam->id){
                 continue;
             }
             
@@ -42,10 +42,10 @@ final class CreateCodesAction{
                 $saved = false;
                 
                 try{
-                    $student->exam_code = $code;
-                    $student->exam_id = $exam->id;
-                    $student->exam_code_expired_at = Carbon::now()->addHour();
-                    $student->save();
+                    $foreignNational->exam_code = $code;
+                    $foreignNational->exam_id = $exam->id;
+                    $foreignNational->exam_code_expired_at = Carbon::now()->addHour();
+                    $foreignNational->save();
                     $saved = true;
                 }catch(QueryException $e){
                     // if ($e->getCode() !== '23000') {
@@ -57,7 +57,7 @@ final class CreateCodesAction{
 
         }
         $pdf = Pdf::loadView('templates.exam-codes', [
-            'students' => $students,
+            'foreignNationals' => $foreignNationals,
             'exam' => $exam
         ]);
 

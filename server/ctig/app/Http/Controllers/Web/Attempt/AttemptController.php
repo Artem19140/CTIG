@@ -27,10 +27,10 @@ class AttemptController extends Controller
 {
     public function index(Request $request)
     {
-        $studentId = $request->input('studentId');
+        $foreignNationalId = $request->input('foreignNationalId');
         $examId = $request->input('examId');
-        $examAttempts = Attempt::when($studentId, function (Builder $query, int $studentId){
-                $query->where('student_id', $studentId);
+        $examAttempts = Attempt::when($foreignNationalId, function (Builder $query, int $foreignNationalId){
+                $query->where('foreign_national_id', $foreignNationalId);
             })
             ->when($examId, function (Builder $query, int $examId){
                 $query->where('exam_id', $examId);
@@ -40,7 +40,7 @@ class AttemptController extends Controller
     }
 
     public function current(Request $request, Attempt $attempt){
-        $student = $request->user();
+        $foreignNational = $request->user();
 
         if($attempt->isExpired() || !$attempt->isActive()){
             $attempt->finish();
@@ -57,13 +57,6 @@ class AttemptController extends Controller
                                             ->orderBy('tasks.order')
                                             ->select('task_variants.*') 
                                         ->get();
-        // $attemptTasks = TaskVariant::with([
-        //     'answers',
-        //     'task',
-        //     'studentsAnswers' => function ($query) use ($currentAttempt) {
-        //         $query->where('attempt_id', $currentAttempt->id);
-        //     }
-        // ])->get();
 
         return Inertia::render('Attempt/Attempt', [
             'attempt' => new AttemptResource($attempt),
@@ -73,13 +66,13 @@ class AttemptController extends Controller
 
     public function start(Request $request, StartAttemptAction $startAttempt, Attempt $attempt)
     {
-        $student = $request->user();
+        $foreignNational = $request->user();
         if($attempt->status != AttemptStatus::Pending){
             abort(403);
         }
         
-        $startedAttempt = DB::transaction(function() use($attempt, $student, $startAttempt){
-            return $startAttempt->execute($attempt, $student);
+        $startedAttempt = DB::transaction(function() use($attempt, $foreignNational, $startAttempt){
+            return $startAttempt->execute($attempt, $foreignNational);
         });
         
         return redirect()->route('exam-attempts', ['attempt' => $startedAttempt->id]);
@@ -161,7 +154,7 @@ class AttemptController extends Controller
         });
         $exam = Exam::with('examType')->find($attempt->exam_id);
         return Inertia::render('Attempt/AfterAttempt', [
-            'student' => $request->user(),
+            'foreignNational' => $request->user(),
             'examName' => $exam->examType->name
         ]);
     }
@@ -190,14 +183,14 @@ class AttemptController extends Controller
     }
 
     public function before(Request $request, Attempt $attempt){
-        $student = $request->user();
+        $foreignNational = $request->user();
 
         if(!$attempt->status === AttemptStatus::Pending){
             return redirect('login')->with('У вас нет текущей попытки экзамена');
         }
         $exam = Exam::with([
             'examType'
-        ])->find($student->exam_id);
+        ])->find($foreignNational->exam_id);
         
         return Inertia::render('Attempt/BeforeAttempt', [
             'exam' => new ExamResource($exam),

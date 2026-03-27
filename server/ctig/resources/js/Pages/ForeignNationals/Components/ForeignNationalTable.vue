@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { formatterDate } from '../../../Helpers/heplers';
-import StudentCreateModal from './StudentCreateModal.vue';
-import type { Student, Paginated } from '../../../interfaces/interfaces';
+import ForeignNationalCreateModal from './ForeignNationalCreateModal.vue';
+import type { ForeignNational, Paginated } from '../../../interfaces/interfaces';
 import BaseServerTable from '../../../Components/BaseServerTable.vue';
-import StudentTableFilters from './StudentTableFilters.vue';
+import ForeignNationalTableFilters from './ForeignNationalTableFilters.vue';
 import { useForm } from '@inertiajs/vue3';
 import { useModals } from '../../../Composables/useModals';
 import AddButton from '../../../Components/AddButton/AddButton.vue';
 const {open} = useModals()
 
-function studentShowModal(item : any) {
-    open('studentShow', {studentId:item.id})
+function foreignNationalShowModal(item : any) {
+    open('foreignNationalShow', {foreignNationalId:item.id})
 }
 
 const props = defineProps<{
-    students: Paginated<Student>,
+    foreignNationals: Paginated<ForeignNational>,
     filters:any
 }>()
 
@@ -39,12 +39,12 @@ const formFilters = useForm({
     <BaseServerTable
         :loading="formFilters.processing"
         :headers="headers"
-        :elements="students"
-        title="Студенты"
-        @row-click="studentShowModal"
+        :elements="foreignNationals"
+        title="ИГ"
+        @row-click="foreignNationalShowModal"
     >
         <template #toolbar-left>
-            <StudentTableFilters 
+            <ForeignNationalTableFilters 
                 :filters="filters" 
                 :form="formFilters" 
             />
@@ -52,9 +52,9 @@ const formFilters = useForm({
         <template #toolbar-actions>
             <AddButton
                 text="Добавить"
-                @click="open('studentCreate')"
+                @click="open('foreignNationalCreate')"
             />
-            <StudentCreateModal />
+            <ForeignNationalCreateModal />
         </template>
 
         <template  #item.dateBirth="{ item }">

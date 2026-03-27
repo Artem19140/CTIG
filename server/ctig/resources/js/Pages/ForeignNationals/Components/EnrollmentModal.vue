@@ -3,13 +3,13 @@ import {  ref } from 'vue';
 import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
 import ExamEnrollment from '../../Exam/Components/ExamEnrollment.vue';
 import PrimaryButton from '../../../Components/PrimaryButton/PrimaryButton.vue';
-import { Student } from '../../../interfaces/interfaces';
+import { ForeignNational } from '../../../interfaces/interfaces';
 import {  useForm } from '@inertiajs/vue3';
 import { useAlert } from '../../../Composables/useAlert';
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
 
 const props = defineProps<{
-    student: Student | null
+    foreignNational: ForeignNational | null
 }>()
 
 const isOpen = defineModel<boolean>()
@@ -21,10 +21,10 @@ const enroll = async () => {
         open('Выберите время экзамена')
         return
     }
-    if(!form.studentId){
+    if(!form.foreignNationalId){
         open('Неизвестная ошибка')
     }
-    form.post(`exams/${examId.value}/students`,
+    form.post(`exams/${examId.value}/foreign-nationals`,
     {
         onSuccess: (page) => {
             console.log(page.flash)
@@ -38,7 +38,7 @@ const enroll = async () => {
 }
 
 const form = useForm({
-    studentId:props.student?.id ?? null
+    foreignNationalId:props.foreignNational?.id ?? null
 })
 
 const {confirmOpen} = useConfirmDialog()
@@ -65,7 +65,7 @@ const canClose  = async (fn: () => void) => {
     >
         <ExamEnrollment 
             v-model="examId"
-            :student-id="student?.id"
+            :foreignNational-id="foreignNational?.id"
         />
         <template #actions>
             <PrimaryButton

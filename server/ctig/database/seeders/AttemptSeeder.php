@@ -6,9 +6,6 @@ use App\Enums\AttemptStatus;
 use App\Models\Attempt;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Exam;
-use App\Models\Student;
-use App\Models\User;
 
 
 class AttemptSeeder extends Seeder

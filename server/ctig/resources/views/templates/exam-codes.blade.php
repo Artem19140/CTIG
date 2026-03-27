@@ -40,7 +40,7 @@ tr:nth-child(even) td {
 </head>
 <body>
 
-<h2>Коды студентов</h2>
+<h2>Коды ИГ</h2>
 <div>Экзамен: {{ $exam->examType->short_name }}</div>
 <div style="margin-bottom: 10px;">Дата и время: {{ $exam->begin_time->format('d.m.Y в H:i') }}</div>
 <table>
@@ -51,12 +51,12 @@ tr:nth-child(even) td {
         <th>Код</th>
     </tr>
 
-    @foreach ($students as $s)
+    @foreach ($foreignNationals as $foreignNational)
         <tr>
-            <td>{{ $s->id }}</td>
-            <td>{{ $s->surname }} {{ $s->name }} {{ $s->patronymic }}</td>
-            <td>{{ $s->passport_series }} {{ $s->passport_number }}</td>
-            <td>{{ $s->exam_code }}</td>
+            <td>{{ $foreignNational->id }}</td>
+            <td>{{ $foreignNational->surname }} {{ $foreignNational->name }} {{ $foreignNational->patronymic }}</td>
+            <td>{{ $foreignNational->passport_series }} {{ $foreignNational->passport_number }}</td>
+            <td>{{ $foreignNational->exam_code }}</td>
         </tr>
     @endforeach
 

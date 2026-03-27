@@ -11,13 +11,13 @@ export interface Exam{
     address:string,
     creator:User | null,
     createdAt:string | null,
-    studentsCount:number,
+    foreignNationalsCount:number,
     attempts: Array<Attempt> | null,
     isCancelled:boolean,
     date:string,
     isPast:boolean,
     isGoing:boolean,
-    students:Array<Student>,
+    foreignNationals:Array<ForeignNational>,
     hasSpeakingTasks:boolean
 }
 
@@ -29,7 +29,7 @@ export interface User{
     email:string
 }
 
-export interface Student{
+export interface ForeignNational{
     id:number,
     name:string,
     surname:string,
@@ -57,8 +57,8 @@ export interface Student{
     photoPath:string
 }
 
-export type StudentCreateForm = Omit<
-  Student,
+export type ForeignNationalCreateForm = Omit<
+  ForeignNational,
   'id' | 'creator' | 'exams' | 'createdAt' | 'passportScan' | 'photo' | 'attempts' | 'exam' | 'fullName' | 'fullPassport' | 'photoPath'
 > & {
   passportScan: File | null
@@ -69,7 +69,7 @@ export type StudentCreateForm = Omit<
   noPatronymic: boolean
   noMigrationCard: boolean
   gender:string | null
-
+  hasPayment:boolean
   examId: number | null
 }
 
@@ -79,7 +79,6 @@ export interface Attempt{
     finishedAt:string | null,
     isPassed:boolean | null,
     status:string,
-    student:User,
     exam:Array<Exam>
 }
 

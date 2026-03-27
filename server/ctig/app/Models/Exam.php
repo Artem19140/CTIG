@@ -50,8 +50,8 @@ class Exam extends Model
         return $this->belongsToMany(User::class, 'exam_examiner','exam_id', 'examiner_id');
     }
 
-    public function students():BelongsToMany{
-        return $this->belongsToMany(Student::class)->withPivot('reg_number');
+    public function foreignNationals():BelongsToMany{
+        return $this->belongsToMany(ForeignNational::class)->withPivot('reg_number', 'has_payment');
     }
 
     public function attempts(): HasMany{

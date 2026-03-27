@@ -3,7 +3,7 @@
 namespace App\Actions\Attempt;
 
 class GenerateExamVariantAction{
-    public function execute($tasks, $exam, $attempt, $student){
+    public function execute($tasks, $exam, $attempt, $foreignNational){
         $groups = [];
         $examVariant = [];
         foreach($tasks as $task){    
@@ -26,7 +26,7 @@ class GenerateExamVariantAction{
                 'exam_id' => $exam->id,
                 'task_variant_id' => $variant->id,
                 'attempt_id' => $attempt->id, 
-                'student_id' =>$student->id, 
+                'foreign_national_id' =>$foreignNational->id, 
                 'organization_id' => $exam->organization_id
             ];
         }

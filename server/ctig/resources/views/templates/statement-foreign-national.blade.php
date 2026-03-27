@@ -72,34 +72,34 @@
         </td>
     </tr>
     <tr>
-        <td class="statement-td">Фамилия (кириллица): <span class="data">{{ $student->surname }}</span></td>
-        <td class="statement-td">Фамилия (латиница):  <span class="data">{{ $student->surname_latin }}</span></td>
+        <td class="statement-td">Фамилия (кириллица): <span class="data">{{ $foreignNational->surname }}</span></td>
+        <td class="statement-td">Фамилия (латиница):  <span class="data">{{ $foreignNational->surname_latin }}</span></td>
     </tr>
     <tr>
-        <td class="statement-td">Имя (кириллица):<span class="data">{{ $student->surname }}</span></td>
-        <td class="statement-td">Имя (латиница): <span class="data">{{ $student->surname_latin }}</span></td>
+        <td class="statement-td">Имя (кириллица):<span class="data">{{ $foreignNational->surname }}</span></td>
+        <td class="statement-td">Имя (латиница): <span class="data">{{ $foreignNational->surname_latin }}</span></td>
     </tr>
     <tr>
-        <td class="statement-td">Отчество (при наличии, кириллица): <span class="data">{{ $student->patronymic }}</span></td>
-        <td class="statement-td">Отчество (при наличии,латиница): <span class="data">{{ $student->patronymic_latin }}</span></td>
+        <td class="statement-td">Отчество (при наличии, кириллица): <span class="data">{{ $foreignNational->patronymic }}</span></td>
+        <td class="statement-td">Отчество (при наличии,латиница): <span class="data">{{ $foreignNational->patronymic_latin }}</span></td>
     </tr>
 
     @php
         $countries = collect(json_decode(file_get_contents(storage_path('app/public/countries.json')), true));
-        $countryName = $countries->firstWhere('value', $student->citizenship)['text'] ?? '';
+        $countryName = $countries->firstWhere('value', $foreignNational->citizenship)['text'] ?? '';
     @endphp
     <tr>
         <td class="statement-td">
-            Пол: <input type="checkbox" {{ $student->gender === 'M' ? 'checked' : '' }}>М <input type="checkbox" {{ $student->gender === 'F' ? 'checked' : '' }}>Ж
+            Пол: <input type="checkbox" {{ $foreignNational->gender === 'M' ? 'checked' : '' }}>М <input type="checkbox" {{ $foreignNational->gender === 'F' ? 'checked' : '' }}>Ж
         </td>
         <td class="statement-td">Гражданство: <span class="data">{{ $countryName }}</span></td>
     </tr>
     <tr>
-        <td class="statement-td">Дата рождения: <span class="data">{{ $student->date_birth->format('d.m.Y') }}</span></td>
+        <td class="statement-td">Дата рождения: <span class="data">{{ $foreignNational->date_birth->format('d.m.Y') }}</span></td>
         <td class="statement-td">Место сдачи экзамена: <span class="data">{{ $exam->address->address }}</span></td>
     </tr>
     <tr>
-        <td class="statement-td">Контактный телефон: <span class="data">{{ $student->phone }}</span></td>
+        <td class="statement-td">Контактный телефон: <span class="data">{{ $foreignNational->phone }}</span></td>
         <td class="statement-td">Родной язык: <span class="data"></span></td>
     </tr>
     <tr>
@@ -109,10 +109,10 @@
             <p>{{ $exam->examType->name }}(уровень {{ $exam->examType->level }}) - стоимость <span class="data">{{ $exam->examType->cost}} </span>рублей</p>
         </td>
         <td class="statement-td">
-            Вид документа, удостоверяющего личность <br><span class="data">{{ $student->document_type}}</span><br>
-            Серия: <span class="data">{{ $student->passport_series }}</span> Номер: <span class="data">{{ $student->passport_number }}</span><br>
-            Дата выдачи: <span class="data">{{ $student->issued_date->format('d.m.Y') }}</span><br>
-            Кем выдан: <span class="data">{{$student->issued_by}}</span>
+            Вид документа, удостоверяющего личность <br><span class="data">{{ $foreignNational->document_type}}</span><br>
+            Серия: <span class="data">{{ $foreignNational->passport_series }}</span> Номер: <span class="data">{{ $foreignNational->passport_number }}</span><br>
+            Дата выдачи: <span class="data">{{ $foreignNational->issued_date->format('d.m.Y') }}</span><br>
+            Кем выдан: <span class="data">{{$foreignNational->issued_by}}</span>
         </td>
     </tr>
     <tr>
@@ -186,7 +186,7 @@
     <tr>
         <td style="white-space:nowrap;">Я,</td>
         <td class="data" style="border-bottom:1px solid black; width:100%; padding-bottom: 1px;">
-            <span >{{ $student->surname }} {{ $student->name }} {{ $student->patronymic }}</span>
+            <span >{{ $foreignNational->surname }} {{ $foreignNational->name }} {{ $foreignNational->patronymic }}</span>
         </td>
     </tr>
 </table>
@@ -207,7 +207,7 @@
     <tr>
         <td style="white-space:nowrap;">Заказчик:</td>
         <td class="data" style="border-bottom:1px solid black; width:100%;  padding-bottom: 1px;">
-            {{ $student->surname }} {{ $student->name }} {{ $student->patronymic }}
+            {{ $foreignNational->surname }} {{ $foreignNational->name }} {{ $foreignNational->patronymic }}
         </td>
     </tr>
 </table>

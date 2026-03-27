@@ -98,7 +98,8 @@ export interface ExamForm{
     comment:string,
     examiners: Array<number>,
     time:string,
-    date:string
+    date:string,
+    capacity:number | null
 }
 
 export type Paginated<T> = {

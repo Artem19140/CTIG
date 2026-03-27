@@ -8,7 +8,6 @@ import { useAlert } from '../../../../Composables/useAlert';
 import { computed } from 'vue';
 import { useAuth } from '../../../../Composables/useAuth';
 import { Roles } from '../../../../Constants/Roles';
-import { useModals } from '../../../../Composables/useModals';
 
 const props = defineProps<{exam : Exam | null}>()
 
@@ -19,7 +18,6 @@ const form = useForm({
 const canEdit = computed(() => !props.exam?.foreignNationals?.length)
 
 const alert = useAlert()
-const modals= useModals()
 const prompt = usePromptDialog()
 
 const cancelExam = async () => {
@@ -61,13 +59,16 @@ const formCodes = async () => {
     if(!props.exam?.id){
         return
     }
-    //modals.open('pdf', {url:`/exams/${props.exam.id}/codes`})
     window.open(`/exams/${props.exam.id}/codes`)
 }
 
 const downloadStatement = () => {
   if(noForeignNationals())return
   window.location.href = `/exams/${props.exam?.id}/statement`
+}
+
+const downloadProtocol = () => {
+
 }
 
 const {can} = useAuth()
@@ -91,6 +92,12 @@ const {can} = useAuth()
         title="Скачать ведомость" 
         v-if="exam?.isPast"
         @click="downloadStatement" 
+      />
+
+      <AppListDropDownItem 
+        title="Скачать протокол" 
+        v-if="exam?.isPast"
+        @click="downloadProtocol" 
       />
 
       <AppListDropDownItem 

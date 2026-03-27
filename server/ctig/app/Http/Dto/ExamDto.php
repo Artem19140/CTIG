@@ -11,6 +11,7 @@ final readonly class ExamDto{
         public int $addressId,
         public int $examTypeId,
         public string $comment,
-        public array $examiners
+        public array $examiners,
+        public int $capacity
     ){}
 }

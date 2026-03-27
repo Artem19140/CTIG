@@ -50,11 +50,11 @@ tr:nth-child(even) td {
         <th>Паспорт</th>
     </tr>
 
-    @foreach ($students as $s)
+    @foreach ($foreignNationals as $f)
         <tr>
-            <td>{{ $s->id }}</td>
-            <td>{{ $s->surname }} {{ $s->name }} {{ $s->patronymic }}</td>
-            <td>{{ $s->passport_series }} {{ $s->passport_number }}</td>
+            <td>{{ $f->id }}</td>
+            <td>{{ $f->surname }} {{ $f->name }} {{ $f->patronymic }}</td>
+            <td>{{ $f->passport_series }} {{ $f->passport_number }}</td>
         </tr>
     @endforeach
 

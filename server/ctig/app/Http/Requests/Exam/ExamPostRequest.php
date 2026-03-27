@@ -32,19 +32,24 @@ class ExamPostRequest extends FormRequest
                     [
                         'required',
                         'integer', 
-                        'min:0'
+                        'min:1'
                     ], 
 
             'examTypeId' => [
                         'required',
                         'integer',
-                        'min:0',
+                        'min:1',
                     ],
 
             'comment' => [
                         'nullable',
                         'string',
                         'max:256'
+                    ],
+            'capacity' => [
+                        'required',
+                        'integer',
+                        'min:1'
                     ],
 
             'examiners' => [
@@ -67,7 +72,8 @@ class ExamPostRequest extends FormRequest
             \intval($this->input('addressId')),
             \intval($this->input('examTypeId')),
             \strval($this->input('comment')),
-            $this->input('examiners')
+            $this->input('examiners'),
+            \intval($this->input('capacity'))
         );
    }
 }

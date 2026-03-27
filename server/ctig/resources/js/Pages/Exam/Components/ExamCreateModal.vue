@@ -26,7 +26,8 @@ const form = useForm<ExamForm>({
     comment:'',
     examiners:[],
     time:'',
-    date:props.date ?? ''
+    date:props.date ?? '',
+    capacity:null
 })
 
 const http = useHttp()
@@ -111,6 +112,14 @@ const close = async (fn:  ()  => void) => {
                 v-model="form.addressId"
                 :error-messages="form.errors.addressId"
                 :loading="http.processing"
+            />
+
+            <v-number-input 
+                v-model="form.capacity"
+                :error-messages="form.errors.capacity"
+                control-variant="hidden"
+                label="Количество ИГ"
+                :min="0"
             />
 
             <AppAutocomplete 

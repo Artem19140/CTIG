@@ -17,16 +17,11 @@ class ExamResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-//         dd(
-//     now(),
-//     $this->begin_time_utc,
-//     $this->begin_time_utc->copy()->addMinutes($this->examType->duration)
-// );
         return [
             'id' => $this->id,
             'isCancelled' => $this->is_cancelled,
             'beginTime' => $this->begin_time->format('H:i d.m.Y'),
-            'foreignNationals' => ForeignNationalResource::collection($this->whenLoaded('foreignNational')),//здесь если есть результаты, то и их можно взять
+            'foreignNationals' => ForeignNationalResource::collection($this->whenLoaded('foreignNationals')),//здесь если есть результаты, то и их можно взять
             'sessionNumber' => $this->session,
             'capacity' => $this->capacity,
             'comment'=>$this->comment,

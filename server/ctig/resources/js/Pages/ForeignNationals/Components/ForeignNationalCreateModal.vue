@@ -379,6 +379,7 @@ watch(() => form.noMigrationCard, (val) => {
                 </v-card>
                   
             <template #actions>
+                <span class="text-red" v-if="form.hasErrors">Есть ошибки валидации полей формы</span>
                 <AddButton text="Добавить" 
                     :disabled="form.processing"
                     :loading="form.processing"

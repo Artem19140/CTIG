@@ -77,13 +77,13 @@ final class CreateExamAction{
                                             $examBeginTime->copy(),
                                             $user->organization->time_zone
                                         )->utc();
-        $exam = DB::transaction(function () use ($examDto, $user,$examEndTime, $examBeginTimeUtc,$examAddress) {
+        $exam = DB::transaction(function () use ($examDto, $user,$examEndTime, $examBeginTimeUtc) {
             $exam = Exam::create(
             [
                     'begin_time' => $examDto->beginTime,
                     'begin_time_utc' => $examBeginTimeUtc,
                     'address_id' => $examDto->addressId,
-                    'capacity' => $examAddress->max_capacity,
+                    'capacity' => $examDto->capacity,
                     'exam_type_id' => $examDto->examTypeId,
                     'comment' => $examDto->comment,
                     'creator_id'=> $user->id,

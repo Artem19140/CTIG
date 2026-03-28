@@ -116,8 +116,8 @@ export default {
                     {{item.attempts[0]?.finishedAt ? item.attempts[0]?.finishedAt : '-'}}
                 </template>
                 <template #item.hasPayment="{ item }">
-                    <v-icon :color="item ? 'green' : 'red'">
-                        {{ item ? 'mdi-check-circle' : 'mdi-close-circle' }}
+                    <v-icon :color="item.hasPayment ? 'green' : 'red'">
+                        {{ item.hasPayment ? 'mdi-check-circle' : 'mdi-close-circle' }}
                     </v-icon>
                 </template>
             </v-data-table>

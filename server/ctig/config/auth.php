@@ -67,6 +67,7 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
+            'remember' => 43200
         ],
         'foreignNationals' => [
             'driver' => 'eloquent',

@@ -24,12 +24,12 @@ const submit = () => {
     <form @submit.prevent="submit">
       <div class="flex flex-column items-center">
         <v-img width="90" src="/storage/images/tigr.png" />
-        <span class="text-base">Введите код из 4 цифр</span>
+        <span class="text-base">Введите код из 6 цифр</span>
       </div>
       <v-otp-input
           v-model="form.code"
           class="mb-8"
-          length="4"
+          length="6"
           variant="outlined"
       ></v-otp-input>
       
@@ -39,7 +39,7 @@ const submit = () => {
               color="primary"
               type="submit" 
               :loading="form.processing"
-              :disabled="form.code.length < 4 || form.processing"
+              :disabled="form.code.length < 6 || form.processing"
           >Войти
           </v-btn>
       </div>

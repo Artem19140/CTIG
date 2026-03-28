@@ -58,10 +58,10 @@ const cancell = async (foreignNationalId :number) => {
         @click:row="foreignNationalShowModal"
     >
         <template #item.hasPayment="{ item }">
-                <v-icon :color="item ? 'green' : 'red'">
-                    {{ item ? 'mdi-check-circle' : 'mdi-close-circle' }}
-                </v-icon>
-            </template>
+            <v-icon :color="item.hasPayment ? 'green' : 'red'">
+                {{ item.hasPayment ? 'mdi-check-circle' : 'mdi-close-circle' }}
+            </v-icon>
+        </template>
         <template #item.actions="{item}">
             <ThreeDotDropdown>
                 <AppListDropDownItem 

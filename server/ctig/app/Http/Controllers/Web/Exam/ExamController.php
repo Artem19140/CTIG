@@ -88,7 +88,7 @@ class ExamController
                                 StartExamSessionAction  $startExamSession
                             ){
         $request->validate([
-            'code' => ['required', 'string']
+            'code' => ['required', 'string', 'size:6']
         ]);
         $foreignNational =  $verifyCode->execute($request->input('code'));
         Auth::guard('foreignNationals')->login($foreignNational);

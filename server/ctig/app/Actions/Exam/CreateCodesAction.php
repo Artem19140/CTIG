@@ -37,8 +37,8 @@ final class CreateCodesAction{
             }
             
             do{
-                $rnd = random_int(1, 9999);
-                $code = str_pad($rnd, 4, '0', STR_PAD_LEFT);
+                $rnd = random_int(1, 999999);
+                $code = str_pad($rnd, 6, '0', STR_PAD_LEFT);
                 $saved = false;
                 
                 try{
@@ -48,9 +48,6 @@ final class CreateCodesAction{
                     $foreignNational->save();
                     $saved = true;
                 }catch(QueryException $e){
-                    // if ($e->getCode() !== '23000') {
-                    //     throw $e;
-                    // }
                     $saved = false;
                 }
             }while(!$saved);
@@ -62,9 +59,5 @@ final class CreateCodesAction{
         ]);
 
         return $pdf->stream('codes.pdf');
-    }
-
-    protected function createCode(){
-
     }
 }

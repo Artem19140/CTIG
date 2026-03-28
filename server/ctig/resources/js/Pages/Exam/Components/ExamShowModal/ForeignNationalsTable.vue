@@ -7,6 +7,7 @@ import { router } from '@inertiajs/vue3';
 import { Exam } from '../../../../interfaces/interfaces';
 import { useModals } from '../../../../Composables/useModals';
 import { attemptResultStatus } from '../../../../Helpers/heplers';
+import AppStatusChip from '../../../../Components/AppStatusChip/AppStatusChip.vue';
 
 const props = defineProps<{
     foreignNationals : any,
@@ -22,6 +23,7 @@ const headers = [
     {title : "ФИО",sortable: false, key: 'fullName', align: 'start' },
     {title : "Паспорт",sortable: false, key: 'fullPassport', align: 'start' },
     {title : "Результаты",sortable: false, key: 'results', align: 'center' },
+    {title : "Оплата",sortable: false, key: 'hasPayment', align: 'center' },
     {title : "",sortable: false, key: 'actions', align: 'end' },
 ]
 
@@ -44,10 +46,6 @@ const cancell = async (foreignNationalId :number) => {
         }
     })
 }
-
-const getAttemptResultLabel = (result: boolean) => {
-    return result ? 'Пройдено' : 'Не пройдено'
-}
 </script>
 
 <template>
@@ -59,6 +57,11 @@ const getAttemptResultLabel = (result: boolean) => {
         hover
         @click:row="foreignNationalShowModal"
     >
+        <template #item.hasPayment="{ item }">
+                <v-icon :color="item ? 'green' : 'red'">
+                    {{ item ? 'mdi-check-circle' : 'mdi-close-circle' }}
+                </v-icon>
+            </template>
         <template #item.actions="{item}">
             <ThreeDotDropdown>
                 <AppListDropDownItem 
@@ -67,6 +70,11 @@ const getAttemptResultLabel = (result: boolean) => {
                 />
                 <AppListDropDownItem 
                     title="Перенести запись" 
+                    @click="transfer"
+                    v-if="!exam?.isGoing && !exam?.isPast"
+                />
+                <AppListDropDownItem 
+                    title="Подтвердить оплату" 
                     @click="transfer"
                     v-if="!exam?.isGoing && !exam?.isPast"
                 />
@@ -80,13 +88,10 @@ const getAttemptResultLabel = (result: boolean) => {
             </ThreeDotDropdown>
         </template>
         <template #item.results="{ item }">
-            <v-chip
-                small
-                dark
+            <AppStatusChip
                 :color="attemptResultStatus(item?.attempts?.[0] ?? null, exam?.isPast).color"
-            >
-                {{ attemptResultStatus(item?.attempts?.[0] ?? null, exam?.isPast).text }}
-            </v-chip>
+                :text="attemptResultStatus(item?.attempts?.[0] ?? null, exam?.isPast).text"
+            />
         </template>
     </v-data-table>
 </template>

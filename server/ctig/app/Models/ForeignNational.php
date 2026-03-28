@@ -82,6 +82,22 @@ class ForeignNational extends Authenticatable {
         });
     }
 
+
+    protected function formattedPhone(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => $attributes['phone'] ? $this->formatPhone($attributes['phone']) : null
+        );
+    }
+
+    private function formatPhone(string $phone): string
+    {
+        if (str_starts_with($phone, '8')) {
+            $phone = '7' . substr($phone, 1);
+        }
+        return preg_replace('/(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})/', '+$1 ($2) $3-$4-$5', $phone);
+    }
+
 }
 
 

@@ -3,7 +3,8 @@ import { router } from '@inertiajs/vue3';
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
 import ExamActionsDropdown from '../Exam/Components/ExamShowModal/ExamActionsDropdown.vue';
 import BaseServerTable from '../../Components/BaseServerTable.vue';
-import { examStatus } from '../../Helpers/heplers';
+import { capacityColor, examStatus } from '../../Helpers/heplers';
+import AppStatusChip from '../../Components/AppStatusChip/AppStatusChip.vue';
 
 defineOptions({
   layout: EmployeeLayout,
@@ -50,23 +51,17 @@ const open = (event:Event, {item} : any) => {
                 title="Мониторинг"
             >
                 <template #item.capacity="{ item }">
-                    <v-chip
-                        small
-                        :color="item.capacity && item.foreignNationalsCount / item.capacity === 1 ? 'red' : 'grey lighten-2'"
-                        dark
-                    >
-                        {{ `${item.foreignNationalsCount}/${item.capacity}` }}
-                    </v-chip>
+                    <AppStatusChip
+                        :text="`${item.foreignNationalsCount}/${item.capacity}`"
+                        :color="capacityColor(item)"
+                    />
                 </template>
                 
                 <template #item.status="{ item }">
-                    <v-chip
-                        small
-                        dark
+                    <AppStatusChip
+                        :text="examStatus(item).text"
                         :color="examStatus(item).color.replace('text-', '')"
-                    >
-                        {{ examStatus(item).text }}
-                    </v-chip>
+                    />
                 </template>
                 <template #item.actions="{ item }">
                     <ExamActionsDropdown :exam="item" />

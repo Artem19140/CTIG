@@ -9,6 +9,7 @@ use App\Models\Exam;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Gate;
 
 class ExamMonitoringController
 {
@@ -29,21 +30,14 @@ class ExamMonitoringController
         ]);
     }
 
-    public function show(Request $request, Exam $exam){
-        //Только свой тестер и только тестер!
-        $user = $request->user();
-        
-        $canGet = $exam->examiners()->where('examiner_id', $user->id)->first();
+    public function show(Exam $exam){
+        Gate::authorize('exam-manage-access', $exam);
 
-        if(!$canGet){
-            abort(404);
-        }
         if($exam->isCompleted()){
             throw new BusinessException('Экзамен уже прошел');
         }
 
         $exam->load([
-            'examType',
             'foreignNationals.attempts' => fn ($query) => $query->where('exam_id', $exam->id)
         ]);
         
@@ -51,7 +45,6 @@ class ExamMonitoringController
             'foreignNationals' => fn () => ForeignNationalResource::collection($exam->foreignNationals),
             'exam' => new ExamResource($exam),
             'hasSpeakingTasks' => $exam->examType->has_speaking_tasks,
-            'tasksCount' =>   $exam->examType->tasks_count
         ]);
     }
 }

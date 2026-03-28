@@ -104,6 +104,8 @@ class AttemptController extends Controller
     }
 
     public function speaking(Attempt $attempt){
+        $exam = Exam::findOrFail($attempt->exam_id);
+        Gate::authorize('exam-manage-access', $exam);
         if($attempt->isBanned()){
             throw new BusinessException('Попытка заблокирована');
         }
@@ -160,6 +162,8 @@ class AttemptController extends Controller
     }
 
     public function tasksToCheck(Attempt $attempt){
+        $exam = Exam::findOrFail($attempt->exam_id);
+        Gate::authorize('exam-manage-access', $exam);
         $uncheckedAnswers =  $attempt->answers()
                                     ->with(['taskVariant.task'])
                                     ->where('is_checked', false)

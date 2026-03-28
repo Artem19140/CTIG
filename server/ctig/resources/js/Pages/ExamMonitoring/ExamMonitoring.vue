@@ -58,6 +58,7 @@ const openForeignNational = (event : Event, {item} :any) => {
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
 import { useModals } from '../../Composables/useModals';
 import { onMounted, onUnmounted } from 'vue';
+import AppStatusChip from '../../Components/AppStatusChip/AppStatusChip.vue';
 
 export default {
     layout: EmployeeLayout,
@@ -101,14 +102,11 @@ export default {
                     <DropDownForeignNationalsList :foreignNational="item" :hasSpeakingTasks="hasSpeakingTasks" />
                 </template>
                 <template #item.status="{ item }">
-                    <v-chip
+                    <AppStatusChip
                         v-if="item.attempts.length"
                         :color="attemptStatus(item.attempts[0].status).color.replace('text-', '')"
-                        dark
-                        small
-                    >
-                        {{ attemptStatus(item.attempts[0].status).text }}
-                    </v-chip>
+                        :text="attemptStatus(item.attempts[0].status).text"
+                    />
                     <span v-else>-</span>
                 </template>
                 <template  #item.startTime="{ item }">

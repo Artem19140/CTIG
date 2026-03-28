@@ -27,6 +27,7 @@ use App\Http\Resources\Exam\ExamResource;
 use App\Http\Requests\Exam\ExamPostRequest;
 use App\Actions\Exam\CreateExamAction;
 
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class ExamController
@@ -64,8 +65,13 @@ class ExamController
     public function show(Exam $exam)
     {
         $exam->load(['foreignNationals.attempts' => function (HasMany $query) use($exam){
-            $query->where('exam_id', $exam->id);
-        }, 'examiners', 'address', 'examType']);
+                        $query->where('exam_id', $exam->id);
+                    }, 
+                    'examiners', 
+                    'address',
+                    'examType'
+                ]);
+        $exam->loadCount('foreignNationals');
         return new ExamResource($exam);
     }
 
@@ -103,6 +109,7 @@ class ExamController
 
     public function formCodes(Exam $exam, CreateCodesAction $createCodes)
     {
+        Gate::authorize('exam-manage-access', $exam);
         return $createCodes->execute($exam);
     }
 

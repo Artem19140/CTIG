@@ -5,7 +5,8 @@ import ForeignNationalsTable from './ForeignNationalsTable.vue';
 import { onMounted, ref } from 'vue';
 import { Exam } from '../../../../interfaces/interfaces';
 import { useHttp } from '@inertiajs/vue3';
-import { examStatus } from '../../../../Helpers/heplers';
+import { capacityColor, examStatus } from '../../../../Helpers/heplers';
+import AppStatusChip from '../../../../Components/AppStatusChip/AppStatusChip.vue';
 
 const props = defineProps<{
     examId:number
@@ -52,14 +53,11 @@ onMounted( async () => {
         <template #title>
             <div class="flex gap-2">
                 Экзамен
-                <v-chip
-                    small
-                    dark
+                <AppStatusChip
                     v-if="exam"
                     :color="examStatus(exam).color.replace('text-', '')"
-                >
-                    {{ examStatus(exam).text }}
-                </v-chip>
+                    :text="examStatus(exam).text"
+                />
             </div>
         </template>
         <template #titleActions>
@@ -100,13 +98,12 @@ onMounted( async () => {
                     <div class="flex justify-between">
                         <div class="flex items-center gap-2">
                             <v-list-item-subtitle>Запись</v-list-item-subtitle>
-                            <v-chip
-                                small
-                                :color="(exam?.foreignNationals?.length ?? 0) / (exam?.capacity ?? 1) === 1 ? 'red' : 'grey lighten-2'"
-                                dark
-                            >
-                                {{ `${exam?.foreignNationals?.length ?? 0}/${exam?.capacity ?? 0}` }}
-                            </v-chip>
+                            <AppStatusChip
+                                :color="capacityColor(exam)"
+                                :text="`${exam?.foreignNationals?.length ?? 0}/${exam?.capacity ?? 0}`"
+                            />
+                               
+                           
                         </div>
                         <v-btn border variant="text">Результаты</v-btn>
                     </div>

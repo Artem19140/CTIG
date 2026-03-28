@@ -1,19 +1,19 @@
 import { Exam } from "../interfaces/interfaces"
 
 
-export const formatterDate = (date:string) => {
-  if(!date){
-      return '-'
-  }
-  return new Date(date).toLocaleDateString('ru-RU')
-}
+// export const formatterDate = (date:string) => {
+//   if(!date){
+//       return '-'
+//   }
+//   return new Date(date).toLocaleDateString('ru-RU')
+// }
 
-export const formatterTime = (date:string) :string => {
-  if(!date){
-    return '-'
-  }
-  return new Date(date).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
-}
+// export const formatterTime = (date:string) :string => {
+//   if(!date){
+//     return '-'
+//   }
+//   return new Date(date).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
+// }
 
 export const downloadFile = (blob: Blob) => {
   if(!blob) return
@@ -64,7 +64,7 @@ export const attemptResultStatus = (
 ) => {
 
   if(!attempt && !isPast){
-    return { text: "-", color: '' };
+    return { text: "-", color: 'text-grey' };
   }
 
   if (!attempt && isPast) {
@@ -87,3 +87,8 @@ export const attemptResultStatus = (
     ? { text: "Пройдено", color: "text-green" }
     : { text: "Не пройдено", color: "text-red" };
 };
+
+export const capacityColor = (exam : Exam | null) => {
+  if(!exam) return 'grey lighten-2'
+  return (exam?.capacity && exam?.foreignNationalsCount / exam?.capacity === 1) ? 'green' : 'grey lighten-2'
+}

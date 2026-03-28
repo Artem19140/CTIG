@@ -8,7 +8,8 @@ import { useForm } from '@inertiajs/vue3';
 import AddButton from '../../../Components/AddButton/AddButton.vue';
 import { useAuth } from '../../../Composables/useAuth';
 import { Roles } from '../../../Constants/Roles';
-import { examStatus } from '../../../Helpers/heplers';
+import { capacityColor, examStatus } from '../../../Helpers/heplers';
+import AppStatusChip from '../../../Components/AppStatusChip/AppStatusChip.vue';
 
 const props = defineProps<{
     exams: Paginated<Exam>,
@@ -61,22 +62,17 @@ const {can} = useAuth()
             <ExamTableDropDown />
         </template>
         <template #item.foreignNationalsCount="{ item }">
-            <v-chip
-                small
-                :color="item.capacity && item.foreignNationalsCount / item.capacity === 1 ? 'red' : 'grey lighten-2'"
+            <AppStatusChip
+                :text="`${item.foreignNationalsCount}/${item.capacity}`"
+                :color="capacityColor(item)"
                 dark
-            >
-                {{ `${item.foreignNationalsCount}/${item.capacity}` }}
-            </v-chip>
+            />
         </template>
         <template #item.status="{ item }">
-            <v-chip
-                small
-                dark
+            <AppStatusChip
+                :text="examStatus(item).text"
                 :color="examStatus(item).color.replace('text-', '')"
-            >
-                {{ examStatus(item).text }}
-            </v-chip>
+            />
         </template>
     </BaseServerTable>
 </template>

@@ -34,7 +34,7 @@ class ForeignNationalResource extends JsonResource
             'addressReg' => $this->when($profile,$this->resource->address_reg),
             'migrationCardRequisite' => $this->when($profile,$this->resource->migration_card_requisite),
             'citizenship' => $this->when($profile,$this->resource->citizenship),
-            'phone' => $this->when($profile,$this->resource->phone),
+            'phone' => $this->when($profile,$this->resource->formatted_phone),
             'creator'=>new UserResource($this->whenLoaded('creator')),
             'attempts' => AttemptResource::collection($this->whenLoaded('attempts')),
             'exams' => ExamResource::collection($this->whenLoaded('exams')),

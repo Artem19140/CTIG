@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { formatterDate } from '../../../Helpers/heplers';
 import ForeignNationalCreateModal from './ForeignNationalCreateModal.vue';
 import type { ForeignNational, Paginated } from '../../../interfaces/interfaces';
 import BaseServerTable from '../../../Components/BaseServerTable.vue';
@@ -19,9 +18,9 @@ const props = defineProps<{
 }>()
 
 const headers = [
-    {title : "ID",sortable: false, key: 'id', align: 'start' },
-    {title : "ФИО",sortable: false, key: 'fullName', align: 'start' },
-    {title : "Паспорт",sortable: false, key: 'fullPassport', align: 'start' },
+    {title : "ID",sortable: false, key: 'id', align: 'center' },
+    {title : "ФИО",sortable: false, key: 'fullName', align: 'center' },
+    {title : "Паспорт",sortable: false, key: 'fullPassport', align: 'center' },
     {title : "Дата рождения",sortable: false, key: 'dateBirth', align: 'center' }
 ]
 
@@ -55,10 +54,6 @@ const formFilters = useForm({
                 @click="open('foreignNationalCreate')"
             />
             <ForeignNationalCreateModal />
-        </template>
-
-        <template  #item.dateBirth="{ item }">
-            {{ formatterDate(item?.dateBirth)  ?? '-'}}
         </template>
 
     </BaseServerTable>

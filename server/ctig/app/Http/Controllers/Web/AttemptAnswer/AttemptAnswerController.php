@@ -60,6 +60,8 @@ class AttemptAnswerController extends Controller
                             FinalizeAttemptCheckingAction $finalizeAttemptChecking
                         ){
         //лучше массивом объектов обновлять, чтобы за раз все выставить и сохранить на фронте
+        // $exam = Exam::findOrFail($attempt->exam_id);
+        // Gate::authorize('exam-manage-access', $exam);
         $request->validate([
             'mark' => ['required', 'integer', 'min:0'] //нужно проверить, что у самого задания оценка не меньше марк
         ]);

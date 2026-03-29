@@ -16,7 +16,7 @@ const isOpen = defineModel<boolean>()
 
 const enroll = async () => {
     const {open} = useAlert()
-    
+    console.log(examId.value)
     if(examId.value === null){
         open('Выберите время экзамена')
         return
@@ -27,7 +27,6 @@ const enroll = async () => {
     form.post(`exams/${examId.value}/foreign-nationals`,
     {
         onSuccess: (page) => {
-            console.log(page.flash)
             if(page.flash.redirectUrl){
                 window.open(String(page.flash.redirectUrl))
                 isOpen.value=false
@@ -38,7 +37,8 @@ const enroll = async () => {
 }
 
 const form = useForm({
-    foreignNationalId:props.foreignNational?.id ?? null
+    foreignNationalId:props.foreignNational?.id ?? null,
+    hasPayment:false
 })
 
 const {confirmOpen} = useConfirmDialog()
@@ -66,6 +66,11 @@ const canClose  = async (fn: () => void) => {
         <ExamEnrollment 
             v-model="examId"
             :foreignNational-id="foreignNational?.id"
+        />
+        <v-checkbox
+            label="Есть оплата"
+            v-model="form.hasPayment"
+            :error-messages="form.errors.hasPayment"
         />
         <template #actions>
             <PrimaryButton

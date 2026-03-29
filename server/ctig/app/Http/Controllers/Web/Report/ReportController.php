@@ -48,10 +48,13 @@ class ReportController extends Controller
     }
 
     public function available(FrdoReportRequest $request, CheckAvailableFrdoGenerateAction $checkAvailableGenerate){
-        $isAvailable =  $checkAvailableGenerate->execute($request->input('examDate'));
+        $checkAvailableGenerate->execute($request->input('examDate'));
         return response()->json([
-            'available' => $isAvailable
-        ], 200);
+            'url' => route('reports.frdo', [
+                'examDate' => $request->validated('examDate'),
+                'success' => $request->validated('success')
+            ])
+        ]);
     }
 
     public function statement(
@@ -84,6 +87,6 @@ class ReportController extends Controller
             $generateFlatTable->execute( $request->validated('dateFrom'), $request->validated('dateTo'),$handle);
 
             fclose($handle); 
-        }, 'report.csv');  
+        }, 'report1.csv');  
     }
 }

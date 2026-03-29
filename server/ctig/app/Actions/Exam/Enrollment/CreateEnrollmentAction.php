@@ -32,11 +32,12 @@ final class CreateEnrollmentAction{
             throw new BusinessException('Экзмен уже прошел или идет');
         }
 
-        if($exam->is_cancelled){
+        if($exam->isCancelled()){
             throw new BusinessException('Экзамен отменен');
         }
 
         $exam->load(['foreignNationals']);
+
         $foreignNationals=$exam->foreignNationals;
 
         if($foreignNationals->contains($foreignNational)){
@@ -53,9 +54,11 @@ final class CreateEnrollmentAction{
                                         ->exists();
 
         if($foreignNationalExamsConflict){
-            throw new BusinessException('На это время у ИГ уже существует запись');
+            throw new BusinessException('На это время у ИГ уже существует запись на другой экзамен');
         }
+
         $regNumber = $this->getRegNumber->execute();
+        
         $exam->foreignNationals()->attach($foreignNational, [
             'reg_number' =>$regNumber, 
             'creator_id' => $user->id,
@@ -63,6 +66,5 @@ final class CreateEnrollmentAction{
             'has_payment' => $hasPayment
         ]);
         return $foreignNational;
-        //return $this->createStudentStatement->execute($exam->id, $student,$user);
     }
 }

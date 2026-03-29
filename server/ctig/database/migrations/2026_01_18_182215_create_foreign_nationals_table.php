@@ -12,14 +12,14 @@ return new class extends Migration
             $table->id()->index();
             $table->string('surname');
             $table->string('name');
-            $table->string('patronymic')->nullable();
+            $table->string('patronymic')->nullable()->default(null);
             $table->date('date_birth');
             $table->string('surname_latin');
             $table->string('name_latin');
             $table->string('document_type')->default('Паспорт');
-            $table->string('patronymic_latin')->nullable();
-            $table->string('passport_number');
-            $table->string('passport_series');
+            $table->string('patronymic_latin')->nullable()->default(null);
+            $table->string('passport_number')->nullable()->default(null);
+            $table->string('passport_series')->nullable()->default(null);
             $table->unique(['passport_series', 'passport_number', 'citizenship']);
             $table->string('issued_by');
             $table->date('issued_date');

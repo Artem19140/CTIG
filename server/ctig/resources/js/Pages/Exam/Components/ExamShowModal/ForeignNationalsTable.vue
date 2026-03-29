@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import axios from 'axios';
-import { useConfirmDialog } from '../../../../Composables/useConfirmDialog';
-import ThreeDotDropdown from '../../../../Components/ThreeDotDropdown/ThreeDotDropdown.vue';
-import AppListDropDownItem from '../../../../Components/AppListDropDownItem/AppListDropDownItem.vue';
-import { router } from '@inertiajs/vue3';
-import { Exam } from '../../../../interfaces/interfaces';
+
+import { Exam, ForeignNational } from '../../../../interfaces/interfaces';
 import { useModals } from '../../../../Composables/useModals';
 import { attemptResultStatus } from '../../../../Helpers/heplers';
 import AppStatusChip from '../../../../Components/AppStatusChip/AppStatusChip.vue';
+import ForeignNationalsTableDropdown from './ForeignNationalsTableDropdown.vue';
+import { ref } from 'vue';
 
 const props = defineProps<{
-    foreignNationals : any,
+    foreignNationals : ForeignNational[],
     exam: Exam
 }>()
 
@@ -26,26 +24,9 @@ const headers = [
     {title : "Оплата",sortable: false, key: 'hasPayment', align: 'center' },
     {title : "",sortable: false, key: 'actions', align: 'end' },
 ]
-
-const download = (foreignNationalId :number) => {
-    window.open(`foreignNationals/${foreignNationalId}/application-forms?examId=${props.exam?.id}`)
-}
-
-const transfer = () => {
-    axios.post(``)
-}
-const {confirmOpen} = useConfirmDialog()
-const cancell = async (foreignNationalId :number) => {
-    const ok = await confirmOpen('Отменить запись на экзамен?')
-    if(!ok){
-        return
-    }
-    router.delete(`exams/${props.exam?.id}/foreign-nationals/${foreignNationalId}`,{
-        onSuccess: (page) =>{
-            const success = page.flash.success
-        }
-    })
-}
+props.foreignNationals.forEach(fn => {
+    if (fn.isLoading === undefined) fn.isLoading = false
+})
 </script>
 
 <template>
@@ -57,41 +38,25 @@ const cancell = async (foreignNationalId :number) => {
         hover
         @click:row="foreignNationalShowModal"
     >
-        <template #item.hasPayment="{ item }">
-            <v-icon :color="item.hasPayment ? 'green' : 'red'">
+        <template #item.hasPayment="{ item }" >
+            <v-icon :color="item.hasPayment ? 'green' : 'red'" v-if="!item.isLoading">
                 {{ item.hasPayment ? 'mdi-check-circle' : 'mdi-close-circle' }}
             </v-icon>
+            <v-progress-circular v-else indeterminate color="primary" />
         </template>
         <template #item.actions="{item}">
-            <ThreeDotDropdown>
-                <AppListDropDownItem 
-                    title="Скачать заявление" 
-                    @click="download(item.id)"
-                />
-                <AppListDropDownItem 
-                    title="Перенести запись" 
-                    @click="transfer"
-                    v-if="!exam?.isGoing && !exam?.isPast"
-                />
-                <AppListDropDownItem 
-                    title="Подтвердить оплату" 
-                    @click="transfer"
-                    v-if="!exam?.isGoing && !exam?.isPast"
-                />
-
-                <AppListDropDownItem 
-                    v-if="!exam?.isGoing && !exam?.isPast"
-                    title="Отменить запись" 
-                    @click="cancell(item.id)"
-                    color="text-red"
-                />
-            </ThreeDotDropdown>
+            <ForeignNationalsTableDropdown 
+                :foreign-national="item"
+                :exam="exam"
+                :loading="item"
+            />
         </template>
         <template #item.results="{ item }">
             <AppStatusChip
                 :color="attemptResultStatus(item?.attempts?.[0] ?? null, exam?.isPast).color"
                 :text="attemptResultStatus(item?.attempts?.[0] ?? null, exam?.isPast).text"
-            />
+                
+            /> 
         </template>
     </v-data-table>
 </template>

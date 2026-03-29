@@ -13,31 +13,33 @@ class TransferEnrollmentActon{
     public function __construct(
         protected CreateEnrollmentAction $createEnrollment
     ){}
-    public function exectute(Exam $exam, ForeignNational $foreignNational, User $user){
-        $isEnrollmentExists = $exam->foreignNationals()->where('foreign_national_id', $foreignNational->id)->exists();
+    public function exectute(int $oldExamId, int $newExamId, ForeignNational $foreignNational, User $user){
+        $oldExam = Exam::find($oldExamId);
+        $newExam = Exam::find($newExamId);
 
-        if(!$isEnrollmentExists){
-            throw new BusinessException('Такой записи на экзамен не существует');
-        }
-
-        if($exam->isCompleted() || $exam->isGoing()){
+        if($oldExam->isCompleted() || $oldExam->isGoing()){
             throw new BusinessException('Нельзя перенести запись с прошедшего или идущего экзамена');
         }
 
-        $newExam = Exam::find(request()->input('examId'));
-        if(!$newExam){
-            throw new EntityNotFoundExсeption('Экзамен для переноса');
+        $oldEnrollment = $oldExam->foreignNationals()->where('foreign_national_id', $foreignNational->id)->first();
+
+        if(!$oldEnrollment){
+            throw new BusinessException('Такой записи на экзамен не существует');
         }
-        
+
+        if($oldExam->exam_type_id !== $newExam->exam_type_id ){
+            throw new BusinessException('Запись можно перенести только на тот же вид экзамена');
+        }
+
         $isEnrollmentExistsNewExam = $newExam->foreignNationals()->where('foreign_national_id', $foreignNational->id)->exists();
 
         if($isEnrollmentExistsNewExam){
-            throw new BusinessException('ИГ уже имеет запись на экзамене для переноса');
+            throw new BusinessException('ИГ уже имеет запись на экзамене, на который Вы хотите его перенести');
         }
 
-        DB::transaction(function () use($newExam, $foreignNational, $exam, $user){
-            $exam->foreignNationals()->detach($foreignNational->id);
-            $this->createEnrollment->execute($newExam, $foreignNational->id, $user);
+        DB::transaction(function () use($newExam, $foreignNational, $oldExam, $user, $oldEnrollment){
+            $oldExam->foreignNationals()->detach($foreignNational->id);
+            $this->createEnrollment->execute($newExam, $foreignNational->id, $user, $oldEnrollment->pivot->has_payment);
         });
     }
 }

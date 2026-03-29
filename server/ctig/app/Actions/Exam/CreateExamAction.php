@@ -19,15 +19,7 @@ final class CreateExamAction{
         
         $examType =  ExamType::find($examDto->examTypeId);
         $examAddress = Address::find($examDto->addressId);
-        
-        if(!$examType){
-            throw new EntityNotFoundExсeption('Тип экзамена');
-        }
-
-        if(!$examAddress){
-            throw new EntityNotFoundExсeption('Адрес');
-        }
-
+    
         if(!$examAddress->is_active){
             throw new BusinessException('Адрес проведения экзамена неактуален');
         }
@@ -40,6 +32,10 @@ final class CreateExamAction{
 
         if($examBeginTime < Carbon::now()){
             throw new BusinessException('Экзамен нельзя создать на прошедшие даты');
+        }
+
+        if($examDto->capacity > $examAddress->max_capacity){
+            throw new BusinessException("Площадка вмещает максимум $examAddress->max_capacity человек");
         }
 
         $examiners = User::with('roles')->whereIn('id', $examDto->examiners)->get();

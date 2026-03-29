@@ -26,7 +26,6 @@ watch(() => http.examTypeId, async () => {
   http.get('/exams/available',{
     
     onSuccess:(response:any) => {
-      console.log(response)
       examDates.value = response
     }
   })
@@ -52,7 +51,6 @@ onUnmounted(() => {
     :items="examDates"
     :disabled="http.processing"
     :loading="http.processing"
-
     item-title="beginTime"
     item-value="id"
     label="Дата и время"

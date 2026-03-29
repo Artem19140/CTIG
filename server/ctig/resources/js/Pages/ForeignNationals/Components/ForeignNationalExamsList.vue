@@ -17,7 +17,7 @@ const attemptStatus = (attempt: Attempt): string => {
     <v-list>
         <v-list-item>
             <v-list-item-subtitle class="mb-4">Экзамены</v-list-item-subtitle>
-            <v-list-item-title v-if="exams?.length === 0">-</v-list-item-title>
+            <v-list-item-title class="text-center" v-if="exams?.length === 0">Записей на экзамены не было</v-list-item-title>
                 <v-list 
                     scrollable 
                     max-height="200"

@@ -56,16 +56,17 @@ const permission = getExamPermissions(props.exam)
 </script>
 
 <template>
-    <ThreeDotDropdown v-if="!exam?.isCancelled">
+    <ThreeDotDropdown>
       <AppListDropDownItem 
         title="Скачать кода" 
-        :disabled="!permission.canDownloadStatement"
+        :disabled="!permission.canDownloadCodes"
         @click="formCodes" 
         v-if="can([Roles.EXAMINER])"
       />
 
       <AppListDropDownItem 
-        title="Скачать список" 
+        title="Скачать список"
+        :disabled="!permission.canDownloadStudList"  
         @click="downloadForeignNationalsList" 
       />
 

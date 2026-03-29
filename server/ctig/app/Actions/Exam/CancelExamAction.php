@@ -6,12 +6,11 @@ use App\Exceptions\BusinessException;
 use App\Models\Exam;
 class CancelExamAction{
     public function execute(Exam $exam){
+        if($exam->isCancelled()){
+            throw new BusinessException('Экзамен уже отменен');
+        }
         if($exam->isCompleted() || $exam->isGoing()){
             throw new BusinessException('Экзамен уже прошел или идет');
-        }
-
-        if($exam->is_cancelled){
-            throw new BusinessException('Экзамен уже отменен');
         }
 
         //Всем гражданам поставить запись - отменено

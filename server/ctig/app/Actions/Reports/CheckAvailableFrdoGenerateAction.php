@@ -8,22 +8,25 @@ use App\Models\Attempt;
 use Carbon\Carbon;
 
 class CheckAvailableFrdoGenerateAction{
-    public function execute(string $examDate): bool{
+    public function execute(string $examDate){
         $examDate = Carbon::parse($examDate);
         $attemptsExists = Attempt::where('finished_at', '>=',$examDate->copy()->startOfDay())
                             ->where('finished_at', '<=',$examDate->copy()->endOfDay())
                             ->exists();
+        $formattedDate = $examDate->copy()->format('d.m.Y');
         if(!$attemptsExists){
-            return false;    
+            throw new BusinessException("Попыток экзамена за $formattedDate нет");    
         }
+        
+        //можно тогда еще проверять, что для конкрентногго отчета есть или нет
+
 
         $uncheckedAttempts = Attempt::where('finished_at', '>=',$examDate->copy()->startOfDay())
                 ->where('finished_at', '<=',$examDate->copy()->endOfDay())
                 ->whereIn('status', AttemptStatus::unChecked())
                 ->exists();
         if(!$uncheckedAttempts){
-            return false;
+            throw new BusinessException("Не все попытоки за $formattedDate проверены");  
         }
-        return true;
     }
 }

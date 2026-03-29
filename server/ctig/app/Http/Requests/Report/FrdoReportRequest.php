@@ -26,7 +26,7 @@ class FrdoReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'success' =>['nullable', 'boolean'],
+            'success' =>['required', 'boolean'],
             'examDate' => ['required', 'date']
         ];
     }

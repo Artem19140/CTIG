@@ -17,7 +17,7 @@ class CheckExamRelevanceAction{
             }
         }
 
-        if($exam->is_cancelled){
+        if($exam->isCancelled()){
             throw new BusinessException('Экзамен отменен');
         }
 

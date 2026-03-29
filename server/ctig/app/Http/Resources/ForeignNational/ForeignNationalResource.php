@@ -39,6 +39,7 @@ class ForeignNationalResource extends JsonResource
             'attempts' => AttemptResource::collection($this->whenLoaded('attempts')),
             'exams' => ExamResource::collection($this->whenLoaded('exams')),
             'passportScan' => $this->when($profile,$this->passport_scan_path),
+            'passportTranslateScan' => $this->when($profile,$this->passport_translate_scan),
             'photo' => $this->when($profile,$this->photo_path),
             'createdAt' => $this->when($profile,$this->created_at),
             'fullName' => $this->full_name,

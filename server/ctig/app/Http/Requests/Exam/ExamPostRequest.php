@@ -32,13 +32,15 @@ class ExamPostRequest extends FormRequest
                     [
                         'required',
                         'integer', 
-                        'min:1'
+                        'min:1',
+                        'exists:addresses,id'
                     ], 
 
             'examTypeId' => [
                         'required',
                         'integer',
                         'min:1',
+                        'exists:exam_types,id'
                     ],
 
             'comment' => [

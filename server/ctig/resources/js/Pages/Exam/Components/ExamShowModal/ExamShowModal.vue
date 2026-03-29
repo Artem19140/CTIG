@@ -22,7 +22,6 @@ const examinersList = (examinersList :Array<any>) => {
     return examinersList.map(s => s.fullName).join(', ');
 }
 
-
 const getExam = async () => {
     http.get(`/exams/${props.examId}`,{
         onSuccess:(response : any)=>{

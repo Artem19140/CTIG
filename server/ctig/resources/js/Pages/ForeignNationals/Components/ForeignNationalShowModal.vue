@@ -64,8 +64,8 @@ const showDocument = (url :string) => {
                         />
                     </v-avatar>
                 <div class="flex flex-col justify-center ml-8">
-                    <div class="text-headline-small">{{`${foreignNational?.surname} ${foreignNational?.name} ${foreignNational?.patronymic}`}}</div>
-                    <div class="text-subtitle-1">{{`${foreignNational?.surnameLatin} ${foreignNational?.nameLatin} ${foreignNational?.patronymicLatin}`}}</div>
+                    <div class="text-headline-small">{{`${foreignNational?.surname} ${foreignNational?.name} ${foreignNational?.patronymic ?? ''} `}}</div>
+                    <div class="text-subtitle-1">{{`${foreignNational?.surnameLatin} ${foreignNational?.nameLatin} ${foreignNational?.patronymicLatin ?? ''}`}}</div>
                     <div class="text-subtitle-2">{{foreignNational?.dateBirth}}</div> 
                 </div>
                 </div>
@@ -100,15 +100,32 @@ const showDocument = (url :string) => {
         <v-card-text>
             <v-list>
                 <v-list-item>
-                    <v-list-item-subtitle>Скан паспорта</v-list-item-subtitle>
-                    <v-list-item-title v-if="!foreignNational?.passportScan">-</v-list-item-title>
-                    <v-img
-                        v-else 
-                        :width="50"
-                        class="mt-4 cursor-pointer hover:opacity-80 transition-opacity"
-                        src="https://cdn-icons-png.flaticon.com/512/9034/9034536.png"
-                        @click="showDocument(foreignNational?.passportScan)"
-                    ></v-img>
+                    <v-contaiter>
+                        <v-row>
+                            <div>
+                                <v-list-item-subtitle>Скан паспорта</v-list-item-subtitle>
+                                <v-list-item-title v-if="!foreignNational?.passportScan">-</v-list-item-title>
+                                <v-img
+                                    v-else 
+                                    :width="50"
+                                    class="mt-4 cursor-pointer hover:opacity-80 transition-opacity"
+                                    src="https://cdn-icons-png.flaticon.com/512/9034/9034536.png"
+                                    @click="showDocument(foreignNational?.passportScan)"
+                                ></v-img>
+                            </div>
+                            <div>
+                                <v-list-item-subtitle>Скан перевода паспорта</v-list-item-subtitle>
+                                <v-list-item-title v-if="!foreignNational?.passportTranslateScan">-</v-list-item-title>
+                                <v-img
+                                    v-else 
+                                    :width="50"
+                                    class="mt-4 cursor-pointer hover:opacity-80 transition-opacity"
+                                    src="https://cdn-icons-png.flaticon.com/512/9034/9034536.png"
+                                    @click="showDocument(foreignNational?.passportTranslateScan)"
+                                ></v-img>
+                            </div>
+                        </v-row>
+                    </v-contaiter>
                 </v-list-item>
             </v-list>
         </v-card-text>

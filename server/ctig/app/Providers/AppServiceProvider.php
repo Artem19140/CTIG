@@ -12,6 +12,8 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Database\Eloquent\Model;
+use Inertia\Inertia;
+use Inertia\ExceptionResponse;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -41,6 +43,15 @@ class AppServiceProvider extends ServiceProvider
         );
         Model::preventSilentlyDiscardingAttributes();
         Model::preventAccessingMissingAttributes();
+
+        Inertia::handleExceptionsUsing(function (ExceptionResponse $response) {
+            if (in_array($response->statusCode(), [403, 404, 500, 503])) {
+                return $response->render('ErrorPage', [
+                    'status' => $response->statusCode(),
+                ])->withSharedData();
+            }
+        });
+
         RateLimiter::for('api', function (Request $request) {
         return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
     });

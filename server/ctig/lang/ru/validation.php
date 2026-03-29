@@ -155,7 +155,7 @@ return [
         'array' => 'The :attribute field must contain :size items.',
         'file' => 'The :attribute field must be :size kilobytes.',
         'numeric' => 'The :attribute field must be :size.',
-        'string' => 'The :attribute field must be :size characters.',
+        'string' => 'Поле :attribute должно состоять из :size символов.',
     ],
     'starts_with' => 'The :attribute field must start with one of the following: :values.',
     'string' => 'Значение поля :attribute должно быть строкой.',

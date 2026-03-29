@@ -12,10 +12,16 @@ class ForeignNationalPostRequest extends FormRequest
     {
         return true;
     }
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'phone' => preg_replace('/\D/', '', $this->phone),
+        ]);
+    }
     public function rules(): array
     {
         $countries = collect(json_decode(file_get_contents(storage_path('app/public/countries.json')), true))
-                    ->pluck('value') // получаем массив всех кодов
+                    ->pluck('value')
                     ->toArray();
         return [ 
             'hasPayment' =>
@@ -128,7 +134,8 @@ class ForeignNationalPostRequest extends FormRequest
             'phone' =>
                 [
                     'required',
-                    'string'
+                    'string',
+                    'size:11'
                 ],
             'examId'=> [
                     'required',
@@ -147,11 +154,11 @@ class ForeignNationalPostRequest extends FormRequest
                 ],
             'passportScan' => [
                     'required', 
-                    File::types(['pdf'])->max(4096) //application/pdf	
+                    File::types(['pdf'])->max(4096)
                 ],
             'photoScan' => [
                     'nullable', 
-                    File::types(['pdf'])->max(4096) //application/pdf	
+                    File::types(['pdf'])->max(4096) 
                 ],
         ];
     }

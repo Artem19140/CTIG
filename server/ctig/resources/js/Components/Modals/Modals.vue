@@ -11,6 +11,7 @@ import AttemptCheckingModal from '../../Pages/AttemptsChecking/AttemptCheckingMo
 import PdfDialogViewer from '../PdfDialogViewer/PdfDialogViewer.vue';
 import ExamCommentModal from '../../Pages/ExamMonitoring/ExamCommentModal.vue';
 import EmployeeCreateModal from '../../Pages/Employees/EmployeeCreateModal.vue';
+import TransferModal from '../../Pages/Exam/Components/ExamShowModal/TransferModal.vue';
 
 
 const {modals, close} = useModals()
@@ -39,6 +40,8 @@ const modalComponent = (name: string) => {
             return ExamCommentModal
         case 'employeeCreate':
             return EmployeeCreateModal
+        case 'transfer':
+            return TransferModal
     }
 }
 

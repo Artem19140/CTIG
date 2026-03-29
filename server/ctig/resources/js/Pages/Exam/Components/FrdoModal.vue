@@ -4,7 +4,7 @@ import AppInput from '../../../Components/AppInput/AppInput.vue';
 import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
 import { reactive, ref, watch } from 'vue';
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
-import { useHttp } from '@inertiajs/vue3';
+import { router, useHttp, useForm } from '@inertiajs/vue3';
 
 const isOpen = defineModel<boolean>()
 const isAvailable=ref<boolean | null>(null)
@@ -14,35 +14,46 @@ const items = [
     { name: 'Справки', success : false}
 ]
 const  download = async () => {
-    window.location.href = `/reports/frdo?examDate=${http.examDate}&success=${http.success ? 1: 0}`;
+    http.get('/reports/frdo/available', {
+        onSuccess:(response : any) => {
+            if(response.url){
+                window.location.href = response.url
+            }
+            
+        },
+        onError:(errors) => {
+            console.log(errors)
+        }
+    })
+    
 }
+
+router.on("httpException", (event) => {
+  console.log(`An invalid Inertia response was received.`);
+  console.log(12423);
+});
 
 const http = useHttp({
     examDate:null,
     success:null
 })
 
-const canClose = async (fn : () => void) => {
-    const {confirmOpen} = useConfirmDialog()
-    if(http.isDirty){
-        const ok = await confirmOpen('Закрыть окно? Выбор не сохранится')
-        if(!ok) return
-    }
+const beforeClose = async (fn : () => void) => {
     http.examDate = null
     http.success = null
     fn()
 }
 
 
-watch(() => http.examDate, async () => {
-    if(http.examDate !== null ){
-        http.get('/reports/frdo/available',{
-            onSuccess:(response :any) =>{
-                isAvailable.value = response.available
-            }
-        })
-    }
-})
+// watch(() => http.examDate, async () => {
+//     if(http.examDate !== null ){
+//         http.get('/reports/frdo/available',{
+//             onSuccess:(response :any) =>{
+//                 isAvailable.value = response.available
+//             }
+//         })
+//     }
+// })
 
 </script>
 
@@ -52,7 +63,7 @@ watch(() => http.examDate, async () => {
         v-model="isOpen"
         title="Отчеты ФИС ФРДО"
         width="500"
-        @before-close="(done) => canClose(done)"
+        @before-close="(done) => beforeClose(done)"
     >
         <v-select
             label="Тип"
@@ -74,17 +85,17 @@ watch(() => http.examDate, async () => {
         />
         
         <template #actions>
-            <div v-if="http.processing">
+            <!-- <div v-if="http.processing">
                 <v-progress-circular
                     color="primary"
                     indeterminate ></v-progress-circular>
                     Идет проверка, подождите
             </div>
-            <div class="text-red" v-if="isAvailable === false">Отчет недоступен</div>
+            <div class="text-red" v-if="isAvailable === false">Отчет недоступен</div> -->
             <AddButton
                 @click="download"
                 text="Скачать"
-                :disabled="(!http.examDate || http.success === null) || isAvailable === false || http.processing"
+                :disabled="!http.examDate || http.success === null || http.processing"
             />
         </template>
     </BaseDialog>

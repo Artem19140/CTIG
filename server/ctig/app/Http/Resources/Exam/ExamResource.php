@@ -29,6 +29,7 @@ class ExamResource extends JsonResource
             'examiners' => UserResource::collection($this->whenLoaded('examiners')),
             'name' => $this->whenLoaded('examType', fn () => $this->examType->name),
             'shortName' => $this->whenLoaded('examType', fn () => $this->examType->short_name),
+            'examTypeId' => $this->whenLoaded('examType', fn () => $this->examType->id),
             'address' => $this->whenLoaded('address', fn () =>$this->address->address),
             'creator'=> new UserResource($this->whenLoaded('creator')),
             'createdAt' => $this->created_at,

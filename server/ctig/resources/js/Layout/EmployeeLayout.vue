@@ -5,12 +5,6 @@
         permanent
         rail
       >
-        <!-- <v-img
-          width="50"
-          src="/storage/images/tigr.png"
-        >
-
-        </v-img> -->
         <v-list>
           <v-list-item
             prepend-avatar="/storage/images/tigr.png"
@@ -69,6 +63,7 @@
             value="employees" 
             ></v-list-item>
           <v-list-item 
+          
             prepend-icon="mdi-logout" 
             title="Выйти из аккаунта" 
             @click="router.post('/logout')"
@@ -96,8 +91,8 @@
     <modals />
 </template>
 
-<script setup>
-import { router } from '@inertiajs/vue3'
+<script setup lang="ts">
+
 import { ref } from 'vue'
 import AppSnackbar from '../Components/AppSnackbar/AppSnackbar.vue'
 import ConfirmDialog from '../Components/ConfirmDialog/ConfirmDialog.vue';
@@ -107,6 +102,8 @@ import BaseLayout from './BaseLayout.vue';
 import { useAuth } from '../Composables/useAuth';
 import { Roles } from '../Constants/Roles';
 import Modals from '../Components/Modals/Modals.vue';
+import { router } from '@inertiajs/vue3'
+
 
 const {can, user} = useAuth()
 

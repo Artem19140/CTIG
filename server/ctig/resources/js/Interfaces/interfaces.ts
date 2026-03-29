@@ -18,7 +18,8 @@ export interface Exam{
     isPast:boolean,
     isGoing:boolean,
     foreignNationals:Array<ForeignNational>,
-    hasSpeakingTasks:boolean
+    hasSpeakingTasks:boolean,
+    examTypeId:number
 }
 
 export interface User{
@@ -54,7 +55,9 @@ export interface ForeignNational{
     attempts:Array<Attempt>,
     fullName:string,
     fullPassport:string,
-    photoPath:string
+    photoPath:string,
+    isLoading?: boolean,
+    passportTranslateScan?:string
 }
 
 export type ForeignNationalCreateForm = Omit<

@@ -42,8 +42,11 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions
             ->render(function (BusinessException $e, Request $request) {
-                Inertia::flash('error', $e->getMessage());
-                return back();
+                if($request->inertia()){
+                    Inertia::flash('error', $e->getMessage());
+                    return back();
+                }
+                
             })
             ->shouldRenderJsonWhen(function (Request $request, Throwable $e) {
                 if ($request->is('api/*')) {

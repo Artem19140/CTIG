@@ -74,6 +74,10 @@ class Exam extends Model
         return !$this->end_time->isPast() && $this->begin_time->isPast();
     }
 
+    public function isCancelled(){
+        return $this->is_cancelled;
+    }
+
     public function organisation(): BelongsTo{
         return $this->belongsTo(Organization::class,'organization_id');
     }

@@ -10,6 +10,7 @@ import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
 import AddButton from '../../../Components/AddButton/AddButton.vue';
 
 import AppAutocomplete from '../../../Components/AppAutocomplete/AppAutocomplete.vue';
+import AppTextarea from '../../../Components/AppTextarea/AppTextarea.vue';
 
 const props = defineProps<{
     date?:string
@@ -115,6 +116,7 @@ const close = async (fn:  ()  => void) => {
             />
 
             <v-number-input 
+                variant="solo-filled"
                 v-model="form.capacity"
                 :error-messages="form.errors.capacity"
                 control-variant="hidden"
@@ -133,16 +135,13 @@ const close = async (fn:  ()  => void) => {
                 :loading="http.processing"
             />
 
-            <v-textarea
+            <AppTextarea
                 label="Комментарий"
-                rows="1"
                 v-model="form.comment"
                 :error-messages="form.errors.comment"
                 hint="Максимум 256 символов"
                 maxlength="256"
-                auto-grow
-                counter
-            ></v-textarea>
+            />
         </form>
         <template #actions >
             <AddButton  

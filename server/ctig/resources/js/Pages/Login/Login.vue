@@ -8,17 +8,12 @@ const isForeignNationalEntry = ref<boolean>(true)
 </script>
 
 <template>
-    <v-container width="450">
-        <v-card>
-            <v-card-text>
-                <ForeignNationalEntry v-if="isForeignNationalEntry" />
-                <EmployeeEntry v-else  />
-            </v-card-text>
-        </v-card>
+    <v-container class="fill-height d-flex align-center justify-center">
+        <ForeignNationalEntry v-if="isForeignNationalEntry" />
+        <EmployeeEntry v-else  />
     </v-container>
-    
-    
-    
+
+
     <v-menu location="top start" width="200">
       <template v-slot:activator="{ props }">
         <v-btn

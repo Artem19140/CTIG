@@ -103,25 +103,25 @@ const showDocument = (url :string) => {
                     <v-contaiter>
                         <v-row>
                             <div>
-                                <v-list-item-subtitle>Скан паспорта</v-list-item-subtitle>
-                                <v-list-item-title v-if="!foreignNational?.passportScan">-</v-list-item-title>
+                                <v-list-item-subtitle>Паспорт</v-list-item-subtitle>
+                                <v-list-item-title v-if="!foreignNational?.passportScanPath">-</v-list-item-title>
                                 <v-img
                                     v-else 
                                     :width="50"
                                     class="mt-4 cursor-pointer hover:opacity-80 transition-opacity"
                                     src="https://cdn-icons-png.flaticon.com/512/9034/9034536.png"
-                                    @click="showDocument(foreignNational?.passportScan)"
+                                    @click="showDocument(foreignNational?.passportScanPath)"
                                 ></v-img>
                             </div>
                             <div>
-                                <v-list-item-subtitle>Скан перевода паспорта</v-list-item-subtitle>
-                                <v-list-item-title v-if="!foreignNational?.passportTranslateScan">-</v-list-item-title>
+                                <v-list-item-subtitle>Перевода паспорта</v-list-item-subtitle>
+                                <v-list-item-title v-if="!foreignNational?.passportTranslateScanPath">-</v-list-item-title>
                                 <v-img
                                     v-else 
                                     :width="50"
                                     class="mt-4 cursor-pointer hover:opacity-80 transition-opacity"
                                     src="https://cdn-icons-png.flaticon.com/512/9034/9034536.png"
-                                    @click="showDocument(foreignNational?.passportTranslateScan)"
+                                    @click="showDocument(foreignNational?.passportTranslateScanPath)"
                                 ></v-img>
                             </div>
                         </v-row>

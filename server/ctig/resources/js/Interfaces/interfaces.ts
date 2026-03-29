@@ -47,7 +47,7 @@ export interface ForeignNational{
     phone:string,
     creator:User | null,
     exams:Array<Exam>,
-    passportScan:string | null,
+    passportScanPath:string | null,
     photo:string | null,
     createdAt:string,
     citizenship:string,
@@ -57,12 +57,14 @@ export interface ForeignNational{
     fullPassport:string,
     photoPath:string,
     isLoading?: boolean,
-    passportTranslateScan?:string
+    passportTranslateScanPath?:string | null,
+    comment:''
 }
 
 export type ForeignNationalCreateForm = Omit<
   ForeignNational,
-  'id' | 'creator' | 'exams' | 'createdAt' | 'passportScan' | 'photo' | 'attempts' | 'exam' | 'fullName' | 'fullPassport' | 'photoPath'
+  'id' | 'creator' | 'exams' | 'createdAt' | 'passportScan' | 'photo' | 'attempts' | 'exam' | 'fullName' | 'fullPassport' | 'photoPath' 
+       |'passportTranslateScanPath' | 'passportScanPath'
 > & {
   passportScan: File | null
   passportTranslateScan: File | null

@@ -3,8 +3,8 @@
 </script>
 
 <template>
-    <v-autocomplete 
+    <v-file-input 
         clearable
         variant="solo-filled"
-    />
+    ></v-file-input>
 </template>

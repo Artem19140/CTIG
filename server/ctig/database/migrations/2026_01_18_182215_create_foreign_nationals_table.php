@@ -28,6 +28,8 @@ return new class extends Migration
             $table->char('citizenship', 2);
             $table->string('phone', 12);
             $table->char('gender', 1);
+            $table->string('comment')->nullable()->default(null);
+
 
             $table->string('photo_path')->nullable()->default(null);
             $table->string('passport_scan_path')->nullable()->default(null);
@@ -40,9 +42,6 @@ return new class extends Migration
             $table->foreignId('creator_id')
                 ->constrained('users');
 
-            // $table->foreignId('organization_id')
-            //     ->constrained('organizations')
-            //     ->cascadeOnDelete();
 
             $table->dateTime('storage_expired_at')->default(now()->addYears(3));
             $table->timestamps();

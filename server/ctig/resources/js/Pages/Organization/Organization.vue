@@ -22,7 +22,7 @@ const {can} = useAuth()
 
 <template>
     <v-card
-        width="600"
+        width="700"
         class="mx-auto mt-16"
         title="Данные организации"
     >

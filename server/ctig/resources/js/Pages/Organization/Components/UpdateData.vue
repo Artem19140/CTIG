@@ -1,74 +1,49 @@
 <script setup lang="ts">
 import AppInput from '../../../Components/AppInput/AppInput.vue';
+import AppTextarea from '../../../Components/AppTextarea/AppTextarea.vue';
 const props = defineProps<{
     organization : any | null
 }>()
 </script>
 
 <template>
-    <v-list>
-        <v-list-item>
-            <AppInput 
+    <AppInput 
                 v-model="organization.data.name"
                 label="Название"
             />
-        </v-list-item>
+    <AppInput 
+        v-model="organization.data.ogrn"
+        label="ОГРН"
+    />
 
-        <v-list-item>
-            <AppInput 
-                v-model="organization.data.ogrn"
-                label="ОГРН"
-            />
-        </v-list-item>
+    <AppInput 
+        v-model="organization.data.inn"
+        label="ИНН"
+    />
 
-        <v-list-item>  
-            <AppInput 
-                v-model="organization.data.inn"
-                label="ИНН"
-            />
-        </v-list-item>
 
-        <v-list-item>
-            <v-textarea
-                auto-grow
-                rows="1"
-                v-model="organization.data.address"
-                label="Адрес организации"
-            />
-        </v-list-item>
+    <AppTextarea
+        v-model="organization.data.address"
+        label="Адрес организации"
+    />
 
-        <v-list-item>
-            <v-textarea
-                auto-grow
-                rows="1"
-                v-model="organization.data.certificatesIssueAddress"
-                label="Адрес выдачи сертификатов"
-            />
-        </v-list-item>
+    <AppTextarea
+        v-model="organization.data.certificatesIssueAddress"
+        label="Адрес выдачи сертификатов"
+    />
 
-        <v-list-item>
-            <v-textarea
-                auto-grow
-                rows="1"
-                v-model="organization.data.directorFio"
-                label="Директор"
-            />
-        </v-list-item>
-        <v-list-item>
-            <v-textarea
-                auto-grow
-                rows="1"
-                v-model="organization.data.nameGenitive"
-                label="Название в родительском падеже(для документов)"
-            />
-        </v-list-item>
+    <AppTextarea
+        v-model="organization.data.directorFio"
+        label="Директор"
+    />
 
-        <v-list-item>
-            <AppInput 
-                v-model="organization.data.timeZone"
-                label="Временная зона"
-            />
-        </v-list-item>
-    </v-list>
+    <AppTextarea
+        v-model="organization.data.nameGenitive"
+        label="Название в родительском падеже(для документов)"
+    />
+    <AppInput 
+        v-model="organization.data.timeZone"
+        label="Временная зона"
+    />
     
 </template>

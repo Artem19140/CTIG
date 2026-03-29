@@ -10,6 +10,8 @@ import AddButton from '../../../Components/AddButton/AddButton.vue';
 import AppAutocomplete from '../../../Components/AppAutocomplete/AppAutocomplete.vue';
 import ExamEnrollment from '../../Exam/Components/ExamEnrollment.vue';
 import { useAlert } from '../../../Composables/useAlert';
+import AppTextarea from '../../../Components/AppTextarea/AppTextarea.vue';
+import AppFileInput from '../../../Components/AppFileInput/AppFileInput.vue';
 
 const isOpen = defineModel<boolean>({default:false})
 const examTypeId = ref<number | null>(null)
@@ -41,7 +43,8 @@ const form = useForm<ForeignNationalCreateForm>({
     examId:null,
     gender:null,
     photo:null,
-    hasPayment:false
+    hasPayment:false,
+    comment:''
 })
 
 const create = () => {
@@ -353,21 +356,21 @@ watch(() => form.noMigrationCard, (val) => {
                     <v-card-text>
                         <v-container fluid>
                             <v-row density="comfortable">
-                                <v-file-input 
+                                <AppFileInput 
                                     label="Скан перевода паспорта PDF"
                                     v-model="form.passportTranslateScan"
                                     clearable
                                     accept=".pdf,application/pdf"
                                     :error-messages="form.errors.passportTranslateScan"
-                                ></v-file-input>
+                                />
 
-                                <v-file-input 
+                                <AppFileInput 
                                     label="Скан паспорта PDF"
                                     clearable
                                     v-model="form.passportScan"
                                     accept=".pdf,application/pdf"
                                     :error-messages="form.errors.passportScan"
-                                ></v-file-input>
+                                />
                                 
                             </v-row>
                             <v-row>
@@ -377,6 +380,26 @@ watch(() => form.noMigrationCard, (val) => {
                     </v-card-text>
                     
                 </v-card>
+
+            <v-card title="Дополнительная информация" class="mb-4">
+                <v-card-text>
+                    <v-container fluid>
+                        <v-row density="comfortable"  class="subtitle mb-4">
+                            (например, лицо с ограниченными возможностями здоровья)
+                        </v-row>
+                        <v-row>
+                            <AppTextarea
+                                label="Введите комментарий"
+                                auto-grow
+                                rows="1"
+                                v-model="form.comment"
+                                :error-messages="form.errors.comment"
+                            />
+                        </v-row>
+                    </v-container>
+                </v-card-text>
+                
+            </v-card>
                   
             <template #actions>
                 <span class="text-red" v-if="form.hasErrors">Есть ошибки валидации полей формы</span>

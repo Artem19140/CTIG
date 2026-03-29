@@ -2,12 +2,11 @@
 import AddButton from '../../../Components/AddButton/AddButton.vue';
 import AppInput from '../../../Components/AppInput/AppInput.vue';
 import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
-import { reactive, ref, watch } from 'vue';
-import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
-import { router, useHttp, useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import { useHttp } from '@inertiajs/vue3';
+import AppAutocomplete from '../../../Components/AppAutocomplete/AppAutocomplete.vue';
 
 const isOpen = defineModel<boolean>()
-const isAvailable=ref<boolean | null>(null)
 
 const items = [
     { name: 'Сертификаты', success : true},
@@ -28,11 +27,6 @@ const  download = async () => {
     
 }
 
-router.on("httpException", (event) => {
-  console.log(`An invalid Inertia response was received.`);
-  console.log(12423);
-});
-
 const http = useHttp({
     examDate:null,
     success:null
@@ -43,18 +37,6 @@ const beforeClose = async (fn : () => void) => {
     http.success = null
     fn()
 }
-
-
-// watch(() => http.examDate, async () => {
-//     if(http.examDate !== null ){
-//         http.get('/reports/frdo/available',{
-//             onSuccess:(response :any) =>{
-//                 isAvailable.value = response.available
-//             }
-//         })
-//     }
-// })
-
 </script>
 
 <template>
@@ -65,7 +47,7 @@ const beforeClose = async (fn : () => void) => {
         width="500"
         @before-close="(done) => beforeClose(done)"
     >
-        <v-select
+        <AppAutocomplete
             label="Тип"
             :items=items
             item-value="success"
@@ -85,13 +67,6 @@ const beforeClose = async (fn : () => void) => {
         />
         
         <template #actions>
-            <!-- <div v-if="http.processing">
-                <v-progress-circular
-                    color="primary"
-                    indeterminate ></v-progress-circular>
-                    Идет проверка, подождите
-            </div>
-            <div class="text-red" v-if="isAvailable === false">Отчет недоступен</div> -->
             <AddButton
                 @click="download"
                 text="Скачать"

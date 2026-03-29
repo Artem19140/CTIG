@@ -35,7 +35,8 @@ const submit = () => {
         <v-otp-input
           v-model="form.code"
           length="6"
-          class="mb-6"
+          divider=""
+          class="mb-6 w-100"
         ></v-otp-input>
 
         <v-btn

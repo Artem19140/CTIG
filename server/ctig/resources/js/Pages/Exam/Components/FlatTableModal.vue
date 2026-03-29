@@ -39,7 +39,6 @@ const donwload = () => {
             window.URL.revokeObjectURL(url);
         }
     })
-    //window.location.href = `/reports/flat-table?dateFrom=${form.value.dateFrom}&dateTo=${form.value.dateTo}`
 }
 
 </script>

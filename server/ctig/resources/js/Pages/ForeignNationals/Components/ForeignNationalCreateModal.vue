@@ -3,7 +3,7 @@ import { useForm } from '@inertiajs/vue3'
 import AppInput from '../../../Components/AppInput/AppInput.vue';
 import {ref, watch } from 'vue';
 import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
-import {type Exam, type ForeignNationalCreateForm } from '../../../interfaces/interfaces';
+import {ForeignNational, type Exam, type ForeignNationalCreateForm } from '../../../interfaces/interfaces';
 import countries from '../../../../../storage/app/public/countries.json'
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
 import AddButton from '../../../Components/AddButton/AddButton.vue';
@@ -13,13 +13,17 @@ import { useAlert } from '../../../Composables/useAlert';
 import AppTextarea from '../../../Components/AppTextarea/AppTextarea.vue';
 import AppFileInput from '../../../Components/AppFileInput/AppFileInput.vue';
 
+const props = defineProps<{
+    foreignNational? :ForeignNational
+}>()
+
 const isOpen = defineModel<boolean>({default:false})
 const examTypeId = ref<number | null>(null)
 
 const exams = ref<Exam[]>()
 
 const form = useForm<ForeignNationalCreateForm>({
-    surname:'Иванов', 
+    surname: props.foreignNational?.surname ?? 'Иванов', 
     name:'Иван',
     patronymic:"Иванович",
     noPatronymic:false,

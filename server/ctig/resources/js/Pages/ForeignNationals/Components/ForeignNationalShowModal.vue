@@ -98,28 +98,28 @@ const showDocument = (url :string) => {
         <v-divider></v-divider>
 
         <v-card-text>
-            <v-row dense>
-                <v-col cols="6" class="text-center">
-                <v-list-item-subtitle>Паспорт</v-list-item-subtitle>
-                <div v-if="!foreignNational?.passportScanPath">-</div>
-                <v-img
-                    v-else
-                    width="50"
-                    src="https://cdn-icons-png.flaticon.com/512/9034/9034536.png"
-                    class="mt-2 cursor-pointer hover:opacity-80 transition-opacity"
-                    @click="showDocument(foreignNational?.passportScanPath)"
-                />
+            <v-row comfortable>
+                <v-col cols="6" class="">
+                    <v-list-item-subtitle>Паспорт</v-list-item-subtitle>
+                    <div v-if="!foreignNational?.passportScanPath">-</div>
+                    <v-img
+                        v-else
+                        width="50"
+                        src="https://cdn-icons-png.flaticon.com/512/9034/9034536.png"
+                        class="mt-2 cursor-pointer hover:opacity-80 transition-opacity"
+                        @click="showDocument(foreignNational?.passportScanPath)"
+                    />
                 </v-col>
-                <v-col cols="6" class="text-center">
-                <v-list-item-subtitle>Перевод паспорта</v-list-item-subtitle>
-                <div v-if="!foreignNational?.passportTranslateScanPath">-</div>
-                <v-img
-                    v-else
-                    width="50"
-                    src="https://cdn-icons-png.flaticon.com/512/9034/9034536.png"
-                    class="mt-2 cursor-pointer hover:opacity-80 transition-opacity"
-                    @click="showDocument(foreignNational?.passportTranslateScanPath)"
-                />
+                <v-col cols="6" class="">
+                    <v-list-item-subtitle>Перевод паспорта</v-list-item-subtitle>
+                    <div v-if="!foreignNational?.passportTranslateScanPath">-</div>
+                    <v-img
+                        v-else
+                        width="50"
+                        src="https://cdn-icons-png.flaticon.com/512/9034/9034536.png"
+                        class="mt-2 cursor-pointer hover:opacity-80 transition-opacity"
+                        @click="showDocument(foreignNational?.passportTranslateScanPath)"
+                    />
                 </v-col>
             </v-row>
             </v-card-text>

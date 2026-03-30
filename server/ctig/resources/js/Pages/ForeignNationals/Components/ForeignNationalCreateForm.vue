@@ -1,8 +1,15 @@
 <script setup lang="ts">
 import countries from '../../../../../storage/app/public/countries.json'
+import AppAutocomplete from '../../../Components/AppAutocomplete/AppAutocomplete.vue';
+import AppInput from '../../../Components/AppInput/AppInput.vue';
+import AppFileInput from '../../../Components/AppFileInput/AppFileInput.vue';
+import AppTextarea from '../../../Components/AppTextarea/AppTextarea.vue';
 const props = defineProps<{
-    form: any
+    form: any,
+    mode?:string
 }>()
+
+const edit = props.mode === 'edit'
 </script>
 
 <template>
@@ -41,6 +48,7 @@ const props = defineProps<{
                     
                     <v-col cols="12" md="6">
                         <v-checkbox
+                            v-if="!edit"
                             v-model="form.noPatronymic" 
                             label="Нет отчества"
                             :error-messages="form.errors.noPatronymic"
@@ -130,6 +138,7 @@ const props = defineProps<{
 
                     <v-col cols="12" md="6">
                         <v-checkbox
+                            v-if="!edit"
                             v-model="form.noPassportSeries" 
                             label="Нет серии"
                             :error-messages="form.errors.noPassportSeries"
@@ -147,6 +156,7 @@ const props = defineProps<{
 
                     <v-col cols="12" md="6">
                         <v-checkbox
+                            v-if="!edit"
                             v-model="form.noPassportNumber" 
                             label="Нет номера"
                             :error-messages="form.errors.noPassportNumber"
@@ -186,6 +196,7 @@ const props = defineProps<{
 
                         <v-col cols="12" md="6">
                             <v-checkbox
+                                v-if="!edit"
                                 v-model="form.noMigrationCard" 
                                 label="Нет миграционной карты"
                                 :error-messages="form.errors.noMigrationCard"

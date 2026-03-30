@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
+<title>Заявление-анкета</title>
 <style>
     body {
         font-family: DejaVu Sans, sans-serif;
@@ -116,7 +117,7 @@
         </td>
     </tr>
     <tr>
-        <td class="statement-td" colspan="2">Дополнительная информация (например, лицо с ограниченными возможностями здоровья): <span class="data"></span></td>
+        <td class="statement-td" colspan="2">Дополнительная информация (например, лицо с ограниченными возможностями здоровья): <span class="data">{{ $foreignNational->comment }}</span></td>
     </tr>
     <tr>
         <td class="statement-td" colspan="2">

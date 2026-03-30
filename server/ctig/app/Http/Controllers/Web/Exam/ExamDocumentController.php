@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Web\Exam;
 
+use App\Actions\Reports\GenerateExamProtocolAction;
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use App\Actions\Exam\CreateCodesAction;
+use Illuminate\Support\Facades\Gate;
 
 class ExamDocumentController
 {
@@ -23,4 +26,17 @@ class ExamDocumentController
         $name = $exam->examType->short_name;
         return $pdf->stream("список_$name _ $stringDate.pdf");
     }
+
+    public function codes(Exam $exam, CreateCodesAction $createCodes)
+    {
+        Gate::authorize('exam-manage-access', $exam);
+        return $createCodes->execute($exam);
+    }
+
+    public function protocol(Request $request, Exam $exam, GenerateExamProtocolAction $generateExamProtocol)
+    {
+        Gate::authorize('exam-manage-access', $exam);
+        return $generateExamProtocol->execute($exam, $request->user() );
+    }
+    
 }

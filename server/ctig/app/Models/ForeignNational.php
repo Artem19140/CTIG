@@ -39,7 +39,8 @@ class ForeignNational extends Authenticatable {
         'passport_scan_path',
         'passport_translate_scan',
         'document_type',
-        'gender'
+        'gender',
+        'comment'
     ];
 
     protected $casts = [

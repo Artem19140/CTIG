@@ -1,0 +1,76 @@
+<script setup lang="ts">
+import { useForm } from '@inertiajs/vue3';
+import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
+import { ForeignNational } from '../../../interfaces/interfaces';
+import ForeignNationalCreateForm from './ForeignNationalCreateForm.vue';
+import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
+import PrimaryButton from '../../../Components/PrimaryButton/PrimaryButton.vue';
+
+
+const props = defineProps<{
+    foreignNational: ForeignNational 
+}>()
+
+const isOpen = defineModel<boolean>({default:false})
+
+const form = useForm<ForeignNational>({
+    surname: props.foreignNational?.surname, 
+    name: props.foreignNational?.name,
+    patronymic: props.foreignNational?.patronymic ?? "",
+    surnameLatin: props.foreignNational?.surnameLatin,
+    nameLatin: props.foreignNational?.nameLatin,
+    patronymicLatin: props.foreignNational?.patronymicLatin ?? "",
+    passportNumber: props.foreignNational?.passportNumber,
+    passportSeries: props.foreignNational?.passportSeries,
+    issuedBy: props.foreignNational?.issuedBy,
+    issuedDate: props.foreignNational?.issuedDate,
+    migrationCardRequisite: props.foreignNational?.migrationCardRequisite ?? '',
+    citizenship: props.foreignNational?.citizenship ,
+    phone: props.foreignNational?.phone,
+    addressReg: props.foreignNational?.addressReg,
+    dateBirth: props.foreignNational?.dateBirth,
+    gender: props.foreignNational?.gender,
+    comment: props.foreignNational?.comment
+})
+
+const edit = () => {
+    form.put(`foreign-nationals/${props.foreignNational.id}`,{
+        onSuccess:(page) => {
+
+        }
+    })
+}
+
+const {confirmOpen} = useConfirmDialog()
+const beforeClose = async (fn: () => void) => {
+    if(form.isDirty){
+        const ok = await confirmOpen('Отменить редактирование?')
+        if(!ok) return
+    }
+    form.resetAndClearErrors()
+    fn()
+}
+
+</script>
+
+<template>
+    <BaseDialog
+        width="1000"
+        height="100%"
+        v-model="isOpen"
+        title="Редактирование ИГ"
+        @before-close="(done) => beforeClose(done)"
+    >
+        <ForeignNationalCreateForm 
+            :form="form"
+            :mode="'edit'"
+        />
+
+        <template #actions>
+            <PrimaryButton
+                text="Сохранить"
+                @click="edit"
+            />
+        </template>
+    </BaseDialog>
+</template>

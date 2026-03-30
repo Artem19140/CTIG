@@ -3,6 +3,9 @@
 namespace App\Actions\Exam\Enrollment;
 
 use App\Actions\Counter\GetRegNumberAction;
+use App\Actions\Exam\Validation\EnsureExamIsNotCancelledAction;
+use App\Actions\Exam\Validation\EnsureExamIsNotCompletedAction;
+use App\Actions\Exam\Validation\EnsureExamIsGoingAction;
 use App\Exceptions\EntityNotFoundExсeption;
 use App\Models\Exam;
 use App\Models\ForeignNational;
@@ -14,9 +17,15 @@ use App\Actions\ForeignNational\CreateForeignNationalStatementAction;
 final class CreateEnrollmentAction{
     public function __construct(
         protected CreateForeignNationalStatementAction $createForeignNationalStatement,
-        protected GetRegNumberAction $getRegNumber
+        protected GetRegNumberAction $getRegNumber,
+        protected EnsureExamIsNotCancelledAction $ensureExamIsNotCancelled,
+        protected EnsureExamIsNotCompletedAction $ensureExamIsNotCompleted,
+        protected EnsureExamIsGoingAction $ensureExamIsGoing
     ){}
     public function execute(Exam $exam, int $foreignNationalId, User $user, bool $hasPayment):ForeignNational{
+        $this->ensureExamIsNotCancelled->execute($exam);
+        $this->ensureExamIsNotCompleted->execute($exam);
+        $this->ensureExamIsGoing->execute($exam);
         $foreignNational = ForeignNational::find($foreignNationalId);
         
         if(!$foreignNational){
@@ -26,14 +35,6 @@ final class CreateEnrollmentAction{
         $foreignNationalAge = Carbon::parse($foreignNational->date_birth)->age;
         if($foreignNationalAge < 18){
             throw new BusinessException('Запись возможна только с 18 лет');
-        }
-
-        if($exam->isCompleted() || $exam->isGoing()){
-            throw new BusinessException('Экзмен уже прошел или идет');
-        }
-
-        if($exam->isCancelled()){
-            throw new BusinessException('Экзамен отменен');
         }
 
         $exam->load(['foreignNationals']);

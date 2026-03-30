@@ -38,7 +38,8 @@ return new class extends Migration
             $table->tinyInteger('group')->nullable()->default(null);
             $table->mediumInteger('session')->nullable()->default(null);
             $table->string('comment')->nullable()->default(null);
-            $table->string('examiner_comment', 1000)->nullable()->default(null);
+            $table->string('protocol_comment', 1000)->nullable()->default(null);
+            $table->string('overview_video_path')->nullable()->default(null);
             $table->timestamps();
         });
 

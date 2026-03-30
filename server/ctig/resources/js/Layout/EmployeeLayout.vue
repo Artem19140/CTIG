@@ -105,7 +105,7 @@ import Modals from '../Components/Modals/Modals.vue';
 import { router } from '@inertiajs/vue3'
 
 
-const {can, user} = useAuth()
+const {can, cannot, user} = useAuth()
 
 defineOptions({
   layout: BaseLayout,

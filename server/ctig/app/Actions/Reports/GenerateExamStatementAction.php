@@ -3,26 +3,27 @@
 namespace App\Actions\Reports;
 
 use App\Actions\Attempt\GetDetailedAttemptResultsAction;
+use App\Actions\Exam\Validation\EnsureExamHasEnrollmentAction;
+use App\Actions\Exam\Validation\EnsureExamIsCompletedAction;
+use App\Actions\Exam\Validation\EnsureExamIsNotCancelledAction;
 use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
-use App\Models\Attempt;
+use App\Models\Exam;
 use App\Models\ForeignNational;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class GenerateExamStatementAction{
     public function __construct(
-        protected GetDetailedAttemptResultsAction $getDetailedAttemptResults
+        protected GetDetailedAttemptResultsAction $getDetailedAttemptResults,
+        protected EnsureExamIsCompletedAction $ensureExamIsCompleted,
+        protected EnsureExamIsNotCancelledAction $ensureExamIsNotCancelled,
+        protected EnsureExamHasEnrollmentAction $ensureExamHasEnrollment
     ){}
-    public function execute($exam){
+    public function execute(Exam $exam){
+        $this->ensureExamIsCompleted->execute($exam);
+        $this->ensureExamIsNotCancelled->execute($exam);
+        $this->ensureExamHasEnrollment->execute($exam);
         $templatePath = storage_path('app/templates/statement.xlsx');
-
-        if(!$exam->isCompleted()){
-            throw new BusinessException('Экзамен еще не прошел');
-        }
-        
-        if($exam->foreignNationals()->count() < 1){
-            throw new BusinessException('На экзамене не было ни одного ИГ');
-        }
         
         $attemptsNotChecked = $exam->attempts()
                                 ->whereIn('status', AttemptStatus::unChecked())

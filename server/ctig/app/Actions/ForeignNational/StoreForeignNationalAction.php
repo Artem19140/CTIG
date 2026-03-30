@@ -45,7 +45,8 @@ final class StoreForeignNationalAction{
             'gender' => $data['gender'],
             'passport_scan_path' => $passportScanPath,
             //'photo_path' => $photoPath,
-            'passport_translate_scan' => $passportTranslateScan
+            'passport_translate_scan' => $passportTranslateScan,
+            'comment' => $data['comment']
         ]);
     }
 }

@@ -7,6 +7,7 @@ import { Exam } from '../../../../interfaces/interfaces';
 import { useHttp } from '@inertiajs/vue3';
 import { capacityColor, examStatus } from '../../../../Helpers/heplers';
 import AppStatusChip from '../../../../Components/AppStatusChip/AppStatusChip.vue';
+import ExamStatusChip from '../ExamStatusChip.vue';
 
 const props = defineProps<{
     examId:number
@@ -52,10 +53,8 @@ onMounted( async () => {
         <template #title>
             <div class="flex gap-2">
                 Экзамен
-                <AppStatusChip
-                    v-if="exam"
-                    :color="examStatus(exam).color.replace('text-', '')"
-                    :text="examStatus(exam).text"
+                <ExamStatusChip
+                    :exam="exam"
                 />
             </div>
         </template>

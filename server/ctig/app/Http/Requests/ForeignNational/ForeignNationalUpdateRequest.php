@@ -2,49 +2,39 @@
 
 namespace App\Http\Requests\ForeignNational;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Validation\Rule;
 
-
-class ForeignNationalPostRequest extends FormRequest
+class ForeignNationalUpdateRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     */
     public function authorize(): bool
     {
         return true;
     }
+
     protected function prepareForValidation(): void
     {
         $this->merge([
             'phone' => preg_replace('/\D/', '', $this->phone),
         ]);
     }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, ValidationRule|array<mixed>|string>
+     */
     public function rules(): array
     {
         $countries = collect(json_decode(file_get_contents(storage_path('app/public/countries.json')), true))
                     ->pluck('value')
                     ->toArray();
-        return [ 
-            'hasPayment' =>
-                [
-                    'required',
-                    'boolean'
-                ],
-            'noPatronymic' =>
-                [
-                    'required',
-                    'boolean'
-                ],
-            'noPassportNumber' =>
-                [
-                    'required',
-                    'boolean'
-                ],
-            'noPassportSeries' =>
-                [
-                    'required',
-                    'boolean'
-                ],
+        return [
             'surname' =>
                 [
                     'required',
@@ -120,10 +110,7 @@ class ForeignNationalPostRequest extends FormRequest
                     'required',
                     'string'
                 ],
-            'noMigrationCard'=>[
-                    'required',
-                    'boolean'
-                ],
+
             'citizenship' =>
                 [
                     'required',
@@ -138,11 +125,6 @@ class ForeignNationalPostRequest extends FormRequest
                     'string',
                     'size:11'
                 ],
-            'comment' =>
-                [
-                    'nullable',
-                    'string'
-                ],
             'examId'=> [
                     'required',
                     'integer', 
@@ -155,11 +137,11 @@ class ForeignNationalPostRequest extends FormRequest
                     'in:M,F'
                 ],
             'passportTranslateScan' => [
-                    'required',
+                    'nullable',
                     File::types(['pdf'])->max(4096)
                 ],
             'passportScan' => [
-                    'required', 
+                    'nullable', 
                     File::types(['pdf'])->max(4096)
                 ],
             'photoScan' => [
@@ -168,6 +150,4 @@ class ForeignNationalPostRequest extends FormRequest
                 ],
         ];
     }
-
-
 }

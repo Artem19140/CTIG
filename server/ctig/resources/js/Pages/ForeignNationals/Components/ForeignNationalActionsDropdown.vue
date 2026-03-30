@@ -5,6 +5,7 @@ import ThreeDotDropdown from '../../../Components/ThreeDotDropdown/ThreeDotDropd
 import { ForeignNational } from '../../../interfaces/interfaces';
 import EnrollmentModal from './EnrollmentModal.vue';
 import { useModals } from '../../../Composables/useModals';
+import { usePromptDialog } from '../../../Composables/usePromptDialog';
 
 const {open} = useModals()
 
@@ -12,6 +13,17 @@ const props = defineProps<{
     foreignNational:ForeignNational | null
 }>()
 const isOpen = ref<boolean>(false)
+
+const destroy = async () => {
+    const {open, canClose, errorMessages} = usePromptDialog()
+    const confirmationWord = await open("Введите слово 'УДАЛИТЬ' для подтверждения действия")
+    if(confirmationWord !== 'УДАЛИТЬ'){
+        canClose.value = false
+        errorMessages.value = "Введите слово 'УДАЛИТЬ'"
+        return
+    }
+    alert(1)
+}
 </script>
 
 <template>
@@ -22,11 +34,11 @@ const isOpen = ref<boolean>(false)
         />
         <AppListDropDownItem 
             title="Редактировать"
-            @click=""
+            @click="open('foreignNationalEdit', {foreignNational})"
         />
         <AppListDropDownItem 
             title="Удалить"
-            @click=""
+            @click="destroy"
             color="text-red"
         />
     </ThreeDotDropdown>

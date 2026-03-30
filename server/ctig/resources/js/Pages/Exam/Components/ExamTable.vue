@@ -10,6 +10,7 @@ import { useAuth } from '../../../Composables/useAuth';
 import { Roles } from '../../../Constants/Roles';
 import { capacityColor, examStatus } from '../../../Helpers/heplers';
 import AppStatusChip from '../../../Components/AppStatusChip/AppStatusChip.vue';
+import ExamStatusChip from './ExamStatusChip.vue';
 
 const props = defineProps<{
     exams: Paginated<Exam>,
@@ -69,9 +70,8 @@ const {can} = useAuth()
             />
         </template>
         <template #item.status="{ item }">
-            <AppStatusChip
-                :text="examStatus(item).text"
-                :color="examStatus(item).color.replace('text-', '')"
+            <ExamStatusChip 
+                :exam="item"
             />
         </template>
     </BaseServerTable>

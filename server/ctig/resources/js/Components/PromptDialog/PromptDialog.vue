@@ -34,7 +34,7 @@ const rules = {
 
             
             <v-card-actions>
-                <v-btn color="primary" variant="flat" @click="promptOk">
+                <v-btn  color="primary" variant="flat" @click="promptOk">
                     Отправить
                 </v-btn>
 

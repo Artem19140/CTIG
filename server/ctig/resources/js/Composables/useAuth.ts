@@ -13,5 +13,12 @@ export const useAuth = () => {
         return rolesAllowed.some(item => roles.includes(item))
     };
 
-    return {can, user}
+    const cannot = (rolesAllowed: Array<string>): boolean => {
+        if (isSuperAdmin) return false;
+        if (!roles.length) return true;
+        
+        return rolesAllowed.some(item => !roles.includes(item))
+    };
+
+    return {can, cannot, user}
 }

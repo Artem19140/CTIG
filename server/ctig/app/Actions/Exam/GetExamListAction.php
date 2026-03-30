@@ -4,11 +4,11 @@ namespace App\Actions\Exam;
 
 use App\Models\Exam;
 use Carbon\Carbon;
-use DB;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class GetExamListAction{
-    public function execute(array $data){
+    public function execute(array $data): LengthAwarePaginator{
         $examTypeId = $data['examTypeId'] ?? false;
         $dateFrom = $data['dateFrom'] ?? false;
         $dateTo = $data['dateTo'] ?? false;

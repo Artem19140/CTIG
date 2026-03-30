@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Web\Exam;
 
 use App\Actions\Attempt\StartExamSessionAction;
 use App\Actions\Exam\CancelExamAction;
-use App\Actions\Exam\CreateCodesAction;
-use App\Actions\Exam\GetAvailableExamsAction;
 use App\Actions\Exam\GetExamListAction;
 use App\Actions\Exam\VerifyExamCodeAction;
 use App\Enums\UserRoles;
@@ -26,8 +24,6 @@ use Illuminate\Http\Request;
 use App\Http\Resources\Exam\ExamResource;
 use App\Http\Requests\Exam\ExamPostRequest;
 use App\Actions\Exam\CreateExamAction;
-
-use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class ExamController
@@ -107,26 +103,6 @@ class ExamController
         return back();
     }
 
-    public function formCodes(Exam $exam, CreateCodesAction $createCodes)
-    {
-        Gate::authorize('exam-manage-access', $exam);
-        return $createCodes->execute($exam);
-    }
-
-    public function available(Request $request, GetAvailableExamsAction $getAvailableExams){
-        $request->validate([
-            'examTypeId' => ['required', 'integer', 'min:1'],
-            'foreignNationalId' => ['nullable', 'integer', 'min:1'],
-        ]);
-        $exams = $getAvailableExams->execute($request->input('examTypeId'), $request->input('foreignNationalId'));
-        return $exams->map(function ($exam) {
-            return [
-                'id' => $exam->id,
-                'beginTime' => $exam->begin_time->format('H:i d.m.Y'),
-            ];
-        });
-    }        
-    
     public function schedule(Request $request){
         $dateFrom = $request->input('dateFrom') ?? false;
         $dateTo = $request->input('dateTo') ?? false;
@@ -147,5 +123,4 @@ class ExamController
             'exams' => ExamResource::collection($exams )
         ]);
     }
-
 }

@@ -2,6 +2,7 @@
 import DropDownForeignNationalsList from './DropDownForeignNationalsList.vue';
 import { router, usePoll } from '@inertiajs/vue3'
 import { attemptStatus } from '../../Helpers/heplers';
+import ExamStatusChip from '../Exam/Components/ExamStatusChip.vue';
 
 
 const props = defineProps<{
@@ -23,7 +24,7 @@ const { start, stop } = usePoll(10000, {
 })
 
 onMounted(()=>{
-    if(props.exam?.data?.isGoing && props.exam?.data?.foreignNationals?.length>0){
+    if(props.exam?.data?.isGoing && props.exam?.data?.foreignNationals?.length>0 && !props.exam?.data?.isCancelled){
         start()
     }
 })
@@ -59,6 +60,7 @@ import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
 import { useModals } from '../../Composables/useModals';
 import { onMounted, onUnmounted } from 'vue';
 import AppStatusChip from '../../Components/AppStatusChip/AppStatusChip.vue';
+import { Exam } from '../../interfaces/interfaces';
 
 export default {
     layout: EmployeeLayout,
@@ -70,8 +72,14 @@ export default {
     <v-card 
         width="900" 
         class="mx-auto mt-16"
-        title="Мониторинг"
+        
     >
+        <v-card-title>
+            Мониторинг
+            <ExamStatusChip 
+                :exam="exam.data" 
+            />
+        </v-card-title>
 
         <v-card-subtitle >
             <div class="flex">
@@ -84,7 +92,7 @@ export default {
                     border 
                     variant="text" 
                     class="mr-4 text-black"
-                    @click="open('examComment', {})"
+                    @click="open('examComment', {exam:props.exam.data})"
                 >Комментарий</v-btn>
             </div>
         </v-card-subtitle>

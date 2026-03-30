@@ -19,7 +19,8 @@ export interface Exam{
     isGoing:boolean,
     foreignNationals:Array<ForeignNational>,
     hasSpeakingTasks:boolean,
-    examTypeId:number
+    examTypeId:number,
+    protocolComment:string
 }
 
 export interface User{
@@ -31,7 +32,7 @@ export interface User{
 }
 
 export interface ForeignNational{
-    id:number,
+    id?:number,
     name:string,
     surname:string,
     patronymic:string | undefined,
@@ -45,23 +46,24 @@ export interface ForeignNational{
     issuedDate:string,
     addressReg:string,
     phone:string,
-    creator:User | null,
-    exams:Array<Exam>,
-    passportScanPath:string | null,
-    photo:string | null,
-    createdAt:string,
+    creator?:User | null,
+    exams?:Array<Exam> | null,
+    passportScanPath?:string | null,
+    photo?:string | null,
+    createdAt?:string,
     citizenship:string,
     dateBirth:string,
-    attempts:Array<Attempt>,
-    fullName:string,
-    fullPassport:string,
-    photoPath:string,
+    attempts?:Array<Attempt> | null,
+    fullName?:string,
+    fullPassport?:string,
+    photoPath?:string,
     isLoading?: boolean,
     passportTranslateScanPath?:string | null,
     comment:''
+    gender:string | null
 }
 
-export type ForeignNationalCreateForm = Omit<
+export type IForeignNationalCreateForm = Omit<
   ForeignNational,
   'id' | 'creator' | 'exams' | 'createdAt' | 'passportScan' | 'photo' | 'attempts' | 'exam' | 'fullName' | 'fullPassport' | 'photoPath' 
        |'passportTranslateScanPath' | 'passportScanPath'
@@ -73,7 +75,7 @@ export type ForeignNationalCreateForm = Omit<
   noPassportSeries: boolean
   noPatronymic: boolean
   noMigrationCard: boolean
-  gender:string | null
+  
   hasPayment:boolean
   examId: number | null
 }

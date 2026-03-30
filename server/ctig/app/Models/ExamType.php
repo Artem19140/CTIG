@@ -15,7 +15,8 @@ class ExamType extends Model
         'has_speaking_tasks',
         'tasks_count',
         'need_human_check',
-        'min_mark'
+        'min_mark',
+        'protocol_name'
     ];
 
     protected $casts = [

@@ -30,7 +30,12 @@ final class CreateExamAction{
 
         $examBeginTime = $examDto->beginTime;
 
-        if($examBeginTime < Carbon::now()){
+        $examBeginTimeUtc= Carbon::parse(
+                                        $examBeginTime->copy(),
+                                        $user->organization->time_zone
+                                    )->utc();
+
+        if($examBeginTimeUtc < Carbon::now()){
             throw new BusinessException('Экзамен нельзя создать на прошедшие даты');
         }
 
@@ -49,7 +54,7 @@ final class CreateExamAction{
         $examEndTime = $examBeginTime->copy()->addMinutes($examDuration);
 
         $hasConflictExam = Exam::where('address_id', $examDto->addressId)
-                            ->where('begin_time', '<=', $examEndTime)
+                            ->where('begin_time', '<=', $examEndTime) //utc?!
                             ->where('end_time', '>=', $examBeginTime)
                             ->where('is_cancelled', false)
                             ->exists(); 
@@ -69,13 +74,9 @@ final class CreateExamAction{
             throw new BusinessException("Один или несколько тестеров заняты в это время");
         }
 
-        $examBeginTimeUtc= Carbon::parse(
-                                            $examBeginTime->copy(),
-                                            $user->organization->time_zone
-                                        )->utc();
+       
         $exam = DB::transaction(function () use ($examDto, $user,$examEndTime, $examBeginTimeUtc) {
-            $exam = Exam::create(
-            [
+            $exam = Exam::create([
                     'begin_time' => $examDto->beginTime,
                     'begin_time_utc' => $examBeginTimeUtc,
                     'address_id' => $examDto->addressId,
@@ -85,8 +86,7 @@ final class CreateExamAction{
                     'creator_id'=> $user->id,
                     'end_time' => $examEndTime,
                     'organization_id' => $user->organization->id
-                ]
-            );
+            ]);
         
             $exam->examiners()->attach($examDto->examiners, ['organization_id'  => $user->organization->id]);
             return $exam;

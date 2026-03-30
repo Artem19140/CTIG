@@ -28,7 +28,8 @@ class Exam extends Model
         'cancelled_reason',
         'is_cancelled',
         'organization_id',
-        'end_time'
+        'end_time',
+        'protocol_comment'
     ];
 
     protected $casts = [
@@ -86,6 +87,13 @@ class Exam extends Model
     {
         return Attribute::get(function () {
             return $this->examType->duration;
+        });
+    }
+
+    protected function addressName(): Attribute
+    {
+        return Attribute::get(function () {
+            return $this->address->address;
         });
     }
 

@@ -27,13 +27,15 @@ Route::middleware(['auth', 'user.is.active', 'organization.is.active', 'password
         //->middleware('user.has.role:operator');
     Route::post('foreign-nationals/{foreignNational}/exams/transfer', [ExamEnrollmentController::class, "transfer"]);
     Route::prefix('exams')->group(function(){
-        Route::get('{exam}/codes', [ExamController::class, "formCodes"]);//->middleware('user.has.role:examiner');
+        Route::get('{exam}/codes', [ExamDocumentController::class, "codes"]);//->middleware('user.has.role:examiner');
+        Route::get('{exam}/protocol', [ExamDocumentController::class, "protocol"]);
         Route::get('create/modal-data', [ExamController::class,'createModalData']);//->middleware('user.has.role:scheduler');
         Route::post('{exam}/foreign-nationals', [ExamEnrollmentController::class, "store"]);
         Route::delete('{exam}/foreign-nationals/{foreignNational}', [ExamEnrollmentController::class, "destroy"]);
         Route::put('{exam}/foreign-nationals/{foreignNational}/payment/change', [ExamEnrollmentController::class, "changePayment"]);
         Route::get('monitoring', [ExamMonitoringController::class, 'index'])->name('exam.monitoring');
         Route::get('{exam}/monitoring', [ExamMonitoringController::class, 'show']);
+        Route::put('{exam}/monitoring/protocol-comments', [ExamMonitoringController::class, 'updateProtocolComment']);
         Route::get('{exam}/foreign-nationals/list', [ExamDocumentController::class, 'foreignNationalsList']);
         Route::get('schedule', [ExamController::class, 'schedule'])->name('exams.schedule');
         Route::get('{exam}/statement', [ReportController::class, 'statement']);
@@ -63,7 +65,7 @@ Route::middleware(['auth', 'user.is.active', 'organization.is.active', 'password
 
     Route::get('roles',  [UserController::class, "rolesShow"]);
 
-    Route::get('exams/available', [ExamController::class, "available"]);
+    Route::get('exams/available', [ExamEnrollmentController::class, "available"]);
 
     Route::get('exams/types', function(){
         return ExamType::select(['id', 'name'])->get();

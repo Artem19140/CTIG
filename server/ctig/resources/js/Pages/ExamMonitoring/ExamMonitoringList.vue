@@ -5,6 +5,7 @@ import ExamActionsDropdown from '../Exam/Components/ExamShowModal/ExamActionsDro
 import BaseServerTable from '../../Components/BaseServerTable.vue';
 import { capacityColor, examStatus } from '../../Helpers/heplers';
 import AppStatusChip from '../../Components/AppStatusChip/AppStatusChip.vue';
+import ExamStatusChip from '../Exam/Components/ExamStatusChip.vue';
 
 defineOptions({
   layout: EmployeeLayout,
@@ -58,9 +59,8 @@ const open = (event:Event, {item} : any) => {
                 </template>
                 
                 <template #item.status="{ item }">
-                    <AppStatusChip
-                        :text="examStatus(item).text"
-                        :color="examStatus(item).color.replace('text-', '')"
+                    <ExamStatusChip
+                        :exam="item"
                     />
                 </template>
                 <template #item.actions="{ item }">

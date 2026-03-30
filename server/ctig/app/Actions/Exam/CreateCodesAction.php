@@ -2,19 +2,24 @@
 
 namespace App\Actions\Exam;
 
+use App\Actions\Exam\Validation\EnsureExamHasEnrollmentAction;
+use App\Actions\Exam\Validation\EnsureExamIsNotCancelledAction;
+use App\Actions\Exam\Validation\EnsureExamIsNotCompletedAction;
 use App\Models\Exam;
 use Carbon\Carbon;
-use App\Exceptions\BusinessException;
 use Illuminate\Database\QueryException;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 final class CreateCodesAction{
+    public function __construct(
+        protected EnsureExamIsNotCancelledAction $ensureExamIsNotCancelled,
+        protected EnsureExamIsNotCompletedAction $ensureExamIsNotCompleted,
+        protected EnsureExamHasEnrollmentAction $ensureExamHasEnrollment
+    ){}
     public function execute(Exam $exam){
-        if($exam->isCompleted()){
-            throw new BusinessException('Экзмен уже прошел');
-        }
-
-        //отменен
+        $this->ensureExamIsNotCompleted->execute($exam);
+        $this->ensureExamIsNotCancelled->execute($exam);
+        $this->ensureExamHasEnrollment->execute($exam);
 
         $examBeginTime = Carbon::parse($exam->begin_time);
         $minutesBieforeBegin = $examBeginTime->copy()->diffInMinutes(Carbon::now(), false);
@@ -23,11 +28,6 @@ final class CreateCodesAction{
         // if(-$minutesBieforeBegin >= $minutes){
         //     throw new BusinessException("Коды можно сформировать минимум за $minutes минут до экзамена");
         // }
-
-        $foreignNationalsExists = $exam->foreignNationals()->exists();
-        if(!$foreignNationalsExists){
-            throw new BusinessException('На экзамен не записано ни одного ИГ');
-        }
 
         $foreignNationals = $exam->foreignNationals;
         

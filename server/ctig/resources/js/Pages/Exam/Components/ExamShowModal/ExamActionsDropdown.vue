@@ -8,6 +8,7 @@ import { useAuth } from '../../../../Composables/useAuth';
 import { Roles } from '../../../../Constants/Roles';
 import { getExamPermissions } from '../../../../Domain/Exam/getExamPermissions';
 
+
 const props = defineProps<{exam : Exam | null}>()
 
 const form = useForm({
@@ -48,7 +49,7 @@ const downloadStatement = () => {
 }
 
 const downloadProtocol = () => {
-
+  window.location.href = `/exams/${props.exam?.id}/protocol`
 }
 
 const {can} = useAuth()
@@ -80,9 +81,10 @@ const permission = getExamPermissions(props.exam)
       <AppListDropDownItem 
         title="Скачать протокол" 
         v-if="can([Roles.EXAMINER])"
-        :disabled="!permission.canDownloadProtocol"
+        
         @click="downloadProtocol" 
       />
+      :disabled="!permission.canDownloadProtocol"
 
       <AppListDropDownItem 
         title="Редактировать" 

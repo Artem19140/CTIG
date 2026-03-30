@@ -12,6 +12,7 @@ import PdfDialogViewer from '../PdfDialogViewer/PdfDialogViewer.vue';
 import ExamCommentModal from '../../Pages/ExamMonitoring/ExamCommentModal.vue';
 import EmployeeCreateModal from '../../Pages/Employees/EmployeeCreateModal.vue';
 import TransferModal from '../../Pages/Exam/Components/ExamShowModal/TransferModal.vue';
+import ForeignNationalEditModal from '../../Pages/ForeignNationals/Components/ForeignNationalEditModal.vue';
 
 
 const {modals, close} = useModals()
@@ -42,6 +43,8 @@ const modalComponent = (name: string) => {
             return EmployeeCreateModal
         case 'transfer':
             return TransferModal
+        case 'foreignNationalEdit':
+            return ForeignNationalEditModal
     }
 }
 

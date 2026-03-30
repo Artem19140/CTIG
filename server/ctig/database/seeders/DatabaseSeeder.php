@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Organization::create([
-            'name' => 'УдГУ',
+            'name' => 'Федеральное государственное бюджетное образовательное учреждение высшего образования «Удмуртский государственный университет» (ФГБОУ ВО «УдГУ»)',
             'time_zone' => 'Europe/Samara',
             'director_fio' => 'Рязанова Анна Юрьевна',
             'certificates_issue_address' => 'Удмуртская республика, г. Ижевск, ул. Университетская, д.1',
@@ -65,6 +65,10 @@ class DatabaseSeeder extends Seeder
             'name' => UserRoles::Director,
         ]);
 
+        $roleVideoRecordOperator = Role::create([
+            'name' => UserRoles::VideoRecordOperator,
+        ]);
+
         $roleOrgAdmin = Role::create([
             'name' => UserRoles::OrgAdmin,
         ]);
@@ -92,6 +96,7 @@ class DatabaseSeeder extends Seeder
         $user->roles()->attach($roleScheduler);
         $user->roles()->attach($roleDirector);
         $user->roles()->attach($roleOrgAdmin);
+        $user->roles()->attach($roleVideoRecordOperator);
         
         $this->call([
             PatentSeeder::class,

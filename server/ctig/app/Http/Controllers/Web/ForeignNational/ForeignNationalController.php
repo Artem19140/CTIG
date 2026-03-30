@@ -7,6 +7,7 @@ use App\Actions\ForeignNational\CreateForeignNationalWithEnrollmentAction;
 use App\Actions\ForeignNational\GetForeignNationalsListAction;
 use App\Http\Requests\ForeignNational\ForeignNationalIndexRequest;
 use App\Http\Requests\ForeignNational\ForeignNationalPostRequest;
+use App\Http\Requests\ForeignNational\ForeignNationalUpdateRequest;
 use App\Models\ForeignNational;
 use App\Http\Resources\ForeignNational\ForeignNationalResource;
 use Illuminate\Http\Request;
@@ -63,8 +64,9 @@ class ForeignNationalController
         return new ForeignNationalResource($foreignNational);
     }
 
-    public function update(ForeignNationalPostRequest $request, ForeignNational $foreignNational)
+    public function update(ForeignNationalUpdateRequest $request, ForeignNational $foreignNational)
     {
+        
     }
 
     public function destroy(ForeignNational $foreignNational)

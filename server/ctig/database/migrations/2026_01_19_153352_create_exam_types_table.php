@@ -22,6 +22,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('min_mark');
             $table->boolean('need_human_check');
             $table->boolean('has_speaking_tasks');
+            $table->string('protocol_name');
             $table->timestamps();
         });
      

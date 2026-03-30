@@ -248,7 +248,8 @@ return [
         'roles' => 'роли',
         'roles.0' => 'роль',
         'time' => 'время',
-        'hasPayment' => 'есть оплата'
+        'hasPayment' => 'есть оплата',
+        'protocolComment' => 'комментарий для протокола'
     ],
 
 ];

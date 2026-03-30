@@ -5,8 +5,14 @@ namespace App\Actions\Exam;
 use App\Exceptions\BusinessException;
 use App\Exceptions\EntityNotFoundExсeption;
 use App\Models\Exam;
+use App\Actions\Exam\Validation\EnsureExamIsNotCancelledAction;
 
 class CheckExamRelevanceAction{
+    
+    public function __construct(
+        protected EnsureExamIsNotCancelledAction $ensureExamIsNotCancelled
+        
+    ){}
     public function execute(Exam|int $exam){
         if($exam instanceof Exam){
             $exam;
@@ -17,10 +23,7 @@ class CheckExamRelevanceAction{
             }
         }
 
-        if($exam->isCancelled()){
-            throw new BusinessException('Экзамен отменен');
-        }
-
+        $this->ensureExamIsNotCancelled->execute($exam);
         if($exam->isCompleted()){
             throw new BusinessException('Экзмен уже прошел');
         }

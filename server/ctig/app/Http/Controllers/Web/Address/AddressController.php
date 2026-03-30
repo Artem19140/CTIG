@@ -13,7 +13,6 @@ class AddressController extends Controller
 
     public function index()
     {
-        return Inertia::render();
         return AddressResource::collection(Address::all());
     }
 

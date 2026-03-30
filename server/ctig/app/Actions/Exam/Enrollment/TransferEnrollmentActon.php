@@ -2,6 +2,9 @@
 
 namespace App\Actions\Exam\Enrollment;
 
+use App\Actions\Exam\Validation\EnsureExamIsNotCancelledAction;
+use App\Actions\Exam\Validation\EnsureExamIsNotCompletedAction;
+use App\Actions\Exam\Validation\EnsureExamIsNotGoingAction;
 use App\Exceptions\BusinessException;
 use App\Exceptions\EntityNotFoundExсeption;
 use App\Models\Exam;
@@ -11,15 +14,23 @@ use DB;
 
 class TransferEnrollmentActon{
     public function __construct(
-        protected CreateEnrollmentAction $createEnrollment
+        protected CreateEnrollmentAction $createEnrollment,
+        protected EnsureExamIsNotCancelledAction $ensureExamIsNotCancelled,
+        protected EnsureExamIsNotCompletedAction $ensureExamIsNotCompleted,
+        protected EnsureExamIsNotGoingAction $ensureExamIsNotGoing
     ){}
     public function exectute(int $oldExamId, int $newExamId, ForeignNational $foreignNational, User $user){
         $oldExam = Exam::find($oldExamId);
         $newExam = Exam::find($newExamId);
 
-        if($oldExam->isCompleted() || $oldExam->isGoing()){
-            throw new BusinessException('Нельзя перенести запись с прошедшего или идущего экзамена');
-        }
+        $this->ensureExamIsNotCancelled->execute($oldExam);
+        $this->ensureExamIsNotCancelled->execute($newExam);
+
+        $this->ensureExamIsNotCompleted->execute($oldExam);
+        $this->ensureExamIsNotCompleted->execute($newExam);
+        
+        $this->ensureExamIsNotGoing->execute($oldExam);
+        $this->ensureExamIsNotGoing->execute($newExam);
 
         $oldEnrollment = $oldExam->foreignNationals()->where('foreign_national_id', $foreignNational->id)->first();
 

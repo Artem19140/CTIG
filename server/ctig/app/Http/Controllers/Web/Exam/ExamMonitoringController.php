@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Web\Exam;
 
-use App\Exceptions\BusinessException;
+use App\Actions\Exam\Monitoring\UpdateProtocolCommentAction;
 use App\Http\Resources\Exam\ExamResource;
 use App\Http\Resources\ForeignNational\ForeignNationalResource;
 use App\Models\Exam;
@@ -33,10 +33,6 @@ class ExamMonitoringController
     public function show(Exam $exam){
         Gate::authorize('exam-manage-access', $exam);
 
-        if($exam->isCompleted()){
-            throw new BusinessException('Экзамен уже прошел');
-        }
-
         $exam->load([
             'foreignNationals.attempts' => fn ($query) => $query->where('exam_id', $exam->id)
         ]);
@@ -46,5 +42,15 @@ class ExamMonitoringController
             'exam' => new ExamResource($exam),
             'hasSpeakingTasks' => $exam->examType->has_speaking_tasks,
         ]);
+    }
+
+    public function updateProtocolComment(Request $request, Exam $exam, UpdateProtocolCommentAction $updateProtocolComment){
+        Gate::authorize('exam-manage-access', $exam);
+        $request->validate([
+            'protocolComment' => ['required', 'string']
+        ]);
+        $updateProtocolComment->execute($exam, $request->input('protocolComment'));
+        Inertia::flash('success', 'Комментарий добавлен');
+        return back();
     }
 }

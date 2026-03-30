@@ -8,4 +8,5 @@ return [
     UserRoles::Scheduler->value => 'Администратор экзаменов',
     UserRoles::Director->value => 'Директор',
     UserRoles::Examiner->value => 'Экзаменатор',
+    UserRoles::VideoRecordOperator->value=>'Оператор видеозаписей'
 ];

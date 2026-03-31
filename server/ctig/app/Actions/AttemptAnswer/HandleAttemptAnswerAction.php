@@ -2,6 +2,8 @@
 
 namespace App\Actions\AttemptAnswer;
 
+use App\Actions\Attempt\EnsureAttemptIsActiveAction;
+use App\Actions\Attempt\EnsureAttemptIsNotBannedAction;
 use App\Enums\TaskType;
 use App\Exceptions\BusinessException;
 use App\Exceptions\EntityNotFoundExсeption;
@@ -11,8 +13,15 @@ use App\Models\TaskVariant;
 
 
 class HandleAttemptAnswerAction{
+    public function __construct(
+        protected EnsureAttemptIsActiveAction $ensureAttemptIsActive,
+        protected EnsureAttemptIsNotBannedAction $ensureAttemptIsNotBanned
+    ){}
 
     public function execute(mixed $answer, Attempt $attempt, int $taskVariantId){
+        $this->ensureAttemptIsActive->execute($attempt);
+        $this->ensureAttemptIsNotBanned->execute($attempt);
+        
         $taskVariant = TaskVariant::with(['answers', 'task'])->find($taskVariantId);
         if(!$taskVariant){
             throw new EntityNotFoundExсeption('Задание');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\Attempt;
 
 use App\Actions\Attempt\FinalizeAttemptCheckingAction;
+use App\Actions\Attempt\GetCurrentAttemptAction;
 use App\Actions\Attempt\StartAttemptAction;
 use App\Enums\AttemptStatus;
 use App\Enums\TaskType;
@@ -39,25 +40,11 @@ class AttemptController extends Controller
         return AttemptResource::collection($examAttempts);
     }
 
-    public function current(Request $request, Attempt $attempt){
-        $foreignNational = $request->user();
-
-        if($attempt->isExpired() || !$attempt->isActive()){
-            $attempt->finish();
-            $attempt->save();
-            return redirect('login')->with('Попытка неактивна');
-        }
-        $attemptTasks = TaskVariant::with(['answers', 'task', 'attemptsAnswers' => function ($query) use ($attempt) {
-                                                $query->where('attempt_id', $attempt->id);
-                                            }])
-                                        ->whereHas('attemptsAnswers', function (Builder $query) use($attempt){
-                                            $query->where('attempt_id', $attempt->id);
-                                        })
-                                        ->join('tasks', 'task_variants.task_id', '=', 'tasks.id')
-                                            ->orderBy('tasks.order')
-                                            ->select('task_variants.*') 
-                                        ->get();
-
+    public function current(
+                            Attempt $attempt,
+                            GetCurrentAttemptAction $getCurrentAttempt
+                        ){
+        $attemptTasks = $getCurrentAttempt->execute($attempt);
         return Inertia::render('Attempt/Attempt', [
             'attempt' => new AttemptResource($attempt),
             'tasks'=> TaskVariantResource::collection($attemptTasks)

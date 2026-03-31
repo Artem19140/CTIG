@@ -3,6 +3,7 @@
 namespace App\Actions\Attempt;
 
 use App\Actions\Attempt\GenerateExamVariantAction;
+use App\Actions\Exam\Validation\EnsureExamIsGoingAction;
 use App\Exceptions\BusinessException;
 use App\Models\Attempt;
 use App\Models\Exam;
@@ -16,15 +17,15 @@ class StartExamSessionAction{
 
     public function __construct(
         protected GenerateExamVariantAction $generateExamVariant,
-        protected SetSessionAndGroupNumberAction $setSessionAndGroupNumber
+        protected SetSessionAndGroupNumberAction $setSessionAndGroupNumber,
+        protected EnsureExamIsGoingAction $ensureExamIsGoing
     ){}
     public function execute(ForeignNational $foreignNational):Attempt{
         return DB::transaction(function () use($foreignNational){
             $exam = Exam::with('examType.blocks.subblocks.tasks.variants')
                         ->find($foreignNational->exam_id);
-            // if(!$exam->isGoing()){
-            //     throw new BusinessException('Начать попытку можно только во время экзамена');
-            // }
+            
+            //$this->ensureExamIsGoing->execute($exam);
             
             $attempt =  $this->createAttempt($foreignNational, $exam);
 

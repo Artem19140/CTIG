@@ -30,7 +30,6 @@ class AttemptAnswerController extends Controller
     public function update(
                             AttemptAnswerRequest $request,
                             Attempt $attempt, 
-                            CheckAttemptIsActiveAction $checkAttempt,
                             HandleAttemptAnswerAction $handleAttemptAnswer
                         )
     {
@@ -38,12 +37,6 @@ class AttemptAnswerController extends Controller
         if($attempt->foreign_national_id !== $foreignNational->id){
             abort(403);
         }
-        // $isActive = $checkAttempt->execute($attempt);
-
-        // if(!$isActive){
-        //     $attempt->finish();
-        //     return redirect()->route('login');
-        // }
         $answer = $request->input('answer');
         $taskVariantId = $request->input('taskVariantId');
         DB::transaction(function()use($answer, $attempt,$taskVariantId, $handleAttemptAnswer){

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Exam;
+namespace App\Actions\Exam\Enrollment;
 
 use App\Models\Exam;
 use Illuminate\Database\Eloquent\Builder;

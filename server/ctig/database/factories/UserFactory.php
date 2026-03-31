@@ -37,6 +37,8 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'has_to_change_password' => false,
+            'is_active' => true,
             'remember_token' => Str::random(10),
             'organization_id' => Organization::inRandomOrder()->first()->id,
             'job_title'=>  fake()->randomElement(['Специалист центра тестирования иностранных граждан','Директор центра тестирования иностранных граждан', 'Сотрудник центра тестирования иностранных граждан', 'Тестер центра тестирования иностранных граждан'])

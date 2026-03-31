@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Exam;
+namespace App\Actions\Exam\Manage;
 
 use App\Enums\UserRoles;
 use App\Http\Dto\ExamDto;
@@ -48,7 +48,7 @@ final class CreateExamAction{
                 throw new BusinessException("$examiner->full_name не имеет роли экзаменатора");
             }
         }
-
+        
         $examDuration = $examType->duration;
         $examEndTime = $examBeginTime->copy()->addMinutes($examDuration);
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Exam;
+namespace App\Actions\Exam\Manage;
 
 use App\Models\Exam;
 use App\Validation\ExamValidation;

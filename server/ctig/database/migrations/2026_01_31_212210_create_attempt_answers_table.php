@@ -39,9 +39,14 @@ return new class extends Migration
                 ->constrained('organizations')
                 ->cascadeOnDelete();
 
-            $table->boolean('audio_is_played')->default(false);
+            $table->boolean('audio_played')->default(false);
                 
-            $table->integer('checked_by_id')->nullable()->default(null);
+            $table->foreignId('checked_by_id')
+                ->nullable()
+                ->default(null)
+                ->constrained('users')
+                ->cascadeOnDelete();
+
             $table->boolean('is_checked')->index()->default(false);
             $table->unsignedTinyInteger('mark')->nullable()->default(null);
             $table->jsonb('answer')->index()->nullable()->default(null);

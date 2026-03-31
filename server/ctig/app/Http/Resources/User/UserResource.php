@@ -21,7 +21,8 @@ class UserResource extends JsonResource
             'patronymic' => $this->resource->patronymic,
             'name'=>$this->resource->name,
             'email'=>$this->resource->email,
-            'jobTitle' => $this->job_title
+            'jobTitle' => $this->job_title,
+            'is_active'
         ];
     }
 }

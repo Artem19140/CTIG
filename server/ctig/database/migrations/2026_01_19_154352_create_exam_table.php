@@ -15,8 +15,8 @@ return new class extends Migration
             $table->dateTime('begin_time_utc')->index();
             $table->dateTime('end_time')->index();
 
-            $table->dateTime('begin_time_actual')->index();
-            $table->dateTime('end_time_actual')->index();
+            $table->dateTime('begin_time_real')->nullable()->default(null);
+            $table->dateTime('end_time_real')->nullable()->default(null);
 
             $table->unsignedTinyInteger('capacity');
 
@@ -39,11 +39,13 @@ return new class extends Migration
             
             $table->boolean('is_cancelled')->default(false);
             $table->string('cancelled_reason')->nullable()->default(null);
+
             $table->tinyInteger('group')->nullable()->default(null);
             $table->mediumInteger('session')->nullable()->default(null);
+
             $table->string('comment')->nullable()->default(null);
             $table->string('protocol_comment', 1000)->nullable()->default(null);
-            $table->string('overview_video_path')->nullable()->default(null);
+
             $table->timestamps();
         });
 
@@ -97,6 +99,7 @@ return new class extends Migration
             $table->foreignId('organization_id')
                 ->constrained('organizations')
                 ->cascadeOnDelete();
+            $table->unique(['examiner_id', 'exam_id']);
 
             $table->timestamps();
         });        

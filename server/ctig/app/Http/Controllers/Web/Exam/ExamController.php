@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web\Exam;
 
 use App\Actions\Attempt\StartExamSessionAction;
-use App\Actions\Exam\CancelExamAction;
+use App\Actions\Exam\Manage\CancelExamAction;
 use App\Actions\Exam\GetExamListAction;
 use App\Actions\Exam\VerifyExamCodeAction;
 use App\Enums\UserRoles;
@@ -23,7 +23,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\Exam\ExamResource;
 use App\Http\Requests\Exam\ExamPostRequest;
-use App\Actions\Exam\CreateExamAction;
+use App\Actions\Exam\Manage\CreateExamAction;
 use Inertia\Inertia;
 
 class ExamController
@@ -41,9 +41,7 @@ class ExamController
     public function store(ExamPostRequest $request, CreateExamAction $createExamAction)
     {       
         $createExamAction->handle($request->getDto(),$request->user());
-        Inertia::flash('success', 'Экзамен создан');
-        return back();
-
+        return Inertia::flash('success', 'Экзамен создан')->back();
     }
 
     public function createModalData(){

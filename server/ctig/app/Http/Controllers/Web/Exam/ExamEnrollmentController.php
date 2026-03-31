@@ -6,12 +6,11 @@ use App\Actions\Exam\Enrollment\CancellEnrollmentAction;
 use App\Actions\Exam\Enrollment\ChangePaymentStatusAction;
 use App\Actions\Exam\Enrollment\CreateEnrollmentAction;
 use App\Actions\Exam\Enrollment\TransferEnrollmentActon;
-use App\Exceptions\BusinessException;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Actions\Exam\GetAvailableExamsAction;
+use App\Actions\Exam\Enrollment\GetAvailableExamsAction;
 
 class ExamEnrollmentController
 {

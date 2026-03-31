@@ -37,13 +37,18 @@ return new class extends Migration
         
             $table->string('exam_code')->index()->nullable()->unique()->default(null);
             $table->dateTime('exam_code_expired_at')->nullable()->default(null);
-            $table->integer('exam_id')->nullable()->default(null);
+            $table->foreignId('exam_id')
+                ->nullable()
+                ->default(null)
+                ->constrained('exams')
+                ->cascadeOnDelete();
 
             $table->foreignId('creator_id')
                 ->constrained('users');
 
 
             $table->dateTime('storage_expired_at')->default(now()->addYears(3));
+            
             $table->timestamps();
         });
     }

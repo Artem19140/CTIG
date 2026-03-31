@@ -3,13 +3,12 @@
 namespace App\Actions\Exam\Enrollment;
 
 use App\Actions\Counter\GetRegNumberAction;
-use App\Actions\Exam\Validation\EnsureExamIsNotCancelledAction;
-use App\Actions\Exam\Validation\EnsureExamIsNotCompletedAction;
-use App\Actions\Exam\Validation\EnsureExamIsGoingAction;
+
 use App\Exceptions\EntityNotFoundExсeption;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\User;
+use App\Validation\ExamValidation;
 use Carbon\Carbon;
 use App\Exceptions\BusinessException;
 use App\Actions\ForeignNational\CreateForeignNationalStatementAction;
@@ -18,14 +17,12 @@ final class CreateEnrollmentAction{
     public function __construct(
         protected CreateForeignNationalStatementAction $createForeignNationalStatement,
         protected GetRegNumberAction $getRegNumber,
-        protected EnsureExamIsNotCancelledAction $ensureExamIsNotCancelled,
-        protected EnsureExamIsNotCompletedAction $ensureExamIsNotCompleted,
-        protected EnsureExamIsGoingAction $ensureExamIsGoing
+        protected ExamValidation $examValidation
     ){}
     public function execute(Exam $exam, int $foreignNationalId, User $user, bool $hasPayment):ForeignNational{
-        $this->ensureExamIsNotCancelled->execute($exam);
-        $this->ensureExamIsNotCompleted->execute($exam);
-        $this->ensureExamIsGoing->execute($exam);
+        $this->examValidation->ensureNotCancelled($exam);
+        $this->examValidation->ensureNotCompleted($exam);
+        $this->examValidation->ensureGoing($exam);
         $foreignNational = ForeignNational::find($foreignNationalId);
         
         if(!$foreignNational){

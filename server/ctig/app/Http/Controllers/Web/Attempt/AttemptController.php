@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Web\Attempt;
 
-use App\Actions\Attempt\FinalizeAttemptCheckingAction;
+use App\Actions\Attempt\Checking\FinalizeAttemptCheckingAction;
 use App\Actions\Attempt\GetCurrentAttemptAction;
 use App\Actions\Attempt\StartAttemptAction;
 use App\Enums\AttemptStatus;
@@ -126,7 +126,7 @@ class AttemptController extends Controller
                                             $finalizeAttemptChecking,
                                             $zeroEmptyAutoAnswers
                                         ){
-            $attempt->lockForUpdate();
+            $attempt->lockForUpdate(); //Не работает
             $attempt->finish();
             $zeroEmptyAutoAnswers->execute($attempt);
 
@@ -176,7 +176,7 @@ class AttemptController extends Controller
     public function before(Request $request, Attempt $attempt){
         $foreignNational = $request->user();
 
-        if(!$attempt->status === AttemptStatus::Pending){
+        if($attempt->status !== AttemptStatus::Pending){
             return redirect('login')->with('У вас нет текущей попытки экзамена');
         }
         $exam = Exam::with([

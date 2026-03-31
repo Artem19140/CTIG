@@ -2,35 +2,30 @@
 
 namespace App\Actions\Exam\Enrollment;
 
-use App\Actions\Exam\Validation\EnsureExamIsNotCancelledAction;
-use App\Actions\Exam\Validation\EnsureExamIsNotCompletedAction;
-use App\Actions\Exam\Validation\EnsureExamIsNotGoingAction;
 use App\Exceptions\BusinessException;
-use App\Exceptions\EntityNotFoundExсeption;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\User;
+use App\Validation\ExamValidation;
 use DB;
 
 class TransferEnrollmentActon{
     public function __construct(
         protected CreateEnrollmentAction $createEnrollment,
-        protected EnsureExamIsNotCancelledAction $ensureExamIsNotCancelled,
-        protected EnsureExamIsNotCompletedAction $ensureExamIsNotCompleted,
-        protected EnsureExamIsNotGoingAction $ensureExamIsNotGoing
+        protected ExamValidation $examValidation
     ){}
     public function exectute(int $oldExamId, int $newExamId, ForeignNational $foreignNational, User $user){
         $oldExam = Exam::find($oldExamId);
         $newExam = Exam::find($newExamId);
 
-        $this->ensureExamIsNotCancelled->execute($oldExam);
-        $this->ensureExamIsNotCancelled->execute($newExam);
+        $this->examValidation->ensureNotCancelled($oldExam);
+        $this->examValidation->ensureNotCancelled($newExam);
 
-        $this->ensureExamIsNotCompleted->execute($oldExam);
-        $this->ensureExamIsNotCompleted->execute($newExam);
+        $this->examValidation->ensureNotCompleted($oldExam);
+        $this->examValidation->ensureNotCompleted($newExam);
         
-        $this->ensureExamIsNotGoing->execute($oldExam);
-        $this->ensureExamIsNotGoing->execute($newExam);
+        $this->examValidation->ensureNotGoing($oldExam);
+        $this->examValidation->ensureNotGoing($newExam);
 
         $oldEnrollment = $oldExam->foreignNationals()->where('foreign_national_id', $foreignNational->id)->first();
 

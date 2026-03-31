@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web\Report;
 
 use App\Actions\Reports\CheckAvailableFrdoGenerateAction;
 use App\Actions\Reports\GenerateCertificatesFRDOAction;
-use App\Actions\Reports\GenerateExamStatementAction;
+use  App\Actions\Exam\Documents\GenerateExamStatementAction;
 use App\Actions\Reports\GenerateFlatTableAction;
 use App\Actions\Reports\GenerateFRDOReportsAction;
 use App\Actions\Reports\GenerateReferencesFRDOAction;

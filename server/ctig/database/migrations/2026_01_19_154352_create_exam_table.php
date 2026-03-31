@@ -14,6 +14,10 @@ return new class extends Migration
             $table->dateTime('begin_time')->index();
             $table->dateTime('begin_time_utc')->index();
             $table->dateTime('end_time')->index();
+
+            $table->dateTime('begin_time_actual')->index();
+            $table->dateTime('end_time_actual')->index();
+
             $table->unsignedTinyInteger('capacity');
 
             $table->foreignId('exam_type_id') 

@@ -1,28 +1,25 @@
 <?php
 
-namespace App\Actions\Reports;
+namespace App\Actions\Exam\Documents;
 
 use App\Actions\Attempt\GetDetailedAttemptResultsAction;
-use App\Actions\Exam\Validation\EnsureExamHasEnrollmentAction;
-use App\Actions\Exam\Validation\EnsureExamIsCompletedAction;
-use App\Actions\Exam\Validation\EnsureExamIsNotCancelledAction;
 use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
 use App\Models\ForeignNational;
+use App\Validation\ExamValidation;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class GenerateExamStatementAction{
     public function __construct(
         protected GetDetailedAttemptResultsAction $getDetailedAttemptResults,
-        protected EnsureExamIsCompletedAction $ensureExamIsCompleted,
-        protected EnsureExamIsNotCancelledAction $ensureExamIsNotCancelled,
-        protected EnsureExamHasEnrollmentAction $ensureExamHasEnrollment
+        protected ExamValidation $examValidation
     ){}
     public function execute(Exam $exam){
-        $this->ensureExamIsCompleted->execute($exam);
-        $this->ensureExamIsNotCancelled->execute($exam);
-        $this->ensureExamHasEnrollment->execute($exam);
+        $this->examValidation->ensureCompleted($exam);
+        $this->examValidation->ensureNotCancelled($exam);
+        $this->examValidation->ensureHasEnrollment($exam);
+        
         $templatePath = storage_path('app/templates/statement.xlsx');
         
         $attemptsNotChecked = $exam->attempts()
@@ -87,7 +84,6 @@ class GenerateExamStatementAction{
                     
                 }
             }
-            //die;
         }
         return $spreadSheet;
     }

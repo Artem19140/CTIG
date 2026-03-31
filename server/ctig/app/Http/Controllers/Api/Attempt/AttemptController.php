@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\Attempt;
 
-use App\Actions\Attempt\FinalizeAttemptCheckingAction;
+use App\Actions\Attempt\Checking\FinalizeAttemptCheckingAction;
 use App\Actions\Attempt\GenerateExamVariantAction;
 use App\Enums\AttemptStatus;
 use App\Enums\TaskType;

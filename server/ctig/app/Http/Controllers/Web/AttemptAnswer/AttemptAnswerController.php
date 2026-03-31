@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Web\AttemptAnswer;
 
 use App\Actions\Attempt\CheckAttemptIsActiveAction;
-use App\Actions\Attempt\FinalizeAttemptCheckingAction;
-use App\Actions\AttemptAnswer\HandleAttemptAnswerAction;
+use App\Actions\Attempt\Checking\FinalizeAttemptCheckingAction;
+use App\Actions\Attempt\Checking\HandleAttemptAnswerAction;
 use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Http\Requests\AttemptAnswer\AttemptAnswerRequest;

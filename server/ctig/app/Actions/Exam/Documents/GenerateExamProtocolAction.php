@@ -1,24 +1,22 @@
 <?php
 
-namespace App\Actions\Reports;
+namespace App\Actions\Exam\Documents;
 
-use App\Actions\Exam\Validation\EnsureExamIsCompletedAction;
-use App\Actions\Exam\Validation\EnsureExamIsNotCancelledAction;
 use App\Enums\AttemptStatus;
 use App\Models\Attempt;
 use App\Models\Exam;
 use App\Models\User;
+use App\Validation\ExamValidation;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class GenerateExamProtocolAction{
     public function __construct(
-        protected EnsureExamIsNotCancelledAction $ensureExamIsNotCancelled,
-        protected EnsureExamIsCompletedAction $ensureExamIsCompleted
+        protected ExamValidation $examValidation
     ){}
     public function execute(Exam $exam, User $user){
-        // $this->ensureExamIsNotCancelled->execute($exam);
-        // $this->ensureExamIsCompfleted->execute($exam);
+        $this->examValidation->ensureNotCancelled($exam);
+        $this->examValidation->ensureCompleted($exam);
         $bannedAttempts = Attempt::with('foreignNational')
                         ->where('exam_id', $exam->id)
                         ->where('status', AttemptStatus::Banned)->get();

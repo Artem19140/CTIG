@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Report;
 
 use App\Actions\Reports\GenerateCertificatesFRDOAction;
-use App\Actions\Reports\GenerateExamStatementAction;
+use  App\Actions\Exam\Documents\GenerateExamStatementAction;
 use App\Actions\Reports\GenerateReferencesFRDOAction;
 use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;

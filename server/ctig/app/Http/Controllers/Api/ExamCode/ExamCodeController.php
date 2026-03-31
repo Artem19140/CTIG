@@ -9,12 +9,12 @@ use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\Controller;
 use App\Models\Student;
-use App\Actions\Exam\CreateCodesAction;
+use App\Actions\Exam\Documents\GenerateCodesAction;
 use App\Enums\TokenAbilities;
 
 class ExamCodeController extends Controller
 {
-    public function store(Exam $exam, CreateCodesAction $createCodes)
+    public function store(Exam $exam, GenerateCodesAction $createCodes)
     {
         return $createCodes->execute($exam);
     }

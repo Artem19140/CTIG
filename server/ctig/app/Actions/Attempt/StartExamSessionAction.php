@@ -3,12 +3,12 @@
 namespace App\Actions\Attempt;
 
 use App\Actions\Attempt\GenerateExamVariantAction;
-use App\Actions\Exam\Validation\EnsureExamIsGoingAction;
 use App\Exceptions\BusinessException;
 use App\Models\Attempt;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\AttemptAnswer;
+use App\Validation\ExamValidation;
 use Illuminate\Support\Facades\DB;
 use App\Actions\Exam\SetSessionAndGroupNumberAction;
 
@@ -18,14 +18,14 @@ class StartExamSessionAction{
     public function __construct(
         protected GenerateExamVariantAction $generateExamVariant,
         protected SetSessionAndGroupNumberAction $setSessionAndGroupNumber,
-        protected EnsureExamIsGoingAction $ensureExamIsGoing
+        protected ExamValidation $examValidation
     ){}
     public function execute(ForeignNational $foreignNational):Attempt{
         return DB::transaction(function () use($foreignNational){
             $exam = Exam::with('examType.blocks.subblocks.tasks.variants')
                         ->find($foreignNational->exam_id);
             
-            //$this->ensureExamIsGoing->execute($exam);
+            $this->examValidation->ensureGoing($exam);
             
             $attempt =  $this->createAttempt($foreignNational, $exam);
 

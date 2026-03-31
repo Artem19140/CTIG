@@ -1,26 +1,11 @@
 <?php
 
-namespace App\Actions\Attempt;
+namespace App\Actions\Attempt\Checking;
 
-use App\Actions\Attempt\CheckPassingThresholdAction;
-use App\Enums\AttemptStatus;
 use App\Models\Attempt;
 
-class FinalizeAttemptCheckingAction{
-    public function execute(Attempt $attempt){
-        $attempt->status = AttemptStatus::Checked;
-        $totalMarkCount = $attempt->answers()->sum('mark');
-        $attempt->total_mark = $totalMarkCount;
-        $isSuccessAttempt = $this->checkPassingThreshold($attempt);
-        if($isSuccessAttempt){
-            $attempt->is_passed = true;
-        }else{
-            $attempt->is_passed = false;
-        }
-        return true;
-    }
-
-    private function checkPassingThreshold(Attempt $attempt): bool{
+class CheckPassingThresholdAction{
+    public function execute(Attempt $attempt): bool{
         $attemptAnswers = $attempt->answers()->with('taskVariant.task.subblock.block')->get();
 
         $answersByBlock = $attemptAnswers->groupBy(function($answer){
@@ -48,4 +33,5 @@ class FinalizeAttemptCheckingAction{
         }
         return true;
     }
+
 }

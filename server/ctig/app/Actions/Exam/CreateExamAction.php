@@ -3,7 +3,6 @@
 namespace App\Actions\Exam;
 
 use App\Enums\UserRoles;
-use App\Exceptions\EntityNotFoundExсeption;
 use App\Http\Dto\ExamDto;
 use App\Models\Address;
 use App\Models\Exam;

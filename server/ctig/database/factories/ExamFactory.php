@@ -29,19 +29,20 @@ class ExamFactory extends Factory
             'begin_time' => fake()->dateTimeBetween('-30 days', '+30 days')->format('Y-m-d'),
             'end_time' => fake()->dateTimeBetween('-30 days', '+30 days')->format('Y-m-d'),
             'begin_time_utc' => fake()->dateTimeBetween('-30 days', '+30 days')->format('Y-m-d'),
-            'exam_type_id' => ExamType::inRandomOrder()->first()->id,
+            'exam_type_id' => ExamType::factory(),
             'creator_id' => User::factory(),
             'capacity'=>fake()->numberBetween(5, 20),
             'address_id' => Address::factory(),
-            'date' => fake()->dateTimeBetween('-1 week', '+1 week')->format('Y-m-d'),
-            'organization_id' => Organization::inRandomOrder()->first()->id
+            'organization_id' => Organization::factory()
         ];
     }
 
-    public function inFuture(){
-        return $this->state(function(){
+    public function inFuture(string $tz =''){
+        return $this->state(function() use($tz){
             return[
-                'begin_time' => Carbon::now()->addDay(),
+                'begin_time_utc' => Carbon::now()->addDay(),
+                'begin_time' => Carbon::now($tz)->addDay(),
+                'end_time' => Carbon::now($tz)->addDay()->addHour(),
             ];
         });
     }
@@ -54,10 +55,12 @@ class ExamFactory extends Factory
         });
     }
 
-    public function inPast(){
-        return $this->state(function(){
+    public function inPast(string $tz =''){
+        return $this->state(function()use($tz){
             return[
-                'begin_time' => Carbon::now()->subDay()
+                'begin_time_utc' => Carbon::now()->subDay(),
+                'begin_time' => Carbon::now($tz)->subDay(),
+                'end_time' => Carbon::now($tz)->subDay()->addHour(),
             ];
         });
     }

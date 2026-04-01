@@ -3,9 +3,10 @@ import { router } from '@inertiajs/vue3';
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
 import ExamActionsDropdown from '../Exam/Components/ExamShowModal/ExamActionsDropdown.vue';
 import BaseServerTable from '../../Components/BaseServerTable.vue';
-import { capacityColor, examStatus } from '../../Helpers/heplers';
+import { capacityColor } from '../../Helpers/heplers';
 import AppStatusChip from '../../Components/AppStatusChip/AppStatusChip.vue';
 import ExamStatusChip from '../Exam/Components/ExamStatusChip.vue';
+import { DateFormatter } from '../../Helpers/DateFormatter';
 
 defineOptions({
   layout: EmployeeLayout,
@@ -62,6 +63,9 @@ const open = (event:Event, {item} : any) => {
                     <ExamStatusChip
                         :exam="item"
                     />
+                </template>
+                <template #item.beginTime="{ item }">
+                    {{ new DateFormatter(item.beginTime).format('H:i, d.m.Y') }}
                 </template>
                 <template #item.actions="{ item }">
                     <ExamActionsDropdown :exam="item" />

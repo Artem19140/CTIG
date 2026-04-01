@@ -5,6 +5,7 @@ import { ForeignNational } from '../../../interfaces/interfaces';
 import ForeignNationalCreateForm from './ForeignNationalCreateForm.vue';
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
 import PrimaryButton from '../../../Components/PrimaryButton/PrimaryButton.vue';
+import { DateFormatter } from '../../../Helpers/DateFormatter';
 
 
 const props = defineProps<{
@@ -23,12 +24,12 @@ const form = useForm<ForeignNational>({
     passportNumber: props.foreignNational?.passportNumber,
     passportSeries: props.foreignNational?.passportSeries,
     issuedBy: props.foreignNational?.issuedBy,
-    issuedDate: props.foreignNational?.issuedDate,
+    issuedDate: new DateFormatter(props.foreignNational?.issuedDate).format('Y-m-d') ?? '',
     migrationCardRequisite: props.foreignNational?.migrationCardRequisite ?? '',
     citizenship: props.foreignNational?.citizenship ,
     phone: props.foreignNational?.phone,
     addressReg: props.foreignNational?.addressReg,
-    dateBirth: props.foreignNational?.dateBirth,
+    dateBirth: new DateFormatter(props.foreignNational?.dateBirth).format('Y-m-d') ?? '',
     gender: props.foreignNational?.gender,
     comment: props.foreignNational?.comment
 })
@@ -36,7 +37,7 @@ const form = useForm<ForeignNational>({
 const edit = () => {
     form.put(`foreign-nationals/${props.foreignNational.id}`,{
         onSuccess:(page) => {
-
+            
         }
     })
 }
@@ -70,6 +71,8 @@ const beforeClose = async (fn: () => void) => {
             <PrimaryButton
                 text="Сохранить"
                 @click="edit"
+                :loading="form.processing"
+                :disabled="form.processing"
             />
         </template>
     </BaseDialog>

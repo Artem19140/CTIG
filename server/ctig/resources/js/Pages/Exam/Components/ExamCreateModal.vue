@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useForm, useHttp } from '@inertiajs/vue3'
-import axios from 'axios';
+
 import { onMounted, ref } from 'vue';
 import AppInput from '../../../Components/AppInput/AppInput.vue';
 import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
@@ -8,7 +8,7 @@ import { Address, User, ExamType } from '../../../interfaces/interfaces';
 import { ExamForm } from '../../../interfaces/interfaces';
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
 import AddButton from '../../../Components/AddButton/AddButton.vue';
-
+import ExamCreateForm from './ExamCreateForm.vue';
 import AppAutocomplete from '../../../Components/AppAutocomplete/AppAutocomplete.vue';
 import AppTextarea from '../../../Components/AppTextarea/AppTextarea.vue';
 
@@ -73,76 +73,7 @@ const close = async (fn:  ()  => void) => {
         v-model="isOpen"
         @before-close="(done) => close(done)"
     >
-        <form>
-            <AppAutocomplete 
-                label="Тип экзамена"
-                item-title="name"
-                :items="examTypes"
-                v-model="form.examTypeId"
-                key="id"
-                :error-messages="form.errors.examTypeId"
-                :loading="http.processing"
-                item-value="id"
-                clearable
-            />
-           <div class="flex gap-5">
-                <div class="flex-1">
-                    <AppInput 
-                    label="Дата"
-                    type="date"
-                    v-model="form.date"
-                    :error-messages="form.errors.date"
-                    />
-                </div>
-
-                <div class="flex-1">
-                    <AppInput 
-                    label="Время"
-                    type="time"
-                    v-model="form.time"
-                    :error-messages="form.errors.time"
-                    />
-                </div>
-            </div>
-            
-            <AppAutocomplete 
-                label="Адрес"
-                item-title="address"
-                :items="addresses"
-                item-value="id"
-                v-model="form.addressId"
-                :error-messages="form.errors.addressId"
-                :loading="http.processing"
-            />
-
-            <v-number-input 
-                variant="solo-filled"
-                v-model="form.capacity"
-                :error-messages="form.errors.capacity"
-                control-variant="hidden"
-                label="Количество ИГ"
-                :min="0"
-            />
-
-            <AppAutocomplete 
-                label="Тестеры"
-                item-title="fullName"
-                :items="examiners"
-                v-model="form.examiners"
-                item-value="id"
-                :error-messages="form.errors.examiners"
-                multiple    
-                :loading="http.processing"
-            />
-
-            <AppTextarea
-                label="Комментарий"
-                v-model="form.comment"
-                :error-messages="form.errors.comment"
-                hint="Максимум 256 символов"
-                maxlength="256"
-            />
-        </form>
+    <ExamCreateForm :form="form" />
         <template #actions >
             <AddButton  
                 text="Добавить"

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import AppListDropDownItem from '../../../Components/AppListDropDownItem/AppListDropDownItem.vue';
-import ThreeDotDropdown from '../../../Components/ThreeDotDropdown/ThreeDotDropdown.vue';
-import { useAuth } from '../../../Composables/useAuth';
-import { Roles } from '../../../Constants/Roles';
-import { useModals } from '../../../Composables/useModals';
+import AppListDropDownItem from '../../../../Components/AppListDropDownItem/AppListDropDownItem.vue';
+import ThreeDotDropdown from '../../../../Components/ThreeDotDropdown/ThreeDotDropdown.vue';
+import { useAuth } from '../../../../Composables/useAuth';
+import { Roles } from '../../../../Constants/Roles';
+import { useModals } from '../../../../Composables/useModals';
 
 const {can} = useAuth()
 const {open} = useModals()

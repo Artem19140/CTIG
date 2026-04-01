@@ -18,19 +18,6 @@ class ForeignNationalFactory extends Factory
             ];
         });
     }
-
-    public function namesLikeExam(): ForeignNationalFactory{
-        return $this->state(function(int $examId){
-            return[
-                'surname' => 'Экзамен ' .$examId,
-                'name' => 'Экзамен ' .$examId,
-                'patronymic' => 'Экзамен' .$examId ,
-                'surname_latin' => 'Экзамен ' .$examId,
-                'name_latin' => 'Экзамен ' .$examId,
-                'patronymic_latin' => 'Экзамен ' .$examId,
-            ];
-        });
-    }
     public function definition(): array
     {   
         return [

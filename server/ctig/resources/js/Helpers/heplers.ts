@@ -49,7 +49,7 @@ export const attemptResultStatus = (
 ) => {
 
   if(!attempt && !isPast){
-    return { text: "-", color: 'text-grey' };
+    return { text: "Ожидается", color: 'text-grey' };
   }
 
   if (!attempt && isPast) {

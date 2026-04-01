@@ -61,6 +61,7 @@ import { useModals } from '../../Composables/useModals';
 import { onMounted, onUnmounted } from 'vue';
 import AppStatusChip from '../../Components/AppStatusChip/AppStatusChip.vue';
 import { Exam } from '../../interfaces/interfaces';
+import { DateFormatter } from '../../Helpers/DateFormatter';
 
 export default {
     layout: EmployeeLayout,
@@ -85,7 +86,9 @@ export default {
             <div class="flex">
                 <div>
                     <div>{{ exam.data.shortName }}</div>
-                    <div>{{ exam.data?.beginTime }}</div>
+                    <div>{{ new DateFormatter(exam.data?.beginTime).format('H:i') }}
+                        - {{ new DateFormatter(exam.data?.endTime).format('H:i, d.m.Y') }}
+                    </div>
                 </div>
                 <v-spacer />
                 <v-btn 
@@ -118,10 +121,10 @@ export default {
                     <span v-else>-</span>
                 </template>
                 <template  #item.startTime="{ item }">
-                    {{item.attempts[0]?.startedAt}}
+                    {{new DateFormatter(item.attempts[0]?.startedAt).format('H:i')}}
                 </template>
                 <template  #item.endTime="{ item }">
-                    {{item.attempts[0]?.finishedAt ? item.attempts[0]?.finishedAt : '-'}}
+                    {{new DateFormatter(item.attempts[0]?.finishedAt ?? '').format('H:i')}}
                 </template>
                 <template #item.hasPayment="{ item }">
                     <v-icon :color="item.hasPayment ? 'green' : 'red'">

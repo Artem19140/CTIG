@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ExamTable from './Components/ExamTable.vue';
+import ExamTable from './Components/ExamTable/ExamTable.vue';
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
 
 defineOptions({

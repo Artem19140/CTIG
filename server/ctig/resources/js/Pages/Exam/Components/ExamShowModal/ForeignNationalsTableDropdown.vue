@@ -49,7 +49,7 @@ const changePayment = async () => {
     const ok = await confirmOpen(`${action} оплату ${props.foreignNational.fullName}`)
     if(!ok) return
     props.foreignNational.isLoading = true
-    http.put(`/exams/${props.exam.id}/foreign-nationals/${foreignNationalId.value}/payment/change`,{
+    http.put(`/exams/${props.exam.id}/foreign-nationals/${foreignNationalId.value}/payment`,{
         onSuccess:() => {
             props.foreignNational.hasPayment = !props.foreignNational.hasPayment
         },

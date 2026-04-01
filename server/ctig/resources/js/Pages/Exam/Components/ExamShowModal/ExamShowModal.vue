@@ -5,9 +5,10 @@ import ForeignNationalsTable from './ForeignNationalsTable.vue';
 import { onMounted, ref } from 'vue';
 import { Exam } from '../../../../interfaces/interfaces';
 import { useHttp } from '@inertiajs/vue3';
-import { capacityColor, examStatus } from '../../../../Helpers/heplers';
+import { capacityColor } from '../../../../Helpers/heplers';
 import AppStatusChip from '../../../../Components/AppStatusChip/AppStatusChip.vue';
 import ExamStatusChip from '../ExamStatusChip.vue';
+import { DateFormatter } from '../../../../Helpers/DateFormatter';
 
 const props = defineProps<{
     examId:number
@@ -71,8 +72,8 @@ onMounted( async () => {
                 <v-list-item-title style="white-space: normal; word-break: break-word;">{{exam?.name}}</v-list-item-title>
             </v-list-item>
             <v-list-item> 
-                <v-list-item-subtitle> Дата и время</v-list-item-subtitle>
-                <v-list-item-title>{{exam?.beginTime }}</v-list-item-title>
+                <v-list-item-subtitle> Дата</v-list-item-subtitle>
+                <v-list-item-title>{{new DateFormatter(exam?.beginTime ?? '').format('H:i, d.m.Y') }}</v-list-item-title>
             </v-list-item>
             
             <v-list-item>  
@@ -100,10 +101,7 @@ onMounted( async () => {
                                 :color="capacityColor(exam)"
                                 :text="`${exam?.foreignNationals?.length ?? 0}/${exam?.capacity ?? 0}`"
                             />
-                               
-                           
                         </div>
-                        <v-btn border variant="text">Результаты</v-btn>
                     </div>
                 </v-list-item>
                 

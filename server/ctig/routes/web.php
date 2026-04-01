@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'user.is.active', 'organization.is.active', 'password.change'])->group(function(){
     Route::resource('foreign-nationals', ForeignNationalController::class);
+
     Route::get('foreign-nationals/{foreignNational}/application-forms', [ForeignNationalController::class, "getApplicationForm"])
             ->name('foreign-nationals.application-forms');
         //->middleware('user.has.role:operator');
@@ -32,7 +33,8 @@ Route::middleware(['auth', 'user.is.active', 'organization.is.active', 'password
         Route::get('create/modal-data', [ExamController::class,'createModalData']);//->middleware('user.has.role:scheduler');
         Route::post('{exam}/foreign-nationals', [ExamEnrollmentController::class, "store"]);
         Route::delete('{exam}/foreign-nationals/{foreignNational}', [ExamEnrollmentController::class, "destroy"]);
-        Route::put('{exam}/foreign-nationals/{foreignNational}/payment/change', [ExamEnrollmentController::class, "changePayment"]);
+        Route::put('{exam}/foreign-nationals/{foreignNational}/payment', [ExamEnrollmentController::class, "changePayment"]);
+        Route::put('{exam}/examiners', [ExamController::class, "partialUpdate"]);
         Route::get('monitoring', [ExamMonitoringController::class, 'index'])->name('exam.monitoring');
         Route::get('{exam}/monitoring', [ExamMonitoringController::class, 'show']);
         Route::put('{exam}/monitoring/protocol-comments', [ExamMonitoringController::class, 'updateProtocolComment']);

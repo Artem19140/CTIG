@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { useModals } from '../../../Composables/useModals';
-import type { Exam, Paginated } from '../../../interfaces/interfaces';
-import BaseServerTable from '../../../Components/BaseServerTable.vue';
+import { useModals } from '../../../../Composables/useModals';
+import type { Exam, Paginated } from '../../../../interfaces/interfaces';
+import BaseServerTable from '../../../../Components/BaseServerTable.vue';
 import ExamTableDropDown from './ExamTableDropDown.vue';
 import ExamTableFilter from './ExamTableFilter.vue';
 import { useForm } from '@inertiajs/vue3';
-import AddButton from '../../../Components/AddButton/AddButton.vue';
-import { useAuth } from '../../../Composables/useAuth';
-import { Roles } from '../../../Constants/Roles';
-import { capacityColor, examStatus } from '../../../Helpers/heplers';
-import AppStatusChip from '../../../Components/AppStatusChip/AppStatusChip.vue';
-import ExamStatusChip from './ExamStatusChip.vue';
+import AddButton from '../../../../Components/AddButton/AddButton.vue';
+import { useAuth } from '../../../../Composables/useAuth';
+import { Roles } from '../../../../Constants/Roles';
+import { capacityColor } from '../../../../Helpers/heplers';
+import AppStatusChip from '../../../../Components/AppStatusChip/AppStatusChip.vue';
+import ExamStatusChip from '../ExamStatusChip.vue';
+import { DateFormatter } from '../../../../Helpers/DateFormatter';
 
 const props = defineProps<{
     exams: Paginated<Exam>,
@@ -37,6 +38,7 @@ const formFilters = useForm({
     completed: props.filters.completed ?? undefined,
 })
 const {can} = useAuth()
+
 </script>
 
 <template>
@@ -68,6 +70,9 @@ const {can} = useAuth()
                 :color="capacityColor(item)"
                 dark
             />
+        </template>
+        <template #item.beginTime="{ item }">
+            {{ new DateFormatter(item.beginTime).format('H:i, d.m.Y') }}
         </template>
         <template #item.status="{ item }">
             <ExamStatusChip 

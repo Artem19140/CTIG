@@ -13,6 +13,7 @@ import ExamCommentModal from '../../Pages/ExamMonitoring/ExamCommentModal.vue';
 import EmployeeCreateModal from '../../Pages/Employees/EmployeeCreateModal.vue';
 import TransferModal from '../../Pages/Exam/Components/ExamShowModal/TransferModal.vue';
 import ForeignNationalEditModal from '../../Pages/ForeignNationals/Components/ForeignNationalEditModal.vue';
+import ExamEditModal from '../../Pages/Exam/Components/ExamEditModal.vue';
 
 
 const {modals, close} = useModals()
@@ -45,6 +46,8 @@ const modalComponent = (name: string) => {
             return TransferModal
         case 'foreignNationalEdit':
             return ForeignNationalEditModal
+        case 'examEdit':
+            return ExamEditModal
     }
 }
 

@@ -5,6 +5,7 @@ import ForeignNationalActionsDropdown from './ForeignNationalActionsDropdown.vue
 import { onMounted, ref } from 'vue';
 import type { ForeignNational } from '../../../interfaces/interfaces';
 import { useHttp } from '@inertiajs/vue3'
+import { DateFormatter } from '../../../Helpers/DateFormatter';
 
 const props = defineProps<{
     foreignNationalId?:number
@@ -66,7 +67,7 @@ const showDocument = (url :string) => {
                 <div class="flex flex-col justify-center ml-8">
                     <div class="text-headline-small">{{`${foreignNational?.surname} ${foreignNational?.name} ${foreignNational?.patronymic ?? ''} `}}</div>
                     <div class="text-subtitle-1">{{`${foreignNational?.surnameLatin} ${foreignNational?.nameLatin} ${foreignNational?.patronymicLatin ?? ''}`}}</div>
-                    <div class="text-subtitle-2">{{foreignNational?.dateBirth}}</div> 
+                    <div class="text-subtitle-2">{{new DateFormatter(foreignNational?.dateBirth ?? '').format('d.m.Y')}}</div> 
                 </div>
                 </div>
             </v-card-text>
@@ -78,7 +79,7 @@ const showDocument = (url :string) => {
             <v-list>
                 <v-list-item>
                     <v-list-item-subtitle>Паспорт</v-list-item-subtitle>
-                    <v-list-item-title>{{`${foreignNational?.fullPassport ?? ''}, выдан ${foreignNational?.issuedDate ?? ''} (${foreignNational?.issuedBy ?? ''})`}}</v-list-item-title>
+                    <v-list-item-title>{{`${foreignNational?.fullPassport ?? ''}, выдан ${new DateFormatter(foreignNational?.issuedDate ?? '').format('d.m.Y')} (${foreignNational?.issuedBy ?? ''})`}}</v-list-item-title>
                 </v-list-item>
                 <v-list-item>  
                     <v-list-item-subtitle>Миграционная карта</v-list-item-subtitle>

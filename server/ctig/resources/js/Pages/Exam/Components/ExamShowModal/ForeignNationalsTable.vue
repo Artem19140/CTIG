@@ -5,7 +5,6 @@ import { useModals } from '../../../../Composables/useModals';
 import { attemptResultStatus } from '../../../../Helpers/heplers';
 import AppStatusChip from '../../../../Components/AppStatusChip/AppStatusChip.vue';
 import ForeignNationalsTableDropdown from './ForeignNationalsTableDropdown.vue';
-import { ref } from 'vue';
 
 const props = defineProps<{
     foreignNationals : ForeignNational[],

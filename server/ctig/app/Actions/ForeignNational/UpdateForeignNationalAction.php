@@ -9,9 +9,11 @@ use Carbon\Carbon;
 final class UpdateForeignNationalAction{
     public function execute(array $data, ForeignNational $foreignNational){
         $age = Carbon::parse($data['dateBirth'])->age;
+        
         if($age < 18){
             throw new BusinessException('На экзамен можно записывать с 18 лет');
         }
+        
         $uniquePassportData = ForeignNational::where("passport_number", $data['passportNumber'])
                             ->where("passport_series", $data['passportSeries'])
                             ->where('id', '<>', $foreignNational->id)
@@ -34,10 +36,15 @@ final class UpdateForeignNationalAction{
                 'passport_series'=> $data['passportSeries'],
                 'issued_by'=> $data['issuedBy'],
                 'migration_card_requisite'=> $data['migrationCardRequisite'],
-                'issues_date'=> $data['issuedDate'],
+                'issued_date'=> $data['issuedDate'],
                 'address_reg'=> $data['addressReg'],
                 'citizenship'=> $data['citizenship'],
-                'phone'=> $data['phone']
+                'phone'=> $data['phone'],
+                'gender' => $data['gender'],
+                // 'passport_scan_path' => $passportScanPath,
+                // 'passport_translate_scan' => $passportTranslateScan,
+                'comment' => $data['comment'] ?? ''
         ]);
+        $foreignNational->save();
     }
 }

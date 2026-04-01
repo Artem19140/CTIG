@@ -40,7 +40,7 @@ class UserFactory extends Factory
             'has_to_change_password' => false,
             'is_active' => true,
             'remember_token' => Str::random(10),
-            'organization_id' => Organization::inRandomOrder()->first()->id,
+            'organization_id' => Organization::factory(),
             'job_title'=>  fake()->randomElement(['Специалист центра тестирования иностранных граждан','Директор центра тестирования иностранных граждан', 'Сотрудник центра тестирования иностранных граждан', 'Тестер центра тестирования иностранных граждан'])
         ];
     }

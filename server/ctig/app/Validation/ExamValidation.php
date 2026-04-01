@@ -24,13 +24,13 @@ class ExamValidation{
         }
     }
 
-    public function ensureGoing(Exam $exam, string $message ='Экзамен уже идет'){
+    public function ensureGoing(Exam $exam, string $message ='Экзамен еще не идет'){
         if(!$exam->isGoing()){
             throw new BusinessException($message);
         }
     }
 
-    public function ensureNotGoing(Exam $exam, string $message = 'Экзамен еще не начался'){
+    public function ensureNotGoing(Exam $exam, string $message = 'Экзамен уже идет'){
         if($exam->isGoing()){
             throw new BusinessException($message);
         }

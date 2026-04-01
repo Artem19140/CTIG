@@ -7,6 +7,7 @@ import ThreeDotDropdown from '../../../../Components/ThreeDotDropdown/ThreeDotDr
 import { useAuth } from '../../../../Composables/useAuth';
 import { Roles } from '../../../../Constants/Roles';
 import { getExamPermissions } from '../../../../Domain/Exam/getExamPermissions';
+import { useModals } from '../../../../Composables/useModals';
 
 
 const props = defineProps<{exam : Exam | null}>()
@@ -53,6 +54,7 @@ const downloadProtocol = () => {
 }
 
 const {can} = useAuth()
+const {open} = useModals()
 const permission = getExamPermissions(props.exam)
 </script>
 
@@ -81,14 +83,15 @@ const permission = getExamPermissions(props.exam)
       <AppListDropDownItem 
         title="Скачать протокол" 
         v-if="can([Roles.EXAMINER])"
-        
+        :disabled="!permission.canDownloadProtocol"
         @click="downloadProtocol" 
       />
-      :disabled="!permission.canDownloadProtocol"
+      
 
       <AppListDropDownItem 
         title="Редактировать" 
         v-if="can([Roles.SCHEDULER])" 
+        @click="open('examEdit', {exam:exam})"
         :disabled="!permission.canEdit"
       />
 

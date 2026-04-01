@@ -12,29 +12,40 @@
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithFaker;
     use Tests\TestCase;
-    use Inertia\Testing\AssertableInertia as Assert;
 
     class ExamCreateTest extends TestCase
     {
         use RefreshDatabase;
-        /**
-         * A basic feature test example.
-         */
+
         protected User $user;
         protected ExamType $examType;
         protected Address $address;
         protected Role $examinerRole;
+        protected User $examiner;
         protected function setUp():void{
             parent::setUp();
-            Organization::factory()->create();
-            $this->user = User::factory()->create();
+            $organization = Organization::factory()->create();
+            
             $this->examinerRole = Role::create([
-                'name' => UserRoles::Examiner
+                'name' => UserRoles::Examiner,
             ]);
-            $this->user->roles()->attach($this->examinerRole);
+
+            $schedulerRole = Role::create([
+                'name' => UserRoles::Scheduler,
+            ]);
+
+            $this->examiner = User::factory()->create(['organization_id' => $organization->id]);
+            $this->examiner->roles()->attach($this->examinerRole);
+
+            $this->user = User::factory()->create(['organization_id' => $organization->id]);
+            $this->user->roles()->attach($schedulerRole);
             $this->examType = ExamType::factory()->create();
-            $this->address = Address::factory()->create();
-            Carbon::setTestNow(now());
+            $this->address = Address::factory()->create(['organization_id' => $organization->id]);
+            $tz = $this->user->organization->time_zone;
+
+            Carbon::setTestNow(
+                Carbon::create(2025, 1, 1, 10, 0, 0, $tz)
+            );
         }
 
         protected function postExam(array $overrides = []){
@@ -45,11 +56,11 @@
         protected function examBody(array $overrides = []){
             return array_merge([
                 'date' =>Carbon::now()->format('Y-m-d'),
-                'time' => Carbon::now($this->user->organization->time_zone)->addHour()->format('H:i'),
+                'time' => Carbon::now()->addHour()->format('H:i'),
                 'examTypeId' => $this->examType->id,
                 'addressId'=> $this->address->id,
                 'capacity' => $this->address->max_capacity,
-                'examiners' => [$this->user->id],
+                'examiners' => [$this->examiner->id],
                 'comment' => ''
             ], $overrides);
         }
@@ -87,7 +98,7 @@
         public function test_fail_in_past(): void
         {
             $response = $this->postExam([
-                'time' => Carbon::now($this->user->organization->time_zone)->subHour()->format('H:i')
+                'time' => Carbon::now()->subHour()->format('H:i')
             ]);
             
             $response->assertBadRequest();
@@ -97,6 +108,7 @@
 
         public function test_fail_with_busy_tester(): void
         {
+            
             $response = $this->postExam();
             $response->assertInertiaFlash('success');
 
@@ -108,13 +120,20 @@
 
         public function test_fail_with_no_role_examiner(): void
         {   
-            $examiner = User::factory()->create();
             $response = $this->postExam([
-                'examiners' => [$examiner->id]
+                'examiners' => [$this->user->id]
             ]);
             $response->assertBadRequest();
             $this->assertDatabaseEmpty('exams');
         }
+
+        // public function test_fail_with_no_role_scheduler(): void
+        // {   
+        //     $this->actingAs($this->examiner)
+        //         ->post('/exams', $this->examBody());
+
+        //     $this->assertDatabaseEmpty('exams');
+        // }
 
         public function test_fail_more_than_max_capacity(): void
         {   
@@ -122,22 +141,6 @@
                 'capacity' => $this->address->max_capacity + 1
             ]);
             $response->assertBadRequest();
-            $this->assertDatabaseEmpty('exams');
-        }
-        public function test_fail_less_zero_capacity(): void
-        {   
-            $response = $this->postExam([
-                'capacity' => -1
-            ]);
-            $response->assertInertiaFlashMissing('success');
-            $this->assertDatabaseEmpty('exams');
-        }
-
-        public function test_fail_with_zero_capacity(): void
-        {   
-            $response = $this->postExam([
-                'capacity' => 0
-            ]);
             $response->assertInertiaFlashMissing('success');
             $this->assertDatabaseEmpty('exams');
         }

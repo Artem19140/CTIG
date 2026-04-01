@@ -117,7 +117,7 @@ class ForeignNationalPostRequest extends FormRequest
                 [
                     'prohibited_if_accepted:noMigrationCard',
                     'required_if_declined:noMigrationCard',
-                    'required',
+                    'nullable',
                     'string'
                 ],
             'noMigrationCard'=>[
@@ -146,7 +146,8 @@ class ForeignNationalPostRequest extends FormRequest
             'examId'=> [
                     'required',
                     'integer', 
-                    'min:1'
+                    'min:1',    
+                    'exists:exams,id'
                 ],
             'gender' => [
                     'required', 

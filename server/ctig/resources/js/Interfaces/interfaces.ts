@@ -20,7 +20,7 @@ export interface Exam{
     foreignNationals:Array<ForeignNational>,
     hasSpeakingTasks:boolean,
     examTypeId:number,
-    protocolComment:string
+    protocolComment:string,
 }
 
 export interface User{
@@ -103,7 +103,7 @@ export interface ExamForm{
     examTypeId: number | null,
     addressId: number | null,
     comment:string,
-    examiners: Array<number>,
+    examiners: Array<number | User>,
     time:string,
     date:string,
     capacity:number | null

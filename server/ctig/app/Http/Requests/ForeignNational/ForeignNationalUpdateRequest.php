@@ -125,16 +125,15 @@ class ForeignNationalUpdateRequest extends FormRequest
                     'string',
                     'size:11'
                 ],
-            'examId'=> [
-                    'required',
-                    'integer', 
-                    'min:1'
-                ],
             'gender' => [
                     'required', 
                     'string', 
                     'size:1', 
                     'in:M,F'
+                ],
+            'comment' => [
+                    'nullable', 
+                    'string', 
                 ],
             'passportTranslateScan' => [
                     'nullable',

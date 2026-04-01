@@ -76,6 +76,15 @@ class ExamController
         }
     }
 
+    public function partialUpdate(Request $request, Exam $exam)
+    {   
+        $request->validate([
+            'examiners' => ['required', 'array'],
+            'examiners.*' => ['required', 'integer', 'exists:users,id'],
+        ]);
+        return Inertia::flash('success', 'Данные обновлены')->back();
+    }
+
     public function verifyCode(
                                 Request $request,
                                 VerifyExamCodeAction $verifyCode,

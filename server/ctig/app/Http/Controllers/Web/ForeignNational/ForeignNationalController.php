@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\ForeignNational;
 use App\Actions\ForeignNational\CreateForeignNationalStatementAction;
 use App\Actions\ForeignNational\CreateForeignNationalWithEnrollmentAction;
 use App\Actions\ForeignNational\GetForeignNationalsListAction;
+use App\Actions\ForeignNational\UpdateForeignNationalAction;
 use App\Http\Requests\ForeignNational\ForeignNationalIndexRequest;
 use App\Http\Requests\ForeignNational\ForeignNationalPostRequest;
 use App\Http\Requests\ForeignNational\ForeignNationalUpdateRequest;
@@ -64,9 +65,14 @@ class ForeignNationalController
         return new ForeignNationalResource($foreignNational);
     }
 
-    public function update(ForeignNationalUpdateRequest $request, ForeignNational $foreignNational)
-    {
-        
+    public function update(
+                            ForeignNationalUpdateRequest $request, 
+                            ForeignNational $foreignNational,
+                            UpdateForeignNationalAction $updateForeignNational
+                        )
+    {   
+        $updateForeignNational->execute($request->validated(), $foreignNational);
+        return Inertia::flash('success', 'Данные обновлены')->back();
     }
 
     public function destroy(ForeignNational $foreignNational)

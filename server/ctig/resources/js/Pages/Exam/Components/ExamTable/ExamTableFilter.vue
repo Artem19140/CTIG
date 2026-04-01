@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { usePage } from '@inertiajs/vue3';
-import AppAutocomplete from '../../../Components/AppAutocomplete/AppAutocomplete.vue';
-import AppInput from '../../../Components/AppInput/AppInput.vue';
-import BaseFilter from '../../../Components/BaseFilter/BaseFilter.vue';
+import AppAutocomplete from '../../../../Components/AppAutocomplete/AppAutocomplete.vue';
+import AppInput from '../../../../Components/AppInput/AppInput.vue';
+import BaseFilter from '../../../../Components/BaseFilter/BaseFilter.vue';
 
 const props = defineProps<{
   filters:any,

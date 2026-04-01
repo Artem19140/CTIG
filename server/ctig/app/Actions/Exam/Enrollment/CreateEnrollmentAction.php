@@ -22,7 +22,7 @@ final class CreateEnrollmentAction{
     public function execute(Exam $exam, int $foreignNationalId, User $user, bool $hasPayment):ForeignNational{
         $this->examValidation->ensureNotCancelled($exam);
         $this->examValidation->ensureNotCompleted($exam);
-        $this->examValidation->ensureGoing($exam);
+        $this->examValidation->ensureNotGoing($exam);
         $foreignNational = ForeignNational::find($foreignNationalId);
         
         if(!$foreignNational){

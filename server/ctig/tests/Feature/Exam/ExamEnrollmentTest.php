@@ -44,6 +44,12 @@ class ExamEnrollmentTest extends TestCase
             $this->examId = $exam->id;
             $this->foreignNational = ForeignNational::factory()->create(['organization_id' => $organization->id]);
         }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        Carbon::setTestNow(); // сброс фиксации
+    }
     public function test_success_create(): void
     {
         $this->withoutExceptionHandling();

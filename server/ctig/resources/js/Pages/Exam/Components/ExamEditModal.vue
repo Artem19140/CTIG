@@ -6,11 +6,13 @@ import ExamCreateForm from './ExamCreateForm.vue';
 import { DateFormatter } from '../../../Helpers/DateFormatter';
 import PrimaryButton from '../../../Components/PrimaryButton/PrimaryButton.vue';
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import { useModals } from '../../../Composables/useModals';
 
 const props = defineProps<{
     exam:any
 }>()
+
 const form = useForm<ExamForm>({
     examTypeId: props.exam.examTypeId,
     addressId:props.exam.addressId,
@@ -33,20 +35,39 @@ const beforeClose = async (fn: () => void) => {
 }
 
 const hasEnrollment = computed(() => Boolean(props.exam.foreignNationalsCount))
+const loading = ref(false)
 const edit = () => {
-    console.log(form.examiners)
-    if(hasEnrollment.value){
-        router.put(`exams/${props.exam.id}/examiners`,{
-            examiners: form.examiners.map(item => item.id)
-        },
-        {
-            onSuccess:(page) => {
-                if(page.flash.success){
-                    props.exam.examiners = form.examiners
-                }
-            }
+    
+    if (hasEnrollment.value) {
+        loading.value = true
+        // только список id экзаменаторов
+        router.put(`exams/${props.exam.id}/examiners`, {
+            examiners: form.examiners
+        },{
+            onSuccess:(page) =>{
+                if(!page.flash.success) return
+                isOpen.value=false
+                const {open} = useModals()
+                open('examShow', {examId:props.exam.id})
+            },
+            onFinish:() => loading.value = false
+        })
+    } else {
+        // все поля формы + только id экзаменаторов
+        const payload = {
+            ...form.data(),
+            examiners: form.examiners.map(e => e.id)
         }
-    )
+        form.put(`exams/${props.exam.id}`, {
+            data: payload,
+            onSuccess:(page) => {
+                if(!page.flash.success) return
+                isOpen.value=false
+                const {open} = useModals()
+                open('examShow', {examId:props.exam.id})
+            }
+        },
+        )
     }
 }
 
@@ -68,6 +89,8 @@ const edit = () => {
         <PrimaryButton 
             text="Сохранить"
             @click="edit"
+            :disabled="!form.isDirty"
+            :loading="form.processing || loading"
         />
     </template>
     </BaseDialog>

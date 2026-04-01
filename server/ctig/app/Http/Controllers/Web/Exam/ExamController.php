@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Web\Exam;
 use App\Actions\Attempt\StartExamSessionAction;
 use App\Actions\Exam\Manage\CancelExamAction;
 use App\Actions\Exam\GetExamListAction;
+use App\Actions\Exam\Manage\UpdateExamAction;
+use App\Actions\Exam\Manage\UpdateExaminersAcion;
 use App\Actions\Exam\VerifyExamCodeAction;
 use App\Enums\UserRoles;
 use App\Exceptions\BusinessException;
@@ -40,7 +42,7 @@ class ExamController
 
     public function store(ExamPostRequest $request, CreateExamAction $createExamAction)
     {       
-        $createExamAction->handle($request->getDto(),$request->user());
+        $createExamAction->execute($request->getDto(),$request->user());
         return Inertia::flash('success', 'Экзамен создан')->back();
     }
 
@@ -69,19 +71,20 @@ class ExamController
         return new ExamResource($exam);
     }
 
-    public function update(ExamPostRequest $request, Exam $exam)
+    public function update(ExamPostRequest $request, Exam $exam, UpdateExamAction $updateExam)
     {   
-        if($exam->foreignNationals()->count() > 0){
-            throw new BusinessException('Нельзя редактировать экзамен, на который уже записаны ИГ');
-        }
+        $updateExam->execute($exam, $request->getDto(), $request->user());
+        return Inertia::flash('success', 'Данные обновлены')->back();
     }
 
-    public function partialUpdate(Request $request, Exam $exam)
+    public function partialUpdate(Request $request, Exam $exam, UpdateExaminersAcion $updateExaminers)
     {   
         $request->validate([
-            'examiners' => ['required', 'array'],
-            'examiners.*' => ['required', 'integer', 'exists:users,id'],
+            'examiners' => ['required', 'array','min:1'],
+            'examiners.*' => ['required', 'integer', 'min:1', 'exists:users,id'],
+            'comment' => ['nullable', 'string']
         ]);
+        $updateExaminers->execute($request->input('examiners'), $exam, $request->user());
         return Inertia::flash('success', 'Данные обновлены')->back();
     }
 

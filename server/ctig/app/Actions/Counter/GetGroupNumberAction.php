@@ -11,10 +11,10 @@ class GetGroupNumberAction{
         protected Counter $counter
     ){}
     public function execute(){
-        $groupNumber = Counter::where('key', CounterKey::GroupKey)->first();
-        $groupNumber->lockForUpdate();
-        if($groupNumber->updated_at->day !== Carbon::now()->day){
+        $groupNumber = Counter::where('key', CounterKey::GroupKey)->lockForUpdate()->first();
+        if($groupNumber->updated_at->toDateString() !== Carbon::now()->toDateString()){
             $groupNumber->value = 0;
+            $groupNumber->updated_at = Carbon::now();
         }
         $groupNumber->value += 1;
         $groupNumber->save();

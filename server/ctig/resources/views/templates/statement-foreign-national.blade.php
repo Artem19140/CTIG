@@ -90,8 +90,8 @@
         $countryName = $countries->firstWhere('value', $foreignNational->citizenship)['text'] ?? '';
     @endphp
     <tr>
-        <td class="statement-td">
-            Пол: <input type="checkbox" {{ $foreignNational->gender === 'M' ? 'checked' : '' }}>М <input type="checkbox" {{ $foreignNational->gender === 'F' ? 'checked' : '' }}>Ж
+        <td class="statement-td" >
+            Пол: <input style="vertical-align: -4px;" type="checkbox" {{ $foreignNational->gender === 'M' ? 'checked' : '' }}>М <input style="vertical-align: -4px;" type="checkbox" {{ $foreignNational->gender === 'F' ? 'checked' : '' }}>Ж
         </td>
         <td class="statement-td">Гражданство: <span class="data">{{ $countryName }}</span></td>
     </tr>
@@ -231,7 +231,7 @@
 <br><br>
 <div style="border: 1px #000 solid; padding: 5px;">
     <p>Дата экзамена: <span class="data">{{ $exam->begin_time->format('d.m.Y') }}</span><br>
-    Время экзамена: <span class="data">{{ $exam->begin_time->format('h:m')}}</span><br>
+    Время экзамена: <span class="data">{{ $exam->begin_time->format('H:i')}}</span><br>
     Адрес проведения экзамена: <span class="data">{{ $exam->address->address }}</span></p>
 </div>
 </body>

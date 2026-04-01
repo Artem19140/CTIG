@@ -26,9 +26,7 @@ class StartExamSessionAction{
                         ->find($foreignNational->exam_id);
             
             $this->examValidation->ensureGoing($exam);
-            
             $attempt =  $this->createAttempt($foreignNational, $exam);
-
             $tasks = $exam->examType->blocks
                 ->pluck('subblocks')
                 ->flatten()

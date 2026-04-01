@@ -2,15 +2,12 @@
 import { useForm, useHttp } from '@inertiajs/vue3'
 
 import { onMounted, ref } from 'vue';
-import AppInput from '../../../Components/AppInput/AppInput.vue';
 import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
 import { Address, User, ExamType } from '../../../interfaces/interfaces';
 import { ExamForm } from '../../../interfaces/interfaces';
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
 import AddButton from '../../../Components/AddButton/AddButton.vue';
 import ExamCreateForm from './ExamCreateForm.vue';
-import AppAutocomplete from '../../../Components/AppAutocomplete/AppAutocomplete.vue';
-import AppTextarea from '../../../Components/AppTextarea/AppTextarea.vue';
 
 const props = defineProps<{
     date?:string

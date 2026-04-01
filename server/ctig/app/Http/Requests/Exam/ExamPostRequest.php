@@ -62,7 +62,7 @@ class ExamPostRequest extends FormRequest
             'examiners.*' => [
                         'required',
                         'integer',
-                        'min:0',
+                        'min:1',
                         'exists:users,id',
                     ],
         ];

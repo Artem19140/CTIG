@@ -38,6 +38,11 @@ class ExamCancelTest extends TestCase
             $this->exam = Exam::factory()->inFuture($organization->time_zone)->create();
             
         }
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        Carbon::setTestNow(); // сброс фиксации
+    }
     public function test_success(): void
     {
         $examId = $this->exam->id;

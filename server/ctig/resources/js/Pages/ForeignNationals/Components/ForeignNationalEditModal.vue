@@ -72,7 +72,7 @@ const beforeClose = async (fn: () => void) => {
                 text="Сохранить"
                 @click="edit"
                 :loading="form.processing"
-                :disabled="form.processing"
+                :disabled="form.processing || !form.isDirty"
             />
         </template>
     </BaseDialog>

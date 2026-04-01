@@ -56,7 +56,7 @@ class User extends Authenticatable
         return $this->roles()->where('name', $role)->exists();
     }
 
-    public function examiner(): BelongsToMany{
+    public function exams(): BelongsToMany{
         return $this->belongsToMany(Exam::class, 'exam_examiner','examiner_id', 'exam_id');
     }
 

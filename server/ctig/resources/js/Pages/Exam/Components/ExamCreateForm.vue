@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { Address, ExamType, User } from '../../../interfaces/interfaces';
 import { useHttp } from '@inertiajs/vue3';
 import AppAutocomplete from '../../../Components/AppAutocomplete/AppAutocomplete.vue';
@@ -26,6 +26,11 @@ onMounted( async () => {
             examTypes.value = response.examTypes
         }
     })
+})
+const examinersErrors = computed(() => {
+    return Object.entries(props.form.errors)
+        .filter(([key]) => key.startsWith('examiners.'))
+        .map(([, value]) => value)
 })
 </script>
 
@@ -92,7 +97,7 @@ onMounted( async () => {
             :items="examiners"
             v-model="form.examiners"
             item-value="id"
-            :error-messages="form.errors.examiners"
+            :error-messages="examinersErrors"
             multiple    
             :loading="http.processing"
         />

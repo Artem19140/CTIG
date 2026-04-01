@@ -58,7 +58,11 @@ class ForeignNationalCreateTest extends TestCase
                 'organization_id' => 1
             ]);
         }
-
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        Carbon::setTestNow(); // сброс фиксации
+    }
     protected function foreignNationalBody(array $overrides = [])
     {
         return array_merge([

@@ -48,6 +48,12 @@
             );
         }
 
+        public function tearDown(): void
+        {
+            parent::tearDown();
+            Carbon::setTestNow(); // сброс фиксации
+        }
+
         protected function postExam(array $overrides = []){
             return $this->actingAs($this->user)
                 ->post('/exams', $this->examBody($overrides));

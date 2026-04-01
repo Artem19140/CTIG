@@ -3,16 +3,11 @@
 namespace App\Http\Controllers\Web\Report;
 
 use App\Actions\Reports\CheckAvailableFrdoGenerateAction;
-use App\Actions\Reports\GenerateCertificatesFRDOAction;
 use  App\Actions\Exam\Documents\GenerateExamStatementAction;
 use App\Actions\Reports\GenerateFlatTableAction;
 use App\Actions\Reports\GenerateFRDOReportsAction;
-use App\Actions\Reports\GenerateReferencesFRDOAction;
-use App\Enums\AttemptStatus;
-use App\Exceptions\BusinessException;
 use App\Http\Requests\Report\FlatTableRequest;
 use App\Http\Requests\Report\FrdoReportRequest;
-use App\Models\Attempt;
 use App\Models\Exam;
 use Carbon\Carbon;
 use App\Http\Controllers\Api\Controller;

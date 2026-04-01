@@ -67,4 +67,23 @@ class GetSessionNumberTest extends TestCase
         $sessionNumber = $this->action->execute($examSecond->begin_time);
         $this->assertEquals($sessionNumber, $countSecond);
     }
+
+    public function test_with_cancelled_exam(): void
+    {
+        $count = 15;
+        for($i = 1; $i <= $count; $i++){
+            Exam::factory()->create([
+                'begin_time'=>Carbon::now()->addDays($i)
+            ]);
+        }
+        $exam = Exam::factory()->create([
+            'begin_time'=>Carbon::now()->addDays($count + 1),
+            'is_cancelled' => true
+        ]);
+        $exam = Exam::factory()->create([
+            'begin_time'=>Carbon::now()->addDays($count + 2)
+        ]);
+        $sessionNumber = $this->action->execute($exam->begin_time);
+        $this->assertEquals($sessionNumber, $count);
+    }
 }

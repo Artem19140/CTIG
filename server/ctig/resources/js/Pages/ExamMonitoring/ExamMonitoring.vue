@@ -3,7 +3,17 @@ import DropDownForeignNationalsList from './DropDownForeignNationalsList.vue';
 import { router, usePoll } from '@inertiajs/vue3'
 import { attemptStatus } from '../../Helpers/heplers';
 import ExamStatusChip from '../Exam/Components/ExamStatusChip.vue';
+import BaseLayout from '../../Layout/BaseLayout.vue';
+import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
+import { useModals } from '../../Composables/useModals';
+import { onMounted, onUnmounted } from 'vue';
+import AppStatusChip from '../../Components/AppStatusChip/AppStatusChip.vue';
+import { Exam } from '../../interfaces/interfaces';
+import { DateFormatter } from '../../Helpers/DateFormatter';
 
+defineOptions({
+  layout: [BaseLayout,EmployeeLayout]
+})
 
 const props = defineProps<{
     foreignNationals:any,
@@ -55,18 +65,6 @@ const openForeignNational = (event : Event, {item} :any) => {
 }
 </script>
 
-<script lang="ts">
-import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
-import { useModals } from '../../Composables/useModals';
-import { onMounted, onUnmounted } from 'vue';
-import AppStatusChip from '../../Components/AppStatusChip/AppStatusChip.vue';
-import { Exam } from '../../interfaces/interfaces';
-import { DateFormatter } from '../../Helpers/DateFormatter';
-
-export default {
-    layout: EmployeeLayout,
-}
-</script>
 
 <template>
     <v-btn class="mt-4 ml-4" @click="router.visit('/exams/monitoring')">Назад</v-btn>

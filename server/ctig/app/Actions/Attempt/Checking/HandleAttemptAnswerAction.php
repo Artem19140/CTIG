@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\AttemptAnswer;
+namespace App\Actions\AttemptAnswer\Checking;
 
 use App\Enums\TaskType;
 use App\Exceptions\BusinessException;

@@ -28,7 +28,6 @@ const props = defineProps<{
           class="px-4 py-3 mb-2 rounded-lg"
           :elevation="1"
         >
-          <v-list-item-content>
             <v-list-item-title class="text-subtitle-1 font-medium">
               {{ exam.name }}
             </v-list-item-title>
@@ -40,7 +39,6 @@ const props = defineProps<{
               :color="attemptResultStatus(exam.attempts?.[0] ?? null, exam.isPast).color"
               :text="attemptResultStatus(exam.attempts?.[0] ?? null, exam.isPast).text"
             />
-          </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-list-item>

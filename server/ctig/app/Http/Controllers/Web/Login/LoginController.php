@@ -9,7 +9,6 @@ use Illuminate\Validation\ValidationException;
 use Hash;
 use App\Http\Controllers\Api\Controller;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 use Illuminate\Http\Request;
 
 

@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Web\Exam;
 
-use App\Actions\Attempt\StartExamSessionAction;
+use App\Actions\Attempt\Create\CreateAttemptAction;
 use App\Actions\Exam\Manage\CancelExamAction;
 use App\Actions\Exam\GetExamListAction;
 use App\Actions\Exam\Manage\UpdateExamAction;
 use App\Actions\Exam\Manage\UpdateExaminersAcion;
-use App\Actions\Exam\VerifyExamCodeAction;
 use App\Enums\UserRoles;
-use App\Exceptions\BusinessException;
 use App\Http\Requests\Exam\ExamIndexRequest;
 use App\Http\Resources\Address\AddressResource;
 use App\Http\Resources\ExamType\ExamTypeResource;
@@ -90,16 +88,14 @@ class ExamController
 
     public function verifyCode(
                                 Request $request,
-                                VerifyExamCodeAction $verifyCode,
-                                StartExamSessionAction  $startExamSession
+                                CreateAttemptAction $createAttempt
                             ){
         $request->validate([
             'code' => ['required', 'string', 'size:6']
         ]);
-        $foreignNational =  $verifyCode->execute($request->input('code'));
-        Auth::guard('foreignNationals')->login($foreignNational);
+        $attempt = $createAttempt->execute($request->input('code'));
+        Auth::guard('foreignNationals')->login($attempt->foreignNational);
         $request->session()->regenerate();
-        $attempt = $startExamSession->execute($foreignNational);
         return redirect()->route('exam-attempts.before', ['attempt' => $attempt->id]);
     }
 

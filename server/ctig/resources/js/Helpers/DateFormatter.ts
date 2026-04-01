@@ -4,6 +4,9 @@ export class DateFormatter{
         this.date = new Date(date)
     }
     format(fmt:string) {
+        if (isNaN(this.date.getTime())) {
+            return '-';
+        }
         const pad = (n:number) => String(n).padStart(2, '0');
 
         const map = {

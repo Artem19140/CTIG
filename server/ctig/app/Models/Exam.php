@@ -68,11 +68,11 @@ class Exam extends Model
     }
 
     public function isCompleted(){
-        return $this->begin_time->addMinutes($this->examType->duration)->isPast();
+        return $this->begin_time_utc->addMinutes($this->examType->duration)->isPast();
     }
 
     public function isGoing(){
-        return !$this->end_time->isPast() && $this->begin_time->isPast();
+        return !$this->end_time->isPast() && $this->begin_time_utc->isPast();
     }
 
     public function isCancelled(){

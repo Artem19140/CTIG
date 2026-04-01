@@ -2,6 +2,7 @@
 
 namespace App\Validation;
 
+use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
 
@@ -39,6 +40,16 @@ class ExamValidation{
     public function ensureNotCancelled(Exam $exam, string $message = 'Экзамен отменен'){
         if($exam->isCancelled()){
             throw new BusinessException($message);
+        }
+    }
+
+    public function EnsureAllAttemptsChecked(Exam $exam, string $message = 'Экзамен отменен'){
+        $attemptsNotChecked = $exam->attempts()
+                                ->whereIn('status', AttemptStatus::unChecked())
+                                ->exists();
+
+        if($attemptsNotChecked){
+            throw new BusinessException('Не все результаты экзамена еще проверены');
         }
     }
 

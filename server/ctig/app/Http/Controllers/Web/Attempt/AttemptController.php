@@ -15,7 +15,6 @@ use App\Http\Resources\Exam\ExamResource;
 use App\Http\Resources\TaskVariant\TaskVariantResource;
 use App\Models\Attempt;
 use App\Models\Exam;
-use App\Models\TaskVariant;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
@@ -175,7 +174,6 @@ class AttemptController extends Controller
 
     public function before(Request $request, Attempt $attempt){
         $foreignNational = $request->user();
-
         if($attempt->status !== AttemptStatus::Pending){
             return redirect('login')->with('У вас нет текущей попытки экзамена');
         }

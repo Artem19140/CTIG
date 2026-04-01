@@ -8,6 +8,7 @@ import { useAuth } from '../../../../Composables/useAuth';
 import { Roles } from '../../../../Constants/Roles';
 import { getExamPermissions } from '../../../../Domain/Exam/getExamPermissions';
 import { useModals } from '../../../../Composables/useModals';
+import { useLoadingSnackbar } from '../../../../Composables/useLoadingSnackBar';
 
 
 const props = defineProps<{exam : Exam | null}>()
@@ -17,6 +18,7 @@ const form = useForm({
 })
 
 const prompt = usePromptDialog()
+const loadingSnackbar = useLoadingSnackbar()
 
 const cancelExam = async () => {
   const res = await prompt.open('Укажите причину отмены экзамена')
@@ -24,8 +26,10 @@ const cancelExam = async () => {
     return
   }
   form.cancelledReason = res
+  loadingSnackbar.open('Идет отмена')
   form.delete(`exams/${props.exam?.id}`,{
     onSuccess:(page)=>{
+      loadingSnackbar.close()
       if(!props.exam) return
       if(!page.flash.success)return
       props.exam.isCancelled = true
@@ -34,23 +38,26 @@ const cancelExam = async () => {
   
 }
 
-const downloadForeignNationalsList = () => {
-  window.open(`/exams/${props.exam?.id}/foreign-nationals/list`)
-}
-
-const formCodes = async () => {
-    if(!props.exam?.id){
+const download = (document :string) => {
+    if(!props.exam?.id || !document){
         return
     }
-    window.open(`/exams/${props.exam.id}/codes`)
+    const form = useForm()
+    loadingSnackbar.open('Скачивание')
+    form.get(`/exams/${props.exam.id}/documents/${document}/available`,{
+      onSuccess:(page) => {
+        if(page.flash.redirectUrl){
+          window.open(String(page.flash.redirectUrl))
+        }
+      },
+      onFinish:()=>{
+        loadingSnackbar.close()
+      }
+    })
 }
 
-const downloadStatement = () => {
-  window.location.href = `/exams/${props.exam?.id}/statement`
-}
-
-const downloadProtocol = () => {
-  window.location.href = `/exams/${props.exam?.id}/protocol`
+const downloadForeignNationalsList = () => {
+  window.open(`/exams/${props.exam?.id}/foreign-nationals/list`)
 }
 
 const {can} = useAuth()
@@ -63,7 +70,7 @@ const permission = getExamPermissions(props.exam)
       <AppListDropDownItem 
         title="Скачать кода" 
         :disabled="!permission.canDownloadCodes"
-        @click="formCodes" 
+        @click="() => download('codes')" 
         v-if="can([Roles.EXAMINER])"
       />
 
@@ -77,14 +84,14 @@ const permission = getExamPermissions(props.exam)
         title="Скачать ведомость"
         :disabled="!permission.canDownloadStatement" 
         v-if="can([Roles.EXAMINER])"
-        @click="downloadStatement" 
+        @click="() => download('statement')" 
       />
 
       <AppListDropDownItem 
         title="Скачать протокол" 
         v-if="can([Roles.EXAMINER])"
         :disabled="!permission.canDownloadProtocol"
-        @click="downloadProtocol" 
+        @click="() => download('protocol')" 
       />
       
 

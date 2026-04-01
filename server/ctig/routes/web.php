@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\UserRoles;
 use App\Http\Controllers\Web\File\FileController;
 use App\Http\Controllers\Web\User\UserController;
 use App\Http\Controllers\Web\Attempt\AttemptController;
@@ -26,21 +25,36 @@ Route::middleware(['auth', 'user.is.active', 'organization.is.active', 'password
     Route::get('foreign-nationals/{foreignNational}/application-forms', [ForeignNationalController::class, "getApplicationForm"])
             ->name('foreign-nationals.application-forms');
         //->middleware('user.has.role:operator');
+        
     Route::post('foreign-nationals/{foreignNational}/exams/transfer', [ExamEnrollmentController::class, "transfer"]);
-    Route::prefix('exams')->group(function(){
-        Route::get('{exam}/codes', [ExamDocumentController::class, "codes"]);//->middleware('user.has.role:examiner');
-        Route::get('{exam}/protocol', [ExamDocumentController::class, "protocol"]);
+
+    Route::prefix('exams/')->group(function(){
+        Route::prefix('{exam}/documents')->group(function(){
+            Route::get('codes', [ExamDocumentController::class, "codes"])->name('exam.documents.codes');
+            Route::get('codes/available', [ExamDocumentController::class, "codesAvailable"]);
+            Route::get('protocol', [ExamDocumentController::class, "protocol"])->name('exam.documents.protocol');
+            Route::get('protocol/available', [ExamDocumentController::class, "protocolAvailable"]);
+            Route::get('statement', [ExamDocumentController::class, 'statement'])->name('exam.documents.statement');
+            Route::get('statement/available', [ExamDocumentController::class, 'statementAvailable']);
+        });
+
+        Route::prefix('{exam}/foreign-nationals')->group(function(){
+            Route::post('foreign-nationals', [ExamEnrollmentController::class, "store"]);
+            Route::delete('foreign-nationals/{foreignNational}', [ExamEnrollmentController::class, "destroy"]);
+            Route::put('foreign-nationals/{foreignNational}/payment', [ExamEnrollmentController::class, "changePayment"]);
+            Route::get('foreign-nationals/list', [ExamDocumentController::class, 'foreignNationalsList']);
+        });
+        
+        
         Route::get('create/modal-data', [ExamController::class,'createModalData']);//->middleware('user.has.role:scheduler');
-        Route::post('{exam}/foreign-nationals', [ExamEnrollmentController::class, "store"]);
-        Route::delete('{exam}/foreign-nationals/{foreignNational}', [ExamEnrollmentController::class, "destroy"]);
-        Route::put('{exam}/foreign-nationals/{foreignNational}/payment', [ExamEnrollmentController::class, "changePayment"]);
+        
         Route::put('{exam}/examiners', [ExamController::class, "partialUpdate"]);
         Route::get('monitoring', [ExamMonitoringController::class, 'index'])->name('exam.monitoring');
         Route::get('{exam}/monitoring', [ExamMonitoringController::class, 'show']);
         Route::put('{exam}/monitoring/protocol-comments', [ExamMonitoringController::class, 'updateProtocolComment']);
-        Route::get('{exam}/foreign-nationals/list', [ExamDocumentController::class, 'foreignNationalsList']);
+        
         Route::get('schedule', [ExamController::class, 'schedule'])->name('exams.schedule');
-        Route::get('{exam}/statement', [ReportController::class, 'statement']);
+        
     });
     Route::resource('exams', ExamController::class)->where(['exam' => '[0-9]+']);//->middleware('user.has.role:examiner1');
     

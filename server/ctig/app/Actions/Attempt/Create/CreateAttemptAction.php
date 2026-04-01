@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Actions\Attempt;
+namespace App\Actions\Attempt\Create;
 
 use App\Actions\Attempt\Create\VerifyCodeAction;
 use App\Actions\Counter\GetGroupNumberAction;
-use App\Actions\Exam\GetSessionNumberAction;
+use App\Actions\Counter\GetSessionNumberAction;
 use App\Exceptions\BusinessException;
 use App\Models\Attempt;
 use App\Models\Exam;
@@ -14,7 +14,7 @@ use App\Validation\ExamValidation;
 use Illuminate\Support\Facades\DB;
 
 
-class GenerateAttemptAction{
+class CreateAttemptAction{
     public function __construct(
         protected GetGroupNumberAction $getGroupNumber,
         protected GetSessionNumberAction $getSessionNumber,

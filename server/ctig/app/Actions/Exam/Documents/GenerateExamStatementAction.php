@@ -20,15 +20,10 @@ class GenerateExamStatementAction{
         $this->examValidation->ensureNotCancelled($exam);
         $this->examValidation->ensureHasEnrollment($exam);
         
-        $templatePath = storage_path('app/templates/statement.xlsx');
-        
-        $attemptsNotChecked = $exam->attempts()
-                                ->whereIn('status', AttemptStatus::unChecked())
-                                ->exists();
+        $this->examValidation->EnsureAllAttemptsChecked($exam);
 
-        if($attemptsNotChecked){
-            throw new BusinessException('Не все результаты экзамена еще проверены');
-        }
+        $templatePath = storage_path('app/templates/statement.xlsx');
+
         $exam->load([
             'foreignNationals.attempts' => function ($query) use ($exam) {
                 $query->where('exam_id', $exam->id);

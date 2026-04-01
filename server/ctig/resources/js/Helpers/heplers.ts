@@ -31,6 +31,8 @@ export const attemptStatus = (status: string | null) => {
   }
 };
 
+
+
 export const examStatus = (item: {
   isGoing: boolean;
   isPast: boolean;
@@ -42,6 +44,9 @@ export const examStatus = (item: {
   if (item?.isPast) return { text: "прошел", color: "text-grey" };
   return { text: "ожидается", color: "text-blue" };
 };
+
+
+
 
 export const attemptResultStatus = (
   attempt: { isPassed: boolean, status:string } | null,
@@ -61,11 +66,15 @@ export const attemptResultStatus = (
   }
 
   if(attempt?.status === 'pending'){
-    return { text: "В процессе", color: "text-blue" };
+    return { text: "Введен код", color: "text-blue" };
   }
 
   if(attempt?.status === 'finished'){
     return { text: "На проверке", color: "text-orange" };
+  }
+
+  if(attempt?.isPassed === null){
+    return { text: "Идет экзамен", color: "text-blue" };
   }
 
   return attempt?.isPassed

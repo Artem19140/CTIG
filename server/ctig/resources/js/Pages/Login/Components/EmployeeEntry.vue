@@ -33,7 +33,7 @@ const submit = () => {
           label="Логин"
           name="email"
           v-model="form.email"
-          :error-message="form.errors.email"
+          :error-messages="form.errors.email"
           placeholder="Введите логин"
         />
 

@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Web\AttemptAnswer;
 
-use App\Actions\Attempt\CheckAttemptIsActiveAction;
 use App\Actions\Attempt\Checking\FinalizeAttemptCheckingAction;
 use App\Actions\Attempt\Checking\HandleAttemptAnswerAction;
 use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Http\Requests\AttemptAnswer\AttemptAnswerRequest;
-use App\Http\Resources\Attempt\AttemptResource;
 use App\Http\Resources\AttemptAnswer\AttemptAnswerResource;
 use App\Models\Attempt;
 use App\Models\AttemptAnswer;
@@ -16,7 +14,6 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\Controller;
-use Inertia\Inertia;
 
 class AttemptAnswerController extends Controller
 {

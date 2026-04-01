@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
 import ForeignNationalTable from './Components/ForeignNationalTable.vue';
+import BaseLayout from '../../Layout/BaseLayout.vue';
 
 defineOptions({
-  layout: EmployeeLayout,
+  layout: [BaseLayout, EmployeeLayout]
 })
 
 const props = defineProps<{

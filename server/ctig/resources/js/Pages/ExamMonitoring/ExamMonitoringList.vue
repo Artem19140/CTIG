@@ -7,9 +7,10 @@ import { capacityColor } from '../../Helpers/heplers';
 import AppStatusChip from '../../Components/AppStatusChip/AppStatusChip.vue';
 import ExamStatusChip from '../Exam/Components/ExamStatusChip.vue';
 import { DateFormatter } from '../../Helpers/DateFormatter';
+import BaseLayout from '../../Layout/BaseLayout.vue';
 
 defineOptions({
-  layout: EmployeeLayout,
+  layout: [BaseLayout,EmployeeLayout]
 })
 const props = defineProps<{
     exams:any

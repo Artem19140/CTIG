@@ -1,4 +1,5 @@
 <template>
+
     <v-layout>
       <v-navigation-drawer
         expand-on-hover
@@ -83,12 +84,13 @@
       <slot />
     </v-main>
     </v-layout>
+   
 
-    <app-snackbar />
+    <!-- <app-snackbar />
     <confirm-dialog />
     <alert />
     <prompt-dialog />
-    <modals />
+    <modals /> -->
 </template>
 
 <script setup lang="ts">
@@ -103,6 +105,8 @@ import { useAuth } from '../Composables/useAuth';
 import { Roles } from '../Constants/Roles';
 import Modals from '../Components/Modals/Modals.vue';
 import { router } from '@inertiajs/vue3'
+
+
 
 
 const {can, cannot, user} = useAuth()

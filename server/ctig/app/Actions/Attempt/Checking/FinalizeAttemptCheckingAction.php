@@ -8,42 +8,12 @@ use App\Models\Attempt;
 class FinalizeAttemptCheckingAction{
     public function execute(Attempt $attempt){
         $attempt->status = AttemptStatus::Checked;
-        $totalMarkCount = $attempt->answers()->sum('mark');
-        $attempt->total_mark = $totalMarkCount;
+        $attempt->total_mark = $attempt->answers()->sum('mark');
         $isSuccessAttempt = $this->checkPassingThreshold($attempt);
         if($isSuccessAttempt){
             $attempt->is_passed = true;
         }else{
             $attempt->is_passed = false;
-        }
-        return true;
-    }
-
-    private function checkPassingThreshold(Attempt $attempt): bool{
-        $attemptAnswers = $attempt->answers()->with('taskVariant.task.subblock.block')->get();
-
-        $answersByBlock = $attemptAnswers->groupBy(function($answer){
-            return $answer->taskVariant->task->subblock->block->id;
-        });
-
-        foreach($answersByBlock as $block=>$answers){
-            $blockMinMark = $answers->first()->taskVariant->task->subblock->block->min_mark;
-            $answersMarkSum = $answers->sum('mark');
-            if ($blockMinMark > $answersMarkSum){
-                return false;
-            }
-        }
-
-        $answersBySubBlock = $attemptAnswers->groupBy(function($answer){
-            return $answer->taskVariant->task->subblock->id;
-        });
-
-        foreach($answersBySubBlock as $subblock=>$answers){
-            $subblockMinMark = $answers->first()->taskVariant->task->subblock->min_mark;
-            $answersMarkSum = $answers->sum('mark');
-            if ($subblockMinMark > $answersMarkSum){
-                return false;
-            }
         }
         return true;
     }

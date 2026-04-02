@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\Attempt;
 
 use App\Actions\Attempt\Checking\FinalizeAttemptCheckingAction;
+use App\Actions\Attempt\Finish\FinishAttemptAction;
 use App\Actions\Attempt\GetCurrentAttemptAction;
 use App\Actions\Attempt\StartAttemptAction;
 use App\Enums\AttemptStatus;
@@ -111,39 +112,14 @@ class AttemptController extends Controller
 
     public function finish(
                                 Attempt $attempt, 
-                                FinalizeAttemptCheckingAction $finalizeAttemptChecking,
-                                ZeroEmptyAutoCheckAnswersAction $zeroEmptyAutoAnswers,
+                                FinishAttemptAction $finishAttempt,
                                 Request $request
                            )
     {
-        if(!$attempt->isActive()){
-            throw new BusinessException('Попытка уже завершена или аннулирована');
-        }
-
-        DB::transaction(function() use(
-                                            $attempt,
-                                            $finalizeAttemptChecking,
-                                            $zeroEmptyAutoAnswers
-                                        ){
-            $attempt->lockForUpdate(); //Не работает
-            $attempt->finish();
-            $zeroEmptyAutoAnswers->execute($attempt);
-
-            $hasUncheckedManualAnswers = $attempt->answers()
-                                            ->where('is_checked', false)
-                                            ->whereHas('taskVariant.task', function(Builder $query){
-                                                $query->whereIn('type', TaskType::manualCheckTypes());
-                                            })
-                                            ->exists();
-            if(!$hasUncheckedManualAnswers){
-               $finalizeAttemptChecking->execute($attempt);
-            }
-            $attempt->save();
-        });
-        $exam = Exam::with('examType')->find($attempt->exam_id);
+        $finishAttempt->execute($attempt);
         return Inertia::render('Attempt/AfterAttempt', [
             'foreignNational' => $request->user(),
-            'examName' => $exam->examType->name
+            'examName' => $attempt->exam->examType->name
         ]);
     }
 

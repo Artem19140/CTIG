@@ -41,7 +41,7 @@ class Attempt extends Model
     }
 
     public function finish(): AttemptStatus{
-        $this->finished_at = Carbon::now();
+        $this->finished_at = Carbon::now($this->organization->time_zone);
         return $this->status = AttemptStatus::Finished;
     }
 
@@ -71,5 +71,9 @@ class Attempt extends Model
 
     public function organization(): BelongsTo{
         return $this->belongsTo(Organization::class, 'organization_id');
+    }
+
+    public function requiresHumanCheck():bool{
+        return $this->exam->examType->need_human_check;
     }
 }

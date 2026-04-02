@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Attempt;
+namespace App\Actions\Attempt\Finish;
 
 use App\Enums\TaskType;
 use App\Models\Attempt;

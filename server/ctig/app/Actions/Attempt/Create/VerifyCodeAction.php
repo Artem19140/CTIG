@@ -3,6 +3,7 @@
 namespace App\Actions\Attempt\Create;
 
 use App\Exceptions\BusinessException;
+use App\Models\Exam;
 use App\Models\ForeignNational;
 use Carbon\Carbon;
 
@@ -19,6 +20,10 @@ class VerifyCodeAction{
             throw new BusinessException('Истек срок действия кода');
         }
 
+        // $exam = $foreignNational->exams()->where('id', $foreignNational->exam_id)->first();
+        // if(!$exam->pivot->has_payment){
+        //     throw new BusinessException('Экзамен не оплачен');
+        // }
         $foreignNational->exam_code = null;
         $foreignNational->exam_code_expired_at = null;
         $foreignNational->save();

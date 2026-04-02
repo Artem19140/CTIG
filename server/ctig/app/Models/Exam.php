@@ -72,7 +72,7 @@ class Exam extends Model
     }
 
     public function isGoing(){
-        return !$this->end_time->isPast() && $this->begin_time_utc->isPast();
+        return ! $this->begin_time_utc->addMinutes($this->examType->duration)->isPast() && $this->begin_time_utc->isPast();
     }
 
     public function isCancelled(){

@@ -37,12 +37,10 @@ class ExamFactory extends Factory
         ];
     }
 
-    public function inFuture(string $tz =''){
-        return $this->state(function() use($tz){
+    public function inFuture(){
+        return $this->state(function(){
             return[
-                'begin_time_utc' => Carbon::now()->addDay(),
-                'begin_time' => Carbon::now($tz)->addDay(),
-                'end_time' => Carbon::now($tz)->addDay()->addHour(),
+                'begin_time_utc' => Carbon::now()->addMinutes(10),
             ];
         });
     }
@@ -50,17 +48,17 @@ class ExamFactory extends Factory
     public function now(){
         return $this->state(function(){
             return[
-                'begin_time' => Carbon::now()
+                'begin_time_utc' => Carbon::now()->subMinutes(10),
             ];
         });
     }
 
-    public function inPast(string $tz =''){
-        return $this->state(function()use($tz){
+    public function inPast(int $duration){
+        return $this->state(function() use($duration){
             return[
-                'begin_time_utc' => Carbon::now()->subDay(),
-                'begin_time' => Carbon::now($tz)->subDay(),
-                'end_time' => Carbon::now($tz)->subDay()->addHour(),
+                'begin_time_utc' => Carbon::now()->subMinutes(
+                    $duration + 10
+                ),
             ];
         });
     }

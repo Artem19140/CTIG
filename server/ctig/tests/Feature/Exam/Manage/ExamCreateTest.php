@@ -73,7 +73,7 @@
 
         public function test_success(): void
         {
-            $this->withoutExceptionHandling();
+            // $this->withoutExceptionHandling();
 
             $response = $this->postExam();
             

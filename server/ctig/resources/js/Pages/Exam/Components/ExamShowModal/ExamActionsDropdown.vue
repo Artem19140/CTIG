@@ -94,7 +94,6 @@ const permission = getExamPermissions(props.exam)
         @click="() => download('protocol')" 
       />
       
-
       <AppListDropDownItem 
         title="Редактировать" 
         v-if="can([Roles.SCHEDULER])" 

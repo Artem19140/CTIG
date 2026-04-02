@@ -67,6 +67,10 @@ onMounted( async () => {
             <div>
                 <v-spacer />
             </div>
+            <v-list-item v-if="exam?.isCancelled">
+                <v-list-item-subtitle class="text-red">Причина отмены</v-list-item-subtitle>
+                <v-list-item-title class="text-red" style="white-space: normal; word-break: break-word;">{{exam?.cancelledReason ?? '-'}}</v-list-item-title>
+            </v-list-item>
             <v-list-item>  
                 <v-list-item-subtitle>Тип</v-list-item-subtitle>
                 <v-list-item-title style="white-space: normal; word-break: break-word;">{{exam?.name}}</v-list-item-title>
@@ -88,6 +92,7 @@ onMounted( async () => {
                 <v-list-item-subtitle>Комментарий</v-list-item-subtitle>
                 <v-list-item-title style="white-space: normal; word-break: break-word;">{{exam?.comment ?? '-'}}</v-list-item-title>
             </v-list-item>
+            
         </v-list>
         </v-card-text>
         <v-divider></v-divider>

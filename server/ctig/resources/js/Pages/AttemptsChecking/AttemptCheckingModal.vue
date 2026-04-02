@@ -13,9 +13,10 @@ const props = defineProps<{
 
 const tasks = ref()
 
-const canClose = (fn:  ()  => void) =>{
+const beforeClose = (fn:  ()  => void) =>{
     fn()
 }
+
 const http = useHttp()
 onMounted(async() => {
     http.get(`/attempts/${props.attemptId}/checking/tasks`,{
@@ -33,11 +34,9 @@ onMounted(async() => {
         height="1000"
         v-model="isOpen"
         :loading="http.processing"
-        @before-close="(done) => canClose(done)"
+        @before-close="(done) => beforeClose(done)"
     >
-        <pre>
-            {{ tasks?.data[0] }}
-        </pre>
+        
         Здесь будут задания
         <TasksList :tasks="tasks?.data" />
     

@@ -15,18 +15,24 @@ class ExamMonitoringController
 {
     public function index(Request $request){
         $user = $request->user();
-        
+        $past = $request->boolean('past');
         $exams = Exam::with(['examType'])
             ->whereHas('examiners', function(Builder $query) use($user){
                 $query->where('examiner_id', $user->id);
             })
             ->withCount('foreignNationals')
-            ->where('end_time', '>', now($request->user()->organization->time_zone))
+            ->when($past, function (Builder $query) use($request){
+                $query->where('end_time', '<', now($request->user()->organization->time_zone));
+            })
+            ->when(!$past, function (Builder $query) use($request){
+                $query->where('end_time', '>', now($request->user()->organization->time_zone)->addMinutes(30));
+            })
             ->where('is_cancelled', false)
             ->orderBy('id')
             ->paginate(10);
         return Inertia::render('ExamMonitoring/ExamMonitoringList', [
-            'exams' => ExamResource::collection($exams)
+            'exams' => ExamResource::collection($exams),
+            'past' => $past 
         ]);
     }
 

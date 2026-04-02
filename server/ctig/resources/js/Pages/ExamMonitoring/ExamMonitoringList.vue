@@ -8,13 +8,17 @@ import AppStatusChip from '../../Components/AppStatusChip/AppStatusChip.vue';
 import ExamStatusChip from '../Exam/Components/ExamStatusChip.vue';
 import { DateFormatter } from '../../Helpers/DateFormatter';
 import BaseLayout from '../../Layout/BaseLayout.vue';
+import { ref } from 'vue';
 
 defineOptions({
   layout: [BaseLayout,EmployeeLayout]
 })
 const props = defineProps<{
-    exams:any
+    exams:any,
+    past:boolean
 }>()
+
+const past = ref<boolean>(props.past)
 
 const headers = [
     {title:'Название', key:"shortName",sortable:false, align:'center'},
@@ -40,8 +44,19 @@ const open = (event:Event, {item} : any) => {
         }
     })
 }
-
-
+const loading=ref<boolean>(false)
+const getPastExams = () =>{
+    loading.value = true
+    past.value = !past.value
+    router.reload({
+        data:{
+            past:past.value
+        },
+        onFinish:() => {
+            loading.value = false
+        }
+    })
+}
 </script>
 
 <template>
@@ -52,7 +67,18 @@ const open = (event:Event, {item} : any) => {
                 :headers="headers"
                 @click:row="open"
                 title="Мониторинг"
+                :loading="loading"
             >
+                <template #toolbar-actions>
+                    <v-btn 
+                        width="120"
+                        border
+                        :loading="loading"
+                        @click="getPastExams"
+                    >
+                        {{ past ? 'Текущие' : 'Прошедшие'}}
+                    </v-btn>
+                </template>
                 <template #item.capacity="{ item }">
                     <AppStatusChip
                         :text="`${item.foreignNationalsCount}/${item.capacity}`"

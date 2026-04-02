@@ -14,6 +14,7 @@ export interface Exam{
     foreignNationalsCount:number,
     attempts: Array<Attempt> | null,
     isCancelled:boolean,
+    cancelledReason:string | null,
     date:string,
     isPast:boolean,
     isGoing:boolean,

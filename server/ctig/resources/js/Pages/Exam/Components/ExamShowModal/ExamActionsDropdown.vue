@@ -33,6 +33,7 @@ const cancelExam = async () => {
       if(!props.exam) return
       if(!page.flash.success)return
       props.exam.isCancelled = true
+      props.exam.cancelledReason = res
     }
   })
   

@@ -11,6 +11,7 @@ use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\AttemptAnswer;
 use App\Validation\ExamValidation;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 
@@ -36,7 +37,7 @@ class CreateAttemptAction{
 
             AttemptAnswer::insert($examVariant);
 
-            $this->setSessionAndGroupNumber($exam);
+            $this->initializeExamAttributes($exam);
 
             return $attempt;
         });
@@ -93,7 +94,7 @@ class CreateAttemptAction{
         return $examVariant;
     }
 
-    protected function setSessionAndGroupNumber(Exam $exam){
+    protected function initializeExamAttributes(Exam $exam){
         $save = false;
         if(!$exam->group){
             $save = true;
@@ -102,6 +103,10 @@ class CreateAttemptAction{
         if(!$exam->session){
             $save = true;
             $exam->session = $this->getSessionNumber->execute($exam->begin_time);
+        }
+        if(!$exam->begin_time_real){
+            $exam->begin_time_real = Carbon::now($exam->organization->time_zone);
+            $exam->save();
         }
         if($save){
             $exam->save();

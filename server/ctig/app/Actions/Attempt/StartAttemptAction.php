@@ -11,11 +11,10 @@ use Carbon\Carbon;
 class StartAttemptAction{
     public function execute(Attempt $attempt, ForeignNational $foreignNational):Attempt{
         $exam=Exam::find($foreignNational->exam_id);
-        $attempt->lockForUpdate();
         $attempt->status = AttemptStatus::Active;
-        $attempt->started_at = Carbon::now($exam->organisation->time_zone);
-        $attempt->expired_at = Carbon::now($exam->organisation->time_zone)->addMinutes($exam->duration);
-        $attempt->last_activity_at = Carbon::now($exam->organisation->time_zone);
+        $attempt->started_at = Carbon::now($exam->organization->time_zone);
+        $attempt->expired_at = Carbon::now($exam->organization->time_zone)->addMinutes($exam->duration);
+        $attempt->last_activity_at = Carbon::now($exam->organization->time_zone);
         $attempt->save();
         return $attempt;
     }

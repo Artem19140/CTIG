@@ -79,7 +79,7 @@ class Exam extends Model
         return $this->is_cancelled;
     }
 
-    public function organisation(): BelongsTo{
+    public function organization(): BelongsTo{
         return $this->belongsTo(Organization::class,'organization_id');
     }
 

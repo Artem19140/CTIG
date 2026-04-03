@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Web\Attempt;
 
-use App\Actions\Attempt\Checking\FinalizeAttemptCheckingAction;
+use App\Actions\Attempt\BanAttemptAction;
 use App\Actions\Attempt\Finish\FinishAttemptAction;
 use App\Actions\Attempt\GetCurrentAttemptAction;
 use App\Actions\Attempt\StartAttemptAction;
+use App\Actions\Attempt\Tasks\GetSpeakingTasksAction;
+use App\Actions\Attempt\Tasks\GetTasksToCheckAction;
 use App\Enums\AttemptStatus;
 use App\Enums\TaskType;
 use App\Exceptions\BusinessException;
@@ -22,7 +24,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
-use App\Actions\Attempt\ZeroEmptyAutoCheckAnswersAction;
 
 class AttemptController extends Controller
 {
@@ -45,6 +46,10 @@ class AttemptController extends Controller
                             GetCurrentAttemptAction $getCurrentAttempt
                         ){
         $attemptTasks = $getCurrentAttempt->execute($attempt);
+        //echo var_dump(TaskVariantResource::collection($attemptTasks));
+        // foreach($attemptTasks as $a){
+        //     echo var_dump($a->id);
+        // };die;
         return Inertia::render('Attempt/Attempt', [
             'attempt' => new AttemptResource($attempt),
             'tasks'=> TaskVariantResource::collection($attemptTasks)
@@ -57,11 +62,7 @@ class AttemptController extends Controller
         if($attempt->status != AttemptStatus::Pending){
             abort(403);
         }
-        
-        $startedAttempt = DB::transaction(function() use($attempt, $foreignNational, $startAttempt){
-            return $startAttempt->execute($attempt, $foreignNational);
-        });
-        
+        $startedAttempt = $startAttempt->execute($attempt, $foreignNational);
         return redirect()->route('exam-attempts', ['attempt' => $startedAttempt->id]);
     }
 
@@ -71,43 +72,20 @@ class AttemptController extends Controller
         return new AttemptResource($attempt);
     }
 
-    public function ban(Request $request, Attempt $attempt)
+    public function ban(Request $request, Attempt $attempt, BanAttemptAction $banAttempt)
     {
         $request->validate([
             'banReason' => ['required', 'string']
         ]);
-        
-        if($attempt->isBanned()){
-            throw new BusinessException('Попытка уже аннулирована');
-        }
-
-        $attempt->ban_reason = $request->input('banReason');
-        $attempt->ban_by_id = $request->user()->id;
-        $attempt->is_passed = false;
-        $attempt->finished_at = Carbon::now();
-        $attempt->status = AttemptStatus::Banned;
-        $attempt->save();
-        return $this->noContent();
+        $banAttempt->execute($attempt, $request->input('banReason'), $request->user()->id);
+        return back();
     }
 
-    public function speaking(Attempt $attempt){
+    public function speaking(Attempt $attempt, GetSpeakingTasksAction $getSpeakingTasks){
         $exam = Exam::findOrFail($attempt->exam_id);
         Gate::authorize('exam-manage-access', $exam);
-        if($attempt->isBanned()){
-            throw new BusinessException('Попытка заблокирована');
-        }
-        
-        if($attempt->isExpired() || !$attempt->isActive()){
-            throw new BusinessException('Попытка неактивна');
-        }
-
-        $attemptAnswer =  $attempt->answers()->with('taskVariant')
-                                        ->whereHas('taskVariant.task', function(Builder $query){
-                                            $query->where('type', TaskType::Speaking);
-                                        })
-                                        ->get();
-        $taskVariants=$attemptAnswer->pluck('taskVariant');
-        return TaskVariantResource::collection($taskVariants);
+        $speakingTasks = $getSpeakingTasks->execute($attempt);
+        return TaskVariantResource::collection($speakingTasks);
     }
 
     public function finish(
@@ -123,20 +101,11 @@ class AttemptController extends Controller
         ]);
     }
 
-    public function tasksToCheck(Attempt $attempt){
+    public function tasksToCheck(Attempt $attempt, GetTasksToCheckAction $getTasksToCheck){
         $exam = Exam::findOrFail($attempt->exam_id);
         Gate::authorize('exam-manage-access', $exam);
-        $uncheckedAnswers =  $attempt->answers()
-                                    ->with(['taskVariant.task'])
-                                    ->where('is_checked', false)
-                                    ->whereHas('attempt', function(Builder $query){
-                                        $query->where('status', AttemptStatus::Finished);
-                                    })
-                                    ->whereHas('taskVariant.task', function(Builder $query){
-                                        $query->whereIn('type', TaskType::manualCheckTypes());
-                                    })
-                                    ->get();
-        return AttemptAnswerResource::collection($uncheckedAnswers);
+        $tasksToCheck = $getTasksToCheck->execute($attempt);
+        return TaskVariantResource::collection($tasksToCheck);
     }
 
     public function toCheck(){

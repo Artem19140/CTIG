@@ -64,6 +64,13 @@ class User extends Authenticatable
         return $this->belongsTo(Organization::class,'organization_id');
     }
 
+    protected function timeZone(): Attribute
+    {
+        return Attribute::get(function () {
+            return $this->organization->time_zone;
+        });
+    }
+
     protected function fullName(): Attribute
     {
         return Attribute::get(function () {

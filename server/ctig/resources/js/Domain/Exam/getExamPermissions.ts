@@ -17,8 +17,8 @@ export const getExamPermissions = (exam: Exam | null) => {
     const canDownloadStatement  = isPast && !isCancelled && hasEnrollment 
     const canDownloadProtocol = isPast && !isCancelled && hasEnrollment 
     const canDownloadList =  !isCancelled && hasEnrollment 
-    const canEdit  = !isPast && !isCancelled  
-    const canCancel = !isPast && !isCancelled
+    const canEdit  = !isPast && !isCancelled  && !isGoing
+    const canCancel = !isPast && !isCancelled && !isGoing
     const canDownloadCodes  =  !isPast && !isCancelled && hasEnrollment 
     const canDownloadStudList  =  hasEnrollment 
     

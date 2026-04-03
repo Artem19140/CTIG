@@ -19,11 +19,13 @@ class VerifyCodeAction{
         if($foreignNational->exam_code_expired_at < Carbon::now()){
             throw new BusinessException('Истек срок действия кода');
         }
-
-        // $exam = $foreignNational->exams()->where('id', $foreignNational->exam_id)->first();
-        // if(!$exam->pivot->has_payment){
-        //     throw new BusinessException('Экзамен не оплачен');
-        // }
+        $pivot = $foreignNational->exams()
+                  ->where('exam_id', $foreignNational->exam_id)
+                  ->first()
+                  ->pivot;
+        if(!$pivot->has_payment){
+            throw new BusinessException('Экзамен не оплачен');
+        }
         $foreignNational->exam_code = null;
         $foreignNational->exam_code_expired_at = null;
         $foreignNational->save();

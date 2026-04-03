@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import axios from 'axios';
 import AppListDropDownItem from '../../Components/AppListDropDownItem/AppListDropDownItem.vue';
 import { usePromptDialog } from '../../Composables/usePromptDialog';
 import ThreeDotDropdown from '../../Components/ThreeDotDropdown/ThreeDotDropdown.vue';
+import { useLoadingSnackbar } from '../../Composables/useLoadingSnackBar';
+import { router } from '@inertiajs/vue3';
 
 const props = defineProps<{
     foreignNational:any, 
@@ -16,7 +17,17 @@ const ban = async () => {
     if(!res){
         return
     }
-    axios.put(`/attempts/${props.foreignNational?.attempts[0]?.id}/ban`, {banReason : res})
+    const loadingSnack = useLoadingSnackbar()
+    loadingSnack.open('Идет аннулирование')
+    router.put(`/attempts/${props.foreignNational?.attempts[0]?.id}/ban`, 
+    {banReason : res},
+    {
+        onFinish:()=> {
+            loadingSnack.close()
+        }
+    }
+    )
+    
 }
 
 const getSpeakingTasks = () => {

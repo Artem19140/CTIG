@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useHttp } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import BaseTask from './BaseTask.vue';
 import RenderBlocks from './TaskContentBlocks/RenderBlocks.vue';
 
@@ -11,21 +11,28 @@ const props = defineProps<{
 }>()
 
 const attemptAnswer = ref<number | null>(
-  props.task?.answer?.id
+  props.task?.attemptAnswer?.answer?.id
 )
-const http = useHttp<{ answer: number | null, taskVariantId:number }>({
-    answer: null,
-    taskVariantId:props.task.id
+const attemptAnswerId = props.task?.attemptAnswer?.id
+
+const http = useHttp<{ answer: number | null}>({
+    answer: null
 })
 
 const send = async () => {
     http.answer = attemptAnswer.value
-    http.put(`/exam-attempts/${props.attempt.id}/answers`,{
-        onSuccess:(response) => {
-            
+    http.put(`/exam-attempts/${props.attempt.id}/answers/${attemptAnswerId}`,{
+        onSuccess:(response : any) => {
+            props.task.attemptAnswer = response.data
+            console.log(response)
+        },
+        onError:() => {
+
         }
     })
 }
+
+onMounted(() => console.log(props.task.attemptAnswer.answer))
 
 watch(attemptAnswer, () => {
     send()
@@ -34,6 +41,9 @@ watch(attemptAnswer, () => {
 </script>
 
 <template>
+    <pre>
+        {{ task }}
+    </pre>
     <base-task
         :task="task"
     >

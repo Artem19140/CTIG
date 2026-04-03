@@ -33,7 +33,7 @@ class ValidateExamCreationAction{
                                         $examDto->beginTime->copy(),
                                         $user->organization->time_zone
                                     )->utc();
-
+                                    
         if($examBeginTimeUtc < Carbon::now()){
             throw new BusinessException('Экзамен нельзя создать на прошедшие даты');
         }
@@ -49,10 +49,10 @@ class ValidateExamCreationAction{
                                             $examId
                                         );
         
-        $hasConflictExam = Exam::where('address_id', $address->id)
+        $hasConflictExam = Exam::where('is_cancelled', false)
                             ->where('begin_time', '<=', $examDto->beginTime->copy()->addMinutes($examType->duration)) //utc?!
                             ->where('end_time', '>=', $examDto->beginTime)
-                            ->where('is_cancelled', false)
+                            ->where('address_id', $address->id)
                             ->when($examId, function (Builder $query) use($examId){
                                 $query->where('id', '<>', $examId);
                             })

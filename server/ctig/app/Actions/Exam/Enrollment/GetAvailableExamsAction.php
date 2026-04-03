@@ -3,6 +3,7 @@
 namespace App\Actions\Exam\Enrollment;
 
 use App\Models\Exam;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +14,7 @@ class GetAvailableExamsAction{
                     ->withCount('foreignNationals')
                     ->where('exam_type_id',$examTypeId)
                     ->where('is_cancelled', false)
-                    ->where('begin_time', '>', now())
+                    ->where('begin_time_utc', '>', Carbon::now())
                     ->when($foreignNationalId, function (Builder $query) use ($foreignNationalId){
                         $query->whereDoesntHave('foreignNationals', function (Builder $q) use($foreignNationalId){
                             $q->where('foreign_national_id',$foreignNationalId);

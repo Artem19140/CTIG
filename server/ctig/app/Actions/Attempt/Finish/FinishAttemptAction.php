@@ -32,6 +32,7 @@ class FinishAttemptAction{
                 $attempt->total_mark = $attempt->answers()->sum('mark');
                 $attempt->is_passed = $isPassed;
             }
+            //Еще end_time_real - у Exam
             $attempt->save();
         });
         

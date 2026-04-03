@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Web\AttemptAnswer;
+namespace App\Http\Controllers\Web\Attempt;
 
 use App\Actions\Attempt\Checking\FinalizeAttemptCheckingAction;
 use App\Actions\Attempt\Checking\HandleAttemptAnswerAction;
@@ -27,6 +27,7 @@ class AttemptAnswerController extends Controller
     public function update(
                             AttemptAnswerRequest $request,
                             Attempt $attempt, 
+                            AttemptAnswer $attemptAnswer,
                             HandleAttemptAnswerAction $handleAttemptAnswer
                         )
     {
@@ -35,13 +36,13 @@ class AttemptAnswerController extends Controller
             abort(403);
         }
         $answer = $request->input('answer');
-        $taskVariantId = $request->input('taskVariantId');
-        DB::transaction(function()use($answer, $attempt,$taskVariantId, $handleAttemptAnswer){
-            $handleAttemptAnswer->execute($answer, $attempt, $taskVariantId);
+        $savedAnswer = DB::transaction(function()use($answer, $attempt,$attemptAnswer, $handleAttemptAnswer){
+            $answer = $handleAttemptAnswer->execute($answer, $attempt, $attemptAnswer);
             $attempt->last_activity_at = Carbon::now($attempt->organization->time_zone);
             $attempt->save();
+            return $answer;
         });
-        return response()->noContent();
+        return new AttemptAnswerResource($savedAnswer);
     }
 
     public function rate(

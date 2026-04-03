@@ -11,6 +11,7 @@ use App\Http\Requests\Report\FrdoReportRequest;
 use App\Models\Exam;
 use Carbon\Carbon;
 use App\Http\Controllers\Api\Controller;
+use Inertia\Inertia;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -26,7 +27,7 @@ class ReportController extends Controller
         $writer = $generateFRDOReports->execute(
                                                     $examDate,
                                                     $success,
-                                                            $request->user()->organization
+                                                    $request->user()->organization
                                                     );
         $stringDate = $examDate->format('d.m.Y');
         $fileName =  $success ? "cerftificates_frdo_$stringDate.xlsx" : "references_frdo_$stringDate.xlsx";
@@ -44,12 +45,12 @@ class ReportController extends Controller
 
     public function available(FrdoReportRequest $request, CheckAvailableFrdoGenerateAction $checkAvailableGenerate){
         $checkAvailableGenerate->execute($request->input('examDate'));
-        return response()->json([
+        return Inertia::flash([
             'url' => route('reports.frdo', [
                 'examDate' => $request->validated('examDate'),
                 'success' => $request->validated('success')
             ])
-        ]);
+        ])->back();
     }
 
     public function statement(

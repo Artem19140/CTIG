@@ -29,7 +29,9 @@ class Exam extends Model
         'is_cancelled',
         'organization_id',
         'end_time',
-        'protocol_comment'
+        'protocol_comment',
+        'begin_time_real',
+        'end_time_real'
     ];
 
     protected $casts = [
@@ -72,7 +74,7 @@ class Exam extends Model
     }
 
     public function isGoing(){
-        return ! $this->begin_time_utc->addMinutes($this->examType->duration)->isPast() && $this->begin_time_utc->isPast();
+        return !$this->begin_time_utc->addMinutes($this->examType->duration)->isPast() && $this->begin_time_utc->isPast();
     }
 
     public function isCancelled(){

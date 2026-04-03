@@ -13,8 +13,8 @@ class GetCurrentAttemptAction{
         protected AttemptValidation $attemptValidation
     ){}
     public function execute(Attempt $attempt):Collection{
-        $this->attemptValidation->ensureActive($attempt);
         $this->attemptValidation->ensureNotBanned($attempt);
+        $this->attemptValidation->ensureActive($attempt);
         $this->attemptValidation->ensureNotExpired($attempt);
         return TaskVariant::with(['answers', 'task', 'attemptsAnswers' => function ($query) use ($attempt) {
                                     $query->where('attempt_id', $attempt->id);
@@ -22,9 +22,8 @@ class GetCurrentAttemptAction{
                             ->whereHas('attemptsAnswers', function (Builder $query) use($attempt){
                                 $query->where('attempt_id', $attempt->id);
                             })
-                            ->join('tasks', 'task_variants.task_id', '=', 'tasks.id')
-                                ->orderBy('tasks.order')
-                                ->select('task_variants.*') 
-                            ->get();
+                            ->get()
+                            ->sortBy('task.order')
+                            ->values();
     }
 }

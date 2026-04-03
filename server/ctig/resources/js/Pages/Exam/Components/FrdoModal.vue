@@ -2,8 +2,7 @@
 import AddButton from '../../../Components/AddButton/AddButton.vue';
 import AppInput from '../../../Components/AppInput/AppInput.vue';
 import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
-import { ref } from 'vue';
-import { useHttp } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
 import AppAutocomplete from '../../../Components/AppAutocomplete/AppAutocomplete.vue';
 
 const isOpen = defineModel<boolean>()
@@ -13,28 +12,27 @@ const items = [
     { name: 'Справки', success : false}
 ]
 const  download = async () => {
-    http.get('/reports/frdo/available', {
-        onSuccess:(response : any) => {
-            if(response.url){
-                window.location.href = response.url
+    form.get('/reports/frdo/available', {
+        onSuccess:(page) => {
+            if(page.flash.redirectUrl){
+                window.location.href = String(page.flash.redirectUrl)
             }
             
         },
-        onError:(errors) => {
-            console.log(errors)
-        }
+        preserveState:true,
+        preserveScroll:true
     })
     
 }
 
-const http = useHttp({
+const form = useForm({
     examDate:null,
     success:null
 })
 
 const beforeClose = async (fn : () => void) => {
-    http.examDate = null
-    http.success = null
+    form.examDate = null
+    form.success = null
     fn()
 }
 </script>
@@ -53,24 +51,24 @@ const beforeClose = async (fn : () => void) => {
             item-value="success"
             item-title="name"
             clearable
-            :error-messages="http.errors.success"
-            :rules="[http.success  === !!http.success]"
-            v-model="http.success"
+            :error-messages="form.errors.success"
+            :rules="[form.success  === !!form.success]"
+            v-model="form.success"
         />
 
         <AppInput
             label="Дата"
-            v-model="http.examDate"
+            v-model="form.examDate"
             type="date"
-            :error-messages="http.errors.examDate"
-            :disabled="http.success === null"
+            :error-messages="form.errors.examDate"
+            :disabled="form.success === null"
         />
         
         <template #actions>
             <AddButton
                 @click="download"
                 text="Скачать"
-                :disabled="!http.examDate || http.success === null || http.processing"
+                :disabled="!form.examDate || form.success === null || form.processing"
             />
         </template>
     </BaseDialog>

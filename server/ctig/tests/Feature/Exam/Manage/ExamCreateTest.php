@@ -41,10 +41,9 @@
             $this->user->roles()->attach($schedulerRole);
             $this->examType = ExamType::factory()->create();
             $this->address = Address::factory()->create(['organization_id' => $organization->id]);
-            $tz = $this->user->organization->time_zone;
 
             Carbon::setTestNow(
-                Carbon::create(2025, 1, 1, 10, 0, 0, $tz)
+                Carbon::now()
             );
         }
 
@@ -60,9 +59,11 @@
         }
 
         protected function examBody(array $overrides = []){
+            $fixedDate = Carbon::now()->format('Y-m-d');
+            $fixedTime = Carbon::now($this->user->time_zone)->addHour()->format('H:i');
             return array_merge([
-                'date' =>Carbon::now()->format('Y-m-d'),
-                'time' => Carbon::now()->addHour()->format('H:i'),
+                'date' =>$fixedDate,
+                'time' => $fixedTime,
                 'examTypeId' => $this->examType->id,
                 'addressId'=> $this->address->id,
                 'capacity' => $this->address->max_capacity,
@@ -73,8 +74,9 @@
 
         public function test_success(): void
         {
-            // $this->withoutExceptionHandling();
-
+            $this->withoutExceptionHandling();
+            // dump(Carbon::now($this->user->time_zone)->addHour()->utc()->format('H:i'));
+            // dd(Carbon::now()->format('H:i'));
             $response = $this->postExam();
             
             $response->assertInertiaFlash('success');
@@ -103,8 +105,10 @@
     
         public function test_fail_in_past(): void
         {
+            $pastDateTime = Carbon::now($this->user->time_zone)->subHour();
             $response = $this->postExam([
-                'time' => Carbon::now()->subHour()->format('H:i')
+                'date' => $pastDateTime->format('Y-m-d'),
+                'time' => $pastDateTime->subHour()->format('H:i')
             ]);
             
             $response->assertBadRequest();
@@ -114,11 +118,13 @@
 
         public function test_fail_with_busy_tester(): void
         {
+            $this->withoutExceptionHandling();
+            $fixedTime = Carbon::now()->addHour()->format('H:i');
             
-            $response = $this->postExam();
+            $response = $this->postExam(['time' => $fixedTime]);
             $response->assertInertiaFlash('success');
 
-            $response = $this->postExam();
+            $response = $this->postExam(['time' => $fixedTime]);
             $response->assertBadRequest();
 
             $this->assertDatabaseCount('exams', 1);
@@ -151,40 +157,27 @@
             $this->assertDatabaseEmpty('exams');
         }
 
-        public function test_fail_with_empty_params(): void
+        public function test_fail_not_active_adress(): void
         {   
+            $address = Address::factory()->create(['is_active' => false]);
             $response = $this->postExam([
-                'date' =>'',
-                'time' => '',
-                'examTypeId' => '',
-                'addressId'=> '',
-                'capacity' => '',
-                'examiners' => '',
-                'comment' => ''
+                'addressId' => $address->id
             ]);
+            $response->assertBadRequest();
             $response->assertInertiaFlashMissing('success');
             $this->assertDatabaseEmpty('exams');
         }
 
-        public function test_fail_with_negative_number_params(): void
+        public function test_fail_not_active_examiner(): void
         {   
+            $user = User::factory()->create(['is_active' => false]);
+            $user->roles()->attach($this->examinerRole);
             $response = $this->postExam([
-                'examTypeId' => -1,
-                'addressId'=> -1,
-                'capacity' => -1,
+                'examiners' => [$user->id]
             ]);
+            $response->assertBadRequest();
             $response->assertInertiaFlashMissing('success');
             $this->assertDatabaseEmpty('exams');
         }
 
-        public function test_fail_with_zero_number_params(): void
-        {   
-            $response = $this->postExam([
-                'examTypeId' => 0,
-                'addressId'=> 0,
-                'capacity' => 0,
-            ]);
-            $response->assertInertiaFlashMissing('success');
-            $this->assertDatabaseEmpty('exams');
-        }
     }

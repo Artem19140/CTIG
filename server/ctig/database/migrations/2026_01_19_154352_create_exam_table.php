@@ -46,43 +46,12 @@ return new class extends Migration
             $table->string('comment')->nullable()->default(null);
             $table->string('protocol_comment', 1000)->nullable()->default(null);
 
-            $table->timestamps();
-        });
-
-        Schema::create('exam_foreign_national', function (Blueprint $table) {
-            $table->id();
-
-            $table->boolean('has_payment')->default(false);
-
-            $table->unsignedInteger('reg_number');
-
-            $table->boolean('is_cancelled')->default(false);
-
-            $table->foreignId('cancelled_by_id')
-                ->nullable()
-                ->constrained('users')
-                ->cascadeOnDelete();
-
-            $table->foreignId('exam_id')
-                ->index()
-                ->constrained()
-                ->cascadeOnDelete();
-
-            $table->foreignId('foreign_national_id')
-                 ->constrained()
-                ->cascadeOnDelete();
-            
-            $table->foreignId('creator_id')
-                ->constrained('users')
-                ->cascadeOnDelete();
-
-            $table->foreignId('organization_id')
-                ->constrained('organizations')
-                ->cascadeOnDelete();
-            $table->unique(['foreign_national_id', 'exam_id']);
+            $table->index(['begin_time', 'end_time'], 'exams_begin_end_idx');
 
             $table->timestamps();
         });
+
+        
 
          Schema::create('exam_examiner', function (Blueprint $table) {
             $table->id();
@@ -101,13 +70,16 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->unique(['examiner_id', 'exam_id']);
 
+            $table->index(['exam_id', 'examiner_id']);
+            $table->index(['examiner_id', 'exam_id']);
+
             $table->timestamps();
         });        
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('exam_foreign_national');
+        
         Schema::dropIfExists('exam_examiner');
         Schema::dropIfExists('exams'); 
     }

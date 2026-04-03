@@ -20,6 +20,7 @@ class ExamEnrollmentController
                             CreateEnrollmentAction $createEnrollment,
                             
                         ){ 
+
         $request->validate([
             'foreignNationalId' => ['required', 'integer', 'min:1'],
             'hasPayment' => ['required', 'boolean']

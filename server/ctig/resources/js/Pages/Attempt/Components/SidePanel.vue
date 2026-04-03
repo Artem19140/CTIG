@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import Timer from './Timer.vue';
 import TaskSideList from './TaskSideList.vue';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 const props = defineProps<{
     attempt:any,
     tasks:any
 }>()
 
-const progress = ref(props.attempt.solved/22 * 100)
+const progress = ref(props.attempt.solved/props.tasks?.length * 100)
+const solved = computed(() =>  props.tasks.filter(item => item?.attemptAnswer?.answer !== null).length)
 </script>
 
 <template>
@@ -27,7 +28,7 @@ const progress = ref(props.attempt.solved/22 * 100)
                 color="green"
                 :height="20"
                 :model-value="progress"
-            ><span>{{ attempt?.solved }} / 22</span></v-progress-linear>
+            ><span>{{ solved }} / {{ tasks?.length }}</span></v-progress-linear>
         </v-list-item>
         <v-list-item>
             <TaskSideList :tasks="tasks" />

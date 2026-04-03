@@ -4,7 +4,9 @@ namespace Tests\Feature\Attempt;
 
 use App\Actions\Attempt\Create\VerifyCodeAction;
 use App\Exceptions\BusinessException;
+use App\Models\Exam;
 use App\Models\ForeignNational;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -21,6 +23,7 @@ class VerifyCodeTest extends TestCase
         parent::setUp();
         $this->action = app(VerifyCodeAction::class);
         $this->exception = BusinessException::class;
+        
         Carbon::setTestNow(Carbon::now());
     }
 
@@ -38,13 +41,42 @@ class VerifyCodeTest extends TestCase
 
     public function test_success(): void
     {
-        ForeignNational::factory()->create([
+        $exam = Exam::factory()->create(['begin_time_utc' => Carbon::now()]);
+        $foreignNational = ForeignNational::factory()->create([
             'exam_code' => $this->code,
-            'exam_code_expired_at' => Carbon::now()->addMinute()
+            'exam_code_expired_at' => Carbon::now()->addMinute(),
+            'exam_id' => $exam->id
+        ]);
+        $user = User::factory()->create();
+        $exam->foreignNationals()->attach($foreignNational->id, [
+            'has_payment' => true,
+            'reg_number' => 123456,
+            'creator_id' => $user->id,
+            'organization_id' => $user->organization_id,
         ]);
         
         $result = $this->action->execute($this->code);
         $this->assertInstanceOf(ForeignNational::class, $result);
+    }
+
+    public function test_fail_no_payment(): void
+    {
+        $this->expectException($this->exception);
+        $exam = Exam::factory()->create(['begin_time_utc' => Carbon::now()]);
+        $foreignNational = ForeignNational::factory()->create([
+            'exam_code' => $this->code,
+            'exam_code_expired_at' => Carbon::now()->addMinute(),
+            'exam_id' => $exam->id
+        ]);
+        $user = User::factory()->create();
+        $exam->foreignNationals()->attach($foreignNational->id, [
+            'has_payment' => false,
+            'reg_number' => 123456,
+            'creator_id' => $user->id,
+            'organization_id' => $user->organization_id,
+        ]);
+        
+        $this->action->execute($this->code);
     }
 
     public function test_fail_expired(): void

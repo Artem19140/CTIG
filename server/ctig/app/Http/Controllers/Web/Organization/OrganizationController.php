@@ -9,6 +9,13 @@ use Inertia\Inertia;
 
 class OrganizationController
 {
+    public function index(){
+        
+    }
+    public function store(){
+        
+    }
+    
     public function show(Request $request, Organization $organization){
         if($organization->id != $request->user()->organization_id){
             abort(404);
@@ -16,5 +23,9 @@ class OrganizationController
         return Inertia::render('Organization/Organization', [
             'organization' => new OrganizationResource($organization)
         ]);
+    }
+
+    public function destroy(){
+
     }
 }

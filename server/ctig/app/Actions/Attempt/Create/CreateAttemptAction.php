@@ -28,6 +28,7 @@ class CreateAttemptAction{
 
             $exam = Exam::find($foreignNational->exam_id);
             
+            $this->examValidation->ensureNotCompleted($exam);
             $this->examValidation->ensureGoing($exam);
             $this->examValidation->ensureNotCancelled($exam);
             

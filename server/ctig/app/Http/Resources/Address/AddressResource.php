@@ -18,7 +18,8 @@ class AddressResource extends JsonResource
         return [
             'address' => $this->address,
             'creator' => (new UserResource($this->whenLoaded('creator'))),
-            'id' => $this->id
+            'id' => $this->id,
+            'maxCapcity' => $this->max_capacity
         ];
     }
 }

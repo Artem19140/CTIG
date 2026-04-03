@@ -92,7 +92,8 @@ export interface Attempt{
 
 export interface Address{
     id:number,
-    address:string
+    address:string,
+    maxCapcity:number
 }
 
 export interface ExamType{

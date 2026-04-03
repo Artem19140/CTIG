@@ -14,7 +14,7 @@ const props = defineProps<{
         >
             {{ task.order }}
             <v-icon color="grey">
-            {{ task?.answer ? 'mdi-check-circle' : 'mdi-circle-outline' }}
+            {{ task?.attemptAnswer?.answer ? 'mdi-check-circle' : 'mdi-circle-outline' }}
             </v-icon>
         </div>
     </div>

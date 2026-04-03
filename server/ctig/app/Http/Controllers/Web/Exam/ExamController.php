@@ -50,7 +50,7 @@ class ExamController
                     })
                     ->get();
         return response()->json([
-            'addresses' => AddressResource::collection(Address::all()),
+            'addresses' => AddressResource::collection(Address::where('is_active', true)->get()),
             'examTypes' => ExamTypeResource::collection(ExamType::all()),
             'examiners' => UserResource::collection($examiners) //Где роль тестеры
         ], 200);

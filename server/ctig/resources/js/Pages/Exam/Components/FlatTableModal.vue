@@ -21,22 +21,7 @@ const http = useHttp({
 const donwload = () => {
     http.get('/reports/flat-table',{
         onSuccess:(response :any) => {
-            const url = window.URL.createObjectURL(response);
-            const disposition = response.headers.get('content-disposition');
-
-            let filename = 'download';
-
-            if (disposition?.includes('filename=')) {
-            filename = disposition.split('filename=')[1].replace(/"/g, '');
-            }
-            const a = document.createElement('a');
-            a.download = filename;
-            
-            a.href = url;
-           
-            a.click();
-
-            window.URL.revokeObjectURL(url);
+            window.location.href = response
         }
     })
 }

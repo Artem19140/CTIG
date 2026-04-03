@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\AttemptAnswer;
 
-use App\Http\Resources\TaskVariant\TaskVariantResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,9 +16,9 @@ class AttemptAnswerResource extends JsonResource
     {
         return [
             'answer' => $this->answer,
-            'task' => new TaskVariantResource($this->whenLoaded('taskVariant')),
             'id' => $this->id,
-            'answerId' => $this->answer_id
+            'audioIsPlayed' => $this->audio_is_played,
+            'att_id' => $this->attempt->id
         ];
     }
 }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { useHttp } from '@inertiajs/vue3';
 
 const props = defineProps<{ value: string }>()
 
@@ -17,7 +18,8 @@ const togglePlay = () => {
   if (!audioRef.value) return
     audioRef.value.play()
     played.value = true
-
+    const http = useHttp()
+    
 }
 
 const onTimeUpdate = () => {

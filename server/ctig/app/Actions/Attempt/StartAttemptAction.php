@@ -7,15 +7,19 @@ use App\Models\Attempt;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class StartAttemptAction{
     public function execute(Attempt $attempt, ForeignNational $foreignNational):Attempt{
-        $exam=Exam::find($foreignNational->exam_id);
-        $attempt->status = AttemptStatus::Active;
-        $attempt->started_at = Carbon::now($exam->organization->time_zone);
-        $attempt->expired_at = Carbon::now($exam->organization->time_zone)->addMinutes($exam->duration);
-        $attempt->last_activity_at = Carbon::now($exam->organization->time_zone);
-        $attempt->save();
-        return $attempt;
+        return DB::transaction(function () use($attempt, $foreignNational) {
+            $exam=Exam::find($foreignNational->exam_id);
+            $attempt->status = AttemptStatus::Active;
+            $attempt->started_at = Carbon::now($exam->organization->time_zone);
+            $attempt->expired_at = Carbon::now()->addMinutes($exam->duration);
+            $attempt->last_activity_at = Carbon::now($exam->organization->time_zone);
+            $attempt->save();
+            return $attempt;
+        });
+        
     }
 }

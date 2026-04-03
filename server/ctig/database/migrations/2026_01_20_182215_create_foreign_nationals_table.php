@@ -51,10 +51,47 @@ return new class extends Migration
             
             $table->timestamps();
         });
+
+        Schema::create('exam_foreign_national', function (Blueprint $table) {
+            $table->id();
+
+            $table->boolean('has_payment')->default(false);
+
+            $table->unsignedInteger('reg_number');
+
+            $table->boolean('is_cancelled')->default(false);
+
+            $table->foreignId('cancelled_by_id')
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnDelete();
+
+            $table->foreignId('exam_id')
+                ->index()
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->foreignId('foreign_national_id')
+                 ->constrained()
+                ->cascadeOnDelete();
+            
+            $table->foreignId('creator_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
+
+            $table->foreignId('organization_id')
+                ->constrained('organizations')
+                ->cascadeOnDelete();
+
+            $table->unique(['foreign_national_id', 'exam_id']);
+
+            $table->timestamps();
+        });
     }
 
     public function down(): void
     {
+        Schema::dropIfExists('exam_foreign_national');
         Schema::dropIfExists('foreign_nationals');
     }
 };

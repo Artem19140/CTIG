@@ -32,6 +32,13 @@ const examinersErrors = computed(() => {
         .filter(([key]) => key.startsWith('examiners.'))
         .map(([, value]) => value)
 })
+const maxCapacity = ref<number | null>(null)
+const onSelect = (value:number | null) => {
+    if(!value){
+        return
+    }
+    maxCapacity.value = addresses.value?.find(item => item.id === value)?.maxCapcity ?? null
+}
 </script>
 
 <template>
@@ -79,6 +86,7 @@ const examinersErrors = computed(() => {
             v-model="form.addressId"
             :error-messages="form.errors.addressId"
             :loading="http.processing"
+            @update:modelValue="onSelect"
         />
 
         <v-number-input 
@@ -89,6 +97,8 @@ const examinersErrors = computed(() => {
             control-variant="hidden"
             label="Количество ИГ"
             :min="0"
+            :hint="`Максимум ${maxCapacity ?? '-'} человек`"
+            :max="maxCapacity ?? 0"
         />
 
         <AppAutocomplete 

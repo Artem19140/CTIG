@@ -53,6 +53,10 @@ class Attempt extends Model
         return $this->status === AttemptStatus::Banned;
     }
 
+    public function isFinished(): bool{
+        return $this->status === AttemptStatus::Finished;
+    }
+
     public function foreignNational(): BelongsTo{
         return $this->belongsTo(ForeignNational::class, 'foreign_national_id');
     }

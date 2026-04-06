@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('comment')->nullable()->default(null);
 
 
-            $table->string('photo_path')->nullable()->default(null);
+            $table->string('photo')->nullable()->default(null);
             $table->string('passport_scan_path')->nullable()->default(null);
             $table->string('passport_translate_scan')->nullable()->default(null);
         

@@ -2,49 +2,56 @@
 
 namespace App\Actions\ForeignNational;
 
-use App\Exceptions\BusinessException;
 use App\Models\ForeignNational;
-use Carbon\Carbon;
+use App\Validation\ForeignNationalValidation;
+use Storage;
 
 final class UpdateForeignNationalAction{
+    public function __construct(
+        protected ForeignNationalValidation $foreignNationalValidation
+    ){}
     public function execute(array $data, ForeignNational $foreignNational){
-        $age = Carbon::parse($data['dateBirth'])->age;
-        
-        if($age < 18){
-            throw new BusinessException('На экзамен можно записывать с 18 лет');
-        }
-        
-        $uniquePassportData = ForeignNational::where("passport_number", $data['passportNumber'])
-                            ->where("passport_series", $data['passportSeries'])
-                            ->where('id', '<>', $foreignNational->id)
-                            ->where('citizenship', $data['citizenship'])
-                            ->exists();
-
-        if($uniquePassportData){
-            throw new BusinessException('ИГ с такими паспортными данными и гражданством уже существует');
-        }
+        $this->foreignNationalValidation->ensureAge($data['dateBirth']);
+        $this->foreignNationalValidation->ensureUniquePassport($data);
         $foreignNational->update(
-            [
-                'surname' => $data['surname'],
-                'name'=> $data['name'],
-                'patronymic'=> $data['patronymic'],
-                'date_birth'=> $data['dateBirth'],
-                'surname_latin'=> $data['surnameLatin'],
-                'name_latin'=> $data['nameLatin'],
-                'patronymic_latin'=> $data['patronymicLatin'],
-                'passport_number'=> $data['passportNumber'],
-                'passport_series'=> $data['passportSeries'],
-                'issued_by'=> $data['issuedBy'],
-                'migration_card_requisite'=> $data['migrationCardRequisite'],
-                'issued_date'=> $data['issuedDate'],
-                'address_reg'=> $data['addressReg'],
-                'citizenship'=> $data['citizenship'],
-                'phone'=> $data['phone'],
-                'gender' => $data['gender'],
-                // 'passport_scan_path' => $passportScanPath,
-                // 'passport_translate_scan' => $passportTranslateScan,
-                'comment' => $data['comment'] ?? ''
-        ]);
+            $this->attributes($data)
+        );
         $foreignNational->save();
+    }
+    protected function attributes(array $data):array{
+        return [
+            'surname' => $data['surname'],
+            'name'=> $data['name'],
+            'patronymic'=> $data['patronymic'],
+            'date_birth'=> $data['dateBirth'],
+            'surname_latin'=> $data['surnameLatin'],
+            'name_latin'=> $data['nameLatin'],
+            'patronymic_latin'=> $data['patronymicLatin'],
+            'passport_number'=> $data['passportNumber'],
+            'passport_series'=> $data['passportSeries'],
+            'issued_by'=> $data['issuedBy'],
+            'migration_card_requisite'=> $data['migrationCardRequisite'],
+            'issued_date'=> $data['issuedDate'],
+            'address_reg'=> $data['addressReg'],
+            'citizenship'=> $data['citizenship'],
+            'phone'=> $data['phone'],
+            'gender' => $data['gender'],
+            'comment' => $data['comment'] ?? '',
+            $this->files($data)
+        ];
+    }
+
+    protected function files(array $data):array{
+        $files = [];
+        if($data['passportScanPath']){
+            $files['passport_scan'] = Storage::putFile('avatars', $data['passportScan']);
+        }
+        if($data['passportTranslateScan']){
+            $files['passport_translate_scan'] = Storage::putFile('avatars', $data['passportTranslateScan']);
+        }
+        if($data['photo']){
+            $files['photo'] = Storage::putFile('avatars', $data['photo']);
+        }
+        return  $files;
     }
 }

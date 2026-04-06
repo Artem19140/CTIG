@@ -2,30 +2,24 @@
 
 namespace App\Actions\ForeignNational;
 
-use App\Exceptions\BusinessException;
 use App\Models\ForeignNational;
-use Carbon\Carbon;
 use Storage;
+use App\Validation\ForeignNationalValidation;
 
 final class StoreForeignNationalAction{
+    public function __construct(
+        protected ForeignNationalValidation $foreignNationalValidation
+    ){}
     public function execute(array $data, int $creatorId): ForeignNational{
-        $age = Carbon::parse($data['dateBirth'])->age;
-         
-        if($age < 18){
-            throw new BusinessException('На экзамен можно записывать с 18 лет');
-        }
+        $this->foreignNationalValidation->ensureAge($data['dateBirth']);
+        $this->foreignNationalValidation->ensureUniquePassport($data);
+        return  ForeignNational::create(
+            $this->attributes($data, $creatorId),
+        );
+    }
 
-        $uniquePassportData = ForeignNational::where("passport_number", $data['passportNumber'])
-                            ->where("passport_series", $data['passportSeries'])
-                            ->where('citizenship', $data['citizenship'])
-                            ->exists();
-        if($uniquePassportData){
-            throw new BusinessException('ИГ с такими паспортными данными и гражданством уже существует');
-        }
-        $passportTranslateScan  = Storage::putFile('avatars', $data['passportTranslateScan']);
-        //$photoPath  = Storage::putFile('avatars', $data['photoScan']);
-        $passportScanPath =  Storage::putFile('avatars', $data['passportScan']); //passport_scan_path
-        return  ForeignNational::create([
+    private function attributes(array $data, int $creatorId):array{
+        return [
             'surname' => $data['surname'],
             'name'=> $data['name'],
             'patronymic'=> $data['patronymic'],
@@ -43,10 +37,10 @@ final class StoreForeignNationalAction{
             'phone'=> $data['phone'],
             'creator_id'=>$creatorId,
             'gender' => $data['gender'],
-            'passport_scan_path' => $passportScanPath,
-            //'photo_path' => $photoPath,
-            'passport_translate_scan' => $passportTranslateScan,
-            'comment' => $data['comment']
-        ]);
+            'comment' => $data['comment'],
+            'passport_translate' => Storage::putFile('avatars', $data['passportTranslateScan']),
+            'passport_scan' => Storage::putFile('avatars', $data['passportScan']),
+            //'photo' => Storage::putFile('avatars', $data['photoScan']);
+        ];
     }
 }

@@ -55,7 +55,7 @@ class CreateAttemptAction{
         return Attempt::create([
                 'foreign_national_id' => $foreignNational->id,
                 'exam_id' => $exam->id,
-                'organization_id' => $exam->organization_id
+                'center_id' => $exam->center_id
             ]);
     }
 
@@ -89,7 +89,7 @@ class CreateAttemptAction{
                 'task_variant_id' => $variant->id,
                 'attempt_id' => $attempt->id, 
                 'foreign_national_id' =>$foreignNational->id, 
-                'organization_id' => $exam->organization_id
+                'center_id' => $exam->center_id
             ];
         }
         return $examVariant;
@@ -106,7 +106,7 @@ class CreateAttemptAction{
             $exam->session = $this->getSessionNumber->execute($exam->begin_time);
         }
         if(!$exam->begin_time_real){
-            $exam->begin_time_real = Carbon::now($exam->organization->time_zone);
+            $exam->begin_time_real = Carbon::now($exam->center->time_zone);
             $exam->save();
         }
         if($save){

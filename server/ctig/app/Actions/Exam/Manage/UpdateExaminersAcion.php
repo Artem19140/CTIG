@@ -17,7 +17,7 @@ class UpdateExaminersAcion{
         $this->examValidation->ensureNotGoing($exam);
         $this->examValidation->ensureNotCompleted($exam);
         $this->validateExaminers->execute($examiners, $exam->begin_time, $exam->end_time, $exam->id);
-        $exam->examiners()->syncWithPivotValues($examiners, ['organization_id'  => $user->organization->id]);
+        $exam->examiners()->syncWithPivotValues($examiners, ['center_id'  => $user->center->id]);
         $exam->save();
     }
 }

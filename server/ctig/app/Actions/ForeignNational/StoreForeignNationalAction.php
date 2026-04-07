@@ -38,7 +38,7 @@ final class StoreForeignNationalAction{
             'creator_id'=>$creatorId,
             'gender' => $data['gender'],
             'comment' => $data['comment'],
-            'passport_translate' => Storage::putFile('avatars', $data['passportTranslateScan']),
+            'passport_translate_scan' => Storage::putFile('avatars', $data['passportTranslateScan']),
             'passport_scan' => Storage::putFile('avatars', $data['passportScan']),
             //'photo' => Storage::putFile('avatars', $data['photoScan']);
         ];

@@ -34,10 +34,10 @@ final class UpdateExamAction{
                     'comment' => $examDto->comment,
                     'creator_id'=> $user->id,
                     'end_time' => $examDto->beginTime->copy()->addMinutes($duration),
-                    'organization_id' => $user->organization->id
+                    'center_id' => $user->center->id
             ]);
 
-            $exam->examiners()->syncWithPivotValues($examDto->examiners, ['organization_id'  => $user->organization->id]);
+            $exam->examiners()->syncWithPivotValues($examDto->examiners, ['center_id'  => $user->center->id]);
             $exam->save();
             return $exam;
         });        

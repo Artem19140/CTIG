@@ -8,7 +8,7 @@ use App\Models\Address;
 use App\Models\Counter;
 use App\Models\Exam;
 use App\Models\ExamType;
-use App\Models\Organization;
+use App\Models\Center;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
@@ -28,7 +28,7 @@ class ForeignNationalCreateTest extends TestCase
 
     protected function setUp():void{
             parent::setUp();
-            Organization::factory()->create();
+            Center::factory()->create();
             
             
             $operatorRole = Role::create([
@@ -42,20 +42,20 @@ class ForeignNationalCreateTest extends TestCase
             $this->address = Address::factory()->create();
             Carbon::setTestNow(now());
             $this->exam = Exam::create([
-                'begin_time' => Carbon::now($this->user->organization->time_zone)->addDay(),
-                'end_time' => Carbon::now($this->user->organization->time_zone)->addDay()->addMinutes(ExamType::inRandomOrder()->first()->duration),
+                'begin_time' => Carbon::now($this->user->center->time_zone)->addDay(),
+                'end_time' => Carbon::now($this->user->center->time_zone)->addDay()->addMinutes(ExamType::inRandomOrder()->first()->duration),
                 'begin_time_utc' => Carbon::now()->addDay(),
                 'exam_type_id' => ExamType::inRandomOrder()->first()->id,
                 'creator_id' => $this->user->id,
                 'capacity'=>$this->address->max_capacity,
                 'address_id' => $this->address->id,
-                'organization_id' => Organization::inRandomOrder()->first()->id
+                'center_id' => Center::inRandomOrder()->first()->id
             ]);
             Storage::fake('private');
             Counter::create([
                 'key' => CounterKey::RegNumKey,
                 'value' => Carbon::now()->format('y').'0000',
-                'organization_id' => 1
+                'center_id' => 1
             ]);
         }
     public function tearDown(): void

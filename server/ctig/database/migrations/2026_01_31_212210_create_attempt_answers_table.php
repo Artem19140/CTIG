@@ -34,9 +34,9 @@ return new class extends Migration
                 ->constrained('answers')
                 ->cascadeOnDelete();
 
-            $table->foreignId('organization_id')
+            $table->foreignId('center_id')
                 ->index()
-                ->constrained('organizations')
+                ->constrained('centers')
                 ->cascadeOnDelete();
 
             $table->boolean('audio_played')->default(false);

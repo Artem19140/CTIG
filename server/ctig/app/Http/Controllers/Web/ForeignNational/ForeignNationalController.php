@@ -51,7 +51,7 @@ class ForeignNationalController
                                         ForeignNational $foreignNational, 
                                         CreateForeignNationalStatementAction $createForeignNationalStatement
                                     ){
-        $request->validate(['examId' => ['required', 'integer']]);
+        $request->validate(['examId' => ['required', 'integer', 'exists:exams, id']]);
         $applicationFormPdf = $createForeignNationalStatement->execute($request->input('examId'), $foreignNational, $request->user());
         return $applicationFormPdf->stream('exam.pdf');
     }

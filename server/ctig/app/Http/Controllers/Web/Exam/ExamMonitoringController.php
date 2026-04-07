@@ -16,17 +16,16 @@ class ExamMonitoringController
     public function index(Request $request){
         $user = $request->user();
         $past = $request->boolean('past');
-        //echo now($request->user()->organization->time_zone);die;
         $exams = Exam::with(['examType'])
             ->whereHas('examiners', function(Builder $query) use($user){
                 $query->where('examiner_id', $user->id);
             })
             ->withCount('foreignNationals')
             ->when($past, function (Builder $query) use($request){
-                $query->where('end_time', '<', now($request->user()->organization->time_zone));
+                $query->where('end_time', '<', now($request->user()->center->time_zone));
             })
             ->when(!$past, function (Builder $query) use($request){
-                $query->where('end_time', '>', now($request->user()->organization->time_zone)->subMinutes(30));
+                $query->where('end_time', '>', now($request->user()->center->time_zone)->subMinutes(30));
             })
             ->where('is_cancelled', false)
             ->latest('begin_time_utc')

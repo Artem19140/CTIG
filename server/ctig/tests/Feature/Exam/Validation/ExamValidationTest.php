@@ -6,7 +6,7 @@ use App\Exceptions\BusinessException;
 use App\Models\Exam;
 use App\Models\ExamType;
 use App\Models\ForeignNational;
-use App\Models\Organization;
+use App\Models\Center;
 use App\Models\User;
 use App\Validation\ExamValidation;
 use Carbon\Carbon;
@@ -84,7 +84,7 @@ class ExamValidationTest extends TestCase
                     'reg_number'=>124,
                     'creator_id' => User::factory()->create()->id, 
                     'has_payment'=> true,
-                    'organization_id' => Organization::factory()->create()->id
+                    'center_id' => Center::factory()->create()->id
                 ]
             )->create();
         $this->action->ensureHasEnrollment($exam);

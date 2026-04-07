@@ -48,7 +48,7 @@ class UserController extends Controller{
             'patronymic' => $request->validated('patronymic'),
             'job_title' => $request->validated('jobTitle'),
             'password' => Hash::make($request->validated('password')),
-            'organization_id' => $request->user()->organization_id
+            'center_id' => $request->user()->center_id
         ]);
         
         $user->roles()->sync($request->validated('roles'));
@@ -61,7 +61,7 @@ class UserController extends Controller{
             throw new BusinessException('Сотрудник уже уволен');
         }
         if(
-            $request->user()->organization_id !== $user->organization_id 
+            $request->user()->center_id !== $user->center_id 
                 || 
             !$request->user()->isSuperAdmin()
         ){

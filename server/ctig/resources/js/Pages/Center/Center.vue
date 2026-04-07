@@ -12,7 +12,7 @@ defineOptions({
 })
 
 const props = defineProps<{
-    organization : any | null
+    center : any | null
 }>()
 
 const mode = ref<string>('show')
@@ -24,12 +24,12 @@ const {can} = useAuth()
     <v-card
         width="700"
         class="mx-auto mt-16"
-        title="Данные организации"
+        title="Данные центра"
     >
            
         <v-card-text>
-            <ShowData :organization="organization" v-if="mode === 'show'" />
-            <UpdateData :organization="organization" v-if="mode === 'update'"  />
+            <ShowData :center="center" v-if="mode === 'show'" />
+            <UpdateData :center="center" v-if="mode === 'update'"  />
         </v-card-text>
         <v-card-actions  class="flex justify-center">
             <PrimaryButton

@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Address;
-use App\Models\Organization;
+use App\Models\Center;
 use App\Models\ForeignNational;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -33,7 +33,7 @@ class ExamFactory extends Factory
             'creator_id' => User::factory(),
             'capacity'=>fake()->numberBetween(5, 20),
             'address_id' => Address::factory(),
-            'organization_id' => Organization::factory()
+            'center_id' => Center::factory()
         ];
     }
 

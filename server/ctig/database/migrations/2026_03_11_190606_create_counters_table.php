@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('key');
             $table->unsignedInteger('value')->default(0);
 
-            $table->foreignId('organization_id')
-                ->constrained('organizations')
+            $table->foreignId('center_id')
+                ->constrained('centers')
                 ->cascadeOnDelete();
 
             $table->timestamps();

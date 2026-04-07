@@ -60,7 +60,7 @@ final class CreateEnrollmentAction{
         $exam->foreignNationals()->attach($foreignNational, [
             'reg_number' =>$regNumber, 
             'creator_id' => $user->id,
-            'organization_id' => $user->organization_id,
+            'center_id' => $user->center_id,
             'has_payment' => $hasPayment
         ]);
         return $foreignNational;

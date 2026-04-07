@@ -10,7 +10,7 @@ class Counter extends Model
     protected $fillable = [
         'key',
         'value',
-        'organization_id'
+        'center_id'
     ];
 
     protected $casts = [

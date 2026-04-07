@@ -3,9 +3,8 @@
 namespace App\Actions\Reports;
 
 use App\Enums\AttemptStatus;
-use App\Exceptions\BusinessException;
 use App\Models\Attempt;
-use App\Models\Organization;
+use App\Models\Center;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -19,10 +18,10 @@ class GenerateFRDOReportsAction{
     ){
         
     }
-    public function execute(string $examDate, bool $success, Organization $organization): IWriter{
+    public function execute(string $examDate, bool $success, Center $center): IWriter{
         $examDate = Carbon::parse($examDate);
         $this->checkAvailableGenerate->execute($examDate);
-        $spreadsheet = $this->generateReport($examDate, $success, $organization);
+        $spreadsheet = $this->generateReport($examDate, $success, $center);
         return IOFactory::createWriter($spreadsheet, 'Xlsx');
     }
 
@@ -35,7 +34,7 @@ class GenerateFRDOReportsAction{
                     ->get();
     }
 
-    protected function generateReport($examDate, bool $success, Organization $organization): Spreadsheet{
+    protected function generateReport($examDate, bool $success, Center $center): Spreadsheet{
         $attempts = $this->attemptsForReport($examDate, $success);
         if($success){
             $templatePath = storage_path('app/templates/certificates_frdo.xlsx');
@@ -61,9 +60,9 @@ class GenerateFRDOReportsAction{
                     ->setRowHeight($sheet->getRowDimension($templateRow)->getRowHeight());
             }
             if($success){
-                $markUp = $this->certificateMarkup($attempt, $organization, $row);
+                $markUp = $this->certificateMarkup($attempt, $center, $row);
             }else{
-                $markUp = $this->referencesMarkup($attempt, $organization, $row);
+                $markUp = $this->referencesMarkup($attempt, $center, $row);
             }
             
             foreach ( $markUp as $key => $value){
@@ -75,7 +74,7 @@ class GenerateFRDOReportsAction{
         return $spreadsheet;
     }
 
-    protected function certificateMarkup($attempt, Organization $organization, int $row): array
+    protected function certificateMarkup($attempt, Center $center, int $row): array
     {
         $columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'M', 'N', 'O'];
         $values = [
@@ -91,8 +90,8 @@ class GenerateFRDOReportsAction{
             $attempt->foreignNational->full_passport,
             $attempt->foreignNational->citizenship,
             $attempt->exam->address->address,
-            $organization->certificates_issue_address,
-            $organization->director_fio,
+            $center->certificates_issue_address,
+            $center->director_fio,
         ];
 
         $cells = [];
@@ -103,7 +102,7 @@ class GenerateFRDOReportsAction{
         return $cells;
     }
 
-    protected function referencesMarkup($attempt, Organization $organization, int $row): array
+    protected function referencesMarkup($attempt, Center $center, int $row): array
     {
         $columns = ['A','B','C','D','E','F','G','H','I','J','K','L','N','O','P','Q'];
 
@@ -123,7 +122,7 @@ class GenerateFRDOReportsAction{
             $attempt->exam->address->address,
             $attempt->exam->begin_time->format('d.m.Y'),
             'Неуспешно',
-            $organization->director_fio
+            $center->director_fio
         ];
         $cells = [];
         foreach ($values as $index => $value) {

@@ -5,7 +5,7 @@ namespace Database\Seeders;
 
 use App\Enums\CounterKey;
 use App\Models\Counter;
-use App\Models\Organization;
+use App\Models\Center;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\ForeignNational;
@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        Organization::create([
+        Center::create([
             'name' => 'Федеральное государственное бюджетное образовательное учреждение высшего образования «Удмуртский государственный университет» (ФГБОУ ВО «УдГУ»)',
             'time_zone' => 'Europe/Samara',
             'director_fio' => 'Рязанова Анна Юрьевна',
@@ -40,13 +40,13 @@ class DatabaseSeeder extends Seeder
         Counter::create([
             'key' => CounterKey::RegNumKey,
             'value' => Carbon::now()->format('y').'0000',
-            'organization_id' => 1
+            'center_id' => 1
         ]);
 
         Counter::create([
             'key' => CounterKey::GroupKey,
             'value' => 1,
-            'organization_id' => 1
+            'center_id' => 1
         ]);
 
         $roleSpecialist = Role::create([
@@ -86,7 +86,7 @@ class DatabaseSeeder extends Seeder
             'email' => env('SUPER_ADMIN_LOGIN'),
             'password' => Hash::make(env('SUPER_ADMIN_PASSWORD')),
             'job_title' => 'Админ', 
-            'organization_id' => 1,
+            'center_id' => 1,
             'has_to_change_password' => false
         ]);
 

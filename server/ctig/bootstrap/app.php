@@ -1,9 +1,9 @@
 <?php
 
 use App\Exceptions\BusinessException;
-use App\Http\Middleware\EnsureOrganizationIsActive;
+use App\Http\Middleware\EnsureCenterActive;
 use App\Http\Middleware\EnsurePasswordChange;
-use App\Http\Middleware\EnsureUserIsActive;
+use App\Http\Middleware\EnsureUserActive;
 use App\Http\Middleware\EnsureUserHasRole;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -33,8 +33,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'password.change' => EnsurePasswordChange::class,
-            'user.is.active' => EnsureUserIsActive::class,
-            'organization.is.active' => EnsureOrganizationIsActive::class,
+            'user.active' => EnsureUserActive::class,
+            'center.active' => EnsureCenterActive::class,
             'user.has.role' => EnsureUserHasRole::class
         ]);
 

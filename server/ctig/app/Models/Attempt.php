@@ -24,7 +24,7 @@ class Attempt extends Model
         'started_at',
         'ban_reason',
         'ban_by_id',
-        'organization_id',
+        'center_id',
         'solved'
     ];
 
@@ -41,7 +41,7 @@ class Attempt extends Model
     }
 
     public function finish(): AttemptStatus{
-        $this->finished_at = Carbon::now($this->organization->time_zone);
+        $this->finished_at = Carbon::now($this->center->time_zone);
         return $this->status = AttemptStatus::Finished;
     }
 
@@ -73,8 +73,8 @@ class Attempt extends Model
         return $this->hasMany(Violation::class, 'attempt_id');
     }
 
-    public function organization(): BelongsTo{
-        return $this->belongsTo(Organization::class, 'organization_id');
+    public function center(): BelongsTo{
+        return $this->belongsTo(Center::class, 'center_id');
     }
 
     public function requiresHumanCheck():bool{

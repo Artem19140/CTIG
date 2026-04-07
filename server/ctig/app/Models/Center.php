@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Organization extends Model
+class Center extends Model
 {
     use HasFactory;
     protected $fillable = [
@@ -26,6 +26,6 @@ class Organization extends Model
     ];
 
     public function users(): HasMany{
-        return $this->hasMany(User::class, 'organization_id');
+        return $this->hasMany(User::class, 'center_id');
     }
 }

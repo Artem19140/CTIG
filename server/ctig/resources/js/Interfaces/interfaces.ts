@@ -49,7 +49,7 @@ export interface ForeignNational{
     phone:string,
     creator?:User | null,
     exams?:Array<Exam> | null,
-    passportScanPath?:string | null,
+    passportScan?:string | null,
     photo?:string | null,
     createdAt?:string,
     citizenship:string,
@@ -57,9 +57,8 @@ export interface ForeignNational{
     attempts?:Array<Attempt> | null,
     fullName?:string,
     fullPassport?:string,
-    photoPath?:string,
     isLoading?: boolean,
-    passportTranslateScanPath?:string | null,
+    passportTranslateScan?:string | null,
     comment:''
     gender:string | null
 }

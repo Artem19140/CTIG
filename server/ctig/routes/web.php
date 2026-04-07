@@ -8,7 +8,7 @@ use App\Http\Controllers\Web\Exam\ExamDocumentController;
 use App\Http\Controllers\Web\Exam\ExamEnrollmentController;
 use App\Http\Controllers\Web\Exam\ExamMonitoringController;
 use App\Http\Controllers\Web\Login\LoginController;
-use App\Http\Controllers\Web\Organization\OrganizationController;
+use App\Http\Controllers\Web\Center\CenterController;
 use App\Http\Controllers\Web\Report\ReportController;
 use App\Http\Controllers\Web\ForeignNational\ForeignNationalController;
 use App\Http\Controllers\Web\Attempt\AttemptAnswerController;
@@ -16,10 +16,7 @@ use App\Models\ExamType;
 use Illuminate\Support\Facades\Route;
 
 
-
-
-
-Route::middleware(['auth', 'user.is.active', 'organization.is.active', 'password.change'])->group(function(){
+Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->group(function(){
     Route::resource('foreign-nationals', ForeignNationalController::class);
 
     Route::get('foreign-nationals/{foreignNational}/application-forms', [ForeignNationalController::class, "getApplicationForm"])
@@ -76,8 +73,8 @@ Route::middleware(['auth', 'user.is.active', 'organization.is.active', 'password
     });
     
 
-    Route::get('organizations/{organization}', [OrganizationController::class, "show"]);
-    Route::get('organizations/{organization}/employees', [UserController::class, "index"]);
+    Route::get('centers/{center}', [CenterController::class, "show"]);
+    Route::get('centers/{center}/employees', [UserController::class, "index"]);
 
     Route::delete('employees/{user}', [UserController::class, "destroy"]);
     Route::post('employees', [UserController::class, "store"]);
@@ -111,7 +108,6 @@ Route::middleware('auth:foreignNationals')->group(function (){
         
         Route::put('{attempt}/answers/{attemptAnswer}/audio/played', [AttemptAnswerController::class, 'update'])
             ->can('attempt-access', 'attempt');
-
 
         Route::put('{attempt}/answers/{attemptAnswer}', [AttemptAnswerController::class, 'update'])
             ->can('attempt-access', 'attempt');

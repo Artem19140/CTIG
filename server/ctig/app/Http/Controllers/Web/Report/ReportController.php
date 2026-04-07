@@ -27,7 +27,7 @@ class ReportController extends Controller
         $writer = $generateFRDOReports->execute(
                                                     $examDate,
                                                     $success,
-                                                    $request->user()->organization
+                                                    $request->user()->center
                                                     );
         $stringDate = $examDate->format('d.m.Y');
         $fileName =  $success ? "cerftificates_frdo_$stringDate.xlsx" : "references_frdo_$stringDate.xlsx";

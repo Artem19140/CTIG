@@ -28,7 +28,7 @@ class User extends Authenticatable
         'password',
         'has_to_change_password',
         'is_active',
-        'organization_id',
+        'center_id',
     ];
     protected $hidden = [
         'password',
@@ -60,14 +60,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Exam::class, 'exam_examiner','examiner_id', 'exam_id');
     }
 
-    public function organization(): BelongsTo{
-        return $this->belongsTo(Organization::class,'organization_id');
+    public function center(): BelongsTo{
+        return $this->belongsTo(Center::class,'center_id');
     }
 
     protected function timeZone(): Attribute
     {
         return Attribute::get(function () {
-            return $this->organization->time_zone;
+            return $this->center->time_zone;
         });
     }
 

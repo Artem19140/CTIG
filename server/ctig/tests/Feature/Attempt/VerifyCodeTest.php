@@ -52,7 +52,7 @@ class VerifyCodeTest extends TestCase
             'has_payment' => true,
             'reg_number' => 123456,
             'creator_id' => $user->id,
-            'organization_id' => $user->organization_id,
+            'center_id' => $user->center_id,
         ]);
         
         $result = $this->action->execute($this->code);
@@ -73,7 +73,7 @@ class VerifyCodeTest extends TestCase
             'has_payment' => false,
             'reg_number' => 123456,
             'creator_id' => $user->id,
-            'organization_id' => $user->organization_id,
+            'center_id' => $user->center_id,
         ]);
         
         $this->action->execute($this->code);

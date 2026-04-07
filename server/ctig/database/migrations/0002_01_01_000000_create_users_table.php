@@ -19,8 +19,8 @@ return new class extends Migration
             $table->boolean('has_to_change_password')->default(true);
             $table->string( 'job_title');
             $table->boolean('is_active')->default(true);
-            $table->foreignId('organization_id')
-                ->constrained('organizations')
+            $table->foreignId('center_id')
+                ->constrained('centers')
                 ->cascadeOnDelete();
             
             

@@ -147,9 +147,9 @@
                 </tr>
             </table>
             <p class="small" style="margin-bottom: 0; font-style: italic;">Согласие на использование средств видеофиксации.</p> 
-            <p class="small" style="margin-top: 0;">Настоящим   даю   согласие  {{$organization->name_genitive}}
-               (ИНН {{$organization->inn}} , ОГРН {{$organization->ogrn}}), 
-                {{$organization->address}},
+            <p class="small" style="margin-top: 0;">Настоящим   даю   согласие  {{$center->name_genitive}}
+               (ИНН {{$center->inn}} , ОГРН {{$center->ogrn}}), 
+                {{$center->address}},
                 на   использование   средств   видеофиксации   при   проведении
                 экзамена   в   порядке   и   целях,   определяемых законодательством и заключаемом договором.
                 Проинформирован об использовании средств видеофиксации и хранении материаловпри проведении экзамена.</p>

@@ -100,7 +100,7 @@ td {
     </div>
 
     <div class="section">
-        <span class="bold">Учреждение:</span> {{ $organization->name }}
+        <span class="bold">Учреждение:</span> {{ $center->name }}
     </div>
 
     <table class="section">

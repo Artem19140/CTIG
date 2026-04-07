@@ -38,7 +38,7 @@ class AttemptAnswerController extends Controller
         $answer = $request->input('answer');
         $savedAnswer = DB::transaction(function()use($answer, $attempt,$attemptAnswer, $handleAttemptAnswer){
             $answer = $handleAttemptAnswer->execute($answer, $attempt, $attemptAnswer);
-            $attempt->last_activity_at = Carbon::now($attempt->organization->time_zone);
+            $attempt->last_activity_at = Carbon::now($attempt->center->time_zone);
             $attempt->save();
             return $answer;
         });

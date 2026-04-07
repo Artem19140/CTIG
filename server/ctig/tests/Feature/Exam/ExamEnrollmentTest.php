@@ -7,7 +7,7 @@ use App\Models\Address;
 use App\Models\Exam;
 use App\Models\ExamType;
 use App\Models\ForeignNational;
-use App\Models\Organization;
+use App\Models\Center;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
@@ -27,22 +27,22 @@ class ExamEnrollmentTest extends TestCase
     protected int $examId;
     protected function setUp():void{
             parent::setUp();
-            $organization = Organization::factory()->create();
-            $this->user = User::factory()->create(['organization_id' => $organization->id]);
+            $center = Center::factory()->create();
+            $this->user = User::factory()->create(['center_id' => $center->id]);
             $schedulerRole = Role::create([
                 'name' => UserRoles::Scheduler
             ]);
             $this->user->roles()->attach($schedulerRole);
 
             $this->examType = ExamType::factory()->create();
-            $this->address = Address::factory()->create(['organization_id' => $organization->id]);
+            $this->address = Address::factory()->create(['center_id' => $center->id]);
 
             Carbon::setTestNow(now());
 
-            $exam = Exam::factory()->inFuture($organization->time_zone)->create();
+            $exam = Exam::factory()->inFuture($center->time_zone)->create();
             $this->exam = $exam;
             $this->examId = $exam->id;
-            $this->foreignNational = ForeignNational::factory()->create(['organization_id' => $organization->id]);
+            $this->foreignNational = ForeignNational::factory()->create(['center_id' => $center->id]);
         }
 
     public function tearDown(): void

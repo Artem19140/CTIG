@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Organization;
+use App\Models\Center;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -40,7 +40,7 @@ class UserFactory extends Factory
             'has_to_change_password' => false,
             'is_active' => true,
             'remember_token' => Str::random(10),
-            'organization_id' => Organization::factory(),
+            'center_id' => Center::factory(),
             'job_title'=>  fake()->randomElement(['Специалист центра тестирования иностранных граждан','Директор центра тестирования иностранных граждан', 'Сотрудник центра тестирования иностранных граждан', 'Тестер центра тестирования иностранных граждан'])
         ];
     }

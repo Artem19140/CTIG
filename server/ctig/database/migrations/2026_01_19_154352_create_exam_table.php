@@ -33,8 +33,8 @@ return new class extends Migration
                 ->constrained('addresses')
                 ->cascadeOnDelete();
 
-            $table->foreignId('organization_id')
-                ->constrained('organizations')
+            $table->foreignId('center_id')
+                ->constrained('centers')
                 ->cascadeOnDelete();
             
             $table->boolean('is_cancelled')->default(false);
@@ -65,8 +65,8 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete();
 
-            $table->foreignId('organization_id')
-                ->constrained('organizations')
+            $table->foreignId('center_id')
+                ->constrained('centers')
                 ->cascadeOnDelete();
             $table->unique(['examiner_id', 'exam_id']);
 

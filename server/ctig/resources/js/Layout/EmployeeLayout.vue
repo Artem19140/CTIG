@@ -52,15 +52,15 @@
           <v-list-item 
             prepend-icon="mdi-office-building" 
             v-if="can([Roles.ORG_ADMIN, Roles.DIRECTOR])" 
-            title="Организация" 
-            value="organization" 
-            @click="router.get(`/organizations/${organizationId}`)"
+            title="Центр" 
+            value="center" 
+            @click="router.get(`/centers/${centerId}`)"
           ></v-list-item>
           <v-list-item 
             prepend-icon="mdi-account-group" 
             v-if="can([Roles.ORG_ADMIN, Roles.DIRECTOR])" 
             title="Сотрудники" 
-            @click="router.get(`/organizations/${organizationId}/employees`)"
+            @click="router.get(`/centers/${centerId}/employees`)"
             value="employees" 
             ></v-list-item>
           <v-list-item 
@@ -84,26 +84,14 @@
       <slot />
     </v-main>
     </v-layout>
-   
-
-    <!-- <app-snackbar />
-    <confirm-dialog />
-    <alert />
-    <prompt-dialog />
-    <modals /> -->
 </template>
 
 <script setup lang="ts">
 
 import { ref } from 'vue'
-import AppSnackbar from '../Components/AppSnackbar/AppSnackbar.vue'
-import ConfirmDialog from '../Components/ConfirmDialog/ConfirmDialog.vue';
-import Alert from '../Components/Alert/Alert.vue';
-import PromptDialog from '../Components/PromptDialog/PromptDialog.vue';
 import BaseLayout from './BaseLayout.vue';
 import { useAuth } from '../Composables/useAuth';
 import { Roles } from '../Constants/Roles';
-import Modals from '../Components/Modals/Modals.vue';
 import { router } from '@inertiajs/vue3'
 
 
@@ -115,7 +103,7 @@ defineOptions({
   layout: BaseLayout,
 })
 
-const organizationId = user?.organization_id
+const centerId = user?.center_id
 const employeeName = `${user?.surname} ${user?.name}`
 const activeItem = ref('')
 </script>

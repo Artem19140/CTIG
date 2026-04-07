@@ -59,7 +59,7 @@ const showDocument = (url :string) => {
                 <div class="flex">
                     <v-avatar color="surface-variant cursor-pointer hover:opacity-80 transition-opacity"  size="150" >
                         <v-img 
-                            :src="foreignNational?.photoPath"
+                            :src="foreignNational?.photo"
                             cover 
                             @click="showDocument('')"
                         />
@@ -102,24 +102,24 @@ const showDocument = (url :string) => {
             <v-row comfortable>
                 <v-col cols="6" class="">
                     <v-list-item-subtitle>Паспорт</v-list-item-subtitle>
-                    <div v-if="!foreignNational?.passportScanPath">-</div>
+                    <div v-if="!foreignNational?.passportScan">-</div>
                     <v-img
                         v-else
                         width="50"
                         src="https://cdn-icons-png.flaticon.com/512/9034/9034536.png"
                         class="mt-2 cursor-pointer hover:opacity-80 transition-opacity"
-                        @click="showDocument(foreignNational?.passportScanPath)"
+                        @click="showDocument(foreignNational?.passportScan)"
                     />
                 </v-col>
                 <v-col cols="6" class="">
                     <v-list-item-subtitle>Перевод паспорта</v-list-item-subtitle>
-                    <div v-if="!foreignNational?.passportTranslateScanPath">-</div>
+                    <div v-if="!foreignNational?.passportTranslateScan">-</div>
                     <v-img
                         v-else
                         width="50"
                         src="https://cdn-icons-png.flaticon.com/512/9034/9034536.png"
                         class="mt-2 cursor-pointer hover:opacity-80 transition-opacity"
-                        @click="showDocument(foreignNational?.passportTranslateScanPath)"
+                        @click="showDocument(foreignNational?.passportTranslateScan)"
                     />
                 </v-col>
             </v-row>

@@ -6,7 +6,7 @@ use App\Enums\UserRoles;
 use App\Models\Address;
 use App\Models\Exam;
 use App\Models\ExamType;
-use App\Models\Organization;
+use App\Models\Center;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
@@ -24,7 +24,7 @@ class ExamCancelTest extends TestCase
 
     protected function setUp():void{
             parent::setUp();
-            $organization = Organization::factory()->create();
+            $center = Center::factory()->create();
             $this->user = User::factory()->create();
             $schedulerRole = Role::create([
                 'name' => UserRoles::Scheduler
@@ -35,7 +35,7 @@ class ExamCancelTest extends TestCase
 
             Carbon::setTestNow(now());
 
-            $this->exam = Exam::factory()->inFuture($organization->time_zone)->create();
+            $this->exam = Exam::factory()->inFuture($center->time_zone)->create();
             
         }
     public function tearDown(): void

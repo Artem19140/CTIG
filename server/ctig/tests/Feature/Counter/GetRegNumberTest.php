@@ -5,7 +5,7 @@ namespace Tests\Feature\Counter;
 use App\Actions\Counter\GetRegNumberAction;
 use App\Enums\CounterKey;
 use App\Models\Counter;
-use App\Models\Organization;
+use App\Models\Center;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Carbon\Carbon;
@@ -26,7 +26,7 @@ class GetRegNumberTest extends TestCase
         $this->counter = Counter::create([
             'key' => CounterKey::RegNumKey,
             'value' => $this->value,
-            'organization_id' => Organization::factory()->create()->id
+            'center_id' => Center::factory()->create()->id
         ]);
     }    
 

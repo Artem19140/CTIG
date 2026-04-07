@@ -31,7 +31,7 @@ class ValidateExamCreationAction{
 
         $examBeginTimeUtc= Carbon::parse(
                                         $examDto->beginTime->copy(),
-                                        $user->organization->time_zone
+                                        $user->center->time_zone
                                     )->utc();
                                     
         if($examBeginTimeUtc < Carbon::now()){

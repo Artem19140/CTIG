@@ -23,8 +23,8 @@ return new class extends Migration
             $table->foreignId('exam_id')
                 ->constrained('exams');
 
-            $table->foreignId('organization_id')
-                ->constrained('organizations')
+            $table->foreignId('center_id')
+                ->constrained('centers')
                 ->cascadeOnDelete();
 
             $table->string('status')->default(AttemptStatus::Pending);

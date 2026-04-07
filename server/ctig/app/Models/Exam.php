@@ -27,7 +27,7 @@ class Exam extends Model
         'date',
         'cancelled_reason',
         'is_cancelled',
-        'organization_id',
+        'center_id',
         'end_time',
         'protocol_comment',
         'begin_time_real',
@@ -81,8 +81,8 @@ class Exam extends Model
         return $this->is_cancelled;
     }
 
-    public function organization(): BelongsTo{
-        return $this->belongsTo(Organization::class,'organization_id');
+    public function center(): BelongsTo{
+        return $this->belongsTo(Center::class,'center_id');
     }
 
     protected function duration(): Attribute

@@ -32,7 +32,7 @@ return new class extends Migration
 
 
             $table->string('photo')->nullable()->default(null);
-            $table->string('passport_scan_path')->nullable()->default(null);
+            $table->string('passport_scan')->nullable()->default(null);
             $table->string('passport_translate_scan')->nullable()->default(null);
         
             $table->string('exam_code')->index()->nullable()->unique()->default(null);
@@ -79,8 +79,8 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete();
 
-            $table->foreignId('organization_id')
-                ->constrained('organizations')
+            $table->foreignId('center_id')
+                ->constrained('centers')
                 ->cascadeOnDelete();
 
             $table->unique(['foreign_national_id', 'exam_id']);

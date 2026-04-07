@@ -5,7 +5,7 @@ namespace Tests\Feature\Counter;
 use App\Actions\Counter\GetGroupNumberAction;
 use App\Enums\CounterKey;
 use App\Models\Counter;
-use App\Models\Organization;
+use App\Models\Center;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -26,7 +26,7 @@ class GetGroupNumberTest extends TestCase
         $this->counter = Counter::create([
             'key' => CounterKey::GroupKey,
             'value' => $this->value,
-            'organization_id' => Organization::factory()->create()->id
+            'center_id' => Center::factory()->create()->id
         ]);
     }
 

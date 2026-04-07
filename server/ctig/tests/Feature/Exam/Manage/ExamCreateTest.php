@@ -5,7 +5,7 @@
     use App\Enums\UserRoles;
     use App\Models\Address;
     use App\Models\ExamType;
-    use App\Models\Organization;
+    use App\Models\Center;
     use App\Models\Role;
     use App\Models\User;
     use Carbon\Carbon;
@@ -24,7 +24,7 @@
         protected User $examiner;
         protected function setUp():void{
             parent::setUp();
-            $organization = Organization::factory()->create();
+            $center = Center::factory()->create();
             
             $this->examinerRole = Role::create([
                 'name' => UserRoles::Examiner,
@@ -34,13 +34,13 @@
                 'name' => UserRoles::Scheduler,
             ]);
 
-            $this->examiner = User::factory()->create(['organization_id' => $organization->id]);
+            $this->examiner = User::factory()->create(['center_id' => $center->id]);
             $this->examiner->roles()->attach($this->examinerRole);
 
-            $this->user = User::factory()->create(['organization_id' => $organization->id]);
+            $this->user = User::factory()->create(['center_id' => $center->id]);
             $this->user->roles()->attach($schedulerRole);
             $this->examType = ExamType::factory()->create();
-            $this->address = Address::factory()->create(['organization_id' => $organization->id]);
+            $this->address = Address::factory()->create(['center_id' => $center->id]);
 
             Carbon::setTestNow(
                 Carbon::now()

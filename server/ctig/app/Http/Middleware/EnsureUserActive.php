@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureOrganizationIsActive
+class EnsureUserActive
 {
     /**
      * Handle an incoming request.
@@ -15,7 +15,7 @@ class EnsureOrganizationIsActive
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!$request->user()->organization->is_active){
+        if(!$request->user()->is_active){
             return redirect()->route('login');
         }
         return $next($request);

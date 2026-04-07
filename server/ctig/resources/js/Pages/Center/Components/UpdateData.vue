@@ -2,47 +2,47 @@
 import AppInput from '../../../Components/AppInput/AppInput.vue';
 import AppTextarea from '../../../Components/AppTextarea/AppTextarea.vue';
 const props = defineProps<{
-    organization : any | null
+    center : any | null
 }>()
 </script>
 
 <template>
     <AppInput 
-                v-model="organization.data.name"
+                v-model="center.data.name"
                 label="Название"
             />
     <AppInput 
-        v-model="organization.data.ogrn"
+        v-model="center.data.ogrn"
         label="ОГРН"
     />
 
     <AppInput 
-        v-model="organization.data.inn"
+        v-model="center.data.inn"
         label="ИНН"
     />
 
 
     <AppTextarea
-        v-model="organization.data.address"
-        label="Адрес организации"
+        v-model="center.data.address"
+        label="Адрес центра"
     />
 
     <AppTextarea
-        v-model="organization.data.certificatesIssueAddress"
+        v-model="center.data.certificatesIssueAddress"
         label="Адрес выдачи сертификатов"
     />
 
     <AppTextarea
-        v-model="organization.data.directorFio"
+        v-model="center.data.directorFio"
         label="Директор"
     />
 
     <AppTextarea
-        v-model="organization.data.nameGenitive"
+        v-model="center.data.nameGenitive"
         label="Название в родительском падеже(для документов)"
     />
     <AppInput 
-        v-model="organization.data.timeZone"
+        v-model="center.data.timeZone"
         label="Временная зона"
     />
     

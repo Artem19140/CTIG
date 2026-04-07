@@ -22,7 +22,7 @@ class GenerateExamProtocolAction{
                         ->where('status', AttemptStatus::Banned)->get();
         $pdf = Pdf::loadView('templates.exam-protocol', [
             'exam' => $exam,
-            'organization' => $user->organization, 
+            'center' => $user->center, 
             'bannedAttempts' => $bannedAttempts
         ]);
 

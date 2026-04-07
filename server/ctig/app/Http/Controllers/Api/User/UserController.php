@@ -37,7 +37,7 @@ class UserController extends Controller{
             'patronymic' => $request->validated('patronymic'),
             'job_title' => $request->validated('jobTitle'),
             'password' => Hash::make($request->validated('password')),
-            'organization_id' => 1
+            'center_id' => 1
         ]);
         $user->roles()->sync($request->validated('roles'));
         return response()->json(["result" => "ok"]);

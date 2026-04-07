@@ -14,9 +14,9 @@ class StartAttemptAction{
         return DB::transaction(function () use($attempt, $foreignNational) {
             $exam=Exam::find($foreignNational->exam_id);
             $attempt->status = AttemptStatus::Active;
-            $attempt->started_at = Carbon::now($exam->organization->time_zone);
+            $attempt->started_at = Carbon::now($exam->center->time_zone);
             $attempt->expired_at = Carbon::now()->addMinutes($exam->duration);
-            $attempt->last_activity_at = Carbon::now($exam->organization->time_zone);
+            $attempt->last_activity_at = Carbon::now($exam->center->time_zone);
             $attempt->save();
             return $attempt;
         });

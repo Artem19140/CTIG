@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 class VerifyCodeAction{
 
-    public function execute(string $code):int{
+    public function execute(string $code):Enrollment{
         $enrollment = Enrollment::where('exam_code', $code)
                         ->first();
         if(!$enrollment){
@@ -24,8 +24,9 @@ class VerifyCodeAction{
 
         $enrollment->exam_code = null;
         $enrollment->exam_code_expired_at = null;
+        $enrollment->exam_code_used_at = Carbon::now($enrollment->center->time_zone);
         $enrollment->save();
 
-       return $enrollment->foreign_national_id;
+       return $enrollment;
     }
 }

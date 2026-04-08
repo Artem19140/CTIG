@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Web\Exam;
 
-use App\Actions\Attempt\Create\CreateAttemptAction;
 use App\Actions\Exam\Manage\UpdateExaminersAcion;
+use App\Domain\Attempt\Action\CreateAttemptAction;
 use App\Domain\Exam\Action\CancelExamAction;
 use App\Domain\Exam\Action\CreateExamAction;
 use App\Domain\Exam\Action\UpdateExamAction;

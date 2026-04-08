@@ -69,6 +69,10 @@ return new class extends Migration
                 ->unique()
                 ->default(null);
 
+            $table->string('exam_code_used_at')
+                ->nullable()
+                ->default(null);
+
             $table->dateTime('exam_code_expired_at')
                 ->nullable()
                 ->default(null);

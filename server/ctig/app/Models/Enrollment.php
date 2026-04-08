@@ -14,11 +14,14 @@ class Enrollment extends Model
         'reg_number',
         'status',
         'creator_id',
-        'center_id'
+        'center_id',
+        'exam_code',
+        'exam_code_expired_at'
     ];
 
     protected $casts = [
-        'has_payment' => 'boolean'
+        'has_payment' => 'boolean',
+        'exam_code_expired_at' => 'datetime'
     ];
 
     public function hasPayment():bool{

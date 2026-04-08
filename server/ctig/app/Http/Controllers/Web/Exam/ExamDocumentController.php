@@ -6,7 +6,6 @@ use App\Domain\ExamDocument\ExamDocumentAvailable;
 use App\Domain\ExamDocument\GenerateCodesAction;
 use App\Domain\ExamDocument\GenerateExamProtocolAction;
 use App\Domain\ExamDocument\GenerateExamStatementAction;
-use App\Exceptions\BusinessException;
 use App\Models\Exam;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -21,11 +20,8 @@ class ExamDocumentController
         protected ExamDocumentAvailable $examDocumentAvailable
     ){}
     public function list(Exam $exam){
+        $this->examDocumentAvailable->list($exam);
         $exam->load(['foreignNationals', 'examType']);
-        $exam->foreignNationals;
-        if($exam->foreignNationals->isEmpty()){
-            throw new BusinessException('На экзамен не записано ни одного ИГ');
-        }
         $pdf = Pdf::loadView('templates.exam-foreign_nationals-list', [
             'foreignNationals' => $exam->foreignNationals,
             'exam' => $exam
@@ -36,7 +32,6 @@ class ExamDocumentController
     }
 
     public function listAvailable(Exam $exam){
-        Gate::authorize('exam-manage-access', $exam);
         $this->examDocumentAvailable->list($exam);
         return Inertia::flash([
             'redirectUrl' => route('exam.documents.list', ['exam' => $exam])

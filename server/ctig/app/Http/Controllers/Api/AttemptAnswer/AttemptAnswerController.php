@@ -47,11 +47,11 @@ class AttemptAnswerController extends Controller
             throw new BusinessException('Попытка неактивна');
         }
 
-        DB::transaction(function()use($attemptAnswer, $request,$attempt,$attemptAnswer){
-            $attemptAnswer->execute($attemptAnswer,$request->input('attemptAnswer'));
-            $attempt->last_activity_at = Carbon::now();
-            $attempt->save();
-        });
+        // DB::transaction(function()use($attemptAnswer, $request,$attempt,$attemptAnswer){
+        //     $attemptAnswer->execute($attemptAnswer,$request->input('attemptAnswer'));
+        //     $attempt->last_activity_at = Carbon::now();
+        //     $attempt->save();
+        // });
         
         return $this->noContent();
     }

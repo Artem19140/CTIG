@@ -123,7 +123,6 @@ const addExam = (nativeEvent : Event, { date } : any) => {
       </v-btn>
     </v-sheet>
       <v-calendar
-      
         event-name = 'shortName'
         v-model="focus"
         color="primary"

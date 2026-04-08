@@ -57,7 +57,7 @@ class ForeignNationalController
         return $applicationFormPdf->stream('exam.pdf');
     }
 
-    public function show(Request $request, ForeignNational $foreignNational){
+    public function show(ForeignNational $foreignNational){
         $foreignNational->load(['exams' => ['attempts' => function ($query) use($foreignNational): void{
             $query->where('foreign_national_id', $foreignNational->id);
             },

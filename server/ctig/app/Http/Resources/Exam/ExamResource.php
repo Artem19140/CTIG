@@ -21,7 +21,7 @@ class ExamResource extends JsonResource
             'id' => $this->id,
             'isCancelled' => $this->is_cancelled,
             'cancelledReason' => $this->when($this->is_cancelled, $this->cancelled_reason),
-            'beginTime' => $this->begin_time->format('Y-m-d H:i:s'),//->format('H:i, d.m.Y')
+            'beginTime' => $this->begin_time->copy()->format('Y-m-d H:i:s'),//->format('H:i, d.m.Y')
             'foreignNationals' => ForeignNationalResource::collection($this->whenLoaded('foreignNationals')),//здесь если есть результаты, то и их можно взять
             'sessionNumber' => $this->session,
             'capacity' => $this->capacity,
@@ -39,13 +39,10 @@ class ExamResource extends JsonResource
             'foreignNationalsCount' => $this->whenCounted('foreignNationals_count'),
             'attempts' => AttemptResource::collection( $this->whenLoaded('attempts')),
             'duration' => $this->whenLoaded('examType', fn () => $this->examType->duration),
-            'endTime' => $this->end_time->format('Y-m-d H:i:s'),
-            'start' => $this->begin_time->format('Y-m-d H:i'), //
-            'end' => $this->begin_time->addMinutes($this->duration)->format('Y-m-d H:i'),
-            'isPast' =>  $this->begin_time_utc->addMinutes($this->duration)->isPast(),
+            'endTime' => $this->end_time->copy()->format('Y-m-d H:i:s'),
+            'isPast' =>  $this->begin_time_utc->copy()->addMinutes($this->duration)->isPast(),
             'tasksCount' => $this->whenLoaded('examType', fn () => $this->examType->tasks_count),
-            'hasSpeakingTasks' => $this->whenLoaded('examType', fn () => $this->examType->has_speaking_tasks),
-            'isGoing' => $this->isGoing(),
+            'hasSpeakingTasks' => $this->whenLoaded('examType', fn () => $this->examType->has_speaking_tasks)
         ];
     }
 }

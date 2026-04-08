@@ -34,14 +34,6 @@ return new class extends Migration
             $table->string('photo')->nullable()->default(null);
             $table->string('passport_scan')->nullable()->default(null);
             $table->string('passport_translate_scan')->nullable()->default(null);
-        
-            $table->string('exam_code')->index()->nullable()->unique()->default(null);
-            $table->dateTime('exam_code_expired_at')->nullable()->default(null);
-            $table->foreignId('exam_id')
-                ->nullable()
-                ->default(null)
-                ->constrained('exams')
-                ->cascadeOnDelete();
 
             $table->foreignId('creator_id')
                 ->constrained('users');
@@ -70,6 +62,16 @@ return new class extends Migration
                 ->index()
                 ->constrained()
                 ->cascadeOnDelete();
+
+            $table->string('exam_code')
+                ->index()
+                ->nullable()
+                ->unique()
+                ->default(null);
+
+            $table->dateTime('exam_code_expired_at')
+                ->nullable()
+                ->default(null);
 
             $table->foreignId('foreign_national_id')
                  ->constrained()

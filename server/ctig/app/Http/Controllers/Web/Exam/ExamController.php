@@ -11,6 +11,7 @@ use App\Domain\Exam\Query\GetExamsQuery;
 use App\Enums\UserRoles;
 use App\Http\Requests\Exam\ExamIndexRequest;
 use App\Http\Resources\Address\AddressResource;
+use App\Http\Resources\Exam\ExamCalendarResource;
 use App\Http\Resources\ExamType\ExamTypeResource;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -126,7 +127,7 @@ class ExamController
                     })
                     ->get();
         return Inertia::render('Schedule/Schedule',[
-            'exams' => ExamResource::collection($exams )
+            'exams' => ExamCalendarResource::collection($exams )
         ]);
     }
 }

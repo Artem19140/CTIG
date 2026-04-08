@@ -2,7 +2,7 @@
 
 namespace App\Domain\Attempt\Action;
 
-use App\Actions\Attempt\Create\VerifyCodeAction;
+
 use App\Domain\Counter\GenerateGroupNumberAction;
 use App\Domain\Counter\GetSessionNumberQuery;
 use App\Domain\Exam\Guard\ExamGuard;
@@ -24,8 +24,8 @@ class CreateAttemptAction{
     ){}
     public function execute(string $code):Attempt{
         $attempt =  DB::transaction(function () use($code){
-            $foreignNational = $this->verifyCode->execute($code);
-
+            $foreignNationalId = $this->verifyCode->execute($code);
+            $foreignNational = ForeignNational::find($foreignNationalId);
             $exam = Exam::find($foreignNational->exam_id);
             
             $this->examGuard->ensureNotCompleted($exam);

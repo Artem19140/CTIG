@@ -18,10 +18,9 @@ final class GenerateCodesAction{
             throw new BusinessException("Коды можно сформировать минимум за 40 минут до экзамена");
         }
 
-        $foreignNationals = $exam->foreignNationals;
-        
-        foreach($foreignNationals as $foreignNational){
-            if($foreignNational->exam_code && $foreignNational->exam_id === $exam->id){
+        //$exam->load('enrollments.foreignNational');
+        foreach($exam->enrollments as $enrollment){
+            if($enrollment->exam_code && $enrollment->exam_id === $exam->id){
                 continue;
             }
             
@@ -31,10 +30,10 @@ final class GenerateCodesAction{
                 $saved = false;
                 
                 try{
-                    $foreignNational->exam_code = $code;
-                    $foreignNational->exam_id = $exam->id;
-                    $foreignNational->exam_code_expired_at = Carbon::now()->addHour();
-                    $foreignNational->save();
+                    $enrollment->exam_code = $code;
+                    $enrollment->exam_id = $exam->id;
+                    $enrollment->exam_code_expired_at = Carbon::now()->addHour();
+                    $enrollment->save();
                     $saved = true;
                 }catch(QueryException $e){
                     $saved = false;
@@ -43,7 +42,7 @@ final class GenerateCodesAction{
 
         }
         $pdf = Pdf::loadView('templates.exam-codes', [
-            'foreignNationals' => $foreignNationals,
+            'enrollments' => $exam->enrollments,
             'exam' => $exam
         ]);
 

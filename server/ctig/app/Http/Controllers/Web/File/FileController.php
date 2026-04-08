@@ -12,8 +12,6 @@ class FileController
         if (!Storage::disk('local')->exists($path)) {
             abort(404);
         }
-        //return response()->file(storage_path($path));
-        //дlreturn Storage::download($path);
         return Storage::disk('local')->response($path);
         }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\File\FileController;
+use App\Http\Controllers\Web\Info\InfoController;
 use App\Http\Controllers\Web\User\UserController;
 use App\Http\Controllers\Web\Attempt\AttemptController;
 use App\Http\Controllers\Web\Exam\ExamController;
@@ -90,11 +91,12 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
 
 
 
-
+Route::get('/',[InfoController::class, 'index'])->name('info');
+Route::inertia('login', 'Login/Login')->name('login');
+Route::post('login', [LoginController::class, 'login']);
+Route::post( 'exam-codes/verify', [ExamController::class, 'verifyCode']);
 Route::middleware('guest')->group(function (){
-    Route::post('login', [LoginController::class, 'login'])->name('login');
-    Route::inertia('login', 'Login/Login')->name('login');
-    Route::post( 'exam-codes/verify', [ExamController::class, 'verifyCode']);
+    
 });
 
 Route::middleware('auth:foreignNationals')->group(function (){
@@ -119,3 +121,7 @@ Route::middleware('auth:foreignNationals')->group(function (){
     });
     
 });
+
+// Route::fallback(function () {
+//     return Route::inertia('/', 'Info/Info')->name('info');
+// });

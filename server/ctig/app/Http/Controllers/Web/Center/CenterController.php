@@ -10,10 +10,10 @@ use Inertia\Inertia;
 class CenterController
 {
     public function index(){
-        
+        //Все организации. Можно переиспользовать для info и для sa
     }
     public function store(){
-        
+        //Создать, а потом еще orgadmin
     }
     
     public function show(Request $request, Center $center){
@@ -25,7 +25,8 @@ class CenterController
         ]);
     }
 
-    public function destroy(){
-
+    public function destroy(Center $center){
+        $center->is_active = false;
+        return response()->noContent();
     }
 }

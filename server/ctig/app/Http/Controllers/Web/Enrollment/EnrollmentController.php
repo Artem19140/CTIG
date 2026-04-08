@@ -1,31 +1,30 @@
 <?php
 
-namespace App\Http\Controllers\Web\Exam;
+namespace App\Http\Controllers\Web\Enrollment;
 
-use App\Actions\Exam\Enrollment\CancellEnrollmentAction;
-use App\Actions\Exam\Enrollment\ChangePaymentStatusAction;
-use App\Actions\Exam\Enrollment\CreateEnrollmentAction;
-use App\Actions\Exam\Enrollment\TransferEnrollmentActon;
+use App\Domain\Enrollment\Action\CancellEnrollmentAction;
+use App\Domain\Enrollment\Action\ChangePaymentStatusAction;
+use App\Domain\Enrollment\Action\TransferEnrollmentActon;
+use App\Domain\Exam\Query\GetAvailableExamsQuery;
+use App\Domain\Enrollment\Action\CreateEnrollmentAction;
+use App\Http\Requests\Enrollment\EnrollmentAvailableRequest;
+use App\Http\Requests\Enrollment\EnrollmentStoreRequest;
+use App\Http\Requests\Enrollment\EnrollmentTransferRequest;
 use App\Models\Exam;
 use App\Models\ForeignNational;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Actions\Exam\Enrollment\GetAvailableExamsAction;
 
-class ExamEnrollmentController
+
+class EnrollmentController
 {
     public function store(
-                            Request $request,
+                            EnrollmentStoreRequest $request,
                             Exam $exam, 
                             CreateEnrollmentAction $createEnrollment,
-                            
                         ){ 
 
-        $request->validate([
-            'foreignNationalId' => ['required', 'integer', 'min:1'],
-            'hasPayment' => ['required', 'boolean']
-        ]);
-        $foreignNational = $createEnrollment->execute($exam, $request->input('foreignNationalId'), $request->user(), $request->input('hasPayment')); 
+        $foreignNational = $createEnrollment->execute($exam, $request->validated('foreignNationalId'), $request->user(), $request->validated('hasPayment')); 
+
         Inertia::flash([
             'success' => 'Запись успешно создана',
             'redirectUrl' => route('foreign-nationals.application-forms', [
@@ -42,22 +41,22 @@ class ExamEnrollmentController
         return back()->with('success','Запись отменена');
     }
 
-    public function transfer(ForeignNational $foreignNational, TransferEnrollmentActon $transferEnrollment){
-        request()->validate([
-            'newExamId' => ['required', 'integer', 'min:1', 'exists:exams,id'],
-            'oldExamId' => ['required', 'integer', 'min:1', 'exists:exams,id'],
-        ]);
+    public function transfer(
+                                EnrollmentTransferRequest $request,
+                                ForeignNational $foreignNational, 
+                                TransferEnrollmentActon $transferEnrollment
+                            ){
         $transferEnrollment->exectute(
-                                        request()->input('oldExamId'),
-                                        request()->input('newExamId'),
+                                        $request->validated('fromExamId'),
+                                        $request->validated('toExamId'),
                                         $foreignNational, 
-                                        request()->user()  
+                                        $request->user()  
                                     );
         Inertia::flash([
             'success' => 'Запись перенесена',
             'redirectUrl' => route('foreign-nationals.application-forms', [
                 'foreignNational' =>$foreignNational->id,
-                'examId' => request()->input('newExamId'),
+                'examId' => $request->validated('toExamId'),
             ])
         ]);
         return back();
@@ -71,12 +70,8 @@ class ExamEnrollmentController
         return response()->noContent();
     }
 
-    public function available(Request $request, GetAvailableExamsAction $getAvailableExams){
-        $request->validate([
-            'examTypeId' => ['required', 'integer', 'min:1'],
-            'foreignNationalId' => ['nullable', 'integer', 'min:1'],
-        ]);
-        $exams = $getAvailableExams->execute($request->input('examTypeId'), $request->input('foreignNationalId'));
+    public function available(EnrollmentAvailableRequest $request, GetAvailableExamsQuery $getAvailableExamsQuery){
+        $exams = $getAvailableExamsQuery->execute($request->validated('examTypeId'), $request->validated('foreignNationalId'));
         return $exams->map(function ($exam) {
             return [
                 'id' => $exam->id,

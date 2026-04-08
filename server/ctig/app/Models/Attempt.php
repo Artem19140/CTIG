@@ -49,6 +49,10 @@ class Attempt extends Model
         return $this->status === AttemptStatus::Active;
     }
 
+    public function isPending(): bool{
+        return $this->status === AttemptStatus::Pending;
+    }
+
     public function isBanned(): bool{
         return $this->status === AttemptStatus::Banned;
     }

@@ -2,25 +2,24 @@
 
 namespace App\Domain\Enrollment\Action;
 
-use App\Domain\Exam\Rules\ExamValidation;
-use App\Exceptions\BusinessException;
+use App\Domain\Enrollment\Guard\EnrollmentGuard;
+use App\Domain\Exam\Guard\ExamGuard;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 
 
 class CancellEnrollmentAction{
     public function __construct(
-        protected ExamValidation $examValidation
+        protected ExamGuard $examGuard,
+        protected EnrollmentGuard $enrollmentGuard
     ){}
         
     public function execute(Exam $exam, ForeignNational $foreignNational) {
-        $this->examValidation->ensureNotCompleted($exam);
-        $this->examValidation->ensureNotCancelled($exam);
+        //enrollment soft delete
+        $this->examGuard->ensureNotCompleted($exam);
+        $this->examGuard->ensureNotCancelled($exam);
+        $this->enrollmentGuard->ensureExists($exam, $foreignNational);
 
-        $isEnrollmentExists = $exam->foreignNationals()->where('foreign_national_id', $foreignNational->id)->exists();
-        if(!$isEnrollmentExists){
-            throw new BusinessException('У ИГ нет записи на этот экзамен');
-        }
         $exam->foreignNationals()->detach($foreignNational->id);
     }
 }

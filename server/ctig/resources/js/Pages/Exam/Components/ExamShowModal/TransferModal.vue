@@ -9,15 +9,15 @@ import AppAutocomplete from '../../../../Components/AppAutocomplete/AppAutocompl
 
 const props = defineProps<{
     foreignNational:any,
-    oldExam:Exam
+    fromExam:Exam
 }>()
 
 const isOpen = defineModel<boolean>({default:false})
 const exams = ref<Exam[] | []>([])
 const foreignNationalId = computed(() => props.foreignNational.id)
 const form = useForm({
-    newExamId:null, 
-    oldExamId: props.oldExam.id
+    toExamId:null, 
+    fromExamId: props.fromExam.id
 })
 
 const transfer = () => {
@@ -35,7 +35,7 @@ const transfer = () => {
 const http = useHttp()
 
 onMounted(() => {
-    http.get(`/exams/available?examTypeId=${props.oldExam.examTypeId}&foreignNationalId=${foreignNationalId.value}`,{ 
+    http.get(`/exams/available?examTypeId=${props.fromExam.examTypeId}&foreignNationalId=${foreignNationalId.value}`,{ 
         onSuccess:(response:any) => {
             exams.value = response
         }
@@ -51,7 +51,7 @@ onMounted(() => {
         @before-close="(done) => done()"
     >
         <AppAutocomplete
-            v-model="form.newExamId"
+            v-model="form.toExamId"
             :items="exams"
             :disabled="http.processing"
             :loading="http.processing"
@@ -62,7 +62,7 @@ onMounted(() => {
         <template #actions>
             <PrimaryButton
                 :loading="form.processing"
-                :disabled="!form.newExamId"
+                :disabled="!form.toExamId"
                 text="Перенести"
                 @click="transfer"
             />

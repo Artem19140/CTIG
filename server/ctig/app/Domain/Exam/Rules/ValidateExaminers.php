@@ -8,7 +8,7 @@ use App\Models\Exam;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-class ValidateExaminersAction{
+class ValidateExaminers{
     public function execute(array $examiners, Carbon $examBeginTime, Carbon $examEndTime, int | null $examId = null ){
         $conflictExaminers = Exam::where('is_cancelled', false)
                                 ->where('begin_time', '<=', $examEndTime)

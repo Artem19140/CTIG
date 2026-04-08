@@ -57,9 +57,6 @@ const download = (document :string) => {
     })
 }
 
-const downloadForeignNationalsList = () => {
-  window.open(`/exams/${props.exam?.id}/foreign-nationals/list`)
-}
 
 const {can} = useAuth()
 const {open} = useModals()
@@ -78,7 +75,7 @@ const permission = getExamPermissions(props.exam)
       <AppListDropDownItem 
         title="Скачать список"
         :disabled="!permission.canDownloadStudList"  
-        @click="downloadForeignNationalsList" 
+        @click="download('list')" 
       />
 
       <AppListDropDownItem 

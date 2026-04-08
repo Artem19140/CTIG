@@ -46,7 +46,7 @@ class ForeignNationalResource extends JsonResource
             'createdAt' => $this->when($profile,$this->created_at),
             'fullName' => $this->full_name,
             'fullPassport' => $this->full_passport,
-            'hasPayment' => $this->whenPivotLoaded('exam_foreign_national', function () {
+            'hasPayment' => $this->whenPivotLoaded('enrollments', function () {
                 return $this->pivot->has_payment;
             })
         ];

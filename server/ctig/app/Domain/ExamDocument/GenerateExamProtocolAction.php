@@ -12,11 +12,10 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class GenerateExamProtocolAction{
     public function __construct(
-        protected ExamValidation $examValidation
+        protected ExamDocumentAvailable $examDocumentAvailable
     ){}
     public function execute(Exam $exam, User $user){
-        $this->examValidation->ensureNotCancelled($exam);
-        $this->examValidation->ensureCompleted($exam);
+        $this->examDocumentAvailable->protocol($exam);
         $bannedAttempts = Attempt::with('foreignNational')
                         ->where('exam_id', $exam->id)
                         ->where('status', AttemptStatus::Banned)->get();

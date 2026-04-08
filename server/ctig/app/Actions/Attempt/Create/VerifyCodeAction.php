@@ -3,7 +3,6 @@
 namespace App\Actions\Attempt\Create;
 
 use App\Exceptions\BusinessException;
-use App\Models\Exam;
 use App\Models\ForeignNational;
 use Carbon\Carbon;
 

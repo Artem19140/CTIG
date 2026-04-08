@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Web\Exam;
 
 use App\Actions\Attempt\Create\CreateAttemptAction;
-use App\Actions\Exam\Manage\CancelExamAction;
-use App\Actions\Exam\GetExamListAction;
-use App\Actions\Exam\Manage\UpdateExamAction;
 use App\Actions\Exam\Manage\UpdateExaminersAcion;
+use App\Domain\Exam\Action\CancelExamAction;
+use App\Domain\Exam\Action\CreateExamAction;
+use App\Domain\Exam\Action\UpdateExamAction;
+use App\Domain\Exam\Query\GetExamsQuery;
 use App\Enums\UserRoles;
 use App\Http\Requests\Exam\ExamIndexRequest;
 use App\Http\Resources\Address\AddressResource;
@@ -23,14 +24,13 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\Exam\ExamResource;
 use App\Http\Requests\Exam\ExamPostRequest;
-use App\Actions\Exam\Manage\CreateExamAction;
 use Inertia\Inertia;
 
 class ExamController
 {
-    public function index(ExamIndexRequest $request, GetExamListAction $getExamList)
+    public function index(ExamIndexRequest $request, GetExamsQuery $getExamQuery)
     {
-        $exams = $getExamList->execute($request->validated() ?? []);
+        $exams = $getExamQuery->execute($request->validated() ?? []);
         return Inertia::render('Exam/Exam', [
             'exams' => ExamResource::collection($exams),
             'filters' => request()->all()

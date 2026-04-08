@@ -2,8 +2,10 @@
 
 namespace App\Domain\Enrollment\Action;
 
-use App\Domain\Exam\Rules\ExamValidation;
+use App\Domain\Enrollment\Guard\EnrollmentGuard;
+use App\Domain\Exam\Guard\ExamGuard;
 use App\Exceptions\BusinessException;
+use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\User;
@@ -12,40 +14,37 @@ use DB;
 class TransferEnrollmentActon{
     public function __construct(
         protected CreateEnrollmentAction $createEnrollment,
-        protected ExamValidation $examValidation
+        protected ExamGuard $examGuard,
+        protected EnrollmentGuard $enrollmentGuard
     ){}
-    public function exectute(int $oldExamId, int $newExamId, ForeignNational $foreignNational, User $user){
-        $oldExam = Exam::find($oldExamId);
-        $newExam = Exam::find($newExamId);
+    public function exectute(int $fromExamId, int $toExamId, ForeignNational $foreignNational, User $user){
+        $toExam = Exam::find($toExamId);
+        $fromExam = Exam::find($fromExamId);
 
-        $this->examValidation->ensureNotCancelled($oldExam);
-        $this->examValidation->ensureNotCancelled($newExam);
-
-        $this->examValidation->ensureNotCompleted($oldExam);
-        $this->examValidation->ensureNotCompleted($newExam);
+        $this->enrollmentGuard->ensureExists($fromExam, $foreignNational, 'Запись не существует, чтобы ее перенести');
+        $this->enrollmentGuard->ensureNotExists($toExam, $foreignNational, 'Запись на другом экзамене уже существует, перенос невозможен');
         
-        $this->examValidation->ensureNotGoing($oldExam);
-        $this->examValidation->ensureNotGoing($newExam);
+        $this->enrollmentGuard->ensureHasSeats($toExam, 'Нельзя перенести запись на экзамен, на котором полная запись');
+        $this->enrollmentGuard->ensureNoParallelEnrollments($foreignNational, $toExam);
 
-        $oldEnrollment = $oldExam->foreignNationals()->where('foreign_national_id', $foreignNational->id)->first();
-
-        if(!$oldEnrollment){
-            throw new BusinessException('Такой записи на экзамен не существует');
-        }
-
-        if($oldExam->exam_type_id !== $newExam->exam_type_id ){
+        if($fromExam->exam_type_id !== $toExam->exam_type_id ){
             throw new BusinessException('Запись можно перенести только на тот же вид экзамена');
         }
 
-        $isEnrollmentExistsNewExam = $newExam->foreignNationals()->where('foreign_national_id', $foreignNational->id)->exists();
+        $this->examGuard->ensureNotCancelled($fromExam);
+        $this->examGuard->ensureNotCancelled($toExam);
 
-        if($isEnrollmentExistsNewExam){
-            throw new BusinessException('ИГ уже имеет запись на экзамене, на который Вы хотите его перенести');
-        }
+        $this->examGuard->ensureNotCompleted($fromExam);
+        $this->examGuard->ensureNotCompleted($toExam);
+        
+        $this->examGuard->ensureNotGoing($fromExam);
+        $this->examGuard->ensureNotGoing($toExam);
+        
+        $oldEnrollment = Enrollment::for($fromExam, $foreignNational)->first();
 
-        DB::transaction(function () use($newExam, $foreignNational, $oldExam, $user, $oldEnrollment){
-            $oldExam->foreignNationals()->detach($foreignNational->id);
-            $this->createEnrollment->execute($newExam, $foreignNational->id, $user, $oldEnrollment->pivot->has_payment);
+        DB::transaction(function () use($toExam, $foreignNational, $fromExam, $user, $oldEnrollment){
+            $fromExam->foreignNationals()->detach($foreignNational->id); //Тут нужно сделать softDelete, а мб статус изменить
+            $this->createEnrollment->execute($toExam, $foreignNational->id, $user, $oldEnrollment->hasPayment());
         });
     }
 }

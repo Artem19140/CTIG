@@ -26,4 +26,8 @@ class Task extends Model
     public function subblock(): BelongsTo{
         return $this->belongsTo( Subblock::class, "subblock_id");
     }
+
+    public  function autoCheck():bool{
+        return $this->type->autoCheck();
+    }
 }

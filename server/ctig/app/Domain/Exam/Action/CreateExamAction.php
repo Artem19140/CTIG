@@ -3,18 +3,19 @@
 namespace App\Domain\Exam\Action;
 
 
+use App\Domain\Exam\Rules\ValidateExamForSave;
 use App\Http\Dto\ExamDto;
 use App\Models\Exam;
 use App\Models\User;
 use DB;
-use App\Actions\Exam\Manage\ValidateExamCreationAction;
+
 
 final class CreateExamAction{
     public function __construct(
-        protected ValidateExamCreationAction $validateExamCreation
+        protected ValidateExamForSave $validateExamForSave
     ){}
     public function execute(ExamDto $examDto, User $user){
-        $duration = $this->validateExamCreation->execute($examDto, $user);
+        $duration = $this->validateExamForSave->execute($examDto, $user);
         $exam = DB::transaction(function () use ($examDto, $user, $duration) {
             $exam = Exam::create([
                     'begin_time' => $examDto->beginTime,

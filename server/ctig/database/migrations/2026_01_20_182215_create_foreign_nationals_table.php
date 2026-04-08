@@ -52,7 +52,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('exam_foreign_national', function (Blueprint $table) {
+        Schema::create('enrollments', function (Blueprint $table) {
             $table->id();
 
             $table->boolean('has_payment')->default(false);
@@ -91,7 +91,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('exam_foreign_national');
+        Schema::dropIfExists('enrollments');
         Schema::dropIfExists('foreign_nationals');
     }
 };

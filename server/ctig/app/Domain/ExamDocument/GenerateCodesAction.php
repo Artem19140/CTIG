@@ -4,19 +4,16 @@ namespace App\Domain\ExamDocument;
 
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
-use App\Validation\ExamValidation;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 final class GenerateCodesAction{
     public function __construct(
-        protected ExamValidation $examValidation
+        protected ExamDocumentAvailable $examDocumentAvailable
     ){}
     public function execute(Exam $exam){
-        $this->examValidation->ensureNotCompleted($exam);
-        $this->examValidation->ensureNotCancelled($exam);
-        $this->examValidation->ensureHasEnrollment($exam);
+        $this->examDocumentAvailable->codes($exam);
         if(Carbon::now()->diff($exam->begin_time_utc)->minutes >= 40){
             throw new BusinessException("Коды можно сформировать минимум за 40 минут до экзамена");
         }

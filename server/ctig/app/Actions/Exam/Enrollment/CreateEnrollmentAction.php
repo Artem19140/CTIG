@@ -3,7 +3,6 @@
 namespace App\Actions\Exam\Enrollment;
 
 use App\Actions\Counter\GetRegNumberAction;
-
 use App\Exceptions\EntityNotFoundExсeption;
 use App\Models\Exam;
 use App\Models\ForeignNational;
@@ -24,7 +23,6 @@ final class CreateEnrollmentAction{
         $this->examValidation->ensureNotCompleted($exam);
         $this->examValidation->ensureNotGoing($exam);
         $foreignNational = ForeignNational::find($foreignNationalId);
-        
         if(!$foreignNational){
             throw new EntityNotFoundExсeption('ИГ');
         }

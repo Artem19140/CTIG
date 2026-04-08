@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Domain\Exam\Rules;
+namespace App\Domain\Exam\Guard;
 
 use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
 
-class ExamValidation{
+class ExamGuard{
     public function ensureNotCompleted(Exam $exam, string $message = 'Экзамен уже прошел'){
         if($exam->isCompleted()){
             throw new BusinessException($message);

@@ -2,24 +2,24 @@
 
 namespace App\Domain\ForeignNational\Action;
 
-use App\Domain\ForeignNational\Rules\ForeignNationalValidation;
+use App\Domain\ForeignNational\Guard\ForeignNationalGuard;
 use App\Models\ForeignNational;
 use Storage;
 
 final class UpdateForeignNationalAction{
     public function __construct(
-        protected ForeignNationalValidation $foreignNationalValidation
+        protected ForeignNationalGuard $foreignNationalGuard
     ){}
     public function execute(array $data, ForeignNational $foreignNational){
-        $this->foreignNationalValidation->ensureAge($data['dateBirth']);
-        $this->foreignNationalValidation->ensureUniquePassport($data);
+        $this->foreignNationalGuard->ensureAge($data['dateBirth']);
+        $this->foreignNationalGuard->ensureUniquePassport($data, $foreignNational->id);
         $foreignNational->update(
             $this->attributes($data)
         );
         $foreignNational->save();
     }
     protected function attributes(array $data):array{
-        return [
+        return array_merge([
             'surname' => $data['surname'],
             'name'=> $data['name'],
             'patronymic'=> $data['patronymic'],
@@ -37,19 +37,20 @@ final class UpdateForeignNationalAction{
             'phone'=> $data['phone'],
             'gender' => $data['gender'],
             'comment' => $data['comment'] ?? '',
-            $this->files($data)
-        ];
+            
+        ],
+        $this->files($data));
     }
 
     protected function files(array $data):array{
         $files = [];
-        if($data['passportScanPath']){
+        if($data['passportScan'] ?? false){
             $files['passport_scan'] = Storage::putFile('avatars', $data['passportScan']);
         }
-        if($data['passportTranslateScan']){
+        if($data['passportTranslateScan'] ?? false){
             $files['passport_translate_scan'] = Storage::putFile('avatars', $data['passportTranslateScan']);
         }
-        if($data['photo']){
+        if($data['photo'] ?? false){
             $files['photo'] = Storage::putFile('avatars', $data['photo']);
         }
         return  $files;

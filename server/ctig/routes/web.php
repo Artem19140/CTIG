@@ -5,7 +5,7 @@ use App\Http\Controllers\Web\User\UserController;
 use App\Http\Controllers\Web\Attempt\AttemptController;
 use App\Http\Controllers\Web\Exam\ExamController;
 use App\Http\Controllers\Web\Exam\ExamDocumentController;
-use App\Http\Controllers\Web\Exam\ExamEnrollmentController;
+use App\Http\Controllers\Web\Enrollment\EnrollmentController;
 use App\Http\Controllers\Web\Exam\ExamMonitoringController;
 use App\Http\Controllers\Web\Login\LoginController;
 use App\Http\Controllers\Web\Center\CenterController;
@@ -21,10 +21,10 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
 
     Route::get('foreign-nationals/{foreignNational}/application-forms', [ForeignNationalController::class, "getApplicationForm"])
             ->name('foreign-nationals.application-forms');
-    Route::post('foreign-nationals/{foreignNational}/exams/transfer', [ExamEnrollmentController::class, "transfer"]);
+    Route::post('foreign-nationals/{foreignNational}/exams/transfer', [EnrollmentController::class, "transfer"]);
 
     Route::prefix('exams')->group(function(){
-         Route::get('available', [ExamEnrollmentController::class, "available"]);
+         Route::get('available', [EnrollmentController::class, "available"]);
 
         Route::get('types', function(){
             return ExamType::select(['id', 'name'])->get();
@@ -36,13 +36,15 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
             Route::get('protocol/available', [ExamDocumentController::class, "protocolAvailable"]);
             Route::get('statement', [ExamDocumentController::class, 'statement'])->name('exam.documents.statement');
             Route::get('statement/available', [ExamDocumentController::class, 'statementAvailable']);
+            Route::get('list', [ExamDocumentController::class, 'list'])->name('exam.documents.list');
+            Route::get('list/available', [ExamDocumentController::class, 'listAvailable']);
         });
 
         Route::prefix('{exam}/foreign-nationals')->group(function(){
-            Route::post('', [ExamEnrollmentController::class, "store"]);
-            Route::delete('{foreignNational}', [ExamEnrollmentController::class, "destroy"]);
-            Route::put('{foreignNational}/payment', [ExamEnrollmentController::class, "changePayment"]);
-            Route::get('list', [ExamDocumentController::class, 'foreignNationalsList']);
+            Route::post('', [EnrollmentController::class, "store"]);
+            Route::delete('{foreignNational}', [EnrollmentController::class, "destroy"]);
+            Route::put('{foreignNational}/payment', [EnrollmentController::class, "changePayment"]);
+            
         });
         
         

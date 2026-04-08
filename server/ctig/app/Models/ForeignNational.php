@@ -48,9 +48,15 @@ class ForeignNational extends Authenticatable {
         'date_birth' => 'date',
         'issued_date'=> 'date',
     ];
+
+    
     
     public function exams(): BelongsToMany{
-        return $this->belongsToMany(Exam::class)->withPivot('reg_number', 'has_payment');
+        return $this->belongsToMany(Exam::class, 'enrollments')->withPivot('reg_number', 'has_payment');
+    }
+
+    public function enrollments(){
+        return $this->hasMany(Enrollment::class);
     }
  
     public function attempts(): HasMany{
@@ -100,6 +106,3 @@ class ForeignNational extends Authenticatable {
     }
 
 }
-
-
-

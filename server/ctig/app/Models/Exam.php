@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
@@ -54,7 +56,11 @@ class Exam extends Model
     }
 
     public function foreignNationals():BelongsToMany{
-        return $this->belongsToMany(ForeignNational::class)->withPivot('reg_number', 'has_payment');
+        return $this->belongsToMany(ForeignNational::class, 'enrollments')->withPivot('reg_number', 'has_payment');
+    }
+
+    public function enrollments(){
+        return $this->hasMany(Enrollment::class);
     }
 
     public function attempts(): HasMany{
@@ -97,6 +103,18 @@ class Exam extends Model
         return Attribute::get(function () {
             return $this->address->address;
         });
+    }
+
+    public function scopeBefore(Builder $query, Carbon $date){
+        return $query->where('begin_time', '<', $date);
+    }
+
+    public function scopeAfter(Builder $query, Carbon $date){
+        return $query->where('end_time', '>', $date);
+    }
+
+    public function scopeNotCancelled(Builder $query){
+        return $query->where('is_cancelled', false);
     }
 
 }

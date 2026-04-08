@@ -5,7 +5,7 @@ namespace App\Domain\ForeignNational\Query;
 use App\Models\ForeignNational;
 use Illuminate\Database\Eloquent\Builder;
 
-class GetForeignNationalsListAction{
+class GetForeignNationalsQuery{
     public function execute(array $data = []){
         $surname = $data['surname'] ?? false;
         $name = $data['name'] ?? false;

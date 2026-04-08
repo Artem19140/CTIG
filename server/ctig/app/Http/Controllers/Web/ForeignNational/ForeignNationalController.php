@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Web\ForeignNational;
 
-use App\Actions\ForeignNational\CreateForeignNationalStatementAction;
-use App\Actions\ForeignNational\CreateForeignNationalWithEnrollmentAction;
-use App\Actions\ForeignNational\GetForeignNationalsListAction;
-use App\Actions\ForeignNational\UpdateForeignNationalAction;
+use App\Domain\ForeignNational\Action\CreateForeignNationalStatementAction;
+use App\Domain\ForeignNational\Action\CreateForeignNationalWithEnrollmentAction;
+use App\Domain\ForeignNational\Action\UpdateForeignNationalAction;
+use App\Domain\ForeignNational\Query\GetForeignNationalsQuery;
 use App\Http\Requests\ForeignNational\ForeignNationalIndexRequest;
 use App\Http\Requests\ForeignNational\ForeignNationalPostRequest;
 use App\Http\Requests\ForeignNational\ForeignNationalUpdateRequest;
@@ -17,8 +17,8 @@ use Inertia\Inertia;
 class ForeignNationalController 
 {
 
-    public function index(ForeignNationalIndexRequest $request, GetForeignNationalsListAction $getForeignNationalsList){
-        $foreignNationals = $getForeignNationalsList->execute($request->validated() ?? []);
+    public function index(ForeignNationalIndexRequest $request, GetForeignNationalsQuery $getForeignNationalsQuery){
+        $foreignNationals = $getForeignNationalsQuery->execute($request->validated() ?? []);
         return Inertia::render('ForeignNationals/ForeignNationals', [
             'foreignNationals' => ForeignNationalResource::collection($foreignNationals),
             'filters' => request()->all()
@@ -47,11 +47,12 @@ class ForeignNationalController
         return back();
     }
 
-    public function getApplicationForm (Request $request, 
+    public function getApplicationForm (
+                                        Request $request, 
                                         ForeignNational $foreignNational, 
                                         CreateForeignNationalStatementAction $createForeignNationalStatement
                                     ){
-        $request->validate(['examId' => ['required', 'integer', 'exists:exams, id']]);
+        $request->validate(['examId' => ['required', 'integer', 'exists:exams,id']]);
         $applicationFormPdf = $createForeignNationalStatement->execute($request->input('examId'), $foreignNational, $request->user());
         return $applicationFormPdf->stream('exam.pdf');
     }

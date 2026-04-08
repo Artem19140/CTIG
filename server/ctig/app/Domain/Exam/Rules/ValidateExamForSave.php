@@ -10,11 +10,11 @@ use App\Models\ExamType;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
-use App\Actions\Exam\Manage\ValidateExaminersAction;
 
-class ValidateExamCreationAction{
+
+class ValidateExamForSave{
     public function __construct(
-        protected ValidateExaminersAction $validateExaminers
+        protected ValidateExaminers $validateExaminers
     ){}
     public function execute(ExamDto $examDto, User $user, int | null $examId = null):int{
         $examType =  ExamType::find($examDto->examTypeId);
@@ -49,9 +49,9 @@ class ValidateExamCreationAction{
                                             $examId
                                         );
         
-        $hasConflictExam = Exam::where('is_cancelled', false)
-                            ->where('begin_time', '<=', $examDto->beginTime->copy()->addMinutes($examType->duration)) //utc?!
-                            ->where('end_time', '>=', $examDto->beginTime)
+        $hasConflictExam = Exam::notCancelled()
+                            ->before($examDto->beginTime->copy()->addMinutes($examType->duration))
+                            ->after($examDto->beginTime)
                             ->where('address_id', $address->id)
                             ->when($examId, function (Builder $query) use($examId){
                                 $query->where('id', '<>', $examId);
@@ -61,6 +61,7 @@ class ValidateExamCreationAction{
         if($hasConflictExam){
             throw new BusinessException("В это время по данному адресу уже проводится экзамен");
         }
+        
         return $examType->duration;
     }
 }

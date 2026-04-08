@@ -60,6 +60,6 @@ class ExamEnrollmentTest extends TestCase
 
         $response->assertInertiaFlash('success');
         $response->assertInertiaFlash('redirectUrl');
-        $this->assertDatabaseCount('exam_foreign_national', 1);
+        $this->assertDatabaseCount('enrollments', 1);
     }
 }

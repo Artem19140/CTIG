@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Actions\Exam\Documents;
+namespace App\Domain\ExamDocument;
 
 use App\Actions\Attempt\GetDetailedAttemptResultsAction;
-use App\Enums\AttemptStatus;
-use App\Exceptions\BusinessException;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Validation\ExamValidation;
@@ -13,14 +11,10 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 class GenerateExamStatementAction{
     public function __construct(
         protected GetDetailedAttemptResultsAction $getDetailedAttemptResults,
-        protected ExamValidation $examValidation
+        protected ExamDocumentAvailable $examDocumentAvailable
     ){}
     public function execute(Exam $exam){
-        $this->examValidation->ensureCompleted($exam);
-        $this->examValidation->ensureNotCancelled($exam);
-        $this->examValidation->ensureHasEnrollment($exam);
-        
-        $this->examValidation->EnsureAllAttemptsChecked($exam);
+        $this->examDocumentAvailable->statement($exam);
 
         $templatePath = storage_path('app/templates/statement.xlsx');
 

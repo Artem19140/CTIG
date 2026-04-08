@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Domain\ForeignNational\Rules;
+namespace App\Domain\ForeignNational\Guard;
 
 use App\Exceptions\BusinessException;
 use App\Models\ForeignNational;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
-class ForeignNationalValidation{
+class ForeignNationalGuard{
     public function ensureAge(string $dateBirth){
         $age = Carbon::parse($dateBirth)->age;
         

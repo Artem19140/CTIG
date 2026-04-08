@@ -2,16 +2,16 @@
 
 namespace App\Domain\Exam\Action\Monitoring;
 
-use App\Domain\Exam\Rules\ExamValidation;
+use App\Domain\Exam\Guard\ExamGuard;
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
 
 class UpdateProtocolCommentAction{
     public function __construct(
-        protected ExamValidation $examValidation
+        protected ExamGuard $examGuard
     ){}
     public function execute(Exam $exam, string $protocolComment){
-        $this->examValidation->ensureNotCancelled($exam);
+        $this->examGuard->ensureNotCancelled($exam);
         if(
             $exam->begin_time_utc->addMinutes(30)->isPast() 
                 &&

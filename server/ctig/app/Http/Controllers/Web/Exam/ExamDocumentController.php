@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Web\Exam;
 
-use App\Actions\Exam\Documents\GenerateExamProtocolAction;
-use App\Actions\Exam\Documents\GenerateExamStatementAction;
+use App\Domain\ExamDocument\ExamDocumentAvailable;
+use App\Domain\ExamDocument\GenerateCodesAction;
+use App\Domain\ExamDocument\GenerateExamProtocolAction;
+use App\Domain\ExamDocument\GenerateExamStatementAction;
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
-use App\Validation\ExamDocumentAvailable;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use App\Actions\Exam\Documents\GenerateCodesAction;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -20,7 +20,7 @@ class ExamDocumentController
     public function __construct(
         protected ExamDocumentAvailable $examDocumentAvailable
     ){}
-    public function foreignNationalsList(Request $request, Exam $exam){
+    public function list(Exam $exam){
         $exam->load(['foreignNationals', 'examType']);
         $exam->foreignNationals;
         if($exam->foreignNationals->isEmpty()){
@@ -33,6 +33,14 @@ class ExamDocumentController
         $stringDate = $exam->begin_time->copy()->format('_H:i_d.m.Y_');
         $name = $exam->examType->short_name;
         return $pdf->stream("список_$name _ $stringDate.pdf");
+    }
+
+    public function listAvailable(Exam $exam){
+        Gate::authorize('exam-manage-access', $exam);
+        $this->examDocumentAvailable->list($exam);
+        return Inertia::flash([
+            'redirectUrl' => route('exam.documents.list', ['exam' => $exam])
+        ])->back();
     }
 
     public function codes(Exam $exam, GenerateCodesAction $generateCodes)
@@ -65,7 +73,7 @@ class ExamDocumentController
         ])->back();
     }
 
-    public function statement(Request $request, Exam $exam, GenerateExamStatementAction $generateExamStatement)
+    public function statement(Exam $exam, GenerateExamStatementAction $generateExamStatement)
     {
         Gate::authorize('exam-manage-access', $exam);
         $spreadSheet = $generateExamStatement->execute($exam);
@@ -92,5 +100,4 @@ class ExamDocumentController
             'redirectUrl' => route('exam.documents.statement', ['exam' => $exam])
         ])->back();
     }
-    
 }

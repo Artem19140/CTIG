@@ -2,18 +2,18 @@
 
 namespace App\Domain\ForeignNational\Action;
 
-use App\Domain\ForeignNational\Rules\ForeignNationalValidation;
+use App\Domain\ForeignNational\Guard\ForeignNationalGuard;
 use App\Models\ForeignNational;
 use Storage;
 
 
 final class StoreForeignNationalAction{
     public function __construct(
-        protected ForeignNationalValidation $foreignNationalValidation
+        protected ForeignNationalGuard $foreignNationalGuard
     ){}
     public function execute(array $data, int $creatorId): ForeignNational{
-        $this->foreignNationalValidation->ensureAge($data['dateBirth']);
-        $this->foreignNationalValidation->ensureUniquePassport($data);
+        $this->foreignNationalGuard->ensureAge($data['dateBirth']);
+        $this->foreignNationalGuard->ensureUniquePassport($data);
         return  ForeignNational::create(
             $this->attributes($data, $creatorId),
         );

@@ -20,7 +20,7 @@ const download = () => {
 
 const transfer = () => {
     const {open} = useModals()
-    open('transfer', {foreignNational:props.foreignNational, oldExam: props.exam})
+    open('transfer', {foreignNational:props.foreignNational, fromExam: props.exam})
 }
 const {confirmOpen} = useConfirmDialog()
 

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
-class GetAvailableExamsAction{
+class GetAvailableExamsQuery{
     public function execute(int  $examTypeId, int | null $foreignNationalId):Collection{
         $exams = Exam::select('id', 'begin_time')
                     ->withCount('foreignNationals')

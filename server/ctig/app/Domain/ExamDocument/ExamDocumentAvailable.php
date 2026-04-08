@@ -2,33 +2,38 @@
 
 namespace App\Domain\ExamDocument;
 
-use App\Domain\Exam\Rules\ExamValidation;
+use App\Domain\Exam\Guard\ExamGuard;
+use App\Exceptions\BusinessException;
 use App\Models\Exam;
+use Carbon\Carbon;
 
 class ExamDocumentAvailable{
     public function __construct(
-        protected ExamValidation $examValidation
+        protected ExamGuard $examGuard
     ){}
     public function codes(Exam $exam){
-        $this->examValidation->ensureNotCompleted($exam);
-        $this->examValidation->ensureNotCancelled($exam);
-        $this->examValidation->ensureHasEnrollment($exam);
+        $this->examGuard->ensureNotCompleted($exam);
+        $this->examGuard->ensureNotCancelled($exam);
+        $this->examGuard->ensureHasEnrollment($exam);
+        if(Carbon::now()->diff($exam->begin_time_utc)->minutes >= 40){
+            throw new BusinessException("Коды можно сформировать минимум за 40 минут до экзамена");
+        }
     }
 
     public function list(Exam $exam){
-        $this->examValidation->ensureHasEnrollment($exam);
+        $this->examGuard->ensureHasEnrollment($exam);
     }
 
     public function protocol(Exam $exam){
-        $this->examValidation->ensureCompleted($exam);
-        $this->examValidation->ensureNotCancelled($exam);
-        $this->examValidation->ensureHasEnrollment($exam);
+        $this->examGuard->ensureCompleted($exam);
+        $this->examGuard->ensureNotCancelled($exam);
+        $this->examGuard->ensureHasEnrollment($exam);
     }
 
     public function statement(Exam $exam){
-        $this->examValidation->ensureCompleted($exam);
-        $this->examValidation->ensureNotCancelled($exam);
-        $this->examValidation->ensureHasEnrollment($exam);
-        $this->examValidation->EnsureAllAttemptsChecked($exam);
+        $this->examGuard->ensureCompleted($exam);
+        $this->examGuard->ensureNotCancelled($exam);
+        $this->examGuard->ensureHasEnrollment($exam);
+        $this->examGuard->EnsureAllAttemptsChecked($exam);
     }
 }

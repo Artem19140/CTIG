@@ -7,7 +7,7 @@ use App\Exceptions\BusinessException;
 use App\Models\Attempt;
 use App\Models\AttemptAnswer;
 use App\Models\TaskVariant;
-use Server\Ctig\App\Domain\Attempt\Guard\AttemptGuard;
+use App\Domain\Attempt\Guard\AttemptGuard;
 
 
 class HandleAttemptAnswerAction{

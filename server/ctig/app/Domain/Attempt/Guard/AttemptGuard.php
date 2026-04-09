@@ -1,6 +1,6 @@
 <?php
 
-namespace Server\Ctig\App\Domain\Attempt\Guard;
+namespace App\Domain\Attempt\Guard;
 
 use App\Exceptions\BusinessException;
 use App\Models\Attempt;
@@ -19,7 +19,7 @@ class AttemptGuard{
     }
 
     public function ensurePending(Attempt $attempt, string $message = 'Попытка '){
-        if(!$attempt->isActive()){
+        if(!$attempt->isPending()){
             throw new BusinessException($message);
         }
     }

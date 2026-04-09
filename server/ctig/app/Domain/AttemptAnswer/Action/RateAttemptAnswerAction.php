@@ -6,7 +6,7 @@ use App\Exceptions\BusinessException;
 use App\Models\AttemptAnswer;
 use App\Models\User;
 use DB;
-use Server\Ctig\App\Domain\Attempt\Guard\AttemptGuard;
+use App\Domain\Attempt\Guard\AttemptGuard;
 
 class RateAttemptAnswerAction{
     public function __construct(

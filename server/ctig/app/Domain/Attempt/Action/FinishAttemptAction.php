@@ -7,7 +7,7 @@ use App\Enums\AttemptStatus;
 use App\Models\Attempt;
 use App\Actions\Attempt\Checking\CheckPassingThresholdAction;
 use Illuminate\Support\Facades\DB;
-use Server\Ctig\App\Domain\Attempt\Guard\AttemptGuard;
+use App\Domain\Attempt\Guard\AttemptGuard;
 
 class FinishAttemptAction{
     public function __construct(

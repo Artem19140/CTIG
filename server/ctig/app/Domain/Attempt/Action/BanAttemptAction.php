@@ -5,7 +5,7 @@ namespace App\Domain\Attempt\Action;
 use App\Enums\AttemptStatus;
 use App\Models\Attempt;
 use Carbon\Carbon;
-use Server\Ctig\App\Domain\Attempt\Guard\AttemptGuard;
+use App\Domain\Attempt\Guard\AttemptGuard;
 
 class BanAttemptAction{
     public function __construct(

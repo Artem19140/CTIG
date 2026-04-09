@@ -8,7 +8,7 @@ use App\Models\Exam;
 use App\Models\ForeignNational;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Server\Ctig\App\Domain\Attempt\Guard\AttemptGuard;
+use App\Domain\Attempt\Guard\AttemptGuard;
 
 class StartAttemptAction{
     public function __construct(

@@ -6,7 +6,8 @@ import AppLogo from '../../../Components/AppLogo/AppLogo.vue';
 
 const form = useForm({
   email: 'qwerty@bk.com',
-  password: '123456789'
+  password: '123456789',
+  rememberMe:false
 });
 
 const show = ref<boolean>(false);
@@ -48,6 +49,11 @@ const submit = () => {
           :error-messages="form.errors.password"
           placeholder="Введите пароль"
           class="mb-6"
+        />
+        <v-checkbox
+          label="Запомнить меня" 
+          v-model="form.rememberMe"
+          :error-messages="form.errors.rememberMe"
         />
 
         <v-btn

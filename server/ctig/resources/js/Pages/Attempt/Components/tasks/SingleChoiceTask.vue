@@ -41,9 +41,9 @@ watch(attemptAnswer, () => {
 </script>
 
 <template>
-    <pre>
+    <!-- <pre>
         {{ task }}
-    </pre>
+    </pre> -->
     <base-task
         :task="task"
     >

@@ -20,11 +20,11 @@ class AttemptResource extends JsonResource
         return [
             'examName' =>$this->whenLoaded('exam', fn () => $this->exam->examType->short_name),
             'answers' =>  AttemptAnswerResource::collection($this->whenLoaded('answers')),
-            'expiredAt' => $this->expired_at?->format('Y-m-d H:i:s'),
+            'expiredAt' => $this->expired_at,
             'solved' => $this->solved,
             'foreignNational' => new ForeignNationalResource($this->whenLoaded('foreignNational')),
             'id' => $this->id,
-            'startedAt' => $this->started_at?->format('Y-m-d H:i:s'),
+            'startedAt' => $this->started_at, //?->format('Y-m-d H:i:s')
             'finishedAt' => $this->finished_at?->format('Y-m-d H:i:s'),
             'isPassed' => $this->is_passed,
             'status' => $this->status

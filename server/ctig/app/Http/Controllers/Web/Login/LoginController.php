@@ -17,7 +17,12 @@ class LoginController extends Controller
 {
    public function login(LoginRequest $request)
     {
-        if (!Auth::attempt($request->validated(), )) { //$request->boolean('remember')
+        if (!Auth::attempt([
+                                'email' => $request->validated('email'),
+                                'password' => $request->validated('password')
+                            ], 
+                            $request->validated('rememberMe')
+            )) { 
             throw ValidationException::withMessages([
                 'email' => 'Неверные учетные данные.',
             ]);

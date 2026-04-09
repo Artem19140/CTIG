@@ -17,8 +17,8 @@ class StartAttemptAction{
     public function execute(Attempt $attempt, ForeignNational $foreignNational):Attempt{
         $this->attemptGuard->ensureNotBanned($attempt);
         $this->attemptGuard->ensurePending($attempt, 'Попытку можно начать только если она ещё не активна');
-        return DB::transaction(function () use($attempt, $foreignNational) {
-            $exam=Exam::find($foreignNational->exam_id);
+        return DB::transaction(function () use($attempt) {
+            $exam=Exam::find($attempt->exam_id);
             $attempt->status = AttemptStatus::Active;
             $attempt->started_at = Carbon::now($exam->center->time_zone);
             $attempt->expired_at = Carbon::now()->addMinutes($exam->duration);

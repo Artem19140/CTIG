@@ -22,10 +22,10 @@ class VerifyCodeAction{
             throw new BusinessException('Экзамен не оплачен');
         }
 
-        $enrollment->exam_code = null;
-        $enrollment->exam_code_expired_at = null;
-        $enrollment->exam_code_used_at = Carbon::now($enrollment->center->time_zone);
-        $enrollment->save();
+        // $enrollment->exam_code = null;
+        // $enrollment->exam_code_expired_at = null;
+        // $enrollment->exam_code_used_at = Carbon::now($enrollment->center->time_zone);
+        //$enrollment->save();
 
        return $enrollment;
     }

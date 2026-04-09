@@ -5,21 +5,16 @@ namespace App\Http\Controllers\Web\Attempt;
 use App\Actions\Attempt\BanAttemptAction;
 use App\Actions\Attempt\Finish\FinishAttemptAction;
 use App\Actions\Attempt\GetCurrentAttemptAction;
-use App\Actions\Attempt\StartAttemptAction;
 use App\Actions\Attempt\Tasks\GetSpeakingTasksAction;
 use App\Actions\Attempt\Tasks\GetTasksToCheckAction;
+use App\Domain\Attempt\Action\StartAttemptAction;
 use App\Enums\AttemptStatus;
-use App\Enums\TaskType;
-use App\Exceptions\BusinessException;
 use App\Http\Controllers\Api\Controller;
 use App\Http\Resources\Attempt\AttemptResource;
-use App\Http\Resources\attemptAnswer\AttemptAnswerResource;
 use App\Http\Resources\Exam\ExamResource;
 use App\Http\Resources\TaskVariant\TaskVariantResource;
 use App\Models\Attempt;
 use App\Models\Exam;
-use Carbon\Carbon;
-use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -118,13 +113,14 @@ class AttemptController extends Controller
     }
 
     public function before(Request $request, Attempt $attempt){
-        $foreignNational = $request->user();
+
         if($attempt->status !== AttemptStatus::Pending){
             return redirect('login')->with('У вас нет текущей попытки экзамена');
         }
+
         $exam = Exam::with([
             'examType'
-        ])->find($foreignNational->exam_id);
+        ])->find($attempt->exam_id);
         
         return Inertia::render('Attempt/BeforeAttempt', [
             'exam' => new ExamResource($exam),

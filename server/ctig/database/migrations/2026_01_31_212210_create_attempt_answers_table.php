@@ -39,6 +39,7 @@ return new class extends Migration
                 ->constrained('centers')
                 ->cascadeOnDelete();
 
+
             $table->boolean('audio_played')->default(false);
                 
             $table->foreignId('checked_by_id')

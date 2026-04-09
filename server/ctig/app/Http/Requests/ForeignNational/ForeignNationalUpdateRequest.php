@@ -143,10 +143,6 @@ class ForeignNationalUpdateRequest extends FormRequest
                     'nullable', 
                     File::types(['pdf'])->max(4096)
                 ],
-            'photoScan' => [
-                    'nullable', 
-                    File::types(['pdf'])->max(4096) 
-                ],
         ];
     }
 }

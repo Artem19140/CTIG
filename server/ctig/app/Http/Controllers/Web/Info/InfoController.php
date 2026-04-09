@@ -17,4 +17,8 @@ class InfoController
             'exams' => ExamCalendarResource::collection($exams)
         ]);
     }
+
+    public function results(){
+        
+    }
 }

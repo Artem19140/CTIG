@@ -64,7 +64,11 @@ class ExamController
                     }, 
                     'examiners', 
                     'address',
-                    'examType'
+                    'examType',
+                    'enrollments.foreignNational.attempts' => function (HasMany $query) use($exam){
+                        $query->where('exam_id', $exam->id);
+                    }
+                    
                 ]);
         $exam->loadCount('foreignNationals');
         return new ExamResource($exam);

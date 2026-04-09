@@ -8,6 +8,7 @@ use App\Domain\Counter\GetSessionNumberQuery;
 use App\Domain\Exam\Guard\ExamGuard;
 use App\Exceptions\BusinessException;
 use App\Models\Attempt;
+use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\AttemptAnswer;
@@ -32,7 +33,7 @@ class CreateAttemptAction{
             //$this->examGuard->ensureGoing($exam);
             $this->examGuard->ensureNotCancelled($exam);
             
-            $attempt =  $this->createAttempt($foreignNational, $exam);
+            $attempt =  $this->createAttempt($foreignNational, $enrollment);
             
             $examVariant = $this->generateExamVariant($exam, $attempt, $foreignNational);
 
@@ -45,8 +46,8 @@ class CreateAttemptAction{
         return $attempt;
     }
 
-    protected function createAttempt(ForeignNational $foreignNational, Exam $exam):Attempt{
-        $hasAttempt = $foreignNational->attempts()->where('exam_id', $exam->id)->exists();
+    protected function createAttempt(ForeignNational $foreignNational, Enrollment $enrollment):Attempt{
+        $hasAttempt = $foreignNational->attempts()->where('exam_id', $enrollment->exam_id)->exists();
 
         if($hasAttempt){
             throw new BusinessException('Сущестует текущая попытка экзамен');
@@ -54,8 +55,9 @@ class CreateAttemptAction{
 
         return Attempt::create([
                 'foreign_national_id' => $foreignNational->id,
-                'exam_id' => $exam->id,
-                'center_id' => $exam->center_id
+                'enrollment_id' => $enrollment->id,
+                'exam_id' => $enrollment->exam_id,
+                'center_id' => $enrollment->center_id
             ]);
     }
 

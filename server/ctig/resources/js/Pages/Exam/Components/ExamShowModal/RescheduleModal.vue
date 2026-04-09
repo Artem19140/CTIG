@@ -1,27 +1,25 @@
 <script setup lang="ts">
-import { useForm, useHttp } from '@inertiajs/vue3';
+import { router, useForm, useHttp } from '@inertiajs/vue3';
 import BaseDialog from '../../../../Components/BaseDialog/BaseDialog.vue';
 import PrimaryButton from '../../../../Components/PrimaryButton/PrimaryButton.vue';
-import { computed, onMounted, ref } from 'vue';
+import {  onMounted, ref } from 'vue';
 import { Exam } from '../../../../interfaces/interfaces';
 import AppAutocomplete from '../../../../Components/AppAutocomplete/AppAutocomplete.vue';
 
 
 const props = defineProps<{
-    foreignNational:any,
-    fromExam:Exam
+    enrollment:any,
+    examTypeId:number
 }>()
 
 const isOpen = defineModel<boolean>({default:false})
 const exams = ref<Exam[] | []>([])
-const foreignNationalId = computed(() => props.foreignNational.id)
 const form = useForm({
-    toExamId:null, 
-    fromExamId: props.fromExam.id
+    toExamId:null
 })
 
 const transfer = () => {
-    form.post(`/foreign-nationals/${foreignNationalId.value}/exams/transfer`,{
+    router.post(`/enrollments/${props.enrollment.id}/reschedule`,{},{
         onSuccess:(page :any) =>{
             if(page.flash.success){
                 window.open(page.flash.redirectUrl)
@@ -35,7 +33,7 @@ const transfer = () => {
 const http = useHttp()
 
 onMounted(() => {
-    http.get(`/exams/available?examTypeId=${props.fromExam.examTypeId}&foreignNationalId=${foreignNationalId.value}`,{ 
+    http.get(`/exams/available?examTypeId=${props.examTypeId}&foreignNationalId=${props.enrollment.foreignNational.id}`,{ 
         onSuccess:(response:any) => {
             exams.value = response
         }

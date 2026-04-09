@@ -62,7 +62,7 @@
                     <td style="white-space:nowrap;" class="no-border-td">Регистрационный номер:</td>
                     <td class="data no-border-td" style="width: 100%;">
                         <span style="display:inline-block; width:80%; border-bottom:1px solid black;">
-                            {{ $reg_number ?? '-'}} 
+                            {{ $enrollment->reg_number ?? '-'}} 
                             
                         </span>
                     </td>
@@ -73,51 +73,51 @@
         </td>
     </tr>
     <tr>
-        <td class="statement-td">Фамилия (кириллица): <span class="data">{{ $foreignNational->surname }}</span></td>
-        <td class="statement-td">Фамилия (латиница):  <span class="data">{{ $foreignNational->surname_latin }}</span></td>
+        <td class="statement-td">Фамилия (кириллица): <span class="data">{{ $enrollment->foreignNational->surname }}</span></td>
+        <td class="statement-td">Фамилия (латиница):  <span class="data">{{ $enrollment->foreignNational->surname_latin }}</span></td>
     </tr>
     <tr>
-        <td class="statement-td">Имя (кириллица):<span class="data">{{ $foreignNational->surname }}</span></td>
-        <td class="statement-td">Имя (латиница): <span class="data">{{ $foreignNational->surname_latin }}</span></td>
+        <td class="statement-td">Имя (кириллица):<span class="data">{{ $enrollment->foreignNational->surname }}</span></td>
+        <td class="statement-td">Имя (латиница): <span class="data">{{ $enrollment->foreignNational->surname_latin }}</span></td>
     </tr>
     <tr>
-        <td class="statement-td">Отчество (при наличии, кириллица): <span class="data">{{ $foreignNational->patronymic }}</span></td>
-        <td class="statement-td">Отчество (при наличии,латиница): <span class="data">{{ $foreignNational->patronymic_latin }}</span></td>
+        <td class="statement-td">Отчество (при наличии, кириллица): <span class="data">{{ $enrollment->foreignNational->patronymic }}</span></td>
+        <td class="statement-td">Отчество (при наличии,латиница): <span class="data">{{ $enrollment->foreignNational->patronymic_latin }}</span></td>
     </tr>
 
     @php
         $countries = collect(json_decode(file_get_contents(storage_path('app/public/countries.json')), true));
-        $countryName = $countries->firstWhere('value', $foreignNational->citizenship)['text'] ?? '';
+        $countryName = $countries->firstWhere('value', $enrollment->foreignNational->citizenship)['text'] ?? '';
     @endphp
     <tr>
         <td class="statement-td" >
-            Пол: <input style="vertical-align: -4px;" type="checkbox" {{ $foreignNational->gender === 'M' ? 'checked' : '' }}>М <input style="vertical-align: -4px;" type="checkbox" {{ $foreignNational->gender === 'F' ? 'checked' : '' }}>Ж
+            Пол: <input style="vertical-align: -4px;" type="checkbox" {{ $enrollment->foreignNational->gender === 'M' ? 'checked' : '' }}>М <input style="vertical-align: -4px;" type="checkbox" {{ $enrollment->foreignNational->gender === 'F' ? 'checked' : '' }}>Ж
         </td>
         <td class="statement-td">Гражданство: <span class="data">{{ $countryName }}</span></td>
     </tr>
     <tr>
-        <td class="statement-td">Дата рождения: <span class="data">{{ $foreignNational->date_birth->format('d.m.Y') }}</span></td>
-        <td class="statement-td">Место сдачи экзамена: <span class="data">{{ $exam->address->address }}</span></td>
+        <td class="statement-td">Дата рождения: <span class="data">{{ $enrollment->foreignNational->date_birth->format('d.m.Y') }}</span></td>
+        <td class="statement-td">Место сдачи экзамена: <span class="data">{{ $enrollment->exam->address->address }}</span></td>
     </tr>
     <tr>
-        <td class="statement-td">Контактный телефон: <span class="data">{{ $foreignNational->phone }}</span></td>
+        <td class="statement-td">Контактный телефон: <span class="data">{{ $enrollment->foreignNational->phone }}</span></td>
         <td class="statement-td">Родной язык: <span class="data"></span></td>
     </tr>
     <tr>
 
         <td class="statement-td">
             Наименование услуги и ее стоимость:
-            <p>{{ $exam->examType->name }}(уровень {{ $exam->examType->level }}) - стоимость <span class="data">{{ $exam->examType->cost}} </span>рублей</p>
+            <p>{{ $enrollment->exam->examType->name }}(уровень {{ $enrollment->exam->examType->level }}) - стоимость <span class="data">{{ $enrollment->exam->examType->cost}} </span>рублей</p>
         </td>
         <td class="statement-td">
-            Вид документа, удостоверяющего личность <br><span class="data">{{ $foreignNational->document_type}}</span><br>
-            Серия: <span class="data">{{ $foreignNational->passport_series }}</span> Номер: <span class="data">{{ $foreignNational->passport_number }}</span><br>
-            Дата выдачи: <span class="data">{{ $foreignNational->issued_date->format('d.m.Y') }}</span><br>
-            Кем выдан: <span class="data">{{$foreignNational->issued_by}}</span>
+            Вид документа, удостоверяющего личность <br><span class="data">{{ $enrollment->foreignNational->document_type}}</span><br>
+            Серия: <span class="data">{{ $enrollment->foreignNational->passport_series }}</span> Номер: <span class="data">{{ $enrollment->foreignNational->passport_number }}</span><br>
+            Дата выдачи: <span class="data">{{ $enrollment->foreignNational->issued_date->format('d.m.Y') }}</span><br>
+            Кем выдан: <span class="data">{{$enrollment->foreignNational->issued_by}}</span>
         </td>
     </tr>
     <tr>
-        <td class="statement-td" colspan="2">Дополнительная информация (например, лицо с ограниченными возможностями здоровья): <span class="data">{{ $foreignNational->comment }}</span></td>
+        <td class="statement-td" colspan="2">Дополнительная информация (например, лицо с ограниченными возможностями здоровья): <span class="data">{{ $enrollment->foreignNational->comment }}</span></td>
     </tr>
     <tr>
         <td class="statement-td" colspan="2">
@@ -129,7 +129,7 @@
                     <td class="data no-border-td" style="border-bottom:1px solid black; width:60%"></td>
                     <td class="data no-border-td" style="width:3%; text-align:center">/</td>
                     <td class="data no-border-td" style="border:none;border-bottom:1px solid black; width:20%">
-                        {{ $exam->begin_time->format('d.m.Y') }}
+                        {{ $enrollment->exam->begin_time->format('d.m.Y') }}
                     </td>
                 </tr>
             </table>
@@ -147,9 +147,9 @@
                 </tr>
             </table>
             <p class="small" style="margin-bottom: 0; font-style: italic;">Согласие на использование средств видеофиксации.</p> 
-            <p class="small" style="margin-top: 0;">Настоящим   даю   согласие  {{$center->name_genitive}}
-               (ИНН {{$center->inn}} , ОГРН {{$center->ogrn}}), 
-                {{$center->address}},
+            <p class="small" style="margin-top: 0;">Настоящим   даю   согласие  {{$enrollment->center->name_genitive}}
+               (ИНН {{$enrollment->center->inn}} , ОГРН {{$enrollment->center->ogrn}}), 
+                {{$enrollment->center->address}},
                 на   использование   средств   видеофиксации   при   проведении
                 экзамена   в   порядке   и   целях,   определяемых законодательством и заключаемом договором.
                 Проинформирован об использовании средств видеофиксации и хранении материаловпри проведении экзамена.</p>
@@ -160,7 +160,7 @@
                     <td class="data no-border-td" style="border-bottom:1px solid black; width:60%"></td>
                     <td class="data no-border-td" style="width:3%; text-align:center">/</td>
                     <td class="data no-border-td" style="border:none;border-bottom:1px solid black; width:20%">
-                        {{ $exam->begin_time->format('d.m.Y') }}
+                        {{ $enrollment->exam->begin_time->format('d.m.Y') }}
                     </td>
                 </tr>
             </table>
@@ -187,7 +187,7 @@
     <tr>
         <td style="white-space:nowrap;">Я,</td>
         <td class="data" style="border-bottom:1px solid black; width:100%; padding-bottom: 1px;">
-            <span >{{ $foreignNational->surname }} {{ $foreignNational->name }} {{ $foreignNational->patronymic }}</span>
+            <span >{{ $enrollment->foreignNational->surname }} {{ $enrollment->foreignNational->name }} {{ $enrollment->foreignNational->patronymic }}</span>
         </td>
     </tr>
 </table>
@@ -208,7 +208,7 @@
     <tr>
         <td style="white-space:nowrap;">Заказчик:</td>
         <td class="data" style="border-bottom:1px solid black; width:100%;  padding-bottom: 1px;">
-            {{ $foreignNational->surname }} {{ $foreignNational->name }} {{ $foreignNational->patronymic }}
+            {{ $enrollment->foreignNational->surname }} {{ $enrollment->foreignNational->name }} {{ $enrollment->foreignNational->patronymic }}
         </td>
     </tr>
 </table>
@@ -219,7 +219,7 @@
     <tr>
         <td style="white-space:nowrap;">Исполнитель:</td>
         <td class="data" style="border-bottom:1px solid black; width:100%;  padding-bottom: 1px;">
-            {{ $user->surname }} {{ $user->name }} {{ $user->patronymic }}
+            {{ $enrollment->creator->surname }} {{ $enrollment->creator->name }} {{ $enrollment->creator->patronymic }}
         </td>
     </tr>
 </table>
@@ -230,9 +230,9 @@
 <p>Услуга оказана в полном объеме. Претензий к оказанию Услуги не имею.</p>
 <br><br>
 <div style="border: 1px #000 solid; padding: 5px;">
-    <p>Дата экзамена: <span class="data">{{ $exam->begin_time->format('d.m.Y') }}</span><br>
-    Время экзамена: <span class="data">{{ $exam->begin_time->format('H:i')}}</span><br>
-    Адрес проведения экзамена: <span class="data">{{ $exam->address->address }}</span></p>
+    <p>Дата экзамена: <span class="data">{{ $enrollment->exam->begin_time->format('d.m.Y') }}</span><br>
+    Время экзамена: <span class="data">{{ $enrollment->exam->begin_time->format('H:i')}}</span><br>
+    Адрес проведения экзамена: <span class="data">{{ $enrollment->exam->address->address }}</span></p>
 </div>
 </body>
 </html>

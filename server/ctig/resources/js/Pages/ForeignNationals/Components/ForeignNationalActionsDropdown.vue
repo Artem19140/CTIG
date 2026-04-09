@@ -22,7 +22,6 @@ const destroy = async () => {
         errorMessages.value = "Введите слово 'УДАЛИТЬ'"
         return
     }
-    alert(1)
 }
 </script>
 

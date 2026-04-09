@@ -5,7 +5,7 @@ namespace App\Http\Requests\Enrollment;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class EnrollmentTransferRequest extends FormRequest
+class EnrollmentRescheduleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,7 @@ class EnrollmentTransferRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'toExamId' => ['required', 'integer', 'min:1', 'exists:exams,id'],
-            'fromExamId' => ['required', 'integer', 'min:1', 'exists:exams,id'],
+            'toExamId' => ['required', 'integer', 'min:1', 'exists:exams,id']
         ];
     }
 }

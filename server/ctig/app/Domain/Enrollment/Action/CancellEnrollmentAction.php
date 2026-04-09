@@ -4,6 +4,7 @@ namespace App\Domain\Enrollment\Action;
 
 use App\Domain\Enrollment\Guard\EnrollmentGuard;
 use App\Domain\Exam\Guard\ExamGuard;
+use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 
@@ -14,8 +15,10 @@ class CancellEnrollmentAction{
         protected EnrollmentGuard $enrollmentGuard
     ){}
         
-    public function execute(Exam $exam, ForeignNational $foreignNational) {
+    public function execute(Enrollment $enrollment) {
         //enrollment soft delete
+        $exam = Exam::find($enrollment->exam_id);
+        $foreignNational = ForeignNational::find($enrollment->foreign_national_id);
         $this->examGuard->ensureNotCompleted($exam);
         $this->examGuard->ensureNotCancelled($exam);
         $this->enrollmentGuard->ensureExists($exam, $foreignNational);

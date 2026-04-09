@@ -37,7 +37,6 @@ final class UpdateForeignNationalAction{
             'phone'=> $data['phone'],
             'gender' => $data['gender'],
             'comment' => $data['comment'] ?? '',
-            
         ],
         $this->files($data));
     }
@@ -49,9 +48,6 @@ final class UpdateForeignNationalAction{
         }
         if($data['passportTranslateScan'] ?? false){
             $files['passport_translate_scan'] = Storage::putFile('avatars', $data['passportTranslateScan']);
-        }
-        if($data['photo'] ?? false){
-            $files['photo'] = Storage::putFile('avatars', $data['photo']);
         }
         return  $files;
     }

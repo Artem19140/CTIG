@@ -32,6 +32,14 @@ class Enrollment extends Model
         return $this->belongsTo(Exam::class);
     }
 
+    public function creator():BelongsTo{
+        return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function center():BelongsTo{
+        return $this->belongsTo(Center::class, 'center_id');
+    }
+
     public function foreignNational():BelongsTo{
         return $this->belongsTo(ForeignNational::class);
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Exam;
 
 use App\Http\Resources\Attempt\AttemptResource;
+use App\Http\Resources\Enrollment\EnrollmentResource;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -23,6 +24,7 @@ class ExamResource extends JsonResource
             'cancelledReason' => $this->when($this->is_cancelled, $this->cancelled_reason),
             'beginTime' => $this->begin_time->copy()->format('Y-m-d H:i:s'),//->format('H:i, d.m.Y')
             'foreignNationals' => ForeignNationalResource::collection($this->whenLoaded('foreignNationals')),//здесь если есть результаты, то и их можно взять
+            'enrollments' => EnrollmentResource::collection($this->whenLoaded('enrollments')),
             'sessionNumber' => $this->session,
             'capacity' => $this->capacity,
             'comment'=>$this->comment,
@@ -42,7 +44,8 @@ class ExamResource extends JsonResource
             'endTime' => $this->end_time->copy()->format('Y-m-d H:i:s'),
             'isPast' =>  $this->begin_time_utc->copy()->addMinutes($this->duration)->isPast(),
             'tasksCount' => $this->whenLoaded('examType', fn () => $this->examType->tasks_count),
-            'hasSpeakingTasks' => $this->whenLoaded('examType', fn () => $this->examType->has_speaking_tasks)
+            'hasSpeakingTasks' => $this->whenLoaded('examType', fn () => $this->examType->has_speaking_tasks),
+            'isGoing' => $this->isGoing()
         ];
     }
 }

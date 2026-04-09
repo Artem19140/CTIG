@@ -18,7 +18,7 @@ final class CreateEnrollmentAction{
         protected ExamGuard $examGuard,
         protected EnrollmentGuard $enrollmentGuard
     ){}
-    public function execute(Exam $exam, int $foreignNationalId, User $user, bool $hasPayment):ForeignNational{
+    public function execute(Exam $exam, int $foreignNationalId, User $user, bool $hasPayment):Enrollment{
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureNotCompleted($exam);
         $this->examGuard->ensureNotGoing($exam);
@@ -32,7 +32,7 @@ final class CreateEnrollmentAction{
                                                                 $exam
                                                             ); 
 
-        Enrollment::create([
+        $enrollment = Enrollment::create([
             'reg_number' => $this->generateRegNumber->execute(),
             'creator_id' => $user->id,
             'center_id' => $user->center_id,
@@ -41,6 +41,6 @@ final class CreateEnrollmentAction{
             'foreign_national_id' => $foreignNational->id
         ]);
 
-        return $foreignNational;
+        return $enrollment;
     }
 }

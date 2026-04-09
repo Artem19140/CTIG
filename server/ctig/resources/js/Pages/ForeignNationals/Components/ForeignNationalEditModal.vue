@@ -31,7 +31,9 @@ const form = useForm<ForeignNational>({
     addressReg: props.foreignNational?.addressReg,
     dateBirth: new DateFormatter(props.foreignNational?.dateBirth).format('Y-m-d') ?? '',
     gender: props.foreignNational?.gender,
-    comment: props.foreignNational?.comment
+    comment: props.foreignNational?.comment,
+    passportTranslateScan:props.foreignNational?.passportTranslateScan,
+    passportScan:props.foreignNational?.passportScan,
 })
 
 const edit = () => {

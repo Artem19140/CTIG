@@ -22,6 +22,14 @@ export interface Exam{
     hasSpeakingTasks:boolean,
     examTypeId:number,
     protocolComment:string,
+    enrollments:Array<Enrollment>
+}
+
+export interface Enrollment{
+    id:number,
+    foreignNational:ForeignNational,
+    hasPayment:boolean,
+    isLoading?: boolean 
 }
 
 export interface User{
@@ -50,7 +58,6 @@ export interface ForeignNational{
     creator?:User | null,
     exams?:Array<Exam> | null,
     passportScan?:string | null,
-    photo?:string | null,
     createdAt?:string,
     citizenship:string,
     dateBirth:string,
@@ -65,7 +72,7 @@ export interface ForeignNational{
 
 export type IForeignNationalCreateForm = Omit<
   ForeignNational,
-  'id' | 'creator' | 'exams' | 'createdAt' | 'passportScan' | 'photo' | 'attempts' | 'exam' | 'fullName' | 'fullPassport' | 'photoPath' 
+  'id' | 'creator' | 'exams' | 'createdAt' | 'passportScan'  | 'attempts' | 'exam' | 'fullName' | 'fullPassport' | 'photoPath' 
        |'passportTranslateScanPath' | 'passportScanPath'
 > & {
   passportScan: File | null

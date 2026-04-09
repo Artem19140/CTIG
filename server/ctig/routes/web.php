@@ -18,11 +18,19 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->group(function(){
-    Route::resource('foreign-nationals', ForeignNationalController::class);
+    Route::apiResource('foreign-nationals', ForeignNationalController::class);
 
-    Route::get('foreign-nationals/{foreignNational}/application-forms', [ForeignNationalController::class, "getApplicationForm"])
-            ->name('foreign-nationals.application-forms');
-    Route::post('foreign-nationals/{foreignNational}/exams/transfer', [EnrollmentController::class, "transfer"]);
+    // Route::get('foreign-nationals/{foreignNational}/application-forms', [ForeignNationalController::class, "getApplicationForm"])
+    //         ->name('foreign-nationals.application-forms');
+
+    Route::apiResource('enrollments', EnrollmentController::class);
+    Route::prefix('enrollments')->group(function(){
+        Route::post('{enrollment}/reschedule', [EnrollmentController::class, 'reschedule']);
+        Route::put('{enrollment}/payment', [EnrollmentController::class, 'changePayment']);
+        Route::get('{enrollment}/statements', [EnrollmentController::class, 'statement'])->name('enrollments.statements');
+    });
+
+    
 
     Route::prefix('exams')->group(function(){
          Route::get('available', [EnrollmentController::class, "available"]);
@@ -59,7 +67,7 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
         Route::get('schedule', [ExamController::class, 'schedule'])->name('exams.schedule');
         
     });
-    Route::resource('exams', ExamController::class)->where(['exam' => '[0-9]+']);//->middleware('user.has.role:examiner1');
+    Route::apiResource('exams', ExamController::class)->where(['exam' => '[0-9]+']);//->middleware('user.has.role:examiner1');
     
     Route::put('attempts/{attempt}/ban', [AttemptController::class, 'ban']);
     Route::get('attempts/checking', [AttemptController::class, 'toCheck'])->name('attempts.checking');

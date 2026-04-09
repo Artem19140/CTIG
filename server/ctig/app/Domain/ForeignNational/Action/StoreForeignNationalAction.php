@@ -41,7 +41,6 @@ final class StoreForeignNationalAction{
             'comment' => $data['comment'],
             'passport_translate_scan' => Storage::putFile('avatars', $data['passportTranslateScan']),
             'passport_scan' => Storage::putFile('avatars', $data['passportScan']),
-            //'photo' => Storage::putFile('avatars', $data['photoScan']);
         ];
     }
 }

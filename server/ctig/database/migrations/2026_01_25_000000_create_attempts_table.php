@@ -20,6 +20,11 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete();
 
+            $table->foreignId('enrollment_id')
+                ->index()
+                ->constrained('enrollments')
+                ->cascadeOnDelete();
+
             $table->foreignId('exam_id')
                 ->constrained('exams');
 

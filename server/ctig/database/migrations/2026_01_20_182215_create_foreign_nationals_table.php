@@ -30,8 +30,6 @@ return new class extends Migration
             $table->char('gender', 1);
             $table->string('comment')->nullable()->default(null);
 
-
-            $table->string('photo')->nullable()->default(null);
             $table->string('passport_scan')->nullable()->default(null);
             $table->string('passport_translate_scan')->nullable()->default(null);
 

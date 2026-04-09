@@ -11,7 +11,7 @@ import AttemptCheckingModal from '../../Pages/AttemptsChecking/AttemptCheckingMo
 import PdfDialogViewer from '../PdfDialogViewer/PdfDialogViewer.vue';
 import ExamCommentModal from '../../Pages/ExamMonitoring/ExamCommentModal.vue';
 import EmployeeCreateModal from '../../Pages/Employees/EmployeeCreateModal.vue';
-import TransferModal from '../../Pages/Exam/Components/ExamShowModal/TransferModal.vue';
+import RescheduleModal from '../../Pages/Exam/Components/ExamShowModal/RescheduleModal.vue';
 import ForeignNationalEditModal from '../../Pages/ForeignNationals/Components/ForeignNationalEditModal.vue';
 import ExamEditModal from '../../Pages/Exam/Components/ExamEditModal.vue';
 
@@ -42,8 +42,8 @@ const modalComponent = (name: string) => {
             return ExamCommentModal
         case 'employeeCreate':
             return EmployeeCreateModal
-        case 'transfer':
-            return TransferModal
+        case 'reschedule':
+            return RescheduleModal
         case 'foreignNationalEdit':
             return ForeignNationalEditModal
         case 'examEdit':

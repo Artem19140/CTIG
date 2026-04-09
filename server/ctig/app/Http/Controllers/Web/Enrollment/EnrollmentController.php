@@ -4,14 +4,15 @@ namespace App\Http\Controllers\Web\Enrollment;
 
 use App\Domain\Enrollment\Action\CancellEnrollmentAction;
 use App\Domain\Enrollment\Action\ChangePaymentStatusAction;
-use App\Domain\Enrollment\Action\TransferEnrollmentActon;
+use App\Domain\Enrollment\Action\GenerateEnrollmentStatementAction;
+use App\Domain\Enrollment\Action\RescheduleEnrollmentActon;
 use App\Domain\Exam\Query\GetAvailableExamsQuery;
 use App\Domain\Enrollment\Action\CreateEnrollmentAction;
 use App\Http\Requests\Enrollment\EnrollmentAvailableRequest;
 use App\Http\Requests\Enrollment\EnrollmentStoreRequest;
-use App\Http\Requests\Enrollment\EnrollmentTransferRequest;
+use App\Http\Requests\Enrollment\EnrollmentRescheduleRequest;
+use App\Models\Enrollment;
 use App\Models\Exam;
-use App\Models\ForeignNational;
 use Inertia\Inertia;
 
 
@@ -35,38 +36,34 @@ class EnrollmentController
         return back();
     }
 
-    public function destroy(Exam $exam, ForeignNational $foreignNational, CancellEnrollmentAction $cancellErollment)
+    public function destroy(Enrollment $enrollment, CancellEnrollmentAction $cancellErollment)
     {
-        $cancellErollment->execute($exam, $foreignNational);
+        //echo $enrollment;die;
+        $cancellErollment->execute($enrollment);
         return back()->with('success','Запись отменена');
     }
 
-    public function transfer(
-                                EnrollmentTransferRequest $request,
-                                ForeignNational $foreignNational, 
-                                TransferEnrollmentActon $transferEnrollment
+    public function reschedule(
+                                EnrollmentRescheduleRequest $request,
+                                Enrollment $enrollment,
+                                RescheduleEnrollmentActon $rescheduleEnrollment
                             ){
-        $transferEnrollment->exectute(
-                                        $request->validated('fromExamId'),
-                                        $request->validated('toExamId'),
-                                        $foreignNational, 
+        $newEnrollment = $rescheduleEnrollment->execute(
+                                        $enrollment,
+                                        $request->validated('toExamId'), 
                                         $request->user()  
                                     );
-        Inertia::flash([
-            'success' => 'Запись перенесена',
-            'redirectUrl' => route('foreign-nationals.application-forms', [
-                'foreignNational' =>$foreignNational->id,
-                'examId' => $request->validated('toExamId'),
-            ])
+        
+        return Inertia::flash([
+            'redirectUrl' => route('enrollments.statements', ['enrollment' => $newEnrollment])
         ]);
-        return back();
     }
     public function changePayment(
-                                    Exam  $exam, 
-                                    ForeignNational $foreignNational, 
+                                    Enrollment $enrollment,
                                     ChangePaymentStatusAction $changePaymentStatus
                                 ){
-        $changePaymentStatus->execute($exam,$foreignNational);
+        $changePaymentStatus->execute($enrollment);
+        return back();
         return response()->noContent();
     }
 
@@ -78,5 +75,10 @@ class EnrollmentController
                 'beginTime' => $exam->begin_time->format('H:i d.m.Y'),
             ];
         });
-    }        
+    } 
+    
+    public function statement(Enrollment $enrollment, GenerateEnrollmentStatementAction $generateEnrollmentStatement){
+        $statement = $generateEnrollmentStatement->execute($enrollment);
+        return $statement->stream('statement.pdf'); 
+    }
 }

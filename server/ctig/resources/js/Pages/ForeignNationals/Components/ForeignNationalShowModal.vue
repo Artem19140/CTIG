@@ -55,22 +55,9 @@ const showDocument = (url :string) => {
         </template>
 
         <v-card-text>
-            <v-card-text>
-                <div class="flex">
-                    <v-avatar color="surface-variant cursor-pointer hover:opacity-80 transition-opacity"  size="150" >
-                        <v-img 
-                            :src="foreignNational?.photo"
-                            cover 
-                            @click="showDocument('')"
-                        />
-                    </v-avatar>
-                <div class="flex flex-col justify-center ml-8">
-                    <div class="text-headline-small">{{`${foreignNational?.surname} ${foreignNational?.name} ${foreignNational?.patronymic ?? ''} `}}</div>
-                    <div class="text-subtitle-1">{{`${foreignNational?.surnameLatin} ${foreignNational?.nameLatin} ${foreignNational?.patronymicLatin ?? ''}`}}</div>
-                    <div class="text-subtitle-2">{{new DateFormatter(foreignNational?.dateBirth ?? '').format('d.m.Y')}}</div> 
-                </div>
-                </div>
-            </v-card-text>
+            <div class="text-headline-small">{{`${foreignNational?.surname} ${foreignNational?.name} ${foreignNational?.patronymic ?? ''} `}}</div>
+            <div class="text-subtitle-1">{{`${foreignNational?.surnameLatin} ${foreignNational?.nameLatin} ${foreignNational?.patronymicLatin ?? ''}`}}</div>
+            <div class="text-subtitle-2">{{new DateFormatter(foreignNational?.dateBirth ?? '').format('d.m.Y')}}</div> 
         </v-card-text>
 
         <v-divider></v-divider>

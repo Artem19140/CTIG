@@ -19,11 +19,12 @@ const http = useHttp({
 })
 
 const donwload = () => {
-    http.get('/reports/flat-table',{
-        onSuccess:(response :any) => {
-            window.location.href = response
-        }
-    })
+    window.location.href = `/reports/flat-table?dateFrom=${http.dateFrom}&dateTo=${http.dateTo}`
+    // http.get('/reports/flat-table',{
+    //     onSuccess:(response :any) => {
+    //         window.location.href = response
+    //     }
+    // })
 }
 
 </script>
@@ -37,6 +38,7 @@ const donwload = () => {
     >
         <AppInput
             v-model="http.dateFrom"
+            required
             label="Дата с"
             :error-messages="http.errors.dateFrom"
             type="date"
@@ -50,6 +52,7 @@ const donwload = () => {
         <template #actions>
             <AddButton 
                 :disabled="!http.dateFrom || !http.dateTo"
+                :loading="http.processing"
                 text="Скачать"
                 @click="donwload"
             />

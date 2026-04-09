@@ -4,10 +4,9 @@ import { Exam, ForeignNational } from '../../../../interfaces/interfaces';
 import { useModals } from '../../../../Composables/useModals';
 import { attemptResultStatus } from '../../../../Helpers/heplers';
 import AppStatusChip from '../../../../Components/AppStatusChip/AppStatusChip.vue';
-import ForeignNationalsTableDropdown from './ForeignNationalsTableDropdown.vue';
+import EnrollmetsTableDropdown from './EnrollmetsTableDropdown.vue';
 
 const props = defineProps<{
-    foreignNationals : ForeignNational[],
     exam: Exam
 }>()
 
@@ -17,20 +16,20 @@ function foreignNationalShowModal(event:Event, {item}: any) {
 }
 
 const headers = [
-    {title : "ФИО",sortable: false, key: 'fullName', align: 'start' },
-    {title : "Паспорт",sortable: false, key: 'fullPassport', align: 'start' },
+    {title : "ФИО",sortable: false, key: 'foreignNational.fullName', align: 'start' },
+    {title : "Паспорт",sortable: false, key: 'foreignNational.fullPassport', align: 'start' },
     {title : "Результаты",sortable: false, key: 'results', align: 'center' },
     {title : "Оплата",sortable: false, key: 'hasPayment', align: 'center' },
     {title : "",sortable: false, key: 'actions', align: 'end' },
 ]
-props.foreignNationals.forEach(fn => {
+props.exam.enrollments.forEach(fn => {
     if (fn.isLoading === undefined) fn.isLoading = false
 })
 </script>
 
 <template>
     <v-data-table 
-        :items="foreignNationals"
+        :items="exam.enrollments"
         hide-default-footer
         :headers="headers"
         fixed-header
@@ -44,17 +43,16 @@ props.foreignNationals.forEach(fn => {
             <v-progress-circular v-else indeterminate color="primary" />
         </template>
         <template #item.actions="{item}">
-            <ForeignNationalsTableDropdown 
-                :foreign-national="item"
+            <EnrollmetsTableDropdown 
+                :enrollment="item"
                 :exam="exam"
                 :loading="item"
             />
         </template>
         <template #item.results="{ item }">
             <AppStatusChip
-                :color="attemptResultStatus(item?.attempts?.[0] ?? null, exam?.isPast).color"
-                :text="attemptResultStatus(item?.attempts?.[0] ?? null, exam?.isPast).text"
-                
+                :color="attemptResultStatus(item?.foreignNational.attempts?.[0] ?? null, exam?.isPast).color"
+                :text="attemptResultStatus(item?.foreignNational.attempts?.[0] ?? null, exam?.isPast).text"
             /> 
         </template>
     </v-data-table>

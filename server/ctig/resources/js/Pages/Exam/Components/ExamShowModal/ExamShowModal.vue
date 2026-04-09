@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import BaseDialog from '../../../../Components/BaseDialog/BaseDialog.vue';
 import ExamActionsDropdown from './ExamActionsDropdown.vue';
-import ForeignNationalsTable from './ForeignNationalsTable.vue';
+import EnrollmentsTable from './EnrollmentsTable.vue';
 import { onMounted, ref } from 'vue';
 import { Exam } from '../../../../interfaces/interfaces';
 import { useHttp } from '@inertiajs/vue3';
@@ -113,7 +113,7 @@ onMounted( async () => {
             </v-list>
             <v-list>
                 <v-list-item  v-if="exam?.foreignNationals?.length">
-                    <ForeignNationalsTable :foreignNationals="exam.foreignNationals ?? []" :exam="exam" />
+                    <EnrollmentsTable :exam="exam" />
                 </v-list-item>
                 <v-list-item  v-else class="text-center">
                     <v-list-item-subtitle>Запись пуста</v-list-item-subtitle>

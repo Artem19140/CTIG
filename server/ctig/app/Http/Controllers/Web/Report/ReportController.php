@@ -46,7 +46,7 @@ class ReportController extends Controller
     public function available(FrdoReportRequest $request, CheckAvailableFrdoGenerateAction $checkAvailableGenerate){
         $checkAvailableGenerate->execute($request->input('examDate'));
         return Inertia::flash([
-            'url' => route('reports.frdo', [
+            'redirectUrl' => route('reports.frdo', [
                 'examDate' => $request->validated('examDate'),
                 'success' => $request->validated('success')
             ])

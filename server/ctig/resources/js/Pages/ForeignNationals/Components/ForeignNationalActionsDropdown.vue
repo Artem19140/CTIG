@@ -12,6 +12,10 @@ const {open} = useModals()
 const props = defineProps<{
     foreignNational:ForeignNational | null
 }>()
+
+const emit = defineEmits<{
+    (e:'edit', value: ForeignNational):void
+}>()
 const isOpen = ref<boolean>(false)
 
 const destroy = async () => {
@@ -23,6 +27,7 @@ const destroy = async () => {
         return
     }
 }
+
 </script>
 
 <template>
@@ -33,7 +38,7 @@ const destroy = async () => {
         />
         <AppListDropDownItem 
             title="Редактировать"
-            @click="open('foreignNationalEdit', {foreignNational})"
+            @click="open('foreignNationalEdit', {foreignNational, onEdit:(foreignNational : ForeignNational)=>emit('edit', foreignNational)})"
         />
         <AppListDropDownItem 
             title="Удалить"

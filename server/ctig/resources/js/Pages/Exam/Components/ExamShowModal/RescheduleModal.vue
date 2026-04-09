@@ -2,14 +2,15 @@
 import { router, useForm, useHttp } from '@inertiajs/vue3';
 import BaseDialog from '../../../../Components/BaseDialog/BaseDialog.vue';
 import PrimaryButton from '../../../../Components/PrimaryButton/PrimaryButton.vue';
-import {  onMounted, ref } from 'vue';
-import { Exam } from '../../../../interfaces/interfaces';
+import {  EmitFn, onMounted, ref } from 'vue';
+import { Enrollment, Exam } from '../../../../interfaces/interfaces';
 import AppAutocomplete from '../../../../Components/AppAutocomplete/AppAutocomplete.vue';
 
 
 const props = defineProps<{
-    enrollment:any,
-    examTypeId:number
+    enrollment:Enrollment,
+    examTypeId:number,
+    onRechedule: () => void
 }>()
 
 const isOpen = defineModel<boolean>({default:false})
@@ -18,11 +19,12 @@ const form = useForm({
     toExamId:null
 })
 
-const transfer = () => {
-    router.post(`/enrollments/${props.enrollment.id}/reschedule`,{},{
+const rechedule = () => {
+    form.post(`/enrollments/${props.enrollment.id}/reschedule`,{
         onSuccess:(page :any) =>{
-            if(page.flash.success){
+            if(page.flash.redirectUrl){
                 window.open(page.flash.redirectUrl)
+                props.onRechedule()
                 form.resetAndClearErrors()
                 isOpen.value=false
             }
@@ -62,7 +64,7 @@ onMounted(() => {
                 :loading="form.processing"
                 :disabled="!form.toExamId"
                 text="Перенести"
-                @click="transfer"
+                @click="rechedule"
             />
         </template>
     </BaseDialog>

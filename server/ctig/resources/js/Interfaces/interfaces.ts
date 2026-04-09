@@ -63,6 +63,7 @@ export interface ForeignNational{
     dateBirth:string,
     attempts?:Array<Attempt> | null,
     fullName?:string,
+    fullNameLatin?:string,
     fullPassport?:string,
     isLoading?: boolean,
     passportTranslateScan?:string | null,

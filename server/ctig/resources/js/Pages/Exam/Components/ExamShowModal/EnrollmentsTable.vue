@@ -1,14 +1,17 @@
 <script setup lang="ts">
 
-import { Exam, ForeignNational } from '../../../../interfaces/interfaces';
+import { Enrollment, Exam} from '../../../../interfaces/interfaces';
 import { useModals } from '../../../../Composables/useModals';
 import { attemptResultStatus } from '../../../../Helpers/heplers';
 import AppStatusChip from '../../../../Components/AppStatusChip/AppStatusChip.vue';
 import EnrollmetsTableDropdown from './EnrollmetsTableDropdown.vue';
+import { ref } from 'vue';
 
 const props = defineProps<{
     exam: Exam
 }>()
+
+const enrollments = ref<Enrollment[]>(props.exam.enrollments)
 
 function foreignNationalShowModal(event:Event, {item}: any) {
     const {open} = useModals()
@@ -25,11 +28,19 @@ const headers = [
 props.exam.enrollments.forEach(fn => {
     if (fn.isLoading === undefined) fn.isLoading = false
 })
+
+const cancell = (value : Enrollment) => {
+    enrollments.value = enrollments.value.filter(e => e.id !== value.id)
+}
+
+const reschedule = (value : Enrollment) => {
+    enrollments.value = enrollments.value.filter(e => e.id !== value.id)
+}
 </script>
 
 <template>
     <v-data-table 
-        :items="exam.enrollments"
+        :items="enrollments"
         hide-default-footer
         :headers="headers"
         fixed-header
@@ -47,6 +58,8 @@ props.exam.enrollments.forEach(fn => {
                 :enrollment="item"
                 :exam="exam"
                 :loading="item"
+                @cancell="cancell"
+                @reschedule="reschedule"
             />
         </template>
         <template #item.results="{ item }">

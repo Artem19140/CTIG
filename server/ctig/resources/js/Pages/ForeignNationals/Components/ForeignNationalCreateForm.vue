@@ -237,19 +237,19 @@ const edit = props.mode === 'edit'
             <v-container fluid>
                 <v-row density="comfortable">
                     <AppFileInput 
-                        label="Скан перевода паспорта PDF"
-                        v-model="form.passportTranslateScan"
-                        clearable
-                        accept=".pdf,application/pdf"
-                        :error-messages="form.errors.passportTranslateScan"
-                    />
-
-                    <AppFileInput 
                         label="Скан паспорта PDF"
                         clearable
                         v-model="form.passportScan"
                         accept=".pdf,application/pdf"
                         :error-messages="form.errors.passportScan"
+                    />
+
+                    <AppFileInput 
+                        label="Скан перевода паспорта PDF"
+                        v-model="form.passportTranslateScan"
+                        clearable
+                        accept=".pdf,application/pdf"
+                        :error-messages="form.errors.passportTranslateScan"
                     />
                     
                 </v-row>

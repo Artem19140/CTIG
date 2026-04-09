@@ -20,8 +20,6 @@ class RescheduleEnrollmentActon{
     public function execute(Enrollment $enrollment, int $toExamId, User $user):Enrollment{
         $toExam = Exam::find($toExamId);
         $foreignNational = ForeignNational::find($enrollment->foreign_national_id);
-        // $this->enrollmentGuard->ensureExists($fromExam, $foreignNational, 'Запись не существует, чтобы ее перенести');
-        // $this->enrollmentGuard->ensureNotExists($toExam, $foreignNational, 'Запись на другом экзамене уже существует, перенос невозможен');
         
         $this->enrollmentGuard->ensureHasSeats($toExam, 'Нельзя перенести запись на экзамен, на котором полная запись');
         $this->enrollmentGuard->ensureNoParallelEnrollments($foreignNational, $toExam);

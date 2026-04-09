@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Web\ForeignNational;
 
-use App\Domain\ForeignNational\Action\CreateForeignNationalStatementAction;
 use App\Domain\ForeignNational\Action\CreateForeignNationalWithEnrollmentAction;
 use App\Domain\ForeignNational\Action\UpdateForeignNationalAction;
 use App\Domain\ForeignNational\Query\GetForeignNationalsQuery;
 use App\Http\Requests\ForeignNational\ForeignNationalIndexRequest;
 use App\Http\Requests\ForeignNational\ForeignNationalPostRequest;
 use App\Http\Requests\ForeignNational\ForeignNationalUpdateRequest;
+use App\Http\Resources\ForeignNational\ForeignNationalProfileResource;
 use App\Models\ForeignNational;
 use App\Http\Resources\ForeignNational\ForeignNationalResource;
 use Illuminate\Http\Request;
@@ -30,40 +30,23 @@ class ForeignNationalController
                             CreateForeignNationalWithEnrollmentAction $createForeignNationalWithExamEnrollment
                         ){
 
-        $foreignNational = $createForeignNationalWithExamEnrollment
+        $enrollement = $createForeignNationalWithExamEnrollment
                 ->execute(
                             $request->validated(),
                             $request->validated('examId'),
                             $request->user()
                         );
-        Inertia::flash([
-            'success' => 'ИГ создан',
-            'foreignNationalId' => $foreignNational->id,
-            'redirectUrl' => route('foreign-nationals.application-forms', [
-                'foreignNational' =>$foreignNational->id,
-                'examId' => $request->validated('examId'),
-            ])
-        ]);
-        return back();
+        return Inertia::flash([
+            'redirectUrl' => route('enrollments.statements', ['enrollment' => $enrollement])
+        ])->back();
     }
-
-    public function getApplicationForm (
-                                        Request $request, 
-                                        ForeignNational $foreignNational, 
-                                        CreateForeignNationalStatementAction $createForeignNationalStatement
-                                    ){
-        $request->validate(['examId' => ['required', 'integer', 'exists:exams,id']]);
-        $applicationFormPdf = $createForeignNationalStatement->execute($request->input('examId'), $foreignNational, $request->user());
-        return $applicationFormPdf->stream('exam.pdf');
-    }
-
     public function show(ForeignNational $foreignNational){
         $foreignNational->load(['exams' => ['attempts' => function ($query) use($foreignNational): void{
             $query->where('foreign_national_id', $foreignNational->id);
             },
             'examType']
         ]);
-        return new ForeignNationalResource($foreignNational);
+        return new ForeignNationalProfileResource($foreignNational);
     }
 
     public function update(
@@ -72,8 +55,11 @@ class ForeignNationalController
                             UpdateForeignNationalAction $updateForeignNational
                         )
     {   
-        $updateForeignNational->execute($request->validated(), $foreignNational);
-        return Inertia::flash('success', 'Данные обновлены')->back();
+        $updatedForeignNational = $updateForeignNational->execute($request->validated(), $foreignNational);
+        return Inertia::flash([
+            'foreignNational' => new ForeignNationalProfileResource($updatedForeignNational),
+            'success' => 'Данные обновлены'
+        ])->back();
     }
 
     public function destroy(ForeignNational $foreignNational)

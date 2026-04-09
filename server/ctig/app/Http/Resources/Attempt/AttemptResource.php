@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Attempt;
 
-use App\Http\Resources\Exam\ExamResource;
 use App\Http\Resources\ForeignNational\ForeignNationalResource;
 use App\Http\Resources\AttemptAnswer\AttemptAnswerResource;
 use Illuminate\Http\Request;

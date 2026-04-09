@@ -34,6 +34,9 @@ const showDocument = (url :string) => {
     if(!url) return
     window.open(`/files?path=${url}`)
 }
+const edit = (value:ForeignNational) => {
+    foreignNational.value = value
+}
 </script>
 
 <template>
@@ -51,12 +54,13 @@ const showDocument = (url :string) => {
         <template #titleActions>
             <ForeignNationalActionsDropdown 
                 :foreignNational="foreignNational"
+                @edit="edit"
             />
         </template>
 
         <v-card-text>
-            <div class="text-headline-small">{{`${foreignNational?.surname} ${foreignNational?.name} ${foreignNational?.patronymic ?? ''} `}}</div>
-            <div class="text-subtitle-1">{{`${foreignNational?.surnameLatin} ${foreignNational?.nameLatin} ${foreignNational?.patronymicLatin ?? ''}`}}</div>
+            <div class="text-headline-small">{{foreignNational?.fullName }}</div>
+            <div class="text-subtitle-1">{{foreignNational?.fullNameLatin}}</div>
             <div class="text-subtitle-2">{{new DateFormatter(foreignNational?.dateBirth ?? '').format('d.m.Y')}}</div> 
         </v-card-text>
 

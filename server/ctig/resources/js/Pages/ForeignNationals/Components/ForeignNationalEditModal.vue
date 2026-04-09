@@ -9,7 +9,8 @@ import { DateFormatter } from '../../../Helpers/DateFormatter';
 
 
 const props = defineProps<{
-    foreignNational: ForeignNational 
+    foreignNational: ForeignNational,
+    onEdit: (foreignNational:ForeignNational) => void
 }>()
 
 const isOpen = defineModel<boolean>({default:false})
@@ -32,14 +33,17 @@ const form = useForm<ForeignNational>({
     dateBirth: new DateFormatter(props.foreignNational?.dateBirth).format('Y-m-d') ?? '',
     gender: props.foreignNational?.gender,
     comment: props.foreignNational?.comment,
-    passportTranslateScan:props.foreignNational?.passportTranslateScan,
-    passportScan:props.foreignNational?.passportScan,
+    passportTranslateScan:null,
+    passportScan:null,
 })
 
 const edit = () => {
     form.put(`foreign-nationals/${props.foreignNational.id}`,{
         onSuccess:(page) => {
-            
+            if(page.flash.foreignNational){
+                props.onEdit(page.flash.foreignNational)
+                isOpen.value=false
+            }
         }
     })
 }

@@ -16,7 +16,6 @@ const isOpen = defineModel<boolean>()
 
 const enroll = async () => {
     const {open} = useAlert()
-    console.log(examId.value)
     if(examId.value === null){
         open('Выберите время экзамена')
         return
@@ -30,6 +29,7 @@ const enroll = async () => {
             if(page.flash.redirectUrl){
                 window.open(String(page.flash.redirectUrl))
                 isOpen.value=false
+                //emit push  в exams или куда там
                 form.resetAndClearErrors()
             }
         }

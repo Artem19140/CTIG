@@ -55,13 +55,13 @@ const create = () => {
     preserveScroll: true,
     preserveState: true,
     onSuccess: (page) => {
-        const foreignNationalId = page.flash?.foreignNationalId
-        if(!page.flash?.redirectUrl || !foreignNationalId) return
-        examTypeId.value = null
-        exams.value = undefined
-        form.resetAndClearErrors()
-        window.open(String(page.flash?.redirectUrl))
-        isOpen.value=false
+        if(page.flash?.redirectUrl){
+            examTypeId.value = null
+            exams.value = undefined
+            form.resetAndClearErrors()
+            window.open(String(page.flash?.redirectUrl))
+            isOpen.value=false
+        }
     }
     })
 }

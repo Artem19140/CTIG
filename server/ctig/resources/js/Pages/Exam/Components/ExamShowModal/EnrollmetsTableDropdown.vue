@@ -2,7 +2,7 @@
 import ThreeDotDropdown from '../../../../Components/ThreeDotDropdown/ThreeDotDropdown.vue';
 import AppListDropDownItem from '../../../../Components/AppListDropDownItem/AppListDropDownItem.vue';
 import { useConfirmDialog } from '../../../../Composables/useConfirmDialog';
-import { router, useHttp } from '@inertiajs/vue3';
+import { router, useForm } from '@inertiajs/vue3';
 import { useModals } from '../../../../Composables/useModals';
 import { Enrollment, Exam } from '../../../../interfaces/interfaces';
 
@@ -10,6 +10,12 @@ const props = defineProps<{
     enrollment:Enrollment,
     exam:Exam
 }>()
+
+const emit = defineEmits<{
+    (e:'cancell', value:Enrollment):void,
+    (e:'reschedule', value:Enrollment):void
+}>()
+
 const {confirmOpen} = useConfirmDialog()
 
 const download = () => {
@@ -18,7 +24,11 @@ const download = () => {
 
 const reschedule = () => {
     const {open} = useModals()
-    open('reschedule', {enrollment:props.enrollment, examTypeId:props.exam.examTypeId})
+    open('reschedule', {
+                            enrollment:props.enrollment, 
+                            examTypeId:props.exam.examTypeId,
+                            onRechedule: () => emit('reschedule', props.enrollment)
+                        })
 }
 
 
@@ -27,14 +37,16 @@ const cancell = async () => {
     if(!ok){
         return
     }
-    router.delete(`enrollments/${props.enrollment.id}`,{
+    const form = useForm()
+    form.delete(`enrollments/${props.enrollment.id}`,{
         onSuccess: (page) =>{
-            const success = page.flash.success
-            if(!success) return
+            console.log(page.flash.success)
+            if(page.flash.success){
+                emit('cancell', props.enrollment)
+            }
         }
     })
 }
-// const http = useHttp()
 const changePayment = async () => {
     const action = props.enrollment.hasPayment ?  'Отменить' : 'Подтвердить'
     const ok = await confirmOpen(`${action} оплату ${props.enrollment.foreignNational.fullName}`)

@@ -10,13 +10,14 @@ final class UpdateForeignNationalAction{
     public function __construct(
         protected ForeignNationalGuard $foreignNationalGuard
     ){}
-    public function execute(array $data, ForeignNational $foreignNational){
+    public function execute(array $data, ForeignNational $foreignNational):ForeignNational{
         $this->foreignNationalGuard->ensureAge($data['dateBirth']);
         $this->foreignNationalGuard->ensureUniquePassport($data, $foreignNational->id);
         $foreignNational->update(
             $this->attributes($data)
         );
         $foreignNational->save();
+        return $foreignNational;
     }
     protected function attributes(array $data):array{
         return array_merge([

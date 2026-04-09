@@ -24,23 +24,18 @@ class EnrollmentController
                             CreateEnrollmentAction $createEnrollment,
                         ){ 
 
-        $foreignNational = $createEnrollment->execute($exam, $request->validated('foreignNationalId'), $request->user(), $request->validated('hasPayment')); 
-
-        Inertia::flash([
-            'success' => 'Запись успешно создана',
-            'redirectUrl' => route('foreign-nationals.application-forms', [
-                'foreignNational' =>$foreignNational->id,
-                'examId' => $exam->id,
-            ])
-        ]);
-        return back();
+        $enrollment = $createEnrollment->execute($exam, $request->validated('foreignNationalId'), $request->user(), $request->validated('hasPayment')); 
+        return Inertia::flash([
+            'redirectUrl' => route('enrollments.statements', ['enrollment' => $enrollment])
+        ])->back();
     }
 
     public function destroy(Enrollment $enrollment, CancellEnrollmentAction $cancellErollment)
     {
-        //echo $enrollment;die;
         $cancellErollment->execute($enrollment);
-        return back()->with('success','Запись отменена');
+        return Inertia::flash([
+            'success' => 'Запись отменена'
+        ])->back();
     }
 
     public function reschedule(
@@ -56,7 +51,7 @@ class EnrollmentController
         
         return Inertia::flash([
             'redirectUrl' => route('enrollments.statements', ['enrollment' => $newEnrollment])
-        ]);
+        ])->back();
     }
     public function changePayment(
                                     Enrollment $enrollment,

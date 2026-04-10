@@ -45,9 +45,11 @@ final class UpdateForeignNationalAction{
     protected function files(array $data):array{
         $files = [];
         if($data['passportScan'] ?? false){
+            //удалить старые файлы
             $files['passport_scan'] = Storage::putFile('avatars', $data['passportScan']);
         }
         if($data['passportTranslateScan'] ?? false){
+            //удалить старые файлы
             $files['passport_translate_scan'] = Storage::putFile('avatars', $data['passportTranslateScan']);
         }
         return  $files;

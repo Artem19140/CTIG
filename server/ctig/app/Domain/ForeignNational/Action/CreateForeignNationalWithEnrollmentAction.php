@@ -20,7 +20,7 @@ class CreateForeignNationalWithEnrollmentAction{
             $foreignNational = $this->storeForeignNational->execute($foreignNationalData, $user->id);
             $exam = Exam::find($examId);
             return $this->createEnrollment->execute($exam, $foreignNational->id, $user, $foreignNationalData['hasPayment'] );
-        });//Удалить файлы загруженные при исключении?
+        });//Удалить файлы загруженные при исключении
         return $enrollent;
 
     }

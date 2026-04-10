@@ -23,8 +23,6 @@ return new class extends Migration
             $table->unique(['passport_series', 'passport_number', 'citizenship']);
             $table->string('issued_by');
             $table->date('issued_date');
-            $table->string('address_reg');
-            $table->string('migration_card_requisite')->nullable()->default(null);
             $table->char('citizenship', 2);
             $table->string('phone', 12);
             $table->char('gender', 1);

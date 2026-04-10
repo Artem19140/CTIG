@@ -180,39 +180,6 @@ const edit = props.mode === 'edit'
                             type="date"
                         /> 
                     </v-col>
-
-                        <v-col cols="12" class="subtitle">
-                            Миграционная карта
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                            <AppInput  
-                                label="Реквизиты миграционной карты"
-                                v-model="form.migrationCardRequisite"
-                                :error-messages="form.errors.migrationCardRequisite"
-                                :disabled="form.noMigrationCard"
-                            /> 
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                            <v-checkbox
-                                v-if="!edit"
-                                v-model="form.noMigrationCard" 
-                                label="Нет миграционной карты"
-                                :error-messages="form.errors.noMigrationCard"
-                                
-                            ></v-checkbox>
-                        </v-col>
-                        <v-col cols="12" class="subtitle">
-                            Адрес регистрации
-                        </v-col>
-
-                    
-                        <AppInput  
-                            label="Адрес регистрации"
-                            v-model="form.addressReg"
-                            :error-messages="form.errors.addressReg"
-                        /> 
                         <v-col cols="12" md="6"></v-col>
                         <v-col cols="12"  class="subtitle">
                             Контакты    

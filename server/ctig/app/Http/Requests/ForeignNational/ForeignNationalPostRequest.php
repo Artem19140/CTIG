@@ -108,22 +108,6 @@ class ForeignNationalPostRequest extends FormRequest
                     'required',
                     'date'
                 ],
-            'addressReg' =>
-                [
-                    'required',
-                    'string'
-                ],
-            'migrationCardRequisite' =>
-                [
-                    'prohibited_if_accepted:noMigrationCard',
-                    'required_if_declined:noMigrationCard',
-                    'nullable',
-                    'string'
-                ],
-            'noMigrationCard'=>[
-                    'required',
-                    'boolean'
-                ],
             'citizenship' =>
                 [
                     'required',
@@ -162,10 +146,6 @@ class ForeignNationalPostRequest extends FormRequest
             'passportScan' => [
                     'required', 
                     File::types(['pdf'])->max(4096)
-                ],
-            'photoScan' => [
-                    'nullable', 
-                    File::types(['pdf'])->max(4096) 
                 ],
         ];
     }

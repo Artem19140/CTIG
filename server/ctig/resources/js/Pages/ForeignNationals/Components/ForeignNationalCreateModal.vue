@@ -29,17 +29,13 @@ const form = useForm<IForeignNationalCreateForm>({
     noPassportSeries:false,
     issuedBy:'МВД по УР',
     issuedDate:'2025-10-10',
-    migrationCardRequisite:"MC234245234",
     citizenship:'UZ',
     phone:'89346573385',
-    addressReg:'Ижевск, Пушкинская 131',
     dateBirth:'2005-10-10',
-    noMigrationCard:false,
     passportScan:null,
     passportTranslateScan:null,
     examId:null,
     gender:null,
-    photo:null,
     hasPayment:false,
     comment:''
 })
@@ -97,12 +93,6 @@ watch(() => form.noPassportNumber, (val) => {
 watch(() => form.noPassportSeries, (val) => {
     if (val){
         form.passportSeries = ''
-    } 
-})
-
-watch(() => form.noMigrationCard, (val) => {
-    if (val){
-        form.migrationCardRequisite = ''
     } 
 })
 

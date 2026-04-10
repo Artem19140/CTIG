@@ -27,8 +27,6 @@ class ForeignNational extends Authenticatable {
         'passport_series',
         'issued_by',
         'issued_date',
-        'address_reg',
-        'migration_card_requisite',
         'citizenship',
         'phone',
         'creator_id',

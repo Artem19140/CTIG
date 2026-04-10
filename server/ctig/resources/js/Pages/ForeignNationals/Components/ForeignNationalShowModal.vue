@@ -58,7 +58,7 @@ const edit = (value:ForeignNational) => {
             />
         </template>
 
-        <v-card-text>
+        <v-card-text class="ml-4">
             <div class="text-headline-small">{{foreignNational?.fullName }}</div>
             <div class="text-subtitle-1">{{foreignNational?.fullNameLatin}}</div>
             <div class="text-subtitle-2">{{new DateFormatter(foreignNational?.dateBirth ?? '').format('d.m.Y')}}</div> 
@@ -72,14 +72,6 @@ const edit = (value:ForeignNational) => {
                     <v-list-item-subtitle>Паспорт</v-list-item-subtitle>
                     <v-list-item-title>{{`${foreignNational?.fullPassport ?? ''}, выдан ${new DateFormatter(foreignNational?.issuedDate ?? '').format('d.m.Y')} (${foreignNational?.issuedBy ?? ''})`}}</v-list-item-title>
                 </v-list-item>
-                <v-list-item>  
-                    <v-list-item-subtitle>Миграционная карта</v-list-item-subtitle>
-                    <v-list-item-title>{{foreignNational?.migrationCardRequisite ?? ''}}</v-list-item-title>
-                </v-list-item>
-                <v-list-item>  
-                    <v-list-item-subtitle>Адрес регистрации</v-list-item-subtitle>
-                    <v-list-item-title>{{foreignNational?.addressReg ?? ''}}</v-list-item-title>
-                </v-list-item>
                 <v-list-item>
                     <v-list-item-subtitle>Номер телефона</v-list-item-subtitle>
                     <v-list-item-title>{{foreignNational?.phone ?? ''}}</v-list-item-title>
@@ -89,7 +81,7 @@ const edit = (value:ForeignNational) => {
 
         <v-divider></v-divider>
 
-        <v-card-text>
+        <v-card-text class="ml-4">
             <v-row comfortable>
                 <v-col cols="6" class="">
                     <v-list-item-subtitle>Паспорт</v-list-item-subtitle>

@@ -98,18 +98,6 @@ class ForeignNationalUpdateRequest extends FormRequest
                     'required',
                     'date'
                 ],
-            'addressReg' =>
-                [
-                    'required',
-                    'string'
-                ],
-            'migrationCardRequisite' =>
-                [
-                    'prohibited_if_accepted:noMigrationCard',
-                    'required_if_declined:noMigrationCard',
-                    'required',
-                    'string'
-                ],
 
             'citizenship' =>
                 [

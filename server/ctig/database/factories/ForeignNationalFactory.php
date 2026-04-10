@@ -31,8 +31,6 @@ class ForeignNationalFactory extends Factory
             'passport_series' => fake()->unique()->bothify('?????'),
             'issued_by' => 'МВД РФ №' . fake()->numerify('####'),
             'issued_date' => fake()->date('Y-m-d', '-10 years'),
-            'address_reg' => fake()->streetAddress,
-            'migration_card_requisite' => fake()->bothify('MC########'),
             'citizenship' => fake()->randomElement(['UZ','KZ', 'AZ', 'US', 'UK']),
             'phone' => fake()->numerify('+7##########'),
             'creator_id' => User::factory(),

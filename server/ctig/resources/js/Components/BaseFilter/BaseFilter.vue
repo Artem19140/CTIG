@@ -24,11 +24,10 @@ const filledCount = computed(() => {
 })
 
 const find = () => {
-    console.log(props.form)
     props.form.get(props.url, {
         preserveState: true,
-        preserveScroll: true
-    })
+        preserveScroll: true,
+    },)
 }
 
 const clean = () => {

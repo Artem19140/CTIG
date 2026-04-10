@@ -50,10 +50,8 @@ export interface ForeignNational{
     patronymicLatin:string | undefined,
     passportNumber:string | undefined,
     passportSeries:string | undefined,
-    migrationCardRequisite:string | undefined,
     issuedBy:string,
     issuedDate:string,
-    addressReg:string,
     phone:string,
     creator?:User | null,
     exams?:Array<Exam> | null,
@@ -73,16 +71,14 @@ export interface ForeignNational{
 
 export type IForeignNationalCreateForm = Omit<
   ForeignNational,
-  'id' | 'creator' | 'exams' | 'createdAt' | 'passportScan'  | 'attempts' | 'exam' | 'fullName' | 'fullPassport' | 'photoPath' 
+  'id' | 'creator' | 'exams' | 'createdAt' | 'passportScan'  | 'attempts' | 'exam' | 'fullName' | 'fullPassport'  
        |'passportTranslateScanPath' | 'passportScanPath'
 > & {
   passportScan: File | null
   passportTranslateScan: File | null
-  photo:File | null
   noPassportNumber: boolean
   noPassportSeries: boolean
   noPatronymic: boolean
-  noMigrationCard: boolean
   
   hasPayment:boolean
   examId: number | null

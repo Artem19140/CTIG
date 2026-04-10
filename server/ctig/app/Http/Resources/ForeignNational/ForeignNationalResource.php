@@ -17,7 +17,6 @@ class ForeignNationalResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $profile = $request->boolean('profile');
         return [
             'id' => $this->resource->id,
             'surname' => $this->resource->surname,

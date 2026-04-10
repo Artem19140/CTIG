@@ -18,14 +18,14 @@ class GetExamsQuery{
         $perPage = $data['perPage'] ?? 10;
         return Exam::with(['examType'])
             ->withCount('foreignNationals')
-            ->when($examTypeId, function (Builder $query, int $examTypeId) {
+            ->when($examTypeId, function (Builder $query,) use($examTypeId){
                 $query->where('exam_type_id', $examTypeId);
             })
-            ->when($dateFrom, function (Builder $query, string $dateFrom){
+            ->when($dateFrom, function (Builder $query)use($dateFrom){
                 $begin= Carbon::parse($dateFrom)->startOfDay();
                 $query->where('begin_time', '>=',$begin);
             })
-            ->when($dateTo, function (Builder $query, string $dateTo){
+            ->when($dateTo, function (Builder $query)use( $dateTo){
                 $end= Carbon::parse($dateTo)->endOfDay();
                 $query->where('begin_time', '<=',$end);
             })
@@ -35,8 +35,12 @@ class GetExamsQuery{
             ->when($completed, function (Builder $query){
                 $query->where('end_time', '<=', Carbon::now());
             })
+            ->when(!$dateFrom && !$dateTo, function (Builder $query){
+                $begin= Carbon::now()->startOfDay();
+                $query->where('begin_time_utc', '>=',$begin);
+            })
             ->where('is_cancelled', $cancelled)
-            ->latest('begin_time')
+            ->oldest('begin_time')
             ->paginate($perPage);
     }
 }

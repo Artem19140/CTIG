@@ -6,7 +6,6 @@ import ForeignNationalTableFilters from './ForeignNationalTableFilters.vue';
 import { useForm } from '@inertiajs/vue3';
 import { useModals } from '../../../Composables/useModals';
 import AddButton from '../../../Components/AddButton/AddButton.vue';
-import { DateFormatter } from '../../../Helpers/DateFormatter';
 const {open} = useModals()
 
 function foreignNationalShowModal(item : any) {
@@ -22,7 +21,6 @@ const headers = [
     {title : "ID",sortable: false, key: 'id', align: 'center' },
     {title : "ФИО",sortable: false, key: 'fullName', align: 'center' },
     {title : "Паспорт",sortable: false, key: 'fullPassport', align: 'center' },
-    {title : "Дата рождения",sortable: false, key: 'dateBirth', align: 'center' }
 ]
 
 const formFilters = useForm({
@@ -56,9 +54,5 @@ const formFilters = useForm({
             />
             <ForeignNationalCreateModal />
         </template>
-        <template #item.dateBirth="{ item }">
-            {{ new DateFormatter(item.dateBirth).format('d.m.Y') }}
-        </template>
-
     </BaseServerTable>
 </template>

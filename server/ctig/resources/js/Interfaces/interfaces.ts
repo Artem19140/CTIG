@@ -37,7 +37,8 @@ export interface User{
     name:string,
     surname:string,
     patronymic:string,
-    email:string
+    email:string, 
+    fullName:string
 }
 
 export interface ForeignNational{

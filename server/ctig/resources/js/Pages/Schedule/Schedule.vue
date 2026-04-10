@@ -82,7 +82,6 @@ const addExam = (nativeEvent : Event, { date } : any) => {
         variant="text"
         icon
         :disabled="loading"
-        :loading="loading"
         @click="prev"
       >
         <v-icon>mdi-chevron-left</v-icon>
@@ -116,14 +115,14 @@ const addExam = (nativeEvent : Event, { date } : any) => {
         variant="text"
         icon
         @click="next"
-        :loading="loading"
         :disabled="loading"
       >
         <v-icon>mdi-chevron-right</v-icon>
       </v-btn>
     </v-sheet>
+    <!-- event-name = 'shortName' -->
       <v-calendar
-        event-name = 'shortName'
+        
         v-model="focus"
         color="primary"
         ref="calendar"

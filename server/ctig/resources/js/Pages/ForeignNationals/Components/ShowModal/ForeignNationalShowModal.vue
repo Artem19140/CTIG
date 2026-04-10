@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
-import ForeignNationalExamsList from './ForeignNationalExamsList.vue';
-import ForeignNationalActionsDropdown from './ForeignNationalActionsDropdown.vue';
+import BaseDialog from '../../../../Components/BaseDialog/BaseDialog.vue';
+import ForeignNationalExamsList from '../ForeignNationalExamsList.vue';
+import ForeignNationalActionsDropdown from '../ForeignNationalActionsDropdown.vue';
 import { onMounted, ref } from 'vue';
-import type { ForeignNational } from '../../../interfaces/interfaces';
+import type { ForeignNational } from '../../../../interfaces/interfaces';
 import { useHttp } from '@inertiajs/vue3'
-import { DateFormatter } from '../../../Helpers/DateFormatter';
+import { DateFormatter } from '../../../../Helpers/DateFormatter';
 
 const props = defineProps<{
     foreignNationalId?:number

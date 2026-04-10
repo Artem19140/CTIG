@@ -28,7 +28,7 @@ class ExamMonitoringController
                 $query->where('end_time', '>', now($request->user()->center->time_zone)->subMinutes(30));
             })
             ->where('is_cancelled', false)
-            ->latest('begin_time_utc')
+            ->oldest('begin_time_utc')
             ->paginate(10);
         return Inertia::render('ExamMonitoring/ExamMonitoringList', [
             'exams' => ExamResource::collection($exams),

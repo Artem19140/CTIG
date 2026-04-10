@@ -20,9 +20,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->group(function(){
     Route::apiResource('foreign-nationals', ForeignNationalController::class);
 
-    // Route::get('foreign-nationals/{foreignNational}/application-forms', [ForeignNationalController::class, "getApplicationForm"])
-    //         ->name('foreign-nationals.application-forms');
-
     Route::apiResource('enrollments', EnrollmentController::class);
     Route::prefix('enrollments')->group(function(){
         Route::post('{enrollment}/reschedule', [EnrollmentController::class, 'reschedule']);

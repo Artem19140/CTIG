@@ -74,6 +74,7 @@ const getPastExams = () =>{
                         width="120"
                         border
                         :loading="loading"
+                        :disabled="loading"
                         @click="getPastExams"
                     >
                         {{ past ? 'Текущие' : 'Прошедшие'}}

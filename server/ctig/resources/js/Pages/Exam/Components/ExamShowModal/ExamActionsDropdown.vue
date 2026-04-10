@@ -27,7 +27,7 @@ const cancelExam = async () => {
   }
   form.cancelledReason = res
   loadingSnackbar.open('Идет отмена')
-  form.delete(`exams/${props.exam?.id}`,{
+  form.delete(`/exams/${props.exam?.id}`,{
     onSuccess:(page)=>{
       loadingSnackbar.close()
       if(!props.exam) return

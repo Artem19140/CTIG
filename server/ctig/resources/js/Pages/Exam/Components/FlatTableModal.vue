@@ -3,7 +3,6 @@ import { ref } from 'vue';
 import AddButton from '../../../Components/AddButton/AddButton.vue';
 import AppInput from '../../../Components/AppInput/AppInput.vue';
 import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue'; 
-import { downloadFile } from '../../../Helpers/heplers';
 import { useHttp } from '@inertiajs/vue3';
 
 const isOpen = defineModel<boolean>({default:false})

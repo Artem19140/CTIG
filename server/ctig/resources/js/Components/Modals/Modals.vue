@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useModals } from '../../Composables/useModals';
-import ForeignNationalShowModal from '../../Pages/ForeignNationals/Components/ForeignNationalShowModal.vue';
 import ExamShowModal from '../../Pages/Exam/Components/ExamShowModal/ExamShowModal.vue';
 import ExamCreateModal from '../../Pages/Exam/Components/ExamCreateModal.vue';
 import FrdoModal from '../../Pages/Exam/Components/FrdoModal.vue';
@@ -14,6 +13,7 @@ import EmployeeCreateModal from '../../Pages/Employees/EmployeeCreateModal.vue';
 import RescheduleModal from '../../Pages/Exam/Components/ExamShowModal/RescheduleModal.vue';
 import ForeignNationalEditModal from '../../Pages/ForeignNationals/Components/ForeignNationalEditModal.vue';
 import ExamEditModal from '../../Pages/Exam/Components/ExamEditModal.vue';
+import ForeignNationalShowModal from '../../Pages/ForeignNationals/Components/ShowModal/ForeignNationalShowModal.vue';
 
 
 const {modals, close} = useModals()

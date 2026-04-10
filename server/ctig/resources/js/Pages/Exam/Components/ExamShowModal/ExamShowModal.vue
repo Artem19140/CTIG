@@ -2,7 +2,7 @@
 import BaseDialog from '../../../../Components/BaseDialog/BaseDialog.vue';
 import ExamActionsDropdown from './ExamActionsDropdown.vue';
 import EnrollmentsTable from './EnrollmentsTable.vue';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { Exam } from '../../../../interfaces/interfaces';
 import { useHttp } from '@inertiajs/vue3';
 import { capacityColor } from '../../../../Helpers/heplers';
@@ -20,9 +20,9 @@ const exam = ref<Exam |null>(null)
 
 const isOpen = defineModel<boolean>({default:false})
 
-const examinersList = (examinersList :Array<any>) => {
-    return examinersList.map(s => s.fullName).join(', ');
-}
+const examiners = computed(() =>{
+    return exam.value?.examiners.map(s => s.fullName).join(', ');
+})
 
 const getExam = async () => {
     http.get(`/exams/${props.examId}`,{
@@ -86,7 +86,7 @@ onMounted( async () => {
             </v-list-item>
             <v-list-item>
                 <v-list-item-subtitle>Экзаменаторы</v-list-item-subtitle>
-                <v-list-item-title style="white-space: normal; word-break: break-word;">{{examinersList(exam?.examiners ?? [])}}</v-list-item-title>
+                <v-list-item-title style="white-space: normal; word-break: break-word;">{{examiners}}</v-list-item-title>
             </v-list-item>
             <v-list-item>
                 <v-list-item-subtitle>Комментарий</v-list-item-subtitle>

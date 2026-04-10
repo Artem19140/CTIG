@@ -37,7 +37,7 @@ const { start, stop } = usePoll(10000, {
 
 onMounted(()=>{
     console.log(props.exam.data)
-    if(props.exam?.data?.isGoing && props.exam?.data?.foreignNationals?.length>0 && !props.exam?.data?.isCancelled){
+    if(props.exam.data.isGoing && props.exam.data.enrollments.length>0 && !props.exam.data.isCancelled){
         start()
     }
 })
@@ -64,7 +64,7 @@ const headers = [
 
 const {open} = useModals()
 const openForeignNational = (event : Event, {item} :any) => {
-    open('foreignNationalShow', {foreignNationalId:item.id})
+    open('foreignNationalShow', {foreignNationalId:item.foreignNational.id})
 }
 </script>
 

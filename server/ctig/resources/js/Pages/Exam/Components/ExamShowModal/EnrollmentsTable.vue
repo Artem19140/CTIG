@@ -15,7 +15,7 @@ const enrollments = ref<Enrollment[]>(props.exam.enrollments)
 
 function foreignNationalShowModal(event:Event, {item}: any) {
     const {open} = useModals()
-    open('foreignNationalShow', {foreignNationalId:item.id})  
+    open('foreignNationalShow', {foreignNationalId:item.foreignNational.id})  
 }
 
 const headers = [

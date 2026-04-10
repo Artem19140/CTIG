@@ -123,7 +123,7 @@ watch(() => form.noPassportSeries, (val) => {
                         ></v-checkbox>
                     </v-card-text>
                 </v-card>
-
+                
                 <ForeignNationalCreateForm :form="form" />
                 
             
@@ -133,6 +133,7 @@ watch(() => form.noPassportSeries, (val) => {
                 <AddButton text="Добавить" 
                     :disabled="form.processing"
                     :loading="form.processing"
+                    type="submit"
                     @click="create"
                 />
             </template>

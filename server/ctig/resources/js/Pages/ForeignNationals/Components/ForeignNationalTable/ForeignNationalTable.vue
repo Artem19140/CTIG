@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import ForeignNationalCreateModal from './ForeignNationalCreateModal.vue';
-import type { ForeignNational, Paginated } from '../../../interfaces/interfaces';
-import BaseServerTable from '../../../Components/BaseServerTable.vue';
+import ForeignNationalCreateModal from '../ForeignNationalCreateModal.vue';
+import type { ForeignNational, Paginated } from '../../../../interfaces/interfaces';
+import BaseServerTable from '../../../../Components/BaseServerTable.vue';
 import ForeignNationalTableFilters from './ForeignNationalTableFilters.vue';
 import { useForm } from '@inertiajs/vue3';
-import { useModals } from '../../../Composables/useModals';
-import AddButton from '../../../Components/AddButton/AddButton.vue';
+import { useModals } from '../../../../Composables/useModals';
+import AddButton from '../../../../Components/AddButton/AddButton.vue';
+import ForeignNationalTableDropdown from './ForeignNationalTableDropdown.vue';
 const {open} = useModals()
 
 function foreignNationalShowModal(item : any) {
@@ -52,7 +53,7 @@ const formFilters = useForm({
                 text="Добавить"
                 @click="open('foreignNationalCreate')"
             />
-            <ForeignNationalCreateModal />
+            <ForeignNationalTableDropdown />
         </template>
     </BaseServerTable>
 </template>

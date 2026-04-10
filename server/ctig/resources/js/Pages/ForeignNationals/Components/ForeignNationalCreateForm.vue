@@ -4,15 +4,21 @@ import AppAutocomplete from '../../../Components/AppAutocomplete/AppAutocomplete
 import AppInput from '../../../Components/AppInput/AppInput.vue';
 import AppFileInput from '../../../Components/AppFileInput/AppFileInput.vue';
 import AppTextarea from '../../../Components/AppTextarea/AppTextarea.vue';
+import { computed } from 'vue';
 const props = defineProps<{
     form: any,
     mode?:string
 }>()
 
-const edit = props.mode === 'edit'
+const edit = computed(() => props.mode === 'edit')
+const readonly = computed(() => props.form.processing)
+function required (v:any) {
+    return !!v || 'Поле обязательно'
+}
 </script>
 
 <template>
+    
     <v-card title="Персональные данные" class="mb-4">
         <v-card-text>
             <v-container fluid>
@@ -23,24 +29,31 @@ const edit = props.mode === 'edit'
 
                     <v-col cols="12" md="6">
                         <AppInput
+                            :required="true && !edit"
                             label="Фамилия на русском"
+                            :rules="[required]"
                             v-model="form.surname"
+                            :readonly="readonly"
                             :error-messages="form.errors.surname"
                         />
                     </v-col>
 
                     <v-col cols="12" md="6">
                         <AppInput 
-                    label="Имя на русском"
-                    v-model="form.name"
-                    :error-messages="form.errors.name"
+                        :required="true && !edit"
+                        label="Имя на русском"
+                        v-model="form.name"
+                        :readonly="readonly"
+                        :error-messages="form.errors.name"
                 />
                     </v-col>
 
                     <v-col cols="12" md="6">
                         <AppInput
                             label="Отчество на русском"
+                            :required="true && !form.noPatronymic && !edit"
                             v-model="form.patronymic"
+                            :readonly="readonly"
                             :error-messages="form.errors.patronymic"
                             :disabled="form.noPatronymic"
                         />
@@ -51,6 +64,7 @@ const edit = props.mode === 'edit'
                             v-if="!edit"
                             v-model="form.noPatronymic" 
                             label="Нет отчества"
+                            :readonly="readonly"
                             :error-messages="form.errors.noPatronymic"
                         ></v-checkbox>
                     </v-col>
@@ -64,7 +78,9 @@ const edit = props.mode === 'edit'
                     <v-col cols="12" md="6">
                         <AppInput  
                             label="Фамилия на латинице"
+                            :required="true && !edit"
                             v-model="form.surnameLatin"
+                            :readonly="readonly"
                             :error-messages="form.errors.surnameLatin"
                         />
                     </v-col>
@@ -72,7 +88,9 @@ const edit = props.mode === 'edit'
                     <v-col cols="12" md="6">
                         <AppInput  
                             label="Имя на латинице"
+                            :required="true && !edit"
                             v-model="form.nameLatin"
+                            :readonly="readonly"
                             :error-messages="form.errors.nameLatin"
                         />
                     </v-col>
@@ -80,7 +98,9 @@ const edit = props.mode === 'edit'
                     <v-col cols="12" md="6">
                         <AppInput 
                             label="Отчество на латинице"
+                            :required="true && !edit"
                             v-model="form.patronymicLatin"
+                            :readonly="readonly"
                             :error-messages="form.errors.patronymicLatin"
                             :disabled="form.noPatronymic"
                         />  
@@ -89,6 +109,8 @@ const edit = props.mode === 'edit'
                     <v-col cols="12" md="6">
                             <AppInput 
                                 label="Дата рождения"
+                                :required="true && !edit"
+                                :readonly="readonly"
                                 v-model="form.dateBirth"
                                 :error-messages="form.errors.dateBirth"
                                 type="date"
@@ -100,6 +122,8 @@ const edit = props.mode === 'edit'
                     <v-col md="6" cols="12">
                         <AppAutocomplete
                             label="Гражданство"
+                            :required="true && !edit"
+                            :readonly="readonly"
                             item-title="text"
                             :items="countries"
                             item-value="value"
@@ -112,6 +136,8 @@ const edit = props.mode === 'edit'
                     <v-col md="6" cols="12">
                         <v-radio-group
                             v-model="form.gender"
+                            :required="true && !edit"
+                            :readonly="readonly"
                             inline
                             label="Пол"
                             :error-messages="form.errors.gender"
@@ -130,6 +156,8 @@ const edit = props.mode === 'edit'
                     <v-col cols="12" md="6">
                         <AppInput  
                             label="Серия паспорта"
+                            :required="true && !edit"
+                            :readonly="readonly"
                             v-model="form.passportSeries"
                             :error-messages="form.errors.passportSeries"
                             :disabled="form.noPassportSeries"
@@ -140,6 +168,7 @@ const edit = props.mode === 'edit'
                         <v-checkbox
                             v-if="!edit"
                             v-model="form.noPassportSeries" 
+                            :readonly="readonly"
                             label="Нет серии"
                             :error-messages="form.errors.noPassportSeries"
                         ></v-checkbox>
@@ -148,6 +177,9 @@ const edit = props.mode === 'edit'
                     <v-col cols="12" md="6">
                         <AppInput 
                             label="Номер паспорта"
+                            :required="true && !edit"
+                            :readonly="readonly"
+                            :rules="[required]"
                             v-model="form.passportNumber"
                             :error-messages="form.errors.passportNumber"
                             :disabled="form.noPassportNumber"
@@ -157,6 +189,7 @@ const edit = props.mode === 'edit'
                     <v-col cols="12" md="6">
                         <v-checkbox
                             v-if="!edit"
+                            :readonly="readonly"
                             v-model="form.noPassportNumber" 
                             label="Нет номера"
                             :error-messages="form.errors.noPassportNumber"
@@ -166,6 +199,8 @@ const edit = props.mode === 'edit'
                     <v-col cols="12" md="6">  
                         <AppInput
                             label="Кем выдан"
+                            :required="true && !edit"
+                            :readonly="readonly"
                             v-model="form.issuedBy"
                             :error-messages="form.errors.issuedBy"
                             clearable
@@ -175,6 +210,8 @@ const edit = props.mode === 'edit'
                     <v-col cols="12" md="6">
                         <AppInput
                             label="Дата выдачи"
+                            :required="true && !edit"
+                            :readonly="readonly"
                             v-model="form.issuedDate"
                             :error-messages="form.errors.issuedDate"
                             type="date"
@@ -188,6 +225,8 @@ const edit = props.mode === 'edit'
                         <v-col cols="12" md="6">
                             <AppInput 
                                 label="Номер телефона"
+                                :required="true && !edit"
+                                :readonly="readonly"
                                 v-model="form.phone"
                                 :error-messages="form.errors.phone"
                             /> 
@@ -206,7 +245,9 @@ const edit = props.mode === 'edit'
                     <AppFileInput 
                         label="Скан паспорта PDF"
                         clearable
+                        :required="true && !edit"
                         v-model="form.passportScan"
+                        :readonly="readonly"
                         accept=".pdf,application/pdf"
                         :error-messages="form.errors.passportScan"
                     />
@@ -215,7 +256,9 @@ const edit = props.mode === 'edit'
                         label="Скан перевода паспорта PDF"
                         v-model="form.passportTranslateScan"
                         clearable
+                        :required="true && !edit"
                         accept=".pdf,application/pdf"
+                        :readonly="readonly"
                         :error-messages="form.errors.passportTranslateScan"
                     />
                     
@@ -246,4 +289,5 @@ const edit = props.mode === 'edit'
             </v-container>
         </v-card-text>
     </v-card>
+    
 </template>

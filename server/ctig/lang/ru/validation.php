@@ -246,7 +246,9 @@ return [
         'roles.0' => 'роль',
         'time' => 'время',
         'hasPayment' => 'есть оплата',
-        'protocolComment' => 'комментарий для протокола'
+        'protocolComment' => 'комментарий для протокола',
+        'dateFrom' => 'дата с',
+        'dateTo' => 'дата по'
     ],
 
 ];

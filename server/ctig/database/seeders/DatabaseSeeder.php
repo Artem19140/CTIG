@@ -105,7 +105,7 @@ class DatabaseSeeder extends Seeder
             ExamSeeder::class
         ]);
         
-        ForeignNational::factory(200) 
+        ForeignNational::factory(300000) 
             ->withRandomCreator()
             ->create();
     }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import BaseFilter from '../../../Components/BaseFilter/BaseFilter.vue';
-import AppInput from '../../../Components/AppInput/AppInput.vue';
+import BaseFilter from '../../../../Components/BaseFilter/BaseFilter.vue';
+import AppInput from '../../../../Components/AppInput/AppInput.vue';
 
 const props = defineProps<{
     filters : any,

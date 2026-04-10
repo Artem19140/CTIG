@@ -4,14 +4,15 @@ namespace App\Http\Controllers\Web\ForeignNational;
 
 use App\Domain\ForeignNational\Action\CreateForeignNationalWithEnrollmentAction;
 use App\Domain\ForeignNational\Action\UpdateForeignNationalAction;
+use App\Domain\ForeignNational\Query\ExportForeignNationalQuery;
 use App\Domain\ForeignNational\Query\GetForeignNationalsQuery;
+use App\Http\Requests\ForeignNational\ForeignNationalExportRequest;
 use App\Http\Requests\ForeignNational\ForeignNationalIndexRequest;
 use App\Http\Requests\ForeignNational\ForeignNationalPostRequest;
 use App\Http\Requests\ForeignNational\ForeignNationalUpdateRequest;
 use App\Http\Resources\ForeignNational\ForeignNationalProfileResource;
 use App\Models\ForeignNational;
 use App\Http\Resources\ForeignNational\ForeignNationalResource;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ForeignNationalController 
@@ -66,6 +67,17 @@ class ForeignNationalController
     {
         $foreignNational->delete();
         //return $this->noContent();
+    }
+
+    public function export(
+                            ForeignNationalExportRequest $request,
+                            ExportForeignNationalQuery $exportForeignNationalQuery
+                        ){
+        //Токо директор
+        
+        return response()->streamDownload(function () use ($exportForeignNationalQuery, $request) {
+            $exportForeignNationalQuery->execute($request->validated());
+        }, 'report.csv');
     }
 
 }

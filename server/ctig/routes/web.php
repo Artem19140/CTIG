@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Web\File\FileController;
 use App\Http\Controllers\Web\Info\InfoController;
+use App\Http\Controllers\Web\Statistics\StatisticsController;
 use App\Http\Controllers\Web\User\UserController;
 use App\Http\Controllers\Web\Attempt\AttemptController;
 use App\Http\Controllers\Web\Exam\ExamController;
@@ -18,8 +19,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->group(function(){
+    
+    Route::get('foreign-nationals/export', [ForeignNationalController::class, 'export']);
     Route::apiResource('foreign-nationals', ForeignNationalController::class);
-
     Route::apiResource('enrollments', EnrollmentController::class);
     Route::prefix('enrollments')->group(function(){
         Route::post('{enrollment}/reschedule', [EnrollmentController::class, 'reschedule']);
@@ -27,7 +29,7 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
         Route::get('{enrollment}/statements', [EnrollmentController::class, 'statement'])->name('enrollments.statements');
     });
 
-    
+    Route::get('statistics', [StatisticsController::class, 'index']);
 
     Route::prefix('exams')->group(function(){
          Route::get('available', [EnrollmentController::class, "available"]);
@@ -45,14 +47,13 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
             Route::get('list', [ExamDocumentController::class, 'list'])->name('exam.documents.list');
             Route::get('list/available', [ExamDocumentController::class, 'listAvailable']);
         });
-
+        
         Route::prefix('{exam}/foreign-nationals')->group(function(){
             Route::post('', [EnrollmentController::class, "store"]);
-            Route::delete('{foreignNational}', [EnrollmentController::class, "destroy"]);
-            Route::put('{foreignNational}/payment', [EnrollmentController::class, "changePayment"]);
+            // Route::delete('{foreignNational}', [EnrollmentController::class, "destroy"]);
+            // Route::put('{foreignNational}/payment', [EnrollmentController::class, "changePayment"]);
             
         });
-        
         
         Route::get('create/modal-data', [ExamController::class,'createModalData']);//->middleware('user.has.role:scheduler');
         
@@ -96,12 +97,11 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
 
 
 
-Route::get('/',[InfoController::class, 'index'])->name('info');
-Route::inertia('login', 'Login/Login')->name('login');
-Route::post('login', [LoginController::class, 'login']);
-Route::post( 'exam-codes/verify', [ExamController::class, 'verifyCode']);
+
 Route::middleware('guest')->group(function (){
-    
+    Route::inertia('login', 'Login/Login')->name('login');
+    Route::post('login', [LoginController::class, 'login']);
+    Route::post( 'exam-codes/verify', [ExamController::class, 'verifyCode']);
 });
 
 Route::middleware('auth:foreignNationals')->group(function (){

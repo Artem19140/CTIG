@@ -76,13 +76,9 @@ class ReportController extends Controller
 
     public function flatTable(FlatTableRequest $request, GenerateFlatTableAction $generateFlatTable){
         return response()->streamDownload(function () use ($generateFlatTable, $request) {
-            $handle = fopen('php://output', 'w');
 
-            fwrite($handle, "\xEF\xBB\xBF");
-
-            $generateFlatTable->execute( $request->validated('dateFrom'), $request->validated('dateTo'),$handle);
-
-            fclose($handle); 
-        }, 'report1.csv');  
+            $generateFlatTable->execute( $request->validated('dateFrom'), $request->validated('dateTo'));
+ 
+        }, 'report.csv');  
     }
 }

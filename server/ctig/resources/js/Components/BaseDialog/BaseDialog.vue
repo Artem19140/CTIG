@@ -33,7 +33,7 @@ const close = () => {
         @keyup.esc="close"
         
     >
-       
+
         <v-card class="dialog-card d-flex flex-column">
             <v-card-title v-if="$slots.title || title" class="d-flex align-center sticky-top"> 
                 <slot name="title">

@@ -1,5 +1,8 @@
 <script setup lang="ts">
-
+defineProps<{
+  label: string
+  required?: boolean
+}>()
 </script>
 
 <template>
@@ -8,5 +11,12 @@
         rows="1"
         variant="solo-filled"
         counter
-    />
+    >
+        <template #label>
+            <span>
+                {{ label }}
+                <span v-if="required" style="color:red">*</span>
+            </span>
+        </template>
+    </v-textarea>
 </template>

@@ -31,12 +31,15 @@ class RescheduleEnrollmentActon{
         $this->examGuard->ensureNotCancelled($toExam);
 
         $this->examGuard->ensureNotCompleted($toExam);
-        
+        //$this->examGuard->ensureNotGoing($enrollment->exam, 'Запись нельзя перенести с идущего экзамена');
+
         $this->examGuard->ensureNotGoing($toExam);
         
 
         $enrollment = DB::transaction(function () use($toExam, $foreignNational, $user, $enrollment){
-            $enrollment->exam->foreignNationals()->detach($foreignNational->id); //Тут нужно сделать softDelete, а мб статус изменить
+            if(!$enrollment->exam->begin_time_utc->isPast()){
+                $enrollment->exam->foreignNationals()->detach($foreignNational->id); //Тут нужно сделать softDelete, а мб статус изменить
+            } 
             return $this->createEnrollment->execute($toExam, $foreignNational->id, $user, $enrollment->hasPayment());
         });
         return $enrollment;

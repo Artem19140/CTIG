@@ -8,7 +8,9 @@ use App\Models\Attempt;
 use Carbon\Carbon;
 
 class GenerateFlatTableAction{
-    public function execute(string $dateFrom,string $dateTo, $handle){
+    public function execute(string $dateFrom,string $dateTo){
+        $handle = fopen('php://output', 'w');
+        fwrite($handle, "\xEF\xBB\xBF");
         $dateFrom = Carbon::parse($dateFrom);
         $dateTo = Carbon::parse($dateTo);
         fputcsv($handle, $this->headers());
@@ -51,7 +53,7 @@ class GenerateFlatTableAction{
                     }
                 }
             });   
-        return true;
+        fclose($handle);
     }
 
     protected function headers(){

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\AttemptStatus;
+use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\Center;
 use App\Models\ForeignNational;
@@ -25,7 +26,8 @@ class AttemptFactory extends Factory
             'exam_id' => Exam::inRandomOrder()->first()->id,
             'total_mark' =>  fake()->numberBetween(5, 20),
             'started_at'=>now(),
-            'center_id' => Center::inRandomOrder()->first()->id
+            'center_id' => Center::inRandomOrder()->first()->id,
+            'enrollment_id' => Enrollment::factory()->create()
         ];
     }
 

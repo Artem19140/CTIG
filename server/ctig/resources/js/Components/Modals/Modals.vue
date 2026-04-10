@@ -14,6 +14,8 @@ import RescheduleModal from '../../Pages/Exam/Components/ExamShowModal/Reschedul
 import ForeignNationalEditModal from '../../Pages/ForeignNationals/Components/ForeignNationalEditModal.vue';
 import ExamEditModal from '../../Pages/Exam/Components/ExamEditModal.vue';
 import ForeignNationalShowModal from '../../Pages/ForeignNationals/Components/ShowModal/ForeignNationalShowModal.vue';
+import ForeignNationalExportModal from '../../Pages/ForeignNationals/Components/ForeignNationalTable/ForeignNationalExportModal.vue';
+import StatisticsModal from '../../Pages/ForeignNationals/Components/ForeignNationalTable/StatisticsModal.vue';
 
 
 const {modals, close} = useModals()
@@ -48,6 +50,10 @@ const modalComponent = (name: string) => {
             return ForeignNationalEditModal
         case 'examEdit':
             return ExamEditModal
+        case 'foreignNationalExport':
+            return ForeignNationalExportModal
+        case 'statistics':
+            return StatisticsModal
     }
 }
 

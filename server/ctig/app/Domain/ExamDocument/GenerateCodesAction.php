@@ -14,8 +14,8 @@ final class GenerateCodesAction{
     ){}
     public function execute(Exam $exam){
         $this->examDocumentAvailable->codes($exam);
-        if(Carbon::now()->diff($exam->begin_time_utc)->minutes >= 40){
-            throw new BusinessException("Коды можно сформировать минимум за 40 минут до экзамена");
+        if(Carbon::now()->diff($exam->begin_time_utc)->minutes >= 60){
+            throw new BusinessException("Коды можно сформировать минимум за 60 минут до экзамена");
         }
 
         $exam->load('enrollments.foreignNational');
@@ -32,7 +32,7 @@ final class GenerateCodesAction{
                 try{
                     $enrollment->exam_code = $code;
                     $enrollment->exam_id = $exam->id;
-                    $enrollment->exam_code_expired_at = Carbon::now()->addHour();
+                    $enrollment->exam_code_expired_at = Carbon::now()->addMinutes(90);
                     $enrollment->save();
                     $saved = true;
                 }catch(QueryException $e){

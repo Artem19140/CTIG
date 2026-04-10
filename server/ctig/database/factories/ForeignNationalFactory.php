@@ -32,7 +32,7 @@ class ForeignNationalFactory extends Factory
             'issued_by' => 'МВД РФ №' . fake()->numerify('####'),
             'issued_date' => fake()->date('Y-m-d', '-10 years'),
             'citizenship' => fake()->randomElement(['UZ','KZ', 'AZ', 'US', 'UK']),
-            'phone' => fake()->numerify('+7##########'),
+            'phone' => fake()->numerify('7##########'),
             'creator_id' => User::factory(),
             'date_birth' => fake()->dateTimeBetween('-60 years', Carbon::now()->subYears(19)->toDateString())->format('Y-m-d'),
             'gender' => fake()->randomElement(['M','F'])

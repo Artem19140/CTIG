@@ -6,9 +6,9 @@ import ExamStatusChip from '../Exam/Components/ExamStatusChip.vue';
 import BaseLayout from '../../Layout/BaseLayout.vue';
 import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
 import { useModals } from '../../Composables/useModals';
-import { onMounted, onUnmounted } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import AppStatusChip from '../../Components/AppStatusChip/AppStatusChip.vue';
-import { Exam } from '../../interfaces/interfaces';
+import { Enrollment, Exam } from '../../interfaces/interfaces';
 import { DateFormatter } from '../../Helpers/DateFormatter';
 
 defineOptions({
@@ -20,6 +20,8 @@ const props = defineProps<{
     exam:any,
     hasSpeakingTasks:boolean
 }>()
+
+const enrollments = ref<Enrollment[]>(props.exam.data.enrollments)
 
 const { start, stop } = usePoll(10000, {
         only: ['foreignNationals'],
@@ -34,6 +36,7 @@ const { start, stop } = usePoll(10000, {
 })
 
 onMounted(()=>{
+    console.log(props.exam.data)
     if(props.exam?.data?.isGoing && props.exam?.data?.foreignNationals?.length>0 && !props.exam?.data?.isCancelled){
         start()
     }
@@ -44,8 +47,8 @@ onUnmounted(()=>{
 })
 
 const headers = [
-    {title:'ФИО', key:"fullName",sortable: false},
-    {title:'Паспорт', key:"fullPassport",sortable: false},
+    {title:'ФИО', key:"foreignNational.fullName",sortable: false},
+    {title:'Паспорт', key:"foreignNational.fullPassport",sortable: false},
     {title:'Попытка', key:"status",sortable: false, align:'center'},
     {
         title:'Время',
@@ -100,7 +103,7 @@ const openForeignNational = (event : Event, {item} :any) => {
 
         <v-card-text>
             <v-data-table
-                :items="foreignNationals.data"
+                :items="enrollments"
                 :headers="headers"
                 hover
                 hide-default-footer
@@ -108,21 +111,21 @@ const openForeignNational = (event : Event, {item} :any) => {
                 @click:row="openForeignNational"
             >
                 <template  #item.actions="{ item }">
-                    <DropDownForeignNationalsList :foreignNational="item" :hasSpeakingTasks="hasSpeakingTasks" />
+                    <DropDownForeignNationalsList :foreignNational="item.foreignNational" :hasSpeakingTasks="hasSpeakingTasks" />
                 </template>
                 <template #item.status="{ item }">
                     <AppStatusChip
-                        v-if="item.attempts.length"
-                        :color="attemptStatus(item.attempts[0].status).color.replace('text-', '')"
-                        :text="attemptStatus(item.attempts[0].status).text"
+                        v-if="item.length"
+                        :color="attemptStatus(item.foreignNational.attempts[0]?.status).color.replace('text-', '')"
+                        :text="attemptStatus(item.foreignNational.attempts[0]?.status).text"
                     />
-                    <span v-else>-</span>
+                    <span v-else></span>
                 </template>
                 <template  #item.startTime="{ item }">
-                    {{new DateFormatter(item.attempts[0]?.startedAt).format('H:i')}}
+                    {{new DateFormatter(item.foreignNational.attempts[0]?.startedAt).format('H:i')}}
                 </template>
                 <template  #item.endTime="{ item }">
-                    {{new DateFormatter(item.attempts[0]?.finishedAt ?? '').format('H:i')}}
+                    {{new DateFormatter(item.foreignNational.attempts[0]?.finishedAt ?? '').format('H:i')}}
                 </template>
                 <template #item.hasPayment="{ item }">
                     <v-icon :color="item.hasPayment ? 'green' : 'red'">

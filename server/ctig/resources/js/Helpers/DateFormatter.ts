@@ -5,7 +5,7 @@ export class DateFormatter{
     }
     format(fmt:string) {
         if (isNaN(this.date.getTime())) {
-            return '-';
+            return '';
         }
         const pad = (n:number) => String(n).padStart(2, '0');
 

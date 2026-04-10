@@ -39,6 +39,6 @@ const getSpeakingTasks = () => {
     <ThreeDotDropdown>
         <AppListDropDownItem v-if="!foreignNational?.hasPayment" title="Подтвердить оплату" @click=""/>
         <AppListDropDownItem title="Устная часть" @click="getSpeakingTasks" v-if="hasSpeakingTasks" />
-        <AppListDropDownItem title="Снять с экзамена" @click="ban"/>
+        <AppListDropDownItem color="text-red" title="Снять с экзамена" @click="ban"/>
     </ThreeDotDropdown>
 </template>

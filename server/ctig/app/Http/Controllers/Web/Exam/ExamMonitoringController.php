@@ -40,7 +40,7 @@ class ExamMonitoringController
         Gate::authorize('exam-manage-access', $exam);
 
         $exam->load([
-            'foreignNationals.attempts' => fn ($query) => $query->where('exam_id', $exam->id)
+            'enrollments.foreignNational.attempts' => fn ($query) => $query->where('exam_id', $exam->id)
         ]);
         
         return Inertia::render('ExamMonitoring/ExamMonitoring', [

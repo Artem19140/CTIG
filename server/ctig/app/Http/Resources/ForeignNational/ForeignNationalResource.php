@@ -28,7 +28,8 @@ class ForeignNationalResource extends JsonResource
             'fullPassport' => $this->full_passport,
             'hasPayment' => $this->whenPivotLoaded('enrollments', function () {
                 return $this->pivot->has_payment;
-            })
+            }),
+            'attempts' => AttemptResource::collection($this->whenLoaded('attempts')),
         ];
     }
 }

@@ -15,6 +15,30 @@ const examTypeId = ref<number | null>(null)
 
 const exams = ref<Exam[]>()
 
+// const form = useForm<IForeignNationalCreateForm>({
+//     surname: '', 
+//     name:'',
+//     patronymic:"",
+//     noPatronymic:false,
+//     surnameLatin:'',
+//     nameLatin:'',
+//     patronymicLatin:"",
+//     passportNumber:"",
+//     passportSeries:"",
+//     noPassportNumber:false,
+//     noPassportSeries:false,
+//     issuedBy:'',
+//     issuedDate:'',
+//     citizenship:null,
+//     phone:'',
+//     dateBirth:'',
+//     passportScan:null,
+//     passportTranslateScan:null,
+//     examId:null,
+//     gender:null,
+//     hasPayment:false,
+//     comment:''
+// })
 const form = useForm<IForeignNationalCreateForm>({
     surname: 'Иванов', 
     name:'Иван',
@@ -129,7 +153,7 @@ watch(() => form.noPassportSeries, (val) => {
             
                   
             <template #actions>
-                <span class="text-red" v-if="form.hasErrors">Есть ошибки валидации полей формы</span>
+                <span class="text-red" v-if="form.hasErrors">Есть ошибки заполнения</span>
                 <AddButton text="Добавить" 
                     :disabled="form.processing"
                     :loading="form.processing"

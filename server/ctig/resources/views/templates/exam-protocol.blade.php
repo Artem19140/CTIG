@@ -142,13 +142,14 @@ td {
             Нарушения / отсутствие нарушений:
         </span>
         <div>
-            {{ $exam->protocol_comment ?? 'Нарушения не установлены' }}
+            {{ $exam->protocol_comment}}
             <div>
                 @foreach ( $bannedAttempts as $attempt )
-                    <span  class="underline">сдающий {{ $attempt->foreignNational->full_name }} был снят с экзамена по причине: "{{ $attempt->ban_reason }}"</span> 
+                    <span>сдающий {{ $attempt->foreignNational->full_name }} был снят с экзамена по причине: "{{ $attempt->ban_reason }}"</span> 
                 @endforeach
             </div>
         </div>
+        <div>{{ !$exam->protocol_comment && !$bannedAttempts ? 'Нарушения не установлены' : '' }}</div>
     </div>
     
     

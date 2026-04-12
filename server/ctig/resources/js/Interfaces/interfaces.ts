@@ -58,7 +58,7 @@ export interface ForeignNational{
     exams?:Array<Exam> | null,
     passportScan?:string | null,
     createdAt?:string,
-    citizenship:string,
+    citizenship:string | null,
     dateBirth:string,
     attempts?:Array<Attempt> | null,
     fullName?:string,

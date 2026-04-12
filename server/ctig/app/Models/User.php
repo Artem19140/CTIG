@@ -75,6 +75,15 @@ class User extends Authenticatable
     {
         return Attribute::get(function () {
             return trim(
+                $this->surname   . ' ' . $this->name . ' ' .$this->patronymic ?? ''
+            );
+        });
+    }
+
+    protected function fullNameShort(): Attribute
+    {
+        return Attribute::get(function () {
+            return trim(
                 ($this->surname  ?? '') . ' ' . (mb_strtoupper(mb_substr($this->name, 0, 1)).'.' ?? '') . ' ' .( mb_strtoupper(mb_substr($this->patronymic, 0, 1)).'.' ?? '')
             );
         });

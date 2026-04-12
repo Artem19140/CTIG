@@ -20,8 +20,8 @@ const props = defineProps<{
 
 const headers = [
     {title : "ID",sortable: false, key: 'id', align: 'center' },
-    {title : "ФИО",sortable: false, key: 'fullName', align: 'center' },
-    {title : "Паспорт",sortable: false, key: 'fullPassport', align: 'center' },
+    {title : "ФИО",sortable: false, key: 'fullName', align: 'start' },
+    {title : "Паспорт",sortable: false, key: 'fullPassport', align: 'start' },
 ]
 
 const formFilters = useForm({

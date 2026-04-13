@@ -1,20 +1,18 @@
 <script setup lang="ts">
-import { router, useForm, useHttp } from '@inertiajs/vue3';
+import { useForm, useHttp } from '@inertiajs/vue3';
 import BaseDialog from '../../../../Components/BaseDialog/BaseDialog.vue';
 import PrimaryButton from '../../../../Components/PrimaryButton/PrimaryButton.vue';
-import {  EmitFn, onMounted, ref } from 'vue';
-import { Enrollment, Exam } from '../../../../interfaces/interfaces';
-import AppAutocomplete from '../../../../Components/AppAutocomplete/AppAutocomplete.vue';
+import { Enrollment } from '../../../../interfaces/interfaces';
+import ExamEnrollment from '../ExamEnrollment.vue';
 
 
 const props = defineProps<{
     enrollment:Enrollment,
     examTypeId:number,
-    onRechedule: () => void
+    onRechedule?: () => void
 }>()
 
 const isOpen = defineModel<boolean>({default:false})
-const exams = ref<Exam[] | []>([])
 const form = useForm({
     toExamId:null
 })
@@ -24,7 +22,10 @@ const rechedule = () => {
         onSuccess:(page :any) =>{
             if(page.flash.redirectUrl){
                 window.open(page.flash.redirectUrl)
-                props.onRechedule()
+                if(props.onRechedule){
+                    props.onRechedule()
+                }
+                
                 form.resetAndClearErrors()
                 isOpen.value=false
             }
@@ -34,13 +35,6 @@ const rechedule = () => {
 }
 const http = useHttp()
 
-onMounted(() => {
-    http.get(`/exams/available?examTypeId=${props.examTypeId}&foreignNationalId=${props.enrollment.foreignNational.id}`,{ 
-        onSuccess:(response:any) => {
-            exams.value = response
-        }
-    })
-})
 </script>
 
 <template>
@@ -50,14 +44,10 @@ onMounted(() => {
         v-model="isOpen"
         @before-close="(done) => done()"
     >
-        <AppAutocomplete
+        <ExamEnrollment 
+            :exam-type-id="examTypeId"
             v-model="form.toExamId"
-            :items="exams"
-            :disabled="http.processing"
-            :loading="http.processing"
-            item-title="beginTime"
-            item-value="id"
-            label="Дата и время"
+            :foreign-national-id="enrollment.foreignNational.id"
         />
         <template #actions>
             <PrimaryButton

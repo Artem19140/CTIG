@@ -9,6 +9,7 @@ enum AttemptStatus:string
     case Finished = 'finished';
     case Checked = 'checked';
     case Banned = 'banned';
+    case NotStarted = 'not_started';
 
     public function canBeRated(): bool{
         return match($this){

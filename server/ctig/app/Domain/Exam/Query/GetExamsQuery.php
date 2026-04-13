@@ -3,11 +3,12 @@
 namespace App\Domain\Exam\Query;
 
 use App\Models\Exam;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class GetExamsQuery{
-    public function execute(array $data): LengthAwarePaginator
+    public function execute(array $data, User $user): LengthAwarePaginator
     {
         $examTypeId = $data['examTypeId'] ?? false;
         $dateFrom = $data['dateFrom'] ?? false;
@@ -37,23 +38,34 @@ class GetExamsQuery{
         );
 
         $query->when($completed, fn ($q) =>
-            $q->where('end_time', '<=', Carbon::now())
+            $q->where('end_time', '<=', Carbon::now($user->time_zone))//timeZone
         );
 
         $query->when($cancelled, fn ($q) =>
             $q->where('is_cancelled', $cancelled)
         );
 
-        $now = Carbon::now();
+        $now = Carbon::now($user->time_zone);
+        $query
+            ->orderByRaw("
+                CASE
+                    WHEN begin_time <= ? AND end_time > ? THEN 0
+                    WHEN begin_time > ? THEN 1
+                    ELSE 2
+                END
+            ", [$now, $now, $now])
 
-        $query->orderByRaw("
-                CASE WHEN begin_time_utc >= ? THEN 0 ELSE 1 END
-            ", [$now])
             ->orderByRaw("
-                CASE WHEN begin_time_utc >= ? THEN begin_time END ASC
-            ", [$now])
+                CASE
+                    WHEN begin_time <= ? AND end_time > ? THEN begin_time
+                    WHEN begin_time > ? THEN begin_time
+                END ASC
+            ", [$now, $now, $now])
+
             ->orderByRaw("
-                CASE WHEN begin_time_utc < ? THEN begin_time END DESC
+                CASE
+                    WHEN end_time <= ? THEN begin_time
+                END DESC
             ", [$now]);
 
         return $query->paginate($perPage);

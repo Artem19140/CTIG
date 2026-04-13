@@ -10,8 +10,11 @@ import { ref } from 'vue';
 const props = defineProps<{
     exam: Exam
 }>()
+const exam = ref<Exam>(props.exam)
 
-const enrollments = ref<Enrollment[]>(props.exam.enrollments)
+const emit = defineEmits<{
+    (e:'reschedule', value:Enrollment) : void
+}>()
 
 function foreignNationalShowModal(event:Event, {item}: any) {
     const {open} = useModals()
@@ -30,17 +33,18 @@ props.exam.enrollments.forEach(fn => {
 })
 
 const cancell = (value : Enrollment) => {
-    enrollments.value = enrollments.value.filter(e => e.id !== value.id)
+    exam.value.enrollments = exam.value.enrollments.filter(e => e.id !== value.id)
 }
 
 const reschedule = (value : Enrollment) => {
-    enrollments.value = enrollments.value.filter(e => e.id !== value.id)
+    exam.value.enrollments =exam.value.enrollments.filter(e => e.id !== value.id)
+    emit('reschedule', value)
 }
 </script>
 
 <template>
     <v-data-table 
-        :items="enrollments"
+        :items="exam.enrollments"
         hide-default-footer
         :headers="headers"
         fixed-header

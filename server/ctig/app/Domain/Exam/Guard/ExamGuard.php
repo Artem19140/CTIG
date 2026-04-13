@@ -19,6 +19,13 @@ class ExamGuard{
         }
     }
 
+    public function ensureHasSeats(Exam $exam, string $message = 'Запись на экзамен полная'):void{
+        $enrollmentsCount = $exam->enrollments()->count();
+        if($exam->capacity <= $enrollmentsCount){
+            throw new BusinessException($message);
+        }
+    }
+
     public function ensureHasEnrollment(Exam $exam, string $message = 'На экзамен не записано ни одного ИГ'){
         if(!$exam->foreignNationals()->exists()){
             throw new BusinessException($message);

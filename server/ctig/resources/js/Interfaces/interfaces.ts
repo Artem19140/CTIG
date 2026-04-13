@@ -44,7 +44,7 @@ export interface User{
 }
 
 export interface ForeignNational{
-    id?:number,
+    id:number,
     name:string,
     surname:string,
     patronymic:string | undefined,

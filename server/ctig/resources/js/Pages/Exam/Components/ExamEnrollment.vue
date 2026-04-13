@@ -11,6 +11,8 @@ const examDates = ref<any[]>([])
 
 const examId = defineModel<number |null>()
 
+const noExamTypeChoice = ref<boolean>(false)
+
 const props = defineProps<{
   foreignNationalId?:number,
   examTypeId?:number | null
@@ -38,10 +40,12 @@ watch(() => http.examTypeId, async () => {
 onMounted(() => {
   if(!props.examTypeId) return
   http.examTypeId = props.examTypeId
+  noExamTypeChoice.value = true
 })
 
 onUnmounted(() => {
   examId.value=null
+  noExamTypeChoice.value = false
 })
 </script>
 
@@ -51,6 +55,7 @@ onUnmounted(() => {
     :items="examsTypes"
     item-title="name"
     item-value="id"
+    :disabled="noExamTypeChoice"
     :error-messages="http.errors.examTypeId"
     label="Тип экзамена"
   />

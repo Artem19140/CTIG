@@ -6,14 +6,14 @@ import { router } from '@inertiajs/vue3';
         elements? : Paginated<any>,
         headers : Array<any>,
         title?:string
-        loading?:boolean
+        loading?:boolean,
     }>()
 
     const emit = defineEmits<{
         (e: 'row-click', item: any): void
     }>()
 
-    const loadItems = ({ page, itemsPerPage, sortBy }: any) => {
+    const loadItems = ({ page, itemsPerPage }: any) => {
         router.reload({
             data: {
                 page: page,
@@ -24,7 +24,6 @@ import { router } from '@inertiajs/vue3';
 </script>
 
 <template>
-
         <v-data-table-server
             @update:options="loadItems" 
             :items="elements?.data"

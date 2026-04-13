@@ -51,7 +51,7 @@ const getStatistics = () => {
         />
       </div>
         <v-container class="pa-0" fluid>
-    <v-row dense>
+    <v-row density="comfortable">
       <v-col cols="12" sm="6" md="4">
         <v-card class="pa-4" elevation="1">
           <div class="text-caption text-medium-emphasis">Экзаменов</div>

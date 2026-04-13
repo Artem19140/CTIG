@@ -39,6 +39,8 @@ const formFilters = useForm({
         :loading="formFilters.processing"
         :headers="headers"
         :elements="foreignNationals"
+        :page="filters.page"
+        :items-per-page="filters.perPage"
         title="ИГ"
         @row-click="foreignNationalShowModal"
     >

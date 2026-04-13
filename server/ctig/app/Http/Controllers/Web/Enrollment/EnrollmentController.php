@@ -23,7 +23,7 @@ class EnrollmentController
                             Exam $exam, 
                             CreateEnrollmentAction $createEnrollment,
                         ){ 
-
+                            //dd('controller hit');
         $enrollment = $createEnrollment->execute($exam, $request->validated('foreignNationalId'), $request->user(), $request->validated('hasPayment')); 
         return Inertia::flash([
             'redirectUrl' => route('enrollments.statements', ['enrollment' => $enrollment])

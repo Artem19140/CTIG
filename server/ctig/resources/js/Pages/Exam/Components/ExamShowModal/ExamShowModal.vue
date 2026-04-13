@@ -3,7 +3,7 @@ import BaseDialog from '../../../../Components/BaseDialog/BaseDialog.vue';
 import ExamActionsDropdown from './ExamActionsDropdown.vue';
 import EnrollmentsTable from './EnrollmentsTable.vue';
 import { computed, onMounted, ref } from 'vue';
-import { Exam } from '../../../../interfaces/interfaces';
+import { Enrollment, Exam } from '../../../../interfaces/interfaces';
 import { useHttp } from '@inertiajs/vue3';
 import { capacityColor } from '../../../../Helpers/heplers';
 import AppStatusChip from '../../../../Components/AppStatusChip/AppStatusChip.vue';
@@ -33,10 +33,14 @@ const getExam = async () => {
 }
 
 onMounted( async () => {
-    if(!props.examId) return
     getExam()
 })
 
+
+const rechedule = (value: Enrollment) => {
+    if(!exam.value) return
+    exam.value.enrollments =exam.value.enrollments.filter(e => e.id !== value.id)
+}
 </script>
 
 <template>
@@ -104,7 +108,7 @@ onMounted( async () => {
                             <v-list-item-subtitle>Запись</v-list-item-subtitle>
                             <AppStatusChip
                                 :color="capacityColor(exam)"
-                                :text="`${exam?.foreignNationals?.length ?? 0}/${exam?.capacity ?? 0}`"
+                                :text="`${exam?.enrollments?.length ?? 0}/${exam?.capacity ?? 0}`"
                             />
                         </div>
                     </div>
@@ -113,7 +117,7 @@ onMounted( async () => {
             </v-list>
             <v-list>
                 <v-list-item  v-if="exam?.foreignNationals?.length">
-                    <EnrollmentsTable :exam="exam" />
+                    <EnrollmentsTable @reschedule="rechedule" :exam="exam" />
                 </v-list-item>
                 <v-list-item  v-else class="text-center">
                     <v-list-item-subtitle>Запись пуста</v-list-item-subtitle>

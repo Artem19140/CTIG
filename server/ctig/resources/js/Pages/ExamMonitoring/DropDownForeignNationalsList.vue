@@ -4,10 +4,11 @@ import { usePromptDialog } from '../../Composables/usePromptDialog';
 import ThreeDotDropdown from '../../Components/ThreeDotDropdown/ThreeDotDropdown.vue';
 import { useLoadingSnackbar } from '../../Composables/useLoadingSnackBar';
 import { router } from '@inertiajs/vue3';
+import { Exam } from '../../interfaces/interfaces';
 
 const props = defineProps<{
     foreignNational:any, 
-    hasSpeakingTasks : boolean
+    exam : Exam
 }>()
 
 
@@ -37,8 +38,8 @@ const getSpeakingTasks = () => {
 
 <template>
     <ThreeDotDropdown>
-        <AppListDropDownItem v-if="!foreignNational?.hasPayment" title="Подтвердить оплату" @click=""/>
-        <AppListDropDownItem title="Устная часть" @click="getSpeakingTasks" v-if="hasSpeakingTasks" />
-        <AppListDropDownItem color="text-red" title="Снять с экзамена" @click="ban"/>
+        <AppListDropDownItem v-if="!exam.isPast && !exam.isCancelled" title="Подтвердить оплату" @click=""/>
+        <AppListDropDownItem title="Устная часть" @click="getSpeakingTasks" v-if="exam.hasSpeakingTasks" />
+        <AppListDropDownItem v-if="exam.isGoing && !exam.isCancelled"   color="text-red" title="Снять с экзамена" @click="ban"/>
     </ThreeDotDropdown>
 </template>

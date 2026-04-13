@@ -17,7 +17,6 @@ defineOptions({
 
 const props = defineProps<{
     exam:any,
-    hasSpeakingTasks:boolean
 }>()
 
 const enrollments = ref<Enrollment[]>(props.exam.data.enrollments)
@@ -64,11 +63,16 @@ const {open} = useModals()
 const openForeignNational = (event : Event, {item} :any) => {
     open('foreignNationalShow', {foreignNationalId:item.foreignNational.id})
 }
+
+const back = () => {
+    window.history.go(-1)
+    //router.visit('/exams/monitoring')
+}
 </script>
 
 
 <template>
-    <v-btn class="mt-4 ml-4" @click="router.visit('/exams/monitoring')">Назад</v-btn>
+    <v-btn class="mt-4 ml-4" @click="back">Назад</v-btn>
     <v-card 
         width="900" 
         class="mx-auto mt-16"
@@ -109,7 +113,7 @@ const openForeignNational = (event : Event, {item} :any) => {
                 @click:row="openForeignNational"
             >
                 <template  #item.actions="{ item }">
-                    <DropDownForeignNationalsList :foreignNational="item.foreignNational" :hasSpeakingTasks="hasSpeakingTasks" />
+                    <DropDownForeignNationalsList :foreignNational="item.foreignNational" :exam="exam.data" />
                 </template>
                 <template #item.status="{ item }">
                     <AppStatusChip

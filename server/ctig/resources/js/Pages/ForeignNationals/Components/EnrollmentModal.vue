@@ -45,7 +45,7 @@ const form = useForm({
 const {confirmOpen} = useConfirmDialog()
 
 const examId = ref<number | null>(null)
-const canClose  = async (fn: () => void) => {
+const beforeClose  = async (fn: () => void) => {
     if(examId.value){
         const ok = await confirmOpen('Отменить создание записи на экзамен?')
         if(!ok) return
@@ -62,7 +62,7 @@ const canClose  = async (fn: () => void) => {
         v-model="isOpen"
         width="500"
         title="Запись на экзамен"
-        @before-close="(done) => canClose(done)"
+        @before-close="(done) => beforeClose(done)"
     >
         <ExamEnrollment 
             v-model="examId"

@@ -24,7 +24,7 @@ const download = (document : string) => {
         />
         <AppListDropDownItem 
             title="Повторить запись"
-            @click="modals.open('enrollment', {foreignNational:foreignNational.id, examTypeId:enrollment.exam.examTypeId})"
+            @click="modals.open('enrollment', {foreignNational:foreignNational, examTypeId:enrollment.exam.examTypeId})"
         />
     </ThreeDotDropdown>
 </template>

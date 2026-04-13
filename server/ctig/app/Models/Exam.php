@@ -105,6 +105,13 @@ class Exam extends Model
         });
     }
 
+    protected function timeZone(): Attribute
+    {
+        return Attribute::get(function () {
+            return $this->center->time_zone;
+        });
+    }
+
     public function scopeBefore(Builder $query, Carbon $date){
         return $query->where('begin_time', '<', $date);
     }

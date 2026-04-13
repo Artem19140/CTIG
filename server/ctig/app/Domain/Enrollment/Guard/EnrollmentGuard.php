@@ -29,13 +29,6 @@ class EnrollmentGuard{
         }
     }
 
-    public function ensureHasSeats(Exam $exam, string $message = 'Запись на экзамен полная'):void{
-        $enrollmentsCount = $exam->enrollments()->count();
-        if($exam->capacity <= $enrollmentsCount){
-            throw new BusinessException($message);
-        }
-    }
-
     public function ensureNoParallelEnrollments(ForeignNational $foreignNational, Exam $exam){
         $enrollmentsExists = Exam::before($exam->end_time)
             ->after($exam->begin_time)

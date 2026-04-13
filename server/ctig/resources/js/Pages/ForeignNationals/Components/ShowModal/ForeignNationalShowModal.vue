@@ -21,6 +21,7 @@ const getForeignNational = async () => {
     http.get(`/foreign-nationals/${props.foreignNationalId}`,{
         onSuccess:(response : any)=>{
             foreignNational.value = response.data
+
         }
     })
 }
@@ -49,7 +50,7 @@ const edit = (value:ForeignNational) => {
         :error="http.hasErrors"
         :onRetry="getForeignNational"
         @before-close="(done) => done()"
-        skeleton="avatar, heading, paragraph, paragraph, divider, list-item-two-line, list-item-two-line, list-item-two-line, list-item-two-line, divider, image, divider, table"
+        skeleton="heading, paragraph, paragraph, divider, list-item-two-line, divider, image, divider, table"
     >
         <template #titleActions>
             <ForeignNationalActionsDropdown 
@@ -111,7 +112,7 @@ const edit = (value:ForeignNational) => {
         <v-divider></v-divider>
 
         <v-card-text>
-            <ForeignNationalEnrollmentsList :foreignNational="foreignNational" />
+            <ForeignNationalEnrollmentsList v-if="foreignNational" :foreignNational="foreignNational" />
         </v-card-text>
     </BaseDialog>
 </template>

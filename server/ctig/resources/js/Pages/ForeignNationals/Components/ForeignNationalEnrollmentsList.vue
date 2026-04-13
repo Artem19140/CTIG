@@ -22,7 +22,7 @@ const modals = useModals()
     <v-sheet
       
       v-else
-      max-height="300"
+      max-height="360"
       class="overflow-y-auto pr-2"
       rounded="lg"
     >

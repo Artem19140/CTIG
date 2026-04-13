@@ -42,10 +42,12 @@ const {can} = useAuth()
 </script>
 
 <template>
-
+    
     <BaseServerTable
         :headers="headers"
         :elements="exams"
+        :page="filters.page"
+        :items-per-page="filters.perPage"
         title="Экзамены"
         :loading="formFilters.processing"
         @row-click="openModal"

@@ -31,7 +31,7 @@ class ExamController
 {
     public function index(ExamIndexRequest $request, GetExamsQuery $getExamQuery)
     {
-        $exams = $getExamQuery->execute($request->validated() ?? []);
+        $exams = $getExamQuery->execute($request->validated() ?? [], $request->user());
         return Inertia::render('Exam/Exam', [
             'exams' => ExamResource::collection($exams),
             'filters' => request()->all()

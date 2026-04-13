@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onUnmounted, ref, watch } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import AppAutocomplete from '../../../Components/AppAutocomplete/AppAutocomplete.vue';
 import {useHttp} from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
@@ -12,12 +12,16 @@ const examDates = ref<any[]>([])
 const examId = defineModel<number |null>()
 
 const props = defineProps<{
-  foreignNationalId?:number
+  foreignNationalId?:number,
+  examTypeId?:number | null
 }>()
 
-const http = useHttp({
-  examTypeId:null,
-  foreignNationalId:props.foreignNationalId ?? undefined
+const http = useHttp<{
+  examTypeId: number | null
+  foreignNationalId?: number
+}>({
+  examTypeId: null,
+  foreignNationalId: props.foreignNationalId ?? undefined
 })
 
 watch(() => http.examTypeId, async () => {
@@ -29,6 +33,11 @@ watch(() => http.examTypeId, async () => {
       examDates.value = response
     }
   })
+})
+
+onMounted(() => {
+  if(!props.examTypeId) return
+  http.examTypeId = props.examTypeId
 })
 
 onUnmounted(() => {

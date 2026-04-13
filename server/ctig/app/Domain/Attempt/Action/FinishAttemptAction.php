@@ -2,10 +2,8 @@
 
 namespace App\Domain\Attempt\Action;
 
-use App\Actions\Attempt\Finish\ZeroEmptyAutoCheckAnswersAction;
 use App\Enums\AttemptStatus;
 use App\Models\Attempt;
-use App\Actions\Attempt\Checking\CheckPassingThresholdAction;
 use Illuminate\Support\Facades\DB;
 use App\Domain\Attempt\Guard\AttemptGuard;
 

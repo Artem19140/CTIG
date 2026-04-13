@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import type { Enrollment } from '../../../interfaces/interfaces';
+import type { Enrollment, ForeignNational } from '../../../interfaces/interfaces';
 import { attemptResultStatus } from '../../../Helpers/heplers';
 import AppStatusChip from '../../../Components/AppStatusChip/AppStatusChip.vue';
 import { DateFormatter } from '../../../Helpers/DateFormatter';
 import { useModals } from '../../../Composables/useModals';
+import ForeignNationalEnrollmentsDropdown from './ShowModal/ForeignNationalEnrollmentsDropdown.vue';
 
 defineProps<{
-  enrollments: Array<Enrollment> | []
+  foreignNational: ForeignNational
 }>();
 
 const modals = useModals()
@@ -14,7 +15,7 @@ const modals = useModals()
 
 <template>
     <div class="text-h6 mb-4">Записи на экзамены</div>
-    <div v-if="!enrollments || enrollments.length === 0" class="text-center text-medium-emphasis">
+    <div v-if="!foreignNational?.enrollments || foreignNational?.enrollments.length === 0" class="text-center text-medium-emphasis">
       Записей на экзамены не было
     </div>
 
@@ -26,7 +27,7 @@ const modals = useModals()
       rounded="lg"
     >
       <v-card
-        v-for="enrollment in enrollments"
+        v-for="enrollment in foreignNational.enrollments"
         :key="enrollment.id"
         @click="modals.open('examShow', {examId:enrollment.exam.id})"
         class="mb-3"
@@ -42,11 +43,13 @@ const modals = useModals()
               {{ new DateFormatter(enrollment.exam.beginTime).format('d.m.Y') }}
             </div>
           </div>
-
-          <AppStatusChip
-            :color="attemptResultStatus(enrollment.attempt, enrollment.exam.isPast).color"
-            :text="attemptResultStatus(enrollment.attempt, enrollment.exam.isPast).text"
-          />
+          <div>
+            <AppStatusChip
+              :color="attemptResultStatus(enrollment.attempt, enrollment.exam.isPast).color"
+              :text="attemptResultStatus(enrollment.attempt, enrollment.exam.isPast).text"
+            />
+            <ForeignNationalEnrollmentsDropdown :enrollment="enrollment" :foreign-national="foreignNational" />
+          </div>
         </v-card-text>
       </v-card>
     </v-sheet>

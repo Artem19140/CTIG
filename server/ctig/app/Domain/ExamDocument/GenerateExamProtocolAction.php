@@ -6,7 +6,6 @@ use App\Enums\AttemptStatus;
 use App\Models\Attempt;
 use App\Models\Exam;
 use App\Models\User;
-use App\Validation\ExamValidation;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 

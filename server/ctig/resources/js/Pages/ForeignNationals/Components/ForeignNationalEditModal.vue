@@ -15,7 +15,7 @@ const props = defineProps<{
 
 const isOpen = defineModel<boolean>({default:false})
 
-const form = useForm<ForeignNational>({
+const form = useForm({
     surname: props.foreignNational?.surname, 
     name: props.foreignNational?.name,
     patronymic: props.foreignNational?.patronymic ?? "",

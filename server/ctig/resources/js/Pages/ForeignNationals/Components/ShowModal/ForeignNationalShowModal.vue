@@ -111,7 +111,7 @@ const edit = (value:ForeignNational) => {
         <v-divider></v-divider>
 
         <v-card-text>
-            <ForeignNationalEnrollmentsList :enrollments="foreignNational?.enrollments ?? []" />
+            <ForeignNationalEnrollmentsList :foreignNational="foreignNational" />
         </v-card-text>
     </BaseDialog>
 </template>

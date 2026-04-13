@@ -9,7 +9,8 @@ import { useAlert } from '../../../Composables/useAlert';
 import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
 
 const props = defineProps<{
-    foreignNational: ForeignNational | null
+    foreignNational: ForeignNational | null,
+    examTypeId?:number | null
 }>()
 
 const isOpen = defineModel<boolean>()
@@ -65,6 +66,7 @@ const canClose  = async (fn: () => void) => {
     >
         <ExamEnrollment 
             v-model="examId"
+            :examTypeId="examTypeId"
             :foreignNational-id="foreignNational?.id"
         />
         <v-checkbox

@@ -29,12 +29,11 @@ const page = usePage()
         />
         Период
         <div class="d-flex align-center gap-2">
-           
             <AppInput 
-            v-model="form.dateFrom"
-            label=""
-            type="date"
-            :error-messages="form.errors.dateFrom"
+                v-model="form.dateFrom"
+                label=""
+                type="date"
+                :error-messages="form.errors.dateFrom"
             />
             <AppInput 
                 v-model="form.dateTo"

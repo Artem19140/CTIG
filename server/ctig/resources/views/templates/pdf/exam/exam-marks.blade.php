@@ -16,14 +16,23 @@
        
     </thead>
     <tbody>
+    
     @foreach ($exam->foreignNationals as $f)
         <td class="border">{{ $f->full_name }}</td>
         <td class="border">{{ $f->full_passport }}</td>
-        @foreach ($f->attempts as $a)
-            @foreach ($a->answers as $answer)
-                <td class="border">{{ $answer->mark }}</td>
+        @if ($f->attempts->isNotEmpty())
+            @foreach ($f->attempts as $a)
+                @foreach ($a->answers as $answer)
+                    <td class="border">{{ $answer->mark}}</td>
+                @endforeach
             @endforeach
-        @endforeach
+        @else
+            @for($i = 1; $i <= $exam->examType->tasks_count; $i++)
+                <td class="border">
+                   {{ '-' }}
+                </td>
+            @endfor
+        @endif
         
     @endforeach
     </tbody>

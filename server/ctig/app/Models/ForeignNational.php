@@ -35,7 +35,12 @@ class ForeignNational extends Authenticatable {
         'passport_translate_scan',
         'document_type',
         'gender',
-        'comment'
+        'comment',
+        'surname_normalized',
+        'name_normalized',
+        'patronymic_normalized',
+        'passport_number_normalized',
+        'passport_series_normalized',
     ];
 
     protected $casts = [

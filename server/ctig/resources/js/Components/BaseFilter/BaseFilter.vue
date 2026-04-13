@@ -10,6 +10,9 @@ const props = defineProps<{
 }>()
 
 
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') find()
+})
 const filledCount = computed(() => {
   const formData = props.form.data()
 
@@ -24,15 +27,21 @@ const filledCount = computed(() => {
 })
 
 const find = () => {
-    props.form.get(props.url, {
+    router.get(props.url, props.form.data(), {
         preserveState: true,
         preserveScroll: true,
-    },)
+        replace: false, // важно для back/forward
+    })
 }
 
 const clean = () => {
     props.form.reset()
-    router.get(props.url,{})
+
+    router.get(props.url, {}, {
+        preserveState: true,
+        preserveScroll: true,
+        replace: false,
+    })
 }
 </script>
 

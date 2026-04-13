@@ -51,14 +51,14 @@
             ></v-list-item>
           <v-list-item 
             prepend-icon="mdi-office-building" 
-            v-if="can([Roles.ORG_ADMIN, Roles.DIRECTOR])" 
+            v-if="can([Roles.ORG_ADMIN])" 
             title="Центр" 
             value="center" 
             @click="router.get(`/centers/${centerId}`)"
           ></v-list-item>
           <v-list-item 
             prepend-icon="mdi-account-group" 
-            v-if="can([Roles.ORG_ADMIN, Roles.DIRECTOR])" 
+            v-if="can([Roles.ORG_ADMIN])" 
             title="Сотрудники" 
             @click="router.get(`/centers/${centerId}/employees`)"
             value="employees" 

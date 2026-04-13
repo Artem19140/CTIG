@@ -37,20 +37,19 @@ const getStatistics = () => {
         v-model="isOpen"
         @before-close="(done) => done()"
     >
+    период
+    <div class="d-flex align-center gap-2">
         <AppInput 
-            label="Дата с"
             type="date"
             v-model="http.dateFrom"
             :error-messages="http.errors.dateFrom"
-            :required="true"
         />
         <AppInput 
-            label="Дата по"
             v-model="http.dateTo"
             :error-messages="http.errors.dateTo"
             type="date"
-            :required="true"
         />
+      </div>
         <v-container class="pa-0" fluid>
     <v-row dense>
       <v-col cols="12" sm="6" md="4">

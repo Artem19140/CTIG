@@ -45,8 +45,8 @@
         <tr>
             <td>{{ $row['fio'] }}</td>
             <td>{{ $row['passport'] }}</td>
-            <td>{{ $row['started_at'] }}</td>
-            <td>{{ $row['finished_at'] }}</td>    
+            <td>{{ $row['started_at'] ?? ''}}</td>
+            <td>{{ $row['finished_at']  ?? ''}}</td>    
             @foreach ($columns as $blockId => $block)
                 @foreach ($block['subblocks'] as $subId => $subName)
                     <td>
@@ -54,9 +54,21 @@
                     </td>
                 @endforeach
             @endforeach
-            <td>{{ $row['result'] ?  'Сертификат' : 'Справка' }}</td>
+            @if ($row['attempt'] ?? false)
+                @if($row['attempt']->isBanned())
+                    <td>Снят</td>
+                @else
+                    <td>{{ $row['attempt']->is_passed ?  'Сертификат' : 'Справка' }}</td>
+                @endif
+            @else
+                <td>н/я</td>
+            @endif
+            
         </tr>
         @endforeach
+        
+
+        
     </tbody>
 </table>
 <div>Результаты экзамена проверены.</div>

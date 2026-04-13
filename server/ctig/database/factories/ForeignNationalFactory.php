@@ -23,6 +23,8 @@ class ForeignNationalFactory extends Factory
         return [
             'surname'           => fake()->lastName(),
             'name'              => fake()->firstName(),
+            'surname_normalized'           => fake()->lastName(),
+            'name_normalized'              => fake()->firstName(),
             'patronymic'        => fake()->firstName() . 'ович', // или 'овна' для женских
             'surname_latin'     => fake()->lastName(),
             'name_latin'        => fake()->firstName(),

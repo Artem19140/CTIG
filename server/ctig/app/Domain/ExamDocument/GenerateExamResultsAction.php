@@ -7,13 +7,14 @@ use App\Domain\Attempt\Query\GetDetailedAttemptResultsQuery;
 use App\Models\Exam;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-class GenerateExamStatementAction{
+class GenerateExamResultsAction{
     public function __construct(
         protected GetDetailedAttemptResultsAction $getDetailedAttemptResults,
         protected ExamDocumentAvailable $examDocumentAvailable
     ){}
     public function execute(Exam $exam){
         $this->examDocumentAvailable->statement($exam);
+
         $exam->load([
             'foreignNationals.attempts' => function ($query) use ($exam) {
                 $query->where('exam_id', $exam->id)
@@ -21,12 +22,6 @@ class GenerateExamStatementAction{
             }
         ]);
 
-        
-        $exam->load([
-            'foreignNationals.attempts' => function ($query) use ($exam) {
-                $query->where('exam_id', $exam->id);
-            }
-        ]);
         $columns = []; 
         $data = [];   
 
@@ -47,7 +42,7 @@ class GenerateExamStatementAction{
                     'passport' => $f->full_passport,
                     'started_at' => $a->started_at->format('H:i'),
                     'finished_at' => $a->finished_at->format('H:i'),
-                    'result' => $a->is_passed,
+                    'attempt' => $a,
                     'results' => []
                 ];
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web\Exam;
 use App\Domain\ExamDocument\ExamDocumentAvailable;
 use App\Domain\ExamDocument\GenerateCodesAction;
 use App\Domain\ExamDocument\GenerateExamProtocolAction;
-use App\Domain\ExamDocument\GenerateExamStatementAction;
+use App\Domain\ExamDocument\GenerateExamResultsAction;
 use App\Models\Exam;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -68,10 +68,10 @@ class ExamDocumentController
         ])->back();
     }
 
-    public function results(Exam $exam, GenerateExamStatementAction $generateExamStatement)
+    public function results(Exam $exam, GenerateExamResultsAction $generateExamResults)
     {
         Gate::authorize('exam-manage-access', $exam);
-        $resultsPdf = $generateExamStatement->execute($exam);
+        $resultsPdf = $generateExamResults->execute($exam);
         $fileName = "Результаты_".$exam->short_name."_".$exam->begin_time->format('H-i_d.m.Y').".pdf";
         return $resultsPdf->stream($fileName);
     }

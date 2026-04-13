@@ -1,5 +1,7 @@
 @extends('templates.layouts.base')
-
+@section('title')
+    Результаты
+@endsection
 @push('style')
     
     table, th, td {

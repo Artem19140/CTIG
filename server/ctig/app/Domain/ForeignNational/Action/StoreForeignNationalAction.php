@@ -6,7 +6,6 @@ use App\Domain\ForeignNational\Guard\ForeignNationalGuard;
 use App\Models\ForeignNational;
 use Storage;
 
-
 final class StoreForeignNationalAction{
     public function __construct(
         protected ForeignNationalGuard $foreignNationalGuard
@@ -39,6 +38,23 @@ final class StoreForeignNationalAction{
             'comment' => $data['comment'],
             'passport_translate_scan' => Storage::putFile('avatars', $data['passportTranslateScan']),
             'passport_scan' => Storage::putFile('avatars', $data['passportScan']),
+            'surname_normalized' => $this->normalize($data['surname']),
+            'name_normalized'=> $this->normalize($data['name']),
+            'patronymic_normalized'=> $this->normalize($data['patronymic']),
+            'passport_number_normalized'=> $this->normalize($data['passportNumber']),
+            'passport_series_normalized'=> $this->normalize($data['passportSeries']),
         ];
+    }
+
+    protected function normalize(string | null $value){
+        if(!$value) return '';
+        $value = trim($value);
+
+        if (class_exists(\Normalizer::class)) {
+            $value = \Normalizer::normalize($value, \Normalizer::FORM_C);
+        }
+
+        $value = mb_strtolower($value, 'UTF-8');
+        return $value;
     }
 }

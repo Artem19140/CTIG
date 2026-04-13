@@ -35,19 +35,24 @@ const donwload = () => {
         v-model="isOpen"
         @before-close="(done) => done()"
     >
-        <AppInput
-            v-model="http.dateFrom"
-            required
-            label="Дата с"
-            :error-messages="http.errors.dateFrom"
-            type="date"
-        />
-        <AppInput
-            v-model="http.dateTo"
-            label="Дата по"
-            :error-messages="http.errors.dateTo"
-            type="date"
-        />
+        Период
+            <div class="d-flex align-center gap-2">
+                <AppInput
+                    v-model="http.dateFrom"
+                    required
+                    label="Дата с"
+                    :error-messages="http.errors.dateFrom"
+                    type="date"
+                />
+                <AppInput
+                    v-model="http.dateTo"
+                    required
+                    label="Дата по"
+                    :error-messages="http.errors.dateTo"
+                    type="date"
+                />
+        </div>
+        
         <template #actions>
             <AddButton 
                 :disabled="!http.dateFrom || !http.dateTo"

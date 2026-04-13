@@ -27,18 +27,23 @@ const page = usePage()
             v-model="form.examTypeId"
             :error-messages="form.errors.examTypeId"
         />
-        <AppInput 
+        Период
+        <div class="d-flex align-center gap-2">
+           
+            <AppInput 
             v-model="form.dateFrom"
-            label="Дата с"
+            label=""
             type="date"
             :error-messages="form.errors.dateFrom"
-        />
-        <AppInput 
-            v-model="form.dateTo"
-            label="Дата по"
-            type="date"
-            :error-messages="form.errors.dateTo"
-        />
+            />
+            <AppInput 
+                v-model="form.dateTo"
+                label=""
+                type="date"
+                :error-messages="form.errors.dateTo"
+            />
+        </div>
+        
         <v-checkbox 
             v-model="form.completed"
             label="Прошедшие"

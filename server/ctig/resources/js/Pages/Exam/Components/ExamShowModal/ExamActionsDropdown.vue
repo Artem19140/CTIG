@@ -66,27 +66,27 @@ const permission = getExamPermissions(props.exam)
 <template>
     <ThreeDotDropdown>
       <AppListDropDownItem 
-        title="Скачать кода" 
+        title="Кода" 
         :disabled="!permission.canDownloadCodes"
         @click="() => download('codes')" 
         v-if="can([Roles.EXAMINER])"
       />
 
       <AppListDropDownItem 
-        title="Скачать список"
+        title="Список"
         :disabled="!permission.canDownloadStudList"  
         @click="download('list')" 
       />
 
       <AppListDropDownItem 
-        title="Скачать ведомость"
+        title="Результаты"
         :disabled="!permission.canDownloadStatement" 
         v-if="can([Roles.EXAMINER])"
-        @click="() => download('statement')" 
+        @click="() => download('results')" 
       />
 
       <AppListDropDownItem 
-        title="Скачать протокол" 
+        title="Протокол" 
         v-if="can([Roles.EXAMINER])"
         :disabled="!permission.canDownloadProtocol"
         @click="() => download('protocol')" 

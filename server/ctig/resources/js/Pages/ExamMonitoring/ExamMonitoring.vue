@@ -16,7 +16,7 @@ defineOptions({
 })
 
 const props = defineProps<{
-    foreignNationals:any,
+    //foreignNationals:any,
     exam:any,
     hasSpeakingTasks:boolean
 }>()
@@ -24,7 +24,6 @@ const props = defineProps<{
 const enrollments = ref<Enrollment[]>(props.exam.data.enrollments)
 
 const { start, stop } = usePoll(10000, {
-        only: ['foreignNationals'],
         onStart() {
                 console.log('Polling request started')
         },
@@ -107,7 +106,6 @@ const openForeignNational = (event : Event, {item} :any) => {
                 :headers="headers"
                 hover
                 hide-default-footer
-                :loading="foreignNationals.lenght === 0"
                 @click:row="openForeignNational"
             >
                 <template  #item.actions="{ item }">

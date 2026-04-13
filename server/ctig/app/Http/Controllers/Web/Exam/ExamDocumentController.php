@@ -68,31 +68,20 @@ class ExamDocumentController
         ])->back();
     }
 
-    public function statement(Exam $exam, GenerateExamStatementAction $generateExamStatement)
+    public function results(Exam $exam, GenerateExamStatementAction $generateExamStatement)
     {
         Gate::authorize('exam-manage-access', $exam);
-        $spreadSheet = $generateExamStatement->execute($exam);
-        
-        $writer = IOFactory::createWriter($spreadSheet, 'Xlsx');
-        
-        $fileName = "statement.xlsx";
-        $headers = [
-            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'Content-Disposition' => "attachment;filename=$fileName",
-            'Cache-Control' => 'max-age=0',
-        ];
-        
-        return new StreamedResponse(function () use ($writer) {
-            $writer->save('php://output');
-        }, 200, $headers);
+        $resultsPdf = $generateExamStatement->execute($exam);
+        $fileName = "Результаты_".$exam->short_name."_".$exam->begin_time->format('H-i_d.m.Y').".pdf";
+        return $resultsPdf->stream($fileName);
     }
 
-    public function statementAvailable(Exam $exam)
+    public function resultsAvailable(Exam $exam)
     {
         Gate::authorize('exam-manage-access', $exam);
         $this->examDocumentAvailable->statement($exam);
         return Inertia::flash([
-            'redirectUrl' => route('exam.documents.statement', ['exam' => $exam])
+            'redirectUrl' => route('exam.documents.results', ['exam' => $exam])
         ])->back();
     }
 }

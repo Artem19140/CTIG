@@ -14,7 +14,7 @@ class GenerateEnrollmentStatementAction{
     public function execute(Enrollment $enrollment):\Barryvdh\DomPDF\PDF{         
         $enrollment->load(['foreignNational', 'exam.examType', 'creator', 'center']);
 
-        return Pdf::loadView('templates.enrollment-statement',[
+        return Pdf::loadView('templates.pdf.enrollment.enrollment-full',[
             'enrollment' => $enrollment
         ]);  
     }

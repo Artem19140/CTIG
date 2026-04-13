@@ -107,7 +107,7 @@ td {
         <tr>
             <td class="label">Дата проведения экзамена:</td>
             <td class="value">
-                <span class="underline">
+                <span class="underline" style="text-align: center;">
                     {{ \Carbon\Carbon::parse($exam->begin_time)->format('d.m.Y') }}
                 </span>
             </td>
@@ -121,8 +121,8 @@ td {
         <tr>
             <td>Начало экзамена:</td>
             <td>
-                <span class="underline">
-                    {{ \Carbon\Carbon::parse($exam->begin_time)->format('H:i') }}
+                <span class="underline" style="text-align: center;">
+                    {{ \Carbon\Carbon::parse($exam->begin_time_real)->format('H:i') }}
                 </span>
             </td>
         </tr>
@@ -130,7 +130,7 @@ td {
         <tr>
             <td>Окончание экзамена:</td>
             <td>
-                <div class="underline">
+                <div class="underline" style="text-align: center;">
                     {{ \Carbon\Carbon::parse($exam->end_time)->format('H:i') }}
                 </div>
             </td>
@@ -142,14 +142,18 @@ td {
             Нарушения / отсутствие нарушений:
         </span>
         <div>
-            {{ $exam->protocol_comment}}
+            - {{ $exam->protocol_comment}}
             <div>
                 @foreach ( $bannedAttempts as $attempt )
-                    <span>сдающий {{ $attempt->foreignNational->full_name }} был снят с экзамена по причине: "{{ $attempt->ban_reason }}"</span> 
+                    <span>
+                        - Cдающий {{ $attempt->foreignNational->full_name_short }}
+                        (паспорт: {{ $attempt->foreignNational->full_passport }}) был снят с экзамена по причине: 
+                        "{{ $attempt->ban_reason }}";
+                    </span> 
                 @endforeach
             </div>
         </div>
-        <div>{{ !$exam->protocol_comment && !$bannedAttempts ? 'Нарушения не установлены' : '' }}</div>
+        <div>{{ !$exam->protocol_comment && $bannedAttempts->isEmpty() ?  'Нарушения не установлены' : '' }}</div>
     </div>
     
     
@@ -158,50 +162,16 @@ td {
         <div class="bold" style="margin-bottom:10px;">
             ПРОТОКОЛ СОСТАВЛЕН
         </div>
-
         <div >
-            <span style="border-bottom:1px solid black;"> 
-                {{ \Carbon\Carbon::now()->format('«d»') }} 
-            </span> 
-            <span style="border-bottom:1px solid black; padding-left:20px; padding-right:20px;"> 
-                {{ \Carbon\Carbon::now()->format('m') }} 
-            </span> 
-            {{ \Carbon\Carbon::now()->format(' Y г.') }}
+            @include('templates.components.date-inline', ['date' => \Carbon\Carbon::now()])
         </div>
     </div>
-
+    Лица, принимающие экзамен:
     @foreach($exam->examiners as $examiner)
-        <table style="width: 50%; margin-bottom: 20px; border-collapse: collapse; margin-top:50px;">
-        <tbody>
-            <tr>
-                <td style="
-                    border-bottom: 1px solid #000;
-                    white-space: nowrap;
-                    width:250px;
-                    padding-bottom: 2px;
-                ">
-                    {{ $examiner->full_name }}
-                </td>
-
-                <td style="
-                    width: 100%;
-                    border-bottom: 1px solid #000;
-                ">/</td>
-            </tr>
-
-            <!-- Подпись -->
-            <tr>
-                <td colspan="2" style="
-                    font-size: 10px;
-                    line-height: 10px;
-                    padding-top: 2px;
-                ">
-                    Лицо, принимающее экзамен
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
+        @include('templates.components.signature-section', [
+                    'date' =>  \Carbon\Carbon::now()->format('d.m.Y'), 
+                    'fio' => $examiner->full_name, 
+                ])
     @endforeach
 
 </div>

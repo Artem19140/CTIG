@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Web\Exam;
 
 use App\Actions\Exam\Monitoring\UpdateProtocolCommentAction;
 use App\Http\Resources\Exam\ExamResource;
-use App\Http\Resources\ForeignNational\ForeignNationalResource;
 use App\Models\Exam;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -44,7 +43,6 @@ class ExamMonitoringController
         ]);
         
         return Inertia::render('ExamMonitoring/ExamMonitoring', [
-            'foreignNationals' => fn () => ForeignNationalResource::collection($exam->foreignNationals),
             'exam' => new ExamResource($exam),
             'hasSpeakingTasks' => $exam->examType->has_speaking_tasks,
         ]);

@@ -218,7 +218,7 @@ class RvpSeeder extends Seeder
             'min_mark'=>6,
             'subblocks'=>[
                 [
-                    'name' => 'Тест',
+                    'name' => '',
                     'min_mark'=> 0,
                     'tasks' => [
 
@@ -234,7 +234,7 @@ class RvpSeeder extends Seeder
             'min_mark'=>6,
             'subblocks'=>[
                 [
-                    'name' => 'Тест',
+                    'name' => '',
                     'min_mark'=> 0,
                     'tasks' => [
 

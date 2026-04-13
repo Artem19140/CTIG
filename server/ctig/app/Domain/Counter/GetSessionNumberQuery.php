@@ -17,6 +17,9 @@ class GetSessionNumberQuery{
                                 return $exam->begin_time->copy()->toDateString();
                             })
                             ->count();
+        if($sessionNumber === 0){
+            $sessionNumber += 1;
+        }
         return $sessionNumber;
     }
 }

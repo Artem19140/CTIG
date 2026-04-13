@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\Web\Enrollment\EnrollmentDocumentController;
 use App\Http\Controllers\Web\File\FileController;
-use App\Http\Controllers\Web\Info\InfoController;
 use App\Http\Controllers\Web\Statistics\StatisticsController;
 use App\Http\Controllers\Web\User\UserController;
 use App\Http\Controllers\Web\Attempt\AttemptController;
@@ -26,7 +26,7 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
     Route::prefix('enrollments')->group(function(){
         Route::post('{enrollment}/reschedule', [EnrollmentController::class, 'reschedule']);
         Route::put('{enrollment}/payment', [EnrollmentController::class, 'changePayment']);
-        Route::get('{enrollment}/statements', [EnrollmentController::class, 'statement'])->name('enrollments.statements');
+        Route::get('{enrollment}/statements', [EnrollmentDocumentController::class, 'statement'])->name('enrollments.statements');
     });
 
     Route::get('statistics', [StatisticsController::class, 'index']);
@@ -42,16 +42,14 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
             Route::get('codes/available', [ExamDocumentController::class, "codesAvailable"]);
             Route::get('protocol', [ExamDocumentController::class, "protocol"])->name('exam.documents.protocol');
             Route::get('protocol/available', [ExamDocumentController::class, "protocolAvailable"]);
-            Route::get('statement', [ExamDocumentController::class, 'statement'])->name('exam.documents.statement');
-            Route::get('statement/available', [ExamDocumentController::class, 'statementAvailable']);
+            Route::get('results', [ExamDocumentController::class, 'results'])->name('exam.documents.results');
+            Route::get('results/available', [ExamDocumentController::class, 'resultsAvailable']);
             Route::get('list', [ExamDocumentController::class, 'list'])->name('exam.documents.list');
             Route::get('list/available', [ExamDocumentController::class, 'listAvailable']);
         });
         
         Route::prefix('{exam}/foreign-nationals')->group(function(){
             Route::post('', [EnrollmentController::class, "store"]);
-            // Route::delete('{foreignNational}', [EnrollmentController::class, "destroy"]);
-            // Route::put('{foreignNational}/payment', [EnrollmentController::class, "changePayment"]);
             
         });
         

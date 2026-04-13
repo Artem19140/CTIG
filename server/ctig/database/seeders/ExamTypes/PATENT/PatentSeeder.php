@@ -211,7 +211,7 @@ class PatentSeeder extends Seeder
             'min_mark'=>2,
             'subblocks'=>[
                 [
-                    'name' => 'Тест',
+                    'name' => '',
                     'min_mark'=> 2,
                     'tasks' => [
                         [
@@ -251,7 +251,7 @@ class PatentSeeder extends Seeder
             'min_mark'=>3,
             'subblocks'=>[
                 [
-                    'name' => 'Тест',
+                    'name' => '',
                     'min_mark'=> 3,
                     'tasks' => [
                         [

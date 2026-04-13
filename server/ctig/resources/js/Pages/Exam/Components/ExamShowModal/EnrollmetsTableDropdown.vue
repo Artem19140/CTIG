@@ -18,8 +18,8 @@ const emit = defineEmits<{
 
 const {confirmOpen} = useConfirmDialog()
 
-const download = () => {
-    window.open(`enrollments/${props.enrollment.id}/statements`)
+const download = (document : string) => {
+    window.open(`enrollments/${props.enrollment.id}/${document}`)
 }
 
 const reschedule = () => {
@@ -68,11 +68,11 @@ const changePayment = async () => {
 <template>
     <ThreeDotDropdown>
         <AppListDropDownItem 
-            title="Скачать заявление" 
-            @click="download"
+            title="Заявление" 
+            @click="() => download('statements')"
         />
         <AppListDropDownItem 
-            title="Перенести запись" 
+            title="Перенести" 
             @click="reschedule"
             
         />
@@ -82,7 +82,7 @@ const changePayment = async () => {
         />
 
         <AppListDropDownItem 
-            title="Отменить запись" 
+            title="Отменить" 
             @click="cancell"
             color="text-red"
         />

@@ -117,4 +117,16 @@ class Exam extends Model
         return $query->where('is_cancelled', false);
     }
 
+    protected function name(): Attribute{
+        return Attribute::get(function () {
+            return $this->examType->name;
+        });
+    }
+
+    protected function shortName(): Attribute{
+        return Attribute::get(function () {
+            return $this->examType->short_name;
+        });
+    }
+
 }

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('name');
+            $table->string('short_name');
             $table->string('director_fio');
             $table->string('certificates_issue_address');
             $table->boolean('is_active')->default(true);

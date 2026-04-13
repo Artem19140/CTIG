@@ -38,7 +38,7 @@ const clean = () => {
 
 <template>
     <v-menu
-        width="350"
+        width="420"
         :close-on-content-click="false"
     >
         <template v-slot:activator="{ props }">

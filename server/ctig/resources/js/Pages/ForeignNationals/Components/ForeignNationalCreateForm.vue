@@ -63,7 +63,7 @@ function required (v:any) {
                         <v-checkbox
                             v-if="!edit"
                             v-model="form.noPatronymic" 
-                            label="Нет отчества"
+                            label="Нет отчества на рус"
                             :readonly="readonly"
                             :error-messages="form.errors.noPatronymic"
                         ></v-checkbox>
@@ -95,15 +95,25 @@ function required (v:any) {
                         />
                     </v-col>
 
-                    <v-col cols="12" md="6">
+                    <v-col cols="6" md="6">
                         <AppInput 
                             label="Отчество на латинице"
                             :required="true && !edit"
                             v-model="form.patronymicLatin"
                             :readonly="readonly"
                             :error-messages="form.errors.patronymicLatin"
-                            :disabled="form.noPatronymic"
+                            :disabled="form.noPatronymicLatin"
                         />  
+                    </v-col>
+
+                    <v-col cols="6" md="6">
+                        <v-checkbox
+                            v-if="!edit"
+                            v-model="form.noPatronymicLatin" 
+                            label="Нет отчества на лат"
+                            :readonly="readonly"
+                            :error-messages="form.errors.noPatronymicLatin"
+                        ></v-checkbox>
                     </v-col>
 
                     <v-col cols="12" md="6">
@@ -118,7 +128,7 @@ function required (v:any) {
                     </v-col>
 
                     
-
+                    <v-col cols="12" md="6"></v-col>
                     <v-col md="6" cols="12">
                         <AppAutocomplete
                             label="Гражданство"

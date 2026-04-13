@@ -35,6 +35,11 @@ class ForeignNationalPostRequest extends FormRequest
                     'required',
                     'boolean'
                 ],
+            'noPatronymicLatin' =>
+            [
+                'required',
+                'boolean'
+            ],
             'noPassportNumber' =>
                 [
                     'required',
@@ -64,8 +69,8 @@ class ForeignNationalPostRequest extends FormRequest
                 ],
             'patronymicLatin' =>
                 [
-                    'prohibited_if_accepted:noPatronymic',
-                    'required_if_declined:noPatronymic',
+                    'prohibited_if_accepted:noPatronymicLatin',
+                    'required_if_declined:noPatronymicLatin',
                     'nullable',
                     'string'
                 ],

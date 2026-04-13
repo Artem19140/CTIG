@@ -63,9 +63,10 @@ const reschedule = (value : Enrollment) => {
             />
         </template>
         <template #item.results="{ item }">
+            {{ item?.foreignNational.attempt }}
             <AppStatusChip
-                :color="attemptResultStatus(item?.foreignNational.attempts?.[0] ?? null, exam?.isPast).color"
-                :text="attemptResultStatus(item?.foreignNational.attempts?.[0] ?? null, exam?.isPast).text"
+                :color="attemptResultStatus(item?.foreignNational.attempt, exam?.isPast).color"
+                :text="attemptResultStatus(item?.foreignNational.attempt, exam?.isPast).text"
             /> 
         </template>
     </v-data-table>

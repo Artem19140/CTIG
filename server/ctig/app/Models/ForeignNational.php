@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Laravel\Sanctum\HasApiTokens;
@@ -62,6 +63,7 @@ class ForeignNational extends Authenticatable {
     public function attempts(): HasMany{
         return $this->hasMany(Attempt::class, 'foreign_national_id');
     }
+
 
     public function documents(): MorphMany{
         return $this->morphMany(Document::class, 'documentable');

@@ -3,6 +3,7 @@
 namespace App\Http\Resources\ForeignNational;
 
 use App\Http\Resources\Attempt\AttemptResource;
+use App\Http\Resources\Enrollment\EnrollmentResource;
 use App\Http\Resources\Exam\ExamResource;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
@@ -36,6 +37,8 @@ class ForeignNationalProfileResource extends JsonResource
             'gender' =>$this->resource->gender,
             'creator'=>new UserResource($this->whenLoaded('creator')),
             'attempts' => AttemptResource::collection($this->whenLoaded('attempts')),
+            'attempt' => new AttemptResource($this->whenLoaded('attempts', fn() => $this->attempts->first())),
+            'enrollments' => EnrollmentResource::collection($this->whenLoaded('enrollments')),
             'exams' => ExamResource::collection($this->whenLoaded('exams')),
             'passportScan' => $this->passport_scan,
             'passportTranslateScan' => $this->passport_translate_scan,

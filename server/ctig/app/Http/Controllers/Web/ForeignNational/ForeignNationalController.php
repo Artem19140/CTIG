@@ -42,10 +42,9 @@ class ForeignNationalController
         ])->back();
     }
     public function show(ForeignNational $foreignNational){
-        $foreignNational->load(['exams' => ['attempts' => function ($query) use($foreignNational): void{
-            $query->where('foreign_national_id', $foreignNational->id);
-            },
-            'examType']
+        $foreignNational->load( [
+            'enrollments.exam.examType',
+            'enrollments.attempt',
         ]);
         return new ForeignNationalProfileResource($foreignNational);
     }
@@ -77,7 +76,7 @@ class ForeignNationalController
         
         return response()->streamDownload(function () use ($exportForeignNationalQuery, $request) {
             $exportForeignNationalQuery->execute($request->validated());
-        }, 'report.csv');
+        }, 'Выгрузка_ИГ.csv');
     }
 
 }

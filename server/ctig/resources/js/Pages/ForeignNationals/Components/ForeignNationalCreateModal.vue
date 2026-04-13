@@ -44,6 +44,7 @@ const form = useForm<IForeignNationalCreateForm>({
     name:'Иван',
     patronymic:"Иванович",
     noPatronymic:false,
+    noPatronymicLatin:false,
     surnameLatin:'Ivanov',
     nameLatin:'Ivan',
     patronymicLatin:"Ivanovich",
@@ -104,6 +105,11 @@ const  close  = async (fn:  ()  => void)  =>  {
 watch(() => form.noPatronymic, (val) => {
     if (val){
         form.patronymic = ''
+    } 
+})
+
+watch(() => form.noPatronymicLatin, (val) => {
+    if (val){
         form.patronymicLatin = ''
     } 
 })

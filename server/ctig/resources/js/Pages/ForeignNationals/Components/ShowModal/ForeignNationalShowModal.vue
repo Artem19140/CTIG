@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BaseDialog from '../../../../Components/BaseDialog/BaseDialog.vue';
-import ForeignNationalExamsList from '../ForeignNationalExamsList.vue';
+import ForeignNationalEnrollmentsList from '../ForeignNationalEnrollmentsList.vue';
 import ForeignNationalActionsDropdown from '../ForeignNationalActionsDropdown.vue';
 import { onMounted, ref } from 'vue';
 import type { ForeignNational } from '../../../../interfaces/interfaces';
@@ -18,7 +18,7 @@ const foreignNational = ref<ForeignNational | null>(null)
 
 
 const getForeignNational = async () => {
-    http.get(`/foreign-nationals/${props.foreignNationalId}?profile=true`,{
+    http.get(`/foreign-nationals/${props.foreignNationalId}`,{
         onSuccess:(response : any)=>{
             foreignNational.value = response.data
         }
@@ -111,7 +111,7 @@ const edit = (value:ForeignNational) => {
         <v-divider></v-divider>
 
         <v-card-text>
-            <ForeignNationalExamsList :exams="foreignNational?.exams ?? []" />
+            <ForeignNationalEnrollmentsList :enrollments="foreignNational?.enrollments ?? []" />
         </v-card-text>
     </BaseDialog>
 </template>

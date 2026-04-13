@@ -16,7 +16,6 @@ defineOptions({
 })
 
 const props = defineProps<{
-    //foreignNationals:any,
     exam:any,
     hasSpeakingTasks:boolean
 }>()
@@ -93,6 +92,7 @@ const openForeignNational = (event : Event, {item} :any) => {
                 <v-spacer />
                 <v-btn 
                     border 
+                    v-if="exam.data.isGoing"
                     variant="text" 
                     class="mr-4 text-black"
                     @click="open('examComment', {exam:props.exam.data})"
@@ -120,10 +120,10 @@ const openForeignNational = (event : Event, {item} :any) => {
                     <span v-else></span>
                 </template>
                 <template  #item.startTime="{ item }">
-                    {{new DateFormatter(item.foreignNational.attempts[0]?.startedAt).format('H:i')}}
+                    {{new DateFormatter(item.foreignNational.attempt?.startedAt).format('H:i')}}
                 </template>
                 <template  #item.endTime="{ item }">
-                    {{new DateFormatter(item.foreignNational.attempts[0]?.finishedAt ?? '').format('H:i')}}
+                    {{new DateFormatter(item.foreignNational.attempt?.finishedAt ?? '').format('H:i')}}
                 </template>
                 <template #item.hasPayment="{ item }">
                     <v-icon :color="item.hasPayment ? 'green' : 'red'">

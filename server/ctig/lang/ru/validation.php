@@ -248,7 +248,8 @@ return [
         'hasPayment' => 'есть оплата',
         'protocolComment' => 'комментарий для протокола',
         'dateFrom' => 'дата с',
-        'dateTo' => 'дата по'
+        'dateTo' => 'дата по',
+        'noPatronymicLatin' => 'нет отчества на лат',
     ],
 
 ];

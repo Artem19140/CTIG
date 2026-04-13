@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Enrollment extends Model
 {
@@ -45,6 +46,11 @@ class Enrollment extends Model
     public function foreignNational():BelongsTo{
         return $this->belongsTo(ForeignNational::class);
     }
+
+    public function attempt():HasOne{
+        return $this->hasOne(Attempt::class, 'enrollment_id');
+    }
+
 
     public static function for(Exam $exam, ForeignNational $foreignNational){
         return self::where('exam_id', $exam->id)

@@ -1,4 +1,4 @@
-import { Exam } from "../interfaces/interfaces"
+import { Attempt, Exam } from "../interfaces/interfaces"
 
 export const downloadFile = (blob: Blob) => {
   if(!blob) return
@@ -49,7 +49,7 @@ export const examStatus = (item: {
 
 
 export const attemptResultStatus = (
-  attempt: { isPassed: boolean, status:string } | null,
+  attempt:Attempt | null,
   isPast: boolean | undefined
 ) => {
 

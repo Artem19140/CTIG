@@ -29,7 +29,9 @@ export interface Enrollment{
     id:number,
     foreignNational:ForeignNational,
     hasPayment:boolean,
-    isLoading?: boolean 
+    isLoading?: boolean,
+    exam:Exam,
+    attempt:Attempt | null
 }
 
 export interface User{
@@ -67,7 +69,8 @@ export interface ForeignNational{
     isLoading?: boolean,
     passportTranslateScan?:string | null,
     comment:''
-    gender:string | null
+    gender:string | null,
+    enrollments:Array<Enrollment>
 }
 
 export type IForeignNationalCreateForm = Omit<
@@ -80,7 +83,7 @@ export type IForeignNationalCreateForm = Omit<
   noPassportNumber: boolean
   noPassportSeries: boolean
   noPatronymic: boolean
-  
+  noPatronymicLatin:boolean
   hasPayment:boolean
   examId: number | null
 }

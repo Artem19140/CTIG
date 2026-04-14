@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Exam;
 
+use App\Domain\Exam\Resolver\ExamStatusResolver;
 use App\Http\Resources\Attempt\AttemptResource;
 use App\Http\Resources\Enrollment\EnrollmentResource;
 use App\Http\Resources\User\UserResource;
@@ -20,8 +21,7 @@ class ExamResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'isCancelled' => $this->is_cancelled,
-            'cancelledReason' => $this->when($this->is_cancelled, $this->cancelled_reason),
+            'cancelledReason' => $this->when($this->isCancelled(), $this->cancelled_reason),
             'beginTime' => $this->begin_time->copy()->format('Y-m-d H:i:s'),//->format('H:i, d.m.Y')
             'foreignNationals' => ForeignNationalResource::collection($this->whenLoaded('foreignNationals')),//здесь если есть результаты, то и их можно взять
             'enrollments' => EnrollmentResource::collection($this->whenLoaded('enrollments')),
@@ -39,13 +39,13 @@ class ExamResource extends JsonResource
             'creator'=> new UserResource($this->whenLoaded('creator')),
             'createdAt' => $this->created_at,
             'foreignNationalsCount' => $this->whenCounted('foreignNationals_count'),
+            'enrollmentsCount' => $this->whenCounted('enrollments_count'),
             'attempts' => AttemptResource::collection( $this->whenLoaded('attempts')),
             'duration' => $this->whenLoaded('examType', fn () => $this->examType->duration),
             'endTime' => $this->end_time->copy()->format('Y-m-d H:i:s'),
-            'isPast' =>  $this->begin_time_utc->copy()->addMinutes($this->duration)->isPast(),
             'tasksCount' => $this->whenLoaded('examType', fn () => $this->examType->tasks_count),
             'hasSpeakingTasks' => $this->whenLoaded('examType', fn () => $this->examType->has_speaking_tasks),
-            'isGoing' => $this->isGoing()
+            'status' => app(ExamStatusResolver::class)->execute($this->resource)
         ];
     }
 }

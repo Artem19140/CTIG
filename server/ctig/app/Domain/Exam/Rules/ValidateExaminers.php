@@ -10,9 +10,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 class ValidateExaminers{
     public function execute(array $examiners, Carbon $examBeginTime, Carbon $examEndTime, int | null $examId = null ){
-        $conflictExaminers = Exam::where('is_cancelled', false)
-                                ->where('begin_time', '<=', $examEndTime)
+        $conflictExaminers = Exam::where('begin_time', '<=', $examEndTime)
                                 ->where('end_time', '>=', $examBeginTime)
+                                ->notCancelled()
                                 ->whereHas('examiners', function (Builder $query) use ($examiners): void {
                                     $query->whereIn('users.id', $examiners);
                                 })
@@ -25,7 +25,7 @@ class ValidateExaminers{
         $busyExaminers = User::whereHas('exams', function(Builder $query) use($examiners,$examBeginTime,$examEndTime, $examId){
                 $query->where('begin_time', '<=', $examEndTime)
                     ->where('end_time', '>=', $examBeginTime)
-                    ->where('is_cancelled', false)
+                    ->where('cancelled_at', null)
                     ->whereHas('examiners', function (Builder $query) use ($examiners): void {
                                     $query->whereIn('users.id', $examiners);
                                 })

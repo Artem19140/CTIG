@@ -11,7 +11,7 @@ class GetSessionNumberAction{
                                 $beginTime->copy()->startOfYear(),
                                 $beginTime->copy()->subDay()->endOfDay()
                             ])
-                            ->where('is_cancelled', false)
+                            ->notCancelled()
                             ->get()
                             ->groupBy(function($exam) {
                                 return $exam->begin_time->copy()->toDateString();

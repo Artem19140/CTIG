@@ -7,6 +7,7 @@ use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\User;
+use Carbon\Carbon;
 use DB;
 
 class RescheduleEnrollmentActon{
@@ -20,9 +21,10 @@ class RescheduleEnrollmentActon{
         $foreignNational = ForeignNational::find($enrollment->foreign_national_id);
         $this->rescheduleEnrollmentRules->execute($enrollment, $toExam);
         $enrollment = DB::transaction(function () use($toExam, $foreignNational, $user, $enrollment){
-            if(!$enrollment->exam->begin_time_utc->isPast()){
-                $enrollment->exam->foreignNationals()->detach($foreignNational->id); //Тут нужно сделать softDelete, а мб статус изменить
-            } 
+            // if(!$enrollment->exam->begin_time_utc->isPast()){
+            //     $enrollment->exam->foreignNationals()->detach($foreignNational->id); //Тут нужно сделать softDelete, а мб статус изменить
+            // } 
+            $enrollment->rescheduled_at = Carbon::now($enrollment->time_zone);
             return $this->createEnrollment->execute($toExam, $foreignNational->id, $user, $enrollment->hasPayment());
         });
         return $enrollment;

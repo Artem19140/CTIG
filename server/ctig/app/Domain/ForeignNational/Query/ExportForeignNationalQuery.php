@@ -34,6 +34,7 @@ class ExportForeignNationalQuery{
                             ]);
                         });
         fclose($handle);
+        $fileName = "Выгрузка_ИГ_". $dateFrom->toDateString() ."_". $dateTo->toDateString() . $citizenship ? $citizenship : '' . '.csv';
     }
 
     protected function headers(){

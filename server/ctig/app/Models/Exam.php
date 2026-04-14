@@ -28,19 +28,19 @@ class Exam extends Model
         'address_id',
         'date',
         'cancelled_reason',
-        'is_cancelled',
         'center_id',
         'end_time',
         'protocol_comment',
         'begin_time_real',
-        'end_time_real'
+        'end_time_real',
+        'cancelled_at'
     ];
 
     protected $casts = [
         'end_time' => 'datetime',
         'begin_time' => 'datetime',
         'begin_time_utc' => 'datetime',
-        'date'=>'date'
+        'cancelled_at' => 'datetime'
     ];
 
     public function examType(): BelongsTo{
@@ -84,7 +84,7 @@ class Exam extends Model
     }
 
     public function isCancelled(){
-        return $this->is_cancelled;
+        return $this->cancelled_at;
     }
 
     public function center(): BelongsTo{
@@ -121,7 +121,7 @@ class Exam extends Model
     }
 
     public function scopeNotCancelled(Builder $query){
-        return $query->where('is_cancelled', false);
+        return $query->where('cancelled_at', null);
     }
 
     protected function name(): Attribute{

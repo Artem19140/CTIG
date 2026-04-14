@@ -55,7 +55,8 @@ return new class extends Migration
 
             $table->unsignedInteger('reg_number');
 
-            $table->boolean('is_cancelled')->default(false);
+            $table->dateTime('cancelled_at')->nullable()->default(null);
+            $table->dateTime('rescheduled_at')->nullable()->default(null);
 
             $table->foreignId('cancelled_by_id')
                 ->nullable()

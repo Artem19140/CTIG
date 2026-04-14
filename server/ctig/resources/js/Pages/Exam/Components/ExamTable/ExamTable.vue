@@ -37,7 +37,7 @@ const formFilters = useForm({
     dateTo: props.filters.dateTo ?? undefined,
     completed: props.filters.completed ?? undefined,
 })
-const {can} = useAuth()
+const auth = useAuth()
 
 </script>
 
@@ -62,13 +62,13 @@ const {can} = useAuth()
             <AppAddButton
                 text="Добавить"
                 @click="open('examCreate', {})"
-                v-if="can([Roles.SCHEDULER])"
+                v-if="auth.can([Roles.SCHEDULER])"
             />
             <ExamTableDropDown />
         </template>
         <template #item.foreignNationalsCount="{ item }">
             <AppStatusChip
-                :text="`${item.foreignNationalsCount}/${item.capacity}`"
+                :text="`${item.enrollmentsCount}/${item.capacity}`"
                 :color="capacityColor(item)"
                 dark
             />

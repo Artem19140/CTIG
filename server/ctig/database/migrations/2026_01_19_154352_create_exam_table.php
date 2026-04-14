@@ -37,7 +37,7 @@ return new class extends Migration
                 ->constrained('centers')
                 ->cascadeOnDelete();
             
-            $table->boolean('is_cancelled')->default(false);
+            $table->dateTime('cancelled_at')->nullable()->default(null);
             $table->string('cancelled_reason')->nullable()->default(null);
 
             $table->tinyInteger('group')->nullable()->default(null);

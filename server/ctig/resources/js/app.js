@@ -6,7 +6,7 @@ import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import {ru } from 'vuetify/locale'
-import BaseLayout from '@layouts/BaseLayout.vue'
+import BaseLayout from '@layouts/BaseLayout.vue';
 
 
 const vuetify = createVuetify({
@@ -32,8 +32,8 @@ const vuetify = createVuetify({
 })
 createInertiaApp({
     resolve: name => {
-        const pages = import.meta.glob('./Pages/**/*.vue', { eager: true })
-        return pages[`./Pages/${name}.vue`]
+        const pages = import.meta.glob('./pages/**/*.vue', { eager: true })
+        return pages[`./pages/${name}.vue`]
     },
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })

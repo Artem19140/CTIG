@@ -49,9 +49,9 @@ class ValidateExamCreationAction{
                                             $examId
                                         );
         
-        $hasConflictExam = Exam::where('is_cancelled', false)
-                            ->where('begin_time', '<=', $examDto->beginTime->copy()->addMinutes($examType->duration)) //utc?!
+        $hasConflictExam = Exam::where('begin_time', '<=', $examDto->beginTime->copy()->addMinutes($examType->duration)) //utc?!
                             ->where('end_time', '>=', $examDto->beginTime)
+                            ->notCancelled()
                             ->where('address_id', $address->id)
                             ->when($examId, function (Builder $query) use($examId){
                                 $query->where('id', '<>', $examId);

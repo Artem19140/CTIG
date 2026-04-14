@@ -3,6 +3,7 @@ import {  ref } from 'vue';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import ExamEnrollment from '../../Exam/Components/ExamEnrollment.vue';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
+import AppCheckbox from '@components/UI/AppCheckbox/AppCheckbox.vue';
 import { ForeignNational } from '@interfaces/interfaces';
 import {  useForm } from '@inertiajs/vue3';
 import { useAlert } from '@composables/useAlert';
@@ -69,7 +70,7 @@ const beforeClose  = async (fn: () => void) => {
             :examTypeId="examTypeId"
             :foreignNational-id="foreignNational?.id"
         />
-        <v-checkbox
+        <AppCheckbox
             label="Есть оплата"
             v-model="form.hasPayment"
             :error-messages="form.errors.hasPayment"

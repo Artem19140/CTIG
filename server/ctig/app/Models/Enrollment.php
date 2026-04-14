@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Enrollment extends Model
 {
@@ -19,12 +20,15 @@ class Enrollment extends Model
         'creator_id',
         'center_id',
         'exam_code',
-        'exam_code_expired_at'
+        'exam_code_expired_at',
+        'cancelled_at',
+        'rescheduled_at'
     ];
-
     protected $casts = [
         'has_payment' => 'boolean',
-        'exam_code_expired_at' => 'datetime'
+        'exam_code_expired_at' => 'datetime',
+        'cancelled_at' => 'datetime',
+        'rescheduled_at' => 'datetime'
     ];
 
     public function hasPayment():bool{
@@ -59,5 +63,12 @@ class Enrollment extends Model
 
     public function changePaymentStatus():void{
         $this->has_payment = !$this->has_payment;
+    }
+
+    protected function timeZone(): Attribute
+    {
+        return Attribute::get(function () {
+            return $this->center->time_zone;
+        });
     }
 }

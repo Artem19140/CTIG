@@ -20,7 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->group(function(){
     
-    Route::get('foreign-nationals/export', [ForeignNationalController::class, 'export']);
+    Route::get('foreign-nationals/export', [ForeignNationalController::class, 'export'])->name('foreign-nationals.export');
+    Route::get('foreign-nationals/export/available', [ForeignNationalController::class, 'exportAvailable']);
     Route::apiResource('foreign-nationals', ForeignNationalController::class);
     Route::apiResource('enrollments', EnrollmentController::class);
     Route::prefix('enrollments')->group(function(){

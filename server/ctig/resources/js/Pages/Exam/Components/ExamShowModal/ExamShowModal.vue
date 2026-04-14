@@ -9,6 +9,7 @@ import { capacityColor } from '@helpers/heplers';
 import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
 import ExamStatusChip from '../ExamStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
+import { ExamStatus } from '@/constants/ExamStatus';
 
 const props = defineProps<{
     examId:number
@@ -41,6 +42,12 @@ const rechedule = (value: Enrollment) => {
     if(!exam.value) return
     exam.value.enrollments =exam.value.enrollments.filter(e => e.id !== value.id)
 }
+const cancel =(reason : string) => {
+    if(!exam.value) return
+    exam.value.status = ExamStatus.CANCELLED
+    exam.value.cancelledReason = reason
+}
+
 </script>
 
 <template>
@@ -64,14 +71,16 @@ const rechedule = (value: Enrollment) => {
             </div>
         </template>
         <template #titleActions>
-            <ExamActionsDropdown :exam="exam" />
+            <ExamActionsDropdown
+                @cancel="cancel"
+            :exam="exam" />
         </template> 
         <v-card-text>
         <v-list>
             <div>
                 <v-spacer />
             </div>
-            <v-list-item v-if="exam?.isCancelled">
+            <v-list-item v-if="exam?.status === ExamStatus.CANCELLED">
                 <v-list-item-subtitle class="text-red">Причина отмены</v-list-item-subtitle>
                 <v-list-item-title class="text-red" style="white-space: normal; word-break: break-word;">{{exam?.cancelledReason ?? '-'}}</v-list-item-title>
             </v-list-item>

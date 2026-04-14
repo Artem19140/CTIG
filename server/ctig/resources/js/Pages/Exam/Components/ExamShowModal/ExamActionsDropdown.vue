@@ -13,9 +13,15 @@ import { useLoadingSnackbar } from '@composables/useLoadingSnackBar';
 
 const props = defineProps<{exam : Exam | null}>()
 
+const emit = defineEmits<{
+  (e:'cancel', value:string):void
+}>()
+
 const form = useForm({
   cancelledReason: ''
 })
+
+
 
 const prompt = usePromptDialog()
 const loadingSnackbar = useLoadingSnackbar()
@@ -30,10 +36,8 @@ const cancelExam = async () => {
   form.delete(`/exams/${props.exam?.id}`,{
     onSuccess:(page)=>{
       loadingSnackbar.close()
-      if(!props.exam) return
       if(!page.flash.success)return
-      props.exam.isCancelled = true
-      props.exam.cancelledReason = res
+      emit('cancel', res)
     }
   })
   
@@ -48,8 +52,8 @@ const download = (document :string) => {
     form.get(`/exams/${props.exam.id}/documents/${document}/available`,{
       onSuccess:(page) => {
         if(page.flash.redirectUrl){
-          modals.open('pdf', {url:page.flash.redirectUrl})
-          //window.open(String(page.flash.redirectUrl))
+          //modals.open('pdf', {url:page.flash.redirectUrl})
+          window.open(String(page.flash.redirectUrl))
         }
       },
       onFinish:()=>{
@@ -59,7 +63,7 @@ const download = (document :string) => {
 }
 
 
-const {can} = useAuth()
+const auth = useAuth()
 const modals = useModals()
 const permission = getExamPermissions(props.exam)
 </script>
@@ -70,7 +74,7 @@ const permission = getExamPermissions(props.exam)
         title="Кода" 
         :disabled="!permission.canDownloadCodes"
         @click="() => download('codes')" 
-        v-if="can([Roles.EXAMINER])"
+        v-if="auth.can([Roles.EXAMINER])"
       />
 
       <AppListDropDownItem 
@@ -82,20 +86,20 @@ const permission = getExamPermissions(props.exam)
       <AppListDropDownItem 
         title="Результаты"
         :disabled="!permission.canDownloadStatement" 
-        v-if="can([Roles.EXAMINER])"
+        v-if="auth.can([Roles.EXAMINER])"
         @click="() => download('results')" 
       />
 
       <AppListDropDownItem 
         title="Протокол" 
-        v-if="can([Roles.EXAMINER])"
+        v-if="auth.can([Roles.EXAMINER])"
         :disabled="!permission.canDownloadProtocol"
         @click="() => download('protocol')" 
       />
       
       <AppListDropDownItem 
         title="Редактировать" 
-        v-if="can([Roles.SCHEDULER])" 
+        v-if="auth.can([Roles.SCHEDULER])" 
         @click="modals.open('examEdit', {exam:exam})"
         :disabled="!permission.canEdit"
       />
@@ -105,7 +109,7 @@ const permission = getExamPermissions(props.exam)
         title="Отменить" 
         @click="cancelExam"
         :disabled="!permission.canCancel" 
-        v-if="can([Roles.SCHEDULER])" 
+        v-if="auth.can([Roles.SCHEDULER])" 
       />
     </BaseThreeDotDropdown>
 </template>

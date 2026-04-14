@@ -55,7 +55,7 @@ return [
     'encoding' => 'The :attribute field must be encoded in :encoding.',
     'ends_with' => 'The :attribute field must end with one of the following: :values.',
     'enum' => 'The selected :attribute is invalid.',
-    'exists' => 'Выбранный :attribute не существует.',
+    'exists' => 'Введенный :attribute не найден',
     'extensions' => 'The :attribute field must have one of the following extensions: :values.',
     'file' => 'The :attribute field must be a file.',
     'filled' => 'The :attribute field must have a value.',
@@ -247,9 +247,10 @@ return [
         'time' => 'время',
         'hasPayment' => 'есть оплата',
         'protocolComment' => 'комментарий для протокола',
-        'dateFrom' => 'дата с',
-        'dateTo' => 'дата по',
+        'dateFrom' => 'дата начала периода',
+        'dateTo' => 'дата конца периода',
         'noPatronymicLatin' => 'нет отчества на лат',
+        'code' =>'код'
     ],
 
 ];

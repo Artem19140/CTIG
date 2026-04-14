@@ -8,6 +8,7 @@ import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import { useAuth } from '@composables/useAuth';
 import { Roles } from '@constants/Roles';
 import BaseLayout from '@layouts/BaseLayout.vue';
+import { examStatus } from '@helpers/heplers';
 
 defineOptions({
   layout: [BaseLayout, EmployeeLayout],
@@ -35,17 +36,7 @@ const openExam = (nativeEvent : Event, { event } :any) => {
 }
 
 const getColor = (event : Exam) => {
-  if(event?.isCancelled === true){
-      return 'red'
-  }
-  if (event?.isPast && !event?.isCancelled) {
-      return 'grey'
-  }
-
-  if (event?.isGoing && !event?.isCancelled) {
-      return 'green'
-  }
-  return 'blue'
+  return examStatus(event).color
 }
 
 const prev = () => {

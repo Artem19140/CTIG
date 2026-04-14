@@ -13,7 +13,7 @@ class GetAvailableExamsQuery{
         $exams = Exam::select('id', 'begin_time')
                     ->withCount('foreignNationals')
                     ->where('exam_type_id',$examTypeId)
-                    ->where('is_cancelled', false)
+                    ->notCancelled()
                     ->where('begin_time_utc', '>', Carbon::now())
                     ->when($foreignNationalId, function (Builder $query) use ($foreignNationalId){
                         $query->whereDoesntHave('foreignNationals', function (Builder $q) use($foreignNationalId){

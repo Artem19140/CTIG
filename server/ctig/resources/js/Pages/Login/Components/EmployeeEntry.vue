@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue'
 import AppInput from '@components/UI/AppInput/AppInput.vue';
 import { useForm } from '@inertiajs/vue3';
 import AppLogo from '@components/UI/AppLogo/AppLogo.vue';
+import AppPasswordInput from '@components/UI/AppPasswordInput/AppPasswordInput.vue';
+import AppCheckbox from '@components/UI/AppCheckbox/AppCheckbox.vue';
 
 const form = useForm({
   email: 'qwerty@bk.com',
@@ -10,7 +12,7 @@ const form = useForm({
   rememberMe:false
 });
 
-const show = ref<boolean>(false);
+
 
 const submit = () => {
   form.post('/login', { preserveScroll: true });
@@ -31,41 +33,40 @@ const submit = () => {
       
       <form @submit.prevent="submit">
         <AppInput 
-          label="Логин"
+          label="email"
           name="email"
           v-model="form.email"
+          :invalid="!!form.errors.email"
           :error-messages="form.errors.email"
-          placeholder="Введите логин"
+          placeholder="Введите email"
         />
 
-        <AppInput
+
+        <AppPasswordInput
           v-model="form.password"
-          :append-inner-icon="show ? 'mdi-eye-off' : 'mdi-eye'"
-          :type="show ? 'text' : 'password'"
           label="Пароль"
           name="password"
-          @click:append-inner="show = !show"
           :invalid="!!form.errors.password"
           :error-messages="form.errors.password"
           placeholder="Введите пароль"
           class="mb-6"
         />
-        <v-checkbox
+        <AppCheckbox
           label="Запомнить меня" 
           v-model="form.rememberMe"
           :error-messages="form.errors.rememberMe"
         />
 
-        <v-btn
+        <AppPrimaryButton
           type="submit"
           color="primary"
           large
           block
+          text="Войти"
           :loading="form.processing"
           :disabled="!form.email || !form.password || form.processing"
-        >
-          Войти
-        </v-btn>
+      />
+          
       </form>
 
     </v-card>

@@ -46,7 +46,7 @@ final class CreateEnrollmentAction{
             
         $foreignNationalExamsConflict = $foreignNational->exams()->where('begin_time', '<=', $exam->end_time)
                                         ->where('end_time', '>=', $exam->begin_time)
-                                        ->where('exams.is_cancelled', false)
+                                        ->where('exams.cancelled', null)
                                         ->exists();
 
         if($foreignNationalExamsConflict){

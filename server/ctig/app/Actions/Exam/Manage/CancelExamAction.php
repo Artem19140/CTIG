@@ -4,6 +4,7 @@ namespace App\Actions\Exam\Manage;
 
 use App\Models\Exam;
 use App\Validation\ExamValidation;
+use Carbon\Carbon;
 class CancelExamAction{
     public function __construct(
         protected ExamValidation $examValidation
@@ -16,7 +17,7 @@ class CancelExamAction{
         //Всем гражданам поставить запись - отменено
         
         $exam->cancelled_reason = request()->input('cancelledReason');
-        $exam->is_cancelled = true;
+        $exam->cancelled_at = Carbon::now($exam->time_zone);
         $exam->save();
     }
 }

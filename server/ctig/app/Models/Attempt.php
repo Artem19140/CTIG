@@ -26,15 +26,20 @@ class Attempt extends Model
         'ban_by_id',
         'center_id',
         'solved',
-        'enrollment_id'
+        'enrollment_id',
+        'banned_at',
+        'checked_at',
+        'last_activity_at'
     ];
-
     protected $casts = [
         'status' => AttemptStatus::class,
         'expired_at' => 'datetime',
         'finished_at' => 'datetime',
         'started_at' => 'datetime',
         'is_passed' => 'boolean',
+        'banned_at' => 'datetime',
+        'checked_at'  => 'datetime',
+        'last_activity_at' => 'datetime',
     ];
 
     public function isExpired(): bool{

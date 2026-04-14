@@ -1,4 +1,6 @@
-import { Exam } from "../../interfaces/interfaces"
+import { ExamStatus } from "@/constants/ExamStatus"
+import { Exam } from "@interfaces/interfaces"
+import { computed } from "vue"
 
 export const getExamPermissions = (exam: Exam | null) => {
     if (!exam) {
@@ -11,16 +13,19 @@ export const getExamPermissions = (exam: Exam | null) => {
             canCancel: false,
         }
         }
-    const { isGoing, isCancelled, isPast, foreignNationalsCount } = exam
-    const hasEnrollment  = foreignNationalsCount > 0
+    const { status, foreignNationalsCount } = exam
+    const hasEnrollment  = computed(() => foreignNationalsCount > 0)
+    const isCompleted = computed(() => status === ExamStatus.COMPLETED )
+    const isCancelled = computed(() => status === ExamStatus.CANCELLED )
+    const isGoing = computed(() => status === ExamStatus.GOING )
 
-    const canDownloadStatement  = isPast && !isCancelled && hasEnrollment 
-    const canDownloadProtocol = isPast && !isCancelled && hasEnrollment 
-    const canDownloadList =  !isCancelled && hasEnrollment 
-    const canEdit  = !isPast && !isCancelled  && !isGoing
-    const canCancel = !isPast && !isCancelled && !isGoing
-    const canDownloadCodes  =  !isPast && !isCancelled && hasEnrollment 
-    const canDownloadStudList  =  hasEnrollment 
+    const canDownloadStatement  = isCompleted.value && !isCancelled.value && hasEnrollment.value 
+    const canDownloadProtocol = isCompleted.value && !isCancelled.value && hasEnrollment.value 
+    const canDownloadList =  !isCancelled.value && hasEnrollment.value
+    const canEdit  = !isCompleted.value && !isCancelled.value  && !isGoing.value
+    const canCancel = !isCompleted.value && !isCancelled.value && !isGoing.value
+    const canDownloadCodes  =  !isCompleted.value && !isCancelled.value && hasEnrollment.value 
+    const canDownloadStudList  =  hasEnrollment.value 
     
     return {
                 canDownloadCodes,

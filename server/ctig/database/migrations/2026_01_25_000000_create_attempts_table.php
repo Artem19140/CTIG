@@ -33,14 +33,19 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->string('status')->default(AttemptStatus::Pending);
-            $table->dateTime('expired_at')->nullable()->default(null);
+            
             $table->string('ban_reason')->nullable()->default(null);
-            $table->dateTime('banned_at')->nullable()->default(null);
+            
             $table->unsignedTinyInteger('total_mark')->default(0);
             $table->boolean('is_passed')->nullable()->default(null);
+
+            $table->dateTime('banned_at')->nullable()->default(null);
             $table->dateTime('last_activity_at')->nullable()->default(null);
             $table->dateTime('started_at')->nullable()->default(null);
             $table->dateTime('finished_at')->nullable()->default(null);
+            $table->dateTime('checked_at')->nullable()->default(null);
+            $table->dateTime('expired_at')->nullable()->default(null);
+
             $table->timestamps();
             $table->unsignedTinyInteger('solved')->default(0);
 

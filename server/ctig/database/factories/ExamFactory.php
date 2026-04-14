@@ -66,7 +66,7 @@ class ExamFactory extends Factory
     public function cancelled(){
         return $this->state(function(){
             return[
-                'is_cancelled' => true,
+                'cancelled_at' =>Carbon::now()->subDay(),
             ];
         });
     }

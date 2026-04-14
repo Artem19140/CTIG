@@ -7,6 +7,7 @@ use App\Domain\Exam\Guard\ExamGuard;
 use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\ForeignNational;
+use Carbon\Carbon;
 
 
 class CancellEnrollmentAction{
@@ -23,6 +24,8 @@ class CancellEnrollmentAction{
         $this->examGuard->ensureNotCancelled($exam);
         $this->enrollmentGuard->ensureExists($exam, $foreignNational);
 
-        $exam->foreignNationals()->detach($foreignNational->id);
+        //$exam->foreignNationals()->detach($foreignNational->id);
+        $enrollment->cancelled_at = Carbon::now($enrollment->time_zone);
+        $enrollment->save();
     }
 }

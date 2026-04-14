@@ -6,6 +6,7 @@ import { useForm } from '@inertiajs/vue3';
 import { useModals } from '@composables/useModals';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import ForeignNationalTableDropdown from './ForeignNationalTableDropdown.vue';
+
 const modals = useModals()
 
 function foreignNationalShowModal(item : any) {

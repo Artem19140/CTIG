@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
+import AppPeriodDate from '@components/UI/AppPeriodDate/AppPeriodDate.vue';
 import AppInput from '@components/UI/AppInput/AppInput.vue';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue'; 
 import { useHttp } from '@inertiajs/vue3';
@@ -13,12 +14,12 @@ const form = ref({
 })
 
 const http = useHttp({
-    dateFrom:'',
-    dateTo:''
+    dateFrom:null,
+    dateTo:null
 })
 
 const donwload = () => {
-    window.location.href = `/reports/flat-table?dateFrom=${http.dateFrom}&dateTo=${http.dateTo}`
+    window.open(`/reports/flat-table?dateFrom=${http.dateFrom}&dateTo=${http.dateTo}`)
     // http.get('/reports/flat-table',{
     //     onSuccess:(response :any) => {
     //         window.location.href = response

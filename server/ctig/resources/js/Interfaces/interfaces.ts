@@ -13,16 +13,15 @@ export interface Exam{
     createdAt:string | null,
     foreignNationalsCount:number,
     attempts: Array<Attempt> | null,
-    isCancelled:boolean,
     cancelledReason:string | null,
     date:string,
-    isPast:boolean,
-    isGoing:boolean,
+    status:string
     foreignNationals:Array<ForeignNational>,
     hasSpeakingTasks:boolean,
     examTypeId:number,
     protocolComment:string,
-    enrollments:Array<Enrollment>
+    enrollments:Array<Enrollment>,
+    enrollmentsCount:number
 }
 
 export interface Enrollment{

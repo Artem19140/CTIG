@@ -36,7 +36,12 @@ final class GenerateCodesAction{
                     $enrollment->save();
                     $saved = true;
                 }catch(QueryException $e){
-                    $saved = false;
+                    if($e->getCode() === '23505'){
+                        $saved = false;
+                    }else{
+                        throw $e;
+                    }
+                    
                 }
             }while(!$saved);
 
@@ -45,7 +50,7 @@ final class GenerateCodesAction{
             'enrollments' => $exam->enrollments,
             'exam' => $exam
         ]);
-
-        return $pdf->stream('codes.pdf');
+        $fileName = 'Кода_' . $exam->short_name . '_' . $exam->begin_time->format('H-i_d.m.y') . '.pdf';
+        return $pdf->stream($fileName);
     }
 }

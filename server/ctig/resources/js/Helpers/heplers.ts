@@ -1,4 +1,4 @@
-import { Attempt, Exam } from "../interfaces/interfaces"
+import { Attempt, Exam } from "@interfaces/interfaces"
 
 export const downloadFile = (blob: Blob) => {
   if(!blob) return
@@ -31,17 +31,11 @@ export const attemptStatus = (status: string | null) => {
   }
 };
 
-
-
-export const examStatus = (item: {
-  isGoing: boolean;
-  isPast: boolean;
-  isCancelled: boolean;
-}) => {
-  if(!item) return { text: "-", color: "text-grey" };
-  if (item.isCancelled) return { text: "отменен", color: "text-red" };
-  if (item?.isGoing) return { text: "в процессе", color: "text-green" };
-  if (item?.isPast) return { text: "прошел", color: "text-grey" };
+export const examStatus = (item: Exam) => {
+  if(!item) return { text: "-", color: "grey" };
+  if(item.status === 'cancelled') return { text: "отменен", color: "red" };
+  if(item.status === 'going') return { text: "В процессе", color: "green" };
+  if(item.status === 'completed') return { text: "прошел", color: "grey" };
   return { text: "ожидается", color: "text-blue" };
 };
 

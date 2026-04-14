@@ -35,7 +35,7 @@ class GetExamListAction{
             ->when($completed, function (Builder $query){
                 $query->where('end_time', '<=', Carbon::now());
             })
-            ->where('is_cancelled', $cancelled)
+            ->notCancelled()
             ->latest('begin_time')
             ->paginate($perPage);
     }

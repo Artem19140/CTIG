@@ -76,9 +76,8 @@ class GetSessionNumberTest extends TestCase
                 'begin_time'=>Carbon::now()->addDays($i)
             ]);
         }
-        $exam = Exam::factory()->create([
+        $exam = Exam::factory()->cancelled()->create([
             'begin_time'=>Carbon::now()->addDays($count + 1),
-            'is_cancelled' => true
         ]);
         $exam = Exam::factory()->create([
             'begin_time'=>Carbon::now()->addDays($count + 2)

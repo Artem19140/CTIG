@@ -10,6 +10,7 @@ use App\Domain\Exam\Action\UpdateExamAction;
 use App\Domain\Exam\Query\GetExamsQuery;
 use App\Enums\UserRoles;
 use App\Http\Requests\Exam\ExamIndexRequest;
+use App\Http\Requests\Exam\VerifyCodeRequest;
 use App\Http\Resources\Address\AddressResource;
 use App\Http\Resources\Exam\ExamCalendarResource;
 use App\Http\Resources\ExamType\ExamTypeResource;
@@ -70,7 +71,7 @@ class ExamController
                     }
                     
                 ]);
-        $exam->loadCount('foreignNationals');
+        $exam->loadCount('enrollments');
         return new ExamResource($exam);
     }
 
@@ -92,13 +93,10 @@ class ExamController
     }
 
     public function verifyCode(
-                                Request $request,
+                                VerifyCodeRequest $request,
                                 CreateAttemptAction $createAttempt
                             ){
-        $request->validate([
-            'code' => ['required', 'string', 'size:6']
-        ]);
-        $attempt = $createAttempt->execute($request->input('code'));
+        $attempt = $createAttempt->execute($request->validated('code'));
         Auth::guard('foreignNationals')->login($attempt->foreignNational);
         $request->session()->regenerate();
         return redirect()->route('exam-attempts.before', ['attempt' => $attempt->id]);

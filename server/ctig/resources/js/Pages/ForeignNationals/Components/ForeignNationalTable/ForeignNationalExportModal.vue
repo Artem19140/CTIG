@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import AppAutocomplete from '@components/UI/AppAutocomplete/AppAutocomplete.vue';
-import AppInput from '@components/UI/AppInput/AppInput.vue';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import countries from '../../../../../../storage/app/public/countries.json'
 import { useHttp } from '@inertiajs/vue3';
+import AppPeriodDate from '@/components/UI/AppPeriodDate/AppPeriodDate.vue';
 
 const isOpen = defineModel({default:false})
 const http = useHttp({
@@ -15,9 +15,13 @@ const http = useHttp({
 })
 
 const download = () => {
-
-    window.location.href = `/foreign-nationals/export?dateFrom=${http.dateFrom}&dateTo=${http.dateTo}`
-    //http.get('/foreign-nationals/export') &citizenship=${http.citizenship}
+    http.get('/foreign-nationals/export/available',{
+        onSuccess(response: any){
+            if(response.redirectUrl){
+                window.open(String(response.redirectUrl))
+            }
+        }
+    })
 }
 </script>
 
@@ -28,20 +32,10 @@ const download = () => {
         title="Выгрузка ИГ"
         @before-close="(done) => done()"
     >
-        <AppInput
-            label="Дата с"
-            type="date"
-            :required="true"
-            v-model="http.dateFrom"
-            :error-messages="http.errors.dateFrom"
-        />
-
-        <AppInput
-            label="Дата по"
-            :required="true"
-            type="date"
-            v-model="http.dateTo"
-            :error-messages="http.errors.dateTo"
+        <AppPeriodDate 
+            :errors="http.errors"
+            v-model:date-from="http.dateFrom"
+            v-model:date-to="http.dateTo"
         />
 
         <AppAutocomplete
@@ -55,7 +49,7 @@ const download = () => {
         <template #actions>
             <AppPrimaryButton
                 :loading="http.processing"
-                :disabled="http.processing" 
+                :disabled="http.processing || !http.dateFrom ||!http.dateTo" 
                 @click="download"
                 text="Выгрузить"
             />

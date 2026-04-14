@@ -19,7 +19,7 @@ class GetExamsQuery{
         $perPage = $data['perPage'] ?? 10;
 
         $query = Exam::with(['examType'])
-            ->withCount('foreignNationals');
+            ->withCount(['enrollments']);
 
         $query->when($examTypeId, fn ($q) =>
             $q->where('exam_type_id', $examTypeId)
@@ -42,7 +42,7 @@ class GetExamsQuery{
         );
 
         $query->when($cancelled, fn ($q) =>
-            $q->where('is_cancelled', $cancelled)
+            $q->notCancelled()
         );
 
         $now = Carbon::now($user->time_zone);

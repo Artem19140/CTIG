@@ -35,11 +35,10 @@ const submit = () => {
       <v-form @submit.prevent="submit">
         <v-otp-input
           v-model="form.code"
+          type="number"
           length="6"
-          divider=""
-          class="mb-6 w-100"
         ></v-otp-input>
-
+        <div class="text-red mb-4">{{ form.errors.code }}</div>
         <AppPrimaryButton
           text=" Войти"
           type="submit"

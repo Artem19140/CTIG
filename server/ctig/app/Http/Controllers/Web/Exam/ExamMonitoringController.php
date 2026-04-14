@@ -26,7 +26,7 @@ class ExamMonitoringController
             ->when(!$past, function (Builder $query) use($request){
                 $query->where('end_time', '>', now($request->user()->center->time_zone)->subMinutes(30));
             })
-            ->where('is_cancelled', false)
+            ->notCancelled()
             ->oldest('begin_time_utc')
             ->paginate(10);
         return Inertia::render('ExamMonitoring/ExamMonitoringList', [

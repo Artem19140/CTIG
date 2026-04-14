@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["resources/js/*"],
+      "@components/*": ["resources/js/components/*"],
+      "@pages/*": ["resources/js/pages/*"],
+      "@layouts/*": ["resources/js/layouts/*"],
+      "@composables/*": ["resources/js/composables/*"],
+      "@interfaces/*": ["resources/js/interfaces/*"],
+
+      "@helpers/*": ["resources/js/helpers/*"],
+      "@domain/*": ["resources/js/domain/*"],
+      "@constants/*": ["resources/js/constants/*"],
+      "@data/*": ["resources/data/*"]
+    }
+  },
+  "include": [
+    "resources/js/**/*",
+    "resources/js/**/*.vue"
+  ]
+}

@@ -15,9 +15,10 @@ const dateTo = defineModel<string | null>('dateTo', {default:null})
 <template>
   <div class="d-flex flex-column ga-1">
     <span class="text-caption text-medium-emphasis">Период</span>
-    <div class="flex align-center ga-2">
+    <div class="flex ga-2">
         <div class="flex-1">
             <AppDateInput
+                label=""
                 v-model="dateFrom"
                 :error-messages="props.errors?.dateFrom"
             />

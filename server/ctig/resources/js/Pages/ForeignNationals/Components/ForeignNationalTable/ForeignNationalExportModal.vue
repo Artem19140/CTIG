@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import AppAutocomplete from '../../../../Components/AppAutocomplete/AppAutocomplete.vue';
-import AppInput from '../../../../Components/AppInput/AppInput.vue';
-import BaseDialog from '../../../../Components/BaseDialog/BaseDialog.vue';
-import PrimaryButton from '../../../../Components/PrimaryButton/PrimaryButton.vue';
+import AppAutocomplete from '@components/UI/AppAutocomplete/AppAutocomplete.vue';
+import AppInput from '@components/UI/AppInput/AppInput.vue';
+import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
+import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import countries from '../../../../../../storage/app/public/countries.json'
 import { useHttp } from '@inertiajs/vue3';
 
@@ -53,7 +53,7 @@ const download = () => {
             :error-messages="http.errors.citizenship"
         />
         <template #actions>
-            <PrimaryButton
+            <AppPrimaryButton
                 :loading="http.processing"
                 :disabled="http.processing" 
                 @click="download"

@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { Address, ExamType, User } from '../../../interfaces/interfaces';
+import { Address, ExamType, User } from '@interfaces/interfaces';
 import { useHttp } from '@inertiajs/vue3';
-import AppAutocomplete from '../../../Components/AppAutocomplete/AppAutocomplete.vue';
-import AppInput from '../../../Components/AppInput/AppInput.vue';
-import AppTextarea from '../../../Components/AppTextarea/AppTextarea.vue';
-
+import AppAutocomplete from '@components/UI/AppAutocomplete/AppAutocomplete.vue';
+import AppInput from '@components/UI/AppInput/AppInput.vue';
+import AppTextarea from '@components/UI/AppTextarea/AppTextarea.vue';
+import AppDateInput from '@components/UI/AppDateInput/AppDateInput.vue';
+import AppNumberInput from '@components/UI/AppNumberInput/AppNumberInput.vue';
 
 const props = defineProps<{
     form:any, 
@@ -57,22 +58,21 @@ const onSelect = (value:number | null) => {
         />
         <div class="flex gap-5">
             <div class="flex-1">
-                <AppInput 
-                label="Дата"
-                type="date"
-                v-model="form.date"
-                :disabled="hasEnrollment"
-                :error-messages="form.errors.date"
+                <AppDateInput 
+                    label="Дата"
+                    v-model="form.date"
+                    :disabled="hasEnrollment"
+                    :error-messages="form.errors.date"
                 />
             </div>
 
             <div class="flex-1">
                 <AppInput 
-                label="Время"
-                type="time"
-                :disabled="hasEnrollment"
-                v-model="form.time"
-                :error-messages="form.errors.time"
+                    label="Время"
+                    type="time"
+                    :disabled="hasEnrollment"
+                    v-model="form.time"
+                    :error-messages="form.errors.time"
                 />
             </div>
         </div>
@@ -89,8 +89,7 @@ const onSelect = (value:number | null) => {
             @update:modelValue="onSelect"
         />
 
-        <v-number-input 
-            variant="solo-filled"
+        <AppNumberInput 
             v-model="form.capacity"
             :error-messages="form.errors.capacity"
             :disabled="hasEnrollment"

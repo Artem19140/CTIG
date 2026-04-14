@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Timer from './Timer.vue';
 import TaskSideList from './TaskSideList.vue';
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 
 const props = defineProps<{
     attempt:any,

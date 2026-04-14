@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useHttp } from '@inertiajs/vue3';
-import AppInput from '../../../../Components/AppInput/AppInput.vue';
-import BaseDialog from '../../../../Components/BaseDialog/BaseDialog.vue';
-import PrimaryButton from '../../../../Components/PrimaryButton/PrimaryButton.vue';
+import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
+import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
+import AppPeriodDate from '@components/UI/AppPeriodDate/AppPeriodDate.vue';
 import { ref } from 'vue';
 
 const isOpen = defineModel({default:false})
@@ -37,19 +37,11 @@ const getStatistics = () => {
         v-model="isOpen"
         @before-close="(done) => done()"
     >
-    период
-    <div class="d-flex align-center gap-2">
-        <AppInput 
-            type="date"
-            v-model="http.dateFrom"
-            :error-messages="http.errors.dateFrom"
-        />
-        <AppInput 
-            v-model="http.dateTo"
-            :error-messages="http.errors.dateTo"
-            type="date"
-        />
-      </div>
+      <AppPeriodDate 
+        :errors="http.errors"
+        v-model:date-from="http.dateFrom"
+        v-model:date-to="http.dateTo"
+      />
         <v-container class="pa-0" fluid>
     <v-row density="comfortable">
       <v-col cols="12" sm="6" md="4">
@@ -103,7 +95,7 @@ const getStatistics = () => {
     </v-row>
   </v-container>
         <template #actions>
-            <PrimaryButton
+            <AppPrimaryButton
                 :loading="http.processing"
                 :disabled="http.processing || !http.dateFrom || !http.dateTo"
                 @click="getStatistics"

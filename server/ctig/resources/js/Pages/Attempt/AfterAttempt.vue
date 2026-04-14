@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PrimaryButton from '../../Components/PrimaryButton/PrimaryButton.vue';
+import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import { ForeignNational } from '../../interfaces/interfaces';
 import { router } from '@inertiajs/vue3';
 
@@ -24,7 +24,7 @@ const props=defineProps<{
                 Ожидайте результаты экзамена. В случае вопросов обратитесь в центр тестирования.
             </v-card-text>
             <v-card-actions class="justify-center">
-                <PrimaryButton 
+                <AppPrimaryButton 
                     text="На главную"
                     @click="router.visit('/login')"
                 />

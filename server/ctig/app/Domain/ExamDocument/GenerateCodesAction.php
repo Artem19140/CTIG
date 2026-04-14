@@ -15,7 +15,7 @@ final class GenerateCodesAction{
     public function execute(Exam $exam){
         $this->examDocumentAvailable->codes($exam);
         if(Carbon::now()->diff($exam->begin_time_utc)->minutes >= 60){
-            throw new BusinessException("Коды можно сформировать минимум за 60 минут до экзамена");
+            throw new BusinessException("Коды формируются минимум за 60 минут до экзамена");
         }
 
         $exam->load('enrollments.foreignNational');

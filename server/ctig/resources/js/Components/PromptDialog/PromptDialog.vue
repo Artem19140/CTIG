@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { usePromptDialog } from '../../Composables/usePromptDialog';
+import { usePromptDialog } from '@composables/usePromptDialog';
 
 const {isOpen, message, value, errorMessages, promptOk, close} = usePromptDialog()
 

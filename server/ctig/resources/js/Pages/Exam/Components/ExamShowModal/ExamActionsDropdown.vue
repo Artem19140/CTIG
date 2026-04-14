@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import { usePromptDialog } from '../../../../Composables/usePromptDialog';
-import AppListDropDownItem from '../../../../Components/AppListDropDownItem/AppListDropDownItem.vue';
-import { Exam } from '../../../../interfaces/interfaces';
-import ThreeDotDropdown from '../../../../Components/ThreeDotDropdown/ThreeDotDropdown.vue';
-import { useAuth } from '../../../../Composables/useAuth';
-import { Roles } from '../../../../Constants/Roles';
-import { getExamPermissions } from '../../../../Domain/Exam/getExamPermissions';
-import { useModals } from '../../../../Composables/useModals';
-import { useLoadingSnackbar } from '../../../../Composables/useLoadingSnackBar';
+import { usePromptDialog } from '@composables/usePromptDialog';
+import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
+import { Exam } from '@interfaces/interfaces';
+import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
+import { useAuth } from '@composables/useAuth';
+import { Roles } from '@constants/Roles';
+import { getExamPermissions } from '@domain/Exam/getExamPermissions';
+import { useModals } from '@composables/useModals';
+import { useLoadingSnackbar } from '@composables/useLoadingSnackBar';
 
 
 const props = defineProps<{exam : Exam | null}>()
@@ -48,7 +48,8 @@ const download = (document :string) => {
     form.get(`/exams/${props.exam.id}/documents/${document}/available`,{
       onSuccess:(page) => {
         if(page.flash.redirectUrl){
-          window.open(String(page.flash.redirectUrl))
+          modals.open('pdf', {url:page.flash.redirectUrl})
+          //window.open(String(page.flash.redirectUrl))
         }
       },
       onFinish:()=>{
@@ -59,12 +60,12 @@ const download = (document :string) => {
 
 
 const {can} = useAuth()
-const {open} = useModals()
+const modals = useModals()
 const permission = getExamPermissions(props.exam)
 </script>
 
 <template>
-    <ThreeDotDropdown>
+    <BaseThreeDotDropdown>
       <AppListDropDownItem 
         title="Кода" 
         :disabled="!permission.canDownloadCodes"
@@ -95,7 +96,7 @@ const permission = getExamPermissions(props.exam)
       <AppListDropDownItem 
         title="Редактировать" 
         v-if="can([Roles.SCHEDULER])" 
-        @click="open('examEdit', {exam:exam})"
+        @click="modals.open('examEdit', {exam:exam})"
         :disabled="!permission.canEdit"
       />
 
@@ -106,5 +107,5 @@ const permission = getExamPermissions(props.exam)
         :disabled="!permission.canCancel" 
         v-if="can([Roles.SCHEDULER])" 
       />
-    </ThreeDotDropdown>
+    </BaseThreeDotDropdown>
 </template>

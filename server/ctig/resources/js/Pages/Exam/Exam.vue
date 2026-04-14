@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ExamTable from './Components/ExamTable/ExamTable.vue';
-import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
-import BaseLayout from '../../Layout/BaseLayout.vue';
+import EmployeeLayout from '@layouts/EmployeeLayout.vue';
+import BaseLayout from '@layouts/BaseLayout.vue';
 
 defineOptions({
   layout: [BaseLayout, EmployeeLayout]

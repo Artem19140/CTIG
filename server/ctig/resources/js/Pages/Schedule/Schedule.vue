@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
+import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import { router } from '@inertiajs/vue3';
 import { ref } from 'vue';
-import { Exam } from '../../interfaces/interfaces';
-import { useModals } from '../../Composables/useModals';
-import AddButton from '../../Components/AddButton/AddButton.vue';
-import { useAuth } from '../../Composables/useAuth';
-import { Roles } from '../../Constants/Roles';
-import BaseLayout from '../../Layout/BaseLayout.vue';
+import { Exam } from '@interfaces/interfaces';
+import { useModals } from '@composables/useModals';
+import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
+import { useAuth } from '@composables/useAuth';
+import { Roles } from '@constants/Roles';
+import BaseLayout from '@layouts/BaseLayout.vue';
 
 defineOptions({
   layout: [BaseLayout, EmployeeLayout],
@@ -103,7 +103,7 @@ const addExam = (nativeEvent : Event, { date } : any) => {
       ></v-select>
       <v-spacer></v-spacer>
       <div class="flex items-center gap-8 mr-8">
-        <AddButton
+        <AppAddButton
             text="Добавить"
             @click="open('examCreate', {})"
             v-if="can([Roles.SCHEDULER])"

@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import BaseDialog from '../../../../Components/BaseDialog/BaseDialog.vue';
+import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import ExamActionsDropdown from './ExamActionsDropdown.vue';
 import EnrollmentsTable from './EnrollmentsTable.vue';
 import { computed, onMounted, ref } from 'vue';
-import { Enrollment, Exam } from '../../../../interfaces/interfaces';
+import { Enrollment, Exam } from '@interfaces/interfaces';
 import { useHttp } from '@inertiajs/vue3';
-import { capacityColor } from '../../../../Helpers/heplers';
-import AppStatusChip from '../../../../Components/AppStatusChip/AppStatusChip.vue';
+import { capacityColor } from '@helpers/heplers';
+import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
 import ExamStatusChip from '../ExamStatusChip.vue';
-import { DateFormatter } from '../../../../Helpers/DateFormatter';
+import { DateFormatter } from '@helpers/DateFormatter';
 
 const props = defineProps<{
     examId:number

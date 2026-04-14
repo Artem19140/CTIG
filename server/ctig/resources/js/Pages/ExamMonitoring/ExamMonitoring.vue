@@ -1,22 +1,24 @@
 <script setup lang="ts">
 import DropDownForeignNationalsList from './DropDownForeignNationalsList.vue';
 import { router, usePoll } from '@inertiajs/vue3'
-import { attemptStatus } from '../../Helpers/heplers';
+import { attemptStatus } from '@helpers/heplers';
 import ExamStatusChip from '../Exam/Components/ExamStatusChip.vue';
-import BaseLayout from '../../Layout/BaseLayout.vue';
-import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
-import { useModals } from '../../Composables/useModals';
+import BaseLayout from '@layouts/BaseLayout.vue';
+import EmployeeLayout from '@layouts/EmployeeLayout.vue';
+import { useModals } from '@composables/useModals';
 import { onMounted, onUnmounted, ref } from 'vue';
-import AppStatusChip from '../../Components/AppStatusChip/AppStatusChip.vue';
-import { Enrollment, Exam } from '../../interfaces/interfaces';
-import { DateFormatter } from '../../Helpers/DateFormatter';
+import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
+import { Enrollment, Exam } from '@interfaces/interfaces';
+import { DateFormatter } from '@helpers/DateFormatter';
 
 defineOptions({
   layout: [BaseLayout,EmployeeLayout]
 })
 
 const props = defineProps<{
-    exam:any,
+    exam:{
+        data:Exam
+    },
 }>()
 
 const enrollments = ref<Enrollment[]>(props.exam.data.enrollments)

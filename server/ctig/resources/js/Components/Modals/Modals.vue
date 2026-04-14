@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { useModals } from '../../Composables/useModals';
-import ExamShowModal from '../../Pages/Exam/Components/ExamShowModal/ExamShowModal.vue';
-import ExamCreateModal from '../../Pages/Exam/Components/ExamCreateModal.vue';
-import FrdoModal from '../../Pages/Exam/Components/FrdoModal.vue';
-import ForeignNationalCreateModal from '../../Pages/ForeignNationals/Components/ForeignNationalCreateModal.vue';
-import FlatTableModal from '../../Pages/Exam/Components/FlatTableModal.vue';
-import EnrollmentModal from '../../Pages/ForeignNationals/Components/EnrollmentModal.vue';
-import AttemptCheckingModal from '../../Pages/AttemptsChecking/AttemptCheckingModal.vue';
+import { useModals } from '@composables/useModals';
+import ExamShowModal from '@pages/Exam/Components/ExamShowModal/ExamShowModal.vue';
+import ExamCreateModal from '@pages/Exam/Components/ExamCreateModal.vue';
+import FrdoModal from '@pages/Exam/Components/ExamTable/FrdoModal.vue';
+import ForeignNationalCreateModal from '@pages/ForeignNationals/Components/Modals/ForeignNationalCreateModal.vue';
+import FlatTableModal from '@pages/Exam/Components/ExamTable/FlatTableModal.vue';
+import EnrollmentModal from '@pages/ForeignNationals/Components/EnrollmentModal.vue';
+import AttemptCheckingModal from '@pages/AttemptsChecking/AttemptCheckingModal.vue';
 import PdfDialogViewer from '../PdfDialogViewer/PdfDialogViewer.vue';
-import ExamCommentModal from '../../Pages/ExamMonitoring/ExamCommentModal.vue';
-import EmployeeCreateModal from '../../Pages/Employees/EmployeeCreateModal.vue';
-import RescheduleModal from '../../Pages/Exam/Components/ExamShowModal/RescheduleModal.vue';
-import ForeignNationalEditModal from '../../Pages/ForeignNationals/Components/ForeignNationalEditModal.vue';
-import ExamEditModal from '../../Pages/Exam/Components/ExamEditModal.vue';
-import ForeignNationalShowModal from '../../Pages/ForeignNationals/Components/ShowModal/ForeignNationalShowModal.vue';
-import ForeignNationalExportModal from '../../Pages/ForeignNationals/Components/ForeignNationalTable/ForeignNationalExportModal.vue';
-import StatisticsModal from '../../Pages/ForeignNationals/Components/ForeignNationalTable/StatisticsModal.vue';
+import ExamCommentModal from '@pages/ExamMonitoring/ExamCommentModal.vue';
+import EmployeeCreateModal from '@pages/Employees/EmployeeCreateModal.vue';
+import RescheduleModal from '@pages/Exam/Components/ExamShowModal/RescheduleModal.vue';
+import ForeignNationalEditModal from '@pages/ForeignNationals/Components/Modals/ForeignNationalEditModal.vue';
+import ExamEditModal from '@pages/Exam/Components/ExamEditModal.vue';
+import ForeignNationalShowModal from '@pages/ForeignNationals/Components/Modals/ShowModal/ForeignNationalShowModal.vue';
+import ForeignNationalExportModal from '@pages/ForeignNationals/Components/ForeignNationalTable/ForeignNationalExportModal.vue';
+import StatisticsModal from '@pages/ForeignNationals/Components/ForeignNationalTable/StatisticsModal.vue';
 
 
 const {modals, close} = useModals()

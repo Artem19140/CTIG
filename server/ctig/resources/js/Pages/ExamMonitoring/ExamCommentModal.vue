@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import BaseDialog from '../../Components/BaseDialog/BaseDialog.vue';
+import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import { useForm } from '@inertiajs/vue3';
-import AddButton from '../../Components/AddButton/AddButton.vue';
-import { Exam } from '../../interfaces/interfaces';
-import { useConfirmDialog } from '../../Composables/useConfirmDialog';
-import AppTextarea from '../../Components/AppTextarea/AppTextarea.vue';
+import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
+import { Exam } from '@interfaces/interfaces';
+import { useConfirmDialog } from '@composables/useConfirmDialog';
+import AppTextarea from '@components/UI/AppTextarea/AppTextarea.vue';
 
 const props = defineProps<{
     exam: Exam
@@ -30,7 +30,6 @@ const beforeClose = async (fn:() => void ) => {
         const ok = await confirmOpen('Закрыть окно? Изменения не сохранятся')
         if(!ok) return
     }
-
     form.resetAndClearErrors()
     isOpen.value = false
 }
@@ -51,7 +50,7 @@ const beforeClose = async (fn:() => void ) => {
             hint="Поле автоматически увеличится"
         />
         <template #actions>
-            <AddButton
+            <AppPrimaryButton
                 text="Добавить"
                 :disabled="form.processing"
                 :loading="form.processing"

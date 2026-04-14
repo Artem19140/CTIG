@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { useModals } from '../../../../Composables/useModals';
-import type { Exam, Paginated } from '../../../../interfaces/interfaces';
-import BaseServerTable from '../../../../Components/BaseServerTable.vue';
+import { useModals } from '@composables/useModals';
+import type { Exam, Paginated } from '@interfaces/interfaces';
+import BaseServerTable from '@components/BaseComponents/BaseServerTable/BaseServerTable.vue';
 import ExamTableDropDown from './ExamTableDropDown.vue';
 import ExamTableFilter from './ExamTableFilter.vue';
 import { useForm } from '@inertiajs/vue3';
-import AddButton from '../../../../Components/AddButton/AddButton.vue';
-import { useAuth } from '../../../../Composables/useAuth';
-import { Roles } from '../../../../Constants/Roles';
-import { capacityColor } from '../../../../Helpers/heplers';
-import AppStatusChip from '../../../../Components/AppStatusChip/AppStatusChip.vue';
+import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
+import { useAuth } from '@composables/useAuth';
+import { Roles } from '@constants/Roles';
+import { capacityColor } from '@helpers/heplers';
+import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
 import ExamStatusChip from '../ExamStatusChip.vue';
-import { DateFormatter } from '../../../../Helpers/DateFormatter';
+import { DateFormatter } from '@helpers/DateFormatter';
 
 const props = defineProps<{
     exams: Paginated<Exam>,
@@ -59,7 +59,7 @@ const {can} = useAuth()
             />
         </template>
         <template #toolbar-actions>
-            <AddButton
+            <AppAddButton
                 text="Добавить"
                 @click="open('examCreate', {})"
                 v-if="can([Roles.SCHEDULER])"

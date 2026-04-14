@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import AppInput from '../../../Components/AppInput/AppInput.vue';
+import AppInput from '@components/UI/AppInput/AppInput.vue';
 import { useForm } from '@inertiajs/vue3';
-import AppLogo from '../../../Components/AppLogo/AppLogo.vue';
+import AppLogo from '@components/UI/AppLogo/AppLogo.vue';
 
 const form = useForm({
   email: 'qwerty@bk.com',

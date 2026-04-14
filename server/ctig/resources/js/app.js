@@ -6,7 +6,7 @@ import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import {ru } from 'vuetify/locale'
-import BaseLayout from './Layout/BaseLayout.vue'
+import BaseLayout from '@layouts/BaseLayout.vue'
 
 
 const vuetify = createVuetify({

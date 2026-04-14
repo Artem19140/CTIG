@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import {  ref } from 'vue';
-import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
+import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import ExamEnrollment from '../../Exam/Components/ExamEnrollment.vue';
-import PrimaryButton from '../../../Components/PrimaryButton/PrimaryButton.vue';
-import { ForeignNational } from '../../../interfaces/interfaces';
+import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
+import { ForeignNational } from '@interfaces/interfaces';
 import {  useForm } from '@inertiajs/vue3';
-import { useAlert } from '../../../Composables/useAlert';
-import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
+import { useAlert } from '@composables/useAlert';
+import { useConfirmDialog } from '@composables/useConfirmDialog';
 
 const props = defineProps<{
     foreignNational: ForeignNational | null,
@@ -75,7 +75,7 @@ const beforeClose  = async (fn: () => void) => {
             :error-messages="form.errors.hasPayment"
         />
         <template #actions>
-            <PrimaryButton
+            <AppPrimaryButton
                 @click="enroll"
                 text="Записать"
                 :loading="form.processing"

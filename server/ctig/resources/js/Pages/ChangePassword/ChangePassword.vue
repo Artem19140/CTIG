@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import { ref } from 'vue';
-import AppInput from '../../Components/AppInput/AppInput.vue';
-import AppLogo from '../../Components/AppLogo/AppLogo.vue';
+import AppInput from '@components/UI/AppInput/AppInput.vue';
+import AppLogo from '@components/UI/AppLogo/AppLogo.vue';
 
 const form = useForm({
     newPassword: '', //qwerty1231123@gmail.com

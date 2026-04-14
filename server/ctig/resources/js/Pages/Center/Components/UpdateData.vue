@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import AppInput from '../../../Components/AppInput/AppInput.vue';
-import AppTextarea from '../../../Components/AppTextarea/AppTextarea.vue';
+import AppInput from '@components/UI/AppInput/AppInput.vue';
+import AppTextarea from '@components/UI/AppTextarea/AppTextarea.vue';
 const props = defineProps<{
     center : any | null
 }>()

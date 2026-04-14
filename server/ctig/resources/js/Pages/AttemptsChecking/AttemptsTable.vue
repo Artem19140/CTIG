@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import BaseServerTable from '../../Components/BaseServerTable.vue';
-import { useModals } from '../../Composables/useModals';
+import BaseServerTable from '@components/BaseComponents/BaseServerTable/BaseServerTable.vue';
+import { useModals } from '@composables/useModals';
 
 const {open} = useModals()
 

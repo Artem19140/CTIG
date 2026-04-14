@@ -2,10 +2,10 @@
 import { ref } from 'vue';
 import ShowData from './Components/ShowData.vue';
 import UpdateData from './Components/UpdateData.vue';
-import EmployeeLayout from '../../Layout/EmployeeLayout.vue';
-import PrimaryButton from '../../Components/PrimaryButton/PrimaryButton.vue';
-import { useAuth } from '../../Composables/useAuth';
-import { Roles } from '../../Constants/Roles';
+import EmployeeLayout from '@layouts/EmployeeLayout.vue';
+import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
+import { useAuth } from '@composables/useAuth';
+import { Roles } from '@constants/Roles';
 
 defineOptions({
   layout: EmployeeLayout,
@@ -26,13 +26,12 @@ const {can} = useAuth()
         class="mx-auto mt-16"
         title="Данные центра"
     >
-           
         <v-card-text>
             <ShowData :center="center" v-if="mode === 'show'" />
             <UpdateData :center="center" v-if="mode === 'update'"  />
         </v-card-text>
         <v-card-actions  class="flex justify-center">
-            <PrimaryButton
+            <AppPrimaryButton
                 text="Обновить"
                 v-if="mode === 'update'"
             />
@@ -40,7 +39,7 @@ const {can} = useAuth()
                 Отмена
             </v-btn>
 
-            <PrimaryButton
+            <AppPrimaryButton
                 text="Редактировать"
                 @click="mode = 'update'"
                 v-if="mode === 'show' && can([Roles.ORG_ADMIN])"

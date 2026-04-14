@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import { router, useForm } from '@inertiajs/vue3';
-import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
-import { ExamForm } from '../../../interfaces/interfaces';
+import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
+import { ExamForm } from '@interfaces/interfaces';
 import ExamCreateForm from './ExamCreateForm.vue';
-import { DateFormatter } from '../../../Helpers/DateFormatter';
-import PrimaryButton from '../../../Components/PrimaryButton/PrimaryButton.vue';
-import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
+import { DateFormatter } from '@helpers/DateFormatter';
+import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
+import { useConfirmDialog } from '@composables/useConfirmDialog';
 import { computed, ref } from 'vue';
-import { useModals } from '../../../Composables/useModals';
+import { useModals } from '@composables/useModals';
 
 const props = defineProps<{
     exam:any
 }>()
+
 
 const form = useForm<ExamForm>({
     examTypeId: props.exam.examTypeId,
@@ -36,6 +37,7 @@ const beforeClose = async (fn: () => void) => {
 
 const hasEnrollment = computed(() => Boolean(props.exam.foreignNationalsCount))
 const loading = ref(false)
+const modals = useModals()
 const edit = () => {
     
     if (hasEnrollment.value) {
@@ -47,8 +49,8 @@ const edit = () => {
             onSuccess:(page) =>{
                 if(!page.flash.success) return
                 isOpen.value=false
-                const {open} = useModals()
-                open('examShow', {examId:props.exam.id})
+                
+                modals.open('examShow', {examId:props.exam.id})
             },
             onFinish:() => loading.value = false
         })
@@ -63,8 +65,7 @@ const edit = () => {
             onSuccess:(page) => {
                 if(!page.flash.success) return
                 isOpen.value=false
-                const {open} = useModals()
-                open('examShow', {examId:props.exam.id})
+                modals.open('examShow', {examId:props.exam.id})
             }
         },
         )
@@ -86,7 +87,7 @@ const edit = () => {
         />
         
     <template #actions>
-        <PrimaryButton 
+        <AppPrimaryButton 
             text="Сохранить"
             @click="edit"
             :disabled="!form.isDirty"

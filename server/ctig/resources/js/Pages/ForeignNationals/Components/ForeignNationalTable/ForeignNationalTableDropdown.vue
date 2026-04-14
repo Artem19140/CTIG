@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import AppListDropDownItem from '../../../../Components/AppListDropDownItem/AppListDropDownItem.vue';
-import ThreeDotDropdown from '../../../../Components/ThreeDotDropdown/ThreeDotDropdown.vue';
-import { useModals } from '../../../../Composables/useModals';
+import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
+import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
+import { useModals } from '@composables/useModals';
 
 const modals = useModals()
 </script>
 
 <template>
-    <ThreeDotDropdown>
+    <BaseThreeDotDropdown>
         <AppListDropDownItem 
             title="Выгрузить за период"
             @click="modals.open('foreignNationalExport')"
@@ -16,5 +16,5 @@ const modals = useModals()
             title="Статистика"
             @click="modals.open('statistics')"
         />
-    </ThreeDotDropdown>
+    </BaseThreeDotDropdown>
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useHttp } from '@inertiajs/vue3';
-import AppInput from '../../../../Components/AppInput/AppInput.vue';
+import AppInput from '@components/UI/AppInput/AppInput.vue';
 import BaseTask from './BaseTask.vue';
 import { ref, watch } from 'vue';
 

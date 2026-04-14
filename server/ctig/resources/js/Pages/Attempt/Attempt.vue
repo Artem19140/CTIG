@@ -3,7 +3,7 @@ import SidePanel from './Components/SidePanel.vue';
 import TasksList from './Components/tasks/TasksList.vue';
 import { useConfirmDialog } from '../../Composables/useConfirmDialog';
 import { useForm } from '@inertiajs/vue3';
-import ConfirmDialog from '../../Components/ConfirmDialog/ConfirmDialog.vue';
+import ConfirmDialog from '@components/ConfirmDialog/ConfirmDialog.vue';
 
 const props = defineProps<{
     attempt:any,

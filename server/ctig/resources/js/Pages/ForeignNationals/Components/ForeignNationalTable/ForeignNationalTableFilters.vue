@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import BaseFilter from '../../../../Components/BaseFilter/BaseFilter.vue';
-import AppInput from '../../../../Components/AppInput/AppInput.vue';
+import BaseFilter from '@components/BaseComponents/BaseFilter/BaseFilter.vue';
+import AppInput from '@components/UI/AppInput/AppInput.vue';
+import AppNumberInput from '@components/UI/AppNumberInput/AppNumberInput.vue';
 
 const props = defineProps<{
     filters : any,
@@ -39,7 +40,7 @@ const props = defineProps<{
             :error-messages="form.errors.passportNumber"
             label="Номер"
         />
-        <v-number-input 
+        <AppNumberInput 
             label="ID" 
             control-variant="hidden" 
             :error-messages="form.errors.id"

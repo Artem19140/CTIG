@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import ThreeDotDropdown from '../../../../Components/ThreeDotDropdown/ThreeDotDropdown.vue';
-import AppListDropDownItem from '../../../../Components/AppListDropDownItem/AppListDropDownItem.vue';
-import { useConfirmDialog } from '../../../../Composables/useConfirmDialog';
+import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
+import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
+import { useConfirmDialog } from '@composables/useConfirmDialog';
 import { router, useForm } from '@inertiajs/vue3';
-import { useModals } from '../../../../Composables/useModals';
-import { Enrollment, Exam } from '../../../../interfaces/interfaces';
+import { useModals } from '@composables/useModals';
+import { Enrollment, Exam } from '@interfaces/interfaces';
 
 const props = defineProps<{
     enrollment:Enrollment,
@@ -66,7 +66,7 @@ const changePayment = async () => {
 </script>
 
 <template>
-    <ThreeDotDropdown>
+    <BaseThreeDotDropdown>
         <AppListDropDownItem 
             title="Заявление" 
             @click="() => download('statements')"
@@ -86,5 +86,5 @@ const changePayment = async () => {
             @click="cancell"
             color="text-red"
         />
-    </ThreeDotDropdown>
+    </BaseThreeDotDropdown>
 </template>

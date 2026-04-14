@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import AppLogo from '../../../Components/AppLogo/AppLogo.vue'
+import AppLogo from '@components/UI/AppLogo/AppLogo.vue' 
+import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue'
 
 const form = useForm({
   code: '',
@@ -39,16 +40,14 @@ const submit = () => {
           class="mb-6 w-100"
         ></v-otp-input>
 
-        <v-btn
+        <AppPrimaryButton
+          text=" Войти"
           type="submit"
-          color="primary"
           large
           block
           :loading="form.processing"
           :disabled="form.processing"
-        >
-          Войти
-        </v-btn>
+        />
       </v-form>
     </v-card>
 </template>

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import AddButton from '../../Components/AddButton/AddButton.vue';
-import BaseDialog from '../../Components/BaseDialog/BaseDialog.vue';
-import AppInput from '../../Components/AppInput/AppInput.vue';
+import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
+import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
+import AppInput from '@components/UI/AppInput/AppInput.vue';
 import { useForm } from '@inertiajs/vue3';
-import { useConfirmDialog } from '../../Composables/useConfirmDialog';
-import AppAutocomplete from '../../Components/AppAutocomplete/AppAutocomplete.vue';
+import { useConfirmDialog } from '@composables/useConfirmDialog';
+import AppAutocomplete from '@components/UI/AppAutocomplete/AppAutocomplete.vue';
 import {useHttp} from '@inertiajs/vue3';
 
 const isOpen = defineModel<boolean>({default:false})
@@ -104,7 +104,7 @@ onMounted(() => {
         />
         <template #actions>
             <div>
-                <AddButton 
+                <AppAddButton 
                     text="Добавить"
                     @click="create"
                     :loading="form.processing"

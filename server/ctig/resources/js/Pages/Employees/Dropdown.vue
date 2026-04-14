@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import AppListDropDownItem from '../../Components/AppListDropDownItem/AppListDropDownItem.vue';
+import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import { router } from '@inertiajs/vue3';
-import { useConfirmDialog } from '../../Composables/useConfirmDialog';
+import { useConfirmDialog } from '@composables/useConfirmDialog';
 
 const props= defineProps<{
   employee:any

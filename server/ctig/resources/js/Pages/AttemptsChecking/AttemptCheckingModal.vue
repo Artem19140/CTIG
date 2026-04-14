@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import BaseDialog from '../../Components/BaseDialog/BaseDialog.vue';
-import AddButton from '../../Components/AddButton/AddButton.vue';
+import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
+import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import TasksList from '../Attempt/Components/tasks/TasksList.vue';
 import { useHttp } from '@inertiajs/vue3';
 
@@ -42,7 +42,7 @@ onMounted(async() => {
     
         
         <template #actions>
-            <AddButton 
+            <AppAddButton 
                 text="Сохранить"
             />
         </template>

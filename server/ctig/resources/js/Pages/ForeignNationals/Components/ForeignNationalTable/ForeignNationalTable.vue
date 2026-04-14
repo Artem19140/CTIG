@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import ForeignNationalCreateModal from '../ForeignNationalCreateModal.vue';
-import type { ForeignNational, Paginated } from '../../../../interfaces/interfaces';
-import BaseServerTable from '../../../../Components/BaseServerTable.vue';
+import type { ForeignNational, Paginated } from '@interfaces/interfaces';
+import BaseServerTable from '@components/BaseComponents/BaseServerTable/BaseServerTable.vue';
 import ForeignNationalTableFilters from './ForeignNationalTableFilters.vue';
 import { useForm } from '@inertiajs/vue3';
-import { useModals } from '../../../../Composables/useModals';
-import AddButton from '../../../../Components/AddButton/AddButton.vue';
+import { useModals } from '@composables/useModals';
+import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import ForeignNationalTableDropdown from './ForeignNationalTableDropdown.vue';
-const {open} = useModals()
+const modals = useModals()
 
 function foreignNationalShowModal(item : any) {
-    open('foreignNationalShow', {foreignNationalId:item.id})
+    modals.open('foreignNationalShow', {foreignNationalId:item.id})
 }
 
 const props = defineProps<{
@@ -51,9 +50,9 @@ const formFilters = useForm({
             />
         </template>
         <template #toolbar-actions>
-            <AddButton
+            <AppAddButton
                 text="Добавить"
-                @click="open('foreignNationalCreate')"
+                @click="modals.open('foreignNationalCreate')"
             />
             <ForeignNationalTableDropdown />
         </template>

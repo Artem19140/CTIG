@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, watch } from 'vue';
-import AppAutocomplete from '../../../Components/AppAutocomplete/AppAutocomplete.vue';
+import AppAutocomplete from '@components/UI/AppAutocomplete/AppAutocomplete.vue';
 import {useHttp} from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
 

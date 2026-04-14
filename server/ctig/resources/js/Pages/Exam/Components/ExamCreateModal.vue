@@ -2,11 +2,11 @@
 import { useForm, useHttp } from '@inertiajs/vue3'
 
 import { onMounted, ref } from 'vue';
-import BaseDialog from '../../../Components/BaseDialog/BaseDialog.vue';
-import { Address, User, ExamType } from '../../../interfaces/interfaces';
-import { ExamForm } from '../../../interfaces/interfaces';
-import { useConfirmDialog } from '../../../Composables/useConfirmDialog';
-import AddButton from '../../../Components/AddButton/AddButton.vue';
+import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
+import { Address, User, ExamType } from '@interfaces/interfaces';
+import { ExamForm } from '@interfaces/interfaces';
+import { useConfirmDialog } from '@composables/useConfirmDialog';
+import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import ExamCreateForm from './ExamCreateForm.vue';
 
 const props = defineProps<{
@@ -72,7 +72,7 @@ const close = async (fn:  ()  => void) => {
     >
     <ExamCreateForm :form="form" />
         <template #actions >
-            <AddButton  
+            <AppAddButton  
                 text="Добавить"
                 @click="create"
                 :disabled="form.processing"

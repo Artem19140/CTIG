@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Dropdown from './Dropdown.vue';
-import BaseServerTable from '../../Components/BaseServerTable.vue';
-import { useModals } from '../../Composables/useModals';
-import AddButton from '../../Components/AddButton/AddButton.vue';
+import BaseServerTable from '@components/BaseComponents/BaseServerTable/BaseServerTable.vue';
+import { useModals } from '@composables/useModals';
+import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 
 const props = defineProps<{
   employees : any
@@ -24,7 +24,7 @@ const headers = [
         :elements="employees"
     >
         <template #toolbar-actions>
-            <AddButton text="Добавить" 
+            <AppAddButton text="Добавить" 
             @click="open('employeeCreate')" />
         </template>
         <template #item.actions="{item}">

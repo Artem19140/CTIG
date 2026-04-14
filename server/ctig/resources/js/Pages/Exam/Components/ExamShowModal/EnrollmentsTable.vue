@@ -1,9 +1,9 @@
 <script setup lang="ts">
 
-import { Enrollment, Exam} from '../../../../interfaces/interfaces';
-import { useModals } from '../../../../Composables/useModals';
-import { attemptResultStatus } from '../../../../Helpers/heplers';
-import AppStatusChip from '../../../../Components/AppStatusChip/AppStatusChip.vue';
+import { Enrollment, Exam} from '@interfaces/interfaces';
+import { useModals } from '@composables/useModals';
+import { attemptResultStatus } from '@helpers/heplers';
+import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
 import EnrollmetsTableDropdown from './EnrollmetsTableDropdown.vue';
 import { ref } from 'vue';
 
@@ -16,9 +16,10 @@ const emit = defineEmits<{
     (e:'reschedule', value:Enrollment) : void
 }>()
 
+const modals = useModals()
+
 function foreignNationalShowModal(event:Event, {item}: any) {
-    const {open} = useModals()
-    open('foreignNationalShow', {foreignNationalId:item.foreignNational.id})  
+    modals.open('foreignNationalShow', {foreignNationalId:item.foreignNational.id})  
 }
 
 const headers = [

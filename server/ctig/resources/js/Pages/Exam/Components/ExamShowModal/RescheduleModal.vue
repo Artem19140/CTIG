@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useForm, useHttp } from '@inertiajs/vue3';
-import BaseDialog from '../../../../Components/BaseDialog/BaseDialog.vue';
-import PrimaryButton from '../../../../Components/PrimaryButton/PrimaryButton.vue';
-import { Enrollment } from '../../../../interfaces/interfaces';
+import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
+import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
+import { Enrollment } from '@interfaces/interfaces';
 import ExamEnrollment from '../ExamEnrollment.vue';
 
 
@@ -50,7 +50,7 @@ const http = useHttp()
             :foreign-national-id="enrollment.foreignNational.id"
         />
         <template #actions>
-            <PrimaryButton
+            <AppPrimaryButton
                 :loading="form.processing"
                 :disabled="!form.toExamId"
                 text="Перенести"

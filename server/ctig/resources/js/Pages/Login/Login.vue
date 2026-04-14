@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import EmployeeEntry from './Components/EmployeeEntry.vue';
 import ForeignNationalEntry from './Components/ForeignNationalEntry.vue';
-import AppListDropDownItem from '../../Components/AppListDropDownItem/AppListDropDownItem.vue';
+import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 
 const isForeignNationalEntry = ref<boolean>(true)
 </script>

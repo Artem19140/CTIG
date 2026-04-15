@@ -35,9 +35,9 @@ const page = usePage()
         />
         
         <AppCheckbox 
-            v-model="form.completed"
+            v-model="form.finished"
             label="Прошедшие"
-            :error-messages="form.errors.completed"
+            :error-messages="form.errors.finished"
         />
         <AppCheckbox 
             v-model="form.cancelled"

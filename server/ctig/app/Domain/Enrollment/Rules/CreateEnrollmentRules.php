@@ -14,7 +14,7 @@ class CreateEnrollmentRules{
     ){}
     public function execute(Exam $exam, ForeignNational $foreignNational):void{
         $this->examGuard->ensureNotCancelled($exam);
-        $this->examGuard->ensureNotCompleted($exam);
+        $this->examGuard->ensureNotFinished($exam);
         $this->examGuard->ensureNotGoing($exam);
         $this->examGuard->ensureHasSeats($exam);
         $this->enrollmentGuard->ensureNotExists($exam, $foreignNational);

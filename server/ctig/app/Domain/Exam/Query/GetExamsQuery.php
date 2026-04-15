@@ -15,7 +15,7 @@ class GetExamsQuery{
         $dateTo = $data['dateTo'] ?? false;
         $addressId = $data['addressId'] ?? false;
         $cancelled = $data['cancelled'] ?? false;
-        $completed = $data['completed'] ?? false;
+        $finished = $data['finished'] ?? false;
         $perPage = $data['perPage'] ?? 10;
 
         $query = Exam::with(['examType'])
@@ -37,7 +37,7 @@ class GetExamsQuery{
             $q->where('address_id', $addressId)
         );
 
-        $query->when($completed, fn ($q) =>
+        $query->when($finished, fn ($q) =>
             $q->where('end_time', '<=', Carbon::now($user->time_zone))//timeZone
         );
 

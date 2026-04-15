@@ -63,10 +63,6 @@ class Attempt extends Model
         return $this->finished_at !== null;
     }
 
-    public function isSuccessful(): bool{
-        return $this->is_passed;
-    }
-
     public function foreignNational(): BelongsTo{
         return $this->belongsTo(ForeignNational::class, 'foreign_national_id');
     }

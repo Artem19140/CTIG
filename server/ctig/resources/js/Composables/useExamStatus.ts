@@ -7,8 +7,8 @@ export const useExamStatus = (exam : Exam) => {
 
     const isCancelled = computed(() => exam.status === ExamStatus.CANCELLED)
 
-    const isCompleted = computed(()=>exam.status === ExamStatus.COMPLETED)
+    const isFinished = computed(()=>exam.status === ExamStatus.FINISHED)
 
     const isPending = computed(():boolean => exam.status === ExamStatus.PENDING)
-    return{ isCancelled, isCompleted, isGoing, isPending}
+    return{ isCancelled, isFinished, isGoing, isPending}
 }

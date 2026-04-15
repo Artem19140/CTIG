@@ -22,7 +22,7 @@ final class UpdateExamAction{
         }
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureNotGoing($exam);
-        $this->examGuard->ensureNotCompleted($exam);
+        $this->examGuard->ensureNotFinished($exam);
         $duration = $this->validateExamForSave->execute($examDto, $user, $exam->id);
         $exam = DB::transaction(function () use ($examDto, $user, $duration, $exam) {
             $exam->update([

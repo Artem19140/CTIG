@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { useConfirmDialog } from '@/composables/useConfirmDialog';
+import { useModals } from '@/composables/useModals';
+import { Enrollment, Exam } from '@/interfaces/Interfaces';
 import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
-import { useConfirmDialog } from '@composables/useConfirmDialog';
 import { router, useForm } from '@inertiajs/vue3';
-import { useModals } from '@composables/useModals';
-import { Enrollment, Exam } from '@interfaces/interfaces';
 
 const props = defineProps<{
     enrollment:Enrollment,
@@ -17,20 +17,19 @@ const emit = defineEmits<{
 }>()
 
 const {confirmOpen} = useConfirmDialog()
+const modals = useModals()
 
 const download = (document : string) => {
     window.open(`enrollments/${props.enrollment.id}/${document}`)
 }
 
-const reschedule = () => {
-    const {open} = useModals()
-    open('reschedule', {
-                            enrollment:props.enrollment, 
-                            examTypeId:props.exam.examTypeId,
-                            onRechedule: () => emit('reschedule', props.enrollment)
-                        })
+const reschedule = () => { 
+    modals.open('reschedule', {
+        enrollment:props.enrollment, 
+        examTypeId:props.enrollment.exam.examTypeId,
+        onRechedule: () => emit('reschedule', props.enrollment)
+    })
 }
-
 
 const cancell = async () => {
     const ok = await confirmOpen('Отменить запись на экзамен?')
@@ -47,6 +46,7 @@ const cancell = async () => {
         }
     })
 }
+
 const changePayment = async () => {
     const action = props.enrollment.hasPayment ?  'Отменить' : 'Подтвердить'
     const ok = await confirmOpen(`${action} оплату ${props.enrollment.foreignNational.fullName}`)
@@ -62,7 +62,6 @@ const changePayment = async () => {
     })
 }
 
-//const examNotBegin = computed(() => props.exam?.isGoing || props.exam?.isPast) :disabled="examNotBegin"
 </script>
 
 <template>

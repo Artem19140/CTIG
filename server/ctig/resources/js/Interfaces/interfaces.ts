@@ -32,7 +32,7 @@ export interface Enrollment{
     isLoading?: boolean,
     exam:Exam,
     attempt:Attempt | null,
-    examProgress:string
+    examResult:string
 }
 
 export interface User{

@@ -12,7 +12,7 @@ class ExamDocumentAvailable{
         protected ExamGuard $examGuard
     ){}
     public function codes(Exam $exam){
-        $this->examGuard->ensureNotCompleted($exam);
+        $this->examGuard->ensureNotFinished($exam);
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureHasEnrollment($exam);
         if(Carbon::now()->diff($exam->begin_time_utc)->minutes >= 40){
@@ -25,20 +25,20 @@ class ExamDocumentAvailable{
     }
 
     public function protocol(Exam $exam){
-        $this->examGuard->ensureCompleted($exam);
+        $this->examGuard->ensureFinished($exam);
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureHasEnrollment($exam);
     }
 
     public function statement(Exam $exam){
-        $this->examGuard->ensureCompleted($exam);
+        $this->examGuard->ensureFinished($exam);
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureHasEnrollment($exam);
         $this->examGuard->EnsureAllAttemptsChecked($exam);
     }
 
     public function results(Exam $exam){
-        $this->examGuard->ensureCompleted($exam);
+        $this->examGuard->ensureFinished($exam);
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureHasEnrollment($exam);
         $this->examGuard->EnsureAllAttemptsChecked($exam);

@@ -35,7 +35,7 @@ const formFilters = useForm({
     cancelled: props.filters.dateFrom ?? undefined,
     examTypeId: props.filters.examTypeId ?? undefined,
     dateTo: props.filters.dateTo ?? undefined,
-    completed: props.filters.completed ?? undefined,
+    finished: props.filters.finished ?? undefined,
 })
 const auth = useAuth()
 

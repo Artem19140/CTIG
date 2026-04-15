@@ -12,7 +12,7 @@ class CancelExamAction{
     ){}
     public function execute(Exam $exam){
         $this->examGuard->ensureNotCancelled($exam,'Экзамен уже отменен');
-        $this->examGuard->ensureNotCompleted($exam);
+        $this->examGuard->ensureNotFinished($exam);
         $this->examGuard->ensureNotGoing($exam);
 
         //Всем гражданам поставить запись - отменено

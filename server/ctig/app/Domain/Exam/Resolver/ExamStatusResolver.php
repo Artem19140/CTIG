@@ -15,8 +15,8 @@ class ExamStatusResolver{
         if($exam->isGoing()){
             return ExamStatus::Going;
         }
-        if($exam->isCompleted()){
-            return ExamStatus::Completed;
+        if($exam->isFinished()){
+            return ExamStatus::Finished;
         }
 
         return ExamStatus::Pending;

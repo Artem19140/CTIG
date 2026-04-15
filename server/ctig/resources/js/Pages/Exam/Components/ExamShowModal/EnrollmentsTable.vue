@@ -2,10 +2,9 @@
 
 import { Enrollment, Exam} from '@interfaces/Interfaces';
 import { useModals } from '@composables/useModals';
-import { examResultStatus } from '@helpers/heplers';
-import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
-import EnrollmetsTableDropdown from './EnrollmetsTableDropdown.vue';
 import { ref } from 'vue';
+import EnrollmentDropDown from '@/components/Enrollment/EnrollmentDropDown.vue';
+import ExamResultStatusChip from '@/components/Exam/ExamResultStatusChip.vue';
 
 const props = defineProps<{
     exam: Exam
@@ -25,8 +24,8 @@ function foreignNationalShowModal(event:Event, {item}: any) {
 const headers = [
     {title : "ФИО",sortable: false, key: 'foreignNational.fullName', align: 'start' },
     {title : "Паспорт",sortable: false, key: 'foreignNational.fullPassport', align: 'start' },
-    {title : "Результаты",sortable: false, key: 'results', align: 'center' },
     {title : "Оплата",sortable: false, key: 'hasPayment', align: 'center' },
+    {title : "Результаты",sortable: false, key: 'results', align: 'center' },
     {title : "",sortable: false, key: 'actions', align: 'end' },
 ]
 props.exam.enrollments.forEach(fn => {
@@ -44,7 +43,6 @@ const reschedule = (value : Enrollment) => {
 </script>
 
 <template>
-    
     <v-data-table 
         :items="exam.enrollments"
         hide-default-footer
@@ -61,7 +59,7 @@ const reschedule = (value : Enrollment) => {
             <v-progress-circular v-else indeterminate color="primary" />
         </template>
         <template #item.actions="{item}">
-            <EnrollmetsTableDropdown 
+            <EnrollmentDropDown 
                 :enrollment="item"
                 :exam="exam"
                 :loading="item"
@@ -71,10 +69,9 @@ const reschedule = (value : Enrollment) => {
         </template>
         <template #item.results="{ item }">
             <!-- {{ item?.foreignNational.attempt }} -->
-            <AppStatusChip
-                :color="examResultStatus(item?.examProgress).color"
-                :text="examResultStatus(item?.examProgress).text"
-            /> 
+            <ExamResultStatusChip 
+                :status="item.examResult"
+            />
         </template>
     </v-data-table>
 </template>

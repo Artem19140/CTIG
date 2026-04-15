@@ -94,7 +94,7 @@
 import { ref } from 'vue'
 import BaseLayout from './BaseLayout.vue';
 import { useAuth } from '@composables/useAuth';
-import { Roles } from '../Constants/Roles';
+import { Roles } from '@constants/Roles';
 import { router } from '@inertiajs/vue3'
 const {can, user} = useAuth()
 

@@ -36,24 +36,11 @@ const donwload = () => {
         v-model="isOpen"
         @before-close="(done) => done()"
     >
-        Период
-            <div class="d-flex align-center gap-2">
-                <AppInput
-                    v-model="http.dateFrom"
-                    required
-                    label="Дата с"
-                    :error-messages="http.errors.dateFrom"
-                    type="date"
-                />
-                <AppInput
-                    v-model="http.dateTo"
-                    required
-                    label="Дата по"
-                    :error-messages="http.errors.dateTo"
-                    type="date"
-                />
-        </div>
-        
+        <AppPeriodDate 
+            :errors="http.errors"
+            v-model:date-from="http.dateFrom"
+            v-model:date-to="http.dateTo"
+        />  
         <template #actions>
             <AppPrimaryButton 
                 :disabled="!http.dateFrom || !http.dateTo"

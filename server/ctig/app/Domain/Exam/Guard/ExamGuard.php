@@ -9,24 +9,24 @@ use Illuminate\Database\Eloquent\Builder;
 
 
 class ExamGuard{
-    public function ensureNotCompleted(Exam $exam, string $message = 'Экзамен уже прошел'){
-        if($exam->isCompleted()){
+    public function ensureNotFinished(Exam $exam, string $message = 'Экзамен уже прошел'){
+        if($exam->isFinished()){
             throw new BusinessException($message);
         }
     }
 
-    public function ensureCompleted(Exam $exam, string $message = 'Экзамен еще не прошел'){
-        if(!$exam->isCompleted()){
+    public function ensureFinished(Exam $exam, string $message = 'Экзамен еще не прошел'){
+        if(!$exam->isFinished()){
             throw new BusinessException($message);
         }
     }
 
     public function ensureHasSeats(Exam $exam, string $message = 'Запись на экзамен полная'):void{
         $enrollmentsCount = $exam->enrollments()
-                                    ->whereHas('enrollments', function(Builder $query){
-                                        $query->where('rescheduled_at', null)
-                                            ->where('cancelled_at', null);
-                                    })
+                                    // ->whereHas('enrollments', function(Builder $query){
+                                    //     $query->where('rescheduled_at', null)
+                                    //         ->where('cancelled_at', null);
+                                    // })
                                     ->count();
         if($exam->capacity <= $enrollmentsCount){
             throw new BusinessException($message);

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Web\Attempt;
 
-use App\Actions\Attempt\Checking\FinalizeAttemptCheckingAction;
-use App\Actions\Attempt\Checking\HandleAttemptAnswerAction;
+use App\Domain\Attempt\Action\FinishAttemptAction;
+use App\Domain\AttemptAnswer\Action\HandleAttemptAnswerAction;
 use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Http\Requests\AttemptAnswer\AttemptAnswerRequest;
@@ -48,7 +48,7 @@ class AttemptAnswerController extends Controller
     public function rate(
                             Request $request,
                             AttemptAnswer $attemptAnswer,
-                            FinalizeAttemptCheckingAction $finalizeAttemptChecking
+                            FinishAttemptAction $finalizeAttemptChecking
                         ){
         //лучше массивом объектов обновлять, чтобы за раз все выставить и сохранить на фронте
         // $exam = Exam::findOrFail($attempt->exam_id);

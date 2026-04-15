@@ -16,7 +16,7 @@ class FinishAttemptAction{
     ){}
     public function execute(Attempt $attempt):void{
         $this->attemptGuard->ensureNotBanned($attempt);
-        $this->attemptGuard->ensureActive($attempt);
+        //$this->attemptGuard->ensureActive($attempt);
 
         DB::transaction(function() use($attempt){
             $attempt->finishTimeNow();

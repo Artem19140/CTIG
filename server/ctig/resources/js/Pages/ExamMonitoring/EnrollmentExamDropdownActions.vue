@@ -3,7 +3,7 @@ import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropD
 import { usePromptDialog } from '@composables/usePromptDialog';
 import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 import { useLoadingSnackbar } from '@composables/useLoadingSnackBar';
-import { router } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
 import { Enrollment, Exam } from '@interfaces/Interfaces';
 import { useExamStatus } from '@/composables/useExamStatus';
 import { computed } from 'vue';
@@ -21,8 +21,10 @@ const ban = async () => {
     }
     const loadingSnack = useLoadingSnackbar()
     loadingSnack.open('Идет аннулирование')
-    router.put(`/attempts/${props.enrollment.attempt?.id}/ban`, 
-    {banReason : res},
+    const form = useForm({
+        banReason : res
+    })
+    form.put(`/attempts/${props.enrollment.attempt?.id}/ban`, 
     {
         onFinish:()=> {
             loadingSnack.close()
@@ -35,14 +37,14 @@ const ban = async () => {
 const getSpeakingTasks = () => {
     alert('Тут будет устная часть')
 }
-const isNotBanned = computed(() => props.enrollment.attempt?.status === 'banned')
-const { isCancelled, isCompleted, isGoing } = useExamStatus(props.exam)
+const isNotBanned = computed(() => props.enrollment.attempt?.status !== 'banned')
+const { isCancelled, isFinished, isGoing } = useExamStatus(props.exam)
 </script>
 
 <template>
     <BaseThreeDotDropdown>
         <AppListDropDownItem 
-            v-if="!isCancelled && !isCompleted" 
+            v-if="!isCancelled && !isFinished" 
             title="Подтвердить оплату" 
             @click=""
         />
@@ -52,7 +54,7 @@ const { isCancelled, isCompleted, isGoing } = useExamStatus(props.exam)
             @click="getSpeakingTasks"
         />
         <AppListDropDownItem 
-            v-if="!isCancelled && !isCompleted && isGoing && isNotBanned"   
+            v-if="!isCancelled && !isFinished && isGoing && isNotBanned"   
             color="text-red" 
             title="Снять с экзамена" 
             @click="ban"

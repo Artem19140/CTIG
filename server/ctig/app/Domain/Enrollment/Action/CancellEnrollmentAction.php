@@ -20,7 +20,7 @@ class CancellEnrollmentAction{
         //enrollment soft delete
         $exam = Exam::find($enrollment->exam_id);
         $foreignNational = ForeignNational::find($enrollment->foreign_national_id);
-        $this->examGuard->ensureNotCompleted($exam);
+        $this->examGuard->ensureNotFinished($exam);
         $this->examGuard->ensureNotCancelled($exam);
         $this->enrollmentGuard->ensureExists($exam, $foreignNational);
 

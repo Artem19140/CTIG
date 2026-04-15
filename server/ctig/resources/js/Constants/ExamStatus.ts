@@ -1,6 +1,6 @@
 export enum ExamStatus {
     PENDING = 'pending',
     GOING = 'going',
-    COMPLETED = 'completed',
+    FINISHED = 'finished',
     CANCELLED = 'cancelled',
 }

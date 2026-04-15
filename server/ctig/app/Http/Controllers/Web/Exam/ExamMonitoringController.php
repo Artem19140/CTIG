@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Web\Exam;
 
-use App\Actions\Exam\Monitoring\UpdateProtocolCommentAction;
+use App\Domain\Exam\Action\Monitoring\UpdateProtocolCommentAction;
 use App\Http\Resources\Exam\ExamResource;
 use App\Models\Exam;
 use Illuminate\Database\Eloquent\Builder;
@@ -39,12 +39,11 @@ class ExamMonitoringController
         Gate::authorize('exam-manage-access', $exam);
 
         $exam->load([
-            'enrollments.foreignNational.attempts' => fn ($query) => $query->where('exam_id', $exam->id)
+            'enrollments' => ['foreignNational', 'attempt']
         ]);
         
         return Inertia::render('ExamMonitoring/ExamMonitoring', [
-            'exam' => new ExamResource($exam),
-            'hasSpeakingTasks' => $exam->examType->has_speaking_tasks,
+            'exam' => new ExamResource($exam)
         ]);
     }
 

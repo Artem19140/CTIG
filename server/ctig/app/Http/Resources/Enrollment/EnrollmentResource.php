@@ -2,9 +2,10 @@
 
 namespace App\Http\Resources\Enrollment;
 
-use App\Domain\Exam\Resolver\ExamProgressResolver;
+use App\Domain\Exam\Resolver\ExamResultResolver;
 use App\Http\Resources\Attempt\AttemptResource;
 use App\Http\Resources\Exam\ExamResource;
+use App\Http\Resources\Exam\ExamShortResource;
 use App\Http\Resources\ForeignNational\ForeignNationalResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -22,9 +23,14 @@ class EnrollmentResource extends JsonResource
             'id' => $this->id,
             'foreignNational' => new ForeignNationalResource($this->whenLoaded('foreignNational')),
             'hasPayment' => $this->has_payment,
-            'exam' => new ExamResource($this->whenLoaded('exam')),
+            //'exam' => new ExamResource($this->whenLoaded('exam')),
+            'exam' => new ExamShortResource($this->whenLoaded('exam')),
             'attempt' => new AttemptResource($this->whenLoaded('attempt')),
-            'examProgress' => app(ExamProgressResolver::class)->execute($this->resource)
+            'examResult' => $this->when(
+                                        $this->relationLoaded('exam') && 
+                                        $this->relationLoaded('attempt'),
+                                        fn () => app(ExamResultResolver::class)->execute($this->resource)
+                                    )
         ];
     }
 }

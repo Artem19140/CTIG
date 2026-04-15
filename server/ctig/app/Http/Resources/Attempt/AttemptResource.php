@@ -28,7 +28,6 @@ class AttemptResource extends JsonResource
             'finishedAt' => $this->finished_at?->format('Y-m-d H:i:s'),
             'isPassed' => $this->is_passed,
             'status' => app(AttemptStatusResolver::class)->execute($this->resource),
-            
         ];
     }
 }

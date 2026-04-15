@@ -4,11 +4,12 @@ namespace App\Domain\Enrollment\Action;
 
 use App\Domain\Counter\GenerateRegNumberAction;
 use App\Domain\Enrollment\Rules\CreateEnrollmentRules;
+use App\Domain\ForeignNational\Action\CreateForeignNationalStatementAction;
 use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\User;
-use App\Actions\ForeignNational\CreateForeignNationalStatementAction;
+
 
 final class CreateEnrollmentAction{
     public function __construct(

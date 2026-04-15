@@ -16,7 +16,7 @@ class ChangePaymentStatusAction{
     public function execute(Enrollment $enrollment){
         $enrollment->load('exam');
         $this->examGuard->ensureNotCancelled($enrollment->exam);
-        $this->examGuard->ensureNotCompleted($enrollment->exam);
+        $this->examGuard->ensureNotFinished($enrollment->exam);
 
         $enrollment->changePaymentStatus();
         $enrollment->save();

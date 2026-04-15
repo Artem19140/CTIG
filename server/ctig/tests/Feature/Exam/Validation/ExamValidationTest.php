@@ -42,38 +42,38 @@ class ExamValidationTest extends TestCase
             
         ],$overrides));
     }
-    public function test_success_ensure_not_completed(): void
+    public function test_success_ensure_not_finished(): void
     {
         
         $exam = $this->createExam([
             'begin_time_utc' => Carbon::now()->addMinutes($this->duration - 1)
         ]);
-        $this->action->ensureNotCompleted($exam);
+        $this->action->ensureNotFinished($exam);
         $this->assertTrue(true);
     }
 
-    public function test_fail_ensure_not_completed(): void
+    public function test_fail_ensure_not_finished(): void
     {
         $this->expectException($this->exception);
         $exam = Exam::factory()->inPast($this->duration)->create();
-        $this->action->ensureNotCompleted($exam);
+        $this->action->ensureNotFinished($exam);
     }
 
-    public function test_success_ensure_completed(){
+    public function test_success_ensure_finished(){
         $exam = Exam::factory()->inPast($this->duration)->create();
-        $this->action->ensureCompleted($exam);
+        $this->action->ensureFinished($exam);
         $this->assertTrue(true);
     }
 
-    public function test_fail_ensure_completed(){
+    public function test_fail_ensure_finished(){
         $this->expectException($this->exception);
         $exam = Exam::factory()->inFuture()->create();
-        $this->action->ensureCompleted($exam);
+        $this->action->ensureFinished($exam);
     }
-    public function test_fail_ensure_completed_going(){
+    public function test_fail_ensure_finished_going(){
         $this->expectException($this->exception);
         $exam = Exam::factory()->now()->create();
-        $this->action->ensureCompleted($exam);
+        $this->action->ensureFinished($exam);
     }
 
     public function test_success_ensure_has_enrollment(){

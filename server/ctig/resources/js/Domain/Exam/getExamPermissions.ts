@@ -15,16 +15,16 @@ export const getExamPermissions = (exam: Exam | null) => {
         }
     const { status, enrollmentsCount } = exam
     const hasEnrollment  = computed(() => enrollmentsCount > 0)
-    const isCompleted = computed(() => status === ExamStatus.COMPLETED )
+    const isFinished = computed(() => status === ExamStatus.FINISHED )
     const isCancelled = computed(() => status === ExamStatus.CANCELLED )
     const isGoing = computed(() => status === ExamStatus.GOING )
 
-    const canDownloadStatement  = isCompleted.value && !isCancelled.value && hasEnrollment.value 
-    const canDownloadProtocol = isCompleted.value && !isCancelled.value && hasEnrollment.value 
+    const canDownloadStatement  = isFinished.value && !isCancelled.value && hasEnrollment.value 
+    const canDownloadProtocol = isFinished.value && !isCancelled.value && hasEnrollment.value 
     const canDownloadList =  !isCancelled.value && hasEnrollment.value
-    const canEdit  = !isCompleted.value && !isCancelled.value  && !isGoing.value
-    const canCancel = !isCompleted.value && !isCancelled.value && !isGoing.value
-    const canDownloadCodes  =  !isCompleted.value && !isCancelled.value && hasEnrollment.value 
+    const canEdit  = !isFinished.value && !isCancelled.value  && !isGoing.value
+    const canCancel = !isFinished.value && !isCancelled.value && !isGoing.value
+    const canDownloadCodes  =  !isFinished.value && !isCancelled.value && hasEnrollment.value 
     const canDownloadStudList  =  hasEnrollment.value 
     
     return {

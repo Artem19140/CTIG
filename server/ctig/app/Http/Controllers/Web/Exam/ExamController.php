@@ -7,12 +7,14 @@ use App\Domain\Attempt\Action\CreateAttemptAction;
 use App\Domain\Exam\Action\CancelExamAction;
 use App\Domain\Exam\Action\CreateExamAction;
 use App\Domain\Exam\Action\UpdateExamAction;
+use App\Domain\Exam\Action\UpdateExaminersAction;
 use App\Domain\Exam\Query\GetExamsQuery;
 use App\Enums\UserRoles;
 use App\Http\Requests\Exam\ExamIndexRequest;
 use App\Http\Requests\Exam\VerifyCodeRequest;
 use App\Http\Resources\Address\AddressResource;
 use App\Http\Resources\Exam\ExamCalendarResource;
+use App\Http\Resources\Exam\ExamIndexResource;
 use App\Http\Resources\ExamType\ExamTypeResource;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -34,7 +36,7 @@ class ExamController
     {
         $exams = $getExamQuery->execute($request->validated() ?? [], $request->user());
         return Inertia::render('Exam/Exam', [
-            'exams' => ExamResource::collection($exams),
+            'exams' => ExamIndexResource::collection($exams),
             'filters' => request()->all()
         ]);
         
@@ -64,7 +66,7 @@ class ExamController
                     'examiners', 
                     'address',
                     'examType',
-                    'enrollments' => ['foreignNational', 'attempt']
+                    'enrollments' => ['foreignNational', 'exam', 'attempt'] //, 'attempt'
                     
                 ]);
         
@@ -78,7 +80,7 @@ class ExamController
         return Inertia::flash('success', 'Данные обновлены')->back();
     }
 
-    public function partialUpdate(Request $request, Exam $exam, UpdateExaminersAcion $updateExaminers)
+    public function partialUpdate(Request $request, Exam $exam, UpdateExaminersAction $updateExaminers)
     {   
         $request->validate([
             'examiners' => ['required', 'array','min:1'],

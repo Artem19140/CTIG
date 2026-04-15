@@ -14,7 +14,7 @@ class BanAttemptAction{
         $this->attemptGuard->ensureNotBanned($attempt);
         $attempt->ban_reason = $banReason;
         $attempt->ban_by_id = $banById;
-        $attempt->is_passed = false;
+        // $attempt->is_passed = false;
         $attempt->banned_at = Carbon::now($attempt->time_zone);
         $attempt->save();
     }

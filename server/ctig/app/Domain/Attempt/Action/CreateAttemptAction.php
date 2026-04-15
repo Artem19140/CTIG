@@ -29,7 +29,7 @@ class CreateAttemptAction{
             $foreignNational = ForeignNational::find($enrollment->foreign_national_id);
             $exam = Exam::find($enrollment->exam_id);
             
-            $this->examGuard->ensureNotCompleted($exam);
+            $this->examGuard->ensureNotFinished($exam);
             //$this->examGuard->ensureGoing($exam);
             $this->examGuard->ensureNotCancelled($exam);
             

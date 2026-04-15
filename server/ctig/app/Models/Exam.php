@@ -75,7 +75,7 @@ class Exam extends Model
         return $this->belongsTo(Address::class, 'address_id');
     }
 
-    public function isCompleted(){
+    public function isFinished(){
         return $this->begin_time_utc->addMinutes($this->examType->duration)->isPast();
     }
 

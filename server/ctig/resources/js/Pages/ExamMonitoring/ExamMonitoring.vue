@@ -6,7 +6,7 @@ import ExamStatusChip from '../Exam/Components/ExamStatusChip.vue';
 import BaseLayout from '@layouts/BaseLayout.vue';
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import { useModals } from '@composables/useModals';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
 import { Enrollment, Exam } from '@interfaces/Interfaces';
 import { DateFormatter } from '@helpers/DateFormatter';
@@ -23,20 +23,15 @@ const props = defineProps<{
 }>()
 
 const enrollments = ref<Enrollment[]>(props.exam.data.enrollments)
+watch(() => props.exam.data.enrollments, (data) => {
+    enrollments.value = data
+})
 
-const { start, stop } = usePoll(10000, {
-        onStart() {
-                console.log('Polling request started')
-        },
-        onFinish() {
-                console.log('Polling request finished')
-        }
-        }, {
+const { start, stop } = usePoll(10000, {}, {
     autoStart: false,
 })
 
 onMounted(()=>{
-    console.log(props.exam.data)
     if(props.exam.data.status === ExamStatus.GOING && props.exam.data.enrollments.length > 0 && props.exam.data.status !== ExamStatus.CANCELLED){
         start()
     }
@@ -49,6 +44,7 @@ onUnmounted(()=>{
 const headers = [
     {title:'ФИО', key:"foreignNational.fullName",sortable: false},
     {title:'Паспорт', key:"foreignNational.fullPassport",sortable: false},
+    {title:'Оплата', key:"hasPayment",sortable: false,align: 'center'},
     {title:'Попытка', key:"status",sortable: false, align:'center'},
     {
         title:'Время',
@@ -58,7 +54,6 @@ const headers = [
             {title:'Завершения',key:'endTime',sortable: false, align:'center'}
         ]
     },
-    {title:'Оплата', key:"hasPayment",sortable: false,align: 'center'},
     {title:'', key:"actions",sortable: false,align: 'end'}
 ]
 
@@ -118,9 +113,9 @@ const back = () => {
                 </template>
                 <template #item.status="{ item }">
                     <AppStatusChip
-                        v-if="item.foreignNational.attempt"
-                        :color="attemptStatus(item.foreignNational.attempt?.status).color.replace('text-', '')"
-                        :text="attemptStatus(item.foreignNational.attempt?.status).text"
+                        v-if="item.attempt"
+                        :color="attemptStatus(item.attempt?.status).color.replace('text-', '')"
+                        :text="attemptStatus(item.attempt?.status).text"
                     />
                     <span v-else></span>
                 </template>

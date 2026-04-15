@@ -35,53 +35,32 @@ export const examStatus = (item: Exam) => {
   if(!item) return { text: "-", color: "grey" };
   if(item.status === 'cancelled') return { text: "отменен", color: "red" };
   if(item.status === 'going') return { text: "В процессе", color: "green" };
-  if(item.status === 'completed') return { text: "прошел", color: "grey" };
+  if(item.status === 'finished') return { text: "прошел", color: "grey" };
   return { text: "ожидается", color: "blue" };
 };
 
 
 
 
-export const examResultStatus = (
-  status:string | null
-) => {
-  if(!status)  return { text: "Ожидается", color: 'text-grey' };
-
-  if( status === 'pending' ){ //&& !isPast
-    return { text: "Ожидается", color: 'text-grey' };
-  }
-
-  if (status === 'absent' ) { //&& isPast
+export const examResultStatus = ( status:string | null ) => {
+  // if(!status)  return { text: "", color: '' };
+  
+  if (status === 'absent' ) {
     return { text: "н/я", color: "text-gray" }; 
   }
 
-  if (status === 'cancelled' ) { //&& isPast
-    return { text: "Отменена", color: "text-gray" }; 
-  }
-
-  if (status === 'rescheduled' ) { //&& isPast
-    return { text: "Перенесена", color: "text-gray" }; 
-  }
-
   if(status === 'banned'){
-    return { text: "Снят", color: "text-red" };
+    return { text: "Снят", color: "text-orange" };
   }
 
-  // if( status === 'pending'){
-  //   return { text: "Введен код", color: "text-blue" };
-  // }
-
-  if(status === 'finished'){
-    return { text: "На проверке", color: "text-orange" };
+  if(status === 'failed'){
+    return { text: "Не успешно", color: "red" };
   }
 
-  if(status === 'going'){
-    return { text: "Идет экзамен", color: "text-blue" };
+  if(status === 'passed'){
+    return { text: "Успешно", color: "green" };
   }
-
-  // return st.isPassed
-  //   ? { text: "Пройдено", color: "text-green" }
-  //   : { text: "Не пройдено", color: "text-red" };
+  return { text: "", color: '' };
 };
 
 export const capacityColor = (exam : Exam | null) => {

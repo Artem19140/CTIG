@@ -14,7 +14,7 @@ class ExamIndexRequest extends FormRequest
     {
         $this->merge([
             'cancelled' => $this->boolean('cancelled'),
-            'completed'  => $this->boolean('completed')
+            'finished'  => $this->boolean('finished')
         ]);
     }
 
@@ -26,7 +26,7 @@ class ExamIndexRequest extends FormRequest
     public function rules(): array
     {
         return [ 
-            'completed' =>  ['nullable', 'boolean'],
+            'finished' =>  ['nullable', 'boolean'],
             'cancelled' =>  ['nullable', 'boolean'],
             'examTypeId' => ['nullable', 'integer', 'min:1'],
             'dateFrom' => ['nullable', 'date'],

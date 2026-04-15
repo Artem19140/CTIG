@@ -17,7 +17,7 @@ class UpdateExaminersAction{
     public function execute(array $examiners, Exam $exam, User $user){
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureNotGoing($exam);
-        $this->examGuard->ensureNotCompleted($exam);
+        $this->examGuard->ensureNotFinished($exam);
         $this->validateExaminers->execute($examiners, $exam->begin_time, $exam->end_time, $exam->id);
         $exam->examiners()->syncWithPivotValues($examiners, ['center_id'  => $user->center->id]);
         $exam->save();

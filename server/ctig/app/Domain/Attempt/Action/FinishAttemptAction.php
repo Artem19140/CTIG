@@ -4,6 +4,7 @@ namespace App\Domain\Attempt\Action;
 
 use App\Enums\AttemptStatus;
 use App\Models\Attempt;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Domain\Attempt\Guard\AttemptGuard;
 
@@ -18,13 +19,14 @@ class FinishAttemptAction{
         $this->attemptGuard->ensureActive($attempt);
 
         DB::transaction(function() use($attempt){
-            $attempt->finish();
+            $attempt->finishTimeNow();
             
             $this->zeroEmptyAutoAnswers->execute($attempt);
 
             if(!$attempt->requiresHumanCheck()){
                 $isPassed = $this->checkPassingThreshold->execute($attempt);
-                $attempt->status = AttemptStatus::Checked;
+                //$attempt->status = AttemptStatus::Checked;
+                $attempt->checked_at = Carbon::now($attempt->time_zone);
                 $attempt->total_mark = $attempt->answers()->sum('mark');
                 $attempt->is_passed = $isPassed;
             }

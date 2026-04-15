@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useModals } from '@composables/useModals';
-import type { Exam, Paginated } from '@interfaces/interfaces';
+import type { Exam, Paginated } from '@interfaces/Interfaces';
 import BaseServerTable from '@components/BaseComponents/BaseServerTable/BaseServerTable.vue';
 import ExamTableDropDown from './ExamTableDropDown.vue';
 import ExamTableFilter from './ExamTableFilter.vue';
@@ -64,7 +64,7 @@ const auth = useAuth()
                 @click="open('examCreate', {})"
                 v-if="auth.can([Roles.SCHEDULER])"
             />
-            <ExamTableDropDown />
+            <ExamTableDropDown  v-if="auth.can([Roles.DIRECTOR])" />
         </template>
         <template #item.foreignNationalsCount="{ item }">
             <AppStatusChip

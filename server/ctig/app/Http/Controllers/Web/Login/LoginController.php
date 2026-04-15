@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Web\Login;
 
-use App\Exceptions\BusinessException;
 use App\Http\Requests\Auth\ChangePasswordRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Validation\ValidationException;
@@ -45,7 +44,9 @@ class LoginController extends Controller
             abort(404, 'Не найдено');
         }
         if(Hash::check($request->validated('newPassword'), $user->password)){
-            throw new BusinessException('Пароль должен отличаться от старого');
+            return ValidationException::withMessages([
+                'newPassword' =>'Пароль должен отличаться от старого'
+            ]);
         }
         $user->update([
             'password' => Hash::make($request->input('newPassword')),

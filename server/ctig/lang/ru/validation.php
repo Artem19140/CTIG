@@ -197,7 +197,7 @@ return [
 
     'attributes' => [
         'beginTime' => 'время начала экзамена',
-        'addressId' => 'идентификатор адреса',
+        'addressId' => 'адреса',
         'capacity' => 'вместимость',
         'examTypeId' => 'тип экзамена',
         'comment' => 'комментарий к экзамену',

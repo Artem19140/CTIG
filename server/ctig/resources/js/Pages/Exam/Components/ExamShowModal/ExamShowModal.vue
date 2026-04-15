@@ -3,7 +3,7 @@ import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import ExamActionsDropdown from './ExamActionsDropdown.vue';
 import EnrollmentsTable from './EnrollmentsTable.vue';
 import { computed, onMounted, ref } from 'vue';
-import { Enrollment, Exam } from '@interfaces/interfaces';
+import { Enrollment, Exam } from '@interfaces/Interfaces';
 import { useHttp } from '@inertiajs/vue3';
 import { capacityColor } from '@helpers/heplers';
 import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
@@ -125,7 +125,7 @@ const cancel =(reason : string) => {
                 
             </v-list>
             <v-list>
-                <v-list-item  v-if="exam?.foreignNationals?.length">
+                <v-list-item  v-if="exam?.enrollments.length">
                     <EnrollmentsTable @reschedule="rechedule" :exam="exam" />
                 </v-list-item>
                 <v-list-item  v-else class="text-center">

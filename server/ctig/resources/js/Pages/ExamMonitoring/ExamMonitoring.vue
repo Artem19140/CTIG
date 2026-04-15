@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import DropDownForeignNationalsList from './DropDownForeignNationalsList.vue';
-import { router, usePoll } from '@inertiajs/vue3'
+import EnrollmentExamDropdownActions from './EnrollmentExamDropdownActions.vue';
+import { usePoll } from '@inertiajs/vue3'
 import { attemptStatus } from '@helpers/heplers';
 import ExamStatusChip from '../Exam/Components/ExamStatusChip.vue';
 import BaseLayout from '@layouts/BaseLayout.vue';
@@ -8,8 +8,9 @@ import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import { useModals } from '@composables/useModals';
 import { onMounted, onUnmounted, ref } from 'vue';
 import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
-import { Enrollment, Exam } from '@interfaces/interfaces';
+import { Enrollment, Exam } from '@interfaces/Interfaces';
 import { DateFormatter } from '@helpers/DateFormatter';
+import { ExamStatus } from '@/constants/ExamStatus';
 
 defineOptions({
   layout: [BaseLayout,EmployeeLayout]
@@ -36,7 +37,7 @@ const { start, stop } = usePoll(10000, {
 
 onMounted(()=>{
     console.log(props.exam.data)
-    if(props.exam.data.isGoing && props.exam.data.enrollments.length>0 && !props.exam.data.isCancelled){
+    if(props.exam.data.status === ExamStatus.GOING && props.exam.data.enrollments.length > 0 && props.exam.data.status !== ExamStatus.CANCELLED){
         start()
     }
 })
@@ -67,9 +68,7 @@ const openForeignNational = (event : Event, {item} :any) => {
 }
 
 const back = () => {
-    window.history.go(-1)
-    //router.visit('/exams/monitoring')
-}
+    window.history.go(-1)}
 </script>
 
 
@@ -98,7 +97,7 @@ const back = () => {
                 <v-spacer />
                 <v-btn 
                     border 
-                    v-if="exam.data.isGoing"
+                    v-if="exam.data.status === ExamStatus.GOING"
                     variant="text" 
                     class="mr-4 text-black"
                     @click="open('examComment', {exam:props.exam.data})"
@@ -115,13 +114,13 @@ const back = () => {
                 @click:row="openForeignNational"
             >
                 <template  #item.actions="{ item }">
-                    <DropDownForeignNationalsList :foreignNational="item.foreignNational" :exam="exam.data" />
+                    <EnrollmentExamDropdownActions  :enrollment="item" :exam="exam.data" />
                 </template>
                 <template #item.status="{ item }">
                     <AppStatusChip
-                        v-if="item.length"
-                        :color="attemptStatus(item.foreignNational.attempts[0]?.status).color.replace('text-', '')"
-                        :text="attemptStatus(item.foreignNational.attempts[0]?.status).text"
+                        v-if="item.foreignNational.attempt"
+                        :color="attemptStatus(item.foreignNational.attempt?.status).color.replace('text-', '')"
+                        :text="attemptStatus(item.foreignNational.attempt?.status).text"
                     />
                     <span v-else></span>
                 </template>

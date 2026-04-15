@@ -8,11 +8,7 @@ use App\Models\User;
 use Hash;
 
 class CreateUserAction{
-    public function __construct(
-        protected UserGuard $userGuard
-    ){}
    public function execute(array $data, User $user){
-    $this->userGuard->ensureUniqueEmail('');
 
     $superAdminRole = Role::where('name', UserRoles::SuperAdmin)->first();
 

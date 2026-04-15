@@ -64,7 +64,7 @@ class ValidateExaminers{
 
         foreach($examiners as $examiner){
             if(!$examiner->is_active){
-                throw new BusinessException("$examiner->full_name уже не работает в организации");
+                throw new BusinessException("$examiner->full_name уже не работает(-ют) в организации");
             }
         }
     }

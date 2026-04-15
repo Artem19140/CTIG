@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Attempt extends Model
 {
@@ -45,26 +46,25 @@ class Attempt extends Model
     public function isExpired(): bool{
         return $this->expired_at->isPast();
     }
-
-    public function finish(): AttemptStatus{
+    
+    public function finishTimeNow(): void{
         $this->finished_at = Carbon::now($this->center->time_zone);
-        return $this->status = AttemptStatus::Finished;
     }
 
-    public function isActive(): bool{
-        return $this->status === AttemptStatus::Active;
-    }
-
-    public function isPending(): bool{
-        return $this->status === AttemptStatus::Pending;
+    public function isStarted(): bool{
+        return $this->started_at !== null;
     }
 
     public function isBanned(): bool{
-        return $this->status === AttemptStatus::Banned;
+        return $this->banned_at !== null;
     }
 
     public function isFinished(): bool{
-        return $this->status === AttemptStatus::Finished;
+        return $this->finished_at !== null;
+    }
+
+    public function isSuccessful(): bool{
+        return $this->is_passed;
     }
 
     public function foreignNational(): BelongsTo{
@@ -85,6 +85,13 @@ class Attempt extends Model
 
     public function center(): BelongsTo{
         return $this->belongsTo(Center::class, 'center_id');
+    }
+
+    protected function timeZone(): Attribute
+    {
+        return Attribute::get(function () {
+            return $this->center->time_zone;
+        });
     }
 
     public function requiresHumanCheck():bool{

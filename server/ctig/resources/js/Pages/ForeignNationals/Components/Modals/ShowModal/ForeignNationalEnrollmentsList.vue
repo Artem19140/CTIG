@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { ForeignNational } from '@interfaces/interfaces';
-import { attemptResultStatus } from '@helpers/heplers';
+import type { ForeignNational } from '@interfaces/Interfaces';
+import { examResultStatus } from '@helpers/heplers';
 import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import { useModals } from '@composables/useModals';
@@ -44,10 +44,10 @@ const modals = useModals()
             </div>
           </div>
           <div>
-            <AppStatusChip
-              :color="attemptResultStatus(enrollment.attempt, enrollment.exam.isPast).color"
-              :text="attemptResultStatus(enrollment.attempt, enrollment.exam.isPast).text"
-            />
+            <!-- <AppStatusChip
+              :color="examResultStatus(enrollment.attempt, enrollment.exam.isPast).color"
+              :text="examResultStatus(enrollment.attempt, enrollment.exam.isPast).text"
+            /> -->
             <ForeignNationalEnrollmentsDropdown :enrollment="enrollment" :foreign-national="foreignNational" />
           </div>
         </v-card-text>

@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <v-menu>
+    <v-menu >
         <template v-slot:activator="{ props }">
             <v-btn icon
                 variant="text"
@@ -12,7 +12,7 @@
                 <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
         </template>
-        <v-list>
+        <v-list width="250">
             <slot />
         </v-list>
     </v-menu>

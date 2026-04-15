@@ -1,5 +1,5 @@
 import { ExamStatus } from "@/constants/ExamStatus"
-import { Exam } from "@interfaces/interfaces"
+import { Exam } from "@interfaces/Interfaces"
 import { computed } from "vue"
 
 export const getExamPermissions = (exam: Exam | null) => {
@@ -13,8 +13,8 @@ export const getExamPermissions = (exam: Exam | null) => {
             canCancel: false,
         }
         }
-    const { status, foreignNationalsCount } = exam
-    const hasEnrollment  = computed(() => foreignNationalsCount > 0)
+    const { status, enrollmentsCount } = exam
+    const hasEnrollment  = computed(() => enrollmentsCount > 0)
     const isCompleted = computed(() => status === ExamStatus.COMPLETED )
     const isCancelled = computed(() => status === ExamStatus.CANCELLED )
     const isGoing = computed(() => status === ExamStatus.GOING )

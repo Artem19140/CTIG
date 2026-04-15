@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import type { ForeignNational, Paginated } from '@interfaces/interfaces';
+import type { ForeignNational, Paginated } from '@interfaces/Interfaces';
 import BaseServerTable from '@components/BaseComponents/BaseServerTable/BaseServerTable.vue';
 import ForeignNationalTableFilters from './ForeignNationalTableFilters.vue';
 import { useForm } from '@inertiajs/vue3';
 import { useModals } from '@composables/useModals';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import ForeignNationalTableDropdown from './ForeignNationalTableDropdown.vue';
+import { useAuth } from '@composables/useAuth';
+import { Roles } from '@/constants/Roles';
 
 const modals = useModals()
 
@@ -32,6 +34,8 @@ const formFilters = useForm({
     passportNumber: props.filters.passportNumber ?? undefined,
     id:props.filters.id ?? undefined,
 })
+
+const auth = useAuth()
 </script>
 
 <template>
@@ -55,7 +59,7 @@ const formFilters = useForm({
                 text="Добавить"
                 @click="modals.open('foreignNationalCreate')"
             />
-            <ForeignNationalTableDropdown />
+            <ForeignNationalTableDropdown  v-if="auth.can([Roles.DIRECTOR])" />
         </template>
     </BaseServerTable>
 </template>

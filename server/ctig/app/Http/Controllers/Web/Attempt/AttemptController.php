@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Web\Attempt;
 
-use App\Actions\Attempt\BanAttemptAction;
-use App\Actions\Attempt\Finish\FinishAttemptAction;
-use App\Actions\Attempt\GetCurrentAttemptAction;
-use App\Actions\Attempt\Tasks\GetSpeakingTasksAction;
-use App\Actions\Attempt\Tasks\GetTasksToCheckAction;
+
+use App\Domain\Attempt\Action\BanAttemptAction;
+use App\Domain\Attempt\Action\FinishAttemptAction;
 use App\Domain\Attempt\Action\StartAttemptAction;
+use App\Domain\Attempt\Query\GetCurrentAttemptQuery;
+use App\Domain\Attempt\Query\GetSpeakingTasksQuery;
 use App\Enums\AttemptStatus;
 use App\Http\Controllers\Api\Controller;
 use App\Http\Resources\Attempt\AttemptResource;
@@ -38,13 +38,9 @@ class AttemptController extends Controller
 
     public function current(
                             Attempt $attempt,
-                            GetCurrentAttemptAction $getCurrentAttempt
+                            GetCurrentAttemptQuery $getCurrentAttemptQuery
                         ){
-        $attemptTasks = $getCurrentAttempt->execute($attempt);
-        //echo var_dump(TaskVariantResource::collection($attemptTasks));
-        // foreach($attemptTasks as $a){
-        //     echo var_dump($a->id);
-        // };die;
+        $attemptTasks = $getCurrentAttemptQuery->execute($attempt);
         return Inertia::render('Attempt/Attempt', [
             'attempt' => new AttemptResource($attempt),
             'tasks'=> TaskVariantResource::collection($attemptTasks)
@@ -53,18 +49,8 @@ class AttemptController extends Controller
 
     public function start(Request $request, StartAttemptAction $startAttempt, Attempt $attempt)
     {
-        $foreignNational = $request->user();
-        if($attempt->status != AttemptStatus::Pending){
-            abort(403);
-        }
-        $startedAttempt = $startAttempt->execute($attempt, $foreignNational);
+        $startedAttempt = $startAttempt->execute($attempt);
         return redirect()->route('exam-attempts', ['attempt' => $startedAttempt->id]);
-    }
-
-    public function show(Attempt $attempt)
-    {
-        $attempt->load('answers');
-        return new AttemptResource($attempt);
     }
 
     public function ban(Request $request, Attempt $attempt, BanAttemptAction $banAttempt)
@@ -76,10 +62,10 @@ class AttemptController extends Controller
         return back();
     }
 
-    public function speaking(Attempt $attempt, GetSpeakingTasksAction $getSpeakingTasks){
+    public function speaking(Attempt $attempt, GetSpeakingTasksQuery $getSpeakingQuery){
         $exam = Exam::findOrFail($attempt->exam_id);
         Gate::authorize('exam-manage-access', $exam);
-        $speakingTasks = $getSpeakingTasks->execute($attempt);
+        $speakingTasks = $getSpeakingQuery->execute($attempt);
         return TaskVariantResource::collection($speakingTasks);
     }
 
@@ -96,7 +82,7 @@ class AttemptController extends Controller
         ]);
     }
 
-    public function tasksToCheck(Attempt $attempt, GetTasksToCheckAction $getTasksToCheck){
+    public function tasksToCheck(Attempt $attempt, GetTasksToCheck $getTasksToCheck){
         $exam = Exam::findOrFail($attempt->exam_id);
         Gate::authorize('exam-manage-access', $exam);
         $tasksToCheck = $getTasksToCheck->execute($attempt);

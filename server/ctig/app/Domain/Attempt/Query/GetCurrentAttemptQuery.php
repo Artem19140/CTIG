@@ -13,9 +13,10 @@ class GetCurrentAttemptQuery{
         protected AttemptGuard $attemptGuard
     ){}
     public function execute(Attempt $attempt):Collection{
+        $this->attemptGuard->ensureStarted($attempt);
         $this->attemptGuard->ensureNotBanned($attempt);
-        $this->attemptGuard->ensureActive($attempt);
         $this->attemptGuard->ensureNotExpired($attempt);
+        $this->attemptGuard->ensureNotFinished($attempt);
         return TaskVariant::with(['answers', 'task', 'attemptsAnswers' => function ($query) use ($attempt) {
                                     $query->where('attempt_id', $attempt->id);
                                 }])

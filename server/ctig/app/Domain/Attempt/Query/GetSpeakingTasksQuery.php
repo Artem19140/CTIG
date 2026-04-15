@@ -19,7 +19,9 @@ class GetSpeakingTasksQuery{
 
     public function execute(Attempt $attempt):Collection{
         $this->attemptGuard->ensureNotBanned($attempt);//Как они проводят speaking то??
-        $this->attemptGuard->ensureActive($attempt);
+        $this->attemptGuard->ensureStarted($attempt);
+        $this->attemptGuard->ensureNotFinished($attempt);
+        $this->attemptGuard->ensureNotExpired($attempt);
         $speakingTasks = TaskVariant::whereHas('attemptsAnswers', function(Builder $query)use($attempt){
                             $query->where('attempt_id', $attempt->id);
                         })

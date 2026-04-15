@@ -1,8 +1,8 @@
 <script setup lang="ts">
 
-import { Enrollment, Exam} from '@interfaces/interfaces';
+import { Enrollment, Exam} from '@interfaces/Interfaces';
 import { useModals } from '@composables/useModals';
-import { attemptResultStatus } from '@helpers/heplers';
+import { examResultStatus } from '@helpers/heplers';
 import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
 import EnrollmetsTableDropdown from './EnrollmetsTableDropdown.vue';
 import { ref } from 'vue';
@@ -44,6 +44,7 @@ const reschedule = (value : Enrollment) => {
 </script>
 
 <template>
+    
     <v-data-table 
         :items="exam.enrollments"
         hide-default-footer
@@ -52,6 +53,7 @@ const reschedule = (value : Enrollment) => {
         hover
         @click:row="foreignNationalShowModal"
     >
+    
         <template #item.hasPayment="{ item }" >
             <v-icon :color="item.hasPayment ? 'green' : 'red'" v-if="!item.isLoading">
                 {{ item.hasPayment ? 'mdi-check-circle' : 'mdi-close-circle' }}
@@ -68,10 +70,10 @@ const reschedule = (value : Enrollment) => {
             />
         </template>
         <template #item.results="{ item }">
-            {{ item?.foreignNational.attempt }}
+            <!-- {{ item?.foreignNational.attempt }} -->
             <AppStatusChip
-                :color="attemptResultStatus(item?.foreignNational.attempt, exam?.isPast).color"
-                :text="attemptResultStatus(item?.foreignNational.attempt, exam?.isPast).text"
+                :color="examResultStatus(item?.examProgress).color"
+                :text="examResultStatus(item?.examProgress).text"
             /> 
         </template>
     </v-data-table>

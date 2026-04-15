@@ -23,8 +23,8 @@ class ForeignNationalResource extends JsonResource
             'patronymic' => $this->resource->patronymic,
             'fullName' => $this->full_name_short,
             'fullPassport' => $this->full_passport,
-            'attempts' => AttemptResource::collection($this->whenLoaded('attempts')),
-            'attempt' => new AttemptResource($this->whenLoaded('attempts', fn() => $this->attempts->first())),
+            // 'attempts' => AttemptResource::collection($this->whenLoaded('attempts')),
+            // 'attempt' => new AttemptResource($this->whenLoaded('attempts', fn() => $this->attempts->first())),
             'enrollments' => EnrollmentResource::collection($this->whenLoaded('enrollments')),
         ];
     }

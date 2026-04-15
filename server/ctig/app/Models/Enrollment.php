@@ -22,14 +22,24 @@ class Enrollment extends Model
         'exam_code',
         'exam_code_expired_at',
         'cancelled_at',
-        'rescheduled_at'
+        'rescheduled_at',
+        'exam_code_used_at'
     ];
     protected $casts = [
         'has_payment' => 'boolean',
         'exam_code_expired_at' => 'datetime',
         'cancelled_at' => 'datetime',
-        'rescheduled_at' => 'datetime'
+        'rescheduled_at' => 'datetime',
+        'exam_code_used_at' => 'datetime',
     ];
+
+    public function isRescheduled():bool{
+        return $this->rescheduled_at !== null;
+    }
+
+    public function isCancelled():bool{
+        return $this->cancelled_at !== null;
+    }
 
     public function hasPayment():bool{
         return $this->has_payment;

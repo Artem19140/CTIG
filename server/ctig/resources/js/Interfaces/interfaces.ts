@@ -3,6 +3,7 @@ export interface Exam{
     name:string,
     shortName:string,
     beginTime:string,
+    endTime:string,
     capacity:number,
     group:number | null,
     sessionNumber:number | null,
@@ -30,7 +31,8 @@ export interface Enrollment{
     hasPayment:boolean,
     isLoading?: boolean,
     exam:Exam,
-    attempt:Attempt | null
+    attempt:Attempt | null,
+    examProgress:string
 }
 
 export interface User{

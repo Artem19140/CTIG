@@ -108,6 +108,7 @@ class CreateAttemptAction{
             $exam->session = $this->getSessionNumber->execute($exam->begin_time);
         }
         if(!$exam->begin_time_real){
+            $save = true;
             $exam->begin_time_real = Carbon::now($exam->center->time_zone);
             $exam->save();
         }

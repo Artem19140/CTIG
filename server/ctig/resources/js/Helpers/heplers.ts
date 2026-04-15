@@ -1,4 +1,4 @@
-import { Attempt, Exam } from "@interfaces/interfaces"
+import { Attempt, Exam } from "@interfaces/Interfaces"
 
 export const downloadFile = (blob: Blob) => {
   if(!blob) return
@@ -17,15 +17,15 @@ export const downloadFile = (blob: Blob) => {
 export const attemptStatus = (status: string | null) => {
   switch (status) {
     case "pending":
-      return { text: "Введен код", color: "text-orange" };
+      return { text: "Введен код", color: "orange" };
     case "active":
-      return { text: "Активна", color: "text-green" };
+      return { text: "Активна", color: "green" };
     case "finished":
-      return { text: "Завершена", color: "text-grey" };
+      return { text: "Завершена", color: "grey" };
     case "banned":
-      return { text: "Аннулирована", color: "text-red" };
+      return { text: "Аннулирована", color: "red" };
     case "checked":
-      return { text: "Проверена", color: "text-blue" };
+      return { text: "Проверена", color: "blue" };
     default:
       return { text: "-", color: "" };
   }
@@ -36,44 +36,52 @@ export const examStatus = (item: Exam) => {
   if(item.status === 'cancelled') return { text: "отменен", color: "red" };
   if(item.status === 'going') return { text: "В процессе", color: "green" };
   if(item.status === 'completed') return { text: "прошел", color: "grey" };
-  return { text: "ожидается", color: "text-blue" };
+  return { text: "ожидается", color: "blue" };
 };
 
 
 
 
-export const attemptResultStatus = (
-  attempt:Attempt | null,
-  isPast: boolean | undefined
+export const examResultStatus = (
+  status:string | null
 ) => {
+  if(!status)  return { text: "Ожидается", color: 'text-grey' };
 
-  if(!attempt && !isPast){
+  if( status === 'pending' ){ //&& !isPast
     return { text: "Ожидается", color: 'text-grey' };
   }
 
-  if (!attempt && isPast) {
+  if (status === 'absent' ) { //&& isPast
     return { text: "н/я", color: "text-gray" }; 
   }
 
-  if(attempt?.status === 'banned'){
+  if (status === 'cancelled' ) { //&& isPast
+    return { text: "Отменена", color: "text-gray" }; 
+  }
+
+  if (status === 'rescheduled' ) { //&& isPast
+    return { text: "Перенесена", color: "text-gray" }; 
+  }
+
+  if(status === 'banned'){
     return { text: "Снят", color: "text-red" };
   }
 
-  if(attempt?.status === 'pending'){
-    return { text: "Введен код", color: "text-blue" };
-  }
+  // if( status === 'pending'){
+  //   return { text: "Введен код", color: "text-blue" };
+  // }
 
-  if(attempt?.status === 'finished'){
+  if(status === 'finished'){
     return { text: "На проверке", color: "text-orange" };
   }
 
-  if(attempt?.isPassed === null){
+  if(status === 'going'){
     return { text: "Идет экзамен", color: "text-blue" };
   }
 
-  return attempt?.isPassed
-    ? { text: "Пройдено", color: "text-green" }
-    : { text: "Не пройдено", color: "text-red" };
+  // return st.isPassed
+  //   ? { text: "Пройдено", color: "text-green" }
+  //   : { text: "Не пройдено", color: "text-red" };
 };
 
 export const capacityColor = (exam : Exam | null) => {

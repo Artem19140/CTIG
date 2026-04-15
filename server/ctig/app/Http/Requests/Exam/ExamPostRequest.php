@@ -4,7 +4,7 @@ namespace App\Http\Requests\Exam;
 
 use App\Models\User;
 use Carbon\Carbon;
-use DateTime;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Dto\ExamDto;
 
@@ -21,12 +21,14 @@ class ExamPostRequest extends FormRequest
             'time'=>
                     [
                         'required',
-                        'date_format:H:i'
+                        'date_format:H:i',
+                        //Rule::date()->afterOrEqual(Carbon::now($this->user()->time_zone))
                     ],
             'date'=>
                     [
                         'required',
-                        'date'
+                        'date',
+                        Rule::date()->afterOrEqual(Carbon::now($this->user()->time_zone))
                     ],
             'addressId'=>
                     [
@@ -68,6 +70,19 @@ class ExamPostRequest extends FormRequest
         ];
     }
 
+        /**
+     * Получить сообщения об ошибках для определенных правил валидации.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+                'date.after_or_equal' => 'Нельзя создать экзамен на прошедшую дату.',
+                'time.date_format' => 'Время должно быть в формате чч:мм'
+            ];
+    }
+
    public function getDto(): ExamDto{
         return new ExamDto(
             Carbon::createFromFormat('Y-m-d H:i',$this->input('date'). ' ' . $this->input('time'), request()->user()->center->time_zone),
@@ -75,7 +90,9 @@ class ExamPostRequest extends FormRequest
             \intval($this->input('examTypeId')),
             \strval($this->input('comment')),
             $this->input('examiners'),
-            \intval($this->input('capacity'))
+            \intval($this->input('capacity')),
+            
         );
    }
+
 }

@@ -10,7 +10,7 @@ use App\Models\ExamType;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
-
+use Illuminate\Validation\ValidationException;
 
 class ValidateExamForSave{
     public function __construct(
@@ -19,13 +19,17 @@ class ValidateExamForSave{
     public function execute(ExamDto $examDto, User $user, int | null $examId = null):int{
         $examType =  ExamType::find($examDto->examTypeId);
         $address = Address::find($examDto->addressId);
-    
+
         if(!$address->is_active){
-            throw new BusinessException('Адрес проведения экзамена неактуален');
+            throw ValidationException::withMessages([
+                'addressId' => 'Адрес проведения экзамена не актуален'
+            ]);
         }
 
         if(!$examType->is_active){
-            throw new BusinessException('Данный экзамен неактуален');
+            throw ValidationException::withMessages([
+                'examTypeId' => 'Адрес проведения экзамена не актуален'
+            ]);
         }
 
 
@@ -35,11 +39,16 @@ class ValidateExamForSave{
                                     )->utc();
                                     
         if($examBeginTimeUtc < Carbon::now()){
-            throw new BusinessException('Экзамен нельзя создать на прошедшие даты');
+            throw ValidationException::withMessages([
+                'date' => "Экзамен нельзя создать на прошедшие даты",
+                'time' => "'Экзамен нельзя создать на прошедшие даты'"
+            ]);
         }
 
         if($examDto->capacity > $address->max_capacity){
-            throw new BusinessException("Площадка вмещает максимум $address->max_capacity человек");
+            throw ValidationException::withMessages([
+                'capacity' => "Площадка вмещает максимум $address->max_capacity человек"
+            ]);
         }
 
         $this->validateExaminers->execute(

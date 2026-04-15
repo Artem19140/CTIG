@@ -20,12 +20,14 @@
           <v-list-item 
             prepend-icon="mdi-account-group" 
             title="Иностранные граждане" 
+            v-if="can([Roles.OPERATOR])"
             @click="router.get('/foreign-nationals')"  
             value="foreignNationals"
           ></v-list-item>
           <v-list-item 
             prepend-icon="mdi-school" 
             title="Экзамены" 
+            v-if="can([Roles.OPERATOR, Roles.SCHEDULER])"
             @click="router.get('/exams')"
             value="exams" 
           ></v-list-item>
@@ -46,6 +48,7 @@
           <v-list-item 
             prepend-icon="mdi-calendar-month" 
             title="Расписание" 
+            v-if="can([Roles.OPERATOR, Roles.SCHEDULER])"
             @click="router.get('/exams/schedule')"
             value="schedule"
             ></v-list-item>

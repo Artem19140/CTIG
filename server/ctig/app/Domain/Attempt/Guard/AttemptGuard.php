@@ -12,20 +12,26 @@ class AttemptGuard{
         }
     }
 
-    public function ensureActive(Attempt $attempt){
-        if(!$attempt->isActive()){
-            throw new BusinessException('Попытка неактивна');
+    public function ensureStarted(Attempt $attempt, string $message = 'Попытка не начата'){
+        if(!$attempt->isStarted()){
+            throw new BusinessException($message);
         }
     }
 
-    public function ensurePending(Attempt $attempt, string $message = 'Попытка '){
-        if(!$attempt->isPending()){
+    public function ensureNotStarted(Attempt $attempt, string $message = 'Попытка уже началась'){
+        if($attempt->isStarted()){
             throw new BusinessException($message);
         }
     }
 
     public function ensureFinished(Attempt $attempt, string $message='Попытка еще не завершена'){
         if(!$attempt->isFinished()){
+            throw new BusinessException($message);
+        }
+    }
+
+    public function ensureNotFinished(Attempt $attempt, string $message='Попытка завершена'){
+        if($attempt->isFinished()){
             throw new BusinessException($message);
         }
     }

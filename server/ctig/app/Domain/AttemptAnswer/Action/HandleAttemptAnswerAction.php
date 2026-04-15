@@ -16,9 +16,11 @@ class HandleAttemptAnswerAction{
     ){}
 
     public function execute(mixed $answer, Attempt $attempt, AttemptAnswer $attemptAnswer):AttemptAnswer{
-        $this->attemptGuard->ensureActive($attempt);
+        $this->attemptGuard->ensureStarted($attempt);
         $this->attemptGuard->ensureNotBanned($attempt);
-
+        $this->attemptGuard->ensureNotFinished($attempt);
+        $this->attemptGuard->ensureNotExpired($attempt);
+        
         if($attempt->exam_id !== $attemptAnswer->exam_id){
             abort(404);
         } 

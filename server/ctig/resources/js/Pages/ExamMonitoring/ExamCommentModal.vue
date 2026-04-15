@@ -2,7 +2,7 @@
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import { useForm } from '@inertiajs/vue3';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
-import { Exam } from '@interfaces/interfaces';
+import { Exam } from '@interfaces/Interfaces';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import AppTextarea from '@components/UI/AppTextarea/AppTextarea.vue';
 

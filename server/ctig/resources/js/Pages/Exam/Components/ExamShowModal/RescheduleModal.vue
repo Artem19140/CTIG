@@ -2,7 +2,7 @@
 import { useForm, useHttp } from '@inertiajs/vue3';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
-import { Enrollment } from '@interfaces/interfaces';
+import { Enrollment } from '@interfaces/Interfaces';
 import ExamEnrollment from '../ExamEnrollment.vue';
 
 

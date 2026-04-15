@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Attempt;
 
+use App\Domain\Attempt\Resolver\AttemptStatusResolver;
 use App\Http\Resources\ForeignNational\ForeignNationalResource;
 use App\Http\Resources\AttemptAnswer\AttemptAnswerResource;
 use Illuminate\Http\Request;
@@ -26,7 +27,8 @@ class AttemptResource extends JsonResource
             'startedAt' => $this->started_at, //?->format('Y-m-d H:i:s')
             'finishedAt' => $this->finished_at?->format('Y-m-d H:i:s'),
             'isPassed' => $this->is_passed,
-            'status' => $this->status
+            'status' => app(AttemptStatusResolver::class)->execute($this->resource),
+            
         ];
     }
 }

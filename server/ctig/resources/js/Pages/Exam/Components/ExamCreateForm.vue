@@ -28,11 +28,6 @@ onMounted( async () => {
         }
     })
 })
-const examinersErrors = computed(() => {
-    return Object.entries(props.form.errors)
-        .filter(([key]) => key.startsWith('examiners.'))
-        .map(([, value]) => value)
-})
 const maxCapacity = ref<number | null>(null)
 const onSelect = (value:number | null) => {
     if(!value){
@@ -43,7 +38,7 @@ const onSelect = (value:number | null) => {
 </script>
 
 <template>
-    <v-form>
+    <div class="flex flex-column gap-2">
         <AppAutocomplete 
             label="Тип экзамена"
             item-title="name"
@@ -94,7 +89,7 @@ const onSelect = (value:number | null) => {
             :error-messages="form.errors.capacity"
             :disabled="hasEnrollment"
             control-variant="hidden"
-            label="Количество ИГ"
+            label="Вместимость"
             :min="0"
             :hint="`Максимум ${maxCapacity ?? '-'} человек`"
             :max="maxCapacity ?? 0"
@@ -106,7 +101,7 @@ const onSelect = (value:number | null) => {
             :items="examiners"
             v-model="form.examiners"
             item-value="id"
-            :error-messages="examinersErrors"
+            :error-messages="form.errors.examiners"
             multiple    
             :loading="http.processing"
         />
@@ -118,5 +113,5 @@ const onSelect = (value:number | null) => {
             hint="Максимум 256 символов"
             maxlength="256"
         />
-    </v-form>
+    </div>
 </template>

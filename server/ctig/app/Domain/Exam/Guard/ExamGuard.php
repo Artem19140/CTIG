@@ -5,6 +5,8 @@ namespace App\Domain\Exam\Guard;
 use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class ExamGuard{
     public function ensureNotCompleted(Exam $exam, string $message = 'Экзамен уже прошел'){
@@ -20,7 +22,12 @@ class ExamGuard{
     }
 
     public function ensureHasSeats(Exam $exam, string $message = 'Запись на экзамен полная'):void{
-        $enrollmentsCount = $exam->enrollments()->count();
+        $enrollmentsCount = $exam->enrollments()
+                                    ->whereHas('enrollments', function(Builder $query){
+                                        $query->where('rescheduled_at', null)
+                                            ->where('cancelled_at', null);
+                                    })
+                                    ->count();
         if($exam->capacity <= $enrollmentsCount){
             throw new BusinessException($message);
         }

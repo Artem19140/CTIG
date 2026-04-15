@@ -4,29 +4,31 @@ namespace App\Http\Controllers\Web\Enrollment;
 
 use App\Domain\Enrollment\Action\CancellEnrollmentAction;
 use App\Domain\Enrollment\Action\ChangePaymentStatusAction;
-use App\Domain\Enrollment\Action\GenerateEnrollmentStatementAction;
 use App\Domain\Enrollment\Action\RescheduleEnrollmentActon;
 use App\Domain\Exam\Query\GetAvailableExamsQuery;
 use App\Domain\Enrollment\Action\CreateEnrollmentAction;
 use App\Http\Requests\Enrollment\EnrollmentAvailableRequest;
 use App\Http\Requests\Enrollment\EnrollmentStoreRequest;
 use App\Http\Requests\Enrollment\EnrollmentRescheduleRequest;
+use App\Http\Resources\Enrollment\EnrollmentResource;
 use App\Models\Enrollment;
-use App\Models\Exam;
 use Inertia\Inertia;
-
 
 class EnrollmentController
 {
     public function store(
                             EnrollmentStoreRequest $request,
-                            Exam $exam, 
                             CreateEnrollmentAction $createEnrollment,
                         ){ 
-                            //dd('controller hit');
-        $enrollment = $createEnrollment->execute($exam, $request->validated('foreignNationalId'), $request->user(), $request->validated('hasPayment')); 
+        $enrollment = $createEnrollment->execute(
+                                                    $request->validated('examId'), 
+                                                    $request->validated('foreignNationalId'), 
+                                                    $request->user(), 
+                                                    $request->validated('hasPayment')); 
+        $enrollment->load('exam.examType');
         return Inertia::flash([
-            'redirectUrl' => route('enrollments.statements', ['enrollment' => $enrollment])
+            'redirectUrl' => route('enrollments.statements', ['enrollment' => $enrollment]),
+            'enrollment' => new EnrollmentResource($enrollment)
         ])->back();
     }
 

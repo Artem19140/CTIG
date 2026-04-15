@@ -6,7 +6,6 @@ import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdow
 import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import { router, useForm } from '@inertiajs/vue3';
 import { useExamStatus } from '@/composables/useExamStatus';
-import { ExamStatus } from '@/constants/ExamStatus';
 
 const props = defineProps<{
     enrollment:Enrollment
@@ -75,7 +74,7 @@ const isCancellationDisabled  = isFinished.value || isCancelled.value || isGoing
         />
         <AppListDropDownItem 
             :title="isPending ? 'Перенести' : 'Повторить'" 
-            @click="reschedule"
+            @click="isPending ? reschedule : () => modals.open('')"
             
         />
         <AppListDropDownItem 

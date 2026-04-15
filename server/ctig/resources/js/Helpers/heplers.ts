@@ -1,4 +1,4 @@
-import { Attempt, Exam } from "@interfaces/Interfaces"
+import { Exam } from "@interfaces/Interfaces"
 
 export const downloadFile = (blob: Blob) => {
   if(!blob) return
@@ -24,8 +24,6 @@ export const attemptStatus = (status: string | null) => {
       return { text: "Завершена", color: "grey" };
     case "banned":
       return { text: "Аннулирована", color: "red" };
-    case "checked":
-      return { text: "Проверена", color: "blue" };
     default:
       return { text: "-", color: "" };
   }
@@ -33,18 +31,16 @@ export const attemptStatus = (status: string | null) => {
 
 export const examStatus = (item: Exam) => {
   if(!item) return { text: "-", color: "grey" };
-  if(item.status === 'cancelled') return { text: "отменен", color: "red" };
+  if(item.status === 'cancelled') return { text: "Отменен", color: "red" };
   if(item.status === 'going') return { text: "В процессе", color: "green" };
-  if(item.status === 'finished') return { text: "прошел", color: "grey" };
-  return { text: "ожидается", color: "blue" };
+  if(item.status === 'finished') return { text: "Завершен", color: "grey" };
+  return { text: "Ожидается", color: "blue" };
 };
 
 
 
 
-export const examResultStatus = ( status:string | null ) => {
-  // if(!status)  return { text: "", color: '' };
-  
+export const examResultStatus = ( status:string | null ) => {  
   if (status === 'absent' ) {
     return { text: "н/я", color: "text-gray" }; 
   }
@@ -54,11 +50,11 @@ export const examResultStatus = ( status:string | null ) => {
   }
 
   if(status === 'failed'){
-    return { text: "Не успешно", color: "red" };
+    return { text: "Не сдан", color: "red" };
   }
 
   if(status === 'passed'){
-    return { text: "Успешно", color: "green" };
+    return { text: "Сдан", color: "green" };
   }
   return { text: "", color: '' };
 };

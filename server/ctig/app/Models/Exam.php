@@ -47,6 +47,10 @@ class Exam extends Model
         return $this->belongsTo(ExamType::class);
     }
 
+    public function type(): BelongsTo{
+        return $this->belongsTo(ExamType::class);
+    }
+
     public function creator():BelongsTo{
         return $this->belongsTo(User::class, 'creator_id');
     }

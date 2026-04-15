@@ -1,15 +1,20 @@
 <script setup lang="ts">
-import type { ForeignNational } from '@interfaces/Interfaces';
+import { Enrollment, type ForeignNational } from '@interfaces/Interfaces';
 import EnrollmentDropDown from '@/components/Enrollment/EnrollmentDropDown.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import { useModals } from '@composables/useModals';
 import ExamResultStatusChip from '@/components/Exam/ExamResultStatusChip.vue';
 import ExamStatusChip from '@/components/Exam/ExamStatusChip.vue';
+import { ref, watch } from 'vue';
 
-defineProps<{
+const props = defineProps<{
   foreignNational: ForeignNational
 }>();
 
+const enrollments = ref<Enrollment[]>(props.foreignNational.enrollments)
+watch(()=> props.foreignNational.enrollments, () => {
+  enrollments.value = props.foreignNational.enrollments
+})
 const modals = useModals()
 </script>
 
@@ -20,14 +25,13 @@ const modals = useModals()
     </div>
 
     <v-sheet
-      
       v-else
-      max-height="360"
+      max-height="400"
       class="overflow-y-auto pr-2"
       rounded="lg"
     >
       <v-card
-        v-for="enrollment in foreignNational.enrollments"
+        v-for="enrollment in enrollments"
         :key="enrollment.id"
         @click="modals.open('examShow', {examId:enrollment.exam.id})"
         class="mb-3"
@@ -51,7 +55,6 @@ const modals = useModals()
               :status="enrollment.examResult"
             />
             <EnrollmentDropDown :enrollment="enrollment"/>
-            <!-- <ForeignNationalEnrollmentsDropdown :enrollment="enrollment" :foreign-national="foreignNational" /> -->
           </div>
         </v-card-text>
       </v-card>

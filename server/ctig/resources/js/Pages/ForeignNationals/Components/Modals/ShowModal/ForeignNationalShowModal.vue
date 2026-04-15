@@ -3,7 +3,7 @@ import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import ForeignNationalEnrollmentsList from './ForeignNationalEnrollmentsList.vue';
 import ForeignNationalActionsDropdown from './ForeignNationalActionsDropdown.vue';
 import { onMounted, ref } from 'vue';
-import type { ForeignNational } from '@interfaces/Interfaces';
+import type { Enrollment, ForeignNational } from '@interfaces/Interfaces';
 import { useHttp } from '@inertiajs/vue3'
 import { DateFormatter } from '@helpers/DateFormatter';
 
@@ -38,6 +38,10 @@ const showDocument = (url :string) => {
 const edit = (value:ForeignNational) => {
     foreignNational.value = value
 }
+
+const enroll = (value:Enrollment) => {
+    foreignNational.value?.enrollments.unshift(value)
+}
 </script>
 
 <template>
@@ -55,6 +59,7 @@ const edit = (value:ForeignNational) => {
         <template #titleActions>
             <ForeignNationalActionsDropdown 
                 :foreignNational="foreignNational"
+                @enroll="enroll"
                 @edit="edit"
             />
         </template>

@@ -6,18 +6,16 @@ namespace App\Http\Controllers\Web\User;
 use App\Domain\User\CreateUserAction;
 use App\Enums\UserRoles;
 use App\Exceptions\BusinessException;
-use App\Http\Controllers\Api\Controller;
 use App\Http\Requests\User\UserPostRequest;
 use App\Http\Resources\Role\RoleResource;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Hash;
 use App\Http\Resources\User\UserResource;
 use Inertia\Inertia;
 
 
-class UserController extends Controller{
+class UserController{
 
     public function show(User $user){
         return new UserResource($user);

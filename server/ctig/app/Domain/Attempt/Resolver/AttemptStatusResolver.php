@@ -16,8 +16,6 @@ class AttemptStatusResolver{
         if($attempt->isStarted()){
             return AttemptStatus::Active;
         }
-        //checked??
-
         return AttemptStatus::Pending;
     }
 }

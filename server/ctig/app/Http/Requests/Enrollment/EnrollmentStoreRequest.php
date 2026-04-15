@@ -23,6 +23,7 @@ class EnrollmentStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'examId' => ['required', 'integer', 'min:1', 'exists:exams,id'],
             'foreignNationalId' => ['required', 'integer', 'min:1', 'exists:foreign_nationals,id'],
             'hasPayment' => ['required', 'boolean']
         ];

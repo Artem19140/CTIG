@@ -48,6 +48,7 @@ class ForeignNationalController
         $foreignNational->load( [
             'enrollments' => [ 'exam.examType', 'attempt'],
         ]);
+        $foreignNational->enrollments = $foreignNational->enrollments->sortByDesc('exam.begin_time_utc');
         return new ForeignNationalProfileResource($foreignNational);
     }
 

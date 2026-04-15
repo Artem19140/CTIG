@@ -17,7 +17,8 @@ final class CreateEnrollmentAction{
         protected GenerateRegNumberAction $generateRegNumber,
         protected CreateEnrollmentRules $createEnrollmentRules
     ){}
-    public function execute(Exam $exam, int $foreignNationalId, User $user, bool $hasPayment):Enrollment{
+    public function execute(int $examId, int $foreignNationalId, User $user, bool $hasPayment):Enrollment{
+        $exam =Exam::find($examId);
         $foreignNational = ForeignNational::find($foreignNationalId);
         $this->createEnrollmentRules->execute($exam, $foreignNational);
         $enrollment = Enrollment::create([

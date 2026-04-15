@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import ThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
-import { ForeignNational } from '@interfaces/interfaces';
-import EnrollmentModal from '../../EnrollmentModal.vue';
+import { Enrollment, ForeignNational } from '@interfaces/Interfaces';
 import { useModals } from '@composables/useModals';
 import { usePromptDialog } from '@composables/usePromptDialog';
 
@@ -14,9 +12,10 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-    (e:'edit', value: ForeignNational):void
+    (e:'edit', value: ForeignNational):void,
+    (e:'enroll', value:Enrollment):void
 }>()
-const isOpen = ref<boolean>(false)
+
 
 const destroy = async () => {
     const {open, canClose, errorMessages} = usePromptDialog()
@@ -34,7 +33,7 @@ const destroy = async () => {
     <ThreeDotDropdown>
         <AppListDropDownItem 
             title="Записать на экзамен"
-            @click="open('enrollment', {foreignNational})"
+            @click="open('enrollment', {foreignNational, onEnroll:(enrollment:Enrollment) => emit('enroll', enrollment)})"
         />
         <AppListDropDownItem 
             title="Редактировать"
@@ -46,5 +45,4 @@ const destroy = async () => {
             color="text-red"
         />
     </ThreeDotDropdown>
-    <EnrollmentModal :foreignNational="foreignNational" v-model="isOpen" />
 </template>

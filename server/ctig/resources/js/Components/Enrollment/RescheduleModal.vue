@@ -3,7 +3,7 @@ import { useForm, useHttp } from '@inertiajs/vue3';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import { Enrollment } from '@interfaces/Interfaces';
-import ExamEnrollment from '../ExamEnrollment.vue';
+import ExamEnrollment from '@components/Exam/ExamEnrollment.vue';
 
 
 const props = defineProps<{
@@ -33,8 +33,6 @@ const rechedule = () => {
         }
     })
 }
-const http = useHttp()
-
 </script>
 
 <template>
@@ -45,7 +43,7 @@ const http = useHttp()
         @before-close="(done) => done()"
     >
         <ExamEnrollment 
-            :exam-type-id="examTypeId"
+            :exam-type-id="enrollment.exam.examTypeId"
             v-model="form.toExamId"
             :foreign-national-id="enrollment.foreignNational.id"
         />

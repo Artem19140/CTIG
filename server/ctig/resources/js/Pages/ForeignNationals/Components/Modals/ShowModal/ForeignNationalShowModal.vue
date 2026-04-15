@@ -3,7 +3,7 @@ import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import ForeignNationalEnrollmentsList from './ForeignNationalEnrollmentsList.vue';
 import ForeignNationalActionsDropdown from './ForeignNationalActionsDropdown.vue';
 import { onMounted, ref } from 'vue';
-import type { ForeignNational } from '@interfaces/interfaces';
+import type { ForeignNational } from '@interfaces/Interfaces';
 import { useHttp } from '@inertiajs/vue3'
 import { DateFormatter } from '@helpers/DateFormatter';
 

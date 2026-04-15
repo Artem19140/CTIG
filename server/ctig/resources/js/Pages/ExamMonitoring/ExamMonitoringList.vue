@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3';
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
-import ExamActionsDropdown from '../Exam/Components/ExamShowModal/ExamActionsDropdown.vue';
+import ExamActionsDropdown from '@components/Exam/ExamActionsDropdown.vue';
 import BaseServerTable from '@components/BaseComponents/BaseServerTable/BaseServerTable.vue';
 import { capacityColor } from '@helpers/heplers';
 import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
-import ExamStatusChip from '../Exam/Components/ExamStatusChip.vue';
+import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import BaseLayout from '@layouts/BaseLayout.vue';
 import { ref } from 'vue';

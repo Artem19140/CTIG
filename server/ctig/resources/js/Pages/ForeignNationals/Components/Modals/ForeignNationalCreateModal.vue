@@ -6,7 +6,7 @@ import { type Exam, type IForeignNationalCreateForm } from '@interfaces/interfac
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import ForeignNationalCreateForm from './ForeignNationalCreateForm.vue';
-import ExamEnrollment from '../../../Exam/Components/ExamEnrollment.vue';
+import ExamEnrollment from '../../../../components/Exam/ExamEnrollment.vue';
 import { useAlert } from '@composables/useAlert';
 import AppCheckbox from '@components/UI/AppCheckbox/AppCheckbox.vue';
 

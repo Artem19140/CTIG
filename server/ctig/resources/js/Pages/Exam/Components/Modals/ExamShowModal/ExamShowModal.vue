@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
-import ExamActionsDropdown from './ExamActionsDropdown.vue';
+import ExamActionsDropdown from '@components/Exam/ExamActionsDropdown.vue';
 import EnrollmentsTable from './EnrollmentsTable.vue';
 import { computed, onMounted, ref } from 'vue';
 import { Enrollment, Exam } from '@interfaces/Interfaces';
 import { useHttp } from '@inertiajs/vue3';
 import { capacityColor } from '@helpers/heplers';
 import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
-import ExamStatusChip from '../ExamStatusChip.vue';
+import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import { ExamStatus } from '@/constants/ExamStatus';
 

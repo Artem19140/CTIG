@@ -2,7 +2,7 @@
 import EnrollmentExamDropdownActions from './EnrollmentExamDropdownActions.vue';
 import { usePoll } from '@inertiajs/vue3'
 import { attemptStatus } from '@helpers/heplers';
-import ExamStatusChip from '../Exam/Components/ExamStatusChip.vue';
+import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import BaseLayout from '@layouts/BaseLayout.vue';
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import { useModals } from '@composables/useModals';

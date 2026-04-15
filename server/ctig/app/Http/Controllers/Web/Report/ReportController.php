@@ -2,20 +2,15 @@
 
 namespace App\Http\Controllers\Web\Report;
 
-use App\Actions\Reports\CheckAvailableFrdoGenerateAction;
-use  App\Actions\Exam\Documents\GenerateExamStatementAction;
-use App\Actions\Reports\GenerateFlatTableAction;
-use App\Actions\Reports\GenerateFRDOReportsAction;
 use App\Http\Requests\Report\FlatTableRequest;
 use App\Http\Requests\Report\FrdoReportRequest;
 use App\Models\Exam;
 use Carbon\Carbon;
-use App\Http\Controllers\Api\Controller;
 use Inertia\Inertia;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class ReportController extends Controller
+class ReportController
 {
     public function frdo(
                         FrdoReportRequest $request,

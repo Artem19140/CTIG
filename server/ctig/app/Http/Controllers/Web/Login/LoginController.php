@@ -6,13 +6,12 @@ use App\Http\Requests\Auth\ChangePasswordRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Validation\ValidationException;
 use Hash;
-use App\Http\Controllers\Api\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 
 
-class LoginController extends Controller
+class LoginController
 {
    public function login(LoginRequest $request)
     {

@@ -46,8 +46,7 @@ class ForeignNationalController
     }
     public function show(ForeignNational $foreignNational){
         $foreignNational->load( [
-            'enrollments.exam.examType',
-            'enrollments.attempt',
+            'enrollments' => [ 'exam.examType', 'attempt'],
         ]);
         return new ForeignNationalProfileResource($foreignNational);
     }

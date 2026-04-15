@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Web\Address;
 use App\Http\Resources\Address\AddressResource;
 use App\Models\Address;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Api\Controller;
 use Inertia\Inertia;
 
-class AddressController extends Controller
+class AddressController
 {
 
     public function index()
@@ -43,6 +42,6 @@ class AddressController extends Controller
     {
         $address->is_active = false;
         $address->save();
-        return $this->noContent();
+        return ;
     }
 }

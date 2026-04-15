@@ -124,6 +124,10 @@ class Exam extends Model
         return $query->where('cancelled_at', null);
     }
 
+    public function scopeCancelled(Builder $query){
+        return $query->where('cancelled_at', '<>', null);
+    }
+
     protected function name(): Attribute{
         return Attribute::get(function () {
             return $this->examType->name;

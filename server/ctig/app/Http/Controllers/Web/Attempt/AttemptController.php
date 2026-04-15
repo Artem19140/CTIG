@@ -9,7 +9,6 @@ use App\Domain\Attempt\Action\StartAttemptAction;
 use App\Domain\Attempt\Query\GetCurrentAttemptQuery;
 use App\Domain\Attempt\Query\GetSpeakingTasksQuery;
 use App\Enums\AttemptStatus;
-use App\Http\Controllers\Api\Controller;
 use App\Http\Resources\Attempt\AttemptResource;
 use App\Http\Resources\Exam\ExamResource;
 use App\Http\Resources\TaskVariant\TaskVariantResource;
@@ -20,7 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
-class AttemptController extends Controller
+class AttemptController
 {
     public function index(Request $request)
     {
@@ -82,12 +81,12 @@ class AttemptController extends Controller
         ]);
     }
 
-    public function tasksToCheck(Attempt $attempt, GetTasksToCheck $getTasksToCheck){
-        $exam = Exam::findOrFail($attempt->exam_id);
-        Gate::authorize('exam-manage-access', $exam);
-        $tasksToCheck = $getTasksToCheck->execute($attempt);
-        return TaskVariantResource::collection($tasksToCheck);
-    }
+    // public function tasksToCheck(Attempt $attempt, GetTasksToCheck $getTasksToCheck){
+    //     $exam = Exam::findOrFail($attempt->exam_id);
+    //     Gate::authorize('exam-manage-access', $exam);
+    //     $tasksToCheck = $getTasksToCheck->execute($attempt);
+    //     return TaskVariantResource::collection($tasksToCheck);
+    // }
 
     public function toCheck(){
         $unCheckedAttempts = Attempt::with('exam.examType')

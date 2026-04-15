@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
 import { examStatus } from '@helpers/heplers';
-import type { Exam } from '@interfaces/interfaces';
+import type { Exam } from '@interfaces/Interfaces';
 
 const props = defineProps<{
     exam: Exam | null

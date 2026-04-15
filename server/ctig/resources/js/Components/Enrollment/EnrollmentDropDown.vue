@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { useConfirmDialog } from '@/composables/useConfirmDialog';
 import { useModals } from '@/composables/useModals';
-import { Enrollment, Exam } from '@/interfaces/Interfaces';
+import { Enrollment } from '@/interfaces/Interfaces';
 import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import { router, useForm } from '@inertiajs/vue3';
+import { useExamStatus } from '@/composables/useExamStatus';
+import { ExamStatus } from '@/constants/ExamStatus';
 
 const props = defineProps<{
-    enrollment:Enrollment,
-    exam:Exam
+    enrollment:Enrollment
 }>()
 
 const emit = defineEmits<{
@@ -61,7 +62,9 @@ const changePayment = async () => {
         }
     })
 }
-
+const {isGoing, isFinished, isPending, isCancelled} = useExamStatus(props.enrollment.exam)
+const isPaymentChangeDisabled  = isFinished.value || isCancelled.value
+const isCancellationDisabled  = isFinished.value || isCancelled.value || isGoing
 </script>
 
 <template>
@@ -71,18 +74,20 @@ const changePayment = async () => {
             @click="() => download('statements')"
         />
         <AppListDropDownItem 
-            title="Перенести" 
+            :title="isPending ? 'Перенести' : 'Повторить'" 
             @click="reschedule"
             
         />
         <AppListDropDownItem 
             :title="enrollment.hasPayment ?  'Отменить оплату' : 'Подтвердить оплату'" 
+            :disabled="isPaymentChangeDisabled "
             @click="changePayment"
         />
 
         <AppListDropDownItem 
             title="Отменить" 
             @click="cancell"
+            :disabled="isCancellationDisabled"
             color="text-red"
         />
     </BaseThreeDotDropdown>

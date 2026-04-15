@@ -2,7 +2,7 @@
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import { router } from '@inertiajs/vue3';
 import { ref } from 'vue';
-import { Exam } from '@interfaces/interfaces';
+import { Exam } from '@interfaces/Interfaces';
 import { useModals } from '@composables/useModals';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import { useAuth } from '@composables/useAuth';
@@ -14,7 +14,7 @@ defineOptions({
   layout: [BaseLayout, EmployeeLayout],
 })
 const props = defineProps<{
-    exams : any | null
+  exams : any | null
 }>()
 
 const {can} = useAuth()
@@ -25,6 +25,7 @@ const focus = ref<string>('')
 const loading = ref<boolean>(false)
 
 const type = ref<string>('month')
+
 const types = [
     {value:'day', label:'День'},
     {value:'week', label:'Неделя'},
@@ -113,7 +114,6 @@ const addExam = (nativeEvent : Event, { date } : any) => {
     </v-sheet>
     <!-- event-name = 'shortName' -->
       <v-calendar
-        
         v-model="focus"
         color="primary"
         ref="calendar"

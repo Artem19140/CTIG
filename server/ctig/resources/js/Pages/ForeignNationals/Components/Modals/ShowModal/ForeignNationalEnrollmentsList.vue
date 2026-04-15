@@ -3,8 +3,8 @@ import type { ForeignNational } from '@interfaces/Interfaces';
 import EnrollmentDropDown from '@/components/Enrollment/EnrollmentDropDown.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import { useModals } from '@composables/useModals';
-import ForeignNationalEnrollmentsDropdown from './ForeignNationalEnrollmentsDropdown.vue';
 import ExamResultStatusChip from '@/components/Exam/ExamResultStatusChip.vue';
+import ExamStatusChip from '@/components/Exam/ExamStatusChip.vue';
 
 defineProps<{
   foreignNational: ForeignNational
@@ -31,13 +31,16 @@ const modals = useModals()
         :key="enrollment.id"
         @click="modals.open('examShow', {examId:enrollment.exam.id})"
         class="mb-3"
-        variant="tonal"
+        variant="outlined"
         rounded="lg"
       >
         <v-card-text class="d-flex justify-space-between align-center">
           <div>
             <div class="text-subtitle-1 font-weight-medium">
               {{ enrollment.exam.shortName }}
+                <ExamStatusChip size="x-small"
+                  :exam="enrollment.exam"
+                />
             </div>
             <div class="text-caption text-medium-emphasis">
               {{ new DateFormatter(enrollment.exam.beginTime).format('d.m.Y') }}

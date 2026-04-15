@@ -3,12 +3,17 @@ import { Exam } from "@/interfaces/Interfaces";
 import { computed } from "vue";
 
 export const useExamStatus = (exam : Exam) => {
-    const isGoing = computed(() => exam.status === ExamStatus.GOING)
+    
+    const is = (status: string) => computed(() => exam.status === status)
+    const isNot = (status: string) => computed(() => exam.status !== status)
 
-    const isCancelled = computed(() => exam.status === ExamStatus.CANCELLED)
+    const isGoing = is(ExamStatus.GOING)
 
-    const isFinished = computed(()=>exam.status === ExamStatus.FINISHED)
+    const isCancelled = is(ExamStatus.CANCELLED)
 
-    const isPending = computed(():boolean => exam.status === ExamStatus.PENDING)
-    return{ isCancelled, isFinished, isGoing, isPending}
+    const isFinished = is(ExamStatus.FINISHED)
+
+    const isPending = is(ExamStatus.PENDING)
+
+    return{is, isNot, isCancelled, isFinished, isGoing, isPending}
 }

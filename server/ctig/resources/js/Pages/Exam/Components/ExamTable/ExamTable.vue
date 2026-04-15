@@ -10,7 +10,7 @@ import { useAuth } from '@composables/useAuth';
 import { Roles } from '@constants/Roles';
 import { capacityColor } from '@helpers/heplers';
 import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
-import ExamStatusChip from '../ExamStatusChip.vue';
+import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 
 const props = defineProps<{

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {  ref } from 'vue';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
-import ExamEnrollment from '../../Exam/Components/ExamEnrollment.vue';
+import ExamEnrollment from '@components/Exam/ExamEnrollment.vue';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import AppCheckbox from '@components/UI/AppCheckbox/AppCheckbox.vue';
-import { ForeignNational } from '@interfaces/interfaces';
+import { ForeignNational } from '@interfaces/Interfaces';
 import {  useForm } from '@inertiajs/vue3';
 import { useAlert } from '@composables/useAlert';
 import { useConfirmDialog } from '@composables/useConfirmDialog';

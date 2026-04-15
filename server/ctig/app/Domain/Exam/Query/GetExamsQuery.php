@@ -41,9 +41,7 @@ class GetExamsQuery{
             $q->where('end_time', '<=', Carbon::now($user->time_zone))//timeZone
         );
 
-        $query->when($cancelled, fn ($q) =>
-            $q->notCancelled()
-        );
+        $cancelled ? $query->Cancelled() : $query->notCancelled();
 
         $now = Carbon::now($user->time_zone);
         $query

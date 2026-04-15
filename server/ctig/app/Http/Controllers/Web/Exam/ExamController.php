@@ -18,7 +18,6 @@ use App\Http\Resources\Exam\ExamIndexResource;
 use App\Http\Resources\ExamType\ExamTypeResource;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\User\UserResource;
 use App\Models\Address;

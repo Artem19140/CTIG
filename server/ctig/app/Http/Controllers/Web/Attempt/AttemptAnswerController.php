@@ -13,9 +13,8 @@ use App\Models\AttemptAnswer;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Api\Controller;
 
-class AttemptAnswerController extends Controller
+class AttemptAnswerController
 {
     public function index(Request $request)
     {

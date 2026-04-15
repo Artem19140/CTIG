@@ -74,7 +74,7 @@ const isCancellationDisabled  = isFinished.value || isCancelled.value || isGoing
         />
         <AppListDropDownItem 
             :title="isPending ? 'Перенести' : 'Повторить'" 
-            @click="isPending ? reschedule : () => modals.open('')"
+            @click="reschedule"
             
         />
         <AppListDropDownItem 

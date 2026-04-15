@@ -16,6 +16,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Exam extends Model
 {
     use HasFactory, Notifiable;
+    public const CODES_AVAILABLE_BEFORE_MINUTES = 60;
+    public const CODES_LENGTH = 6;
+    public const CODES_TTL = 90;
     protected $fillable=[
         'begin_time',
         'begin_time_utc',

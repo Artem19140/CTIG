@@ -30,7 +30,7 @@ const find = () => {
     router.get(props.url, props.form.data(), {
         preserveState: true,
         preserveScroll: true,
-        replace: false, // важно для back/forward
+        replace: false,
     })
 }
 

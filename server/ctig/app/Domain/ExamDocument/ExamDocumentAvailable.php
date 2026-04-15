@@ -6,6 +6,7 @@ use App\Domain\Exam\Guard\ExamGuard;
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
 use Carbon\Carbon;
+use Log;
 
 class ExamDocumentAvailable{
     public function __construct(
@@ -15,8 +16,9 @@ class ExamDocumentAvailable{
         $this->examGuard->ensureNotFinished($exam);
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureHasEnrollment($exam);
-        if(Carbon::now()->diff($exam->begin_time_utc)->minutes >= 40){
-            throw new BusinessException("Коды можно сформировать минимум за 40 минут до экзамена");
+        if(!Carbon::now()->gte($exam->begin_time_utc->subMinutes(Exam::CODES_AVAILABLE_BEFORE_MINUTES))){
+            $minutes = Exam::CODES_AVAILABLE_BEFORE_MINUTES;
+            throw new BusinessException("Коды можно сформировать минимум за $minutes минут до экзамена");
         }
     }
 

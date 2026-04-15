@@ -40,7 +40,8 @@ const edit = (value:ForeignNational) => {
 }
 
 const enroll = (value:Enrollment) => {
-    foreignNational.value?.enrollments.unshift(value)
+    if (!foreignNational.value) return
+    foreignNational.value.enrollments = [value, ... foreignNational.value.enrollments]
 }
 </script>
 

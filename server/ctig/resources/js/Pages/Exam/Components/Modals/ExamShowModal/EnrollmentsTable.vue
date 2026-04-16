@@ -56,10 +56,6 @@ const reschedule = (value : Enrollment) => {
     
         <template #item.hasPayment="{ item }" >
             <PaymentIcon :enrollment="item" />
-            <!-- <v-icon :color="item.hasPayment ? 'green' : 'red'" v-if="!item.isLoading">
-                {{ item.hasPayment ? 'mdi-check-circle' : 'mdi-close-circle' }}
-            </v-icon>
-            <v-progress-circular v-else indeterminate color="primary" /> -->
         </template>
         <template #item.actions="{item}">
             <EnrollmentDropDown 

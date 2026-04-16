@@ -23,7 +23,8 @@ export interface Exam{
     protocolComment:string,
     enrollments:Array<Enrollment>,
     enrollmentsCount:number,
-    codesAvailable:boolean
+    codesAvailable:boolean,
+    addressId:number
 }
 
 export interface Enrollment{
@@ -115,15 +116,24 @@ export interface ExamForm{
     addressId: number | null,
     comment:string,
     examiners: Array<number | User>,
-    time:string,
-    date:string,
+    time:string | null,
+    date:string | null,
     capacity:number | null
 }
 
 export type Paginated<T> = {
-    data: T[]
+    data: T[],
+    links:{
+        first:string,
+        last:string | null,
+        prev:string | null,
+        next:string
+    }
     meta: {
-        total: number
+        from: number,
+        current_page: number,
+        per_page: number,
+        to:number
     }
 }
 

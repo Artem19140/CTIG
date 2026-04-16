@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { router, useForm } from '@inertiajs/vue3';
+import { useHttp } from '@inertiajs/vue3';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
-import { ExamForm } from '@interfaces/interfaces';
+import { Exam, ExamForm } from '@interfaces/Interfaces';
 import ExamCreateForm from './ExamCreateForm.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import { computed, ref } from 'vue';
-import { useModals } from '@composables/useModals';
 
 const props = defineProps<{
-    exam:any
+    exam: Exam,
+    onEdit?:(exam:Exam) => void
 }>()
 
 
-const form = useForm<ExamForm>({
+const http = useHttp<ExamForm>({
     examTypeId: props.exam.examTypeId,
     addressId:props.exam.addressId,
     comment:props.exam.comment ?? '',
@@ -23,53 +23,23 @@ const form = useForm<ExamForm>({
     date:new DateFormatter(props.exam.beginTime ?? '').format('Y-m-d'),
     capacity:props.exam.capacity
 })
+
 const isOpen = defineModel<boolean>({default:false})
 
 const beforeClose = async (fn: () => void) => {
-    if(form.isDirty){
+    if(http.isDirty){
         const {confirmOpen} = useConfirmDialog()
         const ok = await confirmOpen('Отменить редактирование?')
         if(!ok) return
     }
-    form.resetAndClearErrors()
+    http.resetAndClearErrors()
     fn()
 }
 
-const hasEnrollment = computed(() => Boolean(props.exam.foreignNationalsCount))
+const hasEnrollment = computed(() => Boolean(props.exam.enrollmentsCount))
 const loading = ref(false)
-const modals = useModals()
 const edit = () => {
     
-    if (hasEnrollment.value) {
-        loading.value = true
-        // только список id экзаменаторов
-        router.put(`exams/${props.exam.id}/examiners`, {
-            examiners: form.examiners
-        },{
-            onSuccess:(page) =>{
-                if(!page.flash.success) return
-                isOpen.value=false
-                
-                modals.open('examShow', {examId:props.exam.id})
-            },
-            onFinish:() => loading.value = false
-        })
-    } else {
-        // все поля формы + только id экзаменаторов
-        const payload = {
-            ...form.data(),
-            examiners: form.examiners.map(e => e.id)
-        }
-        form.put(`exams/${props.exam.id}`, {
-            data: payload,
-            onSuccess:(page) => {
-                if(!page.flash.success) return
-                isOpen.value=false
-                modals.open('examShow', {examId:props.exam.id})
-            }
-        },
-        )
-    }
 }
 
 </script>
@@ -82,7 +52,7 @@ const edit = () => {
         @before-close="(done) => beforeClose(done)"
     >
         <ExamCreateForm 
-            :form="form"
+            :form="http"
             :has-enrollment="hasEnrollment"
         />
         
@@ -90,8 +60,8 @@ const edit = () => {
         <AppPrimaryButton 
             text="Сохранить"
             @click="edit"
-            :disabled="!form.isDirty"
-            :loading="form.processing || loading"
+            :disabled="!http.isDirty"
+            :loading="http.processing || loading"
         />
     </template>
     </BaseDialog>

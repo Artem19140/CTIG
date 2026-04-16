@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { Paginated } from '../../../interfaces/interfaces';
-import { router } from '@inertiajs/vue3';
-
+import { Paginated } from '@interfaces/Interfaces';
     const props = defineProps<{
         elements? : Paginated<any>,
         headers : Array<any>,
@@ -13,26 +11,17 @@ import { router } from '@inertiajs/vue3';
         (e: 'row-click', item: any): void
     }>()
 
-    const loadItems = ({ page, itemsPerPage }: any) => {
-        router.reload({
-            data: {
-                page: page,
-                perPage:itemsPerPage
-            }
-        })
-    }
 </script>
 
 <template>
         <v-data-table-server
-            @update:options="loadItems" 
             :items="elements?.data"
             :headers="headers"
             @click:row="(event :Event, { item } : any) => emit('row-click', item)"
-            :items-length="elements?.meta?.total"
             key="id"
+            fixed-header
+            height="80vh"
             hover
-            height="100%"
             :loading="loading"
         >
             <template v-slot:top>

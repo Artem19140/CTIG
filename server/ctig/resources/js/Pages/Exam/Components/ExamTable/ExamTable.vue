@@ -13,6 +13,8 @@ import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
 import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import ExamCapacityChip from '@/components/Exam/ExamCapacityChip.vue';
+import { ref } from 'vue';
+import AppPaginator from '@/components/UI/AppPaginator/AppPaginator.vue';
 
 const props = defineProps<{
     exams: Paginated<Exam>,
@@ -39,7 +41,7 @@ const formFilters = useForm({
     finished: props.filters.finished ?? undefined,
 })
 const auth = useAuth()
-
+const loading = ref<boolean>(false)
 </script>
 
 <template>
@@ -50,7 +52,7 @@ const auth = useAuth()
         :page="filters.page"
         :items-per-page="filters.perPage"
         title="Экзамены"
-        :loading="formFilters.processing"
+        :loading="loading"
         @row-click="openModal"
     >
         <template #toolbar-left>
@@ -76,6 +78,13 @@ const auth = useAuth()
         <template #item.status="{ item }">
             <ExamStatusChip 
                 :exam="item"
+            />
+        </template>
+        <template #bottom="{ page, itemsPerPage, pageCount, setPage }">
+            <AppPaginator
+                :meta="exams.meta"
+                :links="exams.links"
+                v-model="loading"
             />
         </template>
     </BaseServerTable>

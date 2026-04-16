@@ -6,6 +6,8 @@ import { useModals } from '@composables/useModals';
 import ExamResultStatusChip from '@/components/Exam/ExamResultStatusChip.vue';
 import ExamStatusChip from '@/components/Exam/ExamStatusChip.vue';
 import { ref, watch } from 'vue';
+import PaymentIcon from '@/components/Enrollment/PaymentIcon.vue';
+import AppStatusChip from '@/components/UI/AppStatusChip/AppStatusChip.vue';
 
 const props = defineProps<{
   foreignNational: ForeignNational
@@ -44,11 +46,20 @@ const modals = useModals()
               {{ enrollment.exam.shortName }}
                 <ExamStatusChip size="x-small"
                   :exam="enrollment.exam"
+                  v-if="enrollment.exam.status === 'cancelled'"
                 />
             </div>
             <div class="text-caption text-medium-emphasis">
               {{ new DateFormatter(enrollment.exam.beginTime).format('d.m.Y') }}
+              <AppStatusChip 
+                v-if="enrollment.hasPayment"
+                text="Оплачено"
+                color="green"
+                size="x-small"
+              />
             </div>
+            <!-- <span>Оплата</span>
+            <PaymentIcon :enrollment="enrollment" /> -->
           </div>
           <div>
             <ExamResultStatusChip 

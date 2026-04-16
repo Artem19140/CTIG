@@ -113,7 +113,7 @@ const cancel =(reason : string) => {
                 <v-list-item>
                     <div class="flex justify-between">
                         <div class="flex items-center gap-2">
-                            <v-list-item-subtitle>Запись</v-list-item-subtitle>
+                            <span>Запись</span>
                             <ExamCapacityChip :exam="exam" />
                         </div>
                     </div>

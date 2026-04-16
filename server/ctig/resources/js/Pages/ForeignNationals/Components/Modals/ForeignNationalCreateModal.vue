@@ -2,7 +2,7 @@
 import {  useForm } from '@inertiajs/vue3'
 import {ref, watch } from 'vue';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
-import { type Exam, type IForeignNationalCreateForm } from '@interfaces/interfaces';
+import { type Exam, type IForeignNationalCreateForm } from '@interfaces/Interfaces';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import ForeignNationalCreateForm from './ForeignNationalCreateForm.vue';
@@ -143,14 +143,12 @@ watch(() => form.noPassportSeries, (val) => {
                                     Выберите экзамен для записи
                             </v-col>
                             <ExamEnrollment v-model="form.examId" />
+                            <AppCheckbox
+                                v-model="form.hasPayment" 
+                                label="Есть оплата"
+                                :error-messages="form.errors.hasPayment"
+                            ></AppCheckbox>
                         </v-container>
-                    </v-card-text>
-                    <v-card-text>
-                        <AppCheckbox
-                            v-model="form.hasPayment" 
-                            label="Есть оплата"
-                            :error-messages="form.errors.hasPayment"
-                        ></AppCheckbox>
                     </v-card-text>
                 </v-card>
                 

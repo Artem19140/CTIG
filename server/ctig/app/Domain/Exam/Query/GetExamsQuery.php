@@ -5,10 +5,10 @@ namespace App\Domain\Exam\Query;
 use App\Models\Exam;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\Paginator;
 
 class GetExamsQuery{
-    public function execute(array $data, User $user): LengthAwarePaginator
+    public function execute(array $data, User $user):Paginator
     {
         $examTypeId = $data['examTypeId'] ?? false;
         $dateFrom = $data['dateFrom'] ?? false;
@@ -66,6 +66,7 @@ class GetExamsQuery{
                 END DESC
             ", [$now]);
 
-        return $query->paginate($perPage);
+        return $query->simplePaginate($perPage)
+            ->withQueryString();
     }
 }

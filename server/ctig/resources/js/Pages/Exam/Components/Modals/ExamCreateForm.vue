@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
-import { Address, ExamType, User } from '@interfaces/interfaces';
+import { onMounted, ref } from 'vue';
+import { Address, ExamType, User } from '@interfaces/Interfaces';
 import { useHttp } from '@inertiajs/vue3';
 import AppAutocomplete from '@components/UI/AppAutocomplete/AppAutocomplete.vue';
 import AppInput from '@components/UI/AppInput/AppInput.vue';
@@ -19,6 +19,7 @@ const examTypes = ref<ExamType[]>()
 
 
 const http = useHttp()
+
 onMounted( async () => {
     http.get('/exams/create/modal-data', {
         onSuccess:(response:any) => {
@@ -28,13 +29,6 @@ onMounted( async () => {
         }
     })
 })
-const maxCapacity = ref<number | null>(null)
-const onSelect = (value:number | null) => {
-    if(!value){
-        return
-    }
-    maxCapacity.value = addresses.value?.find(item => item.id === value)?.maxCapcity ?? null
-}
 </script>
 
 <template>
@@ -81,7 +75,7 @@ const onSelect = (value:number | null) => {
             v-model="form.addressId"
             :error-messages="form.errors.addressId"
             :loading="http.processing"
-            @update:modelValue="onSelect"
+            
         />
 
         <AppNumberInput 
@@ -91,8 +85,6 @@ const onSelect = (value:number | null) => {
             control-variant="hidden"
             label="Вместимость"
             :min="0"
-            :hint="`Максимум ${maxCapacity ?? '-'} человек`"
-            :max="maxCapacity ?? 0"
         />
 
         <AppAutocomplete 

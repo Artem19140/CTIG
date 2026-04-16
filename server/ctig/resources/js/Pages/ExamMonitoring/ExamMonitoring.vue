@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import EnrollmentExamDropdownActions from './EnrollmentExamDropdownActions.vue';
+import EnrollmentMonitoringDropdown from './EnrollmentMonitoringDropdown.vue';
 import { usePoll } from '@inertiajs/vue3'
 import { attemptStatus } from '@helpers/heplers';
 import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
@@ -107,7 +107,7 @@ const back = () => {
                     @click:row="openForeignNational"
                 >
                     <template  #item.actions="{ item }">
-                        <EnrollmentExamDropdownActions  :enrollment="item" :exam="exam.data" />
+                        <EnrollmentMonitoringDropdown  :enrollment="item" :exam="exam.data" />
                     </template>
                     <template #item.status="{ item }">
                         <AppStatusChip

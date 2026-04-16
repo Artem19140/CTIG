@@ -17,7 +17,6 @@ class GetForeignNationalsQuery{
         return ForeignNational::when($surname, function (Builder $query) use( $surname) {
                     $surname = mb_strtolower(trim($surname), 'UTF-8');
                     $query->where('surname_normalized', 'LIKE', $surname ."%");
-
                 })
                 ->when($name, function (Builder $query) use($name){
                     $name = mb_strtolower(trim($name), 'UTF-8');
@@ -39,6 +38,7 @@ class GetForeignNationalsQuery{
                     $query->where('id', trim($id));
                 })
                 ->latest('id')
-                ->paginate($perPage);
+                ->simplePaginate($perPage)
+                ->withQueryString();
     }
 }

@@ -8,6 +8,8 @@ import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import ForeignNationalTableDropdown from './ForeignNationalTableDropdown.vue';
 import { useAuth } from '@composables/useAuth';
 import { Roles } from '@/constants/Roles';
+import AppPaginator from '@/components/UI/AppPaginator/AppPaginator.vue';
+import { ref } from 'vue';
 
 const modals = useModals()
 
@@ -36,11 +38,12 @@ const formFilters = useForm({
 })
 
 const auth = useAuth()
+const loading = ref<boolean>(false)
 </script>
 
 <template>
     <BaseServerTable
-        :loading="formFilters.processing"
+        :loading="loading"
         :headers="headers"
         :elements="foreignNationals"
         :page="filters.page"
@@ -60,6 +63,13 @@ const auth = useAuth()
                 @click="modals.open('foreignNationalCreate')"
             />
             <ForeignNationalTableDropdown  v-if="auth.can([Roles.DIRECTOR])" />
+        </template>
+        <template #bottom="{ page, itemsPerPage, pageCount, setPage }">
+            <AppPaginator
+                :meta="foreignNationals.meta"
+                :links="foreignNationals.links"
+                v-model="loading"
+            />
         </template>
     </BaseServerTable>
 </template>

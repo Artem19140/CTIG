@@ -1,10 +1,7 @@
 <script setup lang="ts">
-import { useForm, useHttp } from '@inertiajs/vue3'
-
-import { onMounted, ref } from 'vue';
+import { useForm } from '@inertiajs/vue3'
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
-import { Address, User, ExamType } from '@interfaces/interfaces';
-import { ExamForm } from '@interfaces/interfaces';
+import {  ExamForm } from '@interfaces/Interfaces';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import ExamCreateForm from './ExamCreateForm.vue';
@@ -12,10 +9,6 @@ import ExamCreateForm from './ExamCreateForm.vue';
 const props = defineProps<{
     date?:string
 }>()
-
-const addresses = ref<Address[]>()
-const examiners = ref<User[]>()
-const examTypes = ref<ExamType[]>()
 const isOpen = defineModel<boolean>({default:false})
 
 const form = useForm<ExamForm>({
@@ -23,21 +16,11 @@ const form = useForm<ExamForm>({
     addressId:null,
     comment:'',
     examiners:[],
-    time:'',
-    date:props.date ?? '',
+    time:null,
+    date:props.date ?? null,
     capacity:null
 })
 
-const http = useHttp()
-onMounted( async () => {
-    http.get('/exams/create/modal-data', {
-        onSuccess:(response:any) => {
-            addresses.value = response.addresses
-            examiners.value = response.examiners
-            examTypes.value = response.examTypes
-        }
-    })
-})
 const create =  () => {
     form.post('/exams', {
     preserveScroll: true,
@@ -51,9 +34,9 @@ const create =  () => {
     
 }
 
-const {confirmOpen} = useConfirmDialog()
-const close = async (fn:  ()  => void) => {
+const beforeClose = async (fn:  ()  => void) => {
     if(form.isDirty){
+        const {confirmOpen} = useConfirmDialog()
         if(! await confirmOpen("Отменить добавление экзамена?") ){
             return
         }
@@ -68,7 +51,7 @@ const close = async (fn:  ()  => void) => {
         title="Добавление экзамена"
         width="500"
         v-model="isOpen"
-        @before-close="(done) => close(done)"
+        @before-close="(done) => beforeClose(done)"
     >
     <ExamCreateForm :form="form" />
         <template #actions >

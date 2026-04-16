@@ -4,7 +4,7 @@ import AppAutocomplete from '@components/UI/AppAutocomplete/AppAutocomplete.vue'
 import AppCheckbox from '@components/UI/AppCheckbox/AppCheckbox.vue';
 import BaseFilter from '@components/BaseComponents/BaseFilter/BaseFilter.vue';
 import AppPeriodDate from '@components/UI/AppPeriodDate/AppPeriodDate.vue';
-import { computed, onMounted, watch } from 'vue';
+import { computed} from 'vue';
 
 const page = usePage<{
     flash:{
@@ -23,24 +23,12 @@ const filters = computed<ExamFilters>(() =>
     }
 )
 
-const statuses = [
-    {label:'Не отмененные', value:false},
-    {label:'Отмененные', value:true},
-    {label:'Все', value:undefined}
-]
-
-watch(() =>filters.value, (f) => {
-    console.log(2)
-})
-const defaultFilters = {
+const form = useForm<ExamFilters>({
     dateFrom: filters.value?.dateFrom ?? null,
     cancelled: filters.value?.cancelled ?? null,
     examTypeId:filters.value?.examTypeId ?? null,
     dateTo:filters.value?.dateTo ?? null,
     finished: filters.value?.finished ?? null,
-}
-const form = useForm<ExamFilters>({
-    ...defaultFilters
 })
 
 type ExamFilters = {
@@ -52,10 +40,6 @@ type ExamFilters = {
 }
 
 const loading = defineModel<boolean>({default:false})
-
-onMounted(() => {
-
-}) 
 </script>
 
 <template>
@@ -65,6 +49,7 @@ onMounted(() => {
         v-model="loading"
         :appliedFilters="filters"
     >
+
         <AppAutocomplete
             label="Тип экзамена"
             :items="page.props.examTypes"
@@ -73,26 +58,19 @@ onMounted(() => {
             v-model="form.examTypeId"
             :error-messages="form.errors.examTypeId"
         />
+
         <AppPeriodDate 
             :errors="form.errors"
             v-model:date-from="form.dateFrom"
             v-model:date-to="form.dateTo"
         />
         
-        
         <AppCheckbox 
             v-model="form.cancelled"
             label="Отмененные"
             :error-messages="form.errors.cancelled"
         />
-        <!-- <AppAutocomplete 
-            label="Статус"
-            v-model="form.cancelled"
-            :error-messages="form.errors.cancelled"
-            item-title="label"
-            items-value="value"
-            :items="statuses"
-        /> -->
+
         <AppCheckbox 
             v-model="form.finished"
             label="Прошедшие"

@@ -6,9 +6,10 @@ import { Exam } from '@interfaces/Interfaces';
 import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 import { useAuth } from '@composables/useAuth';
 import { Roles } from '@constants/Roles';
-import { getExamPermissions } from '@domain/Exam/getExamPermissions';
 import { useModals } from '@composables/useModals';
 import { useLoadingSnackbar } from '@composables/useLoadingSnackBar';
+import { useExamStatus } from '@/composables/useExamStatus';
+import { computed } from 'vue';
 
 
 const props = defineProps<{exam : Exam | null}>()
@@ -65,27 +66,37 @@ const download = (document :string) => {
 
 const auth = useAuth()
 const modals = useModals()
-const permission = getExamPermissions(props.exam)
+const {isFinished, isCancelled, isPending} = useExamStatus(props.exam)
+const isExaminer = props.exam?.examiners.some(e => e.id === auth.user.id) ?? false
+const hasEnrollment  = computed(() => Boolean(props.exam?.enrollmentsCount))
+
+const downloadStatementlDisabled  = !isFinished.value || isCancelled.value || !hasEnrollment.value || !isExaminer
+const downloadProtocolDisabled = !isFinished.value || isCancelled.value || !hasEnrollment.value || !isExaminer
+const downloadListDisabled =  !hasEnrollment.value
+const editDisabled  = !isPending.value || isCancelled.value 
+const cancelDisabled = !isPending.value || isCancelled.value 
+const downloadCodesDisabled  =  isCancelled.value || !hasEnrollment.value || !isExaminer || !(props.exam?.codesAvailable ?? false)
+console.log(!isPending.value , isCancelled.value )
 </script>
 
 <template>
     <BaseThreeDotDropdown>
       <AppListDropDownItem 
         title="Кода" 
-        :disabled="!permission.canDownloadCodes"
+        :disabled="downloadCodesDisabled"
         @click="() => download('codes')" 
         v-if="auth.can([Roles.EXAMINER])"
       />
 
       <AppListDropDownItem 
         title="Список"
-        :disabled="!permission.canDownloadStudList"  
+        :disabled="downloadListDisabled"  
         @click="download('list')" 
       />
 
       <AppListDropDownItem 
         title="Результаты"
-        :disabled="!permission.canDownloadStatement" 
+        :disabled="downloadStatementlDisabled" 
         v-if="auth.can([Roles.EXAMINER])"
         @click="() => download('results')" 
       />
@@ -93,7 +104,7 @@ const permission = getExamPermissions(props.exam)
       <AppListDropDownItem 
         title="Протокол" 
         v-if="auth.can([Roles.EXAMINER])"
-        :disabled="!permission.canDownloadProtocol"
+        :disabled="downloadProtocolDisabled"
         @click="() => download('protocol')" 
       />
       
@@ -101,14 +112,14 @@ const permission = getExamPermissions(props.exam)
         title="Редактировать" 
         v-if="auth.can([Roles.SCHEDULER])" 
         @click="modals.open('examEdit', {exam:exam})"
-        :disabled="!permission.canEdit"
+        :disabled="editDisabled"
       />
 
       <AppListDropDownItem 
         color="text-red" 
         title="Отменить" 
         @click="cancelExam"
-        :disabled="!permission.canCancel" 
+        :disabled="cancelDisabled" 
         v-if="auth.can([Roles.SCHEDULER])" 
       />
     </BaseThreeDotDropdown>

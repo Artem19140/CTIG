@@ -2,10 +2,9 @@ import { ExamStatus } from "@/constants/ExamStatus";
 import { Exam } from "@/interfaces/Interfaces";
 import { computed } from "vue";
 
-export const useExamStatus = (exam : Exam) => {
-    
-    const is = (status: string) => computed(() => exam.status === status)
-    const isNot = (status: string) => computed(() => exam.status !== status)
+export const useExamStatus = (exam : Exam | null) => {
+    const is = (status: string) => computed(() => exam?.status === status)
+    const isNot = (status: string) => computed(() => exam?.status !== status)
 
     const isGoing = is(ExamStatus.GOING)
 

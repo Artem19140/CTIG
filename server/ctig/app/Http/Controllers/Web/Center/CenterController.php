@@ -10,7 +10,7 @@ use Inertia\Inertia;
 class CenterController
 {
     public function index(){
-        //Все организации. Можно переиспользовать для info и для sa
+        //Все организации
     }
     public function store(){
         //Создать, а потом еще orgadmin

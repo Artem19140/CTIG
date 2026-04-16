@@ -2,11 +2,11 @@
 
 namespace  App\Domain\Attempt\Action;
 
+use App\Enums\AttemptStatus;
 use App\Models\Attempt;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Domain\Attempt\Guard\AttemptGuard;
-use Illuminate\Support\Facades\Log;
 
 class StartAttemptAction{
     public function __construct(
@@ -16,10 +16,11 @@ class StartAttemptAction{
         $this->attemptGuard->ensureNotBanned($attempt);
         $this->attemptGuard->ensureNotStarted($attempt, 'Попытку можно начать только если она ещё не активна');
         return DB::transaction(function () use($attempt) {
-            //Log::info($attempt->time_zone);
-            $attempt->started_at = Carbon::now($attempt->time_zone);
-            $attempt->expired_at = Carbon::now($attempt->time_zone)->addMinutes($attempt->exam->duration);
-            $attempt->last_activity_at = Carbon::now($attempt->time_zone);
+            $now = Carbon::now($attempt->time_zone);
+            $attempt->status = AttemptStatus::Active;
+            $attempt->started_at = $now;
+            $attempt->expired_at = $now->addMinutes($attempt->exam->duration);
+            $attempt->last_activity_at = $now;
             $attempt->save();
             return $attempt;
         });

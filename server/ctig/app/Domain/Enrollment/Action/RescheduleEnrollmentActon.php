@@ -20,12 +20,13 @@ class RescheduleEnrollmentActon{
         $toExam = Exam::find($toExamId);
         $foreignNational = ForeignNational::find($enrollment->foreign_national_id);
         $this->rescheduleEnrollmentRules->execute($enrollment, $toExam);
-        $enrollment = DB::transaction(function () use($toExam, $foreignNational, $user, $enrollment){
+        $enrollment = DB::transaction(function () use($toExamId, $foreignNational, $user, $enrollment){
             // if(!$enrollment->exam->begin_time_utc->isPast()){
             //     $enrollment->exam->foreignNationals()->detach($foreignNational->id); //Тут нужно сделать softDelete, а мб статус изменить
             // } 
+            $enrollment->exam->foreignNationals()->detach($foreignNational->id);
             $enrollment->rescheduled_at = Carbon::now($enrollment->time_zone);
-            return $this->createEnrollment->execute($toExam, $foreignNational->id, $user, $enrollment->hasPayment());
+            return $this->createEnrollment->execute($toExamId, $foreignNational->id, $user, $enrollment->hasPayment());
         });
         return $enrollment;
     }

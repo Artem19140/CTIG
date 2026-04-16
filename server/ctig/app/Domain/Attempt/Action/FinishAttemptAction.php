@@ -16,16 +16,16 @@ class FinishAttemptAction{
     ){}
     public function execute(Attempt $attempt):void{
         $this->attemptGuard->ensureNotBanned($attempt);
-        //$this->attemptGuard->ensureActive($attempt);
+        $this->attemptGuard->ensureActive($attempt);
 
         DB::transaction(function() use($attempt){
-            $attempt->finishTimeNow();
+            $attempt->finish();
             
             $this->zeroEmptyAutoAnswers->execute($attempt);
 
             if(!$attempt->requiresHumanCheck()){
                 $isPassed = $this->checkPassingThreshold->execute($attempt);
-                //$attempt->status = AttemptStatus::Checked;
+                $attempt->status = AttemptStatus::Checked;
                 $attempt->checked_at = Carbon::now($attempt->time_zone);
                 $attempt->total_mark = $attempt->answers()->sum('mark');
                 $attempt->is_passed = $isPassed;

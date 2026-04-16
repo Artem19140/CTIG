@@ -18,6 +18,12 @@ class AttemptGuard{
         }
     }
 
+    public function ensureActive(Attempt $attempt, string $message = 'Попытка не начата'){
+        if(!$attempt->isActive()){
+            throw new BusinessException($message);
+        }
+    }
+
     public function ensureNotStarted(Attempt $attempt, string $message = 'Попытка уже началась'){
         if($attempt->isStarted()){
             throw new BusinessException($message);

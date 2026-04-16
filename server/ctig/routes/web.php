@@ -49,11 +49,6 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
             Route::get('list/available', [ExamDocumentController::class, 'listAvailable']);
         });
         
-        // Route::prefix('{exam}/foreign-nationals')->group(function(){
-        //     Route::post('', [EnrollmentController::class, "store"]);
-            
-        // });
-        
         Route::get('create/modal-data', [ExamController::class,'createModalData']);//->middleware('user.has.role:scheduler');
         
         Route::put('{exam}/examiners', [ExamController::class, "partialUpdate"]);

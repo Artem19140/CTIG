@@ -22,12 +22,7 @@ class ExamGuard{
     }
 
     public function ensureHasSeats(Exam $exam, string $message = 'Запись на экзамен полная'):void{
-        $enrollmentsCount = $exam->enrollments()
-                                    // ->whereHas('enrollments', function(Builder $query){
-                                    //     $query->where('rescheduled_at', null)
-                                    //         ->where('cancelled_at', null);
-                                    // })
-                                    ->count();
+        $enrollmentsCount = $exam->enrollments()->count();
         if($exam->capacity <= $enrollmentsCount){
             throw new BusinessException($message);
         }

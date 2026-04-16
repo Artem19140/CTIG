@@ -2,6 +2,7 @@
 
 namespace App\Domain\Attempt\Action;
 
+use App\Enums\AttemptStatus;
 use App\Models\Attempt;
 use Carbon\Carbon;
 use App\Domain\Attempt\Guard\AttemptGuard;
@@ -14,7 +15,7 @@ class BanAttemptAction{
         $this->attemptGuard->ensureNotBanned($attempt);
         $attempt->ban_reason = $banReason;
         $attempt->ban_by_id = $banById;
-        // $attempt->is_passed = false;
+        $attempt->status = AttemptStatus::Banned;
         $attempt->banned_at = Carbon::now($attempt->time_zone);
         $attempt->save();
     }

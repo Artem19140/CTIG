@@ -47,20 +47,37 @@ class Attempt extends Model
         return $this->expired_at->isPast();
     }
     
-    public function finishTimeNow(): void{
+    public function finish(): void{
         $this->finished_at = Carbon::now($this->center->time_zone);
+        $this->status = AttemptStatus::Finished;
+    }
+
+    public function start():void{
+        
     }
 
     public function isStarted(): bool{
         return $this->started_at !== null;
     }
 
+    public function isActive(): bool{
+        return $this->status === AttemptStatus::Active;
+    }
+
+    public function isPending(): bool{
+        return $this->status === AttemptStatus::Pending;
+    }
+
     public function isBanned(): bool{
-        return $this->banned_at !== null;
+        return $this->status === AttemptStatus::Banned;
     }
 
     public function isFinished(): bool{
-        return $this->finished_at !== null;
+        return $this->status === AttemptStatus::Finished;
+    }
+
+    public function isChecked(): bool{
+        return $this->status === AttemptStatus::Checked;
     }
 
     public function foreignNational(): BelongsTo{

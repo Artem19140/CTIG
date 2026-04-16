@@ -9,8 +9,7 @@ defineOptions({
 })
 
 const props = defineProps<{
-  exams: any,
-  filters:any
+  exams: any
 }>()
 </script>
 
@@ -18,7 +17,6 @@ const props = defineProps<{
   <BaseContainer>
       <ExamTable 
         :exams="exams" 
-        :filters="filters"
       />
   </BaseContainer>
     

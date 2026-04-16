@@ -2,7 +2,6 @@
 import type { ForeignNational, Paginated } from '@interfaces/Interfaces';
 import BaseServerTable from '@components/BaseComponents/BaseServerTable/BaseServerTable.vue';
 import ForeignNationalTableFilters from './ForeignNationalTableFilters.vue';
-import { useForm } from '@inertiajs/vue3';
 import { useModals } from '@composables/useModals';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import ForeignNationalTableDropdown from './ForeignNationalTableDropdown.vue';
@@ -18,8 +17,7 @@ function foreignNationalShowModal(item : any) {
 }
 
 const props = defineProps<{
-    foreignNationals: Paginated<ForeignNational>,
-    filters:any
+    foreignNationals: Paginated<ForeignNational>
 }>()
 
 const headers = [
@@ -27,15 +25,6 @@ const headers = [
     {title : "ФИО",sortable: false, key: 'fullName', align: 'start' },
     {title : "Паспорт",sortable: false, key: 'fullPassport', align: 'start' },
 ]
-
-const formFilters = useForm({
-    surname: props.filters.surname ?? undefined,
-    name: props.filters.name ?? undefined,
-    patronymic: props.filters.patronymic ?? undefined,
-    passportSeries: props.filters.passportSeries ?? undefined,
-    passportNumber: props.filters.passportNumber ?? undefined,
-    id:props.filters.id ?? undefined,
-})
 
 const auth = useAuth()
 const loading = ref<boolean>(false)
@@ -46,15 +35,12 @@ const loading = ref<boolean>(false)
         :loading="loading"
         :headers="headers"
         :elements="foreignNationals"
-        :page="filters.page"
-        :items-per-page="filters.perPage"
         title="ИГ"
         @row-click="foreignNationalShowModal"
     >
         <template #toolbar-left>
-            <ForeignNationalTableFilters 
-                :filters="filters" 
-                :form="formFilters" 
+            <ForeignNationalTableFilters  
+                v-model="loading"
             />
         </template>
         <template #toolbar-actions>

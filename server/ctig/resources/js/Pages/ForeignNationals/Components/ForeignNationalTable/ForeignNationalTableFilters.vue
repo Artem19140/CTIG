@@ -2,19 +2,53 @@
 import BaseFilter from '@components/BaseComponents/BaseFilter/BaseFilter.vue';
 import AppInput from '@components/UI/AppInput/AppInput.vue';
 import AppNumberInput from '@components/UI/AppNumberInput/AppNumberInput.vue';
+import { useForm, usePage } from '@inertiajs/vue3';
+import { computed, watch } from 'vue';
 
-const props = defineProps<{
-    filters : any,
-    form : any
+const page = usePage<{
+    flash:{
+        filters:ForeignNationalFilters
+    }
 }>()
 
+const filters = computed<ForeignNationalFilters>(() =>
+    page.props.flash?.filters ?? {
+        surname: null,
+        name: null,
+        patronymic: null,
+        passportNumber: null,
+        passportSeries: null,
+        id: null,
+    }
+)
+
+const form = useForm<ForeignNationalFilters>({
+    surname: filters.value.surname ?? null,
+    name: filters.value.name ?? null,
+    patronymic: filters.value.patronymic ?? null,
+    passportSeries: filters.value.passportSeries ?? null,
+    passportNumber: filters.value.passportNumber ?? null,
+    id: filters.value.id ?? null,
+})
+
+type ForeignNationalFilters= {
+    surname: string | null,
+    name: string | null,
+    patronymic: string | null,
+    passportSeries: string | null,
+    passportNumber: string | null,
+    id: number | null,
+}
+
+const loading = defineModel<boolean>({default:false})
 </script>
 
 <template>
     <BaseFilter
         :url="'/foreign-nationals'"
         :form="form"
-        :appliedFilters="filters"
+        v-model="loading"
+        :filters="page.flash.filters"
     >
         <AppInput
             v-model="form.surname"

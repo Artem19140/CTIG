@@ -4,9 +4,9 @@ import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.v
 import { router } from '@inertiajs/vue3';
 
 const props = defineProps<{
-    form :  any,
-    url:string,
-    appliedFilters:any
+    form : any,
+    url: string,
+    filters: any
 }>()
 
 const isOpen = ref<boolean>(false)
@@ -18,8 +18,9 @@ window.addEventListener('keydown', (e) => {
 
 const filledCount = computed(() => {
     const formData = props.form.data()
-    if(!props.appliedFilters) return 0
-    return Object.entries(props.appliedFilters)
+    if(!props.filters) return 0
+
+    return Object.entries(props.filters)
         .filter(([key, value]) => {
         if (!(key in formData)) return false
 
@@ -47,9 +48,6 @@ const clean = () => {
     props.form.reset()
     isOpen.value = false
     router.visit(props.url,  {
-        // preserveState: true,
-        // preserveScroll: true,
-        // replace: false,
         onFinish:() => {
             loading.value = false
         }
@@ -103,7 +101,6 @@ function cleanFilters(data: Record<string, any>) {
                     text="Найти"
                     @click="find"
                     :disabled="form.processing"
-                    :loading="form.processing"
                 />
                 <v-btn
                     @click="clean"

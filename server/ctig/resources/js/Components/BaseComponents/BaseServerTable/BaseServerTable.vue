@@ -10,7 +10,8 @@ import { Paginated } from '@interfaces/Interfaces';
     const emit = defineEmits<{
         (e: 'row-click', item: any): void
     }>()
-
+// fixed-header
+//             height="70vh"
 </script>
 
 <template>
@@ -19,8 +20,7 @@ import { Paginated } from '@interfaces/Interfaces';
             :headers="headers"
             @click:row="(event :Event, { item } : any) => emit('row-click', item)"
             key="id"
-            fixed-header
-            height="80vh"
+            
             hover
             :loading="loading"
         >

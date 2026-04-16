@@ -11,7 +11,6 @@ const page = usePage<{
         filters:ExamFilters
     }
 }>()
-console.log(page.flash.filters)
 
 const filters = computed<ExamFilters>(() =>
     page.props.flash?.filters ?? {
@@ -47,7 +46,7 @@ const loading = defineModel<boolean>({default:false})
         :url="'/exams'"
         :form="form"
         v-model="loading"
-        :appliedFilters="filters"
+        :filters="page.flash.filters"
     >
 
         <AppAutocomplete

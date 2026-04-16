@@ -23,9 +23,9 @@ class ForeignNationalController
 
     public function index(ForeignNationalIndexRequest $request, GetForeignNationalsQuery $getForeignNationalsQuery){
         $foreignNationals = $getForeignNationalsQuery->execute($request->validated() ?? []);
+        Inertia::flash(['filters' => request()->all()]);
         return Inertia::render('ForeignNationals/ForeignNationals', [
-            'foreignNationals' => ForeignNationalResource::collection($foreignNationals),
-            'filters' => request()->all()
+            'foreignNationals' => ForeignNationalResource::collection($foreignNationals)
         ]);
     }
 

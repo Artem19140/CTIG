@@ -45,7 +45,6 @@ const loading = ref<boolean>(false)
             <ExamTableFilter 
                 v-model="loading"
             />
-            <!--  -->
         </template>
         <template #toolbar-actions>
             <AppAddButton

@@ -112,7 +112,6 @@ const addExam = (nativeEvent : Event, { date } : any) => {
         <v-icon>mdi-chevron-right</v-icon>
       </v-btn>
     </v-sheet>
-    <!-- event-name = 'shortName' -->
       <v-calendar
         v-model="focus"
         color="primary"

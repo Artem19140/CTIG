@@ -8,8 +8,7 @@ defineOptions({
 })
 
 const props = defineProps<{
-  foreignNationals: any,
-  filters:any
+  foreignNationals: any
 }>()
 </script>
 
@@ -17,7 +16,6 @@ const props = defineProps<{
   <v-container>
     <v-card>
       <ForeignNationalTable 
-        :filters="filters" 
         :foreignNationals="foreignNationals" 
       />
     </v-card>

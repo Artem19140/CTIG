@@ -5,7 +5,6 @@ namespace App\Domain\ForeignNational\Action;
 
 use App\Domain\Enrollment\Action\CreateEnrollmentAction;
 use App\Models\Enrollment;
-use App\Models\Exam;
 use App\Models\User;
 use DB;
 
@@ -18,8 +17,7 @@ class CreateForeignNationalWithEnrollmentAction{
         
         $enrollent = DB::transaction(function () use($foreignNationalData, $user, $examId) {
             $foreignNational = $this->storeForeignNational->execute($foreignNationalData, $user->id);
-            $exam = Exam::find($examId);
-            return $this->createEnrollment->execute($exam, $foreignNational->id, $user, $foreignNationalData['hasPayment'] );
+            return $this->createEnrollment->execute($examId, $foreignNational->id, $user, $foreignNationalData['hasPayment'] );
         });//Удалить файлы загруженные при исключении
         return $enrollent;
 

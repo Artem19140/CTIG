@@ -8,13 +8,15 @@ import { DateFormatter } from '@helpers/DateFormatter';
 import BaseLayout from '@layouts/BaseLayout.vue';
 import { ref } from 'vue';
 import ExamCapacityChip from '@/components/Exam/ExamCapacityChip.vue';
+import AppPaginator from '@/components/UI/AppPaginator/AppPaginator.vue';
+import { Exam, Paginated } from '@/interfaces/Interfaces';
 
 defineOptions({
   layout: [BaseLayout,EmployeeLayout]
 })
 
 const props = defineProps<{
-    exams:any,
+    exams:Paginated<Exam>,
     past:boolean
 }>()
 
@@ -94,6 +96,13 @@ const getPastExams = () =>{
                 </template>
                 <template #item.actions="{ item }">
                     <ExamActionsDropdown :exam="item" />
+                </template>
+                <template #bottom>
+                    <AppPaginator
+                        :meta="exams.meta"
+                        :links="exams.links"
+                        v-model="loading"
+                    />
                 </template>
                 
             </BaseServerTable>

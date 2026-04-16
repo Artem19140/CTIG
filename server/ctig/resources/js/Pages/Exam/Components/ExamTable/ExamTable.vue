@@ -4,12 +4,9 @@ import type { Exam, Paginated } from '@interfaces/Interfaces';
 import BaseServerTable from '@components/BaseComponents/BaseServerTable/BaseServerTable.vue';
 import ExamTableDropDown from './ExamTableDropDown.vue';
 import ExamTableFilter from './ExamTableFilter.vue';
-import { useForm } from '@inertiajs/vue3';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import { useAuth } from '@composables/useAuth';
 import { Roles } from '@constants/Roles';
-import { capacityColor } from '@helpers/heplers';
-import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
 import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import ExamCapacityChip from '@/components/Exam/ExamCapacityChip.vue';
@@ -17,8 +14,7 @@ import { ref } from 'vue';
 import AppPaginator from '@/components/UI/AppPaginator/AppPaginator.vue';
 
 const props = defineProps<{
-    exams: Paginated<Exam>,
-    filters:any
+    exams: Paginated<Exam>
 }>()
 
 const headers = [
@@ -32,14 +28,6 @@ const {open} = useModals()
 const openModal = (item :any) => {
     open('examShow', {examId:item.id})
 }
-
-const formFilters = useForm({
-    dateFrom: props.filters.dateFrom ?? undefined,
-    cancelled: props.filters.dateFrom ?? undefined,
-    examTypeId: props.filters.examTypeId ?? undefined,
-    dateTo: props.filters.dateTo ?? undefined,
-    finished: props.filters.finished ?? undefined,
-})
 const auth = useAuth()
 const loading = ref<boolean>(false)
 </script>
@@ -49,17 +37,15 @@ const loading = ref<boolean>(false)
     <BaseServerTable
         :headers="headers"
         :elements="exams"
-        :page="filters.page"
-        :items-per-page="filters.perPage"
         title="Экзамены"
         :loading="loading"
         @row-click="openModal"
     >
         <template #toolbar-left>
             <ExamTableFilter 
-                :filters="filters"
-                :form="formFilters"
+                v-model="loading"
             />
+            <!--  -->
         </template>
         <template #toolbar-actions>
             <AppAddButton
@@ -80,7 +66,7 @@ const loading = ref<boolean>(false)
                 :exam="item"
             />
         </template>
-        <template #bottom="{ page, itemsPerPage, pageCount, setPage }">
+        <template #bottom>
             <AppPaginator
                 :meta="exams.meta"
                 :links="exams.links"

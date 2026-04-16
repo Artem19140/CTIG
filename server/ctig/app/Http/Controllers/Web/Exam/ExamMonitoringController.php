@@ -41,6 +41,7 @@ class ExamMonitoringController
         $exam->load([
             'enrollments' => ['foreignNational', 'attempt']
         ]);
+        $exam->enrollments = $exam->enrollments->sortBy('foreignNational.surname');
         
         return Inertia::render('ExamMonitoring/ExamMonitoring', [
             'exam' => new ExamResource($exam)

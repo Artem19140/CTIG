@@ -52,7 +52,7 @@ const changePayment = async () => {
     const ok = await confirmOpen(`${action} оплату ${props.enrollment.foreignNational.fullName}`)
     if(!ok) return
     props.enrollment.isLoading = true
-    router.put(`enrollments/${props.enrollment.id}/payment`,{},{
+    router.put(`/enrollments/${props.enrollment.id}/payment`,{},{
         onSuccess:() => {
             props.enrollment.hasPayment = !props.enrollment.hasPayment
         },

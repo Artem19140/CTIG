@@ -48,7 +48,7 @@ const visit = (url:string | null) => {
     <v-btn
       variant="text"
       icon
-      :disabled="!links.prev"
+      :disabled="!links.prev || loading"
       @click="visit(links.prev)"
     >
       <v-icon size="20">mdi-chevron-left</v-icon>
@@ -61,14 +61,13 @@ const visit = (url:string | null) => {
     <v-btn
       variant="text"
       icon
-      :disabled="!links.next"
+      :disabled="!links.next || loading"
       @click="visit(links.next)"
     >
       <v-icon size="20">mdi-chevron-right</v-icon>
     </v-btn>
   </div>
 
-  <!-- Информация -->
   <div class="flex items-center gap-4 text-sm text-grey-darken-1">
     <span class="bg-grey-lighten-4 px-3 py-1 rounded">
       {{ meta.from }} – {{ meta.to }}

@@ -1,23 +1,68 @@
 <script setup lang="ts">
-import { usePage } from '@inertiajs/vue3';
+import { useForm, usePage } from '@inertiajs/vue3';
 import AppAutocomplete from '@components/UI/AppAutocomplete/AppAutocomplete.vue';
 import AppCheckbox from '@components/UI/AppCheckbox/AppCheckbox.vue';
 import BaseFilter from '@components/BaseComponents/BaseFilter/BaseFilter.vue';
 import AppPeriodDate from '@components/UI/AppPeriodDate/AppPeriodDate.vue';
+import { computed, onMounted, watch } from 'vue';
 
-const props = defineProps<{
-  filters:any,
-  form:any
+const page = usePage<{
+    flash:{
+        filters:ExamFilters
+    }
 }>()
+console.log(page.flash.filters)
 
-const page = usePage()
+const filters = computed<ExamFilters>(() =>
+    page.props.flash?.filters ?? {
+        dateFrom: undefined,
+        cancelled: undefined,
+        examTypeId: undefined,
+        dateTo: undefined,
+        finished: undefined,
+    }
+)
 
+const statuses = [
+    {label:'Не отмененные', value:false},
+    {label:'Отмененные', value:true},
+    {label:'Все', value:undefined}
+]
+
+watch(() =>filters.value, (f) => {
+    console.log(2)
+})
+const defaultFilters = {
+    dateFrom: filters.value?.dateFrom ?? null,
+    cancelled: filters.value?.cancelled ?? null,
+    examTypeId:filters.value?.examTypeId ?? null,
+    dateTo:filters.value?.dateTo ?? null,
+    finished: filters.value?.finished ?? null,
+}
+const form = useForm<ExamFilters>({
+    ...defaultFilters
+})
+
+type ExamFilters = {
+    dateFrom: string | null,
+    cancelled: boolean | null,
+    examTypeId: string | null,
+    dateTo: string | null,
+    finished: boolean | null,
+}
+
+const loading = defineModel<boolean>({default:false})
+
+onMounted(() => {
+
+}) 
 </script>
 
 <template>
     <BaseFilter
         :url="'/exams'"
         :form="form"
+        v-model="loading"
         :appliedFilters="filters"
     >
         <AppAutocomplete
@@ -34,15 +79,24 @@ const page = usePage()
             v-model:date-to="form.dateTo"
         />
         
-        <AppCheckbox 
-            v-model="form.finished"
-            label="Прошедшие"
-            :error-messages="form.errors.finished"
-        />
+        
         <AppCheckbox 
             v-model="form.cancelled"
             label="Отмененные"
             :error-messages="form.errors.cancelled"
+        />
+        <!-- <AppAutocomplete 
+            label="Статус"
+            v-model="form.cancelled"
+            :error-messages="form.errors.cancelled"
+            item-title="label"
+            items-value="value"
+            :items="statuses"
+        /> -->
+        <AppCheckbox 
+            v-model="form.finished"
+            label="Прошедшие"
+            :error-messages="form.errors.finished"
         />
     </BaseFilter>
 </template>

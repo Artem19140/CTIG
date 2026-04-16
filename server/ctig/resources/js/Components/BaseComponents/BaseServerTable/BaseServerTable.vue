@@ -14,7 +14,7 @@ import { Paginated } from '@interfaces/Interfaces';
 </script>
 
 <template>
-        <v-data-table-server
+        <v-data-table
             :items="elements?.data"
             :headers="headers"
             @click:row="(event :Event, { item } : any) => emit('row-click', item)"
@@ -41,6 +41,6 @@ import { Paginated } from '@interfaces/Interfaces';
             >
                 <slot :name="slotName" v-bind="slotProps" />
             </template>
-        </v-data-table-server>
+        </v-data-table>
 
 </template>

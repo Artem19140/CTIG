@@ -7,6 +7,7 @@ import { useForm } from '@inertiajs/vue3';
 import { Enrollment, Exam } from '@interfaces/Interfaces';
 import { useExamStatus } from '@/composables/useExamStatus';
 import { computed } from 'vue';
+import PaymentChange from '@/components/Enrollment/PaymentChange.vue';
 
 const props = defineProps<{ 
     enrollment:Enrollment,
@@ -43,10 +44,9 @@ const { isCancelled, isFinished, isGoing } = useExamStatus(props.exam)
 
 <template>
     <BaseThreeDotDropdown>
-        <AppListDropDownItem 
+        <PaymentChange 
             v-if="!isCancelled && !isFinished" 
-            title="Подтвердить оплату" 
-            @click=""
+            :enrollment="enrollment"
         />
         <AppListDropDownItem 
             v-if="exam.hasSpeakingTasks"

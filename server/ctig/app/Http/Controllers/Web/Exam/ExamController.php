@@ -34,9 +34,9 @@ class ExamController
     public function index(ExamIndexRequest $request, GetExamsQuery $getExamQuery)
     {
         $exams = $getExamQuery->execute($request->validated() ?? [], $request->user());
+        Inertia::flash(['filters' => request()->all()]);
         return Inertia::render('Exam/Exam', [
             'exams' => ExamIndexResource::collection($exams),
-            'filters' => request()->all()
         ]);
         
     }
@@ -112,20 +112,11 @@ class ExamController
     }
 
     public function schedule(Request $request){
-        $dateFrom = $request->input('dateFrom') ?? false;
-        $dateTo = $request->input('dateTo') ?? false;
+        $dateFrom = Carbon::parse($request->input('dateFrom')) ?? false;
+        $dateTo = Carbon::parse($request->input('dateTo')) ?? false;
         $exams = Exam::with('examType')
-                    ->when($dateFrom, function(Builder $query, $dateFrom) {
-                        $begin= Carbon::parse($dateFrom)->startOfDay();
-                        $query->where('begin_time', '>=', $begin);
-                    })
-                    ->when($dateTo, function(Builder $query, $dateTo) {
-                        $end= Carbon::parse($dateTo)->endOfDay();
-                        $query->where('begin_time','<=', $end);
-                    })
-                    ->when(!$dateFrom, function(Builder $query) {
-                        $query->whereBetween('begin_time', [now()->startOfMonth(), now() ->endOfMonth()]);
-                    })
+                    ->where('begin_time', '>=', $dateFrom)
+                    ->where('begin_time','<=', $dateTo)
                     ->get();
         return Inertia::render('Schedule/Schedule',[
             'exams' => ExamCalendarResource::collection($exams )

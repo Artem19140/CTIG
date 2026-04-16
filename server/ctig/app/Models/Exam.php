@@ -147,4 +147,8 @@ class Exam extends Model
         });
     }
 
+    public function canGenerateCodes():bool{
+        return Carbon::now()->gte($this->begin_time_utc->copy()->subMinutes(self::CODES_AVAILABLE_BEFORE_MINUTES));
+    }
+
 }

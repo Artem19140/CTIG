@@ -46,7 +46,8 @@ class ExamResource extends JsonResource
             'endTime' => $this->end_time->copy()->format('Y-m-d H:i:s'),
             'tasksCount' => $this->whenLoaded('examType', fn () => $this->examType->tasks_count),
             'hasSpeakingTasks' => $this->whenLoaded('examType', fn () => $this->examType->has_speaking_tasks),
-            'status' => app(ExamStatusResolver::class)->execute($this->resource)
+            'status' => app(ExamStatusResolver::class)->execute($this->resource),
+            'codesAvailable' => $this->canGenerateCodes()
         ];
     }
 }

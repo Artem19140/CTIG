@@ -22,7 +22,8 @@ export interface Exam{
     examTypeId:number,
     protocolComment:string,
     enrollments:Array<Enrollment>,
-    enrollmentsCount:number
+    enrollmentsCount:number,
+    codesAvailable:boolean
 }
 
 export interface Enrollment{

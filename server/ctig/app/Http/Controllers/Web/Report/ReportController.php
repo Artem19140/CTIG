@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Web\Report;
 
+use App\Domain\Report\CheckAvailableFrdoGenerateAction;
+use App\Domain\Report\GenerateFlatTableAction;
+use App\Domain\Report\GenerateFRDOReportsAction;
 use App\Http\Requests\Report\FlatTableRequest;
 use App\Http\Requests\Report\FrdoReportRequest;
 use App\Models\Exam;
@@ -46,27 +49,6 @@ class ReportController
                 'success' => $request->validated('success')
             ])
         ])->back();
-    }
-
-    public function statement(
-                                Exam $exam, 
-                                GenerateExamStatementAction $generateExamStatement
-                            ){
-                                
-        $spreadSheet = $generateExamStatement->execute($exam);
-        
-        $writer = IOFactory::createWriter($spreadSheet, 'Xlsx');
-        
-        $fileName = "statement.xlsx";
-        $headers = [
-            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'Content-Disposition' => "attachment;filename=$fileName",
-            'Cache-Control' => 'max-age=0',
-        ];
-        
-        return new StreamedResponse(function () use ($writer) {
-            $writer->save('php://output');
-        }, 200, $headers);
     }
 
     public function flatTable(FlatTableRequest $request, GenerateFlatTableAction $generateFlatTable){

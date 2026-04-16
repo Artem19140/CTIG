@@ -2,7 +2,6 @@
 
 namespace App\Domain\ExamDocument;
 
-use App\Exceptions\BusinessException;
 use App\Models\Exam;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;

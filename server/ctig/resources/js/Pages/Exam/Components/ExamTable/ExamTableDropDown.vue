@@ -12,7 +12,7 @@ const modals = useModals()
 
 <template>
     <BaseThreeDotDropdown v-if="auth.can([Roles.EXAMINER, Roles.DIRECTOR])">
-            <AppListDropDownItem title="Скачать отчет ФИС ФРДО" @click="modals.open('frdo')" />
-            <AppListDropDownItem title="Скачать плоскую таблицу" @click="modals.open('flatTable')"/>
+        <AppListDropDownItem title="Скачать отчет ФИС ФРДО" @click="modals.open('frdo')" />
+        <AppListDropDownItem title="Скачать плоскую таблицу" @click="modals.open('flatTable')"/>
     </BaseThreeDotDropdown>
 </template>

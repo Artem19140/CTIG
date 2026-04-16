@@ -25,7 +25,6 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
     Route::apiResource('foreign-nationals', ForeignNationalController::class);
     Route::apiResource('enrollments', EnrollmentController::class);
     Route::prefix('enrollments')->group(function(){
-        Route::post('{enrollment}/reschedule', [EnrollmentController::class, 'reschedule']);
         Route::put('{enrollment}/payment', [EnrollmentController::class, 'changePayment']);
         Route::get('{enrollment}/statements', [EnrollmentDocumentController::class, 'statement'])->name('enrollments.statements');
     });

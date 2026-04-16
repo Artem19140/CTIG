@@ -10,13 +10,11 @@ import AttemptCheckingModal from '@pages/AttemptsChecking/AttemptCheckingModal.v
 import PdfDialogViewer from '../PdfDialogViewer/PdfDialogViewer.vue';
 import ExamCommentModal from '@pages/ExamMonitoring/ExamCommentModal.vue';
 import EmployeeCreateModal from '@pages/Employees/EmployeeCreateModal.vue';
-import RescheduleModal from '@components/Enrollment/RescheduleModal.vue';
 import ForeignNationalEditModal from '@pages/ForeignNationals/Components/Modals/ForeignNationalEditModal.vue';
 import ExamEditModal from '@pages/Exam/Components/Modals/ExamEditModal.vue';
 import ForeignNationalShowModal from '@pages/ForeignNationals/Components/Modals/ShowModal/ForeignNationalShowModal.vue';
 import ForeignNationalExportModal from '@pages/ForeignNationals/Components/ForeignNationalTable/ForeignNationalExportModal.vue';
 import StatisticsModal from '@pages/ForeignNationals/Components/ForeignNationalTable/StatisticsModal.vue';
-
 
 const {modals, close} = useModals()
 
@@ -44,8 +42,6 @@ const modalComponent = (name: string) => {
             return ExamCommentModal
         case 'employeeCreate':
             return EmployeeCreateModal
-        case 'reschedule':
-            return RescheduleModal
         case 'foreignNationalEdit':
             return ForeignNationalEditModal
         case 'examEdit':

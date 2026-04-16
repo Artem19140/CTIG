@@ -17,18 +17,9 @@ const emit = defineEmits<{
 }>()
 
 const {confirmOpen} = useConfirmDialog()
-const modals = useModals()
 
 const download = (document : string) => {
     window.open(`enrollments/${props.enrollment.id}/${document}`)
-}
-
-const reschedule = () => { 
-    modals.open('reschedule', {
-        enrollment:props.enrollment, 
-        examTypeId:props.enrollment.exam.examTypeId,
-        onRechedule: () => emit('reschedule', props.enrollment)
-    })
 }
 
 const cancell = async () => {
@@ -71,11 +62,6 @@ const isCancellationDisabled  = isFinished.value || isCancelled.value || isGoing
         <AppListDropDownItem 
             title="Заявление" 
             @click="() => download('statements')"
-        />
-        <AppListDropDownItem 
-            :title="isPending ? 'Перенести' : 'Повторить'" 
-            @click="reschedule"
-            
         />
         <AppListDropDownItem 
             :title="enrollment.hasPayment ?  'Отменить оплату' : 'Подтвердить оплату'" 

@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Web\Enrollment;
 
 use App\Domain\Enrollment\Action\CancellEnrollmentAction;
 use App\Domain\Enrollment\Action\ChangePaymentStatusAction;
-use App\Domain\Enrollment\Action\RescheduleEnrollmentActon;
 use App\Domain\Exam\Query\GetAvailableExamsQuery;
 use App\Domain\Enrollment\Action\CreateEnrollmentAction;
 use App\Http\Requests\Enrollment\EnrollmentAvailableRequest;
 use App\Http\Requests\Enrollment\EnrollmentStoreRequest;
-use App\Http\Requests\Enrollment\EnrollmentRescheduleRequest;
 use App\Http\Resources\Enrollment\EnrollmentResource;
 use App\Models\Enrollment;
 use Inertia\Inertia;
@@ -40,21 +38,6 @@ class EnrollmentController
         ])->back();
     }
 
-    public function reschedule(
-                                EnrollmentRescheduleRequest $request,
-                                Enrollment $enrollment,
-                                RescheduleEnrollmentActon $rescheduleEnrollment
-                            ){
-        $newEnrollment = $rescheduleEnrollment->execute(
-                                        $enrollment,
-                                        $request->validated('toExamId'), 
-                                        $request->user()  
-                                    );
-        
-        return Inertia::flash([
-            'redirectUrl' => route('enrollments.statements', ['enrollment' => $newEnrollment])
-        ])->back();
-    }
     public function changePayment(
                                     Enrollment $enrollment,
                                     ChangePaymentStatusAction $changePaymentStatus

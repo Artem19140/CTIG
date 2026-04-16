@@ -5,11 +5,10 @@ import EnrollmentsTable from './EnrollmentsTable.vue';
 import { computed, onMounted, ref } from 'vue';
 import { Enrollment, Exam } from '@interfaces/Interfaces';
 import { useHttp } from '@inertiajs/vue3';
-import { capacityColor } from '@helpers/heplers';
-import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
 import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import { ExamStatus } from '@/constants/ExamStatus';
+import ExamCapacityChip from '@/components/Exam/ExamCapacityChip.vue';
 
 const props = defineProps<{
     examId:number
@@ -26,10 +25,10 @@ const examiners = computed(() =>{
 })
 
 const getExam = async () => {
-    http.get(`/exams/${props.examId}`,{
+    await http.get(`/exams/${props.examId}`,{
         onSuccess:(response : any)=>{
             exam.value = response.data
-        }
+        },
     })
 }
 
@@ -115,10 +114,7 @@ const cancel =(reason : string) => {
                     <div class="flex justify-between">
                         <div class="flex items-center gap-2">
                             <v-list-item-subtitle>Запись</v-list-item-subtitle>
-                            <AppStatusChip
-                                :color="capacityColor(exam)"
-                                :text="`${exam?.enrollments?.length ?? 0}/${exam?.capacity ?? 0}`"
-                            />
+                            <ExamCapacityChip :exam="exam" />
                         </div>
                     </div>
                 </v-list-item>

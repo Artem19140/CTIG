@@ -3,16 +3,16 @@ import { router } from '@inertiajs/vue3';
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import ExamActionsDropdown from '@components/Exam/ExamActionsDropdown.vue';
 import BaseServerTable from '@components/BaseComponents/BaseServerTable/BaseServerTable.vue';
-import { capacityColor } from '@helpers/heplers';
-import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
 import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import BaseLayout from '@layouts/BaseLayout.vue';
 import { ref } from 'vue';
+import ExamCapacityChip from '@/components/Exam/ExamCapacityChip.vue';
 
 defineOptions({
   layout: [BaseLayout,EmployeeLayout]
 })
+
 const props = defineProps<{
     exams:any,
     past:boolean
@@ -81,10 +81,7 @@ const getPastExams = () =>{
                     </v-btn>
                 </template>
                 <template #item.capacity="{ item }">
-                    <AppStatusChip
-                        :text="`${item.foreignNationalsCount}/${item.capacity}`"
-                        :color="capacityColor(item)"
-                    />
+                    <ExamCapacityChip :exam="item" />
                 </template>
                 
                 <template #item.status="{ item }">

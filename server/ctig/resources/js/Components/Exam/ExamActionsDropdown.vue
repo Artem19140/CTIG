@@ -67,16 +67,17 @@ const download = (document :string) => {
 const auth = useAuth()
 const modals = useModals()
 const {isFinished, isCancelled, isPending} = useExamStatus(props.exam)
-const isExaminer = props.exam?.examiners.some(e => e.id === auth.user.id) ?? false
-const hasEnrollment  = computed(() => Boolean(props.exam?.enrollmentsCount))
 
-const downloadStatementlDisabled  = !isFinished.value || isCancelled.value || !hasEnrollment.value || !isExaminer
-const downloadProtocolDisabled = !isFinished.value || isCancelled.value || !hasEnrollment.value || !isExaminer
+const hasEnrollment  = computed(() => {
+    return Boolean(props.exam?.enrollmentsCount)
+})
+
+const downloadStatementlDisabled  = !isFinished.value || isCancelled.value || !hasEnrollment.value 
+const downloadProtocolDisabled = !isFinished.value || isCancelled.value || !hasEnrollment.value 
 const downloadListDisabled =  !hasEnrollment.value
 const editDisabled  = !isPending.value || isCancelled.value 
 const cancelDisabled = !isPending.value || isCancelled.value 
-const downloadCodesDisabled  =  isCancelled.value || !hasEnrollment.value || !isExaminer || !(props.exam?.codesAvailable ?? false)
-console.log(!isPending.value , isCancelled.value )
+const downloadCodesDisabled  =  isCancelled.value || !hasEnrollment.value || !(props.exam?.codesAvailable ?? false)
 </script>
 
 <template>

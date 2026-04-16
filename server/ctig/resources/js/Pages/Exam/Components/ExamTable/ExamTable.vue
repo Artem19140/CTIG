@@ -12,6 +12,7 @@ import { capacityColor } from '@helpers/heplers';
 import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
 import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
+import ExamCapacityChip from '@/components/Exam/ExamCapacityChip.vue';
 
 const props = defineProps<{
     exams: Paginated<Exam>,
@@ -67,11 +68,7 @@ const auth = useAuth()
             <ExamTableDropDown  v-if="auth.can([Roles.DIRECTOR])" />
         </template>
         <template #item.foreignNationalsCount="{ item }">
-            <AppStatusChip
-                :text="`${item.enrollmentsCount}/${item.capacity}`"
-                :color="capacityColor(item)"
-                dark
-            />
+            <ExamCapacityChip :exam="item" />
         </template>
         <template #item.beginTime="{ item }">
             {{ new DateFormatter(item.beginTime).format('H:i, d.m.Y') }}

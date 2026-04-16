@@ -10,7 +10,9 @@ import { onMounted, onUnmounted, ref, watch } from 'vue';
 import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
 import { Enrollment, Exam } from '@interfaces/Interfaces';
 import { DateFormatter } from '@helpers/DateFormatter';
-import { ExamStatus } from '@/constants/ExamStatus';
+import { useExamStatus } from '@/composables/useExamStatus';
+import BaseContainer from '@/components/BaseComponents/BaseContainer/BaseContainer.vue';
+import PaymentIcon from '@/components/Enrollment/PaymentIcon.vue';
 
 defineOptions({
   layout: [BaseLayout,EmployeeLayout]
@@ -30,9 +32,9 @@ watch(() => props.exam.data.enrollments, (data) => {
 const { start, stop } = usePoll(10000, {}, {
     autoStart: false,
 })
-
+const {isGoing, isCancelled} = useExamStatus(props.exam.data)
 onMounted(()=>{
-    if(props.exam.data.status === ExamStatus.GOING && props.exam.data.enrollments.length > 0 && props.exam.data.status !== ExamStatus.CANCELLED){
+    if(isGoing.value && !isCancelled.value && enrollments.value.length > 0){
         start()
     }
 })
@@ -69,68 +71,62 @@ const back = () => {
 
 <template>
     <v-btn class="mt-4 ml-4" @click="back">Назад</v-btn>
-    <v-card 
-        width="900" 
-        class="mx-auto mt-16"
-        
-    >
-        <v-card-title>
-            Мониторинг
-            <ExamStatusChip 
-                :exam="exam.data" 
-            />
-        </v-card-title>
+    <BaseContainer>
+            <v-card-title>
+                Мониторинг
+                <ExamStatusChip 
+                    :exam="exam.data" 
+                />
+            </v-card-title>
 
-        <v-card-subtitle >
-            <div class="flex">
-                <div>
-                    <div>{{ exam.data.shortName }}</div>
-                    <div>{{ new DateFormatter(exam.data?.beginTime).format('H:i') }}
-                        - {{ new DateFormatter(exam.data?.endTime).format('H:i, d.m.Y') }}
+            <v-card-subtitle >
+                <div class="flex">
+                    <div>
+                        <div>{{ exam.data.shortName }}</div>
+                        <div>{{ new DateFormatter(exam.data?.beginTime).format('H:i') }}
+                            - {{ new DateFormatter(exam.data?.endTime).format('H:i, d.m.Y') }}
+                        </div>
                     </div>
+                    <v-spacer />
+                    <v-btn 
+                        border 
+                        v-if="isGoing"
+                        variant="text" 
+                        class="mr-4 text-black"
+                        @click="open('examComment', {exam:props.exam.data})"
+                    >Комментарий</v-btn>
                 </div>
-                <v-spacer />
-                <v-btn 
-                    border 
-                    v-if="exam.data.status === ExamStatus.GOING"
-                    variant="text" 
-                    class="mr-4 text-black"
-                    @click="open('examComment', {exam:props.exam.data})"
-                >Комментарий</v-btn>
-            </div>
-        </v-card-subtitle>
+            </v-card-subtitle>
 
-        <v-card-text>
-            <v-data-table
-                :items="enrollments"
-                :headers="headers"
-                hover
-                hide-default-footer
-                @click:row="openForeignNational"
-            >
-                <template  #item.actions="{ item }">
-                    <EnrollmentExamDropdownActions  :enrollment="item" :exam="exam.data" />
-                </template>
-                <template #item.status="{ item }">
-                    <AppStatusChip
-                        v-if="item.attempt"
-                        :color="attemptStatus(item.attempt?.status).color.replace('text-', '')"
-                        :text="attemptStatus(item.attempt?.status).text"
-                    />
-                    <span v-else></span>
-                </template>
-                <template  #item.startTime="{ item }">
-                    {{new DateFormatter(item.foreignNational.attempt?.startedAt).format('H:i')}}
-                </template>
-                <template  #item.endTime="{ item }">
-                    {{new DateFormatter(item.foreignNational.attempt?.finishedAt ?? '').format('H:i')}}
-                </template>
-                <template #item.hasPayment="{ item }">
-                    <v-icon :color="item.hasPayment ? 'green' : 'red'">
-                        {{ item.hasPayment ? 'mdi-check-circle' : 'mdi-close-circle' }}
-                    </v-icon>
-                </template>
-            </v-data-table>
-        </v-card-text>
-    </v-card>
+            <v-card-text>
+                <v-data-table
+                    :items="enrollments"
+                    :headers="headers"
+                    hover
+                    hide-default-footer
+                    @click:row="openForeignNational"
+                >
+                    <template  #item.actions="{ item }">
+                        <EnrollmentExamDropdownActions  :enrollment="item" :exam="exam.data" />
+                    </template>
+                    <template #item.status="{ item }">
+                        <AppStatusChip
+                            v-if="item.attempt"
+                            :color="attemptStatus(item.attempt?.status).color.replace('text-', '')"
+                            :text="attemptStatus(item.attempt?.status).text"
+                        />
+                        <span v-else></span>
+                    </template>
+                    <template  #item.startTime="{ item }">
+                        {{new DateFormatter(item.foreignNational.attempt?.startedAt).format('H:i')}}
+                    </template>
+                    <template  #item.endTime="{ item }">
+                        {{new DateFormatter(item.foreignNational.attempt?.finishedAt ?? '').format('H:i')}}
+                    </template>
+                    <template #item.hasPayment="{ item }">
+                        <PaymentIcon :enrollment="item" />
+                    </template>
+                </v-data-table>
+            </v-card-text>
+    </BaseContainer>
 </template>

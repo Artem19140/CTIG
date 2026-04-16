@@ -96,6 +96,12 @@ import BaseLayout from './BaseLayout.vue';
 import { useAuth } from '@composables/useAuth';
 import { Roles } from '@constants/Roles';
 import { router } from '@inertiajs/vue3'
+
+router.on("httpException", (event) => {
+  console.log(`An invalid Inertia response was received.`);
+  console.log(event.detail.response);
+});
+
 const {can, user} = useAuth()
 
 defineOptions({

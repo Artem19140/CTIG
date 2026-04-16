@@ -5,6 +5,7 @@ import { useModals } from '@composables/useModals';
 import { ref } from 'vue';
 import EnrollmentDropDown from '@/components/Enrollment/EnrollmentDropDown.vue';
 import ExamResultStatusChip from '@/components/Exam/ExamResultStatusChip.vue';
+import PaymentIcon from '@/components/Enrollment/PaymentIcon.vue';
 
 const props = defineProps<{
     exam: Exam
@@ -34,6 +35,7 @@ props.exam.enrollments.forEach(fn => {
 
 const cancell = (value : Enrollment) => {
     exam.value.enrollments = exam.value.enrollments.filter(e => e.id !== value.id)
+    exam.value.enrollmentsCount -= 1 //Почему computed не пересчитывает!
 }
 
 const reschedule = (value : Enrollment) => {
@@ -53,10 +55,11 @@ const reschedule = (value : Enrollment) => {
     >
     
         <template #item.hasPayment="{ item }" >
-            <v-icon :color="item.hasPayment ? 'green' : 'red'" v-if="!item.isLoading">
+            <PaymentIcon :enrollment="item" />
+            <!-- <v-icon :color="item.hasPayment ? 'green' : 'red'" v-if="!item.isLoading">
                 {{ item.hasPayment ? 'mdi-check-circle' : 'mdi-close-circle' }}
             </v-icon>
-            <v-progress-circular v-else indeterminate color="primary" />
+            <v-progress-circular v-else indeterminate color="primary" /> -->
         </template>
         <template #item.actions="{item}">
             <EnrollmentDropDown 
@@ -68,7 +71,6 @@ const reschedule = (value : Enrollment) => {
             />
         </template>
         <template #item.results="{ item }">
-            <!-- {{ item?.foreignNational.attempt }} -->
             <ExamResultStatusChip 
                 :status="item.examResult"
             />

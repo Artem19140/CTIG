@@ -61,6 +61,7 @@ class ExamController
 
     public function show(Exam $exam)
     {
+        //abort(403);
         $exam->load([
                     'examiners', 
                     'address',

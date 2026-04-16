@@ -2,6 +2,7 @@
 import ExamTable from './Components/ExamTable/ExamTable.vue';
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import BaseLayout from '@layouts/BaseLayout.vue';
+import BaseContainer from '@/components/BaseComponents/BaseContainer/BaseContainer.vue';
 
 defineOptions({
   layout: [BaseLayout, EmployeeLayout]
@@ -14,13 +15,11 @@ const props = defineProps<{
 </script>
 
 <template> 
-  <v-container>
-    <v-card>
+  <BaseContainer>
       <ExamTable 
         :exams="exams" 
         :filters="filters"
       />
-    </v-card>
-  </v-container>
+  </BaseContainer>
     
 </template>

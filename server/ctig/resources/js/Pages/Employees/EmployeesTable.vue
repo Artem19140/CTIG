@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Dropdown from './Dropdown.vue';
-import BaseServerTable from '@components/BaseComponents/BaseServerTable/BaseServerTable.vue';
+import BasePaginatedTable from '@components/BaseComponents/BasePaginatedTable/BasePaginatedTable.vue';
 import { useModals } from '@composables/useModals';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 
@@ -18,7 +18,7 @@ const headers = [
 </script>
 
 <template>
-    <BaseServerTable 
+    <BasePaginatedTable 
         title="Сотрудники"
         :headers="headers"
         :elements="employees"
@@ -30,5 +30,5 @@ const headers = [
         <template #item.actions="{item}">
             <Dropdown :employee="item" />
         </template>
-    </BaseServerTable>
+    </BasePaginatedTable>
 </template>

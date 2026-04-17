@@ -6,7 +6,7 @@ import FrdoModal from '@pages/Exam/Components/ExamTable/FrdoModal.vue';
 import ForeignNationalCreateModal from '@pages/ForeignNationals/Components/Modals/ForeignNationalCreateModal.vue';
 import FlatTableModal from '@pages/Exam/Components/ExamTable/FlatTableModal.vue';
 import EnrollmentModal from '@pages/ForeignNationals/Components/EnrollmentModal.vue';
-import AttemptCheckingModal from '@pages/AttemptsChecking/AttemptCheckingModal.vue';
+import AttemptCheckingModal from '@pages/ExamsChecking/Components/AttemptCheckingModal.vue';
 import PdfDialogViewer from '../PdfDialogViewer/PdfDialogViewer.vue';
 import ExamCommentModal from '@pages/ExamMonitoring/ExamCommentModal.vue';
 import EmployeeCreateModal from '@pages/Employees/EmployeeCreateModal.vue';

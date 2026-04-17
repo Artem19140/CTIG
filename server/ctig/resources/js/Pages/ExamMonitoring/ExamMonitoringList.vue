@@ -2,7 +2,7 @@
 import { router } from '@inertiajs/vue3';
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import ExamActionsDropdown from '@components/Exam/ExamActionsDropdown.vue';
-import BaseServerTable from '@components/BaseComponents/BaseServerTable/BaseServerTable.vue';
+import BasePaginatedTable from '@components/BaseComponents/BasePaginatedTable/BasePaginatedTable.vue';
 import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import BaseLayout from '@layouts/BaseLayout.vue';
@@ -64,7 +64,7 @@ const getPastExams = () =>{
 <template>
     <v-container>
         <v-card>
-            <BaseServerTable
+            <BasePaginatedTable
                 :elements="exams"
                 :headers="headers"
                 @click:row="open"
@@ -105,7 +105,7 @@ const getPastExams = () =>{
                     />
                 </template>
                 
-            </BaseServerTable>
+            </BasePaginatedTable>
         </v-card>
     </v-container>
 </template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useModals } from '@composables/useModals';
 import type { Exam, Paginated } from '@interfaces/Interfaces';
-import BaseServerTable from '@components/BaseComponents/BaseServerTable/BaseServerTable.vue';
+import BasePaginatedTable from '@components/BaseComponents/BasePaginatedTable/BasePaginatedTable.vue';
 import ExamTableDropDown from './ExamTableDropDown.vue';
 import ExamTableFilter from './ExamTableFilter.vue';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
@@ -34,7 +34,7 @@ const loading = ref<boolean>(false)
 
 <template>
     
-    <BaseServerTable
+    <BasePaginatedTable
         :headers="headers"
         :elements="exams"
         title="Экзамены"
@@ -72,5 +72,5 @@ const loading = ref<boolean>(false)
                 v-model="loading"
             />
         </template>
-    </BaseServerTable>
+    </BasePaginatedTable>
 </template>

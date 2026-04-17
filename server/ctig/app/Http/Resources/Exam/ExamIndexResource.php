@@ -22,7 +22,8 @@ class ExamIndexResource extends JsonResource
             'name' => $this->whenLoaded('examType', fn () => $this->examType->name),
             'shortName' => $this->whenLoaded('examType', fn () => $this->examType->short_name),
             'enrollmentsCount' => $this->whenCounted('enrollments_count'),
-            'status' => app(ExamStatusResolver::class)->execute($this->resource)
+            'status' => app(ExamStatusResolver::class)->execute($this->resource),
+            'attemptsCount' => $this->whenCounted('attempts_count'),
         ];
     }
 }

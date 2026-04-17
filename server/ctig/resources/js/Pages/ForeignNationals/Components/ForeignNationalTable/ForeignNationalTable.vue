@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ForeignNational, Paginated } from '@interfaces/Interfaces';
-import BaseServerTable from '@components/BaseComponents/BaseServerTable/BaseServerTable.vue';
+import BasePaginatedTable from '@components/BaseComponents/BasePaginatedTable/BasePaginatedTable.vue';
 import ForeignNationalTableFilters from './ForeignNationalTableFilters.vue';
 import { useModals } from '@composables/useModals';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
@@ -31,7 +31,7 @@ const loading = ref<boolean>(false)
 </script>
 
 <template>
-    <BaseServerTable
+    <BasePaginatedTable
         :loading="loading"
         :headers="headers"
         :elements="foreignNationals"
@@ -50,12 +50,12 @@ const loading = ref<boolean>(false)
             />
             <ForeignNationalTableDropdown  v-if="auth.can([Roles.DIRECTOR])" />
         </template>
-        <template #bottom="{ page, itemsPerPage, pageCount, setPage }">
+        <template #bottom>
             <AppPaginator
                 :meta="foreignNationals.meta"
                 :links="foreignNationals.links"
                 v-model="loading"
             />
         </template>
-    </BaseServerTable>
+    </BasePaginatedTable>
 </template>

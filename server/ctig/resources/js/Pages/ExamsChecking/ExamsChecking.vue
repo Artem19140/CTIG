@@ -1,27 +1,25 @@
 <script setup lang="ts">
 import BaseLayout from '@layouts/BaseLayout.vue';
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
-import AttemptsTable from './AttemptsTable.vue';
+import ExamsCheckingTable from './Components/ExamsCheckingTable.vue';
+import { Exam } from '@/interfaces/Interfaces';
 
 defineOptions({
   layout: [BaseLayout, EmployeeLayout],
 })
 
 const props = defineProps<{
-    attempts: any
+    exams: {
+        data:Exam[]
+    }
 }>()
-
-
 </script>
 
 
 <template>
-    <!-- <pre>
-        {{ attempts }}
-    </pre> -->
     <v-container>
         <v-card>
-            <AttemptsTable :attempts="attempts" />
+            <ExamsCheckingTable :exams="exams.data" />
         </v-card>
     </v-container>
 </template>

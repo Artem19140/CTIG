@@ -5,7 +5,6 @@ namespace App\Domain\Exam\Guard;
 use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
-use Illuminate\Database\Eloquent\Builder;
 
 
 class ExamGuard{
@@ -47,6 +46,12 @@ class ExamGuard{
 
     public function ensureNotGoing(Exam $exam, string $message = 'Экзамен уже идет'){
         if($exam->isGoing()){
+            throw new BusinessException($message);
+        }
+    }
+
+    public function ensurePending(Exam $exam, string $message = 'Экзамен уже идет'){
+        if(!$exam->isPending()){
             throw new BusinessException($message);
         }
     }

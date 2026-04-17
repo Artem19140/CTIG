@@ -9,6 +9,7 @@ use App\Domain\Exam\Action\CreateExamAction;
 use App\Domain\Exam\Action\UpdateExamAction;
 use App\Domain\Exam\Action\UpdateExaminersAction;
 use App\Domain\Exam\Query\GetExamsQuery;
+use App\Enums\AttemptStatus;
 use App\Enums\UserRoles;
 use App\Http\Requests\Exam\ExamIndexRequest;
 use App\Http\Requests\Exam\VerifyCodeRequest;
@@ -34,7 +35,7 @@ class ExamController
     public function index(ExamIndexRequest $request, GetExamsQuery $getExamQuery)
     {
         $exams = $getExamQuery->execute($request->validated() ?? [], $request->user());
-        Inertia::flash(['filters' => request()->all()]);
+        Inertia::flash('filters' , request()->all());
         return Inertia::render('Exam/Exam', [
             'exams' => ExamIndexResource::collection($exams),
         ]);
@@ -51,17 +52,17 @@ class ExamController
         $examiners=User::whereHas('roles', function(Builder $query){
                         $query->where('name',UserRoles::Examiner->value);
                     })
+                    ->active()
                     ->get();
         return response()->json([
             'addresses' => AddressResource::collection(Address::where('is_active', true)->get()),
             'examTypes' => ExamTypeResource::collection(ExamType::all()),
-            'examiners' => UserResource::collection($examiners) //Где роль тестеры
+            'examiners' => UserResource::collection($examiners)
         ], 200);
     }
 
     public function show(Exam $exam)
     {
-        //abort(403);
         $exam->load([
                     'examiners', 
                     'address',
@@ -112,8 +113,8 @@ class ExamController
     }
 
     public function schedule(Request $request){
-        $dateFrom = Carbon::parse($request->input('dateFrom')) ?? false;
-        $dateTo = Carbon::parse($request->input('dateTo')) ?? false;
+        $dateFrom = Carbon::parse($request->input('dateFrom'))->startOfDay() ?? false;
+        $dateTo = Carbon::parse($request->input('dateTo'))->endOfDay() ?? false;
         $exams = Exam::with('examType')
                     ->where('begin_time', '>=', $dateFrom)
                     ->where('begin_time','<=', $dateTo)
@@ -122,4 +123,5 @@ class ExamController
             'exams' => ExamCalendarResource::collection($exams )
         ]);
     }
+
 }

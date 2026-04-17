@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Web\Attempt\AttemptCheckingController;
 use App\Http\Controllers\Web\Enrollment\EnrollmentDocumentController;
+use App\Http\Controllers\Web\Exam\ExamCheckingController;
 use App\Http\Controllers\Web\File\FileController;
 use App\Http\Controllers\Web\Statistics\StatisticsController;
 use App\Http\Controllers\Web\User\UserController;
@@ -27,12 +29,16 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
     Route::prefix('enrollments')->group(function(){
         Route::put('{enrollment}/payment', [EnrollmentController::class, 'changePayment']);
         Route::get('{enrollment}/statements', [EnrollmentDocumentController::class, 'statement'])->name('enrollments.statements');
+        
     });
 
     Route::get('statistics', [StatisticsController::class, 'index']);
 
     Route::prefix('exams')->group(function(){
-         Route::get('available', [EnrollmentController::class, "available"]);
+        Route::get('available', [EnrollmentController::class, "available"]);
+
+        Route::get('checking', [ExamCheckingController::class, "index"]);
+        Route::get('{exam}/checking', [ExamCheckingController::class, "show"]);
 
         Route::get('types', function(){
             return ExamType::select(['id', 'name'])->get();
@@ -66,8 +72,8 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
     Route::apiResource('exams', ExamController::class)->where(['exam' => '[0-9]+']);//->middleware('user.has.role:examiner1');
     
     Route::put('attempts/{attempt}/ban', [AttemptController::class, 'ban']);
-    Route::get('attempts/checking', [AttemptController::class, 'toCheck'])->name('attempts.checking');
-    Route::get('attempts/{attempt}/checking/tasks', [AttemptController::class, 'tasksToCheck'])->name('attempts.checking.tasks');
+   
+    Route::get('attempts/{attempt}/checking/tasks', [AttemptCheckingController::class, 'show'])->name('attempts.checking.tasks');
 
     Route::post('password/change', [LoginController::class, 'changePassword'])->withoutMiddleware(['password.change']);;
     Route::inertia('password/change', 'ChangePassword/ChangePassword')->name('password.change')->withoutMiddleware(['password.change']);;

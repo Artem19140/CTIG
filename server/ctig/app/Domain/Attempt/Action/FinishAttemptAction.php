@@ -25,7 +25,7 @@ class FinishAttemptAction{
 
             if(!$attempt->requiresHumanCheck()){
                 $isPassed = $this->checkPassingThreshold->execute($attempt);
-                //$attempt->status = AttemptStatus::Checked;
+                $attempt->status = AttemptStatus::Checked;
                 $attempt->checked_at = Carbon::now($attempt->time_zone);
                 $attempt->total_mark = $attempt->answers()->sum('mark');
                 $attempt->is_passed = $isPassed;

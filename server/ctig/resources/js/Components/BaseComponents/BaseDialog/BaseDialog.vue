@@ -9,7 +9,6 @@ const props = defineProps<{
     loading?:boolean,
     subtitle?:string,
     height?:string,
-    fullscreen?: boolean
     skeleton?:string,
     error?:boolean,
     onRetry?:Function
@@ -28,8 +27,6 @@ const close = () => {
         v-model="isOpen"  
         :width="width"
         :subtitle="subtitle"
-        :height="height"
-        :fullscreen="fullscreen"
         @keyup.esc="close"
         
     >
@@ -53,7 +50,10 @@ const close = () => {
                 :type="skeleton"
             />
 
-            <v-card-text v-if="!loading && !error" class="dialog-content pa-4 overflow-y-auto flex-grow-1">
+            <v-card-text 
+                v-if="!loading && !error" 
+                class="dialog-content pa-4 overflow-y-auto flex-grow-1"
+            >
                 <slot />
             </v-card-text>
 
@@ -88,6 +88,3 @@ const close = () => {
 
 
 </template>
-
-<style scoped>
-</style>

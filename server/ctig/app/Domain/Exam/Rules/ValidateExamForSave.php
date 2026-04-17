@@ -32,9 +32,9 @@ class ValidateExamForSave{
             ]);
         }
 
-
+        $beginTime = $examDto->beginTime;
         $examBeginTimeUtc= Carbon::parse(
-                                        $examDto->beginTime->copy(),
+                                        $beginTime,
                                         $user->center->time_zone
                                     )->utc();
                                     
@@ -50,17 +50,17 @@ class ValidateExamForSave{
                 'capacity' => "Площадка вмещает максимум $address->max_capacity человек"
             ]);
         }
-
+        $endTime = $beginTime->copy()->addMinutes($examType->duration);
         $this->validateExaminers->execute(
                                             $examDto->examiners, 
-                                            $examDto->beginTime, 
-                                            $examDto->beginTime->copy()->addMinutes($examType->duration),
+                                            $beginTime, 
+                                            $endTime,
                                             $examId
                                         );
         
         $hasConflictExam = Exam::notCancelled()
-                            ->before($examDto->beginTime->copy()->addMinutes($examType->duration))
-                            ->after($examDto->beginTime)
+                            ->beginLess($endTime)
+                            ->endMore($beginTime)
                             ->where('address_id', $address->id)
                             ->when($examId, function (Builder $query) use($examId){
                                 $query->where('id', '<>', $examId);

@@ -37,7 +37,7 @@
               prepend-icon="mdi-clipboard-check" 
               v-if="can([Roles.EXAMINER])"
               title="Проверка"
-              @click="go('/attempts/checking')"
+              @click="go('/exams/checking')"
               value="checking" 
             ></v-list-item>
             <v-list-item 
@@ -76,7 +76,6 @@
             prepend-icon="mdi-logout" 
             title="Выйти из аккаунта" 
             @click="logout"
-            value="logout" 
           ></v-list-item>
         </v-list>
         </div>

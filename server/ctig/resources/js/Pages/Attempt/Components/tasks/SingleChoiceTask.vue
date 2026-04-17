@@ -3,11 +3,14 @@ import { useHttp } from '@inertiajs/vue3';
 import { onMounted, ref, watch } from 'vue';
 import BaseTask from './BaseTask.vue';
 import RenderBlocks from './TaskContentBlocks/RenderBlocks.vue';
+import AppInput from '@/components/UI/AppInput/AppInput.vue';
+import AppAutocomplete from '@/components/UI/AppAutocomplete/AppAutocomplete.vue';
 
 
 const props = defineProps<{
     task:any,
-    attempt:any
+    attempt:any,
+    checking?:boolean
 }>()
 
 const attemptAnswer = ref<number | null>(
@@ -32,8 +35,6 @@ const send = async () => {
     })
 }
 
-onMounted(() => console.log(props.task.attemptAnswer.answer))
-
 watch(attemptAnswer, () => {
     send()
 })
@@ -41,16 +42,16 @@ watch(attemptAnswer, () => {
 </script>
 
 <template>
-    <!-- <pre>
-        {{ task }}
-    </pre> -->
     <base-task
         :task="task"
+        :checking="checking"
     >
         <template #answers>
             <div class="mb-4 flex flex-column">
+                <span v-if="checking">1</span>
                 <v-radio-group 
                     v-model="attemptAnswer"
+                    :disabled="checking"
                 >      
                     <v-radio 
                         v-for="answer in props.task?.answers"
@@ -71,5 +72,6 @@ watch(attemptAnswer, () => {
         </template>
         
     </base-task>
+    
     
 </template>

@@ -28,14 +28,14 @@ const taskComponent = (type: string) => {
 </script>
 
 <template>
-    
     <component 
         v-for="task in tasks"
         :key="task.id"
         :is="taskComponent(task.type)"
         v-bind="task"
         :task="task"
+        
         :attempt="attempt"
-        :chicking="checking"
+        :checking="checking"
     />
 </template>

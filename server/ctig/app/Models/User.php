@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\UserRoles;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -62,6 +63,10 @@ class User extends Authenticatable
 
     public function center(): BelongsTo{
         return $this->belongsTo(Center::class,'center_id');
+    }
+
+    public function scopeActive(Builder $query){
+        return $query->where('is_active', true);
     }
 
     protected function timeZone(): Attribute

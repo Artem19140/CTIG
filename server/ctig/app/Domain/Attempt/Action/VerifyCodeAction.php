@@ -32,7 +32,7 @@ class VerifyCodeAction{
         // $enrollment->exam_code = null;
         // $enrollment->exam_code_expired_at = null;
         $enrollment->exam_code_used_at = Carbon::now($enrollment->time_zone);
-        //$enrollment->save();
+        $enrollment->save();
 
        return $enrollment;
     }

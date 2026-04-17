@@ -14,8 +14,6 @@ class CancelExamAction{
         $this->examGuard->ensureNotCancelled($exam,'Экзамен уже отменен');
         $this->examGuard->ensureNotFinished($exam);
         $this->examGuard->ensureNotGoing($exam);
-
-        //Всем гражданам поставить запись - отменено
         
         $exam->cancelled_reason = request()->input('cancelledReason');
         $exam->cancelled_at = Carbon::now($exam->time_zone);

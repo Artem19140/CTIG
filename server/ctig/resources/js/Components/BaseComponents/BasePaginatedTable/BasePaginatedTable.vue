@@ -10,8 +10,6 @@ import { Paginated } from '@interfaces/Interfaces';
     const emit = defineEmits<{
         (e: 'row-click', item: any): void
     }>()
-// fixed-header
-//             height="70vh"
 </script>
 
 <template>

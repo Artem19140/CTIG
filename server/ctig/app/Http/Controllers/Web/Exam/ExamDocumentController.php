@@ -11,8 +11,6 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ExamDocumentController
 {
@@ -55,13 +53,13 @@ class ExamDocumentController
 
     public function protocol(Request $request, Exam $exam, GenerateExamProtocolAction $generateExamProtocol)
     {
-        Gate::authorize('exam-manage-access', $exam);
+        //Gate::authorize('exam-manage-access', $exam);
         return $generateExamProtocol->execute($exam, $request->user() );
     }
 
     public function protocolAvailable(Exam $exam)
     {
-        Gate::authorize('exam-manage-access', $exam);
+        //Gate::authorize('exam-manage-access', $exam);
         $this->examDocumentAvailable->protocol($exam);
         return Inertia::flash([
             'redirectUrl' => route('exam.documents.protocol', ['exam' => $exam])
@@ -70,7 +68,7 @@ class ExamDocumentController
 
     public function results(Exam $exam, GenerateExamResultsAction $generateExamResults)
     {
-        Gate::authorize('exam-manage-access', $exam);
+        //Gate::authorize('exam-manage-access', $exam);
         $resultsPdf = $generateExamResults->execute($exam);
         $fileName = "Результаты_".$exam->short_name."_".$exam->begin_time->format('H-i_d.m.Y').".pdf";
         return $resultsPdf->stream($fileName);
@@ -78,7 +76,7 @@ class ExamDocumentController
 
     public function resultsAvailable(Exam $exam)
     {
-        Gate::authorize('exam-manage-access', $exam);
+        //Gate::authorize('exam-manage-access', $exam);
         $this->examDocumentAvailable->statement($exam);
         return Inertia::flash([
             'redirectUrl' => route('exam.documents.results', ['exam' => $exam])

@@ -43,6 +43,7 @@ const enroll = (value:Enrollment) => {
     if (!foreignNational.value) return
     foreignNational.value.enrollments = [value, ... foreignNational.value.enrollments]
 }
+//
 </script>
 
 <template>
@@ -55,7 +56,7 @@ const enroll = (value:Enrollment) => {
         :error="http.hasErrors"
         :onRetry="getForeignNational"
         @before-close="(done) => done()"
-        skeleton="heading, paragraph, paragraph, divider, list-item-two-line, divider, image, divider, table"
+        skeleton="paragraph,divider, paragraph, divider, list-item-two-line, divider"
     >
         <template #titleActions>
             <ForeignNationalActionsDropdown 

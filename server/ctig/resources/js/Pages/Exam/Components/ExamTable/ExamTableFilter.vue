@@ -4,7 +4,7 @@ import AppAutocomplete from '@components/UI/AppAutocomplete/AppAutocomplete.vue'
 import AppCheckbox from '@components/UI/AppCheckbox/AppCheckbox.vue';
 import BaseFilter from '@components/BaseComponents/BaseFilter/BaseFilter.vue';
 import AppPeriodDate from '@components/UI/AppPeriodDate/AppPeriodDate.vue';
-import { computed} from 'vue';
+import { computed, onMounted} from 'vue';
 
 const page = usePage<{
     flash:{
@@ -13,13 +13,14 @@ const page = usePage<{
 }>()
 
 const filters = computed<ExamFilters>(() =>
-    page.props.flash?.filters ?? {
-        dateFrom: undefined,
-        cancelled: undefined,
-        examTypeId: undefined,
-        dateTo: undefined,
-        finished: undefined,
-    }
+    page.flash.filters 
+    // ?? {
+    //     dateFrom: null,
+    //     cancelled: null,
+    //     examTypeId: null,
+    //     dateTo: null,
+    //     finished: null,
+    // }
 )
 
 const form = useForm<ExamFilters>({
@@ -37,7 +38,6 @@ type ExamFilters = {
     dateTo: string | null,
     finished: boolean | null,
 }
-
 const loading = defineModel<boolean>({default:false})
 </script>
 
@@ -46,7 +46,7 @@ const loading = defineModel<boolean>({default:false})
         :url="'/exams'"
         :form="form"
         v-model="loading"
-        :filters="page.flash.filters"
+        :filters="filters"
     >
 
         <AppAutocomplete

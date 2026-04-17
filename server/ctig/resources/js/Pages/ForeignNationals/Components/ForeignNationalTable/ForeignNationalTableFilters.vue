@@ -12,7 +12,7 @@ const page = usePage<{
 }>()
 
 const filters = computed<ForeignNationalFilters>(() =>
-    page.props.flash?.filters ?? {
+    page.flash.filters ?? {
         surname: null,
         name: null,
         patronymic: null,

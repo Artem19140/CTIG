@@ -2,6 +2,7 @@
 import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import { router } from '@inertiajs/vue3';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
+import BaseThreeDotDropdown from '@/components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 
 const props= defineProps<{
   employee:any
@@ -17,25 +18,14 @@ const deleteEmployee = async () => {
 </script>
 
 <template>
-    <v-menu>
-      <template v-slot:activator="{ props }">
-        <v-btn
-            variant="text"
-            v-bind="props"
-            size="small"
-        >
-        <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
-      </template>
-      <v-list>
-        <AppListDropDownItem 
-          title="Редактировать" 
-        />
-        <AppListDropDownItem 
-          title="Удалить" 
-          color="text-red" 
-          @click="deleteEmployee"
-        />
-      </v-list>
-    </v-menu>
+  <BaseThreeDotDropdown>
+    <AppListDropDownItem 
+      title="Редактировать" 
+    />
+    <AppListDropDownItem 
+      title="Удалить" 
+      color="text-red" 
+      @click="deleteEmployee"
+    />
+  </BaseThreeDotDropdown>
 </template>

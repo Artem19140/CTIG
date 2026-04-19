@@ -10,7 +10,7 @@ import { Attempt } from '@/interfaces/Interfaces';
 const isOpen = defineModel<boolean>({default:false})
 
 const props = defineProps<{
-    attemptId?:number | null
+    attemptId:number | null
 }>()
 
 const attempt = ref<Attempt | null>(null)
@@ -53,6 +53,7 @@ const scrollToTask = (id: number) => {
             </div>
             <div class="mx-auto">
                 <TasksList 
+                    v-if="attempt"
                     class="flex-grow"
                     :attempt="attempt"
                     :checking="true"

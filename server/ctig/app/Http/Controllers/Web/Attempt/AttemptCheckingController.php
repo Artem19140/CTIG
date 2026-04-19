@@ -40,7 +40,7 @@ class AttemptCheckingController
             },
             'taskVariants.task'
         ]);
-        $attempt->taskVariants->sordBy('task.order');
+        $attempt->taskVariants = $attempt->taskVariants->sortBy('task.order');
         return new AttemptResource($attempt);
     }   
 }

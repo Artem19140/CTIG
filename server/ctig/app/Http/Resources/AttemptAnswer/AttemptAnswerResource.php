@@ -17,6 +17,7 @@ class AttemptAnswerResource extends JsonResource
         return [
             'answer' => $this->answer,
             'id' => $this->id,
+            'checked_at' => $this->is_checked,
             //'audioIsPlayed' => $this->audio_is_played,
             //'att_id' => $this->attempt->id
         ];

@@ -73,6 +73,8 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
    
     Route::get('attempts/{attempt}/checking/tasks', [AttemptCheckingController::class, 'show'])->name('attempts.checking.tasks');
 
+    Route::get('attempts/{attempt}/tasks/speaking', [AttemptCheckingController::class, 'show'])->name('attempts.speaking.tasks');
+
     Route::post('password/change', [LoginController::class, 'changePassword'])->withoutMiddleware(['password.change']);;
     Route::inertia('password/change', 'ChangePassword/ChangePassword')->name('password.change')->withoutMiddleware(['password.change']);;
 

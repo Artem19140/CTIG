@@ -3,7 +3,6 @@ import SingleChoiceTask from './SingleChoiceTask.vue';
 import SpeakingTask from './SpeakingTask.vue';
 import EssayTask from './EssayTask.vue';
 import TextInputTask from './TextInputTask.vue';
-import { Task } from '@/interfaces/Task';
 import { TaskTypes } from '@/constants/TaskTypes';
 import { Attempt } from '@/interfaces/Interfaces';
 

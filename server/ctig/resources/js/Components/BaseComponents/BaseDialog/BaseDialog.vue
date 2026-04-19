@@ -32,7 +32,7 @@ const close = () => {
     >
 
         <v-card class="dialog-card d-flex flex-column">
-            <v-card-title density="comfortable" v-if="$slots.title || title" class="d-flex align-center sticky-top"> 
+            <v-card-title v-if="$slots.title || title" class="d-flex align-center sticky-top pb-0" > 
                 <slot name="title">
                     {{ title }}
                 </slot>

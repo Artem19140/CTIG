@@ -20,12 +20,14 @@ class AttemptAnswer extends Model
         'answer',
         'checked_by_id',
         'is_checked',
-        'answer_id'
+        'answer_id',
+        'checked_at'
     ];
     
     protected $casts = [
         'is_checked' => 'boolean',
-        'answer' => 'array'
+        'answer' => 'array',
+        'checked_at' => 'datetime',
     ];
 
     public function answer(): BelongsTo{

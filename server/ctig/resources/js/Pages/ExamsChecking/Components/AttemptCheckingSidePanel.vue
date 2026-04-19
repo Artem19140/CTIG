@@ -1,14 +1,23 @@
 <script setup lang="ts">
+import { Task } from '@/interfaces/Task';
+
 const props = defineProps<{
-  tasks?: any[]
+  tasks?: Task[]
 }>()
 
 const emit = defineEmits<{
   (e: 'select', id: number): void
 }>()
+
+const getParams =(checkedAt:string | null) => {
+  if(checkedAt === null) return {icon:'', color:'grey'}
+  return checkedAt ? {icon:'mdi-check', color:'success'} : {icon:'mdi-close', color:'error'} 
+}
+
 </script>
 
 <template>
+
   <v-list density="compact" nav>
     <v-list-item
       v-for="task in tasks"
@@ -17,8 +26,13 @@ const emit = defineEmits<{
       class="cursor-pointer"
     >
       <template #prepend>
-        <v-avatar size="24">
-          {{ task.order }}
+        <v-avatar
+          size="24"
+          :color="getParams(task.attemptAnswer.checkedAt).color"
+        >
+          <v-icon size="14">
+            {{ getParams(task.attemptAnswer.checkedAt).icon }}
+          </v-icon>
         </v-avatar>
       </template>
 

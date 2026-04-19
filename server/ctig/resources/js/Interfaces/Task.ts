@@ -4,14 +4,16 @@ export interface Task{
     type:string,
     attemptAnswer:AttemptAnswer,
     answers:Array<Answer>,
-    mark?:number,
+    mark:number,
     description:string,
     order:number
 }
 
 export interface AttemptAnswer{
     id:number,
-    answer:any
+    answer:any,
+    checkedAt:string,
+    mark:number
 }
 
 export interface Answer{

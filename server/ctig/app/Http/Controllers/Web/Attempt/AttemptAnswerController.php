@@ -53,8 +53,8 @@ class AttemptAnswerController
         $request->validate([
             'mark' => ['required', 'integer', 'min:0']
         ]);
-        $rateAttemptAnswerAction->execute($attemptAnswer, $request->input('mark'), $request->user());
+        $attemptAnswer = $rateAttemptAnswerAction->execute($attemptAnswer, $request->input('mark'), $request->user());
         
-        return response()->noContent();
+        return response()->json(['attemptAnswer' => new AttemptAnswerResource($attemptAnswer)]);
     }
 }

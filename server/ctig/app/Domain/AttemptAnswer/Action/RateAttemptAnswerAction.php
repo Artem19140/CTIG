@@ -3,11 +3,12 @@
 namespace App\Domain\AttemptAnswer\Action;
 
 use App\Domain\Attempt\Action\FinilizeAttemptCheckingAction;
-use App\Exceptions\BusinessException;
 use App\Models\AttemptAnswer;
 use App\Models\User;
+use Carbon\Carbon;
 use DB;
 use App\Domain\Attempt\Guard\AttemptGuard;
+use Illuminate\Validation\ValidationException;
 
 class RateAttemptAnswerAction{
     public function __construct(
@@ -15,12 +16,15 @@ class RateAttemptAnswerAction{
         protected FinilizeAttemptCheckingAction $finilizeAttemptCheckingAction
     ){}
     public function execute(AttemptAnswer $attemptAnswer, int $mark, User $user){
+        abort(403);
         $attempt = $attemptAnswer->attempt;
         $this->attemptGuard->ensureNotBanned($attempt);
-        $this->attemptGuard->ensureFinished($attempt, 'Оценить можно только завершенную попытку');
+        //$this->attemptGuard->ensureFinished($attempt, 'Оценить можно только завершенную попытку');
 
         if($attemptAnswer->isChecked()){
-            throw new BusinessException('Задание уже проверено и оценено');
+            throw ValidationException::withMessages([
+                'mark' => 'Задание уже проверено и оценено'
+            ]);
         }
 
         $attemptAnswer->load(['taskVariant.task']);
@@ -28,16 +32,21 @@ class RateAttemptAnswerAction{
         $task = $attemptAnswer->taskVariant->task;
 
         if($task->autoCheck()){
-            throw new BusinessException('Задание проверяется автоматически');
+            throw ValidationException::withMessages([
+                'mark' => 'Задание проверяется автоматически'
+            ]);
         }
 
         if($task->mark < $mark){
-            throw new BusinessException('Выставленный балл больше, чем максимально возможный');
+            throw ValidationException::withMessages([
+                'mark' => 'Выставленный балл больше, чем максимально возможный'
+            ]);
         }
 
         DB::transaction(function () use($attemptAnswer, $attempt, $mark , $user) {
             $attemptAnswer->mark = $mark;
             $attemptAnswer->is_checked = true;
+            $attemptAnswer->checked_at = Carbon::now($attempt->time_zone);
             $attemptAnswer->checked_by_id = $user->id;
             $attemptAnswer->save();
 
@@ -45,5 +54,6 @@ class RateAttemptAnswerAction{
                 $this->finilizeAttemptCheckingAction->execute($attempt);
             }
         });
+        return $attemptAnswer;
     }
 }

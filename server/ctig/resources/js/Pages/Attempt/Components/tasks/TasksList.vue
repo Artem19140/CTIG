@@ -25,10 +25,14 @@ const taskComponent = (type: string) => {
             return SingleChoiceTask
     }
 }
+const saved = (value:any) => {
+    console.log(value)
+}
 </script>
 
 <template>
     <component 
+        @answerSaved="saved"
         v-for="task in attempt.tasks"
         :key="task.id"
         :is="taskComponent(task.type)"

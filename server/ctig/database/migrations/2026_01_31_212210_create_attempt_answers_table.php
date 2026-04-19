@@ -47,7 +47,7 @@ return new class extends Migration
                 ->default(null)
                 ->constrained('users')
                 ->cascadeOnDelete();
-
+            $table->datetime('checked_at')->nullable()->default(null);
             $table->boolean('is_checked')->index()->default(false);
             $table->unsignedTinyInteger('mark')->nullable()->default(null);
             $table->jsonb('answer')->index()->nullable()->default(null);

@@ -40,6 +40,7 @@ const scrollToTask = (id: number) => {
 <template>
     <BaseDialog
         v-model="isOpen"
+        fullscreen
         :loading="http.processing"
         @before-close="(close) => beforeClose(close)"
     >
@@ -62,9 +63,6 @@ const scrollToTask = (id: number) => {
         </div>
         
         <template #actions>
-            <AppAddButton  
-                text="Сохранить"
-            />
             
         </template>
         <template #bottom-info>

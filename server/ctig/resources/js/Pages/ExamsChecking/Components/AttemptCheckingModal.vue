@@ -40,7 +40,6 @@ const scrollToTask = (id: number) => {
     <BaseDialog
         v-model="isOpen"
         :loading="http.processing"
-        height="1000"
         @before-close="(close) => beforeClose(close)"
     >
         <h1 v-if="http.processing">Загрузка</h1>

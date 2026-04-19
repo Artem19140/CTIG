@@ -3,28 +3,30 @@ import SingleChoiceTask from './SingleChoiceTask.vue';
 import SpeakingTask from './SpeakingTask.vue';
 import EssayTask from './EssayTask.vue';
 import TextInputTask from './TextInputTask.vue';
+import { Task } from '@/interfaces/Task';
+import { TaskTypes } from '@/constants/TaskTypes';
+import { Attempt } from '@/interfaces/Interfaces';
 
 const props = defineProps<{
-    tasks:any,
-    attempt?:any,
+    tasks:Task[],
+    attempt?:Attempt,
     checking?:boolean 
 }>()
 
 const taskComponent = (type: string) => {
     switch (type) {
-        case 'single_choice':
+        case TaskTypes.SINGLE_CHOICE:
             return SingleChoiceTask
-        case 'speaking':
+        case TaskTypes.SPEAKING:
             return SpeakingTask
-        case 'essay':
+        case TaskTypes.ESSAY:
             return EssayTask
-        case 'text-input':
+        case TaskTypes.TEXT_INPUT:
             return TextInputTask
         default:
             return SingleChoiceTask
     }
 }
-//v-bind="task"
 </script>
 
 <template>
@@ -34,7 +36,6 @@ const taskComponent = (type: string) => {
         :is="taskComponent(task.type)"
         v-bind="task"
         :task="task"
-        
         :attempt="attempt"
         :checking="checking"
     />

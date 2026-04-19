@@ -19,15 +19,12 @@ class TaskVariantResource extends JsonResource
         return [
             'id' => $this->id,
             'content' => $this->content,
-            'fipiGuid' => $this->fipi_number,
             'groupId' => $this->group_number,
             'answers' => AnswerResource::collection($this->whenLoaded('answers')),
             'order' => $this->whenLoaded('task', fn () => $this->task->order),
             'type' => $this->whenLoaded('task', fn () => $this->task->type),
             'mark' => $this->whenLoaded('task', fn () => $this->task->mark),
-            //'attemptAnswer' => new AttemptAnswerResource( $this->attemptsAnswers()->first()),
-            //'answer' =>  $this->whenLoaded('attemptsAnswers', fn () => $this->attemptsAnswers()->first()?->answer),
-            'attemptAnswer' =>  $this->whenLoaded('attemptsAnswers', fn () => new AttemptAnswerResource($this->attemptsAnswers()->first())),
+            'attemptAnswer' =>  $this->whenLoaded('attemptsAnswer', fn () => new AttemptAnswerResource($this->attemptsAnswer)),
             'description' => $this->whenLoaded('task', fn () => $this->task->description),
             
         ];

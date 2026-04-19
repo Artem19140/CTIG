@@ -22,7 +22,7 @@ class ExamResource extends JsonResource
         return [
             'id' => $this->id,
             'cancelledReason' => $this->when($this->isCancelled(), $this->cancelled_reason),
-            'beginTime' => $this->begin_time->copy()->format('Y-m-d H:i:s'),//->format('H:i, d.m.Y')
+            'beginTime' => $this->begin_time,
             'beginTime1' => $this->begin_time,
             'foreignNationals' => ForeignNationalResource::collection($this->whenLoaded('foreignNationals')),//здесь если есть результаты, то и их можно взять
             'enrollments' => EnrollmentResource::collection($this->whenLoaded('enrollments')),
@@ -43,7 +43,7 @@ class ExamResource extends JsonResource
             'enrollmentsCount' => $this->whenCounted('enrollments_count'),
             'attempts' => AttemptResource::collection( $this->whenLoaded('attempts')),
             'duration' => $this->whenLoaded('examType', fn () => $this->examType->duration),
-            'endTime' => $this->end_time->copy()->format('Y-m-d H:i:s'),
+            'endTime' => $this->end_time,
             'tasksCount' => $this->whenLoaded('examType', fn () => $this->examType->tasks_count),
             'hasSpeakingTasks' => $this->whenLoaded('examType', fn () => $this->examType->has_speaking_tasks),
             'status' => app(ExamStatusResolver::class)->execute($this->resource),

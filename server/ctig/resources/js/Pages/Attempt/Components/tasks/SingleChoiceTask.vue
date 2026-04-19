@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import { useHttp } from '@inertiajs/vue3';
-import { onMounted, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import BaseTask from './BaseTask.vue';
 import RenderBlocks from './TaskContentBlocks/RenderBlocks.vue';
-import AppInput from '@/components/UI/AppInput/AppInput.vue';
-import AppAutocomplete from '@/components/UI/AppAutocomplete/AppAutocomplete.vue';
+import { Task } from '@/interfaces/Task';
 
 
 const props = defineProps<{
-    task:any,
+    task:Task,
     attempt:any,
     checking?:boolean
 }>()
 
 const attemptAnswer = ref<number | null>(
-  props.task?.attemptAnswer?.answer?.id
+  props.task.attemptAnswer.answer?.id
 )
+
 const attemptAnswerId = props.task?.attemptAnswer?.id
 
 const http = useHttp<{ answer: number | null}>({
@@ -54,7 +54,7 @@ watch(attemptAnswer, () => {
                     :disabled="checking"
                 >      
                     <v-radio 
-                        v-for="answer in props.task?.answers"
+                        v-for="answer in props.task.answers"
                         :key="answer?.id"
                         :value="answer?.id"
                     >
@@ -67,10 +67,6 @@ watch(attemptAnswer, () => {
                 </v-radio-group>
             </div>
         </template>
-        <template #saved v-if="attemptAnswer">
-            <div>sdf</div>
-        </template>
-        
     </base-task>
     
     

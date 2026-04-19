@@ -1,16 +1,17 @@
 <script setup lang="ts">
+import { Task } from '@/interfaces/Task';
 import BaseTask from './BaseTask.vue';
+import { Attempt } from '@/interfaces/Interfaces';
 
 const props = defineProps<{
-    task:any,
-    attempt:any
+    task:Task,
+    attempt:Attempt
 }>()
 
 </script>
 
 <template>
     <BaseTask 
-        :subtitle = "`Номер ${task.order}`"
         :content="task.content"
         :task="task"
     >

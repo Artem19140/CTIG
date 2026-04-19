@@ -30,8 +30,8 @@ class EnrollmentGuard{
     }
 
     public function ensureNoParallelEnrollments(ForeignNational $foreignNational, Exam $exam){
-        $enrollmentsExists = Exam::before($exam->end_time)
-            ->after($exam->begin_time)
+        $enrollmentsExists = Exam::whereBeginTimeLess($exam->end_time)
+            ->whereEndTimeMore($exam->begin_time)
             ->notCancelled()
             ->whereHas('enrollments', function(Builder $query)use($foreignNational){
                 $query->where('foreign_national_id', $foreignNational->id);

@@ -10,8 +10,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 class ValidateExaminers{
     public function execute(array $examiners, Carbon $examBeginTime, Carbon $examEndTime, int | null $examId = null ){
-        $conflictExaminers = Exam::beginLess($examEndTime)
-                                ->endMore($examBeginTime)
+        $conflictExaminers = Exam::whereBeginTimeLess($examEndTime)
+                                ->whereEndTimeMore($examBeginTime)
                                 ->notCancelled()
                                 ->whereHas('examiners', function (Builder $query) use ($examiners): void {
                                     $query->whereIn('users.id', $examiners);

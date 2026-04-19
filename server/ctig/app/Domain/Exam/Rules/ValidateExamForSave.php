@@ -59,8 +59,8 @@ class ValidateExamForSave{
                                         );
         
         $hasConflictExam = Exam::notCancelled()
-                            ->beginLess($endTime)
-                            ->endMore($beginTime)
+                            ->whereBeginTimeLess($endTime)
+                            ->whereEndTimeMore($beginTime)
                             ->where('address_id', $address->id)
                             ->when($examId, function (Builder $query) use($examId){
                                 $query->where('id', '<>', $examId);

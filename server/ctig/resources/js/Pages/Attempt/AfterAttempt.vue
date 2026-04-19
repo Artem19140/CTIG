@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
-import { ForeignNational } from '../../interfaces/interfaces';
+import { ForeignNational } from '@interfaces/Interfaces';
 import { router } from '@inertiajs/vue3';
 
 const props=defineProps<{

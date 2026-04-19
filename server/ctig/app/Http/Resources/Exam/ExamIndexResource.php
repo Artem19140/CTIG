@@ -17,7 +17,7 @@ class ExamIndexResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'beginTime' => $this->begin_time->copy()->format('Y-m-d H:i:s'),//->format('H:i, d.m.Y')
+            'beginTime' => $this->begin_time,
             'capacity' => $this->capacity,
             'name' => $this->whenLoaded('examType', fn () => $this->examType->name),
             'shortName' => $this->whenLoaded('examType', fn () => $this->examType->short_name),

@@ -83,10 +83,15 @@ const cancel =(reason : string) => {
                 <v-list-item-subtitle class="text-red">Причина отмены</v-list-item-subtitle>
                 <v-list-item-title class="text-red" style="white-space: normal; word-break: break-word;">{{exam?.cancelledReason ?? '-'}}</v-list-item-title>
             </v-list-item>
+            <v-list-item> 
+                <v-list-item-subtitle> Сессия / номер</v-list-item-subtitle>
+                <v-list-item-title>{{exam?.sessionNumber ?? '-' }} / {{ exam?.group ?? '-'}}</v-list-item-title>
+            </v-list-item>
             <v-list-item>  
                 <v-list-item-subtitle>Тип</v-list-item-subtitle>
                 <v-list-item-title style="white-space: normal; word-break: break-word;">{{exam?.name}}</v-list-item-title>
             </v-list-item>
+            
             <v-list-item> 
                 <v-list-item-subtitle> Дата</v-list-item-subtitle>
                 <v-list-item-title>{{new DateFormatter(exam?.beginTime ?? '').format('H:i, d.m.Y') }}</v-list-item-title>

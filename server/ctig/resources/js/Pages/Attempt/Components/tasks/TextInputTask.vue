@@ -3,21 +3,19 @@ import { useHttp } from '@inertiajs/vue3';
 import AppInput from '@components/UI/AppInput/AppInput.vue';
 import BaseTask from './BaseTask.vue';
 import { ref, watch } from 'vue';
-
-
+import { Attempt } from '@/interfaces/Interfaces';
 
 const props = defineProps<{
     task:any,
-    attempt:any
+    attempt:Attempt
 }>()
 
 const answer = ref<string | null>(props.task?.answer)
 
 let timeout: number | undefined
 
-const http = useHttp<{ answer: string | null, taskVariantId:number }>({
-    taskVariantId:props.task.id,
-    answer:''
+const http = useHttp<{ answer: string | null }>({
+    answer:props.task.attemptAnswer.answer
 })
 
 watch(answer, (text) => {
@@ -27,9 +25,9 @@ watch(answer, (text) => {
 
     timeout = setTimeout(async () => {
         http.answer = text
-        http.put(`/exam-attempts/${props.attempt.id}/answers`,{
+        http.put(`/exam-attempts/${props.attempt.id}/answers/${props.task.attemptAnswer.id}`,{
             onSuccess:(response:any) => {
-
+                props.task.attemptAnswer = response.data
             }
         })
         console.log('Пользователь перестал печатать:', text)
@@ -39,7 +37,6 @@ watch(answer, (text) => {
 </script>
 
 <template>
-    <!-- {{ task }} -->
     <BaseTask 
         :task="task"
     >   

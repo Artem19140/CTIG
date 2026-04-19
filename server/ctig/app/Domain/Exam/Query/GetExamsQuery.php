@@ -26,11 +26,11 @@ class GetExamsQuery{
         );
 
         $query->when($dateFrom, fn ($q) =>
-            $q->beginMore(Carbon::parse($dateFrom)->startOfDay())
+            $q->whereBeginTimeMore(Carbon::parse($dateFrom)->startOfDay())
         );
 
         $query->when($dateTo, fn ($q) =>
-            $q->beginLess(Carbon::parse($dateTo)->endOfDay())
+            $q->whereBeginTimeLess(Carbon::parse($dateTo)->endOfDay())
         );
 
         $query->when($addressId, fn ($q) =>

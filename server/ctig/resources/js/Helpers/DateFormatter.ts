@@ -10,12 +10,12 @@ export class DateFormatter{
         const pad = (n:number) => String(n).padStart(2, '0');
 
         const map = {
-            'H': pad(this.date.getHours()),
-            'i': pad(this.date.getMinutes()),
-            's': pad(this.date.getSeconds()),
-            'd': pad(this.date.getDate()),
-            'm': pad(this.date.getMonth() + 1),
-            'Y': this.date.getFullYear(),
+            'H': pad(this.date.getUTCHours()),
+            'i': pad(this.date.getUTCMinutes()),
+            's': pad(this.date.getUTCSeconds()),
+            'd': pad(this.date.getUTCDate()),
+            'm': pad(this.date.getUTCMonth() + 1),
+            'Y': this.date.getUTCFullYear(),
         };
 
         return fmt.replace(/H|i|s|d|m|Y/g, (match) => map[match as keyof typeof map].toString());

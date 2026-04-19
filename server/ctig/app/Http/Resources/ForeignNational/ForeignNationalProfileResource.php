@@ -20,7 +20,7 @@ class ForeignNationalProfileResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
-            'dateBirth' => $this->resource->date_birth->format('Y-m-d H:i:s'),
+            'dateBirth' => $this->resource->date_birth,
             'surnameLatin' =>$this->surname_latin,
             'comment' => $this->comment,
             'surname' => $this->resource->surname,
@@ -31,13 +31,11 @@ class ForeignNationalProfileResource extends JsonResource
             'passportNumber' => $this->resource->passport_number,
             'passportSeries' => $this->resource->passport_series,
             'issuedBy' =>$this->resource->issued_by,
-            'issuedDate' => $this->issued_date->format('Y-m-d H:i:s'),
+            'issuedDate' => $this->issued_date,
             'citizenship' => $this->resource->citizenship,
             'phone' => $this->resource->formatted_phone,
             'gender' =>$this->resource->gender,
             'creator'=>new UserResource($this->whenLoaded('creator')),
-            // 'attempts' => AttemptResource::collection($this->whenLoaded('attempts')),
-            //'attempt' => new AttemptResource($this->whenLoaded('attempts', fn() => $this->attempts->first())),
             'enrollments' => EnrollmentResource::collection($this->whenLoaded('enrollments')),
             'exams' => ExamResource::collection($this->whenLoaded('exams')),
             'passportScan' => $this->passport_scan,

@@ -52,8 +52,8 @@ const headers = [
         title:'Время',
         align:'center',
         children:[
-            {title:'Начала',key:'startTime',sortable: false, align:'center'},
-            {title:'Завершения',key:'endTime',sortable: false, align:'center'}
+            {title:'Начала',key:'startedAt',sortable: false, align:'center'},
+            {title:'Завершения',key:'finishedAt',sortable: false, align:'center'}
         ]
     },
     {title:'', key:"actions",sortable: false,align: 'end'}
@@ -117,11 +117,11 @@ const back = () => {
                         />
                         <span v-else></span>
                     </template>
-                    <template  #item.startTime="{ item }">
-                        {{new DateFormatter(item.foreignNational.attempt?.startedAt).format('H:i')}}
+                    <template  #item.startedAt="{ item }">
+                        {{new DateFormatter(item.attempt?.startedAt).format('H:i')}}
                     </template>
-                    <template  #item.endTime="{ item }">
-                        {{new DateFormatter(item.foreignNational.attempt?.finishedAt ?? '').format('H:i')}}
+                    <template  #item.finishedAt="{ item }">
+                        {{new DateFormatter(item.attempt?.finishedAt ?? '').format('H:i')}}
                     </template>
                     <template #item.hasPayment="{ item }">
                         <PaymentIcon :enrollment="item" />

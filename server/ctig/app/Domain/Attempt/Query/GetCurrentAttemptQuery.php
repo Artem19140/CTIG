@@ -17,10 +17,10 @@ class GetCurrentAttemptQuery{
         $this->attemptGuard->ensureNotBanned($attempt);
         $this->attemptGuard->ensureNotExpired($attempt);
         $this->attemptGuard->ensureNotFinished($attempt);
-        return TaskVariant::with(['answers', 'task', 'attemptsAnswers' => function ($query) use ($attempt) {
+        return TaskVariant::with(['answers', 'task', 'attemptsAnswer' => function ($query) use ($attempt) {
                                     $query->where('attempt_id', $attempt->id);
-                                }])
-                            ->whereHas('attemptsAnswers', function (Builder $query) use($attempt){
+                                }, 'attemptsAnswer.attempt'])
+                            ->whereHas('attemptsAnswer', function (Builder $query) use($attempt){
                                 $query->where('attempt_id', $attempt->id);
                             })
                             ->get()

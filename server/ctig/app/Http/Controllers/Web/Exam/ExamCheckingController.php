@@ -15,7 +15,7 @@ class ExamCheckingController
 {
     public function index(Request $request){
         $now = Carbon::now($request->user()->time_zone);
-        $exams = Exam::endLess($now)
+        $exams = Exam::whereEndTimeLess($now)
                     ->whereHas('attempts', function (Builder $query){
                         $query->where('status', AttemptStatus::Pending);
                     })

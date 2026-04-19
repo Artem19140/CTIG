@@ -24,10 +24,11 @@ class AttemptResource extends JsonResource
             'solved' => $this->solved,
             'foreignNational' => new ForeignNationalResource($this->whenLoaded('foreignNational')),
             'id' => $this->id,
-            'startedAt' => $this->started_at, //?->format('Y-m-d H:i:s')
-            'finishedAt' => $this->finished_at?->format('Y-m-d H:i:s'),
+            'startedAt' => $this->started_at,
+            'finishedAt' => $this->finished_at,
             'isPassed' => $this->is_passed,
             'status' => app(AttemptStatusResolver::class)->execute($this->resource),
+
         ];
     }
 }

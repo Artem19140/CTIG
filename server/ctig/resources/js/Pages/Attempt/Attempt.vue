@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import SidePanel from './Components/SidePanel.vue';
 import TasksList from './Components/tasks/TasksList.vue';
-import { useConfirmDialog } from '../../Composables/useConfirmDialog';
+import { useConfirmDialog } from '@composables/useConfirmDialog';
 import { useForm } from '@inertiajs/vue3';
 import ConfirmDialog from '@components/ConfirmDialog/ConfirmDialog.vue';
 
@@ -25,7 +25,6 @@ const finish = async () => {
         <v-main style="background:#f1f5f9; min-height: 100vh;">
             <v-container class="flex flex-column gap-10 items-center">
                 <TasksList :tasks="tasks.data|| []" :attempt="attempt?.data" />
-
                 <v-btn
                     @click="finish"
                     variant="flat"

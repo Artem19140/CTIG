@@ -7,7 +7,7 @@ use App\Domain\Attempt\Action\BanAttemptAction;
 use App\Domain\Attempt\Action\FinishAttemptAction;
 use App\Domain\Attempt\Action\StartAttemptAction;
 use App\Domain\Attempt\Query\GetCurrentAttemptQuery;
-use App\Domain\Attempt\Query\GetSpeakingTasksQuery;
+use App\Domain\Attempt\Query\GetAttemptSpeakingTasksQuery;
 use App\Enums\AttemptStatus;
 use App\Http\Resources\Attempt\AttemptResource;
 use App\Http\Resources\Exam\ExamResource;
@@ -40,6 +40,7 @@ class AttemptController
                             GetCurrentAttemptQuery $getCurrentAttemptQuery
                         ){
         $attemptTasks = $getCurrentAttemptQuery->execute($attempt);
+        
         return Inertia::render('Attempt/Attempt', [
             'attempt' => new AttemptResource($attempt),
             'tasks'=> TaskVariantResource::collection($attemptTasks)
@@ -61,10 +62,10 @@ class AttemptController
         return back();
     }
 
-    public function speaking(Attempt $attempt, GetSpeakingTasksQuery $getSpeakingQuery){
+    public function speaking(Attempt $attempt, GetAttemptSpeakingTasksQuery $getAttemptSpeakingQuery){
         $exam = Exam::findOrFail($attempt->exam_id);
         Gate::authorize('exam-manage-access', $exam);
-        $speakingTasks = $getSpeakingQuery->execute($attempt);
+        $speakingTasks = $getAttemptSpeakingQuery->execute($attempt);
         return TaskVariantResource::collection($speakingTasks);
     }
 

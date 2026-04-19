@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class TaskVariant extends Model
 {
@@ -31,7 +32,15 @@ class TaskVariant extends Model
         return $this->belongsTo( Task::class, "task_id");
     }
 
-    public function attemptsAnswers(): HasMany{
-        return $this->hasMany(AttemptAnswer::class, 'task_variant_id');
+    // public function attemptsAnswers(): HasMany{
+    //     return $this->hasMany(AttemptAnswer::class, 'task_variant_id');
+    // }
+
+    // public function attemptsAnswers(): HasMany{
+    //     return $this->hasMany(AttemptAnswer::class, 'task_variant_id');
+    // }
+
+    public function attemptsAnswer(): HasOne{
+        return $this->hasOne(AttemptAnswer::class, 'task_variant_id');
     }
 }

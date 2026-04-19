@@ -123,28 +123,24 @@ class Exam extends Model
         });
     }
 
-    public function scopeBefore(Builder $query, Carbon $date){
+    public function scopeWhereBeginTimeLess(Builder $query, Carbon $date){
         return $query->where('begin_time', '<', $date);
     }
 
-    public function scopeBeginLess(Builder $query, Carbon $date){
-        return $query->where('begin_time', '<', $date);
-    }
-
-    public function scopeBeginMore(Builder $query, Carbon $date){
+    public function scopeWhereBeginTimeMore(Builder $query, Carbon $date){
         return $query->where('begin_time', '>', $date);
     }
 
-    public function scopeEndLess(Builder $query, Carbon $date){
+    public function scopeWhereEndTimeLess(Builder $query, Carbon $date){
         return $query->where('end_time', '<', $date);
     }
 
-    public function scopeEndMore(Builder $query, Carbon $date){
+    public function scopeWhereEndTimeMore(Builder $query, Carbon $date){
         return $query->where('end_time', '>', $date);
     }
 
-    public function scopeAfter(Builder $query, Carbon $date){
-        return $query->where('end_time', '>', $date);
+    public function scopeHasAttempts(Builder $query){
+         return $query->whereHas('attempts');
     }
 
     public function scopeNotCancelled(Builder $query){

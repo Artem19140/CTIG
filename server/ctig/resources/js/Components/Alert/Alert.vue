@@ -1,20 +1,5 @@
 <script setup lang="ts">
-import { watch } from 'vue';
-import { useAlert } from '../../Composables/useAlert';
-import { usePage } from '@inertiajs/vue3';
-
-const page = usePage()
-
-watch(
-    () => page.flash,
-    (flash) => {
-        if (flash?.error) {
-            isOpen.value = true
-            message.value = String(flash.error)
-        }
-    },
-    { immediate: true }
-)
+import { useAlert } from '@composables/useAlert';
 
 const {isOpen, message, close} = useAlert()
 </script>

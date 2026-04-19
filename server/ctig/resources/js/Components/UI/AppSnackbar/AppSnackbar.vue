@@ -1,24 +1,11 @@
 <script setup lang="ts">
-import { usePage } from '@inertiajs/vue3'
-import { watch, ref } from 'vue'
+import {  ref } from 'vue'
 
-const page = usePage()
 
 const snackbar = ref(false)
 const text = ref('')
 const color = ref('')
 
-watch(
-  () => page.flash,
-  (flash:any) => {
-    if (!flash) return
-    if (flash?.success) {
-      text.value = flash.success
-      snackbar.value = true
-      color.value="success"
-    }
-  }
-)
 </script>
 
 <template>

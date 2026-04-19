@@ -5,7 +5,21 @@ import Alert from '@components/Alert/Alert.vue';
 import PromptDialog from '@components/PromptDialog/PromptDialog.vue';
 import Modals from '@components/Modals/Modals.vue';
 import AppLoadingSnackbar from '@components/UI/AppLoadingSnackbar/AppLoadingSnackbar.vue';
-import AppSnackbarQueue from '@/components/AppSnackbarQueue/AppSnackbarQueue.vue';
+import AppSnackbarQueue from '@/components/UI/AppSnackbarQueue/AppSnackbarQueue.vue';
+import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
+import { router } from '@inertiajs/vue3';
+
+const { add } = useSnackbarQueue()
+router.on('flash', (event) => {
+    console.log(event.detail.flash)
+    if(event.detail.flash.success){
+        add(String(event.detail.flash.success), 'green')
+    }
+
+    if(event.detail.flash.error){
+        add(String(event.detail.flash.error), 'red')
+    }
+})
 </script>
 
 <template>

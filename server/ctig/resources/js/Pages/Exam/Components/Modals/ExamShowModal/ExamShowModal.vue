@@ -59,7 +59,7 @@ const cancel =(reason : string) => {
         :onRetry="getExam"
         :subtitle="`${exam?.sessionNumber ?? '-'} / ${exam?.group ?? '-'}`"
         @before-close="(done) =>  done()"
-        skeleton="heading, list-item-two-line, list-item-two-line, list-item-three-line, divider, table"
+        skeleton="heading, list-item-two-line, list-item-two-line"
     >
         <template #title>
             <div class="flex gap-2">

@@ -47,7 +47,7 @@ const marks = [
     </v-card>
      <div v-if="checking" class="mt-4">
         <AppAutocomplete 
-            :label="`Введите балл от 0 до ${task.mark}`" 
+            :label="`Выберите балл от 0 до ${task.mark}`" 
             :items="marks"  
             item-title="mark"
         />

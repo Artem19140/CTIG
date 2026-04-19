@@ -16,6 +16,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class ForeignNational extends Authenticatable {
 
     use HasFactory, Notifiable, HasApiTokens;
+    public const int STORAGE_TTL = 3;
     protected $fillable=[
         'surname',
         'name',
@@ -42,6 +43,7 @@ class ForeignNational extends Authenticatable {
         'patronymic_normalized',
         'passport_number_normalized',
         'passport_series_normalized',
+        'storage_expired_at'
     ];
 
     protected $casts = [

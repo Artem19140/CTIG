@@ -21,12 +21,7 @@ class ExamGuard{
     }
 
     public function ensureHasSeats(Exam $exam, string $message = 'Запись на экзамен полная'):void{
-        $enrollmentsCount = $exam->enrollments()
-                                    // ->whereHas('enrollments', function(Builder $query){
-                                    //     $query->where('rescheduled_at', null)
-                                    //         ->where('cancelled_at', null);
-                                    // })
-                                    ->count();
+        $enrollmentsCount = $exam->enrollments()->count();
         if($exam->capacity <= $enrollmentsCount){
             throw new BusinessException($message);
         }
@@ -50,25 +45,19 @@ class ExamGuard{
         }
     }
 
-    public function ensurePending(Exam $exam, string $message = 'Экзамен уже идет'){
-        if(!$exam->isPending()){
-            throw new BusinessException($message);
-        }
-    }
-
     public function ensureNotCancelled(Exam $exam, string $message = 'Экзамен отменен'){
         if($exam->isCancelled()){
             throw new BusinessException($message);
         }
     }
 
-    public function EnsureAllAttemptsChecked(Exam $exam, string $message = 'Экзамен отменен'){
+    public function ensureAllAttemptsChecked(Exam $exam, string | null $message = null){
         $attemptsNotChecked = $exam->attempts()
                                 ->whereIn('status', AttemptStatus::unChecked())
                                 ->exists();
 
         if($attemptsNotChecked){
-            throw new BusinessException('Не все результаты экзамена еще проверены');
+            throw new BusinessException($message ?? 'Не все результаты экзамена еще проверены');
         }
     }
 

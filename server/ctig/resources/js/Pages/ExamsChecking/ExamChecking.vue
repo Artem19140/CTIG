@@ -7,7 +7,7 @@ import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import { DateFormatter } from '@/helpers/DateFormatter';
 import { useModals } from '@composables/useModals';
 import { ref } from 'vue';
-import AttemptCheckingDrawer from './Components/AttemptCheckingDrawer.vue';
+import AttemptCheckingModal from './Components/AttemptCheckingModal.vue';
 const {open} = useModals()
 
 defineOptions({
@@ -44,11 +44,8 @@ const isOpen = ref(false)
         </template>
     </BaseTable>
     </BaseContainer>
-    <AttemptCheckingDrawer 
+    <AttemptCheckingModal 
         v-model="isOpen"
         :attempt-id="attemptId"
     />
-    <!-- <pre>
-        {{ exam }}
-    </pre> -->
 </template>

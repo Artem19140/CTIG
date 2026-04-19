@@ -5,7 +5,7 @@ const emit = defineEmits<{ (e: 'beforeClose', done: ()=>void) :void} >()
 
 const props = defineProps<{
     title?:string,
-    width:string,
+    width?:string,
     loading?:boolean,
     subtitle?:string,
     height?:string,
@@ -28,7 +28,7 @@ const close = () => {
         :width="width"
         :subtitle="subtitle"
         @keyup.esc="close"
-        
+        :height="height"
     >
 
         <v-card class="dialog-card d-flex flex-column">

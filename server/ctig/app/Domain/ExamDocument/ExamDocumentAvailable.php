@@ -36,13 +36,13 @@ class ExamDocumentAvailable{
         $this->examGuard->ensureFinished($exam);
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureHasEnrollment($exam);
-        $this->examGuard->EnsureAllAttemptsChecked($exam);
+        $this->examGuard->ensureAllAttemptsChecked($exam);
     }
 
     public function results(Exam $exam){
         $this->examGuard->ensureFinished($exam);
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureHasEnrollment($exam);
-        $this->examGuard->EnsureAllAttemptsChecked($exam);
+        $this->examGuard->ensureAllAttemptsChecked($exam);
     }
 }

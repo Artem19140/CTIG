@@ -5,10 +5,15 @@ import EssayTask from './EssayTask.vue';
 import TextInputTask from './TextInputTask.vue';
 import { TaskTypes } from '@/constants/TaskTypes';
 import { Attempt } from '@/interfaces/Interfaces';
+import { AttemptAnswer } from '@/interfaces/Task';
 
 const props = defineProps<{
     attempt:Attempt,
     checking?:boolean 
+}>()
+
+const emit = defineEmits<{
+    (e:'updateAnswer', value:AttemptAnswer):void
 }>()
 
 const taskComponent = (type: string) => {
@@ -25,13 +30,14 @@ const taskComponent = (type: string) => {
             return SingleChoiceTask
     }
 }
-const saved = (value:any) => {
-    console.log(value)
+const saved = (value:AttemptAnswer) => {
+    emit('updateAnswer', value)
 }
 </script>
 
 <template>
     <component 
+        v-if="attempt.tasks.length > 0"
         @answerSaved="saved"
         v-for="task in attempt.tasks"
         :key="task.id"
@@ -41,4 +47,12 @@ const saved = (value:any) => {
         :attempt="attempt"
         :checking="checking"
     />
+    <div v-else>
+        <v-empty-state
+            
+            icon="mdi-clipboard-text-off-outline"
+            title="Заданий нет"
+            text="Пока что здесь ничего не появилось"
+        ></v-empty-state>
+    </div>
 </template>

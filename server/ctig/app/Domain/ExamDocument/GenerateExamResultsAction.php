@@ -40,8 +40,8 @@ class GenerateExamResultsAction{
                 $row = [
                     'fio' => $f->full_name,
                     'passport' => $f->full_passport,
-                    'started_at' => $a->started_at->format('H:i'),
-                    'finished_at' => $a->finished_at->format('H:i'),
+                    'started_at' => $a->started_at?->format('H:i'),
+                    'finished_at' => $a->finished_at?->format('H:i'),
                     'attempt' => $a,
                     'results' => []
                 ];

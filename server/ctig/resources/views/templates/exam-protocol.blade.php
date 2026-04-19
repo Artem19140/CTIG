@@ -83,6 +83,9 @@ td {
     display: inline-block;
     min-width: 30px;
 }
+.prebox {
+    white-space: pre;      /* сохраняет переносы и пробелы */
+}
 </style>
 </head>
 
@@ -142,14 +145,16 @@ td {
             Нарушения / отсутствие нарушений:
         </span>
         <div>
-            {{ $exam->protocol_comment ? '- '.  $exam->protocol_comment : ''}}
+            <div class="prebox">
+    {{ $exam->protocol_comment ?  $exam->protocol_comment : ''}}
+            </div>
             <div>
                 @foreach ( $bannedAttempts as $attempt )
-                    <span>
+                    <div>
                         - Cдающий {{ $attempt->foreignNational->full_name_short }}
                         (паспорт: {{ $attempt->foreignNational->full_passport }}) был снят с экзамена в {{ $attempt->banned_at->format('H:i') }} по причине: 
                         "{{ $attempt->ban_reason }}";
-                    </span> 
+                    </div> 
                 @endforeach
             </div>
         </div>

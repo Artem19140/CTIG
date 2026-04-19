@@ -10,7 +10,6 @@ use App\Domain\Attempt\Query\GetAttemptSpeakingTasksQuery;
 use App\Enums\AttemptStatus;
 use App\Http\Resources\Attempt\AttemptResource;
 use App\Http\Resources\Exam\ExamResource;
-use App\Http\Resources\TaskVariant\TaskVariantResource;
 use App\Models\Attempt;
 use App\Models\Exam;
 use Illuminate\Database\Eloquent\Builder;
@@ -63,8 +62,8 @@ class AttemptController
     public function speaking(Attempt $attempt, GetAttemptSpeakingTasksQuery $getAttemptSpeakingQuery){
         $exam = Exam::findOrFail($attempt->exam_id);
         Gate::authorize('exam-manage-access', $exam);
-        $speakingTasks = $getAttemptSpeakingQuery->execute($attempt);
-        return TaskVariantResource::collection($speakingTasks);
+        $attempt = $getAttemptSpeakingQuery->execute($attempt);
+        return new AttemptResource($attempt);
     }
 
     public function finish(

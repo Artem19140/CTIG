@@ -18,6 +18,7 @@
     <tbody>
     
     @foreach ($exam->foreignNationals as $f)
+    <tr>
         <td class="border">{{ $f->full_name }}</td>
         <td class="border">{{ $f->full_passport }}</td>
         @if ($f->attempts->isNotEmpty())
@@ -29,11 +30,11 @@
         @else
             @for($i = 1; $i <= $exam->type->tasks_count; $i++)
                 <td class="border">
-                   {{ '-' }}
+                   {{ '' }}
                 </td>
             @endfor
         @endif
-        
+    </tr>    
     @endforeach
     </tbody>
 </table>

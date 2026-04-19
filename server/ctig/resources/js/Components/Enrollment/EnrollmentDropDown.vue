@@ -6,6 +6,7 @@ import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdow
 import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import { router, useForm } from '@inertiajs/vue3';
 import { useExamStatus } from '@/composables/useExamStatus';
+import { computed } from 'vue';
 
 const props = defineProps<{
     enrollment:Enrollment
@@ -53,11 +54,13 @@ const changePayment = async () => {
     })
 }
 const {isGoing, isFinished, isPending, isCancelled} = useExamStatus(props.enrollment.exam)
-const isPaymentChangeDisabled  = isFinished.value || isCancelled.value
-const isCancellationDisabled  = isFinished.value || isCancelled.value || isGoing
+const hasAttempt = computed(() => props.enrollment.attempt === null) 
+const isPaymentChangeDisabled  = isFinished.value || isCancelled.value || !hasAttempt.value
+const isCancellationDisabled  = isFinished.value || isCancelled.value || isGoing.value || hasAttempt.value
 </script>
 
 <template>
+    
     <BaseThreeDotDropdown>
         <AppListDropDownItem 
             title="Заявление" 
@@ -68,7 +71,6 @@ const isCancellationDisabled  = isFinished.value || isCancelled.value || isGoing
             :disabled="isPaymentChangeDisabled "
             @click="changePayment"
         />
-
         <AppListDropDownItem 
             title="Отменить" 
             @click="cancell"

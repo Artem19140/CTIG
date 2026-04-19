@@ -29,8 +29,7 @@ const rate = () => {
     http.put(`/answers/${answerId}/rate`,{
         onSuccess:(response:any)=>{
             saved.value = true
-            props.task.attemptAnswer = response.attemptAnswer
-            emit('saved',  response.data)
+            emit('saved',  response.attemptAnswer)
         },
         onError:() => {
             error.value = false

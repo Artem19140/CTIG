@@ -31,4 +31,11 @@ enum AttemptStatus:string
             self::Finished
         ];
     }
+
+    public static function abandoned(): array{
+        return [
+            self::Pending,
+            self::Active
+        ];
+    }
 }

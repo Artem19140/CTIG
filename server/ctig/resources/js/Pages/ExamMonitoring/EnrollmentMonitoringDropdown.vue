@@ -17,6 +17,7 @@ const props = defineProps<{
 
 const promptDialog = usePromptDialog()
 const ban = async () => {
+    if(!props.enrollment.attempt?.id) return
     const res = await promptDialog.open(`Укажите причину снятия ${props.enrollment.foreignNational.fullName} с экзамена`)
     if(!res){
         return
@@ -41,10 +42,10 @@ const getSpeakingTasks = () => {
 }
 const isBanned = computed(() => props.enrollment.attempt?.status === 'banned')
 const { isCancelled, isFinished, isGoing } = useExamStatus(props.exam)
-const hasAttempt = computed(() => props.enrollment.attempt === null)
+const hasAttempt = computed(() => props.enrollment.attempt !== null)
 
-const banDisabled = isCancelled.value || isFinished.value || !isGoing.value || isBanned.value
-const getSpeakingDisabled = !props.exam?.hasSpeakingTasks || hasAttempt.value
+const banDisabled = isCancelled.value || isFinished.value || !isGoing.value || isBanned.value || !hasAttempt.value
+const getSpeakingDisabled =  !hasAttempt.value
 const changePaymentDisabled = isCancelled.value || isFinished.value
 </script>
 

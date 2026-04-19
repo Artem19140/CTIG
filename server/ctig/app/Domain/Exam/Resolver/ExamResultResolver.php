@@ -10,7 +10,7 @@ class ExamResultResolver{
         $exam = $enrollment->exam;
         $attempt = $enrollment->attempt;
 
-        if (!$exam->isFinished() || $exam->isCancelled()) {
+        if ((!$exam->isFinished() || $exam->isCancelled()) && !$attempt) {
             return null;
         }
 

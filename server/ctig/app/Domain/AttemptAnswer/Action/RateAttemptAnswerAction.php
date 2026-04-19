@@ -3,20 +3,22 @@
 namespace App\Domain\AttemptAnswer\Action;
 
 use App\Domain\Attempt\Action\FinilizeAttemptCheckingAction;
+use App\Domain\Attempt\Action\ZeroEmptyAutoCheckAnswersAction;
 use App\Models\AttemptAnswer;
 use App\Models\User;
 use Carbon\Carbon;
 use DB;
 use App\Domain\Attempt\Guard\AttemptGuard;
 use Illuminate\Validation\ValidationException;
+use Log;
 
 class RateAttemptAnswerAction{
     public function __construct(
         protected AttemptGuard $attemptGuard,
-        protected FinilizeAttemptCheckingAction $finilizeAttemptCheckingAction
+        protected FinilizeAttemptCheckingAction $finilizeAttemptCheckingAction,
+        protected ZeroEmptyAutoCheckAnswersAction $zeroEmptyAutoAnswersAction
     ){}
     public function execute(AttemptAnswer $attemptAnswer, int $mark, User $user){
-        abort(403);
         $attempt = $attemptAnswer->attempt;
         $this->attemptGuard->ensureNotBanned($attempt);
         //$this->attemptGuard->ensureFinished($attempt, 'Оценить можно только завершенную попытку');
@@ -51,6 +53,8 @@ class RateAttemptAnswerAction{
             $attemptAnswer->save();
 
             if(!$attempt->hasUncheckedAnswers()){
+                Log::info('Зашел');
+                $this->zeroEmptyAutoAnswersAction->execute($attempt);
                 $this->finilizeAttemptCheckingAction->execute($attempt);
             }
         });

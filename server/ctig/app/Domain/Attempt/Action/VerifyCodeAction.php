@@ -12,6 +12,7 @@ class VerifyCodeAction{
     public function execute(string $code):Enrollment{
         $enrollment = Enrollment::where('exam_code', $code)
                         ->first();
+                
         if(!$enrollment){
             throw ValidationException::withMessages([
                 'code' => 'Код не найден'
@@ -28,9 +29,10 @@ class VerifyCodeAction{
                 'code' => 'Экзамен не оплачен'
             ]);
         }
+        $enrollment->loadMissing('exam');
+        
 
-        // $enrollment->exam_code = null;
-        // $enrollment->exam_code_expired_at = null;
+        $enrollment->exam_code = null;
         $enrollment->exam_code_used_at = Carbon::now($enrollment->time_zone);
         $enrollment->save();
 

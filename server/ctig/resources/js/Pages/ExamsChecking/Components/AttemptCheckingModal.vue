@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import TasksList from '@pages/Attempt/Components/tasks/TasksList.vue';
 import { useHttp } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 import AttemptCheckingSidePanel from './AttemptCheckingSidePanel.vue';
 import BaseDialog from '@/components/BaseComponents/BaseDialog/BaseDialog.vue';
 import { Attempt } from '@/interfaces/Interfaces';
+import { AttemptAnswer } from '@/interfaces/Task';
 
 const isOpen = defineModel<boolean>({default:false})
 
@@ -35,6 +35,13 @@ const scrollToTask = (id: number) => {
     block: 'start'
   })
 }
+const update = (value:AttemptAnswer) => {
+    console.log(value)
+    if(!attempt.value) return
+    const task = attempt.value?.tasks.find(t => t.attemptAnswer.id === value.id)
+    if(!task) return
+    task.attemptAnswer = value
+}
 </script>
 
 <template>
@@ -54,6 +61,7 @@ const scrollToTask = (id: number) => {
             </div>
             <div class="mx-auto">
                 <TasksList 
+                    @update-answer="update"
                     v-if="attempt"
                     class="flex-grow"
                     :attempt="attempt"

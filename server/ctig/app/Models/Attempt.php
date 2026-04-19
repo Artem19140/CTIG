@@ -50,7 +50,8 @@ class Attempt extends Model
         return $this->expired_at->gte(Carbon::now($this->time_zone));
     }
     
-    public function finishTimeNow(): void{
+    public function finish(): void{
+        $this->status = AttemptStatus::Finished;
         $this->finished_at = Carbon::now($this->center->time_zone);
     }
 
@@ -101,9 +102,8 @@ class Attempt extends Model
         return $this->belongsToMany(TaskVariant::class, 'attempt_answers');
     }
 
-    public function hasUncheckedAnswers(){
-        return $this->whereHas('answers', function (Builder $query){
-            $query->notChecked();
-        });
+    public function hasUncheckedAnswers():bool{
+        return $this->answers()->notChecked()->exists();
     }
+
 }

@@ -16,5 +16,6 @@ class FinilizeAttemptCheckingAction{
         $attempt->checked_at = Carbon::now($attempt->time_zone);
         $attempt->total_mark = $attempt->answers()->sum('mark');
         $attempt->is_passed = $isPassed;
+        $attempt->save();
     }
 }

@@ -22,10 +22,10 @@ class CheckAvailableFrdoGenerateAction{
 
 
         $uncheckedAttempts = Attempt::where('finished_at', '>=',$examDate->copy()->startOfDay())
-                ->where('finished_at', '<=',$examDate->copy()->endOfDay())
-                ->whereIn('status', AttemptStatus::unChecked())
-                ->exists();
-        if(!$uncheckedAttempts){
+                    ->where('finished_at', '<=',$examDate->copy()->endOfDay())
+                    ->whereIn('status', AttemptStatus::unChecked())
+                    ->exists();
+        if($uncheckedAttempts){
             throw new BusinessException("Не все попытоки за $formattedDate проверены");  
         }
     }

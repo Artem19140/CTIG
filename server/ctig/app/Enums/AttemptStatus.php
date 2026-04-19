@@ -26,7 +26,7 @@ enum AttemptStatus:string
 
     public static function  unChecked(): array{
         return [
-            self::Pending,
+            // self::Pending,
             self::Active,
             self::Finished
         ];

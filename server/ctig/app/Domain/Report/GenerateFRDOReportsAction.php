@@ -8,6 +8,7 @@ use App\Models\Attempt;
 use App\Models\Center;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\IWriter;
@@ -26,12 +27,14 @@ class GenerateFRDOReportsAction{
     }
 
     protected function attemptsForReport($examDate, bool $success): Collection{
-        return Attempt::with(['exam.type','foreignNational','exam.address'])
+        $attempts =  Attempt::with(['exam.type','foreignNational','exam.address'])
                     ->where('finished_at', '>=',$examDate->copy()->startOfDay())
                     ->where('finished_at', '<=',$examDate->copy()->endOfDay())
                     ->where('is_passed',$success)
                     ->where('status', AttemptStatus::Checked)
                     ->get();
+        Log::info($attempts->isEmpty());
+        return $attempts;
     }
 
     protected function generateReport($examDate, bool $success, Center $center): Spreadsheet{
@@ -111,7 +114,7 @@ class GenerateFRDOReportsAction{
             $attempt->foreignNational->name,
             $attempt->foreignNational->patronymic,
             $attempt->foreignNational->date_birth->format('d.m.Y'),
-            $attempt->exam->date->year,
+            $attempt->started_at->year,
             $attempt->exam->type->certificate_name,
             $attempt->foreignNational->surname_latin,
             $attempt->foreignNational->name_latin,

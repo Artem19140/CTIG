@@ -2,6 +2,7 @@
 
 namespace App\Domain\ExamDocument;
 
+use App\Domain\Exam\Action\ClearExpiredExamCodesAction;
 use App\Models\Exam;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
@@ -9,11 +10,12 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 final class GenerateCodesAction{
     public function __construct(
-        protected ExamDocumentAvailable $examDocumentAvailable
+        protected ExamDocumentAvailable $examDocumentAvailable,
+        protected ClearExpiredExamCodesAction $clearExpiredExamCodesAction
     ){}
     public function execute(Exam $exam){
         $this->examDocumentAvailable->codes($exam);
-
+        $this->clearExpiredExamCodesAction->execute();
         $exam->load('enrollments.foreignNational');
         foreach($exam->enrollments as $enrollment){
             if($enrollment->exam_code || $enrollment->exam_code_used_at){

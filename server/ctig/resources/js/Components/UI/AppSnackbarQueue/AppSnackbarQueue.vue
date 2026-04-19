@@ -9,8 +9,25 @@ const {messages, queue} = useSnackbarQueue()
       ref="queue"
       v-model="messages"
       :total-visible="3"
-      location="bottom start"
+      location="bottom center"
       closable
       contained
-    />
+      timeout
+      variant="flat"
+      timer="bottom"
+      transition="bouncy-slide-auto"
+      origin="Anchor"
+      prepend-icon="$success"
+    >
+      <template v-slot:actions>
+        <v-btn
+          class="px-3"
+          density="comfortable"
+          rounded="lg"
+          variant="text"
+          icon="mdi-close"
+          @click.stop
+        ></v-btn>
+      </template>
+    </v-snackbar-queue>
 </template>

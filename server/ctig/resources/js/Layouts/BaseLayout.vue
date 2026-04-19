@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AppSnackbar from '@components/UI/AppSnackbar/AppSnackbar.vue'
 import ConfirmDialog from '@components/ConfirmDialog/ConfirmDialog.vue';
 import Alert from '@components/Alert/Alert.vue';
 import PromptDialog from '@components/PromptDialog/PromptDialog.vue';
@@ -13,18 +12,17 @@ const { add } = useSnackbarQueue()
 router.on('flash', (event) => {
     console.log(event.detail.flash)
     if(event.detail.flash.success){
-        add(String(event.detail.flash.success), 'green')
+        add(String(event.detail.flash.success), 'green', '$success')
     }
 
     if(event.detail.flash.error){
-        add(String(event.detail.flash.error), 'red')
+        add(String(event.detail.flash.error), 'red', '$error')
     }
 })
 </script>
 
 <template>
     <slot />
-    <app-snackbar />
     <confirm-dialog />
     <alert />
     <prompt-dialog />

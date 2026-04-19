@@ -113,7 +113,7 @@ Route::middleware('auth:foreignNationals')->group(function (){
         Route::get('{attempt}/before', [AttemptController::class, 'before'])->name('exam-attempts.before')
             ->can('attempt-access', 'attempt');
 
-        Route::get('{attempt}', [AttemptController::class, 'current'])->name('exam-attempts') 
+        Route::get('{attempt}', [AttemptController::class, 'show'])->name('exam-attempts') 
             ->can('attempt-access', 'attempt');
 
         Route::put('{attempt}', [AttemptController::class, 'start'])

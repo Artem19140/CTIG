@@ -7,7 +7,7 @@
             <th class="border">
                 Паспортные данные
             </th>
-            @for($i = 1; $i <= $exam->examType->tasks_count; $i++)
+            @for($i = 1; $i <= $exam->type->tasks_count; $i++)
                 <th class="border">
                     {{ $i }}
                 </th>
@@ -27,7 +27,7 @@
                 @endforeach
             @endforeach
         @else
-            @for($i = 1; $i <= $exam->examType->tasks_count; $i++)
+            @for($i = 1; $i <= $exam->type->tasks_count; $i++)
                 <td class="border">
                    {{ '-' }}
                 </td>

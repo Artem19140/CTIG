@@ -18,7 +18,7 @@ class GetExamsQuery{
         $finished = $data['finished'] ?? false;
         $perPage = $data['perPage'] ?? 10;
 
-        $query = Exam::with(['examType'])
+        $query = Exam::with(['type'])
             ->withCount(['enrollments']);
 
         $query->when($examTypeId, fn ($q) =>
@@ -44,27 +44,7 @@ class GetExamsQuery{
         $cancelled ? $query->Cancelled() : $query->notCancelled();
 
         $now = Carbon::now($user->time_zone);
-        $query
-            ->orderByRaw("
-                CASE
-                    WHEN begin_time <= ? AND end_time > ? THEN 0
-                    WHEN begin_time > ? THEN 1
-                    ELSE 2
-                END
-            ", [$now, $now, $now])
-
-            ->orderByRaw("
-                CASE
-                    WHEN begin_time <= ? AND end_time > ? THEN begin_time
-                    WHEN begin_time > ? THEN begin_time
-                END ASC
-            ", [$now, $now, $now])
-
-            ->orderByRaw("
-                CASE
-                    WHEN end_time <= ? THEN begin_time
-                END DESC
-            ", [$now]);
+        $query->sorting($now);
 
         return $query->simplePaginate($perPage)
             ->withQueryString();

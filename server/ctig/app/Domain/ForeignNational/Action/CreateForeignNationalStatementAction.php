@@ -11,7 +11,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class CreateForeignNationalStatementAction{
     public function execute(int $examId, ForeignNational $foreignNational, User $user){ 
-        $exam = Exam::with(['examType'])
+        $exam = Exam::with(['type'])
                     ->find($examId);
         if(!$exam){
             throw new EntityNotFoundExсeption('Экзамен');

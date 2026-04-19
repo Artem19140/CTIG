@@ -13,7 +13,7 @@ const props = defineProps<{
 }>()
 
 const attemptAnswer = ref<number | null>(
-  props.task.attemptAnswer.answer?.id
+  props.task.attemptAnswer?.answer?.id
 )
 
 const attemptAnswerId = props.task?.attemptAnswer?.id

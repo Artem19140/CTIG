@@ -97,7 +97,8 @@ export interface Attempt{
     finishedAt:string | null,
     isPassed:boolean | null,
     status:string,
-    exam:Array<Exam>
+    exam:Array<Exam>,
+    expiredAt:string
 }
 
 export interface Address{

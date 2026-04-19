@@ -23,7 +23,7 @@ class EnrollmentController
                                                     $request->validated('foreignNationalId'), 
                                                     $request->user(), 
                                                     $request->validated('hasPayment')); 
-        $enrollment->load('exam.examType');
+        $enrollment->load('exam.type');
         return Inertia::flash([
             'redirectUrl' => route('enrollments.statements', ['enrollment' => $enrollment]),
             'enrollment' => new EnrollmentResource($enrollment)

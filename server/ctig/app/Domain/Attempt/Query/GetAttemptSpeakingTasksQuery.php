@@ -20,7 +20,7 @@ class GetAttemptSpeakingTasksQuery{
         $this->attemptGuard->ensureNotFinished($attempt);
         $this->attemptGuard->ensureNotExpired($attempt);
 
-        $speakingTasks = TaskVariant::whereHas('attemptsAnswers', function(Builder $query)use($attempt){
+        $speakingTasks = TaskVariant::whereHas('attemptsAnswer', function(Builder $query)use($attempt){
                 $query->where('attempt_id', $attempt->id);
             })
             ->whereHas('task', function(Builder $query){

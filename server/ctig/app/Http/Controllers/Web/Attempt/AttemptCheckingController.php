@@ -8,6 +8,7 @@ use App\Http\Resources\TaskVariant\TaskVariantResource;
 use App\Models\Attempt;
 use App\Models\TaskVariant;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -21,14 +22,14 @@ class AttemptCheckingController
         //             });
         // }]
         // );
-        $tasks = TaskVariant::with(['answers', 'task', 'attemptsAnswers' => function (HasMany $query) use ($attempt) {
+        $tasks = TaskVariant::with(['answers', 'task', 'attemptsAnswer' => function (HasOne $query) use ($attempt) {
                                     $query->where('attempt_id', $attempt->id)
                                         ->where('is_checked', false);
                                         // ->whereHas('taskVariant.task', function(Builder $q){
-                                        //         $q->where('type', TaskType::manualCheckTypes());
-                                        //     });
+                                        //     $q->where('type', TaskType::manualCheckTypes());
+                                        // });
                                 }])
-                            ->whereHas('attemptsAnswers', function (Builder $query) use($attempt){
+                            ->whereHas('attemptsAnswer', function (Builder $query) use($attempt){
                                 $query->where('attempt_id', $attempt->id);
                             })
                             ->limit(5)

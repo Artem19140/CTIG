@@ -19,13 +19,13 @@ class ExamDocumentController
     ){}
     public function list(Exam $exam){
         $this->examDocumentAvailable->list($exam);
-        $exam->load(['foreignNationals', 'examType']);
+        $exam->load(['foreignNationals', 'type']);
         $pdf = Pdf::loadView('templates.exam-foreign_nationals-list', [
             'foreignNationals' => $exam->foreignNationals,
             'exam' => $exam
         ]);
         $stringDate = $exam->begin_time->copy()->format('_H:i_d.m.Y_');
-        $name = $exam->examType->short_name;
+        $name = $exam->type->short_name;
         return $pdf->stream("список_$name _ $stringDate.pdf");
     }
 

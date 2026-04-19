@@ -26,7 +26,7 @@ class GenerateFRDOReportsAction{
     }
 
     protected function attemptsForReport($examDate, bool $success): Collection{
-        return Attempt::with(['exam.examType','foreignNational','exam.address'])
+        return Attempt::with(['exam.type','foreignNational','exam.address'])
                     ->where('finished_at', '>=',$examDate->copy()->startOfDay())
                     ->where('finished_at', '<=',$examDate->copy()->endOfDay())
                     ->where('is_passed',$success)
@@ -83,7 +83,7 @@ class GenerateFRDOReportsAction{
             $attempt->foreignNational->patronymic,
             $attempt->foreignNational->date_birth->format('d.m.Y'),
             $attempt->exam->begin_time->year,
-            $attempt->exam->examType->certificate_name,
+            $attempt->exam->type->certificate_name,
             $attempt->foreignNational->surname_latin,
             $attempt->foreignNational->name_latin,
             $attempt->foreignNational->patronymic_latin,
@@ -112,7 +112,7 @@ class GenerateFRDOReportsAction{
             $attempt->foreignNational->patronymic,
             $attempt->foreignNational->date_birth->format('d.m.Y'),
             $attempt->exam->date->year,
-            $attempt->exam->examType->certificate_name,
+            $attempt->exam->type->certificate_name,
             $attempt->foreignNational->surname_latin,
             $attempt->foreignNational->name_latin,
             $attempt->foreignNational->patronymic_latin,

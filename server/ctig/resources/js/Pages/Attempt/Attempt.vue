@@ -4,10 +4,16 @@ import TasksList from './Components/tasks/TasksList.vue';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import { useForm } from '@inertiajs/vue3';
 import ConfirmDialog from '@components/ConfirmDialog/ConfirmDialog.vue';
+import { Task } from '@/interfaces/Task';
+import { Attempt } from '@/interfaces/Interfaces';
 
 const props = defineProps<{
-    attempt:any,
-    tasks: any
+    attempt:{
+        data:Attempt
+    },
+    tasks: {
+        data:Task[]
+    }
 }>()
 
 const form = useForm()

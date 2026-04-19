@@ -35,7 +35,7 @@ class AttemptController
         return AttemptResource::collection($examAttempts);
     }
 
-    public function current(
+    public function show(
                             Attempt $attempt,
                             GetCurrentAttemptQuery $getCurrentAttemptQuery
                         ){
@@ -78,23 +78,7 @@ class AttemptController
         $finishAttempt->execute($attempt);
         return Inertia::render('Attempt/AfterAttempt', [
             'foreignNational' => $request->user(),
-            'examName' => $attempt->exam->examType->name
-        ]);
-    }
-
-    // public function tasksToCheck(Attempt $attempt, GetTasksToCheck $getTasksToCheck){
-    //     $exam = Exam::findOrFail($attempt->exam_id);
-    //     Gate::authorize('exam-manage-access', $exam);
-    //     $tasksToCheck = $getTasksToCheck->execute($attempt);
-    //     return TaskVariantResource::collection($tasksToCheck);
-    // }
-
-    public function toCheck(){
-        $unCheckedAttempts = Attempt::with('exam.examType')
-                                ->where('status', AttemptStatus::Finished)->paginate();
-
-        return Inertia::render('AttemptsChecking/AttemptsChecking',[
-           'attempts' => AttemptResource::collection($unCheckedAttempts) 
+            'examName' => $attempt->exam->type->name
         ]);
     }
 
@@ -105,15 +89,15 @@ class AttemptController
         }
 
         $exam = Exam::with([
-            'examType'
+            'type'
         ])->find($attempt->exam_id);
         
         return Inertia::render('Attempt/BeforeAttempt', [
             'exam' => new ExamResource($exam),
-            'duration' => $exam->examType->duration,
-            'minMark' => $exam->examType->min_mark,
+            'duration' => $exam->type->duration,
+            'minMark' => $exam->type->min_mark,
             'attempt' => $attempt,
-            'tasksCount' => $exam->examType->tasks_count,
+            'tasksCount' => $exam->type->tasks_count,
         ]);
     }
 }

@@ -2,10 +2,12 @@
 import Timer from './Timer.vue';
 import TaskSideList from './TaskSideList.vue';
 import { computed, ref } from 'vue';
+import { Attempt } from '@/interfaces/Interfaces';
+import { Task } from '@/interfaces/Task';
 
 const props = defineProps<{
-    attempt:any,
-    tasks:any
+    attempt:Attempt,
+    tasks:Task[]
 }>()
 
 const progress = computed(() => {

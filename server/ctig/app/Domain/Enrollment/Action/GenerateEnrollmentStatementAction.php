@@ -12,7 +12,7 @@ class GenerateEnrollmentStatementAction{
         protected EnrollmentGuard $enrollmentGuard
     ){}
     public function execute(Enrollment $enrollment):\Barryvdh\DomPDF\PDF{         
-        $enrollment->load(['foreignNational', 'exam.examType', 'creator', 'center']);
+        $enrollment->load(['foreignNational', 'exam.type', 'creator', 'center']);
 
         return Pdf::loadView('templates.pdf.enrollment.enrollment-full',[
             'enrollment' => $enrollment

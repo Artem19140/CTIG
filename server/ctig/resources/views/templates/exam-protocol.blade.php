@@ -96,7 +96,7 @@ td {
         проведения экзамена для иностранных граждан по русскому языку как иностранному,
         истории России и основам законодательства Российской Федерации<br>
         на уровне, соответствующем цели получения<br>
-        <span class="bold">{{ $exam->examType->protocol_name }}</span>
+        <span class="bold">{{ $exam->type->protocol_name }}</span>
     </div>
 
     <div class="section">

@@ -17,8 +17,8 @@ class ExamShortResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'examTypeId' => $this->whenLoaded('examType', fn () => $this->examType->id),
-            'shortName' => $this->whenLoaded('examType', fn () => $this->examType->short_name),
+            'examTypeId' => $this->whenLoaded('type', fn () => $this->type->id),
+            'shortName' => $this->whenLoaded('type', fn () => $this->type->short_name),
             'beginTime' => $this->begin_time,
             'status' => app(ExamStatusResolver::class)->execute($this->resource)
         ];

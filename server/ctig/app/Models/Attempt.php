@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Attempt extends Model
 {
@@ -45,7 +44,7 @@ class Attempt extends Model
     ];
 
     public function isExpired(): bool{
-        return $this->expired_at->isPast();
+        return $this->expired_at->gte(Carbon::now($this->time_zone));
     }
     
     public function finishTimeNow(): void{

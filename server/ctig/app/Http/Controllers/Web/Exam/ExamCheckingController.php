@@ -19,7 +19,7 @@ class ExamCheckingController
                     ->whereHas('attempts', function (Builder $query){
                         $query->where('status', AttemptStatus::Pending);
                     })
-                    ->with('examType')
+                    ->with('type')
             ->get();
         return Inertia::render('ExamsChecking/ExamsChecking',[
            'exams' => ExamIndexResource::collection($exams) 
@@ -27,7 +27,7 @@ class ExamCheckingController
     }
 
     public function show(Request $request, Exam $exam){
-        $exam->load(['enrollments.attempt', 'examType']);
+        $exam->load(['enrollments.attempt', 'type']);
         return Inertia::render('ExamsChecking/ExamChecking', [
             'exam' => new ExamResource($exam)
         ]);

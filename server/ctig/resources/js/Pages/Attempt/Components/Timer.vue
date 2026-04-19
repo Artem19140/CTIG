@@ -10,7 +10,7 @@ const timeLeft = ref<number>(0)
 let interval: any = null
 
 const calculateTime = () => {
-    const now = new Date().getTime()
+    const now = new Date(props.timeBegin).getTime()
     const end = new Date(props.timeEnd).getTime()
 
     timeLeft.value = Math.floor((end - now) / 1000)
@@ -23,7 +23,7 @@ const calculateTime = () => {
     
 }
 const onTimeEnd = () => {
-    console.log('⏰ Время вышло!')
+    console.log('Время вышло!')
 }
 
 const formattedTime = computed(() => {

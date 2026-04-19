@@ -46,12 +46,12 @@ class Exam extends Model
         'cancelled_at' => 'datetime'
     ];
 
-    public function examType(): BelongsTo{
-        return $this->belongsTo(ExamType::class);
-    }
+    // public function examType(): BelongsTo{
+    //     return $this->belongsTo(ExamType::class);
+    // }
 
     public function type(): BelongsTo{
-        return $this->belongsTo(ExamType::class);
+        return $this->belongsTo(ExamType::class, 'exam_type_id');
     }
 
     public function creator():BelongsTo{
@@ -83,11 +83,11 @@ class Exam extends Model
     }
 
     public function isFinished(){
-        return $this->begin_time_utc->addMinutes($this->examType->duration)->isPast();
+        return $this->begin_time_utc->addMinutes($this->type->duration)->isPast();
     }
 
     public function isGoing(){
-        return !$this->begin_time_utc->addMinutes($this->examType->duration)->isPast() && $this->begin_time_utc->isPast();
+        return !$this->begin_time_utc->addMinutes($this->type->duration)->isPast() && $this->begin_time_utc->isPast();
     }
 
     public function isPending(){
@@ -105,7 +105,7 @@ class Exam extends Model
     protected function duration(): Attribute
     {
         return Attribute::get(function () {
-            return $this->examType->duration;
+            return $this->type->duration;
         });
     }
 
@@ -153,18 +153,41 @@ class Exam extends Model
 
     protected function name(): Attribute{
         return Attribute::get(function () {
-            return $this->examType->name;
+            return $this->type->name;
         });
     }
 
     protected function shortName(): Attribute{
         return Attribute::get(function () {
-            return $this->examType->short_name;
+            return $this->type->short_name;
         });
     }
 
     public function canGenerateCodes():bool{
         return Carbon::now()->gte($this->begin_time_utc->copy()->subMinutes(self::CODES_AVAILABLE_BEFORE_MINUTES)) && !$this->isFinished();
+    }
+
+    public function scopeSorting(Builder $query, Carbon $now){
+        $query->orderByRaw("
+                CASE
+                    WHEN begin_time <= ? AND end_time > ? THEN 0
+                    WHEN begin_time > ? THEN 1
+                    ELSE 2
+                END
+            ", [$now, $now, $now])
+
+            ->orderByRaw("
+                CASE
+                    WHEN begin_time <= ? AND end_time > ? THEN begin_time
+                    WHEN begin_time > ? THEN begin_time
+                END ASC
+            ", [$now, $now, $now])
+
+            ->orderByRaw("
+                CASE
+                    WHEN end_time <= ? THEN begin_time
+                END DESC
+            ", [$now]);
     }
 
 }

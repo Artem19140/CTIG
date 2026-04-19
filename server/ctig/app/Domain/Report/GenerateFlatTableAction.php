@@ -16,7 +16,7 @@ class GenerateFlatTableAction{
         fputcsv($handle, $this->headers());
         $strNumber = 1;
         
-        Attempt::with(['foreignNational', 'exam.examType', 'answers' => [
+        Attempt::with(['foreignNational', 'exam.type', 'answers' => [
             'taskVariant.task',
             'answer'
         ]])
@@ -39,7 +39,7 @@ class GenerateFlatTableAction{
                             
                         fputcsv($handle, [
                             $strNumber,
-                            $item->exam->examType->level,
+                            $item->exam->type->level,
                             $item->foreign_national_id,
                             $item->id,
                             $answer->taskVariant->task->order,

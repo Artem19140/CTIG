@@ -46,7 +46,7 @@ class ForeignNationalController
     }
     public function show(ForeignNational $foreignNational){
         $foreignNational->load( [
-            'enrollments' => [ 'exam.examType', 'attempt', 'foreignNational'],
+            'enrollments' => [ 'exam.type', 'attempt', 'foreignNational'],
         ]);
         $foreignNational->enrollments = $foreignNational->enrollments->sortByDesc('exam.begin_time_utc');
         return new ForeignNationalProfileResource($foreignNational);

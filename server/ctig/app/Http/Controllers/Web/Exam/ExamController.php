@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Web\Exam;
 
-use App\Actions\Exam\Manage\UpdateExaminersAcion;
 use App\Domain\Attempt\Action\CreateAttemptAction;
 use App\Domain\Exam\Action\CancelExamAction;
 use App\Domain\Exam\Action\CreateExamAction;
 use App\Domain\Exam\Action\UpdateExamAction;
 use App\Domain\Exam\Action\UpdateExaminersAction;
 use App\Domain\Exam\Query\GetExamsQuery;
-use App\Enums\AttemptStatus;
 use App\Enums\UserRoles;
 use App\Http\Requests\Exam\ExamIndexRequest;
 use App\Http\Requests\Exam\VerifyCodeRequest;
@@ -66,7 +64,7 @@ class ExamController
         $exam->load([
                     'examiners', 
                     'address',
-                    'examType',
+                    'type',
                     'enrollments' => ['foreignNational', 'exam', 'attempt'] //, 'attempt'
                     
                 ]);
@@ -115,7 +113,7 @@ class ExamController
     public function schedule(Request $request){
         $dateFrom = Carbon::parse($request->input('dateFrom'))->startOfDay() ?? false;
         $dateTo = Carbon::parse($request->input('dateTo'))->endOfDay() ?? false;
-        $exams = Exam::with('examType')
+        $exams = Exam::with('type')
                     ->where('begin_time', '>=', $dateFrom)
                     ->where('begin_time','<=', $dateTo)
                     ->get();

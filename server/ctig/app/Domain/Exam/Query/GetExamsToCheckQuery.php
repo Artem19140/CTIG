@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class GetExamsToCheckQuery{
     public function execute():Collection{
-        return Exam::whereHas('examType', function (Builder $query){
+        return Exam::whereHas('type', function (Builder $query){
                 $query->where('need_human_check', true);
             })
             ->whereHas('attempts', function(Builder $query){

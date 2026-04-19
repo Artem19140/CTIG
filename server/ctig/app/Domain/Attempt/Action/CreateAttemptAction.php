@@ -62,8 +62,8 @@ class CreateAttemptAction{
     }
 
     protected function generateExamVariant(Exam $exam, Attempt $attempt, ForeignNational $foreignNational):array{
-        $exam->load('examType.blocks.subblocks.tasks.variants');
-        $tasks = $exam->examType->blocks
+        $exam->load('type.blocks.subblocks.tasks.variants');
+        $tasks = $exam->type->blocks
             ->pluck('subblocks')
             ->flatten()
             ->pluck('tasks')

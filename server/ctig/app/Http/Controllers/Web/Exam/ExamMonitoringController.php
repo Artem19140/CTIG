@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Exam;
 use App\Domain\Exam\Action\Monitoring\UpdateProtocolCommentAction;
 use App\Http\Resources\Exam\ExamResource;
 use App\Models\Exam;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,7 +16,7 @@ class ExamMonitoringController
     public function index(Request $request){
         $user = $request->user();
         $past = $request->boolean('past');
-        $exams = Exam::with(['examType'])
+        $exams = Exam::with(['type'])
             ->whereHas('examiners', function(Builder $query) use($user){
                 $query->where('examiner_id', $user->id);
             })
@@ -27,8 +28,9 @@ class ExamMonitoringController
                 $query->where('end_time', '>', now($request->user()->center->time_zone)->subMinutes(30));
             })
             ->notCancelled()
-            ->oldest('begin_time_utc')
+            ->sorting(Carbon::now($user->time_zone))
             ->paginate(10);
+
         return Inertia::render('ExamMonitoring/ExamMonitoringList', [
             'exams' => ExamResource::collection($exams),
             'past' => $past 

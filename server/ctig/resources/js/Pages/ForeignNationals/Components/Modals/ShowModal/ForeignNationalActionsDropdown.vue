@@ -3,7 +3,9 @@ import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropD
 import ThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 import { Enrollment, ForeignNational } from '@interfaces/Interfaces';
 import { useModals } from '@composables/useModals';
-import { usePromptDialog } from '@composables/usePromptDialog';
+import { router, useHttp } from '@inertiajs/vue3';
+import { useConfirmDialog } from '@/composables/useConfirmDialog';
+import { useLoadingSnackbar } from '@/composables/useLoadingSnackBar';
 
 const {open} = useModals()
 
@@ -13,18 +15,26 @@ const props = defineProps<{
 
 const emit = defineEmits<{
     (e:'edit', value: ForeignNational):void,
-    (e:'enroll', value:Enrollment):void
+    (e:'enroll', value:Enrollment):void,
+    (e:'delete', value:ForeignNational):void
 }>()
 
-
 const destroy = async () => {
-    const {open, canClose, errorMessages} = usePromptDialog()
-    const confirmationWord = await open("Введите слово 'УДАЛИТЬ' для подтверждения действия")
-    if(confirmationWord !== 'УДАЛИТЬ'){
-        canClose.value = false
-        errorMessages.value = "Введите слово 'УДАЛИТЬ'"
-        return
-    }
+    if(!props.foreignNational) return
+    const {confirmOpen} = useConfirmDialog()
+    const ok = await confirmOpen('Удалить ИГ из системы? Также будут удалены все связанные с ним данные')
+    if(!ok) return
+    const loading = useLoadingSnackbar()
+    loading.open('Идет удаление...')
+    router.delete(`/foreign-nationals/${props.foreignNational.id}`,{
+        onSuccess:(response:any)=>{
+            if(!props.foreignNational)return
+            emit('delete', props.foreignNational)
+        },
+        onFinish:() => {
+            loading.close()
+        }
+    })
 }
 
 </script>

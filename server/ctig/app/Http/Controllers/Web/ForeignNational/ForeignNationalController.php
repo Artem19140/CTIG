@@ -46,7 +46,7 @@ class ForeignNationalController
     }
     public function show(ForeignNational $foreignNational){
         $foreignNational->load( [
-            'enrollments' => [ 'exam.type', 'attempt', 'foreignNational'],
+            'enrollments' => [ 'exam.type', 'attempt', 'foreignNational'],'creator'
         ]);
         $foreignNational->enrollments = $foreignNational->enrollments->sortByDesc('exam.begin_time_utc');
         return new ForeignNationalProfileResource($foreignNational);
@@ -68,7 +68,7 @@ class ForeignNationalController
     public function destroy(ForeignNational $foreignNational)
     {
         $foreignNational->delete();
-        //return $this->noContent();
+        return Inertia::flash('success', "Иностранный гражданин удален")->back();
     }
 
     public function exportAvailable(

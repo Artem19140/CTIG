@@ -23,7 +23,8 @@ final class GenerateCodesAction{
             }
             
             do{
-                $rnd = random_int(1, 999999);
+                $max = (10 ** Exam::CODES_LENGTH) - 1;
+                $rnd = random_int(0, $max);
                 $code = str_pad($rnd, Exam::CODES_LENGTH, '0', STR_PAD_LEFT);
                 $saved = false;
                 

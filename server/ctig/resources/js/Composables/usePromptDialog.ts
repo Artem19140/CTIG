@@ -3,7 +3,6 @@ import { ref } from "vue";
 const isOpen = ref<boolean>(false)
 const message = ref<string | null>(null)
 const value = ref<string | null>(null)
-const canClose = ref<boolean>(true)
 const errorMessages = ref<string | null>(null)
 
 let resolvePromise:((value : string | null) => void) | null = null; 
@@ -12,7 +11,6 @@ const reset = () => {
     isOpen.value = false
     message.value = null
     value.value = null
-    canClose.value = true
     errorMessages.value=null
 }
 
@@ -46,14 +44,11 @@ export const usePromptDialog = () => {
         }
         
         const result = value.value
-        if(!canClose.value){
-            return
-        }
         reset()
 
         resolvePromise?.(result)
         resolvePromise = null
     }
 
-    return {isOpen, message, value, errorMessages , canClose, close, promptOk, open}
+    return {isOpen, message, value, errorMessages , close, promptOk, open}
 }

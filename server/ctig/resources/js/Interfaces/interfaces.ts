@@ -75,13 +75,14 @@ export interface ForeignNational{
     passportTranslateScan?:string | null,
     comment:''
     gender:string | null,
-    enrollments:Array<Enrollment>
+    enrollments:Array<Enrollment>,
+    creatorFullName:string
 }
 
 export type IForeignNationalCreateForm = Omit<
   ForeignNational,
   'id' | 'creator' | 'exams' | 'createdAt' | 'passportScan'  | 'attempts' | 'exam' | 'fullName' | 'fullPassport'  
-       |'passportTranslateScanPath' | 'passportScanPath'
+       |'passportTranslateScanPath' | 'passportScanPath' | 'creatorFullName'
 > & {
   passportScan: File | null
   passportTranslateScan: File | null

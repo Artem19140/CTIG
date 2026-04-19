@@ -43,7 +43,10 @@ const enroll = (value:Enrollment) => {
     if (!foreignNational.value) return
     foreignNational.value.enrollments = [value, ... foreignNational.value.enrollments]
 }
-//
+
+const deleteFN = (value: ForeignNational) => {
+    isOpen.value = false
+}
 </script>
 
 <template>
@@ -61,6 +64,7 @@ const enroll = (value:Enrollment) => {
         <template #titleActions>
             <ForeignNationalActionsDropdown 
                 :foreignNational="foreignNational"
+                @delete="deleteFN"
                 @enroll="enroll"
                 @edit="edit"
             />
@@ -83,6 +87,10 @@ const enroll = (value:Enrollment) => {
                 <v-list-item>
                     <v-list-item-subtitle>Номер телефона</v-list-item-subtitle>
                     <v-list-item-title>{{foreignNational?.phone ?? ''}}</v-list-item-title>
+                </v-list-item>
+                <v-list-item>
+                    <v-list-item-subtitle>Ответственный</v-list-item-subtitle>
+                    <v-list-item-title>{{foreignNational?.creatorFullName ?? ''}}</v-list-item-title>
                 </v-list-item>
             </v-list>
         </v-card-text>

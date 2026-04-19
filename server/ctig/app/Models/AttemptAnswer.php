@@ -3,16 +3,19 @@
 namespace App\Models;
 
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class AttemptAnswer extends Model
 {
+    protected $table = 'attempt_answers';
     protected $fillable = [
-        'exam_id', //Основной поиск по этому полю
+        'exam_id', 
         'task_variant_id',
-        'attempt_id', //Основной поиск по этому полю
-        'foreign_national_id', //Еще поиск по этому полю в карточке ИГ чтобы отобразить(дополнительно)
+        'attempt_id', 
+        'foreign_national_id',
         'mark',
         'answer',
         'checked_by_id',
@@ -29,12 +32,20 @@ class AttemptAnswer extends Model
         return $this->belongsTo(Answer::class, 'answer_id');
     }
 
+    public function isChecked():bool{
+        return $this->is_checked;
+    }
+
     public function attempt(): BelongsTo{
         return $this->belongsTo(Attempt::class, 'attempt_id');
     }
 
     public function taskVariant(): BelongsTo{
         return $this->belongsTo(TaskVariant::class, 'task_variant_id');
+    }
+
+    public function scopeNotChecked(Builder $query){
+        return $query->where('is_checked', false);
     }
 
 }

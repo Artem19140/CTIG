@@ -15,6 +15,7 @@ import ExamEditModal from '@pages/Exam/Components/Modals/ExamEditModal.vue';
 import ForeignNationalShowModal from '@pages/ForeignNationals/Components/Modals/ShowModal/ForeignNationalShowModal.vue';
 import ForeignNationalExportModal from '@pages/ForeignNationals/Components/ForeignNationalTable/ForeignNationalExportModal.vue';
 import StatisticsModal from '@pages/ForeignNationals/Components/ForeignNationalTable/StatisticsModal.vue';
+import SpeakingTasksModal from '@/pages/ExamMonitoring/SpeakingTasksModal.vue';
 
 const {modals, close} = useModals()
 
@@ -50,6 +51,8 @@ const modalComponent = (name: string) => {
             return ForeignNationalExportModal
         case 'statistics':
             return StatisticsModal
+        case 'speaking':
+            return SpeakingTasksModal
     }
 }
 

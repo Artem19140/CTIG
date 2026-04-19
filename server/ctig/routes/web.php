@@ -54,10 +54,6 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
             Route::get('list/available', [ExamDocumentController::class, 'listAvailable']);
         });
         
-        // Route::prefix('{exam}/foreign-nationals')->group(function(){
-        //     Route::post('', [EnrollmentController::class, "store"]);
-            
-        // });
         
         Route::get('create/modal-data', [ExamController::class,'createModalData']);//->middleware('user.has.role:scheduler');
         
@@ -72,6 +68,8 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
     Route::apiResource('exams', ExamController::class)->where(['exam' => '[0-9]+']);//->middleware('user.has.role:examiner1');
     
     Route::put('attempts/{attempt}/ban', [AttemptController::class, 'ban']);
+
+    Route::put('answers/{attemptAnswer}/rate', [AttemptAnswerController::class, 'rate']);
    
     Route::get('attempts/{attempt}/checking/tasks', [AttemptCheckingController::class, 'show'])->name('attempts.checking.tasks');
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-  tasks: any[]
+  tasks?: any[]
 }>()
 
 const emit = defineEmits<{

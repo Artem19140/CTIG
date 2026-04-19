@@ -12,7 +12,8 @@ class FinishAttemptAction{
     public function __construct(
         protected AttemptGuard $attemptGuard,
         protected ZeroEmptyAutoCheckAnswersAction $zeroEmptyAutoAnswers,
-        protected CheckPassingThresholdAction $checkPassingThreshold
+        protected CheckPassingThresholdAction $checkPassingThreshold,
+        protected FinilizeAttemptCheckingAction $finilizeAttemptCheckingAction
     ){}
     public function execute(Attempt $attempt):void{
         $this->attemptGuard->ensureNotBanned($attempt);
@@ -23,13 +24,8 @@ class FinishAttemptAction{
             
             $this->zeroEmptyAutoAnswers->execute($attempt);
             if(!$attempt->requiresHumanCheck()){
-                $isPassed = $this->checkPassingThreshold->execute($attempt);
-                $attempt->status = AttemptStatus::Checked;
-                $attempt->checked_at = Carbon::now($attempt->time_zone);
-                $attempt->total_mark = $attempt->answers()->sum('mark');
-                $attempt->is_passed = $isPassed;
+                $this->finilizeAttemptCheckingAction->execute($attempt);
             }
-            //Еще end_time_real - у Exam
             $attempt->save();
         });
         

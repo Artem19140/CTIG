@@ -10,9 +10,6 @@ import { Attempt } from '@/interfaces/Interfaces';
 const props = defineProps<{
     attempt:{
         data:Attempt
-    },
-    tasks: {
-        data:Task[]
     }
 }>()
 
@@ -30,7 +27,7 @@ const finish = async () => {
     <v-app>
         <v-main style="background:#f1f5f9; min-height: 100vh;">
             <v-container class="flex flex-column gap-10 items-center">
-                <TasksList :tasks="tasks.data|| []" :attempt="attempt?.data" />
+                <TasksList :attempt="attempt.data" />
                 <v-btn
                     @click="finish"
                     variant="flat"
@@ -49,7 +46,7 @@ const finish = async () => {
             permanent
             width="300"
         >
-            <SidePanel :attempt="attempt.data" :tasks="tasks.data"/>
+            <SidePanel :attempt="attempt.data" :tasks="attempt.data.tasks"/>
         </v-navigation-drawer>
     </v-app>
     <ConfirmDialog />

@@ -4,11 +4,14 @@ namespace App\Models;
 
 use App\Enums\AttemptStatus;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Attempt extends Model
 {
@@ -92,5 +95,15 @@ class Attempt extends Model
 
     public function requiresHumanCheck():bool{
         return $this->exam->type->need_human_check;
+    }
+
+    public function taskVariants():BelongsToMany{
+        return $this->belongsToMany(TaskVariant::class, 'attempt_answers');
+    }
+
+    public function hasUncheckedAnswers(){
+        return $this->whereHas('answers', function (Builder $query){
+            $query->notChecked();
+        });
     }
 }

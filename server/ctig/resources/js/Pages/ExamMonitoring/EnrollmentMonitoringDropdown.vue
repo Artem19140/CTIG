@@ -8,6 +8,7 @@ import { Enrollment, Exam } from '@interfaces/Interfaces';
 import { useExamStatus } from '@/composables/useExamStatus';
 import { computed } from 'vue';
 import PaymentChange from '@/components/Enrollment/PaymentChange.vue';
+import { useModals } from '@/composables/useModals';
 
 const props = defineProps<{ 
     enrollment:Enrollment,
@@ -34,10 +35,9 @@ const ban = async () => {
     )
     
 }
-
+const modals = useModals()
 const getSpeakingTasks = () => {
-
-    alert('Тут будет устная часть')
+    modals.open('speaking', {enrollment:props.enrollment})
 }
 const isBanned = computed(() => props.enrollment.attempt?.status === 'banned')
 const { isCancelled, isFinished, isGoing } = useExamStatus(props.exam)

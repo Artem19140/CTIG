@@ -5,6 +5,7 @@ namespace App\Http\Resources\Attempt;
 use App\Domain\Attempt\Resolver\AttemptStatusResolver;
 use App\Http\Resources\ForeignNational\ForeignNationalResource;
 use App\Http\Resources\AttemptAnswer\AttemptAnswerResource;
+use App\Http\Resources\TaskVariant\TaskVariantResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -28,7 +29,7 @@ class AttemptResource extends JsonResource
             'finishedAt' => $this->finished_at,
             'isPassed' => $this->is_passed,
             'status' => app(AttemptStatusResolver::class)->execute($this->resource),
-
+            'tasks' => TaskVariantResource::collection($this->whenLoaded('taskVariants', fn () =>  $this->taskVariants)) 
         ];
     }
 }

@@ -1,3 +1,5 @@
+import { Task } from "./Task"
+
 export interface Exam{
     id:number,
     name:string,
@@ -98,7 +100,8 @@ export interface Attempt{
     isPassed:boolean | null,
     status:string,
     exam:Array<Exam>,
-    expiredAt:string
+    expiredAt:string,
+    tasks: Task[]
 }
 
 export interface Address{

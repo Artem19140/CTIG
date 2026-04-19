@@ -2,6 +2,7 @@
 
 namespace App\Domain\AttemptAnswer\Action;
 
+use App\Domain\Attempt\Action\FinilizeAttemptCheckingAction;
 use App\Exceptions\BusinessException;
 use App\Models\AttemptAnswer;
 use App\Models\User;
@@ -10,14 +11,15 @@ use App\Domain\Attempt\Guard\AttemptGuard;
 
 class RateAttemptAnswerAction{
     public function __construct(
-        protected AttemptGuard $attemptGuard
+        protected AttemptGuard $attemptGuard,
+        protected FinilizeAttemptCheckingAction $finilizeAttemptCheckingAction
     ){}
     public function execute(AttemptAnswer $attemptAnswer, int $mark, User $user){
         $attempt = $attemptAnswer->attempt;
         $this->attemptGuard->ensureNotBanned($attempt);
         $this->attemptGuard->ensureFinished($attempt, 'Оценить можно только завершенную попытку');
 
-        if($attemptAnswer->is_checked){
+        if($attemptAnswer->isChecked()){
             throw new BusinessException('Задание уже проверено и оценено');
         }
 
@@ -38,12 +40,10 @@ class RateAttemptAnswerAction{
             $attemptAnswer->is_checked = true;
             $attemptAnswer->checked_by_id = $user->id;
             $attemptAnswer->save();
-            // $notCheckedAnswersExist = $attempt->answers()
-            //                                 ->where('is_checked', false)
-            //                                 ->exists();
-            // if(!$notCheckedAnswersExist){
-            //     $finalizeAttemptChecking->execute($attempt);
-            // }
+
+            if(!$attempt->hasUncheckedAnswers()){
+                $this->finilizeAttemptCheckingAction->execute($attempt);
+            }
         });
     }
 }

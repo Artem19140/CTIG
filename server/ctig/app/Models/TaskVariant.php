@@ -36,10 +36,6 @@ class TaskVariant extends Model
     //     return $this->hasMany(AttemptAnswer::class, 'task_variant_id');
     // }
 
-    // public function attemptsAnswers(): HasMany{
-    //     return $this->hasMany(AttemptAnswer::class, 'task_variant_id');
-    // }
-
     public function attemptsAnswer(): HasOne{
         return $this->hasOne(AttemptAnswer::class, 'task_variant_id');
     }

@@ -5,16 +5,16 @@ const props = defineProps<{
     timeBegin:string,
     timeEnd:string
 }>()
-
+//нужно выдавать просто точку старта и запускать
 const timeLeft = ref<number>(0)
 let interval: any = null
 
 const calculateTime = () => {
-    const now = new Date(props.timeBegin).getTime()
+    props.timeBegin
+    const now = new Date().getTime()
     const end = new Date(props.timeEnd).getTime()
 
     timeLeft.value = Math.floor((end - now) / 1000)
-
     if (timeLeft.value <= 0) {
         timeLeft.value = 0
         clearInterval(interval)

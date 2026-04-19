@@ -5,6 +5,7 @@ import { useHttp } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 import AttemptCheckingSidePanel from './AttemptCheckingSidePanel.vue';
 import BaseDialog from '@/components/BaseComponents/BaseDialog/BaseDialog.vue';
+import { Attempt } from '@/interfaces/Interfaces';
 
 const isOpen = defineModel<boolean>({default:false})
 
@@ -12,7 +13,7 @@ const props = defineProps<{
     attemptId?:number | null
 }>()
 
-const tasks = ref()
+const attempt = ref<Attempt | null>(null)
 
 const beforeClose = (fn:  ()  => void) =>{
     fn()
@@ -21,7 +22,7 @@ watch(() => props.attemptId, (id) =>{
     if(!props.attemptId) return
     http.get(`/attempts/${id}/checking/tasks`,{
         onSuccess:(response :any) => {
-            tasks.value = response.data
+            attempt.value = response.data
         }
     })
 })
@@ -46,14 +47,14 @@ const scrollToTask = (id: number) => {
         <div class="flex gap-10 items-start">
             <div class="flex-shrink-0 sticky top-0 self-start">
                 <AttemptCheckingSidePanel
-                    :tasks="tasks" 
+                    :tasks="attempt?.tasks" 
                     @select="scrollToTask"
                 />
             </div>
             <div class="mx-auto">
                 <TasksList 
                     class="flex-grow"
-                    :tasks="tasks"
+                    :attempt="attempt"
                     :checking="true"
                 />
             </div>

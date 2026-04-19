@@ -8,8 +8,7 @@ import { TaskTypes } from '@/constants/TaskTypes';
 import { Attempt } from '@/interfaces/Interfaces';
 
 const props = defineProps<{
-    tasks:Task[],
-    attempt?:Attempt,
+    attempt:Attempt,
     checking?:boolean 
 }>()
 
@@ -31,7 +30,7 @@ const taskComponent = (type: string) => {
 
 <template>
     <component 
-        v-for="task in tasks"
+        v-for="task in attempt.tasks"
         :key="task.id"
         :is="taskComponent(task.type)"
         v-bind="task"

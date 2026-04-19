@@ -15,6 +15,7 @@ class GetExamsToCheckQuery{
             ->whereHas('attempts', function(Builder $query){
                 $query->whereIn('status', AttemptStatus::unChecked());
             })
+            ->with(['type'])
             ->get();
     }
 }

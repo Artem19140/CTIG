@@ -168,7 +168,7 @@ class Exam extends Model
     }
 
     public function scopeSorting(Builder $query, Carbon $now){
-        $query->orderByRaw("
+        return $query->orderByRaw("
                 CASE
                     WHEN begin_time <= ? AND end_time > ? THEN 0
                     WHEN begin_time > ? THEN 1

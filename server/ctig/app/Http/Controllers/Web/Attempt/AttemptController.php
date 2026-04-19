@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Web\Attempt;
 
-
 use App\Domain\Attempt\Action\BanAttemptAction;
 use App\Domain\Attempt\Action\FinishAttemptAction;
 use App\Domain\Attempt\Action\StartAttemptAction;
@@ -39,11 +38,10 @@ class AttemptController
                             Attempt $attempt,
                             GetCurrentAttemptQuery $getCurrentAttemptQuery
                         ){
-        $attemptTasks = $getCurrentAttemptQuery->execute($attempt);
+        $attempt = $getCurrentAttemptQuery->execute($attempt);
         
         return Inertia::render('Attempt/Attempt', [
-            'attempt' => new AttemptResource($attempt),
-            'tasks'=> TaskVariantResource::collection($attemptTasks)
+            'attempt' => new AttemptResource($attempt)
         ]);
     }
 

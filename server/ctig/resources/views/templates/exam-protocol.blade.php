@@ -142,12 +142,12 @@ td {
             Нарушения / отсутствие нарушений:
         </span>
         <div>
-            - {{ $exam->protocol_comment}}
+            {{ $exam->protocol_comment ? '- '.  $exam->protocol_comment : ''}}
             <div>
                 @foreach ( $bannedAttempts as $attempt )
                     <span>
                         - Cдающий {{ $attempt->foreignNational->full_name_short }}
-                        (паспорт: {{ $attempt->foreignNational->full_passport }}) был снят с экзамена по причине: 
+                        (паспорт: {{ $attempt->foreignNational->full_passport }}) был снят с экзамена в {{ $attempt->banned_at->format('H:i') }} по причине: 
                         "{{ $attempt->ban_reason }}";
                     </span> 
                 @endforeach

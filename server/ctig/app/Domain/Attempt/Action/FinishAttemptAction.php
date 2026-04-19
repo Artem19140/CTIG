@@ -22,7 +22,6 @@ class FinishAttemptAction{
             $attempt->finishTimeNow();
             
             $this->zeroEmptyAutoAnswers->execute($attempt);
-
             if(!$attempt->requiresHumanCheck()){
                 $isPassed = $this->checkPassingThreshold->execute($attempt);
                 $attempt->status = AttemptStatus::Checked;

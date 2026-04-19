@@ -82,7 +82,6 @@ function cleanFilters(data: Record<string, any>) {
                 icon 
                 variant="text"
                 v-bind="props"
-                
             >
                 <v-badge :content="filledCount" color="red" :model-value="filledCount > 0">  
                     <v-icon>mdi-filter-menu</v-icon>

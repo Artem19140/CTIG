@@ -10,6 +10,7 @@ import { ref } from 'vue';
 import ExamCapacityChip from '@/components/Exam/ExamCapacityChip.vue';
 import AppPaginator from '@/components/UI/AppPaginator/AppPaginator.vue';
 import { Exam, Paginated } from '@/interfaces/Interfaces';
+import BaseContainer from '@/components/BaseComponents/BaseContainer/BaseContainer.vue';
 
 defineOptions({
   layout: [BaseLayout,EmployeeLayout]
@@ -62,50 +63,48 @@ const getPastExams = () =>{
 </script>
 
 <template>
-    <v-container>
-        <v-card>
-            <BasePaginatedTable
-                :elements="exams"
-                :headers="headers"
-                @click:row="open"
-                title="Мониторинг"
-                :loading="loading"
-            >
-                <template #toolbar-actions>
-                    <v-btn 
-                        width="120"
-                        border
-                        :loading="loading"
-                        :disabled="loading"
-                        @click="getPastExams"
-                    >
-                        {{ past ? 'Текущие' : 'Прошедшие'}}
-                    </v-btn>
-                </template>
-                <template #item.capacity="{ item }">
-                    <ExamCapacityChip :exam="item" />
-                </template>
-                
-                <template #item.status="{ item }">
-                    <ExamStatusChip
-                        :exam="item"
-                    />
-                </template>
-                <template #item.beginTime="{ item }">
-                    {{ new DateFormatter(item.beginTime).format('H:i, d.m.Y') }}
-                </template>
-                <template #item.actions="{ item }">
-                    <ExamActionsDropdown :exam="item" />
-                </template>
-                <template #bottom>
-                    <AppPaginator
-                        :meta="exams.meta"
-                        :links="exams.links"
-                        v-model="loading"
-                    />
-                </template>
-                
-            </BasePaginatedTable>
-        </v-card>
-    </v-container>
+    <BaseContainer>
+        <BasePaginatedTable
+            :elements="exams"
+            :headers="headers"
+            @click:row="open"
+            title="Мониторинг"
+            :loading="loading"
+        >
+            <template #toolbar-actions>
+                <v-btn 
+                    width="120"
+                    border
+                    :loading="loading"
+                    :disabled="loading"
+                    @click="getPastExams"
+                >
+                    {{ past ? 'Текущие' : 'Прошедшие'}}
+                </v-btn>
+            </template>
+            <template #item.capacity="{ item }">
+                <ExamCapacityChip :exam="item" />
+            </template>
+            
+            <template #item.status="{ item }">
+                <ExamStatusChip
+                    :exam="item"
+                />
+            </template>
+            <template #item.beginTime="{ item }">
+                {{ new DateFormatter(item.beginTime).format('H:i, d.m.Y') }}
+            </template>
+            <template #item.actions="{ item }">
+                <ExamActionsDropdown :exam="item" />
+            </template>
+            <template #bottom>
+                <AppPaginator
+                    :meta="exams.meta"
+                    :links="exams.links"
+                    v-model="loading"
+                />
+            </template>
+            
+        </BasePaginatedTable>
+    </BaseContainer>
 </template>

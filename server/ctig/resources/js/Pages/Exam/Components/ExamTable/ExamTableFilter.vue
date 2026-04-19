@@ -26,7 +26,7 @@ const filters = computed<ExamFilters>(() =>
 const form = useForm<ExamFilters>({
     dateFrom: filters.value?.dateFrom ?? null,
     cancelled: Boolean(filters.value?.cancelled) ?? null,
-    examTypeId:Number(filters.value?.examTypeId) ?? null,
+    examTypeId:filters.value?.examTypeId ? Number(filters.value?.examTypeId) : null,
     dateTo:filters.value?.dateTo ?? null,
     finished: Boolean(filters.value?.finished) ?? null,
 })

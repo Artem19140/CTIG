@@ -74,12 +74,9 @@ const cancel =(reason : string) => {
                 @cancel="cancel"
             :exam="exam" />
         </template> 
-        <v-card-text>
+        <v-card-text class="pt-0">
         <v-list>
-            <div>
-                <v-spacer />
-            </div>
-            <v-list-item v-if="exam?.status === ExamStatus.CANCELLED">
+            <v-list-item v-if="exam?.status === ExamStatus.CANCELLED && exam?.cancelledReason">
                 <v-list-item-subtitle class="text-red">Причина отмены</v-list-item-subtitle>
                 <v-list-item-title class="text-red" style="white-space: normal; word-break: break-word;">{{exam?.cancelledReason ?? '-'}}</v-list-item-title>
             </v-list-item>

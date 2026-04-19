@@ -36,26 +36,32 @@ const ban = async () => {
 }
 
 const getSpeakingTasks = () => {
+
     alert('Тут будет устная часть')
 }
-const isNotBanned = computed(() => props.enrollment.attempt?.status !== 'banned')
+const isBanned = computed(() => props.enrollment.attempt?.status === 'banned')
 const { isCancelled, isFinished, isGoing } = useExamStatus(props.exam)
+
+const banDisabled = isCancelled.value || isFinished.value || !isGoing.value || isBanned.value
+const getSpeakingDisabled = !props.exam?.hasSpeakingTasks
+const changePaymentDisabled = isCancelled.value || isFinished.value
 </script>
 
 <template>
     <BaseThreeDotDropdown>
-        <PaymentChange 
-            v-if="!isCancelled && !isFinished" 
+        <PaymentChange  
+            :disabled="changePaymentDisabled "
             :enrollment="enrollment"
         />
         <AppListDropDownItem 
-            v-if="exam.hasSpeakingTasks"
+            :disabled="getSpeakingDisabled"
+            v-if="exam?.hasSpeakingTasks"
             title="Устная часть" 
             @click="getSpeakingTasks"
         />
-        <AppListDropDownItem 
-            v-if="!isCancelled && !isFinished && isGoing && isNotBanned"   
+        <AppListDropDownItem    
             color="text-red" 
+            :disabled="banDisabled"
             title="Снять с экзамена" 
             @click="ban"
         />

@@ -23,7 +23,6 @@ class ExamResource extends JsonResource
             'id' => $this->id,
             'cancelledReason' => $this->when($this->isCancelled(), $this->cancelled_reason),
             'beginTime' => $this->begin_time,
-            'beginTime1' => $this->begin_time,
             'foreignNationals' => ForeignNationalResource::collection($this->whenLoaded('foreignNationals')),//здесь если есть результаты, то и их можно взять
             'enrollments' => EnrollmentResource::collection($this->whenLoaded('enrollments')),
             'sessionNumber' => $this->session,

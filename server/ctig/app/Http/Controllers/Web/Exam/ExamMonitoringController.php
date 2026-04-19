@@ -41,7 +41,8 @@ class ExamMonitoringController
         Gate::authorize('exam-manage-access', $exam);
 
         $exam->load([
-            'enrollments' => ['foreignNational', 'attempt']
+            'enrollments' => ['foreignNational', 'attempt'],
+            'type'
         ]);
         $exam->enrollments = $exam->enrollments->sortBy('foreignNational.surname');
         

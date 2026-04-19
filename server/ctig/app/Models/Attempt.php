@@ -91,6 +91,6 @@ class Attempt extends Model
     }
 
     public function requiresHumanCheck():bool{
-        return $this->exam->examType->need_human_check;
+        return $this->exam->type->need_human_check;
     }
 }

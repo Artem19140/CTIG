@@ -28,7 +28,7 @@ const form = useForm<ForeignNationalFilters>({
     patronymic: filters.value.patronymic ?? null,
     passportSeries: filters.value.passportSeries ?? null,
     passportNumber: filters.value.passportNumber ?? null,
-    id: Number(filters.value.id) ?? null,
+    id: filters.value.id ?  Number(filters.value.id) : null,
 })
 
 type ForeignNationalFilters= {

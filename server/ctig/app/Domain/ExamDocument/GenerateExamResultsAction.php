@@ -2,14 +2,14 @@
 
 namespace App\Domain\ExamDocument;
 
-use App\Actions\Attempt\GetDetailedAttemptResultsAction;
+
 use App\Domain\Attempt\Query\GetDetailedAttemptResultsQuery;
 use App\Models\Exam;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class GenerateExamResultsAction{
     public function __construct(
-        protected GetDetailedAttemptResultsAction $getDetailedAttemptResults,
+        protected GetDetailedAttemptResultsQuery $getDetailedAttemptResults,
         protected ExamDocumentAvailable $examDocumentAvailable
     ){}
     public function execute(Exam $exam){

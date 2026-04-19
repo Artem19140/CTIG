@@ -76,6 +76,7 @@ class AttemptController
                            )
     {
         $finishAttempt->execute($attempt);
+        
         return Inertia::render('Attempt/AfterAttempt', [
             'foreignNational' => $request->user(),
             'examName' => $attempt->exam->type->name

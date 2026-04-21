@@ -37,7 +37,8 @@ const exams = ref<Exam[]>()
 //     examId:null,
 //     gender:null,
 //     hasPayment:false,
-//     comment:''
+//     comment:'',
+//     addressReg:''
 // })
 const form = useForm<IForeignNationalCreateForm>({
     surname: 'Иванов', 
@@ -62,7 +63,8 @@ const form = useForm<IForeignNationalCreateForm>({
     examId:null,
     gender:null,
     hasPayment:false,
-    comment:''
+    comment:'',
+    addressReg:'г. Ижевск, ул. Удмурская 158, кв. 23'
 })
 
 const create = () => {

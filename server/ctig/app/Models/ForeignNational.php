@@ -43,7 +43,8 @@ class ForeignNational extends Authenticatable {
         'patronymic_normalized',
         'passport_number_normalized',
         'passport_series_normalized',
-        'storage_expired_at'
+        'storage_expired_at',
+        'address_reg'
     ];
 
     protected $casts = [

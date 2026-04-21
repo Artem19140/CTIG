@@ -34,6 +34,7 @@ final class StoreForeignNationalAction{
             'issued_date'=> $data['issuedDate'],
             'citizenship'=> $data['citizenship'],
             'phone'=> $data['phone'],
+            'address_reg'=> $data['addressReg'],
             'creator_id'=>$creatorId,
             'gender' => $data['gender'],
             'comment' => $data['comment'],

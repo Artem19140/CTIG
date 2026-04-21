@@ -229,20 +229,36 @@ function required (v:any) {
                             type="date"
                         /> 
                     </v-col>
-                        <v-col cols="12" md="6"></v-col>
-                        <v-col cols="12"  class="subtitle">
-                            Контакты    
-                        </v-col>
 
-                        <v-col cols="12" md="6">
-                            <AppInput 
-                                label="Номер телефона"
-                                :required="true && !edit"
-                                :readonly="readonly"
-                                v-model="form.phone"
-                                :error-messages="form.errors.phone"
-                            /> 
-                        </v-col>
+                    <v-col cols="12" md="6"></v-col>
+                    <v-col cols="12"  class="subtitle">
+                        Адрес регистрации    
+                    </v-col>
+
+                    <v-col cols="12" md="6">
+                        <AppInput 
+                            label="Адрес"
+                            :required="true && !edit"
+                            :readonly="readonly"
+                            v-model="form.addressReg"
+                            :error-messages="form.errors.addressReg"
+                        /> 
+                    </v-col>
+                    
+                    <v-col cols="12" md="6"></v-col>
+                    <v-col cols="12"  class="subtitle">
+                        Контакты    
+                    </v-col>
+
+                    <v-col cols="12" md="6">
+                        <AppInput 
+                            label="Номер телефона"
+                            :required="true && !edit"
+                            :readonly="readonly"
+                            v-model="form.phone"
+                            :error-messages="form.errors.phone"
+                        /> 
+                    </v-col>
                 </v-row>
             </v-container>
         </v-card-text>

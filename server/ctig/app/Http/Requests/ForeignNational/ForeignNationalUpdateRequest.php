@@ -123,6 +123,10 @@ class ForeignNationalUpdateRequest extends FormRequest
                     'nullable', 
                     'string', 
                 ],
+            'addressReg' => [
+                'required', 
+                'string'
+            ],
             'passportTranslateScan' => [
                     'nullable',
                     File::types(['pdf'])->max(4096)

@@ -35,6 +35,7 @@ final class UpdateForeignNationalAction{
             'citizenship'=> $data['citizenship'],
             'phone'=> $data['phone'],
             'gender' => $data['gender'],
+            'address_reg'=> $data['addressReg'],
             'comment' => $data['comment'] ?? '',
         ],
         $this->files($data));

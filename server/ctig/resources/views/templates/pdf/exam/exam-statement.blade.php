@@ -42,15 +42,15 @@
     </thead>
     <tbody>
         @foreach ($statementTable['rows'] as $row)
-        <tr class="text-small">
+        <tr>
             <td >{{ $row['fullName'] }}</td>
             <td>{{ $row['fullPassport'] }}</td>
             <td>{{ $row['startedAt'] ?? ''}}</td>
             <td>{{ $row['finishedAt']  ?? ''}}</td>    
             @foreach ($row['subblockMarks'] as $marks)
-                <td class="text-small">{{ $marks['sum'] !== null ? $marks['sum'] : ''}}</td>   
+                <td>{{ $marks['sum'] !== null ? $marks['sum'] : ''}}</td>   
             @endforeach
-            <td class="text-small">{{ $row['result']  ?? ''}}</td>
+            <td>{{ $row['result']  ?? ''}}</td>
         </tr>
         @endforeach
         

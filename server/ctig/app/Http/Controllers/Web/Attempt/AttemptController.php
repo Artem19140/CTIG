@@ -73,7 +73,9 @@ class AttemptController
                            )
     {
         $finishAttempt->execute($attempt);
-        
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
         return Inertia::render('Attempt/AfterAttempt', [
             'foreignNational' => $request->user(),
             'examName' => $attempt->exam->type->name

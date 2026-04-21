@@ -40,7 +40,7 @@
 зарегистрированный по адресу:
 <div>
     @include('templates.components.labeled-field', [
-                                                    'value' => 'Адрес регистрации'
+                                                    'value' =>  $foreignNational->address_reg ?? ''
                                                 ])
 </div>
 

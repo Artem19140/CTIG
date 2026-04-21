@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Web\Exam;
 use App\Domain\Attempt\Action\CloseAbandonedAttemptsAction;
 use App\Domain\ExamDocument\ExamDocumentAvailable;
 use App\Domain\ExamDocument\GenerateCodesAction;
-use App\Domain\ExamDocument\GenerateExamProtocolAction;
-use App\Domain\ExamDocument\GenerateExamResultsAction;
+use App\Domain\ExamDocument\ExamProtocolGenerator;
+use App\Domain\ExamDocument\ExamResultsGenerator;
 use App\Models\Exam;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -52,10 +52,10 @@ class ExamDocumentController
         ])->back();
     }
 
-    public function protocol(Request $request, Exam $exam, GenerateExamProtocolAction $generateExamProtocol)
+    public function protocol(Request $request, Exam $exam, ExamProtocolGenerator $examProtocolGenerator)
     {
         //Gate::authorize('exam-manage-access', $exam);
-        return $generateExamProtocol->execute($exam, $request->user() );
+        return $examProtocolGenerator->execute($exam, $request->user() );
     }
 
     public function protocolAvailable(Exam $exam)
@@ -67,11 +67,11 @@ class ExamDocumentController
         ])->back();
     }
 
-    public function results(Exam $exam, GenerateExamResultsAction $generateExamResults)
+    public function results(Exam $exam, ExamResultsGenerator $examResultsGenerator)
     {
         //Gate::authorize('exam-manage-access', $exam);
         
-        $resultsPdf = $generateExamResults->execute($exam);
+        $resultsPdf = $examResultsGenerator->execute($exam);
         
         $fileName = "Результаты_".$exam->short_name."_".$exam->begin_time->format('H-i_d.m.Y').".pdf";
         return $resultsPdf->stream($fileName);
@@ -87,7 +87,7 @@ class ExamDocumentController
         ])->back();
     }
 
-    public function shortResults(Exam $exam, GenerateExamResultsAction $generateExamResults)
+    public function shortResults(Exam $exam, ExamResultsGenerator $generateExamResults)
     {
         //Gate::authorize('exam-manage-access', $exam);
         

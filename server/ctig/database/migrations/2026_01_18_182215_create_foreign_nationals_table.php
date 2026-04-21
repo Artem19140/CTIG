@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('phone', 12);
             $table->char('gender', 1);
             $table->string('comment')->nullable()->default(null);
+            $table->string('address_reg');
 
             $table->string('passport_scan')->nullable()->default(null);
             $table->string('passport_translate_scan')->nullable()->default(null);

@@ -5,8 +5,6 @@ namespace App\Domain\ExamDocument;
 use App\Domain\Exam\Guard\ExamGuard;
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
-use Carbon\Carbon;
-use Log;
 
 class ExamDocumentAvailable{
     public function __construct(

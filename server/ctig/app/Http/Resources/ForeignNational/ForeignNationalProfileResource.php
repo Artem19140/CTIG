@@ -44,7 +44,8 @@ class ForeignNationalProfileResource extends JsonResource
             'fullName' => $this->full_name,
             'fullNameLatin' => $this->full_name_latin,
             'fullPassport' => $this->full_passport,
-            'creatorFullName' => $this->whenLoaded('creator', fn () => $this->creator->full_name)
+            'creatorFullName' => $this->whenLoaded('creator', fn () => $this->creator->full_name),
+            'addressReg' => $this->address_reg
         ];
     }
 }

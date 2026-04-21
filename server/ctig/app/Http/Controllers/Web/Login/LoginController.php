@@ -39,8 +39,9 @@ class LoginController
 
    public function changePassword(ChangePasswordRequest $request){
         $user = $request->user();
+
         if(!$user->has_to_change_password){
-            abort(404, 'Не найдено');
+            abort(403);
         }
         if(Hash::check($request->validated('newPassword'), $user->password)){
             return ValidationException::withMessages([

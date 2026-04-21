@@ -144,6 +144,10 @@ class ForeignNationalPostRequest extends FormRequest
                     'size:1', 
                     'in:M,F'
                 ],
+            'addressReg' => [
+                'required', 
+                'string'
+            ],
             'passportTranslateScan' => [
                     'required',
                     File::types(['pdf'])->max(4096)

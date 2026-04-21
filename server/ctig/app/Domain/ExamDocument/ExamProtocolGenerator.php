@@ -9,7 +9,7 @@ use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 
-class GenerateExamProtocolAction{
+class ExamProtocolGenerator{
     public function __construct(
         protected ExamDocumentAvailable $examDocumentAvailable
     ){}

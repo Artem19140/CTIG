@@ -37,7 +37,8 @@ class ForeignNationalFactory extends Factory
             'phone' => fake()->numerify('7##########'),
             'creator_id' => User::factory(),
             'date_birth' => fake()->dateTimeBetween('-60 years', Carbon::now()->subYears(19)->toDateString())->format('Y-m-d'),
-            'gender' => fake()->randomElement(['M','F'])
+            'gender' => fake()->randomElement(['M','F']),
+            'address_reg' => fake()->streetAddress()
         ];
 
     }

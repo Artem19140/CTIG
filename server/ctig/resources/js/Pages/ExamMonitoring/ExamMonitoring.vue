@@ -13,6 +13,7 @@ import { DateFormatter } from '@helpers/DateFormatter';
 import { useExamStatus } from '@/composables/useExamStatus';
 import BaseContainer from '@/components/BaseComponents/BaseContainer/BaseContainer.vue';
 import PaymentIcon from '@/components/Enrollment/PaymentIcon.vue';
+import ExamMonitoringDropdown from './ExamMonitoringDropdown.vue';
 
 defineOptions({
   layout: [BaseLayout,EmployeeLayout]
@@ -73,14 +74,21 @@ const back = () => {
     <v-btn class="mt-4 ml-4" @click="back">Назад</v-btn>
     <BaseContainer>
             <v-card-title>
-                Мониторинг
-                <ExamStatusChip 
-                    :exam="exam.data" 
-                />
+                <div class="flex justify-between">
+                    <div>
+                        Мониторинг
+                        <ExamStatusChip 
+                            :exam="exam.data" 
+                        />
+                    </div>
+                    <div>
+                        <ExamMonitoringDropdown :exam="exam.data" />
+                    </div>
+                </div>
             </v-card-title>
 
             <v-card-subtitle >
-                <div class="flex">
+                <div>
                     <div>
                         <div>{{ exam.data.shortName }}</div>
                         <div>{{ new DateFormatter(exam.data?.beginTime).format('H:i') }}
@@ -95,6 +103,7 @@ const back = () => {
                         class="mr-4 text-black"
                         @click="open('examComment', {exam:props.exam.data})"
                     >Комментарий</v-btn>
+                    
                 </div>
             </v-card-subtitle>
 

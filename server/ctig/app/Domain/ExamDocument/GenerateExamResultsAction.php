@@ -2,65 +2,109 @@
 
 namespace App\Domain\ExamDocument;
 
-
-use App\Domain\Attempt\Query\GetDetailedAttemptResultsQuery;
+use App\Models\Attempt;
 use App\Models\Exam;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class GenerateExamResultsAction{
-    public function __construct(
-        protected GetDetailedAttemptResultsQuery $getDetailedAttemptResults,
-        protected ExamDocumentAvailable $examDocumentAvailable
-    ){}
     public function execute(Exam $exam){
-        $this->examDocumentAvailable->statement($exam);
+        $exam->loadMissing([
+                            'type' => [
+                                'blocks' => fn(HasMany $q) => $q->select(['id', 'name', 'exam_type_id'])->orderBy('order'),  
+                                'blocks.subblocks' => fn(HasMany $q) => $q->select(['id', 'name', 'block_id'])->orderBy('order'), 
+                            ],
+                            'enrollments' => [
+                                                'attempt.answers.taskVariant.task:id,subblock_id,order',
+                                                'foreignNational'
+                                            ]
+                        ]);    
+        $headers = $this->getHeaders($exam);
 
-        $exam->load([
-            'foreignNationals.attempts' => function ($query) use ($exam) {
-                $query->where('exam_id', $exam->id)
-                        ->with('answers');
-            }
-        ]);
+        $rows = $this->getRows($exam);
 
-        $columns = []; 
-        $data = [];   
-
-        foreach ($exam->foreignNationals as $f) {
-            foreach ($f->attempts as $a) {
-                $blocks = GetDetailedAttemptResultsQuery::execute($a);
-                foreach ($blocks as $block) {
-                    $columns[$block['id']]['name'] = $block['name'];
-                    $columns[$block['id']]['subblocks'] = [];
-
-                    foreach ($block['subblocks'] as $sub) {
-                        $columns[$block['id']]['subblocks'][$sub['id']] =  $sub['name'];
-                    }
-                }
-
-                $row = [
-                    'fio' => $f->full_name,
-                    'passport' => $f->full_passport,
-                    'started_at' => $a->started_at?->format('H:i'),
-                    'finished_at' => $a->finished_at?->format('H:i'),
-                    'attempt' => $a,
-                    'results' => []
-                ];
-
-                foreach ($blocks as $block) {
-                    foreach ($block['subblocks'] as $sub) {
-                        $row['results'][$block['id']][$sub['id']] = $sub['answers_mark_sum'];
-                    }
-                }
-
-                $data[] = $row;
-            }
-        }
         $pdf = Pdf::loadView('templates.pdf.exam.exam-results', [
             'exam' => $exam,
-            'data' => $data,
-            'columns' => $columns
+            'statementTable' => [
+                'headers' => $headers,
+                'rows' => $rows,
+            ],
+            'markTable' => [
+                'rows' => $this->getRowsMarksTable($exam)
+            ]
         ])->setPaper('a4', 'landscape');
 
-        return $pdf;
+         return $pdf;
     }
+
+    protected function getHeaders(Exam $exam){
+        return $exam->type->blocks->map(function($block){
+            return [
+                'id' => $block->id,
+                'name'=>$block->name,
+                'subblocks'=> $block->subblocks->map(function($subblock){
+                    return [
+                        'id' => $subblock->id,
+                        'name' => $subblock->name
+                    ];
+                })
+            ];
+        });  
+    }
+
+    protected function getRows(Exam $exam){
+        $subblocks = $exam->type->blocks
+            ->sortBy('order')
+            ->flatMap(fn ($b) => $b->subblocks->sortBy('order'));
+
+        return $exam->enrollments->map(function($enrollment) use($subblocks){
+            $answers = $enrollment->attempt?->answers ?? null;
+            $isAbsent = $answers === null;
+
+            $grouped = $isAbsent
+                ? collect()
+                : $answers->groupBy('taskVariant.task.subblock_id');
+            $subblockMarks = $subblocks->map(function($subblock) use($grouped, $isAbsent){
+                if($isAbsent){
+                    return ['sum' => null];
+                }
+                return [
+                    'sum' => $grouped[$subblock->id]?->sum('mark') ?? 0
+                ];
+            });
+            return [
+                'fullName' => $enrollment->foreignNational->full_name,
+                'fullPassport' => $enrollment->foreignNational->full_passport,
+                'startedAt' => $enrollment->attempt?->started_at?->format('H:i') ?? null,
+                'finishedAt' => $enrollment->attempt?->finished_at?->format('H:i') ?? null,
+                'result' => $this->getAttemptResultsStatus($enrollment->attempt),
+                'subblockMarks' => $subblockMarks
+            ];
+        });
+    }
+
+    protected function getAttemptResultsStatus(Attempt | null $attempt){
+        if(!$attempt){
+            return 'н/я';
+        }
+
+        if($attempt->isBanned()){
+            return 'Снят';
+        }
+        return $attempt->is_passed ? 'Сертификат' : 'Справка';
+    }
+
+    protected function getRowsMarksTable(Exam $exam){
+        return $exam->enrollments->map(function($enrollment){
+        
+            return [
+                'fullName' => $enrollment->foreignNational->full_name,
+                'fullPassport' => $enrollment->foreignNational->full_passport,
+                'answers' =>$enrollment->attempt?->answers->sortBy(function($answer){
+                    return $answer->taskVariant->task->order;
+                })
+                ?? null
+            ];
+        });
+    }   
 }

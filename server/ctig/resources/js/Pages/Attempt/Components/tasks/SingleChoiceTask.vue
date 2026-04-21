@@ -4,7 +4,7 @@ import { ref, watch } from 'vue';
 import BaseTask from './BaseTask.vue';
 import RenderBlocks from './TaskContentBlocks/RenderBlocks.vue';
 import { Task } from '@/interfaces/Task';
-
+import { useExamAttempt } from '@/composables/useExamAttempt';
 
 const props = defineProps<{
     task:Task,

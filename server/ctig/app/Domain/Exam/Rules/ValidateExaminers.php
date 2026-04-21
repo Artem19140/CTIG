@@ -33,12 +33,12 @@ class ValidateExaminers{
                                                 });
         })->get();
         if($busyExaminers->isNotEmpty()){
-            $names = $busyExaminers->implode('full_name', ', ');
-            throw new BusinessException("Экзаменаторы $names заняты в это время");
+            $names = $busyExaminers->implode('full_name_short', ', ');
+            throw new BusinessException("Выбранные экзаменаторы недоступны в указанное время: $names");
         }
-        if($conflictExaminers){
-            throw new BusinessException("Некоторые экзаменаторы заняты в это время");
-        }
+        // if($conflictExaminers){
+        //     throw new BusinessException("Некоторые экзаменаторы заняты в это время");
+        // }
 
         $examiners = User::with('roles')->whereIn('id', $examiners)->get();
 

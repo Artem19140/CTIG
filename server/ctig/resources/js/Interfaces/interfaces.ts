@@ -141,7 +141,3 @@ export type Paginated<T> = {
         to:number
     }
 }
-
-export type api<T> = {
-    data: T | null
-}

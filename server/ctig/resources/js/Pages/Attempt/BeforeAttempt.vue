@@ -1,23 +1,34 @@
 <script setup lang="ts">
-import { router, usePage } from '@inertiajs/vue3';
+import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.vue';
+import { Attempt, Exam } from '@/interfaces/Interfaces';
+import { useForm } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import { useAuth } from '@/composables/useAuth';
+
 
 const props = defineProps<{
-    exam:any,
+    exam:{
+        data:Exam
+    },
     duration:number,
     minMark:number, 
-    attempt:any,
+    attempt:Attempt,
     tasksCount : number
 }>()
-const page = usePage()
+
+const { user } = useAuth()
 
 const name = computed(() => {
-    return `${page.props?.auth?.user?.surname} ${page.props?.auth?.user?.name}`
+    return `${user.surname} ${user.name}`
 })
 
+const form = useForm()
+
 const begin = () => {
-    router.put(`/exam-attempts/${props.attempt.id}`)
+    form.put(`/exam-attempts/${props.attempt.id}`)
 }
+
+
 </script>
 
 <template>
@@ -26,9 +37,6 @@ const begin = () => {
         :title="`Добро пожаловать, ${name}!`"
         width="700"
     >
-        <v-card-title>
-
-        </v-card-title>
         <v-card-text>
                 <div class="mb-2 ">Название экзамена: <strong>{{ exam.data?.name }}</strong></div>
                 <div class="mb-2 ">Количество попыток: <strong>1</strong></div>
@@ -41,16 +49,14 @@ const begin = () => {
                 <div class="text-wrap">За нарушение правил проведения экзамена, Вы будете <strong>удалены</strong> без права пересдачи!</div>
         </v-card-text>
         <v-card-actions class="flex justify-center">
-            
-            <v-btn
+            <AppPrimaryButton
                 @click="begin"
-                color="primary"
+                :disabled="form.processing"
+                :loading="form.processing"
                 variant="flat"
                 size="large"
-            >
-                Начать экзамен
-            </v-btn>
+                text="Начать экзамен"
+            />
         </v-card-actions>
     </v-card>
-
 </template>

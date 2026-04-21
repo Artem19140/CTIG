@@ -72,6 +72,7 @@ class ExamDocumentController
         //Gate::authorize('exam-manage-access', $exam);
         
         $resultsPdf = $generateExamResults->execute($exam);
+        
         $fileName = "Результаты_".$exam->short_name."_".$exam->begin_time->format('H-i_d.m.Y').".pdf";
         return $resultsPdf->stream($fileName);
     }
@@ -84,5 +85,14 @@ class ExamDocumentController
         return Inertia::flash([
             'redirectUrl' => route('exam.documents.results', ['exam' => $exam])
         ])->back();
+    }
+
+    public function shortResults(Exam $exam, GenerateExamResultsAction $generateExamResults)
+    {
+        //Gate::authorize('exam-manage-access', $exam);
+        
+        $resultsPdf = $generateExamResults->execute($exam);
+        $fileName = "Результаты_".$exam->short_name."_".$exam->begin_time->format('H-i_d.m.Y').".pdf";
+        return $resultsPdf->stream($fileName);
     }
 }

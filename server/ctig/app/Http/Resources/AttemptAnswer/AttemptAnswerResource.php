@@ -19,7 +19,8 @@ class AttemptAnswerResource extends JsonResource
             'id' => $this->id,
             'checkedAt' => $this->checked_at,
             'mark' => $this->mark,
-            'audioPlayed' => $this->audio_played
+            'audioPlayed' => $this->audio_played,
+            //'att_id' => $this->attempt->id
         ];
     }
 }

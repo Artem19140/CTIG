@@ -17,24 +17,21 @@
     </thead>
     <tbody>
     
-    @foreach ($exam->foreignNationals as $f)
+    @foreach ($markTable['rows'] as $row)
     <tr>
-        <td class="border">{{ $f->full_name }}</td>
-        <td class="border">{{ $f->full_passport }}</td>
-        @if ($f->attempts->isNotEmpty())
-            @foreach ($f->attempts as $a)
-                @foreach ($a->answers as $answer)
-                    <td class="border">{{ $answer->mark}}</td>
-                @endforeach
-            @endforeach
-        @else
+        <td class="border">{{ $row['fullName'] }}</td>
+        <td class="border">{{ $row['fullPassport'] }}</td>
+        @if ($row['answers'])
+            @foreach ( $row['answers'] as $answer)
+                <td class="border">{{ $answer->mark }}</td>
+            @endforeach                
+        @endif
+       @if ($row['answers'] === null)
             @for($i = 1; $i <= $exam->type->tasks_count; $i++)
                 <td class="border">
-                   {{ '' }}
                 </td>
             @endfor
-        @endif
-    </tr>    
+       @endif
     @endforeach
     </tbody>
 </table>

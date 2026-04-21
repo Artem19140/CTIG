@@ -28,7 +28,7 @@ class ValidateExamForSave{
 
         if(!$examType->is_active){
             throw ValidationException::withMessages([
-                'examTypeId' => 'Адрес проведения экзамена не актуален'
+                'examTypeId' => 'Тип экзамена не актуален'
             ]);
         }
 
@@ -41,7 +41,7 @@ class ValidateExamForSave{
         if($examBeginTimeUtc < Carbon::now()){
             throw ValidationException::withMessages([
                 'date' => "Экзамен нельзя создать на прошедшие даты",
-                'time' => "'Экзамен нельзя создать на прошедшие даты'"
+                'time' => "Экзамен нельзя создать на прошедшие даты"
             ]);
         }
 

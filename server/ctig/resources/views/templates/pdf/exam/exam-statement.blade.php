@@ -3,22 +3,22 @@
     (Ижевск, Университетская, 1)
 </div>
 
-<div class="center">
+<div class="center text-small">
     Сертификат о владении русским языком, знании истории России и основ законодательства Российской Федерации на уровне, 
     соответствующем цели получения {{ $exam->type->protocol_name }}
 </div>
 
-<div>Сессия № {{ $exam->session }}, группа № {{ $exam->group }}</div>
-<div>Дата и время: {{ $exam->begin_time->format('d.m.Y, H:i') }}</div>
+<div class="text-small">Сессия № {{ $exam->session }}, группа № {{ $exam->group }}</div>
+<div class="text-small">Дата и время: {{ $exam->begin_time->format('d.m.Y, H:i') }}</div>
 <table class="table">
-    <thead>
-        <tr>
+    <thead >
+        <tr >
             <th rowspan="2">ФИО</th>
             <th rowspan="2">Паспортные данные</th>
             <th colspan="2">
                 Время экзамена
             </th>
-            @foreach ($columns as $block)
+            @foreach ($statementTable['headers'] as $block)
                 <th colspan="{{ count($block['subblocks']) }}">
                     {{ $block['name'] }}
                 </th>
@@ -33,37 +33,24 @@
             <th>
                 Конца
             </th>
-            @foreach ($columns as $block)
-                @foreach ($block['subblocks'] as $subName)
-                    <th>{{ $subName }}</th>
+            @foreach ($statementTable['headers'] as $block)
+                @foreach ($block['subblocks'] as $subblock)
+                    <th>{{ $subblock['name'] }}</th>
                 @endforeach
             @endforeach
         </tr>
     </thead>
     <tbody>
-        @foreach ($data as $row)
-        <tr>
-            <td>{{ $row['fio'] }}</td>
-            <td>{{ $row['passport'] }}</td>
-            <td>{{ $row['started_at'] ?? ''}}</td>
-            <td>{{ $row['finished_at']  ?? ''}}</td>    
-            @foreach ($columns as $blockId => $block)
-                @foreach ($block['subblocks'] as $subId => $subName)
-                    <td>
-                        {{ $row['results'][$blockId][$subId] ?? '-' }}
-                    </td>
-                @endforeach
+        @foreach ($statementTable['rows'] as $row)
+        <tr class="text-small">
+            <td >{{ $row['fullName'] }}</td>
+            <td>{{ $row['fullPassport'] }}</td>
+            <td>{{ $row['startedAt'] ?? ''}}</td>
+            <td>{{ $row['finishedAt']  ?? ''}}</td>    
+            @foreach ($row['subblockMarks'] as $marks)
+                <td class="text-small">{{ $marks['sum'] !== null ? $marks['sum'] : ''}}</td>   
             @endforeach
-            @if ($row['attempt'] ?? false)
-                @if($row['attempt']->isBanned())
-                    <td>Снят</td>
-                @else
-                    <td>{{ $row['attempt']->is_passed ?  'Сертификат' : 'Справка' }}</td>
-                @endif
-            @else
-                <td>н/я</td>
-            @endif
-            
+            <td class="text-small">{{ $row['result']  ?? ''}}</td>
         </tr>
         @endforeach
         
@@ -71,8 +58,8 @@
         
     </tbody>
 </table>
-<div>Результаты экзамена проверены.</div>
-<div>Ответственные по проведению экзамена (тесторы):</div>
+<div class="text-small">Результаты экзамена проверены.</div>
+<div class="text-small">Ответственные по проведению экзамена (тесторы):</div>
 @foreach($exam->examiners as $examiner)
     @include('templates.components.signature-section', [
                 'date' =>  \Carbon\Carbon::now()->format('d.m.Y'), 

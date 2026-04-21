@@ -19,14 +19,14 @@ const {messages, queue} = useSnackbarQueue()
       origin="Anchor"
       prepend-icon="$success"
     >
-      <template v-slot:actions>
+      <template v-slot:actions="{ props }">
         <v-btn
           class="px-3"
           density="comfortable"
           rounded="lg"
           variant="text"
           icon="mdi-close"
-          @click.stop
+          v-bind="props"
         ></v-btn>
       </template>
     </v-snackbar-queue>

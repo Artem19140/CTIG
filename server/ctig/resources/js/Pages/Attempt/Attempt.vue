@@ -5,12 +5,22 @@ import { useConfirmDialog } from '@composables/useConfirmDialog';
 import { useForm } from '@inertiajs/vue3';
 import ConfirmDialog from '@components/ConfirmDialog/ConfirmDialog.vue';
 import { Attempt } from '@/interfaces/Interfaces';
+import { useExamAttempt } from '@/composables/useExamAttempt';
+import { watch } from 'vue';
 
 const props = defineProps<{
     attempt:{
         data:Attempt
     }
 }>()
+
+const {examAttempt} = useExamAttempt()
+
+examAttempt.value = props.attempt.data
+
+watch(() => props.attempt.data, (data) => {
+    examAttempt.value = data
+})
 
 const form = useForm()
 

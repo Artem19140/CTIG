@@ -17,7 +17,7 @@ class GetCurrentAttemptQuery{
         $this->attemptGuard->ensureNotBanned($attempt);
        //$this->attemptGuard->ensureNotExpired($attempt);
         $this->attemptGuard->ensureNotFinished($attempt);
-        $attempt->loadMissing([
+        $attempt->load([
             'taskVariants'=> function(BelongsToMany $query){
                 $query->whereHas('task', function(Builder $q){
                     $q->where('type', '<>', TaskType::Speaking);

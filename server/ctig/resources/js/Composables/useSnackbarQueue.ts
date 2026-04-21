@@ -6,7 +6,7 @@ export const useSnackbarQueue = () => {
     const add = (
                     text:string, 
                     color:string,  
-                    prependIcon:string,
+                    prependIcon?:string,
                     timeout = 5000,
                 ) => {
         queue.value.clear()
@@ -14,7 +14,7 @@ export const useSnackbarQueue = () => {
             text:text,
             color:color,
             timeout:timeout,
-            prependIcon:prependIcon
+            prependIcon:prependIcon ?? ''
         })
     }
 
@@ -25,5 +25,5 @@ type SnackBar = {
     text:string,
     color:string,
     timeout:number,
-    prependIcon:string
+    prependIcon:string | null
 }

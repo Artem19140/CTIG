@@ -25,7 +25,8 @@ class AttemptCheckingController
             'taskVariants.task',
             'taskVariants.attemptsAnswer' => function($query)use($attempt){
                 $query->where('attempt_id', $attempt->id);
-            }
+            },
+            'taskVariants.attemptsAnswer.attempt'//Убрать  attempt и вообще эту строку
         ]);
         $attempt->taskVariants = $attempt->taskVariants->sortBy('task.order');
         return new AttemptResource($attempt);

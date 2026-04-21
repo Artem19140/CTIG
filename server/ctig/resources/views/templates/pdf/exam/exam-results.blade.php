@@ -7,15 +7,13 @@
     table, th, td {
         border: 1px solid black;
         text-align:center;
-    }
-    th{
-        font-size:11px;
+        font-size:8px;
     }
     
 @endpush
 @section('content')
 
-@include('templates.pdf.exam.exam-statement', ['data' => $data, 'columns' => $columns])
+@include('templates.pdf.exam.exam-statement', ['exam' => $exam, 'statementTable' => $statementTable])
 <div class="page-break"></div>
-@include('templates.pdf.exam.exam-marks', ['exam' => $exam])
+@include('templates.pdf.exam.exam-marks', ['exam' => $exam, 'markTable' => $markTable])
 @endsection

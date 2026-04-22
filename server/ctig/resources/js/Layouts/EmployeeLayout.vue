@@ -82,11 +82,12 @@
       </v-navigation-drawer>
 
     <v-main 
-      style="background-image: url('/storage/images/background.png');
-              min-height: 100vh;
-              background-size: cover;
-              background-position: center"
-              
+      style="
+          background-image: url('/storage/images/background.png');
+          min-height: 100vh;
+          background-size: cover;
+          background-position: center
+        "       
     >
       <slot />
     </v-main>
@@ -112,12 +113,6 @@ const logout = async () => {
   if(!ok) return 
   router.post('/logout')
 }
-
-router.on("httpException", (event) => {
-  console.log(`An invalid Inertia response was received.`);
-  console.log(event.detail.response);
-});
-
 const {can, user} = useAuth()
 
 defineOptions({

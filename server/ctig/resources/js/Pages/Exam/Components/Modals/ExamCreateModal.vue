@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { useHttp } from '@inertiajs/vue3'
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import {  ExamForm } from '@interfaces/Interfaces';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
@@ -11,7 +11,7 @@ const props = defineProps<{
 }>()
 const isOpen = defineModel<boolean>({default:false})
 
-const form = useForm<ExamForm>({
+const http = useHttp<ExamForm>({
     examTypeId: null,
     addressId:null,
     comment:'',
@@ -22,11 +22,10 @@ const form = useForm<ExamForm>({
 })
 
 const create =  () => {
-    form.post('/exams', {
-    preserveScroll: true,
-    onSuccess: (page) => {
-        if(page.flash.success){
-            form.resetAndClearErrors()
+    http.post('/exams', {
+    onSuccess: (response:any) => {
+        if(response.success){
+            http.resetAndClearErrors()
             isOpen.value = false
         }
     },
@@ -35,13 +34,13 @@ const create =  () => {
 }
 
 const beforeClose = async (fn:  ()  => void) => {
-    if(form.isDirty){
+    if(http.isDirty){
         const {confirmOpen} = useConfirmDialog()
         if(! await confirmOpen("Отменить добавление экзамена?") ){
             return
         }
     }
-    form.resetAndClearErrors()
+    http.resetAndClearErrors()
     fn()
 }
 </script>
@@ -53,13 +52,13 @@ const beforeClose = async (fn:  ()  => void) => {
         v-model="isOpen"
         @before-close="(done) => beforeClose(done)"
     >
-    <ExamCreateForm :form="form" />
+    <ExamCreateForm :form="http" />
         <template #actions >
             <AppAddButton  
                 text="Добавить"
                 @click="create"
-                :disabled="form.processing"
-                :loading="form.processing"
+                :disabled="http.processing"
+                :loading="http.processing"
             />
         </template>
     </BaseDialog>

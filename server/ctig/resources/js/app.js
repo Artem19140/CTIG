@@ -7,7 +7,27 @@ import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import {ru } from 'vuetify/locale'
 import BaseLayout from '@layouts/BaseLayout.vue';
+import { useHttpErrorHandler } from '@/composables/useHttpErrorHandler';
+import { http, router } from '@inertiajs/vue3';
+import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
 
+http.onError((error) => {
+    const response = (error).response
+    if (!response) return
+    useHttpErrorHandler().handle(response)
+})
+
+const { add } = useSnackbarQueue()
+router.on('flash', (event) => {
+    if(event.detail.flash.success){
+        add(String(event.detail.flash.success), 'green')
+    }
+
+    if(event.detail.flash.error){
+        console.log('flash')
+        add(String(event.detail.flash.error), 'red')
+    }
+})
 
 const vuetify = createVuetify({
   theme: {

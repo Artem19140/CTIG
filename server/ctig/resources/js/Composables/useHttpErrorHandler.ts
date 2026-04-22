@@ -24,7 +24,6 @@ export const useHttpErrorHandler = () => {
                 addSnackBar('Не найдено')
                 break;
             case 422:
-                //console.log('Зашел')
                 break;
             case 500:
                 addSnackBar('Ошибка сервер')

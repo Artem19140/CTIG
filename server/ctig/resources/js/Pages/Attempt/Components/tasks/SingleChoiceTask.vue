@@ -5,10 +5,11 @@ import BaseTask from './BaseTask.vue';
 import RenderBlocks from './TaskContentBlocks/RenderBlocks.vue';
 import { Task } from '@/interfaces/Task';
 import { useExamAttempt } from '@/composables/useExamAttempt';
+import { Attempt } from '@/interfaces/Interfaces';
 
 const props = defineProps<{
     task:Task,
-    attempt:any,
+    attempt:Attempt,
     checking?:boolean
 }>()
 
@@ -24,7 +25,9 @@ const http = useHttp<{ answer: number | null}>({
 
 const send = async () => {
     http.answer = attemptAnswer.value
-    http.put(`/exam-attempts/${props.attempt.id}/answers/${attemptAnswerId}`,{
+    // const {updateAnswer} = useExamAttempt()
+    // updateAnswer(attemptAnswerId, attemptAnswer.value)
+    http.put(`/attempts/${props.attempt.id}/answers/${attemptAnswerId}`,{
         onSuccess:(response : any) => {
             props.task.attemptAnswer = response.data
         },
@@ -44,6 +47,7 @@ watch(attemptAnswer, () => {
     <base-task
         :task="task"
         :checking="checking"
+        :attempt="attempt"
     >
         <template #answers>
             <div class="mb-4 flex flex-column">

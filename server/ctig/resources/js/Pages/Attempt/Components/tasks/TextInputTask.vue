@@ -10,12 +10,12 @@ const props = defineProps<{
     attempt:Attempt
 }>()
 
-const answer = ref<string | null>(props.task?.answer)
+const answer = ref<string | null>(props.task?.attemptAnswer.answer)
 
 let timeout: number | undefined
 
 const http = useHttp<{ answer: string | null }>({
-    answer:props.task.attemptAnswer.answer
+    answer:props.task.attemptAnswer?.answer
 })
 
 watch(answer, (text) => {
@@ -25,7 +25,7 @@ watch(answer, (text) => {
 
     timeout = setTimeout(async () => {
         http.answer = text
-        http.put(`/exam-attempts/${props.attempt.id}/answers/${props.task.attemptAnswer.id}`,{
+        http.put(`/attempts/${props.attempt.id}/answers/${props.task.attemptAnswer.id}`,{
             onSuccess:(response:any) => {
                 props.task.attemptAnswer = response.data
             }

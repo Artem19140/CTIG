@@ -1,21 +1,48 @@
 <script setup lang="ts">
+import { Task } from '@/interfaces/Task';
+
 const props = defineProps<{
-    tasks:any
+    tasks:Task[]
 }>()
+
+const go = (id:string) => {
+  document.getElementById(id)?.scrollIntoView({
+    behavior: 'smooth'
+  })
+}
 </script>
 
 <template>
-   
-    <div style="display: flex; flex-wrap: wrap; row-gap: 12px; margin-top: 20px; max-height: 400px; overflow-y: auto;">
-        <div
-            v-for="task in tasks"
-            :key="task.id"
-            style="width: 50%; display: flex; align-items: center; column-gap: 8px;"
+
+    <v-container class="pa-0">
+      <v-row dense>
+        <v-col
+          v-for="task in tasks"
+          :key="task.id"
+          cols="3"
+          sm="2"
+          md="2"
+          lg="2"
+          class="d-flex justify-center"
         >
+          <v-btn
+            icon
+            :variant="task?.attemptAnswer?.answer ? 'flat' : 'outlined'"
+            :color="task?.attemptAnswer?.answer ? 'grey' : 'grey'"
+            class="task-btn"
+            @click="go(`task-${task.id}`)"
+          >
             {{ task.order }}
-            <v-icon color="grey">
-            {{ task?.attemptAnswer?.answer ? 'mdi-check-circle' : 'mdi-circle-outline' }}
-            </v-icon>
-        </div>
-    </div>
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
 </template>
+
+<style scoped>
+.task-btn {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+}
+</style>

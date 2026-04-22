@@ -20,7 +20,8 @@ class ExamMonitoringController
             ->whereHas('examiners', function(Builder $query) use($user){
                 $query->where('examiner_id', $user->id);
             })
-            ->withCount('enrollments')
+            ->withCount(['enrollments'])
+            ->with(['examiners', 'address']) //Убрать
             ->when($past, function (Builder $query) use($request){
                 $query->where('end_time', '<', now($request->user()->center->time_zone));
             })

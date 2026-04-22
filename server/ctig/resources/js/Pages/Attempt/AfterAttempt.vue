@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
-import { ForeignNational } from '@interfaces/Interfaces';
 import { router } from '@inertiajs/vue3';
 
 const props=defineProps<{
-    foreignNational:ForeignNational,
+    foreignNationalName:string,
     examName: string
 }>()
 </script>
@@ -20,7 +19,7 @@ const props=defineProps<{
                 >
             
                 </v-img>
-                {{foreignNational.surname}} {{foreignNational.name}}, спасибо за прохождение экзамена "{{ examName}}" в системе ТИГР. 
+                {{foreignNationalName ? `${foreignNationalName, "спасибо"}` : 'Спасибо' }} за прохождение экзамена {{ ` ${examName} `}} в системе ТИГР. 
                 Ожидайте результаты экзамена. В случае вопросов обратитесь в центр тестирования.
             </v-card-text>
             <v-card-actions class="justify-center">

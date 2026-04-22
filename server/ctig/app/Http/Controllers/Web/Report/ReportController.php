@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Web\Report;
 
 use App\Domain\Attempt\Action\CloseAbandonedAttemptsAction;
-use App\Domain\Report\CheckAvailableFrdoGenerateAction;
-use App\Domain\Report\GenerateFlatTableAction;
-use App\Domain\Report\GenerateFRDOReportsAction;
+use App\Domain\Report\CheckAvailableFrdoGeneration;
+use App\Domain\Report\FlatTableGenerator;
+use App\Domain\Report\FRDOReportsGenerator;
 use App\Http\Requests\Report\FlatTableRequest;
 use App\Http\Requests\Report\FrdoReportRequest;
 use Carbon\Carbon;
@@ -17,12 +17,12 @@ class ReportController
 {
     public function frdo(
                         FrdoReportRequest $request,
-                        GenerateFRDOReportsAction $generateFRDOReports
+                        FRDOReportsGenerator $frdoGenerator
                         ){
         
         $success = $request->validated('success');
         $examDate = Carbon::parse($request->validated('examDate'));
-        $writer = $generateFRDOReports->execute(
+        $writer = $frdoGenerator->execute(
                                                     $examDate,
                                                     $success,
                                                     $request->user()->center
@@ -43,11 +43,11 @@ class ReportController
 
     public function available(
                                 FrdoReportRequest $request, 
-                                CheckAvailableFrdoGenerateAction $checkAvailableGenerate, 
+                                CheckAvailableFrdoGeneration $checkAvailableGeneration, 
                                 CloseAbandonedAttemptsAction $closeAbandonedAttemptsAction
                             ){
         $closeAbandonedAttemptsAction->execute($request->user()->time_zone);
-        $checkAvailableGenerate->execute($request->input('examDate'));
+        $checkAvailableGeneration->execute($request->input('examDate'));
         return Inertia::flash([
             'redirectUrl' => route('reports.frdo', [
                 'examDate' => $request->validated('examDate'),
@@ -56,10 +56,10 @@ class ReportController
         ])->back();
     }
 
-    public function flatTable(FlatTableRequest $request, GenerateFlatTableAction $generateFlatTable){
-        return response()->streamDownload(function () use ($generateFlatTable, $request) {
+    public function flatTable(FlatTableRequest $request, FlatTableGenerator $flatTableGenerator){
+        return response()->streamDownload(function () use ($flatTableGenerator, $request) {
 
-            $generateFlatTable->execute( $request->validated('dateFrom'), $request->validated('dateTo'));
+            $flatTableGenerator->execute( $request->validated('dateFrom'), $request->validated('dateTo'));
  
         }, 'report.csv');  
     }

@@ -20,25 +20,36 @@ const solved = computed(() =>  props.tasks.filter(item => item?.attemptAnswer?.a
 </script>
 
 <template>
-    <v-list>
-        <v-list-item>
-           <Timer 
-                :time-begin="attempt.startedAt"
-                :time-end="attempt.expiredAt"
-           />
-        </v-list-item>
-        <v-list-item>
-           <v-list-item-title>
-            Задания
-            </v-list-item-title>
-            <v-progress-linear
-                color="green"
-                :height="20"
-                :model-value="progress"
-            ><span>{{ solved }} / {{ tasks?.length }}</span></v-progress-linear>
-        </v-list-item>
-        <v-list-item>
-            <TaskSideList :tasks="tasks" />
-        </v-list-item>
-    </v-list>
+  <v-card class="pa-3" elevation="2" rounded="lg" variant="text">
+    
+
+    <div class="mb-4">
+      <Timer
+        :time-begin="attempt.startedAt"
+        :time-end="attempt.expiredAt"
+      />
+    </div>
+
+    <v-divider class="mb-4" />
+
+    <div class="d-flex align-center justify-space-between mb-2">
+      <div class="text-subtitle-1 font-weight-medium">
+        Задания
+      </div>
+      <div class="text-caption text-medium-emphasis">
+        {{ solved }} / {{ tasks?.length }}
+      </div>
+    </div>
+
+    <v-progress-linear
+      color="green"
+      height="10"
+      rounded
+      :model-value="progress"
+      class="mb-4"
+    />
+
+    <TaskSideList :tasks="tasks" />
+
+  </v-card>
 </template>

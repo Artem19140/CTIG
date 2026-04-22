@@ -6,7 +6,6 @@ import { ref } from "vue";
 export const examAttempt = ref<Attempt>()
 
 export const useExamAttempt = ()  => {
-    const error = ref()
     const http = useHttp({
         answer:null
     })
@@ -18,15 +17,9 @@ export const useExamAttempt = ()  => {
                 const task = examAttempt.value?.tasks.find(t => t.attemptAnswer.id = answerId)
                 if(!task) return
                 task.attemptAnswer = response.attemptAnswer
-            },
-            onError:() => {
-                error.value = true
-            },
-            onHttpException() {
-                error.value = true
-            },
+            }
         })
     }
 
-    return {updateAnswer, examAttempt}
+    return {updateAnswer, examAttempt, http}
 }

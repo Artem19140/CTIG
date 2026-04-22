@@ -4,9 +4,13 @@ import ImageBlock from './ImageBlock.vue';
 import TextBlock from  './TextBlock.vue';
 import TableBlock from './TableBlock.vue';
 import FrameBlock from './FrameBlock.vue';
+import { Task } from '@/interfaces/Task';
+import { Attempt } from '@/interfaces/Interfaces';
 
 const props = defineProps<{
-    content?:any
+    content?:any,
+    task?:Task,
+    attempt?:Attempt
 }>()
 
 const taskBlocks = (type: string) => {
@@ -33,6 +37,7 @@ const taskBlocks = (type: string) => {
         :key="index"
         :is="taskBlocks(block.type)"
         v-bind="block"
+        :task="task"
+        :attempt="attempt"
     />
-    <!-- {{ content }} -->
 </template>

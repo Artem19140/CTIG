@@ -1,8 +1,18 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { Attempt } from '@/interfaces/Interfaces';
+import { Task } from '@/interfaces/Task';
 import { useHttp } from '@inertiajs/vue3';
+import { computed, ref } from 'vue'
 
-const props = defineProps<{ value: string }>()
+const props = defineProps<{ 
+    value: string 
+    task:Task, 
+    attempt: Attempt
+}>()
+
+const emit = defineEmits<{ 
+    (e:'audio-played'):void
+}>()
 
 const audioRef = ref<HTMLAudioElement | null>(null)
 
@@ -18,8 +28,13 @@ const togglePlay = () => {
   if (!audioRef.value) return
     audioRef.value.play()
     played.value = true
-    const http = useHttp()
-    
+    const audioPlayed = () => {
+    const http = useHttp({
+        
+    })
+    if(!props.attempt?.id) return
+    http.put(`/attempts/${props.attempt.id}/answers/${props.task.attemptAnswer.id}/audio`)
+}
 }
 
 const onTimeUpdate = () => {
@@ -46,35 +61,40 @@ function format(time: number) {
             variant="tonal"
             class="ma-2"
             >
-                <strong>ВНИМАНИЕ!</strong> Аудиозапись можно прослушать только один раз. 
-                Не <strong>перезагружайте</strong> и не <strong>закрывайте</strong> вкладку во время прослушивания.
+                <div v-if="!task.attemptAnswer.audioPlayed">
+                    <strong>ВНИМАНИЕ!</strong> Аудиозапись можно прослушать только один раз. 
+                    Не <strong>перезагружайте</strong> и не <strong>закрывайте</strong> вкладку во время прослушивания.
+                </div>
+                <div v-else>
+                    Запись уже прослушана
+                </div>
+                
         </v-alert>
-        <audio
-            ref="audioRef"
-            :src="value"
-            @timeupdate="onTimeUpdate"
-            @loadedmetadata="onLoaded"
-            preload="auto"
-        />
-        <div class="flex items-center">
-            <v-btn 
-                icon 
-                @click="togglePlay" 
-                v-if="!played"
-                variant="text"
-            >
-                <v-icon>mdi-play</v-icon>
-            </v-btn>
+        <div v-if="!task.attemptAnswer.audioPlayed">
+            <audio
+                ref="audioRef"
+                :src="value"
+                @timeupdate="onTimeUpdate"
+                @loadedmetadata="onLoaded"
+                preload="auto"
+            />
+            <div class="flex items-center">
+                <v-btn 
+                    icon 
+                    @click="togglePlay" 
+                    v-if="!played"
+                    variant="text"
+                >
+                    <v-icon>mdi-play</v-icon>
+                </v-btn>
 
-            <v-progress-linear
-                color="blue-lighten-3"
-                :model-value="playedTime"
-                :height="20"
-            >{{ format(currentTime) }} / {{ format(duration) }}
-            </v-progress-linear>
+                <v-progress-linear
+                    color="blue-lighten-3"
+                    :model-value="playedTime"
+                    :height="20"
+                >{{ format(currentTime) }} / {{ format(duration) }}
+                </v-progress-linear>
+            </div>
         </div>
-    </div>
-    <div v-else class="flex justify-center ">
-        Запись уже прослушана
     </div>
 </template>

@@ -2,26 +2,25 @@
 
 namespace App\Domain\Report;
 
-use App\Domain\Report\CheckAvailableFrdoGenerateAction;
+use App\Domain\Report\CheckAvailableFrdoGeneration;
 use App\Enums\AttemptStatus;
 use App\Models\Attempt;
 use App\Models\Center;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
-use Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\IWriter;
 
-class GenerateFRDOReportsAction{
+class FRDOReportsGenerator{
     public function __construct(
-        protected CheckAvailableFrdoGenerateAction $checkAvailableGenerate
+        protected CheckAvailableFrdoGeneration $checkAvailableGeneration
     ){
         
     }
     public function execute(string $examDate, bool $success, Center $center): IWriter{
         $examDate = Carbon::parse($examDate);
-        $this->checkAvailableGenerate->execute($examDate);
+        $this->checkAvailableGeneration->execute($examDate);
         $spreadsheet = $this->generateReport($examDate, $success, $center);
         return IOFactory::createWriter($spreadsheet, 'Xlsx');
     }

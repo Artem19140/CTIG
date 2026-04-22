@@ -43,6 +43,7 @@ class ExamController
     public function store(ExamPostRequest $request, CreateExamAction $createExamAction)
     {       
         $createExamAction->execute($request->getDto(),$request->user());
+        return response()->json();
         return Inertia::flash('success', 'Экзамен создан')->back();
     }
 

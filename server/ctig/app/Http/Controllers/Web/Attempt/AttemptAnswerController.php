@@ -54,4 +54,13 @@ class AttemptAnswerController
         
         return response()->json(['attemptAnswer' => new AttemptAnswerResource($attemptAnswer)]);
     }
+
+    public function audioPlayed(
+        Attempt $attempt,
+        AttemptAnswer $attemptAnswer,
+    ){
+        $attemptAnswer->audio_played = true;
+        $attemptAnswer->save();
+        return response()->noContent();
+    }
 }

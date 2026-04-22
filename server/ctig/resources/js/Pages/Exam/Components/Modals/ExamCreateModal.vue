@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useHttp } from '@inertiajs/vue3'
+import { router, useHttp } from '@inertiajs/vue3'
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import {  ExamForm } from '@interfaces/Interfaces';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
@@ -24,10 +24,11 @@ const http = useHttp<ExamForm>({
 const create =  () => {
     http.post('/exams', {
     onSuccess: (response:any) => {
-        if(response.success){
-            http.resetAndClearErrors()
-            isOpen.value = false
-        }
+        console.log(response)
+        http.resetAndClearErrors()
+        isOpen.value = false
+        router.visit('/exams')
+
     },
     })
     

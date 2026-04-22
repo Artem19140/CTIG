@@ -6,7 +6,6 @@ import { useForm } from '@inertiajs/vue3';
 import ConfirmDialog from '@components/ConfirmDialog/ConfirmDialog.vue';
 import { Attempt } from '@/interfaces/Interfaces';
 import { useExamAttempt } from '@/composables/useExamAttempt';
-import { watch } from 'vue';
 
 const props = defineProps<{
     attempt:{
@@ -18,9 +17,8 @@ const {examAttempt} = useExamAttempt()
 
 examAttempt.value = props.attempt.data
 
-watch(() => props.attempt.data, (data) => {
-    examAttempt.value = data
-})
+
+console.log(examAttempt.value.tasks)
 
 const form = useForm()
 
@@ -28,7 +26,7 @@ const finish = async () => {
     const {confirmOpen} = useConfirmDialog()
     const ok = await confirmOpen("Вы уверены, что хотите завершить попытку?")
     if(!ok) return
-    form.put(`/exam-attempts/${props.attempt.data.id}/finish`)
+    form.put(`/attempts/finish`)
 }
 </script>
 

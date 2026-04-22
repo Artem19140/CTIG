@@ -110,7 +110,9 @@ Route::middleware('guest')->group(function (){
 });
 
 Route::middleware('auth:foreignNationals')->group(function (){
-    Route::prefix('exam-attempts')->group(function(){
+    Route::prefix('attempts')->group(function(){
+        // Route::put('/finish', [AttemptController::class, 'finish'])
+        //     ->can('attempt-access', 'attempt');
         Route::get('{attempt}/before', [AttemptController::class, 'before'])->name('exam-attempts.before')
             ->can('attempt-access', 'attempt');
 
@@ -126,8 +128,9 @@ Route::middleware('auth:foreignNationals')->group(function (){
         Route::put('{attempt}/answers/{attemptAnswer}', [AttemptAnswerController::class, 'update'])
             ->can('attempt-access', 'attempt');
 
-        Route::put('{attempt}/finish', [AttemptController::class, 'finish'])
-            ->can('attempt-access', 'attempt');
+       
+
+        Route::put('{attempt}/answers/{attemptAnswer}/audio', [AttemptAnswerController::class, 'audioPlayed']);
     });
     
 });

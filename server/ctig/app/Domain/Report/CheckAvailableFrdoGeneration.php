@@ -7,7 +7,7 @@ use App\Exceptions\BusinessException;
 use App\Models\Attempt;
 use Carbon\Carbon;
 
-class CheckAvailableFrdoGenerateAction{
+class CheckAvailableFrdoGeneration{
     public function execute(string $examDate){
         $examDate = Carbon::parse($examDate);
         $attemptsExists = Attempt::where('finished_at', '>=',$examDate->copy()->startOfDay())

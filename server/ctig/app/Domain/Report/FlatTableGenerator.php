@@ -7,12 +7,12 @@ use App\Enums\TaskType;
 use App\Models\Attempt;
 use Carbon\Carbon;
 
-class GenerateFlatTableAction{
+class FlatTableGenerator{
     public function execute(string $dateFrom,string $dateTo){
         $handle = fopen('php://output', 'w');
         fwrite($handle, "\xEF\xBB\xBF");
-        $dateFrom = Carbon::parse($dateFrom);
-        $dateTo = Carbon::parse($dateTo);
+        $dateFrom = Carbon::parse($dateFrom)->copy()->startOfDay();
+        $dateTo = Carbon::parse($dateTo)->copy()->endOfDay();
         fputcsv($handle, $this->headers());
         $strNumber = 1;
         

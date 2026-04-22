@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers\Web\Attempt;
 
-use App\Domain\Attempt\Action\FinishAttemptAction;
 use App\Domain\AttemptAnswer\Action\HandleAttemptAnswerAction;
 use App\Domain\AttemptAnswer\Action\RateAttemptAnswerAction;
-use App\Enums\AttemptStatus;
-use App\Exceptions\BusinessException;
 use App\Http\Requests\AttemptAnswer\AttemptAnswerRequest;
 use App\Http\Resources\AttemptAnswer\AttemptAnswerResource;
 use App\Models\Attempt;

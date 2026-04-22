@@ -127,7 +127,7 @@ const back = () => {
                         <span v-else></span>
                     </template>
                     <template  #item.startedAt="{ item }">
-                        {{new DateFormatter(item.attempt?.startedAt).format('H:i')}}
+                        {{new DateFormatter(item.attempt?.startedAt ?? '').format('H:i')}}
                     </template>
                     <template  #item.finishedAt="{ item }">
                         {{new DateFormatter(item.attempt?.finishedAt ?? '').format('H:i')}}

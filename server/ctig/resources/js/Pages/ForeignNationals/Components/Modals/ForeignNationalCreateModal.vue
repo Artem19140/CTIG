@@ -104,30 +104,6 @@ const  close  = async (fn:  ()  => void)  =>  {
     fn()
 }
 
-watch(() => form.noPatronymic, (val) => {
-    if (val){
-        form.patronymic = ''
-    } 
-})
-
-watch(() => form.noPatronymicLatin, (val) => {
-    if (val){
-        form.patronymicLatin = ''
-    } 
-})
-
-watch(() => form.noPassportNumber, (val) => {
-    if (val){
-        form.passportNumber = ''
-    } 
-})
-
-watch(() => form.noPassportSeries, (val) => {
-    if (val){
-        form.passportSeries = ''
-    } 
-})
-
 </script>
 
 <template>  
@@ -138,7 +114,7 @@ watch(() => form.noPassportSeries, (val) => {
             height="100%"
             @before-close="(done) => {close(done); }"
         >   
-                <v-card title="Экзамен" class="mb-4">
+                <v-card title="Экзамен" class="mb-4" >
                     <v-card-text>
                         <v-container>
                             <v-col cols="12" class="subtitle mb-4">

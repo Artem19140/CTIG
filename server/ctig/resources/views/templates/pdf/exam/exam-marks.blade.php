@@ -21,6 +21,7 @@
     <tr>
         <td class="border">{{ $row['fullName'] }}</td>
         <td class="border">{{ $row['fullPassport'] }}</td>
+
         @if ($row['answers'])
             @foreach ( $row['answers'] as $answer)
                 <td class="border">{{ $answer->mark }}</td>
@@ -33,5 +34,6 @@
             @endfor
        @endif
     @endforeach
+
     </tbody>
 </table>

@@ -24,6 +24,7 @@ class EnrollmentResource extends JsonResource
             'hasPayment' => $this->has_payment,
             'exam' => new ExamShortResource($this->whenLoaded('exam')),
             'attempt' => new AttemptResource($this->whenLoaded('attempt')),
+            'regNum' => $this->reg_number,
             'examResult' => $this->when(
                                         $this->relationLoaded('exam') && 
                                         $this->relationLoaded('attempt'),

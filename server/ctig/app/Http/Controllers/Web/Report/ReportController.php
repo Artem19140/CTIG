@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\Web\Report;
 
+use App\Domain\Attempt\Action\CloseAbandonedAttemptsAction;
 use App\Domain\Report\CheckAvailableFrdoGenerateAction;
 use App\Domain\Report\GenerateFlatTableAction;
 use App\Domain\Report\GenerateFRDOReportsAction;
 use App\Http\Requests\Report\FlatTableRequest;
 use App\Http\Requests\Report\FrdoReportRequest;
-use App\Models\Exam;
 use Carbon\Carbon;
 use Inertia\Inertia;
-use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+
 
 class ReportController
 {
     public function frdo(
                         FrdoReportRequest $request,
-                        GenerateFRDOReportsAction $generateFRDOReports,
+                        GenerateFRDOReportsAction $generateFRDOReports
                         ){
         
         $success = $request->validated('success');
@@ -41,7 +41,12 @@ class ReportController
         }, 200, $headers);
     }
 
-    public function available(FrdoReportRequest $request, CheckAvailableFrdoGenerateAction $checkAvailableGenerate){
+    public function available(
+                                FrdoReportRequest $request, 
+                                CheckAvailableFrdoGenerateAction $checkAvailableGenerate, 
+                                CloseAbandonedAttemptsAction $closeAbandonedAttemptsAction
+                            ){
+        $closeAbandonedAttemptsAction->execute($request->user()->time_zone);
         $checkAvailableGenerate->execute($request->input('examDate'));
         return Inertia::flash([
             'redirectUrl' => route('reports.frdo', [

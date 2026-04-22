@@ -4,8 +4,8 @@ import AppInput from '@components/UI/AppInput/AppInput.vue';
 import AppFileInput from '@components/UI/AppFileInput/AppFileInput.vue';
 import AppTextarea from '@components/UI/AppTextarea/AppTextarea.vue';
 import { computed } from 'vue';
-import AppCheckbox from '@components/UI/AppCheckbox/AppCheckbox.vue';
 import countries from '@data/countries.json'
+import AppOptionalInput from '@/components/UI/AppOptionalInput/AppOptionalInput.vue';
 
 const props = defineProps<{
     form: any,
@@ -24,9 +24,11 @@ function required (v:any) {
     <v-card title="Персональные данные" class="mb-4">
         <v-card-text>
             <v-container fluid>
-                <v-row density="comfortable">
-                    <v-col cols="12"  class="subtitle" >
-                        Нотариальный перевод
+                <v-row class="mb-2">
+                    <v-col cols="12">
+                        <div class="text-subtitle-1 font-weight-medium">
+                            Нотариальный перевод 
+                        </div>
                     </v-col>
 
                     <v-col cols="12" md="6">
@@ -50,30 +52,22 @@ function required (v:any) {
                 />
                     </v-col>
 
-                    <v-col cols="12" md="6">
-                        <AppInput
-                            label="Отчество на русском"
-                            :required="true && !form.noPatronymic && !edit"
-                            v-model="form.patronymic"
-                            :readonly="readonly"
-                            :error-messages="form.errors.patronymic"
-                            :disabled="form.noPatronymic"
+                    <v-col cols="6" md="12">
+                        <AppOptionalInput
+                            :form="form"
+                            v-model:input="form.patronymic"
+                            v-model:checkbox="form.noPatronymic"
+                            :input-attr="{label:'Отчество кириллица', 'error-messages':form.errors.patronymic}"
+                            :checkbox-attr="{label:'Нет отчества кириллица', 'error-messages':form.errors.noPatronymic}"
                         />
                     </v-col>
-                    
-                    <v-col cols="12" md="6">
-                        <AppCheckbox
-                            v-if="!edit"
-                            v-model="form.noPatronymic" 
-                            label="Нет отчества на рус"
-                            :readonly="readonly"
-                            :error-messages="form.errors.noPatronymic"
-                        />
-                    </v-col>
+                    <v-divider class="my-4" />
 
 
-                    <v-col cols="12" class="subtitle">
-                        Паспортные данные
+                    <v-col cols="12">
+                        <div class="text-subtitle-1 font-weight-medium">
+                            Паспортные данные
+                        </div>
                     </v-col>
 
                     
@@ -96,37 +90,25 @@ function required (v:any) {
                             :error-messages="form.errors.nameLatin"
                         />
                     </v-col>
-
-                    <v-col cols="6" md="6">
-                        <AppInput 
-                            label="Отчество на латинице"
-                            :required="true && !edit"
-                            v-model="form.patronymicLatin"
-                            :readonly="readonly"
-                            :error-messages="form.errors.patronymicLatin"
-                            :disabled="form.noPatronymicLatin"
-                        />  
-                    </v-col>
-
-                    <v-col cols="6" md="6">
-                        <AppCheckbox
-                            v-if="!edit"
-                            v-model="form.noPatronymicLatin" 
-                            label="Нет отчества на лат"
-                            :readonly="readonly"
-                            :error-messages="form.errors.noPatronymicLatin"
+                    <v-col cols="6" md="12">
+                        <AppOptionalInput
+                            :form="form"
+                            v-model:input="form.patronymicLatin"
+                            v-model:checkbox="form.noPatronymicLatin"
+                            :input-attr="{label:'Отчество на латинице', 'error-messages':form.errors.patronymicLatin}"
+                            :checkbox-attr="{label:'Нет отчества латиница', 'error-messages':form.errors.noPatronymicLatin}"
                         />
                     </v-col>
 
                     <v-col cols="12" md="6">
-                            <AppInput 
-                                label="Дата рождения"
-                                :required="true && !edit"
-                                :readonly="readonly"
-                                v-model="form.dateBirth"
-                                :error-messages="form.errors.dateBirth"
-                                type="date"
-                            /> 
+                        <AppInput 
+                            label="Дата рождения"
+                            :required="true && !edit"
+                            :readonly="readonly"
+                            v-model="form.dateBirth"
+                            :error-messages="form.errors.dateBirth"
+                            type="date"
+                        /> 
                     </v-col>
 
                     
@@ -153,7 +135,7 @@ function required (v:any) {
                             inline
                             label="Пол"
                             :error-messages="form.errors.gender"
-                            >
+                        >
                             <v-radio
                                 label="М"
                                 value="M"
@@ -165,46 +147,23 @@ function required (v:any) {
                         </v-radio-group>
                     </v-col>
 
-                    <v-col cols="12" md="6">
-                        <AppInput  
-                            label="Серия паспорта"
-                            :required="true && !edit"
-                            :readonly="readonly"
-                            v-model="form.passportSeries"
-                            :error-messages="form.errors.passportSeries"
-                            :disabled="form.noPassportSeries"
-                        />  
-                    </v-col>
-
-                    <v-col cols="12" md="6">
-                        <AppCheckbox
-                            v-if="!edit"
-                            v-model="form.noPassportSeries" 
-                            :readonly="readonly"
-                            label="Нет серии"
-                            :error-messages="form.errors.noPassportSeries"
+                    <v-col cols="6" md="12">
+                        <AppOptionalInput
+                            :form="form"
+                            v-model:input="form.passportSeries"
+                            v-model:checkbox="form.noPassportSeries"
+                            :input-attr="{label:'Серия паспорта', 'error-messages':form.errors.passportSeries}"
+                            :checkbox-attr="{label:'Нет серии', 'error-messages':form.errors.noPassportSeries}"
                         />
                     </v-col>
 
-                    <v-col cols="12" md="6">
-                        <AppInput 
-                            label="Номер паспорта"
-                            :required="true && !edit"
-                            :readonly="readonly"
-                            :rules="[required]"
-                            v-model="form.passportNumber"
-                            :error-messages="form.errors.passportNumber"
-                            :disabled="form.noPassportNumber"
-                        />  
-                    </v-col>
-
-                    <v-col cols="12" md="6">
-                        <AppCheckbox
-                            v-if="!edit"
-                            :readonly="readonly"
-                            v-model="form.noPassportNumber" 
-                            label="Нет номера"
-                            :error-messages="form.errors.noPassportNumber"
+                    <v-col cols="6" md="12">
+                        <AppOptionalInput
+                            :form="form"
+                            v-model:input="form.passportNumber"
+                            v-model:checkbox="form.noPassportNumber"
+                            :input-attr="{label:'Номер паспорта', 'error-messages':form.errors.passportNumber}"
+                            :checkbox-attr="{label:'Нет номера', 'error-messages':form.errors.noPassportNumber}"
                         />
                     </v-col>
 
@@ -230,9 +189,12 @@ function required (v:any) {
                         /> 
                     </v-col>
 
-                    <v-col cols="12" md="6"></v-col>
-                    <v-col cols="12"  class="subtitle">
-                        Адрес регистрации    
+                    <v-divider class="my-4" />
+
+                    <v-col cols="12">
+                        <div class="text-subtitle-1 font-weight-medium">
+                            Адрес регистрации  
+                        </div>
                     </v-col>
 
                     <v-col cols="12" md="6">
@@ -245,9 +207,13 @@ function required (v:any) {
                         /> 
                     </v-col>
                     
-                    <v-col cols="12" md="6"></v-col>
-                    <v-col cols="12"  class="subtitle">
-                        Контакты    
+                    <v-divider class="my-4" />
+
+
+                    <v-col cols="12">
+                        <div class="text-subtitle-1 font-weight-medium">
+                            Контакты
+                        </div>
                     </v-col>
 
                     <v-col cols="12" md="6">
@@ -266,43 +232,42 @@ function required (v:any) {
 
     
 
-    <v-card title="Документы" class="mb-4">
+    <v-card title="Документы" class="mb-4" variant="flat">
         <v-card-text>
             <v-container fluid>
-                <v-row density="comfortable">
-                    <AppFileInput 
+                <v-row class="mb-2">
+                    <v-col cols="12" md="6">
+                        <AppFileInput
                         label="Скан паспорта PDF"
                         clearable
-                        :required="true && !edit"
+                        :required="!edit"
                         v-model="form.passportScan"
                         :readonly="readonly"
                         accept=".pdf,application/pdf"
                         :error-messages="form.errors.passportScan"
-                    />
+                        />
+                    </v-col>
 
-                    <AppFileInput 
+                    <v-col cols="12" md="6">
+                        <AppFileInput
                         label="Скан перевода паспорта PDF"
-                        v-model="form.passportTranslateScan"
                         clearable
-                        :required="true && !edit"
-                        accept=".pdf,application/pdf"
+                        :required="!edit"
+                        v-model="form.passportTranslateScan"
                         :readonly="readonly"
+                        accept=".pdf,application/pdf"
                         :error-messages="form.errors.passportTranslateScan"
-                    />
-                    
-                </v-row>
-                <v-row>
-                    
+                        />
+                    </v-col>
                 </v-row>
             </v-container>
         </v-card-text>
-        
     </v-card>
 
-    <v-card title="Дополнительная информация" class="mb-4">
+    <v-card title="Дополнительная информация" class="mb-4" variant="flat" >
         <v-card-text>
             <v-container fluid>
-                <v-row density="comfortable"  class="subtitle mb-4">
+                <v-row class="subtitle mb-4">
                     (например, лицо с ограниченными возможностями здоровья)
                 </v-row>
                 <v-row>

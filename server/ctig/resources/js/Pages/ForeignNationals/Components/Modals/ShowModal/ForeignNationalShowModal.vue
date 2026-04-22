@@ -22,6 +22,9 @@ const getForeignNational = async () => {
         onSuccess:(response : any)=>{
             foreignNational.value = response.data
 
+        },
+        onHttpException:(response) => {
+            console.log(response)
         }
     })
 }

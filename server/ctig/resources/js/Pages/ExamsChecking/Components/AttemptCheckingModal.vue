@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import TasksList from '@pages/Attempt/Components/tasks/TasksList.vue';
 import { useHttp } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 import AttemptCheckingSidePanel from './AttemptCheckingSidePanel.vue';
 import BaseDialog from '@/components/BaseComponents/BaseDialog/BaseDialog.vue';
 import { Attempt } from '@/interfaces/Interfaces';
 import { AttemptAnswer } from '@/interfaces/Task';
+import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 
 const isOpen = defineModel<boolean>({default:false})
 
 const props = defineProps<{
-    attemptId:number | null
+    attemptId:number | null,
+    onFinishChecking:(attempt : any) => void
 }>()
 
 const attempt = ref<Attempt | null>(null)
@@ -18,14 +20,6 @@ const attempt = ref<Attempt | null>(null)
 const beforeClose = (fn:  ()  => void) =>{
     fn()
 }
-watch(() => props.attemptId, (id) =>{
-    if(!props.attemptId) return
-    http.get(`/attempts/${id}/checking/tasks`,{
-        onSuccess:(response :any) => {
-            attempt.value = response.data
-        }
-    })
-})
 
 const http = useHttp()
 const scrollToTask = (id: number) => {
@@ -35,12 +29,30 @@ const scrollToTask = (id: number) => {
     block: 'start'
   })
 }
+
 const update = (value:AttemptAnswer) => {
     console.log(value)
     if(!attempt.value) return
     const task = attempt.value?.tasks.find(t => t.attemptAnswer.id === value.id)
     if(!task) return
     task.attemptAnswer = value
+}
+
+onMounted(() => {
+    http.get(`/attempts/${props.attemptId}/checking/tasks`,{
+        onSuccess:(response :any) => {
+            attempt.value = response.data
+        }
+    })
+})
+
+const finishChecking = () => {
+    http.put(`/attempts/${props.attemptId}/checking/finish`,{
+        onSuccess:(response:any)=>{
+            props.onFinishChecking(response.attempt)
+            isOpen.value = false
+        }
+    })
 }
 </script>
 
@@ -71,10 +83,12 @@ const update = (value:AttemptAnswer) => {
         </div>
         
         <template #actions>
-            
-        </template>
-        <template #bottom-info>
-            Проверено 4 из 5
+            <AppPrimaryButton 
+                :loading="http.processing"
+                :disabled="http.processing"
+                @click="finishChecking"
+                text="Завершить проверку"
+            />
         </template>
     </BaseDialog>
 </template>

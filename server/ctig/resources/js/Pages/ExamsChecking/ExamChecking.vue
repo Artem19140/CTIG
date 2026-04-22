@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {  Enrollment, Exam } from '@/interfaces/Interfaces';
+import {  Attempt, Enrollment, Exam } from '@/interfaces/Interfaces';
 import BaseTable from '@/components/BaseComponents/BaseTable/BaseTable.vue';
 import BaseContainer from '@/components/BaseComponents/BaseContainer/BaseContainer.vue';
 import BaseLayout from '@layouts/BaseLayout.vue';
@@ -7,28 +7,41 @@ import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import { DateFormatter } from '@/helpers/DateFormatter';
 import { useModals } from '@composables/useModals';
 import { ref } from 'vue';
-import AttemptCheckingModal from './Components/AttemptCheckingModal.vue';
+import AppStatusChip from '@/components/UI/AppStatusChip/AppStatusChip.vue';
 const {open} = useModals()
 
 defineOptions({
   layout: [BaseLayout, EmployeeLayout],
 })
+
 const props = defineProps<{
     exam:{
         data:Exam
     }
 }>()
+
+const enrollments = ref<Enrollment[]>(props.exam.data.enrollments)
+
 const headers = [
-    {title : "",sortable: false, key: 'index', align: 'center' },
+    {title : "№",sortable: false, key: 'index', align: 'center' },
+    {title : "Рег номер",sortable: false, key: 'name', align: 'center' },
+    {title : "Статус",sortable: false, key: 'status', align: 'center' }
 ]
-const attemptId = ref<number | null>(null)
+
+const finishChecking = (updatedAttempt: Attempt) => {
+    const enrollment = enrollments.value.find(e => 
+        e.attempt?.id === updatedAttempt.id
+    )
+
+    if (!enrollment || !enrollment.attempt) return
+
+    enrollment.attempt = updatedAttempt
+}
+
 const openAttempt =  (item : Enrollment) => {
     if(!item.attempt) return
-    isOpen.value= true
-    attemptId.value = item.attempt.id
-    //open('attemptChecking', {attemptId:item.id})
+    open('attemptChecking', {attemptId:item.attempt.id, onFinishChecking:finishChecking})
 }
-const isOpen = ref(false)
 </script>
 
 <template>
@@ -36,16 +49,26 @@ const isOpen = ref(false)
         <BaseTable
             :headers="headers"
             :title="`Попытки экзмена ${exam.data.shortName} от ${new DateFormatter(exam.data.beginTime).format('H:i, d.m.Y')}`"
-            :items="exam.data.enrollments"
+            :items="enrollments"
             @row-click="openAttempt"
         >
         <template #item.index="{ index }">
-            Попытка {{ index + 1 }}
+           {{ index + 1 }}
+        </template>
+        <template #item.name="{ item, index }">
+           {{ item.regNum }}
+        </template>
+        <template #item.status="{ item }">
+            <AppStatusChip 
+                v-if="item.attempt?.isPassed !== null"
+                color="green"
+                text="Проверено"
+            />
         </template>
     </BaseTable>
     </BaseContainer>
-    <AttemptCheckingModal 
+    <!-- <AttemptCheckingModal 
         v-model="isOpen"
         :attempt-id="attemptId"
-    />
+    /> -->
 </template>

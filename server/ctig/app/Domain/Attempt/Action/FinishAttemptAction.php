@@ -15,6 +15,8 @@ class FinishAttemptAction{
     ){}
     public function execute(Attempt $attempt):void{
         $this->attemptGuard->ensureNotBanned($attempt);
+        $this->attemptGuard->ensureNotFinished($attempt);
+        //$this->attemptGuard->ensureAcive($attempt);
         //Не завершать завершенные и проверенные
 
         DB::transaction(function() use($attempt){

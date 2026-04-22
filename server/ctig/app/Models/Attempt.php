@@ -54,9 +54,12 @@ class Attempt extends Model
         $this->status = AttemptStatus::Finished;
         $this->finished_at = Carbon::now($this->center->time_zone);
     }
-
     public function isStarted(): bool{
         return $this->started_at !== null;
+    }
+
+    public function isChecked(): bool{
+        return $this->checked_at !== null;
     }
 
     public function isBanned(): bool{

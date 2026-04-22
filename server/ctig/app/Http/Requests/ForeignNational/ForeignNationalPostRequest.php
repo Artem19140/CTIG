@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\ForeignNational;
 
+use App\Http\Dto\ForeignNationalStoreDTO;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Validation\Rule;
@@ -159,5 +160,32 @@ class ForeignNationalPostRequest extends FormRequest
         ];
     }
 
+    public function dto(): ForeignNationalStoreDTO
+    {
+        return new ForeignNationalStoreDTO(
+            surname: $this->surname,
+            name: $this->name,
+            patronymic: $this->patronymic,
+            dateBirth: $this->dateBirth,
 
+            surnameLatin: $this->surnameLatin,
+            nameLatin: $this->nameLatin,
+            patronymicLatin: $this->patronymicLatin,
+
+            passportNumber: $this->passportNumber,
+            passportSeries: $this->passportSeries,
+            issuedBy: $this->issuedBy,
+            issuedDate: $this->issuedDate,
+
+            citizenship: $this->citizenship,
+            phone: $this->phone,
+            addressReg: $this->addressReg,
+
+            gender: $this->gender,
+            comment: $this->comment,
+
+            passportScan: $this->file('passportScan'),
+            passportTranslateScan: $this->file('passportTranslateScan'),
+        );
+    }
 }

@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
-import { ForeignNational } from '@interfaces/interfaces';
+import { ForeignNational } from '@interfaces/Interfaces';
 import ForeignNationalCreateForm from './ForeignNationalCreateForm.vue';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
-
 
 const props = defineProps<{
     foreignNational: ForeignNational,
@@ -33,11 +32,12 @@ const form = useForm({
     comment: props.foreignNational?.comment,
     passportTranslateScan:null,
     passportScan:null,
+    addressReg: props.foreignNational.addressReg ?? ''
 })
 
 const edit = () => {
     form.put(`foreign-nationals/${props.foreignNational.id}`,{
-        onSuccess:(page) => {
+        onSuccess:(page : any) => {
             if(page.flash.foreignNational){
                 props.onEdit(page.flash.foreignNational)
                 isOpen.value=false
@@ -66,6 +66,7 @@ const beforeClose = async (fn: () => void) => {
         title="Редактирование ИГ"
         @before-close="(done) => beforeClose(done)"
     >
+        
         <ForeignNationalCreateForm 
             :form="form"
             :mode="'edit'"

@@ -4,13 +4,13 @@ namespace App\Domain\AttemptAnswer\Action;
 
 use App\Domain\Attempt\Action\FinilizeAttemptCheckingAction;
 use App\Domain\Attempt\Action\ZeroEmptyAutoCheckAnswersAction;
+use App\Enums\TaskType;
 use App\Models\AttemptAnswer;
 use App\Models\User;
 use Carbon\Carbon;
 use DB;
 use App\Domain\Attempt\Guard\AttemptGuard;
 use Illuminate\Validation\ValidationException;
-use Log;
 
 class RateAttemptAnswerAction{
     public function __construct(
@@ -19,19 +19,18 @@ class RateAttemptAnswerAction{
         protected ZeroEmptyAutoCheckAnswersAction $zeroEmptyAutoAnswersAction
     ){}
     public function execute(AttemptAnswer $attemptAnswer, int $mark, User $user){
+        $attemptAnswer->loadMissing(['taskVariant.task', 'attempt']);
+        $task = $attemptAnswer->taskVariant->task;
         $attempt = $attemptAnswer->attempt;
-        $this->attemptGuard->ensureNotBanned($attempt);
-        //$this->attemptGuard->ensureFinished($attempt, 'Оценить можно только завершенную попытку');
-
-        if($attemptAnswer->isChecked()){
-            throw ValidationException::withMessages([
-                'mark' => 'Задание уже проверено и оценено'
-            ]);
+        if(!$task->type === TaskType::Speaking){
+            $this->attemptGuard->ensureFinished($attempt, 'Данный тип задания возможно оценить только при завершенной попытке');
         }
 
-        $attemptAnswer->load(['taskVariant.task']);
-
-        $task = $attemptAnswer->taskVariant->task;
+        if($attempt->isChecked()){
+            throw ValidationException::withMessages([
+                'mark' => 'Попытка уже проверена, оценка недоступна'
+            ]);
+        }
 
         if($task->autoCheck()){
             throw ValidationException::withMessages([
@@ -45,18 +44,17 @@ class RateAttemptAnswerAction{
             ]);
         }
 
-        DB::transaction(function () use($attemptAnswer, $attempt, $mark , $user) {
+        DB::transaction(function () use($attemptAnswer,$mark , $user, $attempt) {
             $attemptAnswer->mark = $mark;
             $attemptAnswer->is_checked = true;
             $attemptAnswer->checked_at = Carbon::now($attempt->time_zone);
             $attemptAnswer->checked_by_id = $user->id;
             $attemptAnswer->save();
 
-            if(!$attempt->hasUncheckedAnswers()){
-                Log::info('Зашел');
-                $this->zeroEmptyAutoAnswersAction->execute($attempt);
-                $this->finilizeAttemptCheckingAction->execute($attempt);
-            }
+            // if(!$attempt->hasUncheckedAnswers()){
+            //     $this->zeroEmptyAutoAnswersAction->execute($attempt);
+            //     $this->finilizeAttemptCheckingAction->execute($attempt);
+            // }
         });
         return $attemptAnswer;
     }

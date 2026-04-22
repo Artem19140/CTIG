@@ -9,13 +9,18 @@ import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
 import { router, http } from '@inertiajs/vue3';
 import { useHttpErrorHandler } from '@/composables/useHttpErrorHandler';
 
-http.onError((response) =>{
-    console.log(response)
+http.onResponse((response) => {
+    return response
+})
+
+http.onError((error) => {
+    console.log(156)
+    const response = (error as any).response
+    
+    if (!response) return
     useHttpErrorHandler().handle(response)
-} )
-// http.onResponse((response) => {
-//     console.log(response)
-// })
+    console.log(response)
+})
 
 const { add } = useSnackbarQueue()
 router.on('flash', (event) => {
@@ -24,6 +29,7 @@ router.on('flash', (event) => {
     }
 
     if(event.detail.flash.error){
+        console.log('flash')
         add(String(event.detail.flash.error), 'red')
     }
 })

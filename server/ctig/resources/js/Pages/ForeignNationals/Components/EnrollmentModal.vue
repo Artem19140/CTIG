@@ -3,7 +3,6 @@ import {  ref } from 'vue';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import ExamEnrollment from '@components/Exam/ExamEnrollment.vue';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
-import AppCheckbox from '@components/UI/AppCheckbox/AppCheckbox.vue';
 import { Enrollment, ForeignNational } from '@interfaces/Interfaces';
 import {  useForm } from '@inertiajs/vue3';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
@@ -13,7 +12,6 @@ const props = defineProps<{
     examTypeId?:number | null,
     onEnroll:(enrollment:Enrollment) => void
 }>()
-
 
 const isOpen = defineModel<boolean>()
 
@@ -49,8 +47,6 @@ const beforeClose  = async (fn: () => void) => {
     examId.value=null
     fn()
 }
-
-
 </script>
 
 <template>
@@ -61,14 +57,9 @@ const beforeClose  = async (fn: () => void) => {
         @before-close="(done) => beforeClose(done)"
     >
         <ExamEnrollment 
-            v-model="form.examId"
-            :examTypeId="examTypeId"
+            v-model:exam-id="form.examId"
+            v-model:has-payment="form.hasPayment"
             :foreignNational-id="foreignNational?.id"
-        />
-        <AppCheckbox
-            label="Есть оплата"
-            v-model="form.hasPayment"
-            :error-messages="form.errors.hasPayment"
         />
         <template #actions>
             <AppPrimaryButton
@@ -78,6 +69,5 @@ const beforeClose  = async (fn: () => void) => {
                 :disabled="form.processing || !form.examId"
             />
         </template>
-
     </BaseDialog>
 </template>

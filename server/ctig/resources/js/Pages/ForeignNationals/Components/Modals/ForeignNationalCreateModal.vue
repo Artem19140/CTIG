@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {  useForm } from '@inertiajs/vue3'
-import {ref, watch } from 'vue';
+import {  router, useHttp } from '@inertiajs/vue3'
+import {h, ref } from 'vue';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import { type Exam, type IForeignNationalCreateForm } from '@interfaces/Interfaces';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
@@ -15,7 +15,7 @@ const examTypeId = ref<number | null>(null)
 
 const exams = ref<Exam[]>()
 
-// const form = useForm<IForeignNationalCreateForm>({
+// const http = useHttp<IForeignNationalCreateForm>({
 //     surname: '', 
 //     name:'',
 //     patronymic:"",
@@ -40,7 +40,7 @@ const exams = ref<Exam[]>()
 //     comment:'',
 //     addressReg:''
 // })
-const form = useForm<IForeignNationalCreateForm>({
+const http = useHttp<IForeignNationalCreateForm>({
     surname: 'Иванов', 
     name:'Иван',
     patronymic:"Иванович",
@@ -68,21 +68,20 @@ const form = useForm<IForeignNationalCreateForm>({
 })
 
 const create = () => {
-    const {open} = useAlert()
-    if(!form.examId){
-        open('Выберите экзамен для записи')
-        return   
-    }
+    // if(!http.examId){
+    //     http.errors.examId = 'Выберите экзамен для записи'
+    //     return   
+    // }
         
-    form.post('/foreign-nationals', {
-    preserveScroll: true,
-    preserveState: true,
-    onSuccess: (page) => {
-        if(page.flash?.redirectUrl){
+    http.post('/foreign-nationals', {
+
+    onSuccess: (response:any) => {
+        if(response.redirectUrl){
             examTypeId.value = null
             exams.value = undefined
-            form.resetAndClearErrors()
-            window.open(String(page.flash?.redirectUrl))
+            http.resetAndClearErrors()
+            window.open(String(response.redirectUrl))
+            router.visit('/foreign-nationals')
             isOpen.value=false
         }
     }
@@ -92,15 +91,15 @@ const create = () => {
 const {confirmOpen} = useConfirmDialog()
 
 const  close  = async (fn:  ()  => void)  =>  {
-    if (form.isDirty) {
+    if (http.isDirty) {
         if(!await confirmOpen("Отменить добавление ИГ?")){
             return
         }
     }
     examTypeId.value = null
     exams.value = undefined
-    form.reset()
-    form.clearErrors()
+    http.reset()
+    http.clearErrors()
     fn()
 }
 
@@ -120,25 +119,22 @@ const  close  = async (fn:  ()  => void)  =>  {
                             <v-col cols="12" class="subtitle mb-4">
                                     Выберите экзамен для записи
                             </v-col>
-                            <ExamEnrollment v-model="form.examId" />
-                            <AppCheckbox
-                                v-model="form.hasPayment" 
-                                label="Есть оплата"
-                                :error-messages="form.errors.hasPayment"
-                            ></AppCheckbox>
+                            <ExamEnrollment 
+                                v-model:exam-id="http.examId"
+                                v-model:has-payment="http.hasPayment"
+                                :exam-validation-errors="http.errors.examId"
+                            />
                         </v-container>
                     </v-card-text>
                 </v-card>
                 
-                <ForeignNationalCreateForm :form="form" />
-                
-            
+                <ForeignNationalCreateForm :form="http" />
                   
             <template #actions>
-                <span class="text-red" v-if="form.hasErrors">Есть ошибки заполнения</span>
+                <span class="text-red" v-if="http.hasErrors">Есть ошибки заполнения</span>
                 <AppAddButton text="Добавить" 
-                    :disabled="form.processing"
-                    :loading="form.processing"
+                    :disabled="http.processing"
+                    :loading="http.processing"
                     type="submit"
                     @click="create"
                 />

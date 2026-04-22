@@ -21,7 +21,7 @@ const getForeignNational = async () => {
     http.get(`/foreign-nationals/${props.foreignNationalId}`,{
         onSuccess:(response : any)=>{
             foreignNational.value = response.data
-        }
+        },
     })
 }
 

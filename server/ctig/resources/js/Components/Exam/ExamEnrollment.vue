@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import AppAutocomplete from '@components/UI/AppAutocomplete/AppAutocomplete.vue';
 import {useHttp} from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
+import AppCheckbox from '../UI/AppCheckbox/AppCheckbox.vue';
 
 const page = usePage()
+
+const examId = defineModel<number | null>('examId')
+const hasPayment = defineModel<boolean>('hasPayment')
 
 const examsTypes = page.props.examTypes
 const examDates = ref<any[]>([])
 
-const examId = defineModel<number |null>()
-
-const noExamTypeChoice = ref<boolean>(false)
-
 const props = defineProps<{
   foreignNationalId?:number,
-  examTypeId?:number | null
+  examValidationErrors?:string
 }>()
 
 const http = useHttp<{
@@ -30,23 +30,12 @@ watch(() => http.examTypeId, async () => {
   if(http.examTypeId === null) return
   examDates.value = []
   http.get('/exams/available',{
-    
     onSuccess:(response:any) => {
       examDates.value = response
     }
   })
 })
 
-onMounted(() => {
-  if(!props.examTypeId) return
-  http.examTypeId = props.examTypeId
-  noExamTypeChoice.value = true
-})
-
-onUnmounted(() => {
-  examId.value=null
-  noExamTypeChoice.value = false
-})
 </script>
 
 <template>
@@ -55,7 +44,6 @@ onUnmounted(() => {
     :items="examsTypes"
     item-title="name"
     item-value="id"
-    :disabled="noExamTypeChoice"
     :error-messages="http.errors.examTypeId"
     label="Тип экзамена"
   />
@@ -65,8 +53,13 @@ onUnmounted(() => {
     :items="examDates"
     :disabled="http.processing"
     :loading="http.processing"
+    :error-messages="examValidationErrors"
     item-title="beginTime"
     item-value="id"
     label="Дата и время"
   />
+  <AppCheckbox
+    v-model="hasPayment" 
+    label="Есть оплата"
+  ></AppCheckbox>
 </template>

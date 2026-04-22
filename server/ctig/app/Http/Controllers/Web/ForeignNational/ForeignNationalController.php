@@ -40,12 +40,12 @@ class ForeignNationalController
                             $request->validated('examId'),
                             $request->user()
                         );
-        return Inertia::flash([
+        return response()->json([
             'redirectUrl' => route('enrollments.statements', ['enrollment' => $enrollement])
-        ])->back();
+        ]);
     }
     public function show(ForeignNational $foreignNational){
-        // abort(403);
+        
         $foreignNational->load( [
             'enrollments' => [ 'exam.type', 'attempt', 'foreignNational'],'creator'
         ]);

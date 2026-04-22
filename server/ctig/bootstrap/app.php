@@ -52,6 +52,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 if ($request->is('api/*')) {
                     return true;
                 }
+                Log::info($request->expectsJson());
                 return $request->expectsJson();
             });
     

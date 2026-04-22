@@ -55,7 +55,7 @@ const cancel =(reason : string) => {
         height="800"
         :loading="http.processing"
         v-model="isOpen"
-        :error="http.hasErrors"
+        :error="!http.wasSuccessful"
         :onRetry="getExam"
         :subtitle="`${exam?.sessionNumber ?? '-'} / ${exam?.group ?? '-'}`"
         @before-close="(done) =>  done()"

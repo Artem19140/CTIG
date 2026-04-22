@@ -4,8 +4,9 @@ import { useSnackbarQueue } from './useSnackbarQueue'
 
 export const useHttpErrorHandler = () => {
     const {add} = useSnackbarQueue()
+    
     const handle = (error : any) => {
-        
+        console.log('errorHandler')
         switch(error.status){
             case 400:
                 const message = JSON.parse(error.data)?.message
@@ -22,6 +23,9 @@ export const useHttpErrorHandler = () => {
             case 404:
                 addSnackBar('Не найдено')
                 break;
+            case 422:
+                //console.log('Зашел')
+                break;
             case 500:
                 addSnackBar('Ошибка сервер')
                 break;
@@ -30,10 +34,10 @@ export const useHttpErrorHandler = () => {
                 break;
 
             default:
-            addSnackBar('Неизвестная ошибка')
-        }
-        
+                
+                addSnackBar('Неизвестная ошибка')
     }
+}
 
     const addSnackBar = (text:string) =>{
         add(text, 'red')

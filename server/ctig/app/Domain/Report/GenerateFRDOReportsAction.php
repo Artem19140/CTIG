@@ -33,7 +33,6 @@ class GenerateFRDOReportsAction{
                     ->where('is_passed',$success)
                     ->where('status', AttemptStatus::Checked)
                     ->get();
-        Log::info($attempts->isEmpty());
         return $attempts;
     }
 

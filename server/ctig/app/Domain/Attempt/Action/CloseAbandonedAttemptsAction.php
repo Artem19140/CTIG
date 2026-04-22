@@ -14,7 +14,6 @@ class CloseAbandonedAttemptsAction{
     ){}
     public function execute(string $timeZone):void{
         $now = Carbon::now($timeZone);
-        Log::info($now);
         
         $attemtps = Attempt::where('expired_at', '<=', $now)
                         ->whereIn('status', AttemptStatus::abandoned())

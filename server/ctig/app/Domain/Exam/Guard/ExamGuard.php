@@ -28,7 +28,7 @@ class ExamGuard{
     }
 
     public function ensureHasEnrollment(Exam $exam, string $message = 'На экзамен не записано ни одного ИГ'){
-        if(!$exam->foreignNationals()->exists()){
+        if(!$exam->enrollments()->exists()){
             throw new BusinessException($message);
         }
     }

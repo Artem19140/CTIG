@@ -76,18 +76,7 @@ class ExamController
     public function update(ExamPostRequest $request, Exam $exam, UpdateExamAction $updateExam)
     {   
         $updateExam->execute($exam, $request->getDto(), $request->user());
-        return Inertia::flash('success', 'Данные обновлены')->back();
-    }
-
-    public function partialUpdate(Request $request, Exam $exam, UpdateExaminersAction $updateExaminers)
-    {   
-        $request->validate([
-            'examiners' => ['required', 'array','min:1'],
-            'examiners.*' => ['required', 'integer', 'min:1', 'exists:users,id'],
-            'comment' => ['nullable', 'string']
-        ]);
-        $updateExaminers->execute($request->input('examiners'), $exam, $request->user());
-        return Inertia::flash('success', 'Данные обновлены')->back();
+        return response()->json(['exam' => new ExamResource($exam)]);
     }
 
     public function verifyCode(

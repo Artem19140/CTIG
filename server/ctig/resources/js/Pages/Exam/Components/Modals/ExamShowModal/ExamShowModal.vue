@@ -4,7 +4,7 @@ import ExamActionsDropdown from '@components/Exam/ExamActionsDropdown.vue';
 import EnrollmentsTable from './EnrollmentsTable.vue';
 import { computed, onMounted, ref } from 'vue';
 import { Enrollment, Exam } from '@interfaces/Interfaces';
-import { useHttp } from '@inertiajs/vue3';
+import { router, useHttp } from '@inertiajs/vue3';
 import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import { ExamStatus } from '@/constants/ExamStatus';
@@ -43,8 +43,16 @@ const rechedule = (value: Enrollment) => {
 }
 const cancel =(reason : string) => {
     if(!exam.value) return
+    router.visit('/exams')
     exam.value.status = ExamStatus.CANCELLED
     exam.value.cancelledReason = reason
+}
+
+const edit =(value :Exam) => {
+    router.visit('/exams')
+    console.log(value)
+    exam.value = value
+    
 }
 
 </script>
@@ -72,6 +80,7 @@ const cancel =(reason : string) => {
         <template #titleActions>
             <ExamActionsDropdown
                 @cancel="cancel"
+                @edit="edit"
             :exam="exam" />
         </template> 
         <v-card-text class="pt-0">
@@ -123,7 +132,7 @@ const cancel =(reason : string) => {
                 
             </v-list>
             <v-list>
-                <v-list-item  v-if="exam?.enrollments.length">
+                <v-list-item  v-if="exam?.enrollmentsCount">
                     <EnrollmentsTable @reschedule="rechedule" :exam="exam" />
                 </v-list-item>
                 <v-list-item  v-else class="text-center">

@@ -44,11 +44,23 @@ const close = () => {
             </v-card-title>
 
             <v-skeleton-loader
-                v-if="loading"
+                v-if="loading && skeleton"
                 :height="height"
                 :width="width"
                 :type="skeleton"
             />
+
+            <v-container class="fill-height d-flex align-center justify-center" v-if="!skeleton && loading">
+                <div class="text-center">
+                <v-progress-circular
+                    indeterminate
+                    color="primary"
+                    size="56"
+                    width="5"
+                />
+                <div class="mt-4">Загрузка</div>
+                </div>
+            </v-container>
 
             <v-card-text 
                 v-if="!loading && !error" 

@@ -24,7 +24,6 @@ router.on('flash', (event) => {
     }
 
     if(event.detail.flash.error){
-        console.log('flash')
         add(String(event.detail.flash.error), 'red')
     }
 })

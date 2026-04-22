@@ -57,7 +57,6 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
         
         Route::get('create/modal-data', [ExamController::class,'createModalData']);//->middleware('user.has.role:scheduler');
         
-        Route::put('{exam}/examiners', [ExamController::class, "partialUpdate"]);
         Route::get('monitoring', [ExamMonitoringController::class, 'index'])->name('exam.monitoring');
         Route::get('{exam}/monitoring', [ExamMonitoringController::class, 'show']);
         Route::put('{exam}/monitoring/protocol-comments', [ExamMonitoringController::class, 'updateProtocolComment']);

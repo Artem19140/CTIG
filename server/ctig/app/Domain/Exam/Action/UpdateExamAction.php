@@ -4,7 +4,6 @@ namespace App\Domain\Exam\Action;
 
 use App\Domain\Exam\Guard\ExamGuard;
 use App\Domain\Exam\Rules\ValidateExamForSave;
-use App\Exceptions\BusinessException;
 use App\Http\Dto\ExamDto;
 use App\Models\Exam;
 use App\Models\User;
@@ -17,29 +16,41 @@ final class UpdateExamAction{
         protected ValidateExamForSave $validateExamForSave
     ){}
     public function execute(Exam $exam, ExamDto $examDto, User $user){
-        if($exam->foreignNationals()->count() > 0){
-            throw new BusinessException('Нельзя редактировать экзамен, на который уже записаны ИГ');
-        }
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureNotGoing($exam);
         $this->examGuard->ensureNotFinished($exam);
-        $duration = $this->validateExamForSave->execute($examDto, $user, $exam->id);
-        $exam = DB::transaction(function () use ($examDto, $user, $duration, $exam) {
-            $exam->update([
-                    'begin_time' => $examDto->beginTime,
-                    'begin_time_utc' => $examDto->beginTime->copy()->utc(),
-                    'address_id' => $examDto->addressId,
-                    'capacity' => $examDto->capacity,
-                    'exam_type_id' => $examDto->examTypeId,
-                    'comment' => $examDto->comment,
-                    'creator_id'=> $user->id,
-                    'end_time' => $examDto->beginTime->copy()->addMinutes($duration),
-                    'center_id' => $user->center->id
-            ]);
 
-            $exam->examiners()->syncWithPivotValues($examDto->examiners, ['center_id'  => $user->center->id]);
+        $this->validateExamForSave->execute($examDto, $user, $exam->id);
+        
+        $exam = DB::transaction(function () use ($examDto, $exam) {
+            $exam->update(
+                $this->getAttributes($exam, $examDto)
+            );
+            $exam->examiners()->syncWithPivotValues($examDto->examiners, ['center_id'  => $exam->center_id]);
             $exam->save();
+            $exam->load(['examiners', 'type', 'address']);
+            $exam->loadCount('enrollments');
             return $exam;
-        });        
+        });      
+        
+        
+    }
+    protected function getAttributes(Exam $exam, ExamDto $examDto):array{
+        $attributes = [];
+
+        if(!$exam->enrollments()->exists()){
+            $attributes = [
+                'begin_time' => $examDto->beginTime,
+                'begin_time_utc' => $examDto->beginTime->copy()->utc(),
+                'address_id' => $examDto->addressId,
+                'capacity' => $examDto->capacity,
+                'exam_type_id' => $examDto->examTypeId,
+                'comment' => $examDto->comment,
+                'end_time' => $examDto->beginTime->copy()->addMinutes($exam->duration)
+            ];
+        }
+        $attributes['comment'] = $examDto->comment;
+        
+        return $attributes;
     }
 }

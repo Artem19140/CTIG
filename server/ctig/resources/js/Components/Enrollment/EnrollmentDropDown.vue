@@ -31,7 +31,6 @@ const cancell = async () => {
     const form = useForm()
     form.delete(`enrollments/${props.enrollment.id}`,{
         onSuccess: (page) =>{
-            console.log(page.flash.success)
             if(page.flash.success){
                 emit('cancell', props.enrollment)
             }

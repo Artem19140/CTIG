@@ -17,8 +17,6 @@ const http = useHttp({
     mark: mark.value
 })
 
-const saved = ref<boolean | null>(null)
-const error = ref<boolean | null>(null)
 
 watch(() => http.mark, () => {
     if(http.mark === null) return
@@ -28,15 +26,7 @@ watch(() => http.mark, () => {
 const rate = () => {
     http.put(`/answers/${answerId}/rate`,{
         onSuccess:(response:any)=>{
-            saved.value = true
             emit('saved',  response.attemptAnswer)
-        },
-        onError:() => {
-            error.value = false
-        },
-        onHttpException(response) {
-            saved.value = false
-            error.value = true
         },
     })
 }
@@ -56,8 +46,9 @@ onMounted(() => {
             :items="marks"
             v-model="http.mark"
             item-title="mark"
-            :base-color="saved || mark !== null ? 'green' : ''"
-            :error-messages="http.errors.mark || error"
+            :disabled="http.processing"
+            :base-color="!http.wasSuccessful || mark !== null ? 'green' : ''"
+            :error-messages="http.errors.mark"
         />
 
         <div class="d-flex align-center ga-2" v-if="http.processing">
@@ -71,16 +62,16 @@ onMounted(() => {
         </div>
         
         <v-alert
-            v-if="saved && !http.processing || mark !== null"
+            v-if="http.wasSuccessful && !http.processing || mark !== null"
             type="success"
             density="compact"
             variant="tonal"
             >
             Оценка успешно сохранена
         </v-alert>
-        <div v-else-if="error && !http.processing" class="mt-2">
+        <div v-else-if="http.wasSuccessful && !http.processing" class="mt-2">
             <v-alert
-                v-if="error"
+                v-if="!http.wasSuccessful"
                 type="error"
                 variant="tonal"
                 density="compact"

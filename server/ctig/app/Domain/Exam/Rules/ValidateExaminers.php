@@ -8,37 +8,29 @@ use App\Models\Exam;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Log;
 class ValidateExaminers{
     public function execute(array $examiners, Carbon $examBeginTime, Carbon $examEndTime, int | null $examId = null ){
-        $conflictExaminers = Exam::whereBeginTimeLess($examEndTime)
+        $conflictExams = Exam::whereBeginTimeLess($examEndTime)
                                 ->whereEndTimeMore($examBeginTime)
                                 ->notCancelled()
+                                ->with('examiners', function (BelongsToMany $query)use ($examiners): void{
+                                    $query->whereIn('users.id', $examiners);
+                                })
                                 ->whereHas('examiners', function (Builder $query) use ($examiners): void {
                                     $query->whereIn('users.id', $examiners);
                                 })
                                 ->when($examId, function (Builder $query) use($examId){
                                     $query->where('id', '<>', $examId);
                                 })
-                                ->exists();
-        //я получаю список экзаменов, в них есть тестеры, ищу пересечения, убираю дубли, выдаю
-        $busyExaminers = User::whereHas('exams', function(Builder $query) use($examiners,$examBeginTime,$examEndTime, $examId){
-                                $query->where('begin_time', '<=', $examEndTime)
-                                    ->where('end_time', '>=', $examBeginTime)
-                                    ->where('cancelled_at', null)
-                                    ->whereHas('examiners', function (Builder $query) use ($examiners): void {
-                                                    $query->whereIn('users.id', $examiners);
-                                                })
-                                    ->when($examId, function (Builder $query) use($examId){
-                                                    $query->where('id', '<>', $examId);
-                                                });
-        })->get();
-        if($busyExaminers->isNotEmpty()){
+                                ->get();
+        $busyExaminers = $conflictExams->pluck('examiners')->flatten();
+
+        if($conflictExams->isNotEmpty()){
             $names = $busyExaminers->implode('full_name_short', ', ');
             throw new BusinessException("Выбранные экзаменаторы недоступны в указанное время: $names");
         }
-        // if($conflictExaminers){
-        //     throw new BusinessException("Некоторые экзаменаторы заняты в это время");
-        // }
 
         $examiners = User::with('roles')->whereIn('id', $examiners)->get();
 

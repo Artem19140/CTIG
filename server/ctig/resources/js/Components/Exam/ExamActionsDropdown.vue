@@ -15,7 +15,8 @@ import { computed } from 'vue';
 const props = defineProps<{exam : Exam | null}>()
 
 const emit = defineEmits<{
-  (e:'cancel', value:string):void
+  (e:'cancel', value:string):void,
+  (e:'edit', value:Exam):void
 }>()
 
 const form = useForm({
@@ -112,7 +113,7 @@ const downloadCodesDisabled  =  isCancelled.value || !hasEnrollment.value || !(p
       <AppListDropDownItem 
         title="Редактировать" 
         v-if="auth.can([Roles.SCHEDULER])" 
-        @click="modals.open('examEdit', {exam:exam})"
+        @click="modals.open('examEdit', {exam:exam, onEdit:(exam:Exam) => emit('edit', exam)})"
         :disabled="editDisabled"
       />
 

@@ -27,7 +27,6 @@ const send = async () => {
     http.put(`/exam-attempts/${props.attempt.id}/answers/${attemptAnswerId}`,{
         onSuccess:(response : any) => {
             props.task.attemptAnswer = response.data
-            console.log(response)
         },
         onError:() => {
 

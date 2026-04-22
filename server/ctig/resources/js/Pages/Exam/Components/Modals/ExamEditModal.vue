@@ -13,12 +13,11 @@ const props = defineProps<{
     onEdit?:(exam:Exam) => void
 }>()
 
-
 const http = useHttp<ExamForm>({
     examTypeId: props.exam.examTypeId,
     addressId:props.exam.addressId,
     comment:props.exam.comment ?? '',
-    examiners:props.exam.examiners ?? [],
+    examiners: props.exam.examiners.map(e => e.id),
     time: new DateFormatter(props.exam.beginTime ?? '').format('H:i'),
     date:new DateFormatter(props.exam.beginTime ?? '').format('Y-m-d'),
     capacity:props.exam.capacity
@@ -39,7 +38,15 @@ const beforeClose = async (fn: () => void) => {
 const hasEnrollment = computed(() => Boolean(props.exam.enrollmentsCount))
 const loading = ref(false)
 const edit = () => {
-    
+    http.put(`/exams/${props.exam.id}`,{
+        onSuccess:(response: any) => {
+            if(response.exam)
+            //if(!props.onEdit)return
+            console.log(response.exam)
+            props.onEdit(response.exam)
+            isOpen.value = false
+        }
+    })
 }
 
 </script>

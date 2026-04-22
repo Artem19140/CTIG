@@ -17,10 +17,6 @@ const props = defineProps<{
 
 const attempt = ref<Attempt | null>(null)
 
-const beforeClose = (fn:  ()  => void) =>{
-    fn()
-}
-
 const http = useHttp()
 const scrollToTask = (id: number) => {
   const el = document.getElementById(`task-${id}`)
@@ -38,13 +34,13 @@ const update = (value:AttemptAnswer) => {
     task.attemptAnswer = value
 }
 
-onMounted(() => {
+const getAttemptTasks = () => {
     http.get(`/attempts/${props.attemptId}/checking/tasks`,{
         onSuccess:(response :any) => {
             attempt.value = response.data
         }
     })
-})
+}
 
 const finishChecking = () => {
     http.put(`/attempts/${props.attemptId}/checking/finish`,{
@@ -54,13 +50,23 @@ const finishChecking = () => {
         }
     })
 }
+
+onMounted(() => {
+    getAttemptTasks()
+})
+
+const beforeClose = (fn:  ()  => void) =>{
+    fn()
+}
 </script>
 
 <template>
     <BaseDialog
         v-model="isOpen"
         fullscreen
+        :error="!http"
         :loading="http.processing"
+        :onRetry="getAttemptTasks"
         @before-close="(close) => beforeClose(close)"
     >
         <h1 v-if="http.processing">Загрузка</h1>

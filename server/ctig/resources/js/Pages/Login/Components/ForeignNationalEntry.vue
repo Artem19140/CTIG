@@ -10,12 +10,6 @@ const form = useForm({
 const submit = () => {
   form.post('/exam-codes/verify', {
     preserveScroll: true,
-    onSuccess: () => {
-      console.log('Успешно!')
-    },
-    onError: (errors) => {
-      console.log('Ошибки валидации:', errors)
-    },
   })
 }
 </script>

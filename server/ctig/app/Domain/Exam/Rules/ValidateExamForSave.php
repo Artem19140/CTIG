@@ -16,7 +16,7 @@ class ValidateExamForSave{
     public function __construct(
         protected ValidateExaminers $validateExaminers
     ){}
-    public function execute(ExamDto $examDto, User $user, int | null $examId = null):int{
+    public function execute(ExamDto $examDto, User $user, int | null $examId = null){
         $examType =  ExamType::find($examDto->examTypeId);
         $address = Address::find($examDto->addressId);
 
@@ -58,19 +58,19 @@ class ValidateExamForSave{
                                             $examId
                                         );
         
-        $hasConflictExam = Exam::notCancelled()
+        $conflictExam = Exam::notCancelled()
                             ->whereBeginTimeLess($endTime)
                             ->whereEndTimeMore($beginTime)
+                            ->with(['type'])
                             ->where('address_id', $address->id)
                             ->when($examId, function (Builder $query) use($examId){
                                 $query->where('id', '<>', $examId);
                             })
-                            ->exists(); 
+                            ->first(); 
 
-        if($hasConflictExam){
-            throw new BusinessException("В это время по данному адресу уже проводится экзамен");
+        if($conflictExam){
+            $examConflictName = $conflictExam->short_name. " в ". $conflictExam->begin_time->format('H:i');
+            throw new BusinessException("В это время по данному адресу уже проводится экзамен по $examConflictName");
         }
-        
-        return $examType->duration;
     }
 }

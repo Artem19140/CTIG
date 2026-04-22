@@ -6,7 +6,6 @@ export const useHttpErrorHandler = () => {
     const {add} = useSnackbarQueue()
     
     const handle = (error : any) => {
-        console.log('errorHandler')
         switch(error.status){
             case 400:
                 const message = JSON.parse(error.data)?.message

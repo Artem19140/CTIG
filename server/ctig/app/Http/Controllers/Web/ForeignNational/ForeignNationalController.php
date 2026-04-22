@@ -45,6 +45,7 @@ class ForeignNationalController
         ])->back();
     }
     public function show(ForeignNational $foreignNational){
+        // abort(403);
         $foreignNational->load( [
             'enrollments' => [ 'exam.type', 'attempt', 'foreignNational'],'creator'
         ]);

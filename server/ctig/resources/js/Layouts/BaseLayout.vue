@@ -6,11 +6,19 @@ import Modals from '@components/Modals/Modals.vue';
 import AppLoadingSnackbar from '@components/UI/AppLoadingSnackbar/AppLoadingSnackbar.vue';
 import AppSnackbarQueue from '@/components/UI/AppSnackbarQueue/AppSnackbarQueue.vue';
 import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
-import { router } from '@inertiajs/vue3';
+import { router, http } from '@inertiajs/vue3';
+import { useHttpErrorHandler } from '@/composables/useHttpErrorHandler';
+
+http.onError((response) =>{
+    console.log(response)
+    useHttpErrorHandler().handle(response)
+} )
+// http.onResponse((response) => {
+//     console.log(response)
+// })
 
 const { add } = useSnackbarQueue()
 router.on('flash', (event) => {
-    console.log(event.detail.flash)
     if(event.detail.flash.success){
         add(String(event.detail.flash.success), 'green')
     }

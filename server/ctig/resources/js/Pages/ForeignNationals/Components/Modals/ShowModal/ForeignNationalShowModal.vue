@@ -21,10 +21,6 @@ const getForeignNational = async () => {
     http.get(`/foreign-nationals/${props.foreignNationalId}`,{
         onSuccess:(response : any)=>{
             foreignNational.value = response.data
-
-        },
-        onHttpException:(response) => {
-            console.log(response)
         }
     })
 }
@@ -59,7 +55,7 @@ const deleteFN = (value: ForeignNational) => {
         :title="`Карточка ИГ (ID ${foreignNational?.id ?? ''})`"
         :loading="http.processing"
         v-model="isOpen"
-        :error="http.hasErrors"
+        :error="!http.wasSuccessful"
         :onRetry="getForeignNational"
         @before-close="(done) => done()"
         skeleton="paragraph,divider, paragraph, divider, list-item-two-line, divider"

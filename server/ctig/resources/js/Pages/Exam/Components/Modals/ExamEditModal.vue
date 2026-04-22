@@ -40,8 +40,7 @@ const loading = ref(false)
 const edit = () => {
     http.put(`/exams/${props.exam.id}`,{
         onSuccess:(response: any) => {
-            if(response.exam)
-            //if(!props.onEdit)return
+            if(!props.onEdit || response.exam)return
             console.log(response.exam)
             props.onEdit(response.exam)
             isOpen.value = false

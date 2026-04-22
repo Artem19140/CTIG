@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useConfirmDialog } from '../../Composables/useConfirmDialog';
+import { useConfirmDialog } from '@composables/useConfirmDialog';
 
 const {isOpen, message, confirmOk, confirmClose} = useConfirmDialog()
 </script>
@@ -17,6 +17,7 @@ const {isOpen, message, confirmOk, confirmClose} = useConfirmDialog()
             <v-card-text>
                 {{ message }}
             </v-card-text>
+            
         <v-card-actions>
             <v-btn color="primary" variant="flat" @click="confirmOk">
                 Подтвердить

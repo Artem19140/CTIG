@@ -7,6 +7,7 @@ import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropD
 import { router, useForm } from '@inertiajs/vue3';
 import { useExamStatus } from '@/composables/useExamStatus';
 import { computed } from 'vue';
+import PaymentChange from './PaymentChange.vue';
 
 const props = defineProps<{
     enrollment:Enrollment
@@ -65,6 +66,7 @@ const isCancellationDisabled  = isFinished.value || isCancelled.value || isGoing
             title="Заявление" 
             @click="() => download('statements')"
         />
+        <PaymentChange :enrollment="enrollment" />
         <AppListDropDownItem 
             :title="enrollment.hasPayment ?  'Отменить оплату' : 'Подтвердить оплату'" 
             :disabled="isPaymentChangeDisabled "

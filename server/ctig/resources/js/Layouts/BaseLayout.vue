@@ -5,6 +5,7 @@ import PromptDialog from '@components/PromptDialog/PromptDialog.vue';
 import Modals from '@components/Modals/Modals.vue';
 import AppLoadingSnackbar from '@components/UI/AppLoadingSnackbar/AppLoadingSnackbar.vue';
 import AppSnackbarQueue from '@/components/UI/AppSnackbarQueue/AppSnackbarQueue.vue';
+import ConfirmationOptionsModal from '@/components/Modals/ConfirmationOptionsModal.vue';
 
 </script>
 
@@ -16,4 +17,5 @@ import AppSnackbarQueue from '@/components/UI/AppSnackbarQueue/AppSnackbarQueue.
     <modals />
     <app-loading-snackbar />
     <app-snackbar-queue />
+    <confirmation-options-modal />
 </template>

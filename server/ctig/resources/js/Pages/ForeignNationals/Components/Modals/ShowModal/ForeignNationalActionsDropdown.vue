@@ -4,8 +4,8 @@ import ThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/Ba
 import { Enrollment, ForeignNational } from '@interfaces/Interfaces';
 import { useModals } from '@composables/useModals';
 import { router, useHttp } from '@inertiajs/vue3';
-import { useConfirmDialog } from '@/composables/useConfirmDialog';
 import { useLoadingSnackbar } from '@/composables/useLoadingSnackBar';
+import { useConfirmationOptionsDialog } from '@/composables/useConfirmationOptionsDialog';
 
 const {open} = useModals()
 
@@ -21,8 +21,8 @@ const emit = defineEmits<{
 
 const destroy = async () => {
     if(!props.foreignNational) return
-    const {confirmOpen} = useConfirmDialog()
-    const ok = await confirmOpen('Удалить ИГ из системы? Также будут удалены все связанные с ним данные')
+    const {open} = useConfirmationOptionsDialog()
+    const ok = await open('Удалить ИГ из системы? Также будут удалены все связанные с ним данные')
     if(!ok) return
     const loading = useLoadingSnackbar()
     loading.open('Идет удаление...')

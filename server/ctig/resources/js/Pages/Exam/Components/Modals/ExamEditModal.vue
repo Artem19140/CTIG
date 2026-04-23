@@ -7,6 +7,7 @@ import { DateFormatter } from '@helpers/DateFormatter';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import { computed, ref } from 'vue';
+import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
 
 const props = defineProps<{
     exam: Exam,
@@ -40,10 +41,13 @@ const loading = ref(false)
 const edit = () => {
     http.put(`/exams/${props.exam.id}`,{
         onSuccess:(response: any) => {
-            if(!props.onEdit || response.exam)return
+            console.log(props.onEdit, response.exam)
+            if(!props.onEdit || !response.exam) return
             console.log(response.exam)
             props.onEdit(response.exam)
             isOpen.value = false
+            const {add} = useSnackbarQueue()
+            add('Данные успешно изменены', 'green')
         }
     })
 }

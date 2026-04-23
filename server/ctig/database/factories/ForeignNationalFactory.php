@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
-use Illuminate\Support\Str;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ForeignNational>
  */
@@ -27,19 +27,19 @@ public function definition(): array
 
     $names = [
         'UZ' => [
-            'male' => ['Aziz', 'Rustam', 'Javlon', 'Bekzod', 'Ulugbek'],
-            'female' => ['Dilnoza', 'Gulnora', 'Shahnoza', 'Zilola', 'Malika'],
-            'surnames' => ['Karimov', 'Abdullayev', 'Tursunov', 'Rasulov', 'Yusupov'],
+            'male' => ['Азиз', 'Рустам', 'Жавлон', 'Бекзод', 'Улугбек'],
+            'female' => ['Дилноза', 'Гулнора', 'Шахноза', 'Зилола', 'Малика'],
+            'surnames' => ['Каримов', 'Абдуллаев', 'Турсунов', 'Расулов', 'Юсупов'],
         ],
         'TJ' => [
-            'male' => ['Rustam', 'Jamshed', 'Farrukh', 'Daler', 'Shohruh'],
-            'female' => ['Nilufar', 'Farzona', 'Zarrina', 'Mehribon', 'Shabnam'],
-            'surnames' => ['Rahmonov', 'Ismoilov', 'Saidov', 'Kholov', 'Mirzoev'],
+            'male' => ['Рустам', 'Джамшед', 'Фаррух', 'Далер', 'Шохрух'],
+            'female' => ['Нилуфар', 'Фарзона', 'Заррина', 'Мехрибон', 'Шабнам'],
+            'surnames' => ['Рахмонов', 'Исмоилов', 'Саидов', 'Холов', 'Мирзоев'],
         ],
         'AZ' => [
-            'male' => ['Elvin', 'Orkhan', 'Murad', 'Tural', 'Anar'],
-            'female' => ['Aysel', 'Lala', 'Nigar', 'Gunay', 'Sevinj'],
-            'surnames' => ['Aliyev', 'Mammadov', 'Huseynov', 'Rzayev', 'Guliyev'],
+            'male' => ['Элвин', 'Орхан', 'Мурад', 'Турал', 'Анар'],
+            'female' => ['Айсел', 'Лала', 'Нигяр', 'Гюнай', 'Севиндж'],
+            'surnames' => ['Алиев', 'Мамедов', 'Гусейнов', 'Рзаев', 'Гулиев'],
         ],
     ];
 
@@ -50,10 +50,7 @@ public function definition(): array
 
     // отчество по региональному стилю (упрощённо)
     $patronymicBase = fake()->randomElement($names[$country]['male']);
-    $patronymic = $patronymicBase . ($gender === 'M' ? 'ovich' : 'ovna');
-
-    // упрощённая транслитерация (достаточно для тестов)
-    $translit = fn($value) => Str::slug($value, '');
+    $patronymic = $patronymicBase . ($gender === 'M' ? 'ович' : 'овна');
 
     return [
         'surname' => $lastName,
@@ -65,9 +62,9 @@ public function definition(): array
         'name_normalized' => mb_strtolower($firstName),
 
         // latin — синхронизированная транслитерация
-        'surname_latin' => Str::ucfirst($translit($lastName)),
-        'name_latin' => Str::ucfirst($translit($firstName)),
-        'patronymic_latin' => Str::ucfirst($translit($patronymic)),
+        'surname_latin' =>$this->translit($lastName),
+        'name_latin' => $this->translit($firstName),
+        'patronymic_latin' => $this->translit($patronymic),
 
         // паспорта (упрощённые, но региональные форматы)
         'passport_number' => match ($country) {
@@ -77,26 +74,20 @@ public function definition(): array
         },
 
         'passport_series' => match ($country) {
-            'UZ' => 'UZ' . fake()->numerify('######'),
-            'TJ' => 'TJ' . fake()->numerify('######'),
-            'AZ' => 'AZ' . fake()->numerify('######'),
+            'UZ' => 'AB',
+            'TJ' => 'TJ',
+            'AZ' => 'AZ',
         },
 
-        'issued_by' => match ($country) {
-            'UZ' => 'IIV UZ №' . fake()->numerify('####'),
-            'TJ' => 'ВКД РТ №' . fake()->numerify('####'),
-            'AZ' => 'DİN AZ №' . fake()->numerify('####'),
-        },
+        'issued_by' => 'МВД ' . fake()->numerify('####'),
 
         'issued_date' => fake()->dateTimeBetween('-10 years'),
+        'passport_scan' => 'documents/passport.pdf',
+        'passport_translate_scan' => 'documents/passport.pdf',
 
         'citizenship' => $country,
 
-        'phone' => match ($country) {
-            'UZ' => '998' . fake()->numerify('########'),
-            'TJ' => '992' . fake()->numerify('#######'),
-            'AZ' => '994' . fake()->numerify('#######'),
-        },
+        'phone' => '79'.fake()->numerify('#########'),
 
         'creator_id' => User::factory(),
 
@@ -107,4 +98,25 @@ public function definition(): array
         'address_reg' => fake()->streetAddress(),
     ];
 }
+
+private function translit(string $value): string
+{
+    $map = [
+        'а'=>'a','б'=>'b','в'=>'v','г'=>'g','д'=>'d','е'=>'e','ё'=>'e',
+        'ж'=>'zh','з'=>'z','и'=>'i','й'=>'y','к'=>'k','л'=>'l','м'=>'m',
+        'н'=>'n','о'=>'o','п'=>'p','р'=>'r','с'=>'s','т'=>'t','у'=>'u',
+        'ф'=>'f','х'=>'h','ц'=>'ts','ч'=>'ch','ш'=>'sh','щ'=>'shch',
+        'ъ'=>'','ы'=>'y','ь'=>'','э'=>'e','ю'=>'yu','я'=>'ya',
+
+        'А'=>'A','Б'=>'B','В'=>'V','Г'=>'G','Д'=>'D','Е'=>'E','Ё'=>'E',
+        'Ж'=>'Zh','З'=>'Z','И'=>'I','Й'=>'Y','К'=>'K','Л'=>'L','М'=>'M',
+        'Н'=>'N','О'=>'O','П'=>'P','Р'=>'R','С'=>'S','Т'=>'T','У'=>'U',
+        'Ф'=>'F','Х'=>'H','Ц'=>'Ts','Ч'=>'Ch','Ш'=>'Sh','Щ'=>'Shch',
+        'Ъ'=>'','Ы'=>'Y','Ь'=>'','Э'=>'E','Ю'=>'Yu','Я'=>'Ya',
+    ];
+
+    return strtr($value, $map);
 }
+}
+
+

@@ -6,6 +6,7 @@ import { onMounted, ref } from 'vue';
 import type { Enrollment, ForeignNational } from '@interfaces/Interfaces';
 import { useHttp } from '@inertiajs/vue3'
 import { DateFormatter } from '@helpers/DateFormatter';
+import countries from '@data/countries.json'
 
 const props = defineProps<{
     foreignNationalId?:number
@@ -46,6 +47,11 @@ const enroll = (value:Enrollment) => {
 const deleteFN = (value: ForeignNational) => {
     isOpen.value = false
 }
+
+const getCountryTitle = (value:string | null) => {
+    const result = countries.find(item => item.value === value);
+    return result ? result.text : '-';
+}
 </script>
 
 <template>
@@ -72,7 +78,7 @@ const deleteFN = (value: ForeignNational) => {
         <v-card-text class="ml-4">
             <div class="text-headline-small">{{foreignNational?.fullName }}</div>
             <div class="text-subtitle-1">{{foreignNational?.fullNameLatin}}</div>
-            <div class="text-subtitle-2">{{new DateFormatter(foreignNational?.dateBirth ?? '').format('d.m.Y')}} ({{ foreignNational?.citizenship }})</div> 
+            <div class="text-subtitle-2">{{new DateFormatter(foreignNational?.dateBirth ?? '').format('d.m.Y')}} ({{getCountryTitle(foreignNational?.citizenship ?? null) }})</div> 
         </v-card-text>
 
         <v-divider></v-divider>

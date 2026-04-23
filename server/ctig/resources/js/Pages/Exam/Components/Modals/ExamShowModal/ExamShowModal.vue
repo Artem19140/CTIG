@@ -52,7 +52,6 @@ const edit =(value :Exam) => {
     router.visit('/exams')
     console.log(value)
     exam.value = value
-    
 }
 
 </script>

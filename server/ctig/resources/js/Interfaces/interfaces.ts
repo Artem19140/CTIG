@@ -101,9 +101,14 @@ export interface Attempt{
     finishedAt:string | null,
     isPassed:boolean | null,
     status:string,
-    exam:Array<Exam>,
+    exam:Exam,
     expiredAt:string,
-    tasks: Task[]
+    tasks: Task[],
+    foreignNational: ForeignNational,
+    examName:string,
+    endsAt:number,
+    serverNow:number,
+    speakingFinishedAt: string | null
 }
 
 export interface Address{

@@ -15,7 +15,7 @@ const go = (id:string) => {
 <template>
 
     <v-container class="pa-0">
-      <v-row dense>
+      <v-row comfortable>
         <v-col
           v-for="task in tasks"
           :key="task.id"

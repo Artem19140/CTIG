@@ -40,9 +40,6 @@ return new class extends Migration
             $table->string('patronymic_normalized')->nullable()->default(null);
             $table->string('passport_number_normalized')->nullable()->default(null);
             $table->string('passport_series_normalized')->nullable()->default(null);
-
-
-            $table->dateTime('storage_expired_at')->default(now()->addYears(3));
             
             $table->timestamps();
             

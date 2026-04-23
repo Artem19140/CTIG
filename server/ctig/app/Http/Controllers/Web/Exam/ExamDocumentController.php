@@ -54,13 +54,11 @@ class ExamDocumentController
 
     public function protocol(Request $request, Exam $exam, ExamProtocolGenerator $examProtocolGenerator)
     {
-        //Gate::authorize('exam-manage-access', $exam);
         return $examProtocolGenerator->execute($exam, $request->user() );
     }
 
     public function protocolAvailable(Exam $exam)
     {
-        //Gate::authorize('exam-manage-access', $exam);
         $this->examDocumentAvailable->protocol($exam);
         return Inertia::flash([
             'redirectUrl' => route('exam.documents.protocol', ['exam' => $exam])
@@ -69,7 +67,6 @@ class ExamDocumentController
 
     public function results(Exam $exam, ExamResultsGenerator $examResultsGenerator)
     {
-        //Gate::authorize('exam-manage-access', $exam);
         
         $resultsPdf = $examResultsGenerator->execute($exam);
         
@@ -79,7 +76,6 @@ class ExamDocumentController
 
     public function resultsAvailable(Exam $exam, CloseAbandonedAttemptsAction $closeAbandonedAttemptsAction)
     {
-        //Gate::authorize('exam-manage-access', $exam);
         $closeAbandonedAttemptsAction->execute(request()->user()->time_zone);
         $this->examDocumentAvailable->statement($exam);
         return Inertia::flash([
@@ -89,7 +85,6 @@ class ExamDocumentController
 
     public function shortResults(Exam $exam, ExamResultsGenerator $generateExamResults)
     {
-        //Gate::authorize('exam-manage-access', $exam);
         
         $resultsPdf = $generateExamResults->execute($exam);
         $fileName = "Результаты_".$exam->short_name."_".$exam->begin_time->format('H-i_d.m.Y').".pdf";

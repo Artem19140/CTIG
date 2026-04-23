@@ -5,6 +5,7 @@ import {  ExamForm } from '@interfaces/Interfaces';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import ExamCreateForm from './ExamCreateForm.vue';
+import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
 
 const props = defineProps<{
     date?:string
@@ -28,7 +29,8 @@ const create =  () => {
         http.resetAndClearErrors()
         isOpen.value = false
         router.visit('/exams')
-
+        const {add} = useSnackbarQueue()
+        add('Экзамен создан', 'green')
     },
     })
     

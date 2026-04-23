@@ -5,7 +5,6 @@ namespace App\Domain\Attempt\Action;
 use App\Enums\AttemptStatus;
 use App\Models\Attempt;
 use Carbon\Carbon;
-use Log;
 
 class CloseAbandonedAttemptsAction{
     public function __construct(
@@ -29,7 +28,7 @@ class CloseAbandonedAttemptsAction{
     protected function close(Attempt $attempt){
         $this->zeroEmptyAutoAnswersAction->execute($attempt);
         if(!$attempt->hasUncheckedAnswers()){
-            $attempt->finished_at = $attempt->last_activity_at;
+            $attempt->finished_at = $attempt->last_activity_at ?? $attempt->expired_at;
             $this->finilizeAttemptCheckingAction->execute($attempt);
         }
     }

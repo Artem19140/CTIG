@@ -30,7 +30,7 @@ class AttemptResource extends JsonResource
             'isPassed' => $this->is_passed,
             'status' => app(AttemptStatusResolver::class)->execute($this->resource),
             'tasks' => TaskVariantResource::collection($this->whenLoaded('taskVariants', fn () =>  $this->taskVariants)),
-            //'has_unchecked_answers' => $this->whenHas($this->has_unchecked_answers,fn () => $this->has_unchecked_answers)
+            'speakingFinishedAt' => $this->speaking_finished_at
         ];
     }
 }

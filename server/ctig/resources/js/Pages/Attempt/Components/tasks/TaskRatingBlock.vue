@@ -35,6 +35,7 @@ onMounted(() => {
     for(let i=0;i<=props.task.mark; i++){
         marks.value.push(i)
     }
+    
 })
 
 </script>

@@ -24,17 +24,16 @@ const playedTime = computed(() => {
     return (currentTime.value / duration.value) * 100
 })
 
+const http = useHttp({})
 const togglePlay = () => {
   if (!audioRef.value) return
     audioRef.value.play()
     played.value = true
-    const audioPlayed = () => {
-    const http = useHttp({
-        
-    })
+    // const audioPlayed = () => {
+    
     if(!props.attempt?.id) return
     http.put(`/attempts/${props.attempt.id}/answers/${props.task.attemptAnswer.id}/audio`)
-}
+//}
 }
 
 const onTimeUpdate = () => {

@@ -76,6 +76,8 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
 
     Route::get('attempts/{attempt}/tasks/speaking', [AttemptCheckingController::class, 'show'])->name('attempts.speaking.tasks');
 
+    Route::put('attempts/{attempt}/speaking', [AttemptCheckingController::class, 'finishSpeaking'])->name('attempts.speaking.tasks');
+
     Route::post('password/change', [LoginController::class, 'changePassword'])->withoutMiddleware(['password.change']);;
     Route::inertia('password/change', 'ChangePassword/ChangePassword')->name('password.change')->withoutMiddleware(['password.change']);;
 
@@ -111,26 +113,27 @@ Route::middleware('guest')->group(function (){
 
 Route::middleware('auth:foreignNationals')->group(function (){
     Route::prefix('attempts')->group(function(){
-        // Route::put('/finish', [AttemptController::class, 'finish'])
-        //     ->can('attempt-access', 'attempt');
-        Route::get('{attempt}/before', [AttemptController::class, 'before'])->name('exam-attempts.before')
+        Route::put('{attempt}/finish', [AttemptController::class, 'finish'])
+            ->can('attempt-access', 'attempt');
+        Route::get('{attempt}/before', [AttemptController::class, 'before'])->name('attempts.before')
             ->can('attempt-access', 'attempt');
 
-        Route::get('{attempt}', [AttemptController::class, 'show'])->name('exam-attempts') 
+        Route::get('{attempt}', [AttemptController::class, 'show'])->name('attempts') 
             ->can('attempt-access', 'attempt');
 
         Route::put('{attempt}', [AttemptController::class, 'start'])
             ->can('attempt-access', 'attempt');
         
-        Route::put('{attempt}/answers/{attemptAnswer}/audio/played', [AttemptAnswerController::class, 'update'])
-            ->can('attempt-access', 'attempt');
+        // Route::put('{attempt}/answers/{attemptAnswer}/audio/played', [AttemptAnswerController::class, 'update'])
+        //     ->can('attempt-access', 'attempt');
 
         Route::put('{attempt}/answers/{attemptAnswer}', [AttemptAnswerController::class, 'update'])
             ->can('attempt-access', 'attempt');
 
        
 
-        Route::put('{attempt}/answers/{attemptAnswer}/audio', [AttemptAnswerController::class, 'audioPlayed']);
+        Route::put('{attempt}/answers/{attemptAnswer}/audio', [AttemptAnswerController::class, 'audioPlayed'])
+            ->can('attempt-access', 'attempt');;
     });
     
 });

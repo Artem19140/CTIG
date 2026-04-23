@@ -1,3 +1,16 @@
+<div class="center">
+   Баллы экзамена по русскому языку как иностранному, истории России и основам законодательства Российской Федерации, проведенного в ФГБОУ ВО «УдГУ» 
+    (Ижевск, Университетская, 1)
+</div>
+
+<div class="center text-small">
+    Сертификат о владении русским языком, знании истории России и основ законодательства Российской Федерации на уровне, 
+    соответствующем цели получения {{ $exam->type->protocol_name }}
+</div>
+
+<div class="text-small">Сессия № {{ $exam->session }}, группа № {{ $exam->group }}</div>
+<div class="text-small">Дата и время: {{ $exam->begin_time->format('d.m.Y, H:i') }}</div>   
+
 <table class="table border center" style="small">
     <thead>
         <tr class="border">
@@ -37,3 +50,11 @@
 
     </tbody>
 </table>
+<div class="text-small">Результаты экзамена проверены.</div>
+<div class="text-small">Ответственные по проведению экзамена (тесторы):</div>
+@foreach($exam->examiners as $examiner)
+    @include('templates.components.signature-section', [
+                'date' =>  \Carbon\Carbon::now()->format('d.m.Y'), 
+                'fio' => $examiner->full_name, 
+            ])
+@endforeach

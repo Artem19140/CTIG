@@ -72,5 +72,6 @@ class ValidateExamForSave{
             $examConflictName = $conflictExam->short_name. " в ". $conflictExam->begin_time->format('H:i');
             throw new BusinessException("В это время по данному адресу уже проводится экзамен по $examConflictName");
         }
+        return $examType->duration;
     }
 }

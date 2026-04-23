@@ -12,7 +12,7 @@ export const useExamAttempt = ()  => {
     const updateAnswer = (answerId:number, answer: any) => {
         http.answer = answer
         if(!examAttempt.value) return
-        http.put(`/exam-attempts/${examAttempt.value.id}/answers/${answerId}`,{
+        http.put(`/attempts/${examAttempt.value.id}/answers/${answerId}`,{
             onSuccess:(response:any) => {
                 const task = examAttempt.value?.tasks.find(t => t.attemptAnswer.id = answerId)
                 if(!task) return

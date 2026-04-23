@@ -116,7 +116,14 @@ class Exam extends Model
         });
     }
 
-    protected function timeZone(): Attribute
+    public function hasSpeaking()
+    {
+        return $this->type->has_speaking_tasks;
+    }
+
+
+
+     protected function timeZone(): Attribute
     {
         return Attribute::get(function () {
             return $this->center->time_zone;
@@ -166,6 +173,8 @@ class Exam extends Model
     public function canGenerateCodes():bool{
         return Carbon::now()->gte($this->begin_time_utc->copy()->subMinutes(self::CODES_AVAILABLE_BEFORE_MINUTES)) && !$this->isFinished();
     }
+
+
 
     public function scopeSorting(Builder $query, Carbon $now){
         return $query->orderByRaw("

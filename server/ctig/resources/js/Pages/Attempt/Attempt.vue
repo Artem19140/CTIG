@@ -6,6 +6,7 @@ import { useForm } from '@inertiajs/vue3';
 import ConfirmDialog from '@components/ConfirmDialog/ConfirmDialog.vue';
 import { Attempt } from '@/interfaces/Interfaces';
 import { useExamAttempt } from '@/composables/useExamAttempt';
+import { onMounted } from 'vue';
 
 const props = defineProps<{
     attempt:{
@@ -26,8 +27,13 @@ const finish = async () => {
     const {confirmOpen} = useConfirmDialog()
     const ok = await confirmOpen("Вы уверены, что хотите завершить попытку?")
     if(!ok) return
-    form.put(`/attempts/finish`)
+    form.put(`/attempts/${props.attempt.data.id}/finish`)
 }
+
+// onMounted(() => {
+//     const el = document.documentElement
+//     el.requestFullscreen()
+// })
 </script>
 
 <template>

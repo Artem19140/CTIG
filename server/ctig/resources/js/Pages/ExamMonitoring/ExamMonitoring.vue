@@ -6,7 +6,7 @@ import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import BaseLayout from '@layouts/BaseLayout.vue';
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import { useModals } from '@composables/useModals';
-import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
 import { Enrollment, Exam } from '@interfaces/Interfaces';
 import { DateFormatter } from '@helpers/DateFormatter';
@@ -25,23 +25,14 @@ const props = defineProps<{
     },
 }>()
 
-const enrollments = ref<Enrollment[]>(props.exam.data.enrollments)
-watch(() => props.exam.data.enrollments, (data) => {
-    enrollments.value = data
-})
+//const enrollments = ref<Enrollment[]>(props.exam.data.enrollments)
+
+// watch(() => props.exam.data.enrollments, (data) => {
+//     enrollments.value = data
+// })
 
 const { start, stop } = usePoll(10000, {}, {
     autoStart: false,
-})
-const {isGoing, isCancelled} = useExamStatus(props.exam.data)
-onMounted(()=>{
-    if(isGoing.value && !isCancelled.value && enrollments.value.length > 0){
-        start()
-    }
-})
-
-onUnmounted(()=>{
-    stop()
 })
 
 const headers = [
@@ -59,6 +50,23 @@ const headers = [
     },
     {title:'', key:"actions",sortable: false,align: 'end'}
 ]
+if(props.exam.data.hasSpeakingTasks){
+    headers.splice(headers.length -1 , 0, {title:'Говор.', key:"speaking",sortable: false, align:'center'})
+}
+
+const {isGoing, isCancelled} = useExamStatus(props.exam.data)
+
+const pollingCanStart = computed(() => isGoing.value && !isCancelled.value && props.exam.data.enrollments.length > 0)
+
+onMounted(()=>{
+    if(pollingCanStart.value){
+        start()
+    }
+})
+
+onUnmounted(()=>{
+    stop()
+})
 
 const {open} = useModals()
 const openForeignNational = (event : Event, {item} :any) => {
@@ -66,7 +74,8 @@ const openForeignNational = (event : Event, {item} :any) => {
 }
 
 const back = () => {
-    window.history.go(-1)}
+    window.history.go(-1)
+}
 </script>
 
 
@@ -88,28 +97,17 @@ const back = () => {
             </v-card-title>
 
             <v-card-subtitle >
+                <div>{{ exam.data.shortName }}</div>
                 <div>
-                    <div>
-                        <div>{{ exam.data.shortName }}</div>
-                        <div>{{ new DateFormatter(exam.data?.beginTime).format('H:i') }}
-                            - {{ new DateFormatter(exam.data?.endTime).format('H:i, d.m.Y') }}
-                        </div>
-                    </div>
-                    <v-spacer />
-                    <v-btn 
-                        border 
-                        v-if="isGoing"
-                        variant="text" 
-                        class="mr-4 text-black"
-                        @click="open('examComment', {exam:props.exam.data})"
-                    >Комментарий</v-btn>
-                    
+                    {{ new DateFormatter(exam.data?.beginTime).format('H:i') }}
+                    - 
+                    {{ new DateFormatter(exam.data?.endTime).format('H:i, d.m.Y') }}
                 </div>
             </v-card-subtitle>
 
             <v-card-text>
                 <v-data-table
-                    :items="enrollments"
+                    :items="exam.data.enrollments"
                     :headers="headers"
                     hover
                     hide-default-footer
@@ -134,6 +132,9 @@ const back = () => {
                     </template>
                     <template #item.hasPayment="{ item }">
                         <PaymentIcon :enrollment="item" />
+                    </template>
+                    <template #item.speaking="{ item }">
+                        <v-icon icon="mdi-check-circle" color="green" v-if="item.attempt?.speakingFinishedAt"/>
                     </template>
                 </v-data-table>
             </v-card-text>

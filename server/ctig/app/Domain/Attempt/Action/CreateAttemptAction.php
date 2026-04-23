@@ -30,7 +30,7 @@ class CreateAttemptAction{
             $exam = Exam::find($enrollment->exam_id);
             
             $this->examGuard->ensureNotFinished($exam);
-            //$this->examGuard->ensureGoing($exam);
+            $this->examGuard->ensureGoing($exam);
             $this->examGuard->ensureNotCancelled($exam);
             
             $attempt =  $this->createAttempt($foreignNational, $enrollment);

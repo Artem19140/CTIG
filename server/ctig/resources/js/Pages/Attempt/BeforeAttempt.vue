@@ -25,7 +25,7 @@ const name = computed(() => {
 const form = useForm()
 
 const begin = () => {
-    form.put(`/exam-attempts/${props.attempt.id}`)
+    form.put(`/attempts/${props.attempt.id}`)
 }
 
 

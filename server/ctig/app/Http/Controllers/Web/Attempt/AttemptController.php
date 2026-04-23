@@ -8,6 +8,7 @@ use App\Domain\Attempt\Action\StartAttemptAction;
 use App\Domain\Attempt\Query\GetCurrentAttemptQuery;
 use App\Domain\Attempt\Query\GetAttemptSpeakingTasksQuery;
 use App\Enums\AttemptStatus;
+use App\Http\Resources\Attempt\AttemptExamResource;
 use App\Http\Resources\Attempt\AttemptResource;
 use App\Http\Resources\Exam\ExamResource;
 use App\Models\Attempt;
@@ -40,14 +41,14 @@ class AttemptController
         $attempt = $getCurrentAttemptQuery->execute($attempt);
         
         return Inertia::render('Attempt/Attempt', [
-            'attempt' => new AttemptResource($attempt)
+            'attempt' => new AttemptExamResource($attempt)
         ]);
     }
 
     public function start(Request $request, StartAttemptAction $startAttempt, Attempt $attempt)
     {
         $startedAttempt = $startAttempt->execute($attempt);
-        return redirect()->route('exam-attempts', ['attempt' => $startedAttempt->id]);
+        return redirect()->route('attempts', ['attempt' => $startedAttempt->id]);
     }
 
     public function ban(Request $request, Attempt $attempt, BanAttemptAction $banAttempt)

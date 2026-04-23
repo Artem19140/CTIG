@@ -45,7 +45,6 @@ final class StoreForeignNationalAction{
             'patronymic_normalized'=> $this->normalize($data['patronymic']),
             'passport_number_normalized'=> $this->normalize($data['passportNumber']),
             'passport_series_normalized'=> $this->normalize($data['passportSeries']),
-            'storage_expired_at' => Carbon::now()->addYears(ForeignNational::STORAGE_TTL)
         ];
     }
 

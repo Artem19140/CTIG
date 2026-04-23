@@ -7,7 +7,7 @@ use Carbon\Carbon;
 
 class ClearForeignNationalExpiredTTLActon{
     public function execute(){
-        ForeignNational::where('storage_expired_at', '<', Carbon::now())
+        ForeignNational::where('created_at', '<', Carbon::now()->subYears(ForeignNational::STORAGE_TTL))
             ->delete();
     }
 }

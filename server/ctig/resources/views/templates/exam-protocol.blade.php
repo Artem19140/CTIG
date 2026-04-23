@@ -145,9 +145,11 @@ td {
             Нарушения / отсутствие нарушений:
         </span>
         <div>
+        @if ($exam->protocol_comment)
             <div class="prebox">
-    {{ $exam->protocol_comment ?  $exam->protocol_comment : ''}}
+    {{ $exam->protocol_comment}}
             </div>
+        @endif
             <div>
                 @foreach ( $bannedAttempts as $attempt )
                     <div>

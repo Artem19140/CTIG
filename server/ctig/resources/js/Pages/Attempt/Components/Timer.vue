@@ -2,26 +2,45 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 
 const props = defineProps<{
-    timeBegin:string,
-    timeEnd:string
+    endsAt:number,
+    serverNow:number
 }>()
+
+let interval:number | null = null
 //нужно выдавать просто точку старта и запускать
 const timeLeft = ref<number>(0)
-let interval: any = null
+
+const offset = ref(0)
+
+const syncTime = () => {
+  const clientNow = Math.floor(Date.now() / 1000)
+  offset.value = props.serverNow - clientNow
+}
+
 
 const calculateTime = () => {
-    props.timeBegin
-    const now = new Date().getTime()
-    const end = new Date(props.timeEnd).getTime()
 
-    timeLeft.value = Math.floor((end - now) / 1000)
+    const now = Math.floor(Date.now() / 1000) + offset.value
+
+    timeLeft.value = Math.max(0, props.endsAt - now)
     if (timeLeft.value <= 0) {
         timeLeft.value = 0
-        clearInterval(interval)
+        stopTimer()
         onTimeEnd()
     }
     
 }
+
+const startTimer = () => {
+  calculateTime()
+  interval = window.setInterval(calculateTime, 1000)
+}
+
+const stopTimer = () => {
+  if (interval) clearInterval(interval)
+  interval = null
+}
+
 const onTimeEnd = () => {
     console.log('Время вышло!')
 }
@@ -36,12 +55,15 @@ const minutes = computed(() => {
 })
 
 onMounted(() => {
-    calculateTime()
+    syncTime()
+    startTimer()
     interval = setInterval(calculateTime, 1000)
+    setInterval(syncTime, 60000)
+document.addEventListener('visibilitychange', calculateTime)
 })
 
 onUnmounted(() => {
-    clearInterval(interval)
+    stopTimer()
 })
 
 </script>

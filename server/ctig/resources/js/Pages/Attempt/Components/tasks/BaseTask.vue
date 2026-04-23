@@ -65,7 +65,7 @@ const getDefaultDescription = (type:string) => {
 </style> -->
 
 <template>
-  <div class="d-flex justify-center pa-4">
+  <div class="flex flex-column justify-center pa-4">
     <v-card
       width="600"
       elevation="6"
@@ -80,13 +80,14 @@ const getDefaultDescription = (type:string) => {
         >
           Задание {{ task?.order }}
         </v-chip>
-
-        <div class="text-subtitle-1 font-weight-medium mt-1">
-          {{ task?.description && task.description.trim() !== "" 
-            ? task.description 
-            : getDefaultDescription(task?.type) }}
-        </div>
       </v-card-title>
+      <div class="text-subtitle-1 font-weight-medium mt-1 pl-6 pr-4 pre-like">
+        {{ 
+          task?.description && task.description.trim() !== "" 
+            ? task.description 
+            : getDefaultDescription(task.type) 
+        }}
+      </div>
 
       <v-divider />
 
@@ -110,15 +111,8 @@ const getDefaultDescription = (type:string) => {
       </v-card-actions>
     </v-card>
 
-    <div v-if="checking" class="mt-6 mb-10 w-100 d-flex justify-center">
-      <v-card
-        width="600"
-        rounded="lg"
-        elevation="2"
-        class="pa-2"
-      >
+    <div v-if="checking" class="mt-6 mb-10 w-100">
         <TaskRatingBlock @saved="saved" :task="task" />
-      </v-card>
     </div>
   </div>
 </template>
@@ -135,5 +129,9 @@ const getDefaultDescription = (type:string) => {
 
 .v-card:hover {
   transform: translateY(-2px);
+}
+
+.pre-like{
+  white-space: pre-wrap;
 }
 </style>

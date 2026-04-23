@@ -27,7 +27,9 @@ class GetCurrentAttemptQuery{
             'taskVariants.answers',
             'taskVariants.attemptsAnswer' => function($query)use($attempt){
                 $query->where('attempt_id', $attempt->id);
-            }
+            },
+            'exam.type',
+            'foreignNational'
         ]);
         $attempt->taskVariants = $attempt->taskVariants->sortBy('task.order');
         return $attempt;

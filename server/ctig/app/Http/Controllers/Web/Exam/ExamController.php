@@ -87,7 +87,7 @@ class ExamController
         $attempt = $createAttempt->execute($request->validated('code'));
         Auth::guard('foreignNationals')->login($attempt->foreignNational);
         $request->session()->regenerate();
-        return redirect()->route('exam-attempts.before', ['attempt' => $attempt->id]);
+        return redirect()->route('attempts.before', ['attempt' => $attempt->id]);
     }
 
     public function destroy(Exam $exam , CancelExamAction $cancelExam)

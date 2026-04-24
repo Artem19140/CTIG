@@ -32,8 +32,12 @@ const icon = computed(() => {
   }[props.status] || 'mdi-alert'
 })
 
-const goHome = () => {
+const home = () => {
   router.get('/exams')
+}
+
+const back = () => {
+  window.history.go(-1)
 }
 </script>
 
@@ -49,8 +53,11 @@ const goHome = () => {
       </v-card-text>
       <v-card-actions class="actions">
         <v-spacer></v-spacer>
-        <v-btn color="red darken-2" variant="elevated" @click="goHome">
+        <v-btn color="red darken-2" variant="elevated" @click="home">
           На главную
+        </v-btn>
+        <v-btn color="red darken-2" variant="elevated" @click="back">
+          Назад
         </v-btn>
       </v-card-actions>
     </v-card>

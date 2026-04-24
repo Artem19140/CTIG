@@ -18,7 +18,7 @@ class ChangePaymentStatusAction{
         $enrollment->load('exam');
         
         if($enrollment->attempt()->exists()){
-            throw new BusinessException('Нельзя изменить статус оплаты, если начат экзамен');
+            throw new BusinessException('Нельзя изменить статус оплаты, если есть попытка экзамена');
         }
     
         $this->examGuard->ensureNotCancelled($enrollment->exam);

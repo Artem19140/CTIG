@@ -23,6 +23,7 @@ const exams = ref<Exam[]>()
 //     surnameLatin:'',
 //     nameLatin:'',
 //     patronymicLatin:"",
+//     noPatronymicLatin:"",
 //     passportNumber:"",
 //     passportSeries:"",
 //     noPassportNumber:false,

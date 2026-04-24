@@ -23,7 +23,6 @@ const {can} = useAuth()
 
 <template>
     <BaseContainer>
-        <v-card>
             <v-card-text>
                 <ShowData :center="center" v-if="mode === 'show'" />
                 <UpdateData :center="center" v-if="mode === 'update'"  />
@@ -36,13 +35,11 @@ const {can} = useAuth()
                 <v-btn @click="mode = 'show'" v-if="mode === 'update'">
                     Отмена
                 </v-btn>
-
                 <AppPrimaryButton
                     text="Редактировать"
                     @click="mode = 'update'"
                     v-if="mode === 'show' && can([Roles.ORG_ADMIN])"
                 />
             </v-card-actions>
-        </v-card>
     </BaseContainer>
 </template>

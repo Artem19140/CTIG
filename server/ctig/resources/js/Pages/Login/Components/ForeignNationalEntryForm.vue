@@ -15,18 +15,6 @@ const submit = () => {
 </script>
 
 <template>
-    <v-card elevation="6" max-width="500" class="pa-6 text-center w-100">
-      <v-card-title >
-        <div class="flex items-center justify-center">
-          <AppLogo  
-            max-width="100" 
-          />
-        </div>
-      </v-card-title>
-
-      <v-card-subtitle class="mb-4">
-        Введите код из 6 цифр
-      </v-card-subtitle>
 
       <v-form @submit.prevent="submit">
         <v-otp-input
@@ -44,7 +32,6 @@ const submit = () => {
           :disabled="form.processing"
         />
       </v-form>
-    </v-card>
 </template>
 
 <style scoped>

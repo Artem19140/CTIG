@@ -7,6 +7,7 @@ import { useForm } from '@inertiajs/vue3';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import AppAutocomplete from '@components/UI/AppAutocomplete/AppAutocomplete.vue';
 import {useHttp} from '@inertiajs/vue3';
+import AppPasswordConfirmation from '@/components/UI/AppPasswordConfirmation/AppPasswordConfirmation.vue';
 
 const isOpen = defineModel<boolean>({default:false})
 const roles = ref()
@@ -19,7 +20,7 @@ const form = useForm({
     roles:[],
     email:'',
     password:'',
-
+    password_confirmation:''
 })
 
 const canClose = async (fn: () => void) => {
@@ -97,10 +98,11 @@ onMounted(() => {
             :error-messages="form?.errors?.email"
         />
 
-        <AppInput 
-            label="Пароль"
-            v-model="form.password"
-            :error-messages="form?.errors?.password"
+        <AppPasswordConfirmation
+            v-model:password="form.password"
+            v-model:password-confirmation="form.password_confirmation"
+            :password-attr="{'error-messages':form?.errors?.password}"
+            :password-confirmation-attr="{'error-messages':form?.errors?.password_confirmation}"
         />
         <template #actions>
             <div>

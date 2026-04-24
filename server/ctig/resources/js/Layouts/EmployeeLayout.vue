@@ -82,7 +82,7 @@
       </div>
     </v-navigation-drawer>
   </template>
-    <slot />
+  <slot />
 </base-layout>
 </template>
 
@@ -107,10 +107,6 @@ const logout = async () => {
 }
 const {can, user} = useAuth()
 
-// defineOptions({
-//   layout: BaseLayout,
-// })
-
 const centerId = user?.center_id
 const employeeName = `${user?.surname} ${user?.name}`
 const activeItem = ref('')
@@ -120,7 +116,5 @@ const activeItem = ref('')
   html {
     overflow-y: scroll;
   }
-  html, body, #app {
-    min-height: 100%;
-  }
+
 </style>

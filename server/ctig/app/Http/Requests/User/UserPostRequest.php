@@ -25,7 +25,7 @@ class UserPostRequest extends FormRequest
             'name'=>['required','string'],
             'patronymic'=>['required','string'],
             'email'=>['required','email', 'unique:users,email'],
-            'password'=>['required', 'min:8'],
+            'password'=>['required', 'min:8',  'confirmed'],
             'jobTitle' => ['required', 'string']
         ];
     }

@@ -15,9 +15,8 @@ const props=defineProps<{
                 <v-img
                 class="mx-auto"
                     width="250"
-                    src="/storage/images/tigr_full.png"
+                    src="/storage/images/tigr.png"
                 >
-            
                 </v-img>
                 {{foreignNationalName ? `${foreignNationalName, "спасибо"}` : 'Спасибо' }} за прохождение экзамена {{ ` ${examName} `}} в системе ТИГР. 
                 Ожидайте результаты экзамена. В случае вопросов обратитесь в центр тестирования.

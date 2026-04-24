@@ -20,11 +20,11 @@ class FinishAttemptAction{
         $this->attemptGuard->ensureNotFinished($attempt);
         $this->attemptGuard->ensureActive($attempt, 'Завершить возможно только активную попытку');
         //Не завершать завершенные и проверенные
-        $tenMinutesPassed = Carbon::now($attempt->time_zone)->gt($attempt->started_at->subMinutes(10));
-        if($tenMinutesPassed){
+        $tenMinutesPassed = Carbon::now($attempt->time_zone)->gt($attempt->started_at->addMinutes(10));
+        if(!$tenMinutesPassed){
             throw new BusinessException('Попытку возможно завершить минимум через  10 минут после начала');
         }
-
+        throw new BusinessException('Попытку возможно завершить минимум через  10 минут после начала');
         DB::transaction(function() use($attempt){
             $attempt->finish();
             

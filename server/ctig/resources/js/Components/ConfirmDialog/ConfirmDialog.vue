@@ -9,6 +9,7 @@ const {isOpen, message, confirmOk, confirmClose} = useConfirmDialog()
         v-model="isOpen"
         persistent
         width="400"
+        scroll-strategy="none"
     >
         <v-card
             width="400"

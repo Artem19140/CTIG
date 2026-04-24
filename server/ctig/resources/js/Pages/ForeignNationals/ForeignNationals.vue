@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import ForeignNationalTable from './Components/ForeignNationalTable/ForeignNationalTable.vue';
-import BaseLayout from '@layouts/BaseLayout.vue';
+import BaseContainer from '@/components/BaseComponents/BaseContainer/BaseContainer.vue';
 
 defineOptions({
-  layout: [BaseLayout, EmployeeLayout]
+  layout: [EmployeeLayout]
 })
 
 const props = defineProps<{
@@ -13,11 +13,9 @@ const props = defineProps<{
 </script>
 
 <template>
-  <v-container>
-    <v-card>
+  <BaseContainer >
       <ForeignNationalTable 
         :foreignNationals="foreignNationals" 
       />
-    </v-card>
-  </v-container> 
+  </BaseContainer> 
 </template>

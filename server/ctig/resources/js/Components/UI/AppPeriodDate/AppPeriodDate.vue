@@ -18,7 +18,6 @@ const dateTo = defineModel<string | null>('dateTo', {default:null})
     <div class="flex ga-2">
         <div class="flex-1">
             <AppDateInput
-                label=""
                 v-model="dateFrom"
                 :error-messages="props.errors?.dateFrom"
             />

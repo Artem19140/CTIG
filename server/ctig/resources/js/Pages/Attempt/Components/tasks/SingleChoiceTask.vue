@@ -29,7 +29,7 @@ const send = async () => {
     // updateAnswer(attemptAnswerId, attemptAnswer.value)
     http.put(`/attempts/${props.attempt.id}/answers/${attemptAnswerId}`,{
         onSuccess:(response : any) => {
-            props.task.attemptAnswer = response.data
+            props.task.attemptAnswer.answer = response.data.answer
         },
         onError:() => {
 

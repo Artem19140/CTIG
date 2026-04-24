@@ -16,12 +16,11 @@ const progress = computed(() => {
 })
 const tasks = ref(props.tasks)
 const solved = computed(() =>  props.tasks.filter(item => item?.attemptAnswer?.answer !== null).length)
-const offset = props.attempt.serverNow - Date.now() / 1000
 </script>
 
 <template>
-  <v-card class="pa-3" elevation="2" rounded="lg" variant="text">
 
+  <div class="p-6 mt-5">
     <div class="mb-4">
       <Timer
         :server-now="attempt.serverNow"
@@ -52,6 +51,5 @@ const offset = props.attempt.serverNow - Date.now() / 1000
     />
 
     <TaskSideList :tasks="tasks" />
-
-  </v-card>
+    </div>
 </template>

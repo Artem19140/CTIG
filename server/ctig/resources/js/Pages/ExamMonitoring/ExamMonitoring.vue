@@ -16,7 +16,7 @@ import PaymentIcon from '@/components/Enrollment/PaymentIcon.vue';
 import ExamMonitoringDropdown from './ExamMonitoringDropdown.vue';
 
 defineOptions({
-  layout: [BaseLayout,EmployeeLayout]
+  layout: [EmployeeLayout]
 })
 
 const props = defineProps<{

@@ -3,10 +3,9 @@ import SidePanel from './Components/SidePanel.vue';
 import TasksList from './Components/tasks/TasksList.vue';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import { useForm } from '@inertiajs/vue3';
-import ConfirmDialog from '@components/ConfirmDialog/ConfirmDialog.vue';
 import { Attempt } from '@/interfaces/Interfaces';
 import { useExamAttempt } from '@/composables/useExamAttempt';
-import { onMounted } from 'vue';
+import BaseLayout from '@/layouts/BaseLayout.vue';
 
 const props = defineProps<{
     attempt:{
@@ -18,7 +17,6 @@ const {examAttempt} = useExamAttempt()
 
 examAttempt.value = props.attempt.data
 
-
 console.log(examAttempt.value.tasks)
 
 const form = useForm()
@@ -27,33 +25,16 @@ const finish = async () => {
     const {confirmOpen} = useConfirmDialog()
     const ok = await confirmOpen("Вы уверены, что хотите завершить попытку?")
     if(!ok) return
-    form.put(`/attempts/${props.attempt.data.id}/finish`)
+    form.put(`/attempts/${props.attempt.data.id}/finish`,{
+        preserveState:true,
+        preserveScroll:true
+    })
 }
-
-// onMounted(() => {
-//     const el = document.documentElement
-//     el.requestFullscreen()
-// })
 </script>
 
 <template>
-    <v-app>
-        <v-main style="background:#f1f5f9; min-height: 100vh;">
-            <v-container class="flex flex-column gap-10 items-center">
-                <TasksList :attempt="attempt.data" />
-                <v-btn
-                    @click="finish"
-                    variant="flat"
-                    color="primary"
-                    :disabled="form.processing"
-                    :loading="form.processing"
-                >
-                    Завершить
-                </v-btn>
-
-            </v-container>
-        </v-main>
-
+    <BaseLayout>
+    <template #drawer>
         <v-navigation-drawer
             location="right"
             permanent
@@ -61,6 +42,20 @@ const finish = async () => {
         >
             <SidePanel :attempt="attempt.data" :tasks="attempt.data.tasks"/>
         </v-navigation-drawer>
-    </v-app>
-    <ConfirmDialog />
+
+    </template>
+    <v-container class="flex flex-column gap-10 items-center">
+        <TasksList :attempt="attempt.data" />
+        <v-btn
+            @click="finish"
+            variant="flat"
+            color="primary"
+            :disabled="form.processing"
+            :loading="form.processing"
+        >
+            Завершить
+        </v-btn>
+    </v-container>
+    
+    </BaseLayout>
 </template>

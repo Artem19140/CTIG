@@ -26,8 +26,8 @@ const checking = ref<boolean>(false)
 const finishSpeaking = () => {
     http.put(`/attempts/${props.enrollment.attempt?.id}/speaking`,{
         onSuccess:()=>{
-            isOpen.value = true
             router.reload()
+            isOpen.value = true
         }
     })
 }

@@ -1,4 +1,4 @@
-import {  ref, watch } from 'vue'
+import {  ref } from 'vue'
 const isOpen = ref<boolean>(false)
 const message = ref<string | null>(null)
 let resolvePromise:((value : boolean) => void) | undefined;

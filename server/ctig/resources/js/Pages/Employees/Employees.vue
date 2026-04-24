@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import EmployeesTable from './EmployeesTable.vue';
-import BaseLayout from '@layouts/BaseLayout.vue';
+import BaseContainer from '@/components/BaseComponents/BaseContainer/BaseContainer.vue';
 
 defineOptions({
-  layout:[BaseLayout, EmployeeLayout]
+  layout:[EmployeeLayout]
 })
 
 const props = defineProps<{
@@ -13,10 +13,8 @@ const props = defineProps<{
 </script>
 
 <template>
-  <v-container>
-    <v-card>
+  <BaseContainer>
       <EmployeesTable :employees="employees" />
-    </v-card>
-  </v-container>
+  </BaseContainer>
   
 </template>

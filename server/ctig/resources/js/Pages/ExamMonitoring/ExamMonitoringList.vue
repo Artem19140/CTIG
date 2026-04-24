@@ -13,7 +13,7 @@ import { Exam, Paginated } from '@/interfaces/Interfaces';
 import BaseContainer from '@/components/BaseComponents/BaseContainer/BaseContainer.vue';
 
 defineOptions({
-  layout: [BaseLayout,EmployeeLayout]
+  layout: [EmployeeLayout]
 })
 
 const props = defineProps<{

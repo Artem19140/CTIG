@@ -2,6 +2,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/B7EEF8.mp3"
+      },
+      {
         "type": "text",
         "value": "В здании вокзала есть"
       }
@@ -39,6 +43,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/96EF11.mp3"
+      },
       {
         "type": "text",
         "value": "Автобус Москва – Рязань отправится"
@@ -78,6 +86,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/DC8F12.mp3"
+      },
+      {
         "type": "text",
         "value": "Пассажиры могут"
       }
@@ -115,6 +127,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/8ECFEB.mp3"
+      },
       {
         "type": "text",
         "value": "На платформе Ромашково"
@@ -154,6 +170,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/C1C41A.mp3"
+      },
+      {
         "type": "text",
         "value": "Вы хотите узнать, какие документы нужны Вам для получения вида на жительство. После прослушивания Вы нажмёте:"
       }
@@ -191,6 +211,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/CCC4FB.mp3"
+      },
       {
         "type": "text",
         "value": "Сейчас в магазине можно купить спортивную одежду"
@@ -230,6 +254,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/D1B378.mp3"
+      },
+      {
         "type": "text",
         "value": "Билеты можно купить"
       }
@@ -267,6 +295,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/DD4B2F.mp3"
+      },
       {
         "type": "text",
         "value": "Поезд прибывает"
@@ -306,6 +338,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/468784.mp3"
+      },
+      {
         "type": "text",
         "value": "Товары для спорта можно купить"
       }
@@ -344,6 +380,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/690A68.mp3"
+      },
+      {
         "type": "text",
         "value": "Занятия в школе иностранных языков заканчиваются"
       }
@@ -381,6 +421,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/59CAE3.mp3"
+      },
       {
         "type": "text",
         "value": "Парк Сокольники приглашает на праздник"

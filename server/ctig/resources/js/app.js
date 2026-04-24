@@ -5,7 +5,7 @@ import { createInertiaApp } from '@inertiajs/vue3'
 import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
-import {ru } from 'vuetify/locale'
+import { ru } from 'vuetify/locale'
 import BaseLayout from '@layouts/BaseLayout.vue';
 import { useHttpErrorHandler } from '@/composables/useHttpErrorHandler';
 import { http, router } from '@inertiajs/vue3';
@@ -68,6 +68,6 @@ createInertiaApp({
         //   return { viewTransition: true };
         // },
     },
-    layout: () => BaseLayout
+    //layout: () => BaseLayout
 })
 

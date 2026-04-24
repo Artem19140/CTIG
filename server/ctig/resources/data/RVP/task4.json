@@ -2,6 +2,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/231C62.mp3"
+      },
+      {
         "type": "text",
         "value": "Разговор происходит"
       }
@@ -39,6 +43,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/12C57E.mp3"
+      },
       {
         "type": "text",
         "value": "Разговор происходит"
@@ -78,6 +86,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/D46A53.mp3"
+      },
+      {
         "type": "text",
         "value": "Разговор происходит"
       }
@@ -115,6 +127,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/68B523.mp3"
+      },
       {
         "type": "text",
         "value": "Вы можете услышать это объявление"
@@ -154,6 +170,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/29ACCB.mp3"
+      },
+      {
         "type": "text",
         "value": "Они разговаривают"
       }
@@ -191,6 +211,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/AEC5D7.mp3"
+      },
       {
         "type": "text",
         "value": "Они разговаривают"
@@ -230,6 +254,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/AA80D9.mp3"
+      },
+      {
         "type": "text",
         "value": "Они разговаривают"
       }
@@ -267,6 +295,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/0EF3CA.mp3"
+      },
       {
         "type": "text",
         "value": "Они разговаривают"
@@ -306,6 +338,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/A5B5DB.mp3"
+      },
+      {
         "type": "text",
         "value": "Они разговаривают"
       }
@@ -344,6 +380,10 @@
   {
     "content": [
       {
+        "type": "audio",
+        "value": "/storage/audios/05C36F.mp3"
+      },
+      {
         "type": "text",
         "value": "Они разговаривают"
       }
@@ -381,6 +421,10 @@
   },
   {
     "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/B0A71F.mp3"
+      },
       {
         "type": "text",
         "value": "Они разговаривают"

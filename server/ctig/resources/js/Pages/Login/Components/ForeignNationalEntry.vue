@@ -16,10 +16,12 @@ const submit = () => {
 
 <template>
     <v-card elevation="6" max-width="500" class="pa-6 text-center w-100">
-      <v-card-title class="flex items-center justify-center">
-        <AppLogo  
-          max-width="100" 
-        />
+      <v-card-title >
+        <div class="flex items-center justify-center">
+          <AppLogo  
+            max-width="100" 
+          />
+        </div>
       </v-card-title>
 
       <v-card-subtitle class="mb-4">

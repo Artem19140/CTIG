@@ -29,6 +29,7 @@ const close = () => {
         :subtitle="subtitle"
         @keyup.esc="close"
         :height="height"
+        scroll-strategy="none"
     >
 
         <v-card class="dialog-card d-flex flex-column">
@@ -70,7 +71,7 @@ const close = () => {
             </v-card-text>
 
             <v-card-text 
-                v-if="error" 
+                v-if="error && !loading" 
                 class="flex justify-center items-center flex-column"
                 
                 >

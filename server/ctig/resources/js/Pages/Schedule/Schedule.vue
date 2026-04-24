@@ -7,11 +7,10 @@ import { useModals } from '@composables/useModals';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import { useAuth } from '@composables/useAuth';
 import { Roles } from '@constants/Roles';
-import BaseLayout from '@layouts/BaseLayout.vue';
 import { examStatus } from '@helpers/heplers';
 
 defineOptions({
-  layout: [BaseLayout, EmployeeLayout],
+  layout: [EmployeeLayout],
 })
 const props = defineProps<{
   exams : any | null

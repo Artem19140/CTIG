@@ -2,7 +2,7 @@
 import { Task } from '@/interfaces/Task';
 
 const props = defineProps<{
-    tasks:Task[]
+  tasks:Task[]
 }>()
 
 const go = (id:string) => {
@@ -13,7 +13,6 @@ const go = (id:string) => {
 </script>
 
 <template>
-
     <v-container class="pa-0">
       <v-row comfortable>
         <v-col

@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import BaseLayout from '@layouts/BaseLayout.vue';
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import ExamsCheckingTable from './Components/ExamsCheckingTable.vue';
 import { Exam } from '@/interfaces/Interfaces';
 
 defineOptions({
-  layout: [BaseLayout, EmployeeLayout],
+  layout: [EmployeeLayout],
 })
 
 const props = defineProps<{

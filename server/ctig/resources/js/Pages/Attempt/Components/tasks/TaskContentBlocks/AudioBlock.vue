@@ -26,6 +26,7 @@ const playedTime = computed(() => {
 
 const http = useHttp({})
 const togglePlay = () => {
+    if(played.value) return
   if (!audioRef.value) return
     audioRef.value.play()
     played.value = true
@@ -54,45 +55,47 @@ function format(time: number) {
 </script>
 
 <template>
-    <div v-if="value">
-        <v-alert
-            type="info"
-            variant="tonal"
-            class="ma-2"
-            >
-                <div v-if="!task.attemptAnswer.audioPlayed">
-                    <strong>ВНИМАНИЕ!</strong> Аудиозапись можно прослушать только один раз. 
-                    Не <strong>перезагружайте</strong> и не <strong>закрывайте</strong> вкладку во время прослушивания.
-                </div>
-                <div v-else>
-                    Запись уже прослушана
-                </div>
-                
-        </v-alert>
-        <div v-if="!task.attemptAnswer.audioPlayed">
-            <audio
-                ref="audioRef"
-                :src="value"
-                @timeupdate="onTimeUpdate"
-                @loadedmetadata="onLoaded"
-                preload="auto"
-            />
-            <div class="flex items-center">
-                <v-btn 
-                    icon 
-                    @click="togglePlay" 
-                    v-if="!played"
-                    variant="text"
+    <div class="mb-4">
+        <div v-if="value">
+            <v-alert
+                type="info"
+                variant="tonal"
+                class="ma-2"
                 >
-                    <v-icon>mdi-play</v-icon>
-                </v-btn>
+                    <div v-if="!task.attemptAnswer.audioPlayed">
+                        <strong>ВНИМАНИЕ!</strong> Аудиозапись можно прослушать только один раз. 
+                        Не <strong>перезагружайте</strong> и не <strong>закрывайте</strong> вкладку во время прослушивания.
+                    </div>
+                    <div v-else>
+                        Запись уже прослушана
+                    </div>
+                    
+            </v-alert>
+            <div v-if="!task.attemptAnswer.audioPlayed">
+                <audio
+                    ref="audioRef"
+                    :src="value"
+                    @timeupdate="onTimeUpdate"
+                    @loadedmetadata="onLoaded"
+                    preload="auto"
+                />
+                <div class="flex items-center">
+                    <v-btn 
+                        icon 
+                        @click="togglePlay" 
+                        v-if="!played"
+                        variant="text"
+                    >
+                        <v-icon>mdi-play</v-icon>
+                    </v-btn>
 
-                <v-progress-linear
-                    color="blue-lighten-3"
-                    :model-value="playedTime"
-                    :height="20"
-                >{{ format(currentTime) }} / {{ format(duration) }}
-                </v-progress-linear>
+                    <v-progress-linear
+                        color="blue-lighten-3"
+                        :model-value="playedTime"
+                        :height="20"
+                    >{{ format(currentTime) }} / {{ format(duration) }}
+                    </v-progress-linear>
+                </div>
             </div>
         </div>
     </div>

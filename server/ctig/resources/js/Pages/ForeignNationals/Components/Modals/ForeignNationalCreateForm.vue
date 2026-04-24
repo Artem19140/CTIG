@@ -6,6 +6,7 @@ import AppTextarea from '@components/UI/AppTextarea/AppTextarea.vue';
 import { computed } from 'vue';
 import countries from '@data/countries.json'
 import AppOptionalInput from '@/components/UI/AppOptionalInput/AppOptionalInput.vue';
+import AppDateInput from '@/components/UI/AppDateInput/AppDateInput.vue';
 
 const props = defineProps<{
     form: any,
@@ -101,14 +102,12 @@ function required (v:any) {
                     </v-col>
 
                     <v-col cols="12" md="6">
-                        <AppInput 
-                            label="Дата рождения"
-                            :required="true && !edit"
+                        <AppDateInput 
                             :readonly="readonly"
                             v-model="form.dateBirth"
                             :error-messages="form.errors.dateBirth"
-                            type="date"
-                        /> 
+                            label="Дата рождения"
+                        />
                     </v-col>
 
                     
@@ -179,14 +178,12 @@ function required (v:any) {
                     </v-col>
 
                     <v-col cols="12" md="6">
-                        <AppInput
+                        <AppDateInput 
                             label="Дата выдачи"
-                            :required="true && !edit"
                             :readonly="readonly"
                             v-model="form.issuedDate"
                             :error-messages="form.errors.issuedDate"
-                            type="date"
-                        /> 
+                        />  
                     </v-col>
 
                     <v-divider class="my-4" />
@@ -200,7 +197,6 @@ function required (v:any) {
                     <v-col cols="12" md="6">
                         <AppInput 
                             label="Адрес"
-                            :required="true && !edit"
                             :readonly="readonly"
                             v-model="form.addressReg"
                             :error-messages="form.errors.addressReg"
@@ -219,7 +215,6 @@ function required (v:any) {
                     <v-col cols="12" md="6">
                         <AppInput 
                             label="Номер телефона"
-                            :required="true && !edit"
                             :readonly="readonly"
                             v-model="form.phone"
                             :error-messages="form.errors.phone"
@@ -240,7 +235,6 @@ function required (v:any) {
                         <AppFileInput
                         label="Скан паспорта PDF"
                         clearable
-                        :required="!edit"
                         v-model="form.passportScan"
                         :readonly="readonly"
                         accept=".pdf,application/pdf"
@@ -252,7 +246,6 @@ function required (v:any) {
                         <AppFileInput
                         label="Скан перевода паспорта PDF"
                         clearable
-                        :required="!edit"
                         v-model="form.passportTranslateScan"
                         :readonly="readonly"
                         accept=".pdf,application/pdf"

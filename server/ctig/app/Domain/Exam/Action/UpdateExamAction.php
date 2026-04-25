@@ -8,6 +8,7 @@ use App\Http\Dto\ExamDto;
 use App\Models\Exam;
 use App\Models\User;
 use DB;
+use Illuminate\Validation\ValidationException;
 
 
 final class UpdateExamAction{
@@ -22,6 +23,7 @@ final class UpdateExamAction{
 
         $this->validateExamForSave->execute($examDto, $user, $exam->id);
         
+
         $exam = DB::transaction(function () use ($examDto, $exam) {
             $exam->update(
                 $this->getAttributes($exam, $examDto)
@@ -48,6 +50,13 @@ final class UpdateExamAction{
                 'comment' => $examDto->comment,
                 'end_time' => $examDto->beginTime->copy()->addMinutes($exam->duration)
             ];
+        }else{
+            if($exam->enrollments()->count() > $examDto->capacity){
+                throw ValidationException::withMessages([
+                    'capacity' => 'Запись на экзамен превышает вместимость'
+                ]);
+            }
+            $attributes['capacity'] = $examDto->capacity;
         }
         $attributes['comment'] = $examDto->comment;
         

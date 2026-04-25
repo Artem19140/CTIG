@@ -37,6 +37,7 @@ const beforeClose = async (fn: () => void) => {
 }
 
 const hasEnrollment = computed(() => Boolean(props.exam.enrollmentsCount))
+
 const loading = ref(false)
 const edit = () => {
     http.put(`/exams/${props.exam.id}`,{

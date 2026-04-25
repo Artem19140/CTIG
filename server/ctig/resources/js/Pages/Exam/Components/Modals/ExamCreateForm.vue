@@ -81,7 +81,6 @@ onMounted( async () => {
         <AppNumberInput 
             v-model="form.capacity"
             :error-messages="form.errors.capacity"
-            :disabled="hasEnrollment"
             control-variant="hidden"
             label="Вместимость"
             :min="0"

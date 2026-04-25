@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web\Exam;
 
 use App\Domain\Attempt\Action\CloseAbandonedAttemptsAction;
 use App\Domain\ExamDocument\ExamDocumentAvailable;
-use App\Domain\ExamDocument\GenerateCodesAction;
+use App\Domain\ExamDocument\ExamCodesGenerator;
 use App\Domain\ExamDocument\ExamProtocolGenerator;
 use App\Domain\ExamDocument\ExamResultsGenerator;
 use App\Models\Exam;
@@ -37,10 +37,10 @@ class ExamDocumentController
         ])->back();
     }
 
-    public function codes(Exam $exam, GenerateCodesAction $generateCodes)
+    public function codes(Exam $exam, ExamCodesGenerator $examCodesGenerator)
     {
         Gate::authorize('exam-manage-access', $exam);
-        return $generateCodes->execute($exam);
+        return $examCodesGenerator->execute($exam);
     }
 
     public function codesAvailable(Exam $exam)

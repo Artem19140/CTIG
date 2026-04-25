@@ -51,7 +51,7 @@ tr:nth-child(even) td {
         <th>Код</th>
     </tr>
 
-    @foreach ($enrollments as $enrollment)
+    @foreach ($exam->enrollments as $enrollment)
         <tr>
             <td>{{  $enrollment->foreignNational->surname }} {{ $enrollment->foreignNational->name }} {{ $enrollment->foreignNational->patronymic }}</td>
             <td>{{  $enrollment->foreignNational->passport_series }} {{  $enrollment->foreignNational->passport_number }}</td>

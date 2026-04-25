@@ -18,7 +18,7 @@ class Exam extends Model
     use HasFactory, Notifiable;
     public const CODES_AVAILABLE_BEFORE_MINUTES = 60;
     public const CODES_LENGTH = 6;
-    public const CODES_TTL = 90;
+    public const CODES_TTL = 45;
     protected $fillable=[
         'begin_time',
         'begin_time_utc',
@@ -171,7 +171,7 @@ class Exam extends Model
     }
 
     public function canGenerateCodes():bool{
-        return Carbon::now()->gte($this->begin_time_utc->copy()->subMinutes(self::CODES_AVAILABLE_BEFORE_MINUTES)) && !$this->isFinished();
+        return $this->begin_time_utc->isToday() && !$this->isFinished();
     }
 
 

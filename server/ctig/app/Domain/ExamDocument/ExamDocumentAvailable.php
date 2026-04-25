@@ -15,8 +15,7 @@ class ExamDocumentAvailable{
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureHasEnrollment($exam);
         if(!$exam->canGenerateCodes()){
-            $minutes = Exam::CODES_AVAILABLE_BEFORE_MINUTES;
-            throw new BusinessException("Коды можно сформировать минимум за $minutes минут до экзамена");
+            throw new BusinessException("Коды возможно сформировать в день экзамена и до его окончания");
         }
     }
 

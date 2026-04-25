@@ -2,7 +2,7 @@
 import AppAutocomplete from '@/components/UI/AppAutocomplete/AppAutocomplete.vue';
 import { Task } from '@/interfaces/Task';
 import { useHttp } from '@inertiajs/vue3';
-import { onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 const props = defineProps<{
     task:Task
 }>()
@@ -10,13 +10,14 @@ const props = defineProps<{
 const emit = defineEmits<{
     (e:'saved', value:any):void
 }>()
-const mark = ref<number | null>(props.task.attemptAnswer.mark ?? null)
+
+const mark = computed(() => props.task.attemptAnswer.mark)
+
 const answerId = props.task?.attemptAnswer?.id
 
 const http = useHttp({
     mark: mark.value
 })
-
 
 watch(() => http.mark, () => {
     if(http.mark === null) return
@@ -27,15 +28,22 @@ const rate = () => {
     http.put(`/answers/${answerId}/rate`,{
         onSuccess:(response:any)=>{
             emit('saved',  response.attemptAnswer)
-        },
+        }
     })
 }
+
+const loading = computed(() => http.processing)
+
+const markSaved = computed(() => 
+    http.hasErrors && http.wasSuccessful && !loading.value || mark.value !== null 
+)
+
 const marks = ref<Array<number>>([])
+
 onMounted(() => {
     for(let i=0;i<=props.task.mark; i++){
         marks.value.push(i)
     }
-    
 })
 
 </script>
@@ -47,12 +55,12 @@ onMounted(() => {
             :items="marks"
             v-model="http.mark"
             item-title="mark"
-            :disabled="http.processing"
-            :base-color="!http.wasSuccessful || mark !== null ? 'green' : ''"
+            :disabled="loading"
+            :base-color="markSaved ? 'green' : ''"
             :error-messages="http.errors.mark"
         />
 
-        <div class="d-flex align-center ga-2" v-if="http.processing">
+        <div class="d-flex align-center ga-2" v-if="loading">
             <v-progress-circular
                 indeterminate
                 size="18"
@@ -63,36 +71,33 @@ onMounted(() => {
         </div>
         
         <v-alert
-            v-if="http.wasSuccessful && !http.processing || mark !== null"
+            v-if="markSaved"
             type="success"
             density="compact"
             variant="tonal"
             >
             Оценка успешно сохранена
         </v-alert>
-        <div v-else-if="http.wasSuccessful && !http.processing" class="mt-2">
+        <div v-else class="mt-2">
             <v-alert
-                v-if="!http.wasSuccessful"
                 type="error"
                 variant="tonal"
                 density="compact"
             >
-            <div class="d-flex align-center justify-space-between">
-                <span>Не удалось загрузить данные</span>
-
-                <v-btn
-                    size="small"
-                    color="error"
-                    variant="outlined"
-                    prepend-icon="mdi-refresh"
-                    :loading="http.processing"
-                    @click="rate"
-                >
-                Повторить
-                </v-btn>
-            </div>
-        </v-alert>
-        </div>
-                
+                <div class="d-flex align-center justify-space-between">
+                    <span>Не удалось загрузить данные</span>
+                    <v-btn
+                        size="small"
+                        color="error"
+                        variant="outlined"
+                        prepend-icon="mdi-refresh"
+                        :loading="loading"
+                        @click="rate"
+                    >
+                    Повторить
+                    </v-btn>
+                </div>
+            </v-alert>
+        </div>          
     </div>
 </template>

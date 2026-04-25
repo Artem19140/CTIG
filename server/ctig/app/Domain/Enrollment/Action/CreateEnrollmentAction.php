@@ -22,6 +22,7 @@ final class CreateEnrollmentAction{
     public function execute(int $examId, int $foreignNationalId, User $user, bool $hasPayment):Enrollment{
         $exam = Exam::find($examId);
         $foreignNational = ForeignNational::find($foreignNationalId);
+        
         $this->ensureCreatingAvailable($exam, $foreignNational);
         
         $enrollment = Enrollment::create([

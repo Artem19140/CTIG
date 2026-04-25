@@ -29,8 +29,6 @@ class VerifyCodeAction{
                 'code' => 'Экзамен не оплачен'
             ]);
         }
-        $enrollment->loadMissing('exam');
-        
 
         $enrollment->exam_code = null;
         $enrollment->exam_code_used_at = Carbon::now($enrollment->time_zone);

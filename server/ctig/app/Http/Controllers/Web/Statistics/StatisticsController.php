@@ -9,19 +9,16 @@ use App\Models\Exam;
 use App\Models\ForeignNational;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 
 class StatisticsController
 {
     public function index(StatisticsRequest $request){
         $from = Carbon::parse($request->validated('dateFrom'))->startOfDay();
         $to = Carbon::parse($request->validated('dateTo'))->endOfDay();
-        $examsCount = Exam::whereBetween('begin_time_utc',[
-                                $from,
-                                $to,
-                            ])
-                            ->notCancelled()
-                            ->count();
+        $examsCount = Exam::whereBeginTimeMore($from)
+            ->whereBeginTimeLess($to)
+            ->notCancelled()
+            ->count();
         $attemptsTakersCount = ForeignNational::whereHas('attempts', function(Builder $query)use($from, $to){
             $query->whereBetween('started_at',[
                 $from,
@@ -29,7 +26,9 @@ class StatisticsController
             ]);
         })->count();
 
-        $attemptsQuery = Attempt::whereBetween('started_at', [$from, $to]);
+        $attemptsQuery = Attempt::whereCreatedAtMore($from)
+            ->whereCreatedAtLess($to);
+            
         $attemptsCount = (clone $attemptsQuery)->count();
 
 

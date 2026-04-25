@@ -5,11 +5,8 @@ const props = defineProps<{
 </script>
 
 <template>
-
     <v-img
         :src="value"
         :width="300"
-    >
-
-    </v-img>
+    />
 </template>

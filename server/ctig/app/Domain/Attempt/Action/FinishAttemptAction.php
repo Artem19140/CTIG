@@ -20,11 +20,11 @@ class FinishAttemptAction{
         DB::transaction(function() use($attempt){
             $attempt->finish();
             
-            $this->zeroEmptyAutoAnswers->execute($attempt);
-            if(!$attempt->hasUncheckedAnswers()){
+            //$this->zeroEmptyAutoAnswers->execute($attempt);
+            
+            if($attempt->canBeAutomaticallyFinalized()){
                 $this->finilizeAttemptCheckingAction->execute($attempt);
             }
-            
             $attempt->save();
         });
         
@@ -34,6 +34,7 @@ class FinishAttemptAction{
         $this->attemptGuard->ensureNotBanned($attempt);
         $this->attemptGuard->ensureNotFinished($attempt);
         $this->attemptGuard->ensureActive($attempt, 'Завершить возможно только активную попытку');
+
         $minTimeMinutes = Attempt::MIN_TIME_FROM_START_TO_FINISH_MINUTES;
         $tooEarlyToFinish  = Carbon::now($attempt->time_zone)->lt($attempt->started_at->addMinutes($minTimeMinutes));
         if($tooEarlyToFinish){

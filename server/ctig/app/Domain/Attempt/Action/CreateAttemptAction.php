@@ -12,7 +12,6 @@ use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\AttemptAnswer;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 
@@ -98,21 +97,16 @@ class CreateAttemptAction{
     }
 
     protected function initializeExamAttributes(Exam $exam){
-        $save = false;
+        $needSave = false;
         if(!$exam->group){
-            $save = true;
+            $needSave = true;
             $exam->group = $this->generateGroupNumber->execute();
         }
         if(!$exam->session){
-            $save = true;
+            $needSave = true;
             $exam->session = $this->getSessionNumber->execute($exam->begin_time);
         }
-        if(!$exam->begin_time_real){
-            $save = true;
-            $exam->begin_time_real = Carbon::now($exam->center->time_zone);
-            $exam->save();
-        }
-        if($save){
+        if($needSave){
             $exam->save();
         }
     }

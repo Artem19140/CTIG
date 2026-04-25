@@ -13,7 +13,7 @@ export interface AttemptAnswer{
     id:number,
     answer:any,
     checkedAt:string,
-    mark:number,
+    mark:number | null,
     audioPlayed:boolean
 }
 

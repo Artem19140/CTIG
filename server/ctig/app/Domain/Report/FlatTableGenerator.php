@@ -20,8 +20,8 @@ class FlatTableGenerator{
             'taskVariant.task',
             'answer'
         ]])
-            ->where('started_at','>=',$dateFrom)
-            ->where('started_at','<=', $dateTo)
+            ->whereCreatedAtMore($dateFrom)
+            ->whereCreatedAtLess($dateTo)
             ->where('status', AttemptStatus::Checked)
             ->chunkById(1000, function($items) use($handle, &$strNumber) {
                 foreach($items as $item){

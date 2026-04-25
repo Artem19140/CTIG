@@ -54,7 +54,7 @@ class Attempt extends Model
     
     public function finish(): void{
         $this->status = AttemptStatus::Finished;
-        $this->finished_at = Carbon::now($this->center->time_zone);
+        $this->finished_at = Carbon::now($this->time_zone);
     }
     public function isStarted(): bool{
         return $this->started_at !== null;
@@ -99,7 +99,7 @@ class Attempt extends Model
         });
     }
 
-    public function requiresHumanCheck():bool{
+    public function canBeAutomaticallyFinalized():bool{
         return $this->exam->type->need_human_check;
     }
 
@@ -117,6 +117,19 @@ class Attempt extends Model
 
     public function scopeWhereCreatedAtLess(Builder $query, Carbon $date){
         return $query->where('created_at', '<', $date);
+    }
+
+    public function status(){
+        if($this->isBanned()){
+            return AttemptStatus::Banned;
+        }
+        if($this->isFinished()){
+            return AttemptStatus::Finished;
+        }
+        if($this->isStarted()){
+            return AttemptStatus::Active;
+        }
+        return AttemptStatus::Pending;
     }
 
 }

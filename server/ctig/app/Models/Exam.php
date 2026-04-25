@@ -118,7 +118,6 @@ class Exam extends Model
     }
 
 
-
      protected function timeZone(): Attribute
     {
         return Attribute::get(function () {
@@ -143,7 +142,7 @@ class Exam extends Model
     }
 
     public function scopeHasAttempts(Builder $query){
-         return $query->whereHas('attempts');
+        return $query->whereHas('attempts');
     }
 
     public function scopeNotCancelled(Builder $query){

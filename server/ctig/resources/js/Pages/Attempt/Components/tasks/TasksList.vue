@@ -47,12 +47,11 @@ const saved = (value:AttemptAnswer) => {
         :attempt="attempt"
         :checking="checking"
     />
-    <div v-else>
-        <v-empty-state
-            
-            icon="mdi-clipboard-text-off-outline"
-            title="Заданий нет"
-            text="Пока что здесь ничего не появилось"
-        ></v-empty-state>
-    </div>
+    <v-empty-state
+        v-else
+        icon="mdi-clipboard-text-off-outline"
+        title="Заданий нет"
+        text="Пока что здесь ничего не появилось"
+    />
+
 </template>

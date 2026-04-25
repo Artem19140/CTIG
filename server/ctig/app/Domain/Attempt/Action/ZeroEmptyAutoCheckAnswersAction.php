@@ -9,11 +9,11 @@ use Illuminate\Database\Eloquent\Builder;
 class ZeroEmptyAutoCheckAnswersAction{
     public function execute(Attempt $attempt){
         $emptyAnswers =  $attempt->answers()
-                            ->notChecked()
-                            ->whereHas('taskVariant.task', function(Builder $query){
-                                $query->whereIn('type', TaskType::autoCheckTypes());
-                            })
-                            ->get();
+            ->notChecked()
+            ->whereHas('taskVariant.task', function(Builder $query){
+                $query->whereIn('type', TaskType::autoCheckTypes());
+            })
+            ->get();
         if($emptyAnswers->isNotEmpty()){
             $emptyAnswers->each(function ($answer){
                 $answer->is_checked = true;

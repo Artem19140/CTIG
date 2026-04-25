@@ -7,7 +7,6 @@ const props = defineProps<{
 </script>
 
 <template>
-    
     <v-table class="table-bordered mt-5">
         <tbody>
             <tr
@@ -25,8 +24,7 @@ const props = defineProps<{
 </template>
 
 <style lang="css" scoped>
-    .table-bordered td {
-        border: 1px solid rgba(0, 0, 0, 0.12);
-    }
-
+.table-bordered td {
+    border: 1px solid rgba(0, 0, 0, 0.12);
+}
 </style>

@@ -34,9 +34,9 @@ class ValidateExamForSave{
 
         $beginTime = $examDto->beginTime;
         $examBeginTimeUtc= Carbon::parse(
-                                        $beginTime,
-                                        $user->center->time_zone
-                                    )->utc();
+            $beginTime,
+            $user->center->time_zone
+        )->utc();
                                     
         if($examBeginTimeUtc < Carbon::now()){
             throw ValidationException::withMessages([

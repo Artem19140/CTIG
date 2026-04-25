@@ -40,9 +40,6 @@ watch(answer, (text) => {
     <BaseTask 
         :task="task"
     >   
-        <template #description>
-            <div>Прочитайте текст и вставьте пропущенное слово.</div>
-        </template>
         <template #answers>
             <v-card-text>
                 <AppInput

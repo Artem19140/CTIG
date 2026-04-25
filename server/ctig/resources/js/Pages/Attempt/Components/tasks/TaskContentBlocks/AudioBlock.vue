@@ -27,14 +27,11 @@ const playedTime = computed(() => {
 const http = useHttp({})
 const togglePlay = () => {
     if(played.value) return
-  if (!audioRef.value) return
+    if (!audioRef.value) return
     audioRef.value.play()
     played.value = true
-    // const audioPlayed = () => {
-    
     if(!props.attempt?.id) return
     http.put(`/attempts/${props.attempt.id}/answers/${props.task.attemptAnswer.id}/audio`)
-//}
 }
 
 const onTimeUpdate = () => {

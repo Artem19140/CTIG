@@ -23,13 +23,13 @@ final class UpdateExamAction{
 
         $this->validateExamForSave->execute($examDto, $user, $exam->id);
         
-
         $exam = DB::transaction(function () use ($examDto, $exam) {
             $exam->update(
                 $this->getAttributes($exam, $examDto)
             );
             $exam->examiners()->syncWithPivotValues($examDto->examiners, ['center_id'  => $exam->center_id]);
             $exam->save();
+            
             $exam->load(['examiners', 'type', 'address']);
             $exam->loadCount('enrollments');
             return $exam;

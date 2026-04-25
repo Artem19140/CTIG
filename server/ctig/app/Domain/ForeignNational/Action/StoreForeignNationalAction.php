@@ -4,7 +4,6 @@ namespace App\Domain\ForeignNational\Action;
 
 use App\Domain\ForeignNational\Guard\ForeignNationalGuard;
 use App\Models\ForeignNational;
-use Carbon\Carbon;
 use Storage;
 
 final class StoreForeignNationalAction{

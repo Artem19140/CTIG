@@ -20,12 +20,12 @@ const saved = (value:any) => {
 }
 
 const getDefaultDescription = (type:string) => {
-    switch(type){
-        case TaskTypes.SINGLE_CHOICE:
-            return 'Выберите один вариант ответа'
-        case TaskTypes.TEXT_INPUT:
-            return 'Впишите ответ в поле ввода'
-    }
+  switch(type){
+      case TaskTypes.SINGLE_CHOICE:
+          return 'Выберите один вариант ответа'
+      case TaskTypes.TEXT_INPUT:
+          return 'Впишите ответ в поле ввода'
+  }
 }
 </script>
 

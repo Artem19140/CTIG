@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Exam\Validation;
 
+use App\Domain\Exam\Guard\ExamGuard;
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
 use App\Models\ExamType;
 use App\Models\ForeignNational;
 use App\Models\Center;
 use App\Models\User;
-use App\Validation\ExamValidation;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -26,7 +26,7 @@ class ExamValidationTest extends TestCase
     protected function setUp():void{
         parent::setUp();
         
-        $this->action = app(ExamValidation::class);
+        $this->action = app(ExamGuard::class);
         $this->exception = BusinessException::class;
         $this->examType = ExamType::factory()->create(['duration' => $this->duration]);
         Carbon::setTestNow(Carbon::now());

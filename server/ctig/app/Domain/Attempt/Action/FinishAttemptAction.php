@@ -16,15 +16,7 @@ class FinishAttemptAction{
         protected FinilizeAttemptCheckingAction $finilizeAttemptCheckingAction
     ){}
     public function execute(Attempt $attempt):void{
-        $this->attemptGuard->ensureNotBanned($attempt);
-        $this->attemptGuard->ensureNotFinished($attempt);
-        $this->attemptGuard->ensureActive($attempt, 'Завершить возможно только активную попытку');
-        //Не завершать завершенные и проверенные
-        $tenMinutesPassed = Carbon::now($attempt->time_zone)->gt($attempt->started_at->addMinutes(10));
-        if(!$tenMinutesPassed){
-            throw new BusinessException('Попытку возможно завершить минимум через  10 минут после начала');
-        }
-        throw new BusinessException('Попытку возможно завершить минимум через  10 минут после начала');
+        $this->canFinish($attempt);
         DB::transaction(function() use($attempt){
             $attempt->finish();
             
@@ -32,8 +24,20 @@ class FinishAttemptAction{
             if(!$attempt->hasUncheckedAnswers()){
                 $this->finilizeAttemptCheckingAction->execute($attempt);
             }
+            
             $attempt->save();
         });
         
+    }
+
+    protected function canFinish(Attempt $attempt){
+        $this->attemptGuard->ensureNotBanned($attempt);
+        $this->attemptGuard->ensureNotFinished($attempt);
+        $this->attemptGuard->ensureActive($attempt, 'Завершить возможно только активную попытку');
+        $minTimeMinutes = Attempt::MIN_TIME_FROM_START_TO_FINISH_MINUTES;
+        $tooEarlyToFinish  = Carbon::now($attempt->time_zone)->gt($attempt->started_at->addMinutes($minTimeMinutes));
+        if($tooEarlyToFinish){
+            throw new BusinessException("Попытку возможно завершить минимум через  $minTimeMinutes минут после начала");
+        }
     }
 }

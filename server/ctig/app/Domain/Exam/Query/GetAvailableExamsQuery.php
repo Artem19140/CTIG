@@ -2,6 +2,7 @@
 
 namespace App\Domain\Exam\Query;
 
+use App\Models\Enrollment;
 use App\Models\Exam;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -10,11 +11,12 @@ use Illuminate\Support\Facades\DB;
 
 class GetAvailableExamsQuery{
     public function execute(int  $examTypeId, int | null $foreignNationalId):Collection{
+        $enrollmentCloseBeforeMinutes = Enrollment::CLOSE_BEFORE_START_MINUTES;
         $exams = Exam::select('id', 'begin_time')
                     ->withCount('foreignNationals')
                     ->where('exam_type_id',$examTypeId)
                     ->notCancelled()
-                    ->where('begin_time_utc', '>', Carbon::now())
+                    ->where('begin_time_utc', '>', Carbon::now()->addMinutes($enrollmentCloseBeforeMinutes))
                     ->when($foreignNationalId, function (Builder $query) use ($foreignNationalId){
                         $query->whereDoesntHave('foreignNationals', function (Builder $q) use($foreignNationalId){
                             $q->where('foreign_national_id',$foreignNationalId);

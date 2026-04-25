@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 class Enrollment extends Model
 {
     use HasFactory;
+    public const int CLOSE_BEFORE_START_MINUTES = 10;
     protected $fillable = [
         'exam_id',
         'foreign_national_id',

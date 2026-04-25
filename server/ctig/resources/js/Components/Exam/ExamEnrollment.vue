@@ -62,4 +62,7 @@ watch(() => http.examTypeId, async () => {
     v-model="hasPayment" 
     label="Есть оплата"
   ></AppCheckbox>
+   <div class="text-caption text-medium-emphasis mt-2">
+    Запись закрывается за 10 минут до начала экзамена
+  </div>
 </template>

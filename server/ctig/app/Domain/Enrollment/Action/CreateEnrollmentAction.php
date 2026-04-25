@@ -3,12 +3,14 @@
 namespace App\Domain\Enrollment\Action;
 
 use App\Domain\Counter\GenerateRegNumberAction;
+use App\Exceptions\BusinessException;
 use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\User;
 use App\Domain\Enrollment\Guard\EnrollmentGuard;
 use App\Domain\Exam\Guard\ExamGuard;
+use Carbon\Carbon;
 
 
 final class CreateEnrollmentAction{
@@ -38,11 +40,16 @@ final class CreateEnrollmentAction{
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureNotFinished($exam);
         $this->examGuard->ensureNotGoing($exam);
+        $closeBeforeMinutes = Enrollment::CLOSE_BEFORE_START_MINUTES;
+        $enrollmentEnded = Carbon::now()->greaterThan($exam->begin_time_utc->subMinutes($closeBeforeMinutes));
+        if($enrollmentEnded){
+            throw new BusinessException("Запись закрывается за $closeBeforeMinutes минут до начала экзамена");
+        }
         $this->examGuard->ensureHasSeats($exam);
         $this->enrollmentGuard->ensureNotExists($exam, $foreignNational);
         $this->enrollmentGuard->ensureNoParallelEnrollments(
-                                                                $foreignNational, 
-                                                                $exam
-                                                            ); 
+            $foreignNational, 
+            $exam
+        ); 
     }
 }

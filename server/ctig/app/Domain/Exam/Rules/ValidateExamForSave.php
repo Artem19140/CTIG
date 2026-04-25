@@ -45,6 +45,13 @@ class ValidateExamForSave{
             ]);
         }
 
+        if($examBeginTimeUtc < Carbon::now()->addHours(Exam::CREATE_AVAILABLE_BEFORE_HOURS)){
+            $hours = Exam::CREATE_AVAILABLE_BEFORE_HOURS;
+            throw ValidationException::withMessages([
+                'time' => "Экзамен возможно создать минимум за $hours часа до его начала"
+            ]);
+        }
+
         if($examDto->capacity > $address->max_capacity){
             throw ValidationException::withMessages([
                 'capacity' => "Площадка вмещает максимум $address->max_capacity человек"

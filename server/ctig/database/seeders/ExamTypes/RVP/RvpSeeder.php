@@ -31,8 +31,7 @@ class RvpSeeder extends Seeder
                 'cost' => 5900,
                 'min_mark' => 19,
                 'has_speaking_tasks' => true,
-                'protocol_name' => 'разрешения на временное проживание в РФ',
-                'certificate_name'=>'нету'
+                'certificate_name'=>'разрешения на временное проживание в РФ'
             ]);
         $orderTask = 1;
         $orderBlock = 1;

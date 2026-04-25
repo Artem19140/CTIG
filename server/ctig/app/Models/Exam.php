@@ -46,10 +46,6 @@ class Exam extends Model
         'cancelled_at' => 'datetime'
     ];
 
-    // public function examType(): BelongsTo{
-    //     return $this->belongsTo(ExamType::class);
-    // }
-
     public function type(): BelongsTo{
         return $this->belongsTo(ExamType::class, 'exam_type_id');
     }

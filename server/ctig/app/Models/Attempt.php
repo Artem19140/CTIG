@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\AttemptStatus;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -108,6 +109,14 @@ class Attempt extends Model
 
     public function hasUncheckedAnswers():bool{
         return $this->answers()->notChecked()->exists();
+    }
+
+    public function scopeWhereCreatedAtMore(Builder $query, Carbon $date){
+        return $query->where('created_at', '>', $date);
+    }
+
+    public function scopeWhereCreatedAtLess(Builder $query, Carbon $date){
+        return $query->where('created_at', '<', $date);
     }
 
 }

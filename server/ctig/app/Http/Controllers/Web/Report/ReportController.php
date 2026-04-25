@@ -47,7 +47,7 @@ class ReportController
                                 CloseAbandonedAttemptsAction $closeAbandonedAttemptsAction
                             ){
         $closeAbandonedAttemptsAction->execute($request->user()->time_zone);
-        $checkAvailableGeneration->execute($request->input('examDate'));
+        $checkAvailableGeneration->execute($request->input('examDate'), $request->input('success'));
         return Inertia::flash([
             'redirectUrl' => route('reports.frdo', [
                 'examDate' => $request->validated('examDate'),

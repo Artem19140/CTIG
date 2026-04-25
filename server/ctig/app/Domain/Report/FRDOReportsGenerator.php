@@ -4,6 +4,7 @@ namespace App\Domain\Report;
 
 use App\Domain\Report\CheckAvailableFrdoGeneration;
 use App\Enums\AttemptStatus;
+use App\Exceptions\BusinessException;
 use App\Models\Attempt;
 use App\Models\Center;
 use Carbon\Carbon;
@@ -20,15 +21,15 @@ class FRDOReportsGenerator{
     }
     public function execute(string $examDate, bool $success, Center $center): IWriter{
         $examDate = Carbon::parse($examDate);
-        $this->checkAvailableGeneration->execute($examDate);
+        $this->checkAvailableGeneration->execute($examDate, $success);
         $spreadsheet = $this->generateReport($examDate, $success, $center);
         return IOFactory::createWriter($spreadsheet, 'Xlsx');
     }
 
     protected function attemptsForReport($examDate, bool $success): Collection{
-        $attempts =  Attempt::with(['exam.type','foreignNational','exam.address'])
-                    ->where('finished_at', '>=',$examDate->copy()->startOfDay())
-                    ->where('finished_at', '<=',$examDate->copy()->endOfDay())
+        $attempts = Attempt::with(['exam.type','foreignNational','exam.address'])
+                    ->whereCreatedAtMore($examDate->copy()->startOfDay())
+                    ->whereCreatedAtLess($examDate->copy()->endOfDay())
                     ->where('is_passed',$success)
                     ->where('status', AttemptStatus::Checked)
                     ->get();
@@ -79,12 +80,12 @@ class FRDOReportsGenerator{
     {
         $columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'M', 'N', 'O'];
         $values = [
-            strtoupper($attempt->foreignNational->surname),
-            strtoupper($attempt->foreignNational->name),
-            strtoupper($attempt->foreignNational->patronymic),
+            mb_strtoupper($attempt->foreignNational->surname, "UTF-8"),
+            mb_strtoupper($attempt->foreignNational->name, "UTF-8"),
+            mb_strtoupper($attempt->foreignNational->patronymic, "UTF-8"),
             $attempt->foreignNational->date_birth->format('d.m.Y'),
             $attempt->exam->begin_time->year,
-            strtoupper($attempt->exam->type->certificate_name),
+            strtoupper($this->certificateText( $attempt->exam->type->certificate_name)),
             strtoupper($attempt->foreignNational->surname_latin),
             strtoupper($attempt->foreignNational->name_latin),
             strtoupper($attempt->foreignNational->patronymic_latin),
@@ -108,12 +109,12 @@ class FRDOReportsGenerator{
         $columns = ['A','B','C','D','E','F','G','H','I','J','K','L','N','O','P','Q'];
 
         $values = [
-            strtoupper($attempt->foreignNational->surname),
-            strtoupper($attempt->foreignNational->name),
-            strtoupper($attempt->foreignNational->patronymic),
+            mb_strtoupper($attempt->foreignNational->surname, "UTF-8"),
+            mb_strtoupper($attempt->foreignNational->name, "UTF-8"),
+            mb_strtoupper($attempt->foreignNational->patronymic, "UTF-8"),
             $attempt->foreignNational->date_birth->format('d.m.Y'),
             $attempt->started_at->year,
-            strtoupper($attempt->exam->type->certificate_name),
+            strtoupper($this->certificateText( $attempt->exam->type->certificate_name)),
             strtoupper($attempt->foreignNational->surname_latin),
             strtoupper($attempt->foreignNational->name_latin),
             strtoupper($attempt->foreignNational->patronymic_latin),
@@ -131,5 +132,13 @@ class FRDOReportsGenerator{
         }
 
         return $cells;
+    }
+
+    protected function certificateText(string $certificateName):string{
+        return "
+            Сертификат о владении русским языком, знании истории России 
+            и основ законодательства Российской Федерации на уровне, 
+            соответствующем цели получения $certificateName
+        ";
     }
 }

@@ -35,7 +35,7 @@ class FinishAttemptAction{
         $this->attemptGuard->ensureNotFinished($attempt);
         $this->attemptGuard->ensureActive($attempt, 'Завершить возможно только активную попытку');
         $minTimeMinutes = Attempt::MIN_TIME_FROM_START_TO_FINISH_MINUTES;
-        $tooEarlyToFinish  = Carbon::now($attempt->time_zone)->gt($attempt->started_at->addMinutes($minTimeMinutes));
+        $tooEarlyToFinish  = Carbon::now($attempt->time_zone)->lt($attempt->started_at->addMinutes($minTimeMinutes));
         if($tooEarlyToFinish){
             throw new BusinessException("Попытку возможно завершить минимум через  $minTimeMinutes минут после начала");
         }

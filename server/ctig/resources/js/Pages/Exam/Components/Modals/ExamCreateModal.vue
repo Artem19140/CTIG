@@ -28,7 +28,7 @@ const create =  () => {
         console.log(response)
         http.resetAndClearErrors()
         isOpen.value = false
-        router.visit('/exams')
+        router.reload()
         const {add} = useSnackbarQueue()
         add('Экзамен создан', 'green')
     },

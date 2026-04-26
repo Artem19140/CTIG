@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Exam\Manage;
+namespace Tests\Feature\Exam;
 
 use App\Enums\UserRoles;
 use App\Models\Address;

@@ -7,6 +7,7 @@ use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -42,6 +43,21 @@ class EnrollmentFactory extends Factory
         return $this->state(function(){
             return[
                 'has_payment' => false  ,
+            ];
+        });
+    }
+    public function examCode(string $code){
+        return $this->state(function() use($code){
+            return[
+                'exam_code' =>  $code,
+            ];
+        });
+    }
+
+    public function examCodeExpiredAt(Carbon $datetime){
+        return $this->state(function() use($datetime){
+            return[
+                'exam_code_expired_at' =>  $datetime,
             ];
         });
     }

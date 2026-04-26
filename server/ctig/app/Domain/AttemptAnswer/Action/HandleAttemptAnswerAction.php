@@ -29,13 +29,10 @@ class HandleAttemptAnswerAction{
         if(!$task->type->hasAnswers()){
             throw new BusinessException('Заданию нельзя загрузить ответ');
         }
-        if($attemptAnswer->answer === null && $attemptAnswer->answer_id === null){
-            $attempt->solved += 1;
-        }
+
         if($task->type->autoCheck()){
             $isCorrect = $this->autoChecking($answer, $taskVariant, $task->type);
             $attemptAnswer->mark = $isCorrect ? $task->mark : 0;
-            $attemptAnswer->is_checked = true;
 
             if($task->type === TaskType::SingleChoice){
                 $attemptAnswer->answer_id = $answer;

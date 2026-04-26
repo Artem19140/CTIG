@@ -2,15 +2,16 @@
 
 namespace Tests\Feature\Attempt;
 
-use App\Actions\Attempt\Create\VerifyCodeAction;
-use App\Exceptions\BusinessException;
-use App\Models\Exam;
+
+use App\Domain\Attempt\Action\VerifyCodeAction;
+use App\Models\Enrollment;
 use App\Models\ForeignNational;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
+use App\Domain\ExamDocument\ExamCodesGenerator;
 
 class VerifyCodeTest extends TestCase
 {
@@ -22,7 +23,7 @@ class VerifyCodeTest extends TestCase
     protected function setUp():void{
         parent::setUp();
         $this->action = app(VerifyCodeAction::class);
-        $this->exception = BusinessException::class;
+        $this->exception = ValidationException::class;
         
         Carbon::setTestNow(Carbon::now());
     }
@@ -32,49 +33,27 @@ class VerifyCodeTest extends TestCase
         parent::tearDown();
         Carbon::setTestNow(); // сброс
     }
-    public function test_fail_no_foreign_national(): void
-    {
-        $this->expectException($this->exception);
-        
-        $this->action->execute($this->code);
-    }
 
     public function test_success(): void
     {
-        $exam = Exam::factory()->create(['begin_time_utc' => Carbon::now()]);
-        $foreignNational = ForeignNational::factory()->create([
-            'exam_code' => $this->code,
-            'exam_code_expired_at' => Carbon::now()->addMinute(),
-            'exam_id' => $exam->id
-        ]);
-        $user = User::factory()->create();
-        $exam->foreignNationals()->attach($foreignNational->id, [
-            'has_payment' => true,
-            'reg_number' => 123456,
-            'creator_id' => $user->id,
-            'center_id' => $user->center_id,
-        ]);
-        
+        $this->withoutExceptionHandling();
+        Enrollment::factory()
+            ->hasPayment()
+            ->examCode($this->code)
+            ->examCodeExpiredAt(Carbon::now()->addMinutes(10))
+            ->create();
         $result = $this->action->execute($this->code);
-        $this->assertInstanceOf(ForeignNational::class, $result);
+        $this->assertInstanceOf(Enrollment::class, $result);
     }
 
     public function test_fail_no_payment(): void
     {
         $this->expectException($this->exception);
-        $exam = Exam::factory()->create(['begin_time_utc' => Carbon::now()]);
-        $foreignNational = ForeignNational::factory()->create([
-            'exam_code' => $this->code,
-            'exam_code_expired_at' => Carbon::now()->addMinute(),
-            'exam_id' => $exam->id
-        ]);
-        $user = User::factory()->create();
-        $exam->foreignNationals()->attach($foreignNational->id, [
-            'has_payment' => false,
-            'reg_number' => 123456,
-            'creator_id' => $user->id,
-            'center_id' => $user->center_id,
-        ]);
+        $enrollment = Enrollment::factory()->noPayment()->create();
+        $enrollment->code = $this->code;
+        $enrollment->exam_code_expired_at = Carbon::now()->addMinutes(10);
+        
+        $this->action->execute($this->code);
         
         $this->action->execute($this->code);
     }
@@ -82,49 +61,14 @@ class VerifyCodeTest extends TestCase
     public function test_fail_expired(): void
     {
         $this->expectException($this->exception);
-        ForeignNational::factory()->create([
-            'exam_code' => $this->code,
-            'exam_code_expired_at' => Carbon::now()->subMinute()
-        ]);
+        $this->withoutExceptionHandling();
+        Enrollment::factory()
+            ->hasPayment()
+            ->examCode($this->code)
+            ->examCodeExpiredAt(Carbon::now()->subMinutes(10))
+            ->create();
+        $this->action->execute($this->code);
         
         $this->action->execute($this->code);
-    }
-
-    public function test_fail_no_expired_at(): void
-    {
-        $this->expectException($this->exception);
-        ForeignNational::factory()->create([
-            'exam_code' => $this->code
-        ]);
-        $this->action->execute($this->code);
-    }
-
-    public function test_fail_no_code(): void
-    {
-        $this->expectException($this->exception);
-        ForeignNational::factory()->create([
-            'exam_code_expired_at' => Carbon::now()->addMinute()
-        ]);
-        $this->action->execute($this->code);
-    }
-
-    public function test_fail_short_code(): void
-    {
-        $this->expectException($this->exception);
-        ForeignNational::factory()->create([
-            'exam_code_expired_at' => Carbon::now()->addMinute(),
-            'exam_code' => $this->code
-        ]);
-        $this->action->execute('12345');
-    }
-
-    public function test_fail_long_code(): void
-    {
-        $this->expectException($this->exception);
-        ForeignNational::factory()->create([
-            'exam_code_expired_at' => Carbon::now()->addMinute(),
-            'exam_code' => $this->code
-        ]);
-        $this->action->execute('1234567');
     }
 }

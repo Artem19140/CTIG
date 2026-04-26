@@ -25,7 +25,11 @@ class EnrollmentController
             $request->validated('hasPayment')
         ); 
 
-        $enrollment->load('exam.type');
+        //$enrollment->load('exam.type');
+
+        return response()->json([
+            'redirectUrl' => route('enrollments.statements', ['enrollment' => $enrollment])
+        ]);
 
         return Inertia::flash([
             'redirectUrl' => route('enrollments.statements', ['enrollment' => $enrollment]),

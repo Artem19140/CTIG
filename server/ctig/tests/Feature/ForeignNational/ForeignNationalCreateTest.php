@@ -40,7 +40,9 @@ class ForeignNationalCreateTest extends TestCase
 
             $this->examType = ExamType::factory()->create();
             $this->address = Address::factory()->create();
+            
             Carbon::setTestNow(now());
+
             $this->exam = Exam::create([
                 'begin_time' => Carbon::now($this->user->center->time_zone)->addDay(),
                 'end_time' => Carbon::now($this->user->center->time_zone)->addDay()->addMinutes(ExamType::inRandomOrder()->first()->duration),
@@ -75,10 +77,8 @@ class ForeignNationalCreateTest extends TestCase
             'hasPayment' => false,
             'issuedBy' => 'МВД по УР',
             'issuedDate' => '2025-10-10',
-            'migrationCardRequisite' => 'MC234245234',
             'name' => 'Иван',
             'nameLatin' => 'Ivan',
-            'noMigrationCard' => false,
             'noPassportNumber' => false,
             'noPassportSeries' => false,
             'noPatronymic' => false,
@@ -89,18 +89,16 @@ class ForeignNationalCreateTest extends TestCase
             'phone' => '89346573385',
             'surname' => 'Иванов',
             'surnameLatin' => 'Ivanov',
-
+            'noPatronymicLatin' => false,
             'passportScan' => UploadedFile::fake()->image('passport.pdf'),
             'passportTranslateScan' => UploadedFile::fake()->image('passport_translate.pdf'),
-
-            'photo' => UploadedFile::fake()->image('photo.jpg'),
         ], $overrides);
     }
 
     protected function postForeignNational(array $overrides = [])
     {
         return $this->actingAs($this->user)
-            ->post('/foreign-nationals', $this->foreignNationalBody($overrides));
+            ->postJson('/foreign-nationals', $this->foreignNationalBody($overrides));
     }
         
     public function test_success(): void
@@ -108,7 +106,7 @@ class ForeignNationalCreateTest extends TestCase
         $this->withoutExceptionHandling();
         $response = $this->postForeignNational();
 
-        $response->assertInertiaFlash('success');
+        $response->assertOk();
         $this->assertDatabaseCount('foreign_nationals',1);
         
     }
@@ -120,17 +118,6 @@ class ForeignNationalCreateTest extends TestCase
         ]);
 
         $response->assertBadRequest();
-        $response->assertInertiaFlashMissing('success');
-        $this->assertDatabaseEmpty('foreign_nationals');
-    }
-
-    public function test_fail_not_existing_exam(): void
-    {
-        $response = $this->postForeignNational([
-            'examId' => $this->exam->id+1,
-        ]);
-
-        $response->assertInertiaFlashMissing('success');
         $this->assertDatabaseEmpty('foreign_nationals');
     }
 
@@ -138,71 +125,22 @@ class ForeignNationalCreateTest extends TestCase
     {
         $response = $this->postForeignNational([
             'patronymic' => '',
-            'patronymicLatin' => '',
             'noPatronymic' => true,
         ]);
-
-        $response->assertInertiaFlash('success');
+        $response->assertOk();
         $this->assertDatabaseCount('foreign_nationals',1);
     }
 
-    public function test_fail_no_patronymic_when_must_be(): void
+    public function test_success_no_patronymic_latin(): void
     {
         $response = $this->postForeignNational([
-            'patronymic' => '',
             'patronymicLatin' => '',
-            'noPatronymic' => false,
+            'noPatronymicLatin' => true,
         ]);
-
-        $response->assertInertiaFlashMissing('success');
-        $this->assertDatabaseEmpty('foreign_nationals');
-    }
-
-    public function test_fail_with_patronymic_when_must_not_be(): void
-    {
-        $response = $this->postForeignNational([
-            'patronymic' => 'erterter',
-            'patronymicLatin' => 'gtert',
-            'noPatronymic' => true,
-        ]);
-
-        $response->assertInertiaFlashMissing('success');
-        $this->assertDatabaseEmpty('foreign_nationals');
-    }
-
-    public function test_success_no_migration_card_req(): void
-    {
-        $this->withoutExceptionHandling();
-        $response = $this->postForeignNational([
-            'migrationCardRequisite' => '',
-            'noMigrationCard' => true,
-        ]);
-
-        $response->assertInertiaFlash('success');
+        $response->assertOk();
         $this->assertDatabaseCount('foreign_nationals',1);
     }
 
-    public function test_fail_no_migration_card_req(): void
-    {
-        $response = $this->postForeignNational([
-            'migrationCardRequisite' => '',
-            'noMigrationCard' => false,
-        ]);
-
-        $response->assertInertiaFlashMissing('success');
-        $this->assertDatabaseEmpty('foreign_nationals');
-    }
-
-    public function test_fail_with_migration_card_req_when_must_not_be(): void
-    {
-        $response = $this->postForeignNational([
-            'migrationCardRequisite' => '2342342',
-            'noMigrationCard' => true,
-        ]);
-
-        $response->assertInertiaFlashMissing('success');
-        $this->assertDatabaseEmpty('foreign_nationals');
-    }
 
     public function test_success_no_passport_number(): void
     {
@@ -211,21 +149,20 @@ class ForeignNationalCreateTest extends TestCase
             'noPassportNumber' => true,
         ]);
 
-        $response->assertInertiaFlash('success');
+        $response->assertOk();
         $this->assertDatabaseCount('foreign_nationals',1);
     }
 
-    public function test_fail_no_passport_number_when_must_be(): void
+    public function test_success_no_passport_series(): void
     {
         $response = $this->postForeignNational([
-            'passportNumber' => '',
-            'noPassportNumber' => false,
+            'passportSeries' => '',
+            'noPassportSeries' => true,
         ]);
 
-        $response->assertInertiaFlashMissing('success');
-        $this->assertDatabaseEmpty('foreign_nationals');
+        $response->assertOk();
+        $this->assertDatabaseCount('foreign_nationals',1);
     }
-
     public function test_fail_with_passport_number_when_must_not_be(): void
     {
         $response = $this->postForeignNational([

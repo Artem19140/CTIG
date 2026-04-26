@@ -1,9 +1,10 @@
 <?php
 
-    namespace Tests\Feature\Exam\Manage;
+    namespace Tests\Feature\Exam;
 
     use App\Enums\UserRoles;
     use App\Models\Address;
+    use App\Models\Exam;
     use App\Models\ExamType;
     use App\Models\Center;
     use App\Models\Role;
@@ -55,12 +56,12 @@
 
         protected function postExam(array $overrides = []){
             return $this->actingAs($this->user)
-                ->post('/exams', $this->examBody($overrides));
+                ->postJson('/exams', $this->examBody($overrides));
         }
 
         protected function examBody(array $overrides = []){
             $fixedDate = Carbon::now()->format('Y-m-d');
-            $fixedTime = Carbon::now($this->user->time_zone)->addHour()->format('H:i');
+            $fixedTime = Carbon::now($this->user->time_zone)->addHours(Exam::CREATE_AVAILABLE_BEFORE_HOURS)->addMinute()->format('H:i');
             return array_merge([
                 'date' =>$fixedDate,
                 'time' => $fixedTime,
@@ -75,11 +76,9 @@
         public function test_success(): void
         {
             $this->withoutExceptionHandling();
-            // dump(Carbon::now($this->user->time_zone)->addHour()->utc()->format('H:i'));
-            // dd(Carbon::now()->format('H:i'));
             $response = $this->postExam();
             
-            $response->assertInertiaFlash('success');
+            $response->assertOk();
 
             $this->assertDatabaseCount('exams', 1);
         }
@@ -88,8 +87,7 @@
         {
             $this->withoutExceptionHandling();
             $response = $this->postExam();
-            $response->assertInertiaFlash('success');
-
+            $response->assertOk();
             $examiner = User::factory()->create();
             $examiner->roles()->attach($this->examinerRole);
 
@@ -99,32 +97,37 @@
                 'examiners' => [$examiner->id],
                 'capacity' => $address->max_capacity,
             ]);
-            $response->assertInertiaFlash('success');
+            $response->assertOk();
             $this->assertDatabaseCount('exams', 2);
         }
     
         public function test_fail_in_past(): void
         {
             $pastDateTime = Carbon::now($this->user->time_zone)->subHour();
+
             $response = $this->postExam([
                 'date' => $pastDateTime->format('Y-m-d'),
-                'time' => $pastDateTime->subHour()->format('H:i')
+                'time' => $pastDateTime->addHours(Exam::CREATE_AVAILABLE_BEFORE_HOURS)->subMinute()->format('H:i')
             ]);
             
-            $response->assertBadRequest();
+            $response->assertUnprocessable();
 
             $this->assertDatabaseEmpty('exams');
         }
 
         public function test_fail_with_busy_tester(): void
         {
-            $this->withoutExceptionHandling();
-            $fixedTime = Carbon::now()->addHour()->format('H:i');
-            
-            $response = $this->postExam(['time' => $fixedTime]);
-            $response->assertInertiaFlash('success');
 
-            $response = $this->postExam(['time' => $fixedTime]);
+            
+            $response = $this->postExam();
+            $response->assertOk();
+
+            // $response = $this->postExam();
+            $address = Address::factory()->create();
+            $response = $this->postExam([
+                'addressId' => $address->id,
+                'capacity' => $address->max_capacity
+            ]);
             $response->assertBadRequest();
 
             $this->assertDatabaseCount('exams', 1);
@@ -152,19 +155,17 @@
             $response = $this->postExam([
                 'capacity' => $this->address->max_capacity + 1
             ]);
-            $response->assertBadRequest();
-            $response->assertInertiaFlashMissing('success');
+            $response->assertUnprocessable();
             $this->assertDatabaseEmpty('exams');
         }
 
-        public function test_fail_not_active_adress(): void
+        public function test_fail_not_active_address(): void
         {   
             $address = Address::factory()->create(['is_active' => false]);
             $response = $this->postExam([
                 'addressId' => $address->id
             ]);
-            $response->assertBadRequest();
-            $response->assertInertiaFlashMissing('success');
+            $response->assertUnprocessable();
             $this->assertDatabaseEmpty('exams');
         }
 
@@ -176,7 +177,6 @@
                 'examiners' => [$user->id]
             ]);
             $response->assertBadRequest();
-            $response->assertInertiaFlashMissing('success');
             $this->assertDatabaseEmpty('exams');
         }
 

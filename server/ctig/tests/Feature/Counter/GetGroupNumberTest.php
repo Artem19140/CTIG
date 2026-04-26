@@ -2,7 +2,8 @@
 
 namespace Tests\Feature\Counter;
 
-use App\Actions\Counter\GetGroupNumberAction;
+
+use App\Domain\Counter\GenerateGroupNumberAction;
 use App\Enums\CounterKey;
 use App\Models\Counter;
 use App\Models\Center;
@@ -20,7 +21,7 @@ class GetGroupNumberTest extends TestCase
     protected function setUp():void{
         parent::setUp();
         
-        $this->action = app(GetGroupNumberAction::class);
+        $this->action = app(GenerateGroupNumberAction::class);
         Carbon::setTestNow(Carbon::now());
         $this->value = 0;
         $this->counter = Counter::create([
@@ -55,7 +56,7 @@ class GetGroupNumberTest extends TestCase
         $groupNumber = $this->action->execute();
         $this->assertEquals($groupNumber, 1);
         Carbon::setTestNow(Carbon::now()->addDay());
-        $this->action = app(GetGroupNumberAction::class);
+        $this->action = app(GenerateGroupNumberAction::class);
         $groupNumber = $this->action->execute();
         $this->assertEquals($groupNumber, 1);
         $groupNumber = $this->action->execute();

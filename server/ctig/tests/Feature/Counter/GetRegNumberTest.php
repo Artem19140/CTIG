@@ -2,7 +2,8 @@
 
 namespace Tests\Feature\Counter;
 
-use App\Actions\Counter\GetRegNumberAction;
+
+use App\Domain\Counter\GenerateRegNumberAction;
 use App\Enums\CounterKey;
 use App\Models\Counter;
 use App\Models\Center;
@@ -20,7 +21,7 @@ class GetRegNumberTest extends TestCase
     protected function setUp():void{
         parent::setUp();
         
-        $this->action = app(GetRegNumberAction::class);
+        $this->action = app(GenerateRegNumberAction::class);
         Carbon::setTestNow(Carbon::now());
         $this->value = \intval(Carbon::now()->format('y0000'));
         $this->counter = Counter::create([

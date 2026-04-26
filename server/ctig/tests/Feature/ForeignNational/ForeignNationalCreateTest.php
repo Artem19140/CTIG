@@ -117,7 +117,7 @@ class ForeignNationalCreateTest extends TestCase
             'dateBirth' => Carbon::now()->subYears(18)->addDay()->format('Y-m-d'),
         ]);
 
-        $response->assertBadRequest();
+        $response->assertUnprocessable();
         $this->assertDatabaseEmpty('foreign_nationals');
     }
 

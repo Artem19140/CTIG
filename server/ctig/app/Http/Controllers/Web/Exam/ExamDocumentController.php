@@ -20,6 +20,7 @@ class ExamDocumentController
     ){}
     public function list(Exam $exam){
         $this->examDocumentAvailable->list($exam);
+
         $exam->load(['foreignNationals', 'type']);
         $pdf = Pdf::loadView('templates.exam-foreign_nationals-list', [
             'foreignNationals' => $exam->foreignNationals,
@@ -77,7 +78,7 @@ class ExamDocumentController
     public function resultsAvailable(Exam $exam, CloseAbandonedAttemptsAction $closeAbandonedAttemptsAction)
     {
         $closeAbandonedAttemptsAction->execute(request()->user()->time_zone);
-        $this->examDocumentAvailable->statement($exam);
+        $this->examDocumentAvailable->results($exam);
         return Inertia::flash([
             'redirectUrl' => route('exam.documents.results', ['exam' => $exam])
         ])->back();

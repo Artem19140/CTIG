@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\ExamDocument;
 
+use App\Domain\Exam\Guard\ExamGuard;
 use App\Domain\ExamDocument\ExamDocumentAvailable;
 use App\Exceptions\BusinessException;
-use App\Models\Attempt;
 use App\Models\Enrollment;
 use App\Models\Exam;
 use Carbon\Carbon;
@@ -41,48 +41,104 @@ class ExamDocumentAvailableTest extends TestCase
         $this->action()->codes(Exam::factory()->cancelled()->create());
     }
 
-    public function test_fail_codes_no_enrollment(): void
+    public function test_codes_calls_guards_once(): void
     {
-        $this->expectException($this->exception);
-        $this->action()->codes(Exam::factory()->inFuture()->create());
-    }
-
-    public function test_fail_codes_past_exam(): void
-    {
-        $this->expectException($this->exception);
-        $this->action()
-        ->codes(Exam::factory()
-            ->inPast()->create()
-        );
-    }
-
-    public function test_fail_codes_too_early_gengeration(): void
-    {
-        $this->expectException($this->exception);
-        $this->action()->codes(Exam::factory()->create(['begin_time_utc' => Carbon::now()->addDay()]));
-    }
-
-    public function test_fail_protocol_not_finished_exam(): void
-    {
-        $this->expectException($this->exception);
-        $this->action()->protocol(Exam::factory()->inFuture()->create());
-    }
-
-    public function test_fail_statement_not_all_attempts_checked(): void
-    {
-        $this->expectException($this->exception);
-        
         $exam = Exam::factory()
-            ->inPast()
+            ->has(Enrollment::factory())
+            ->inFuture()
             ->create();
-        $enrollment = Enrollment::factory()->create(['exam_id' => $exam->id]);
-        
-        Attempt::factory()
-            ->notChecked()
-            ->create([
-                'exam_id' => $exam->id,
-                'enrollment_id' => $enrollment->id
-            ]);
-        $this->action()->statement($exam);
+
+        $guard = \Mockery::mock(ExamGuard::class);
+
+        $guard->shouldReceive('ensureNotFinished')
+            ->once()
+            ->with($exam);
+
+        $guard->shouldReceive('ensureNotCancelled')
+            ->once()
+            ->with($exam);
+
+        $guard->shouldReceive('ensureHasEnrollment')
+            ->once()
+            ->with($exam);
+
+        $service = new ExamDocumentAvailable($guard);
+
+        $service->codes($exam);
     }
+
+    public function test_list_calls_guards_once(): void
+    {
+        $exam = Exam::factory()
+            ->has(Enrollment::factory())
+            ->inFuture()
+            ->create();
+
+        $guard = \Mockery::mock(ExamGuard::class);
+
+        $guard->shouldReceive('ensureHasEnrollment')
+            ->once()
+            ->with($exam);
+
+        $service = new ExamDocumentAvailable($guard);
+
+        $service->list($exam);
+    }
+
+    public function test_list_protocol_guards_once(): void
+    {
+        $exam = Exam::factory()
+            ->has(Enrollment::factory())
+            ->inFuture()
+            ->create();
+
+        $guard = \Mockery::mock(ExamGuard::class);
+
+        $guard->shouldReceive('ensureFinished')
+            ->once()
+            ->with($exam);
+
+        $guard->shouldReceive('ensureNotCancelled')
+            ->once()
+            ->with($exam);
+
+        $guard->shouldReceive('ensureHasEnrollment')
+            ->once()
+            ->with($exam);
+
+        $service = new ExamDocumentAvailable($guard);
+
+        $service->protocol($exam);
+    }
+
+    public function test_list_results_guards_once(): void
+    {
+        $exam = Exam::factory()
+            ->has(Enrollment::factory())
+            ->inFuture()
+            ->create();
+
+        $guard = \Mockery::mock(ExamGuard::class);
+
+        $guard->shouldReceive('ensureFinished')
+            ->once()
+            ->with($exam);
+
+        $guard->shouldReceive('ensureNotCancelled')
+            ->once()
+            ->with($exam);
+
+        $guard->shouldReceive('ensureHasEnrollment')
+            ->once()
+            ->with($exam);
+
+        $guard->shouldReceive('ensureAllAttemptsChecked')
+            ->once()
+            ->with($exam);
+
+        $service = new ExamDocumentAvailable($guard);
+
+        $service->results($exam);
+    }
+   
 }

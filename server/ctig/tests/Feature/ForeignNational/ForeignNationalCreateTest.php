@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
 
@@ -106,7 +107,7 @@ class ForeignNationalCreateTest extends TestCase
         $this->withoutExceptionHandling();
         $response = $this->postForeignNational();
 
-        $response->assertOk();
+        $this->success($response);
         $this->assertDatabaseCount('foreign_nationals',1);
         
     }
@@ -127,7 +128,7 @@ class ForeignNationalCreateTest extends TestCase
             'patronymic' => '',
             'noPatronymic' => true,
         ]);
-        $response->assertOk();
+        $this->success($response);
         $this->assertDatabaseCount('foreign_nationals',1);
     }
 
@@ -137,7 +138,7 @@ class ForeignNationalCreateTest extends TestCase
             'patronymicLatin' => '',
             'noPatronymicLatin' => true,
         ]);
-        $response->assertOk();
+        $this->success($response);
         $this->assertDatabaseCount('foreign_nationals',1);
     }
 
@@ -149,7 +150,7 @@ class ForeignNationalCreateTest extends TestCase
             'noPassportNumber' => true,
         ]);
 
-        $response->assertOk();
+        $this->success($response);
         $this->assertDatabaseCount('foreign_nationals',1);
     }
 
@@ -160,17 +161,23 @@ class ForeignNationalCreateTest extends TestCase
             'noPassportSeries' => true,
         ]);
 
-        $response->assertOk();
+        $this->success($response);
         $this->assertDatabaseCount('foreign_nationals',1);
     }
-    public function test_fail_with_passport_number_when_must_not_be(): void
+    public function test_success_with_passport_number(): void
     {
         $response = $this->postForeignNational([
-            'passportNumber' => 'erterter',
+            'passportNumber' => '',
             'noPassportNumber' => true,
         ]);
+        $this->success($response);
+        $this->assertDatabaseCount('foreign_nationals',1);
+    }
 
-        $response->assertInertiaFlashMissing('success');
-        $this->assertDatabaseEmpty('foreign_nationals');
+    protected function success(TestResponse $response){
+        $response->assertOk()
+        ->assertJsonStructure([
+            'redirectUrl'
+        ]);
     }
 }

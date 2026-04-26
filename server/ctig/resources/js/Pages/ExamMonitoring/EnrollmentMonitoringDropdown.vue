@@ -19,7 +19,7 @@ const promptDialog = usePromptDialog()
 
 const ban = async () => {
     if(!props.enrollment.attempt?.id) return
-    const res = await promptDialog.open(`Укажите причину снятия ${props.enrollment.foreignNational.fullName} с экзамена`)
+    const res = await promptDialog.open(`Укажите причину аннулирования попытки ${props.enrollment.foreignNational.fullName}`)
     if(!res){
         return
     }
@@ -66,7 +66,7 @@ const changePaymentDisabled = isCancelled.value || isFinished.value || hasAttemp
         <AppListDropDownItem    
             color="text-red" 
             :disabled="banDisabled"
-            title="Снять с экзамена" 
+            title="Аннулировать" 
             @click="ban"
         />
     </BaseThreeDotDropdown>

@@ -5,7 +5,6 @@ import { useModals } from '@/composables/useModals';
 import { Exam } from '@/interfaces/Interfaces';
 import { useExamStatus } from '@/composables/useExamStatus';
 
-
 const props = defineProps<{
     exam: Exam
 }>()

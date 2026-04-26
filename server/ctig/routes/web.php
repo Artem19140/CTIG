@@ -66,7 +66,7 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
     });
     Route::apiResource('exams', ExamController::class)->where(['exam' => '[0-9]+']);//->middleware('user.has.role:examiner1');
     
-    Route::put('attempts/{attempt}/ban', [AttemptController::class, 'ban']);
+    Route::put('attempts/{attempt}/ban', [AttemptController::class, 'ban'])->name('attempts.ban');
 
     Route::put('answers/{attemptAnswer}/rate', [AttemptAnswerController::class, 'rate']);
    
@@ -99,11 +99,8 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
 
     Route::get('roles',  [UserController::class, "rolesShow"]);
 
-   Route::post('/logout', [LoginController::class, 'logout']);
+   Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
-
-
-
 
 Route::middleware('guest')->group(function (){
     Route::inertia('login', 'Login/Login')->name('login');
@@ -123,14 +120,9 @@ Route::middleware('auth:foreignNationals')->group(function (){
 
         Route::put('{attempt}', [AttemptController::class, 'start'])
             ->can('attempt-access', 'attempt');
-        
-        // Route::put('{attempt}/answers/{attemptAnswer}/audio/played', [AttemptAnswerController::class, 'update'])
-        //     ->can('attempt-access', 'attempt');
 
         Route::put('{attempt}/answers/{attemptAnswer}', [AttemptAnswerController::class, 'update'])
             ->can('attempt-access', 'attempt');
-
-       
 
         Route::put('{attempt}/answers/{attemptAnswer}/audio', [AttemptAnswerController::class, 'audioPlayed'])
             ->can('attempt-access', 'attempt');;

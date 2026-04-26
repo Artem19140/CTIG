@@ -22,7 +22,7 @@ class AttemptFactory extends Factory
     public function definition(): array
     {
         return [
-            'foreign_national_id' => ForeignNational::inRandomOrder()->first()->id,
+            'foreign_national_id' => ForeignNational::inRandomOrder()->first()->id ?? ForeignNational::factory(),
             'exam_id' => Exam::inRandomOrder()->first()->id,
             'total_mark' =>  fake()->numberBetween(5, 20),
             'started_at'=>now(),

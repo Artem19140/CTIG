@@ -15,7 +15,7 @@ class EnsureCenterActive
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!$request->user()->center->is_active){
+        if(!$request->user()->center->isActive()){
             return redirect()->route('login');
         }
         return $next($request);

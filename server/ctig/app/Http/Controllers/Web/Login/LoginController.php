@@ -15,18 +15,11 @@ class LoginController
 {
    public function login(LoginRequest $request)
     {
-        $wrongCredentials = !Auth::attempt([
-            'email' => $request->validated('email'),
-            'password' => $request->validated('password')
-        ], $request->validated('rememberMe'));
-
-        if ($wrongCredentials || !Auth::user()->isActive()) { 
+        if ($this->noAccess($request)) { 
             throw ValidationException::withMessages([
                 'email' => 'Неверные учетные данные.',
             ]);
         }
-
-        
 
         $request->session()->regenerate();
         
@@ -37,6 +30,14 @@ class LoginController
         }
 
         return redirect()->route('exams.index');
+    }
+
+    protected function noAccess(LoginRequest $request):bool{
+        $wrongCredentials = !Auth::attempt([
+            'email' => $request->validated('email'),
+            'password' => $request->validated('password')
+        ], $request->validated('rememberMe'));
+        return $wrongCredentials || !Auth::user()->isActive() ||  !Auth::user()->center->isActive();
     }
 
    public function changePassword(ChangePasswordRequest $request){

@@ -58,4 +58,11 @@ class UserFactory extends Factory
             'is_active' => false,
         ]);
     }
+
+    public function hasChangePassword(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'has_to_change_password' => true,
+        ]);
+    }
 }

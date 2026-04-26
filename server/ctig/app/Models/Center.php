@@ -28,4 +28,7 @@ class Center extends Model
     public function users(): HasMany{
         return $this->hasMany(User::class, 'center_id');
     }
+    public function isActive():bool{
+        return $this->is_active;
+    }
 }

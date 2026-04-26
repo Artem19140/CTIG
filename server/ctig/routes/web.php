@@ -45,7 +45,7 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
         });
         Route::prefix('{exam}/documents')->group(function(){
             Route::get('codes', [ExamDocumentController::class, "codes"])->name('exam.documents.codes');
-            Route::get('codes/available', [ExamDocumentController::class, "codesAvailable"]);
+            Route::get('codes/available', [ExamDocumentController::class, "codesAvailable"])->name('exam.documents.codes.available');
             Route::get('protocol', [ExamDocumentController::class, "protocol"])->name('exam.documents.protocol');
             Route::get('protocol/available', [ExamDocumentController::class, "protocolAvailable"]);
             Route::get('results', [ExamDocumentController::class, 'results'])->name('exam.documents.results');

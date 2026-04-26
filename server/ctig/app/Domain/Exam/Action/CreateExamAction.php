@@ -19,7 +19,7 @@ final class CreateExamAction{
         
         return DB::transaction(function () use ($examDto, $user, $duration) {
             $exam = Exam::create($this->getAttributes($examDto, $user, $duration));
-            $exam->examiners()->attach($examDto->examiners, ['center_id'  => $user->center->id]);
+            $exam->examiners()->attach($examDto->examiners);
             return $exam;
         });        
     }

@@ -27,7 +27,7 @@ final class UpdateExamAction{
             $exam->update(
                 $this->getAttributes($exam, $examDto)
             );
-            $exam->examiners()->syncWithPivotValues($examDto->examiners, ['center_id'  => $exam->center_id]);
+            $exam->examiners()->syncWithPivotValues($examDto->examiners);
             $exam->save();
             
             $exam->load(['examiners', 'type', 'address']);

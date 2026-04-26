@@ -33,7 +33,6 @@ class ForeignNationalController
         ForeignNationalPostRequest $request, 
         CreateForeignNationalWithEnrollmentAction $createForeignNationalWithEnrollmentAction
     ){
-
         $enrollement = $createForeignNationalWithEnrollmentAction
             ->execute(
                 $request->validated(),

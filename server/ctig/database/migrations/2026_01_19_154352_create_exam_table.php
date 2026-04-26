@@ -65,9 +65,6 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete();
 
-            $table->foreignId('center_id')
-                ->constrained('centers')
-                ->cascadeOnDelete();
             $table->unique(['examiner_id', 'exam_id']);
 
             $table->index(['exam_id', 'examiner_id']);

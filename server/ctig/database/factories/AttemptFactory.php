@@ -39,6 +39,21 @@ class AttemptFactory extends Factory
         });
     }
 
+    public function checked(){
+        return $this->state(function (){
+            return[
+                'status'=> AttemptStatus::Checked
+            ];
+        });
+    }
+    public function notChecked(){
+        return $this->state(function (){
+            return[
+                'status'=> fake()->randomElement(AttemptStatus::unChecked())
+            ];
+        });
+    }
+
     public function passed(){
         return $this->state(function (){
             return[

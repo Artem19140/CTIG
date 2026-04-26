@@ -3,7 +3,6 @@
 namespace Tests\Feature\ExamDocument;
 
 use App\Domain\ExamDocument\ExamDocumentAvailable;
-use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Models\Attempt;
 use App\Models\Enrollment;
@@ -77,8 +76,9 @@ class ExamDocumentAvailableTest extends TestCase
             ->inPast()
             ->create();
         $enrollment = Enrollment::factory()->create(['exam_id' => $exam->id]);
+        
         Attempt::factory()
-            ->status(AttemptStatus::Finished)
+            ->notChecked()
             ->create([
                 'exam_id' => $exam->id,
                 'enrollment_id' => $enrollment->id

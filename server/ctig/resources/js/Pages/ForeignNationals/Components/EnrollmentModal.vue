@@ -4,7 +4,7 @@ import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import ExamEnrollment from '@components/Exam/ExamEnrollment.vue';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import { Enrollment, ForeignNational } from '@interfaces/Interfaces';
-import {  useForm } from '@inertiajs/vue3';
+import {  useHttp } from '@inertiajs/vue3';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 
 const props = defineProps<{
@@ -16,20 +16,20 @@ const props = defineProps<{
 const isOpen = defineModel<boolean>()
 
 const enroll = async () => {
-    form.post(`enrollments`,
+    http.post(`enrollments`,
     {
-        onSuccess: (page:any) => {
-            if(page.flash.redirectUrl){
+        onSuccess: (response:any) => {
+            if(response.redirectUrl){
                 isOpen.value=false
-                props.onEnroll(page.flash.enrollment)
-                window.open(String(page.flash.redirectUrl))
-                form.resetAndClearErrors()
+                props.onEnroll(response.enrollment)
+                window.open(String(response.redirectUrl))
+                http.resetAndClearErrors()
             }
         }
     })
 }
 
-const form = useForm({
+const http = useHttp({
     foreignNationalId:props.foreignNational?.id ?? null,
     hasPayment:false,
     examId:null
@@ -57,16 +57,16 @@ const beforeClose  = async (fn: () => void) => {
         @before-close="(done) => beforeClose(done)"
     >
         <ExamEnrollment 
-            v-model:exam-id="form.examId"
-            v-model:has-payment="form.hasPayment"
+            v-model:exam-id="http.examId"
+            v-model:has-payment="http.hasPayment"
             :foreignNational-id="foreignNational?.id"
         />
         <template #actions>
             <AppPrimaryButton
                 @click="enroll"
                 text="Записать"
-                :loading="form.processing"
-                :disabled="form.processing || !form.examId"
+                :loading="http.processing"
+                :disabled="http.processing || !http.examId"
             />
         </template>
     </BaseDialog>

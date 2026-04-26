@@ -47,9 +47,9 @@ class ExamCancelTest extends TestCase
     {
         $examId = $this->exam->id;
         $response = $this->actingAs($this->user)
-                        ->delete("/exams/$examId", ['cancelledReason' => 'Отменен']);
+                        ->deleteJson("/exams/$examId", ['cancelledReason' => 'Отменен']);
 
-        $response->assertInertiaFlash('success');
+        $response->assertNoContent();
     }
 
     public function test_fail_with_no_cancel_reason(): void
@@ -57,23 +57,23 @@ class ExamCancelTest extends TestCase
         
         $examId = $this->exam->id;
         $response = $this->actingAs($this->user)
-                        ->delete("/exams/$examId");
+                        ->deleteJson("/exams/$examId");
 
-        $response->assertInertiaFlashMissing('success');
+        $response->assertUnprocessable();
     }
 
     public function test_fail_cancel_repeat(): void
     {
         $examId = $this->exam->id;
         $response = $this->actingAs($this->user)
-                        ->delete("/exams/$examId", ['cancelledReason' => 'Отменен']);
+                        ->deleteJson("/exams/$examId", ['cancelledReason' => 'Отменен']);
 
-        $response->assertInertiaFlash('success');
+        $response->assertNoContent();
 
         $response = $this->actingAs($this->user)
-                        ->delete("/exams/$examId", ['cancelledReason' => 'Отменен']);
+                        ->deleteJson("/exams/$examId", ['cancelledReason' => 'Отменен']);
 
-        $response->assertInertiaFlashMissing('success');
+        $response->assertBadRequest();
     }
 
     // public function test_fail_no_role_scheduler(): void

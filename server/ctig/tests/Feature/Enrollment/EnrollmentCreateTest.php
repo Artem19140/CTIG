@@ -23,11 +23,13 @@ class EnrollmentCreateTest extends TestCase
     protected User $user;
     protected Exam $exam;
     protected ForeignNational $foreignNational;
+    protected string $model;
 
     protected function setUp():void{
         parent::setUp();
         $this->user = User::factory()->create();
         $this->foreignNational = ForeignNational::factory()->create();
+        $this->model = Enrollment::class;
         Counter::create([
             'key' => CounterKey::RegNumKey,
             'value' => 260000,
@@ -57,7 +59,7 @@ class EnrollmentCreateTest extends TestCase
             ]);
 
         $response->assertStatus(200);
-        $this->assertDatabaseCount('enrollments', 1);
+        $this->assertDatabaseCount($this->model, 1);
     }
 
     public function test_fail_exam_past(): void
@@ -74,7 +76,7 @@ class EnrollmentCreateTest extends TestCase
             ]);
 
         $response->assertStatus(400);
-        $this->assertDatabaseEmpty('enrollments');
+        $this->assertDatabaseEmpty($this->model);
     }
 
     public function test_fail_exam_cancelled(): void
@@ -92,7 +94,7 @@ class EnrollmentCreateTest extends TestCase
             ]);
 
         $response->assertStatus(400);
-        $this->assertDatabaseEmpty('enrollments');
+        $this->assertDatabaseEmpty($this->model);
     }
 
     public function test_fail_closed_enrollment(): void
@@ -110,6 +112,6 @@ class EnrollmentCreateTest extends TestCase
             ]);
 
         $response->assertStatus(400);
-        $this->assertDatabaseEmpty('enrollments');
+        $this->assertDatabaseEmpty($this->model);
     }
 }

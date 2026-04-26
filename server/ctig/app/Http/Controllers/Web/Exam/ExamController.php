@@ -99,8 +99,8 @@ class ExamController
             'cancelledReason' => ['required', 'string']
         ]);
         $cancelExam->execute($exam);
-        Inertia::flash('success', 'Экзамен отменен');
-        return back();
+        
+        return response()->noContent();
     }
 
     public function schedule(Request $request){

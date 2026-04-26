@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { useForm, useHttp } from '@inertiajs/vue3'
 import { usePromptDialog } from '@composables/usePromptDialog';
 import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import { Exam } from '@interfaces/Interfaces';
@@ -19,7 +19,7 @@ const emit = defineEmits<{
   (e:'edit', value:Exam):void
 }>()
 
-const form = useForm({
+const http = useHttp({
   cancelledReason: ''
 })
 
@@ -33,14 +33,15 @@ const cancelExam = async () => {
   if(!res){
     return
   }
-  form.cancelledReason = res
+  http.cancelledReason = res
   loadingSnackbar.open('Идет отмена')
-  form.delete(`/exams/${props.exam?.id}`,{
-    onSuccess:(page)=>{
-      loadingSnackbar.close()
-      if(!page.flash.success)return
+  http.delete(`/exams/${props.exam?.id}`,{
+    onSuccess:()=>{
       emit('cancel', res)
-    }
+    },
+    onFinish() {
+      loadingSnackbar.close()
+    },
   })
   
 }

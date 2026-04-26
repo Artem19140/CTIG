@@ -34,9 +34,7 @@ class EnrollmentController
     {
         $cancellErollmentAction->execute($enrollment);
 
-        return Inertia::flash([
-            'success' => 'Запись отменена'
-        ])->back();
+        return response()->json();
     }
 
     public function changePayment(
@@ -44,7 +42,6 @@ class EnrollmentController
         ChangePaymentStatusAction $changePaymentStatusAction
     ){
         $changePaymentStatusAction->execute($enrollment);
-        // return back();
         return response()->json();
     }
 

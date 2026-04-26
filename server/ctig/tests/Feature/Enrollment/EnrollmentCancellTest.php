@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class ChangePaymentTest extends TestCase
+class EnrollmentCancellTest extends TestCase
 {
     /**
      * A basic feature test example.
@@ -30,43 +30,72 @@ class ChangePaymentTest extends TestCase
         parent::tearDown();
         Carbon::setTestNow();
     }
-    protected function putPayment(int $enrollmentId){
+
+    protected function deleteEnrollment(int $enrollmentId){
         return $this->actingAs($this->user)
-            ->putJson("/enrollments/$enrollmentId/payment");
+            ->deleteJson("/enrollments/$enrollmentId");
     }
     public function test_success(): void
     {
         $this->withoutExceptionHandling();
-        $exam = Exam::factory()->inFuture()->create();
+        $exam = Exam::factory()
+            ->inFuture()
+            ->create();
+
         $enrollment = Enrollment::factory()->create([
             'exam_id' => $exam->id
         ]);
-        $response = $this->putPayment($enrollment->id);
 
-        $response->assertStatus(200);
+        $response = $this->deleteEnrollment($enrollment->id);
+        $response->assertOk();
     }
 
     public function test_fail_has_attempt(): void
     {
-        $exam = Exam::factory()->inFuture()->create();
+
+        $exam = Exam::factory()
+            ->now()
+            ->create();
+
         $enrollment = Enrollment::factory()
             ->has(Attempt::factory())
             ->create([
                 'exam_id' => $exam->id
             ]);
-        $response = $this->putPayment($enrollment->id);
 
+        $response = $this->deleteEnrollment($enrollment->id);
         $response->assertBadRequest();
     }
 
-    public function test_fail_past_exam(): void
+    public function test_fail_exam_past(): void
     {
-        $exam = Exam::factory()->inPast()->create();
-        $enrollment = Enrollment::factory()->create([
-            'exam_id' => $exam->id
-        ]);
-        $response = $this->putPayment($enrollment->id);
 
+        $exam = Exam::factory()
+            ->inPast()
+            ->create();
+
+        $enrollment = Enrollment::factory()
+            ->create([
+                'exam_id' => $exam->id
+            ]);
+
+        $response = $this->deleteEnrollment($enrollment->id);
+        $response->assertBadRequest();
+    }
+
+    public function test_fail_exam_going(): void
+    {
+
+        $exam = Exam::factory()
+            ->now()
+            ->create();
+
+        $enrollment = Enrollment::factory()
+            ->create([
+                'exam_id' => $exam->id
+            ]);
+
+        $response = $this->deleteEnrollment($enrollment->id);
         $response->assertBadRequest();
     }
 }

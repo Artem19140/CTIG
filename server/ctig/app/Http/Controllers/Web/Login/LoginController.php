@@ -18,20 +18,21 @@ class LoginController
         $wrongCredentials = !Auth::attempt([
             'email' => $request->validated('email'),
             'password' => $request->validated('password')
-        ], $request->validated('rememberMe')
+        ], $request->validated('rememberMe'));
 
-        );
-        if ($wrongCredentials) { 
+        if ($wrongCredentials || !Auth::user()->isActive()) { 
             throw ValidationException::withMessages([
                 'email' => 'Неверные учетные данные.',
             ]);
         }
-        
-        $request->session()->regenerate();
 
+        
+
+        $request->session()->regenerate();
+        
         $user = Auth::user();
 
-        if ($user->has_to_change_password) {
+        if ($user->hasChangePassword()) {
             return redirect()->route('password.change');
         }
 

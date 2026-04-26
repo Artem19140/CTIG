@@ -21,8 +21,7 @@ class CancellEnrollmentAction{
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureNotFinished($exam);
         $this->examGuard->ensureNotGoing($exam);
-
-
+        
         if($enrollment->attempt()->exists()){
             throw new BusinessException('Нельзя отменить запись, если сущестует попытка экзамена');
         }

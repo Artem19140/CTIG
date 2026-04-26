@@ -15,7 +15,7 @@ class EnsurePasswordChange
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if($request->user()->has_to_change_password){
+        if($request->user()->hasChangePassword()){
             return redirect()->route('password.change');
         }
         return $next($request);

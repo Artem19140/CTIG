@@ -49,6 +49,14 @@ class User extends Authenticatable
         return $this->hasRole(UserRoles::SuperAdmin->value);
     }
 
+    public function isActive(){
+        return $this->is_active;
+    }
+
+    public function hasChangePassword(){
+        return $this->has_to_change_password;
+    }
+
     public function roles(){
         return $this->belongsToMany(Role::class,'role_user', 'user_id', 'role_id');
     }

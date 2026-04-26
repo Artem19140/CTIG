@@ -15,7 +15,7 @@ class EnsureUserActive
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!$request->user()->is_active){
+        if(!$request->user()->isActive()){
             return redirect()->route('login');
         }
         return $next($request);

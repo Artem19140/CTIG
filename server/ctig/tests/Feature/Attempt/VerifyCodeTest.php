@@ -5,13 +5,11 @@ namespace Tests\Feature\Attempt;
 
 use App\Domain\Attempt\Action\VerifyCodeAction;
 use App\Models\Enrollment;
-use App\Models\ForeignNational;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
-use App\Domain\ExamDocument\ExamCodesGenerator;
 
 class VerifyCodeTest extends TestCase
 {
@@ -31,7 +29,7 @@ class VerifyCodeTest extends TestCase
     protected function tearDown(): void
     {
         parent::tearDown();
-        Carbon::setTestNow(); // сброс
+        Carbon::setTestNow(); 
     }
 
     public function test_success(): void

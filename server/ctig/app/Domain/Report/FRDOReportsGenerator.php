@@ -28,11 +28,11 @@ class FRDOReportsGenerator{
 
     protected function attemptsForReport($examDate, bool $success): Collection{
         $attempts = Attempt::with(['exam.type','foreignNational','exam.address'])
-                    ->whereCreatedAtMore($examDate->copy()->startOfDay())
-                    ->whereCreatedAtLess($examDate->copy()->endOfDay())
-                    ->where('is_passed',$success)
-                    ->where('status', AttemptStatus::Checked)
-                    ->get();
+            ->whereCreatedAtMore($examDate->copy()->startOfDay())
+            ->whereCreatedAtLess($examDate->copy()->endOfDay())
+            ->where('is_passed',$success)
+            ->where('status', AttemptStatus::Checked)
+            ->get();
         return $attempts;
     }
 

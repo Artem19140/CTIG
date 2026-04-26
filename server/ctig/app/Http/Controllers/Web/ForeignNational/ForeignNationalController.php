@@ -30,36 +30,40 @@ class ForeignNationalController
     }
 
     public function store(
-                            ForeignNationalPostRequest $request, 
-                            CreateForeignNationalWithEnrollmentAction $createForeignNationalWithExamEnrollment
-                        ){
+        ForeignNationalPostRequest $request, 
+        CreateForeignNationalWithEnrollmentAction $createForeignNationalWithEnrollmentAction
+    ){
 
-        $enrollement = $createForeignNationalWithExamEnrollment
-                ->execute(
-                            $request->validated(),
-                            $request->validated('examId'),
-                            $request->user()
-                        );
+        $enrollement = $createForeignNationalWithEnrollmentAction
+            ->execute(
+                $request->validated(),
+                $request->validated('examId'),
+                $request->user()
+            );
         return response()->json([
             'redirectUrl' => route('enrollments.statements', ['enrollment' => $enrollement])
         ]);
     }
     public function show(ForeignNational $foreignNational){
-        
-        $foreignNational->load( [
-            'enrollments' => [ 'exam.type', 'attempt', 'foreignNational'],'creator'
+        $foreignNational->load([
+            'creator',
+            'enrollments' => [ 
+                'exam.type', 
+                'attempt', 
+                'foreignNational'
+            ]
         ]);
+
         $foreignNational->enrollments = $foreignNational->enrollments->sortByDesc('exam.begin_time_utc');
         return new ForeignNationalProfileResource($foreignNational);
     }
 
     public function update(
-                            ForeignNationalUpdateRequest $request, 
-                            ForeignNational $foreignNational,
-                            UpdateForeignNationalAction $updateForeignNational
-                        )
-    {   
-        $updatedForeignNational = $updateForeignNational->execute($request->validated(), $foreignNational);
+        ForeignNationalUpdateRequest $request, 
+        ForeignNational $foreignNational,
+        UpdateForeignNationalAction $updateForeignNationalAction
+    ){   
+        $updatedForeignNational = $updateForeignNationalAction->execute($request->validated(), $foreignNational);
         return Inertia::flash([
             'foreignNational' => new ForeignNationalProfileResource($updatedForeignNational),
             'success' => 'Данные обновлены'
@@ -72,9 +76,8 @@ class ForeignNationalController
         return Inertia::flash('success', "Иностранный гражданин удален")->back();
     }
 
-    public function exportAvailable(
-        ForeignNationalExportRequest $request,
-    ){
+    public function exportAvailable(ForeignNationalExportRequest $request){
+
         $this->ensureExportAvailable($request->validated('dateFrom'), $request->validated('dateTo'), $request->validated('citizenship'));
         return response()->json([
             'redirectUrl' => route('foreign-nationals.export', [
@@ -86,17 +89,25 @@ class ForeignNationalController
     }
 
     public function export(
-                            ForeignNationalExportRequest $request,
-                            ExportForeignNationalQuery $exportForeignNationalQuery
-                        ){
+        ForeignNationalExportRequest $request,
+        ExportForeignNationalQuery $exportForeignNationalQuery
+    ){
         //Токо директор
-        $this->ensureExportAvailable($request->validated('dateFrom'), $request->validated('dateTo'), $request->validated('citizenship'));
+        $this->ensureExportAvailable(
+            $request->validated('dateFrom'), 
+            $request->validated('dateTo'), 
+            $request->validated('citizenship')
+        );
         return response()->streamDownload(function () use ($exportForeignNationalQuery, $request) {
             $exportForeignNationalQuery->execute($request->validated());
         }, 'Выгрузка_ИГ.csv');
     }
 
-    protected function ensureExportAvailable(string $dateFrom, string $dateTo, string | null $citizenship = null){
+    protected function ensureExportAvailable(
+        string $dateFrom, 
+        string $dateTo, 
+        string | null $citizenship = null
+    ){
         $available = ForeignNational::whereBetween('created_at', [
                 Carbon::parse($dateFrom), 
                 Carbon::parse($dateTo)

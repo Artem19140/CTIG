@@ -13,38 +13,45 @@ final class ExamCodesGenerator{
     ){}
     public function execute(Exam $exam){
         $this->examDocumentAvailable->codes($exam);
+
         $exam->load('enrollments.foreignNational');
+
+        $this->generateCodesForExam($exam);
+
+        $pdf = Pdf::loadView('templates.exam-codes', [
+            'exam' => $exam
+        ]);
+
+        $fileName = 'Кода_' . $exam->short_name . '_' . $exam->begin_time->format('H-i_d.m.y') . '.pdf';
+        return $pdf->stream($fileName);
+    }
+
+    protected function generateCodesForExam(Exam $exam):void{
         foreach($exam->enrollments as $enrollment){
             if($this->codeWasGenerated($enrollment)){
                 continue;
             }
             
-            do{//Можно вынести в generateCodes, где уже все вызвать
-                $code = $this->generateCode();
-                $saved = false;
-                try{
-                    $this->saveCode($enrollment, $code);
-                    $saved = true;
-                }catch(QueryException $e){
-                    if($e->getCode() === '23505'){
-                        $saved = false;
-                    }else{
-                        throw $e;
-                    }
-                    
-                }
-            }while(!$saved);
+            $this->generateAndSaveUniqueCode($enrollment);
 
         }
-        $pdf = Pdf::loadView('templates.exam-codes', [
-            'exam' => $exam
-        ]);
-        $fileName = 'Кода_' . $exam->short_name . '_' . $exam->begin_time->format('H-i_d.m.y') . '.pdf';
-        return $pdf->stream($fileName);
+    }
+
+    protected function generateAndSaveUniqueCode(Enrollment $enrollment){
+        while (true) {
+            try {
+                $this->saveCode($enrollment, $this->generateCode());
+                return;
+            } catch (QueryException $e) {
+                if ($e->getCode() !== '23505') {
+                    throw $e;
+                }
+            }
+        }
     }
 
     protected function codeWasGenerated(Enrollment $enrollment):bool{
-        return $enrollment->exam_code || $enrollment->exam_code_used_at || $enrollment->exam_code_expired_at;
+        return $enrollment->exam_code_used_at || $enrollment->exam_code_expired_at;
     }
 
     protected function generateCode():string{
@@ -56,7 +63,7 @@ final class ExamCodesGenerator{
 
     protected function saveCode(Enrollment $enrollment, string $code):void{
         $enrollment->exam_code = $code;
-        $enrollment->exam_code_expired_at = $enrollment->exam->begin_time->addMinutes(Exam::CODES_TTL);
+        $enrollment->exam_code_expired_at = $enrollment->exam->begin_time->copy()->addMinutes(Exam::CODES_TTL);
         $enrollment->save();
     }
 }

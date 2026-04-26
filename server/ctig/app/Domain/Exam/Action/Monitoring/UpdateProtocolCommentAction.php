@@ -12,6 +12,13 @@ class UpdateProtocolCommentAction{
     ){}
     public function execute(Exam $exam, string $protocolComment){
         $this->examGuard->ensureNotCancelled($exam);
+        $this->ensureCanUpdateProtocolComment($exam);
+
+        $exam->protocol_comment = $protocolComment;
+        $exam->save();
+    }
+
+    protected function ensureCanUpdateProtocolComment(Exam $exam){
         if(
             $exam->begin_time_utc->addMinutes(30)->isPast() 
                 &&
@@ -19,8 +26,5 @@ class UpdateProtocolCommentAction{
         ){
             throw new BusinessException('Комментарий можно редактировать во время и в течении 30 минут после экзамена');
         }
-
-        $exam->protocol_comment = $protocolComment;
-        $exam->save();
     }
 }

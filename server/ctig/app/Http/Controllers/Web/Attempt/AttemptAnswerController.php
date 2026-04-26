@@ -17,7 +17,7 @@ class AttemptAnswerController
     public function index(Request $request)
     {
         $answers = AttemptAnswer::where('attempt_id',$request->input('attemptId'))
-                    ->get();
+            ->get();
         return AttemptAnswerResource::collection($answers);
     }
 
@@ -25,7 +25,7 @@ class AttemptAnswerController
                             AttemptAnswerRequest $request,
                             Attempt $attempt, 
                             AttemptAnswer $attemptAnswer,
-                            HandleAttemptAnswerAction $handleAttemptAnswer
+                            HandleAttemptAnswerAction $handleAttemptAnswerAction
                         )
     {
         $foreignNational = $request->user();
@@ -33,8 +33,8 @@ class AttemptAnswerController
             abort(403);
         }
         $answer = $request->input('answer');
-        $savedAnswer = DB::transaction(function()use($answer, $attempt,$attemptAnswer, $handleAttemptAnswer){
-            $answer = $handleAttemptAnswer->execute($answer, $attempt, $attemptAnswer);
+        $savedAnswer = DB::transaction(function()use($answer, $attempt,$attemptAnswer, $handleAttemptAnswerAction){
+            $answer = $handleAttemptAnswerAction->execute($answer, $attempt, $attemptAnswer);
             $attempt->last_activity_at = Carbon::now($attempt->center->time_zone);
             $attempt->save();
             return $answer;

@@ -7,6 +7,7 @@ use App\Models\Attempt;
 use App\Models\Exam;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Database\Eloquent\Collection;
 
 
 class ExamProtocolGenerator{
@@ -15,9 +16,9 @@ class ExamProtocolGenerator{
     ){}
     public function execute(Exam $exam, User $user){
         $this->examDocumentAvailable->protocol($exam);
-        $bannedAttempts = Attempt::with('foreignNational')
-                        ->where('exam_id', $exam->id)
-                        ->where('status', AttemptStatus::Banned)->get();
+
+        $bannedAttempts = $this->getBannedAttempts($exam);
+
         $pdf = Pdf::loadView('templates.exam-protocol', [
             'exam' => $exam,
             'center' => $user->center, 
@@ -25,5 +26,11 @@ class ExamProtocolGenerator{
         ]);
 
         return $pdf->stream("codes.pdf");
+    }
+
+    protected function getBannedAttempts(Exam $exam):Collection{
+        return Attempt::with('foreignNational')
+            ->where('exam_id', $exam->id)
+            ->where('status', AttemptStatus::Banned)->get();
     }
 }

@@ -169,8 +169,6 @@ class Exam extends Model
         return $this->begin_time_utc->isToday() && !$this->isFinished();
     }
 
-
-
     public function scopeSorting(Builder $query, Carbon $now){
         return $query->orderByRaw("
                 CASE

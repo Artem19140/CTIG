@@ -15,40 +15,52 @@ use Inertia\Inertia;
 class EnrollmentController
 {
     public function store(
-                            EnrollmentStoreRequest $request,
-                            CreateEnrollmentAction $createEnrollment,
-                        ){ 
-        $enrollment = $createEnrollment->execute(
-                                                    $request->validated('examId'), 
-                                                    $request->validated('foreignNationalId'), 
-                                                    $request->user(), 
-                                                    $request->validated('hasPayment')); 
+        EnrollmentStoreRequest $request,
+        CreateEnrollmentAction $createEnrollmentAction,
+    ){ 
+        $enrollment = $createEnrollmentAction->execute(
+            $request->validated('examId'), 
+            $request->validated('foreignNationalId'), 
+            $request->user(), 
+            $request->validated('hasPayment')
+        ); 
+
         $enrollment->load('exam.type');
+
         return Inertia::flash([
             'redirectUrl' => route('enrollments.statements', ['enrollment' => $enrollment]),
             'enrollment' => new EnrollmentResource($enrollment)
         ])->back();
     }
 
-    public function destroy(Enrollment $enrollment, CancellEnrollmentAction $cancellErollment)
+    public function destroy(Enrollment $enrollment, CancellEnrollmentAction $cancellErollmentAction)
     {
-        $cancellErollment->execute($enrollment);
+        $cancellErollmentAction->execute($enrollment);
+
         return Inertia::flash([
             'success' => 'Запись отменена'
         ])->back();
     }
 
     public function changePayment(
-                                    Enrollment $enrollment,
-                                    ChangePaymentStatusAction $changePaymentStatus
-                                ){
-        $changePaymentStatus->execute($enrollment);
+        Enrollment $enrollment,
+        ChangePaymentStatusAction $changePaymentStatusAction
+    ){
+        $changePaymentStatusAction->execute($enrollment);
         return back();
         return response()->noContent();
     }
 
-    public function available(EnrollmentAvailableRequest $request, GetAvailableExamsQuery $getAvailableExamsQuery){
-        $exams = $getAvailableExamsQuery->execute($request->validated('examTypeId'), $request->validated('foreignNationalId'));
+    public function available(
+        EnrollmentAvailableRequest $request, 
+        GetAvailableExamsQuery $getAvailableExamsQuery
+    ){
+        
+        $exams = $getAvailableExamsQuery->execute(
+            $request->validated('examTypeId'), 
+            $request->validated('foreignNationalId')
+        );
+
         return $exams->map(function ($exam) {
             return [
                 'id' => $exam->id,

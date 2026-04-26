@@ -16,17 +16,16 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class ReportController
 {
     public function frdo(
-                        FrdoReportRequest $request,
-                        FRDOReportsGenerator $frdoGenerator
-                        ){
-        
+        FrdoReportRequest $request,
+        FRDOReportsGenerator $frdoGenerator
+    ){
         $success = $request->validated('success');
         $examDate = Carbon::parse($request->validated('examDate'));
         $writer = $frdoGenerator->execute(
-                                                    $examDate,
-                                                    $success,
-                                                    $request->user()->center
-                                                    );
+            $examDate,
+            $success,
+            $request->user()->center
+        );
         $stringDate = $examDate->format('d.m.Y');
         $fileName =  $success ? "cerftificates_frdo_$stringDate.xlsx" : "references_frdo_$stringDate.xlsx";
 
@@ -42,10 +41,10 @@ class ReportController
     }
 
     public function available(
-                                FrdoReportRequest $request, 
-                                CheckAvailableFrdoGeneration $checkAvailableGeneration, 
-                                CloseAbandonedAttemptsAction $closeAbandonedAttemptsAction
-                            ){
+        FrdoReportRequest $request, 
+        CheckAvailableFrdoGeneration $checkAvailableGeneration, 
+        CloseAbandonedAttemptsAction $closeAbandonedAttemptsAction
+    ){
         $closeAbandonedAttemptsAction->execute($request->user()->time_zone);
         $checkAvailableGeneration->execute($request->input('examDate'), $request->input('success'));
         return Inertia::flash([
@@ -56,10 +55,16 @@ class ReportController
         ])->back();
     }
 
-    public function flatTable(FlatTableRequest $request, FlatTableGenerator $flatTableGenerator){
+    public function flatTable(
+        FlatTableRequest $request, 
+        FlatTableGenerator $flatTableGenerator
+    ){
         return response()->streamDownload(function () use ($flatTableGenerator, $request) {
 
-            $flatTableGenerator->execute( $request->validated('dateFrom'), $request->validated('dateTo'));
+            $flatTableGenerator->execute( 
+                $request->validated('dateFrom'), 
+                $request->validated('dateTo')
+            );
  
         }, 'report.csv');  
     }

@@ -35,9 +35,9 @@ class AttemptController
     }
 
     public function show(
-                            Attempt $attempt,
-                            GetCurrentAttemptQuery $getCurrentAttemptQuery
-                        ){
+        Attempt $attempt,
+        GetCurrentAttemptQuery $getCurrentAttemptQuery
+    ){
         $attempt = $getCurrentAttemptQuery->execute($attempt);
         
         return Inertia::render('Attempt/Attempt', [
@@ -45,7 +45,7 @@ class AttemptController
         ]);
     }
 
-    public function start(Request $request, StartAttemptAction $startAttempt, Attempt $attempt)
+    public function start(StartAttemptAction $startAttempt, Attempt $attempt)
     {
         $startedAttempt = $startAttempt->execute($attempt);
         return redirect()->route('attempts', ['attempt' => $startedAttempt->id]);
@@ -68,11 +68,10 @@ class AttemptController
     }
 
     public function finish(
-                                Attempt $attempt, 
-                                FinishAttemptAction $finishAttempt,
-                                Request $request
-                           )
-    {
+        Attempt $attempt, 
+        FinishAttemptAction $finishAttempt,
+        Request $request
+    ){
         $finishAttempt->execute($attempt);
         $request->session()->invalidate();
 
@@ -83,7 +82,7 @@ class AttemptController
         ]);
     }
 
-    public function before(Request $request, Attempt $attempt){
+    public function before(Attempt $attempt){
 
         if($attempt->status !== AttemptStatus::Pending){
             return redirect('login')->with('У вас нет текущей попытки экзамена');

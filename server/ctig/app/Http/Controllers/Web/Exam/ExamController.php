@@ -6,7 +6,6 @@ use App\Domain\Attempt\Action\CreateAttemptAction;
 use App\Domain\Exam\Action\CancelExamAction;
 use App\Domain\Exam\Action\CreateExamAction;
 use App\Domain\Exam\Action\UpdateExamAction;
-use App\Domain\Exam\Action\UpdateExaminersAction;
 use App\Domain\Exam\Query\GetExamsQuery;
 use App\Enums\UserRoles;
 use App\Http\Requests\Exam\ExamIndexRequest;
@@ -44,15 +43,14 @@ class ExamController
     {       
         $createExamAction->execute($request->getDto(),$request->user());
         return response()->json();
-        return Inertia::flash('success', 'Экзамен создан')->back();
     }
 
     public function createModalData(){
         $examiners=User::whereHas('roles', function(Builder $query){
-                        $query->where('name',UserRoles::Examiner->value);
-                    })
-                    ->active()
-                    ->get();
+                $query->where('name',UserRoles::Examiner->value);
+            })
+            ->active()
+            ->get();
         return response()->json([
             'addresses' => AddressResource::collection(Address::where('is_active', true)->get()),
             'examTypes' => ExamTypeResource::collection(ExamType::all()),
@@ -63,30 +61,35 @@ class ExamController
     public function show(Exam $exam)
     {
         $exam->load([
-                    'examiners', 
-                    'address',
-                    'type',
-                    'enrollments' => ['foreignNational', 'exam', 'attempt'] //, 'attempt'
-                    
-                ]);
+            'examiners', 
+            'address',
+            'type',
+            'enrollments' => ['foreignNational', 'exam', 'attempt'] //, 'attempt'
+        ]);
         
         $exam->loadCount('enrollments');
         return new ExamResource($exam);
     }
 
-    public function update(ExamPostRequest $request, Exam $exam, UpdateExamAction $updateExam)
-    {   
+    public function update(
+        ExamPostRequest $request, 
+        Exam $exam, 
+        UpdateExamAction $updateExam
+    ){   
         $updateExam->execute($exam, $request->getDto(), $request->user());
         return response()->json(['exam' => new ExamResource($exam)]);
     }
 
     public function verifyCode(
-                                VerifyCodeRequest $request,
-                                CreateAttemptAction $createAttempt
-                            ){
+        VerifyCodeRequest $request,
+        CreateAttemptAction $createAttempt
+    ){
         $attempt = $createAttempt->execute($request->validated('code'));
+
         Auth::guard('foreignNationals')->login($attempt->foreignNational);
+
         $request->session()->regenerate();
+
         return redirect()->route('attempts.before', ['attempt' => $attempt->id]);
     }
 
@@ -101,12 +104,14 @@ class ExamController
     }
 
     public function schedule(Request $request){
-        $dateFrom = Carbon::parse($request->input('dateFrom'))->startOfDay() ?? false;
-        $dateTo = Carbon::parse($request->input('dateTo'))->endOfDay() ?? false;
+
+        $dateFrom = Carbon::parse($request->input('dateFrom'))->startOfDay();
+        $dateTo = Carbon::parse($request->input('dateTo'))->endOfDay();
+
         $exams = Exam::with('type')
-                    ->where('begin_time', '>=', $dateFrom)
-                    ->where('begin_time','<=', $dateTo)
-                    ->get();
+            ->where('begin_time', '>=', $dateFrom)
+            ->where('begin_time','<=', $dateTo)
+            ->get();
         return Inertia::render('Schedule/Schedule',[
             'exams' => ExamCalendarResource::collection($exams )
         ]);

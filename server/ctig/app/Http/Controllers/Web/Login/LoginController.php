@@ -15,12 +15,13 @@ class LoginController
 {
    public function login(LoginRequest $request)
     {
-        if (!Auth::attempt([
-                                'email' => $request->validated('email'),
-                                'password' => $request->validated('password')
-                            ], 
-                            $request->validated('rememberMe')
-            )) { 
+        $wrongCredentials = !Auth::attempt([
+            'email' => $request->validated('email'),
+            'password' => $request->validated('password')
+        ], $request->validated('rememberMe')
+
+        );
+        if ($wrongCredentials) { 
             throw ValidationException::withMessages([
                 'email' => 'Неверные учетные данные.',
             ]);
@@ -48,10 +49,12 @@ class LoginController
                 'newPassword' =>'Пароль должен отличаться от старого'
             ]);
         }
+
         $user->update([
             'password' => Hash::make($request->input('newPassword')),
             'has_to_change_password' => false
         ]);
+        
         return redirect()->route('exams.index')->with('success', 'Пароль изменён!');
    }
 

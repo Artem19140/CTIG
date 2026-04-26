@@ -7,7 +7,10 @@ use App\Models\Enrollment;
 
 class EnrollmentDocumentController
 {
-    public function statement(Enrollment $enrollment, GenerateEnrollmentStatementAction $generateEnrollmentStatement){
+    public function statement(
+        Enrollment $enrollment, 
+        GenerateEnrollmentStatementAction $generateEnrollmentStatement
+    ){
         $statement = $generateEnrollmentStatement->execute($enrollment);
         return $statement->stream('statement.pdf'); 
     }

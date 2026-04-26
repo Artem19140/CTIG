@@ -20,8 +20,6 @@ class FinishAttemptAction{
         DB::transaction(function() use($attempt){
             $attempt->finish();
             
-            //$this->zeroEmptyAutoAnswers->execute($attempt);
-            
             if($attempt->canBeAutomaticallyFinalized()){
                 $this->finilizeAttemptCheckingAction->execute($attempt);
             }

@@ -53,7 +53,7 @@ class ExamFactory extends Factory
         });
     }
 
-    public function inPast(int $duration){
+    public function inPast(int $duration = 90){
         return $this->state(function() use($duration){
             return[
                 'begin_time_utc' => Carbon::now()->subMinutes(

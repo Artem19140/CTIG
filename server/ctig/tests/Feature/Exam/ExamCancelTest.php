@@ -43,11 +43,15 @@ class ExamCancelTest extends TestCase
         parent::tearDown();
         Carbon::setTestNow(); // сброс фиксации
     }
+
+    protected function postCancell(int $examId){
+        return $this->actingAs($this->user)
+            ->deleteJson("/exams/$examId", ['cancelledReason' => 'Отменен']);
+    }
     public function test_success(): void
     {
         $examId = $this->exam->id;
-        $response = $this->actingAs($this->user)
-                        ->deleteJson("/exams/$examId", ['cancelledReason' => 'Отменен']);
+        $response =$this->postCancell($examId);
 
         $response->assertNoContent();
     }
@@ -57,7 +61,7 @@ class ExamCancelTest extends TestCase
         
         $examId = $this->exam->id;
         $response = $this->actingAs($this->user)
-                        ->deleteJson("/exams/$examId");
+            ->deleteJson("/exams/$examId");
 
         $response->assertUnprocessable();
     }
@@ -65,13 +69,27 @@ class ExamCancelTest extends TestCase
     public function test_fail_cancel_repeat(): void
     {
         $examId = $this->exam->id;
-        $response = $this->actingAs($this->user)
-                        ->deleteJson("/exams/$examId", ['cancelledReason' => 'Отменен']);
+        $response = $response =$this->postCancell($examId);
 
         $response->assertNoContent();
 
-        $response = $this->actingAs($this->user)
-                        ->deleteJson("/exams/$examId", ['cancelledReason' => 'Отменен']);
+        $response = $response =$this->postCancell($examId);;
+
+        $response->assertBadRequest();
+    }
+
+    public function test_fail_cancel_past_exam(): void
+    {
+        $exam = Exam::factory()->inPast()->create();
+        $response = $response = $this->postCancell($exam->id);;
+
+        $response->assertBadRequest();
+    }
+
+    public function test_fail_cancel_going_exam(): void
+    {
+        $exam = Exam::factory()->now()->create();
+        $response = $response = $this->postCancell($exam->id);;
 
         $response->assertBadRequest();
     }

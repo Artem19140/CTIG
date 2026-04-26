@@ -92,6 +92,10 @@ class Attempt extends Model
         return $this->belongsTo(Center::class, 'center_id');
     }
 
+    public function enrollment(): BelongsTo{
+        return $this->belongsTo(Enrollment::class, 'enrollment_id');
+    }
+
     protected function timeZone(): Attribute
     {
         return Attribute::get(function () {

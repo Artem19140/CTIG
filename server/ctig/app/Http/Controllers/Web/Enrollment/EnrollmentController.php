@@ -25,16 +25,9 @@ class EnrollmentController
             $request->validated('hasPayment')
         ); 
 
-        //$enrollment->load('exam.type');
-
         return response()->json([
             'redirectUrl' => route('enrollments.statements', ['enrollment' => $enrollment])
         ]);
-
-        return Inertia::flash([
-            'redirectUrl' => route('enrollments.statements', ['enrollment' => $enrollment]),
-            'enrollment' => new EnrollmentResource($enrollment)
-        ])->back();
     }
 
     public function destroy(Enrollment $enrollment, CancellEnrollmentAction $cancellErollmentAction)
@@ -51,8 +44,8 @@ class EnrollmentController
         ChangePaymentStatusAction $changePaymentStatusAction
     ){
         $changePaymentStatusAction->execute($enrollment);
-        return back();
-        return response()->noContent();
+        // return back();
+        return response()->json();
     }
 
     public function available(

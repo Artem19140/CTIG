@@ -8,11 +8,9 @@ use App\Models\Attempt;
 use Carbon\Carbon;
 
 class FlatTableGenerator{
-    public function execute(string $dateFrom,string $dateTo){
+    public function execute(Carbon $dateFrom,Carbon $dateTo){
         $handle = fopen('php://output', 'w');
         fwrite($handle, "\xEF\xBB\xBF");
-        $dateFrom = Carbon::parse($dateFrom)->copy()->startOfDay();
-        $dateTo = Carbon::parse($dateTo)->copy()->endOfDay();
         fputcsv($handle, $this->headers());
         $strNumber = 1;
         
@@ -20,8 +18,8 @@ class FlatTableGenerator{
             'taskVariant.task',
             'answer'
         ]])
-            ->whereCreatedAtMore($dateFrom)
-            ->whereCreatedAtLess($dateTo)
+            ->whereCreatedAtMore( $dateFrom->copy()->startOfDay())
+            ->whereCreatedAtLess($dateTo = $dateTo->copy()->endOfDay())
             ->where('status', AttemptStatus::Checked)
             ->chunkById(1000, function($items) use($handle, &$strNumber) {
                 foreach($items as $item){

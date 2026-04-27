@@ -47,25 +47,31 @@ class ReportController
     ){
         $closeAbandonedAttemptsAction->execute($request->user()->time_zone);
         $checkAvailableGeneration->execute($request->input('examDate'), $request->input('success'));
-        return Inertia::flash([
+        return response()->json([
             'redirectUrl' => route('reports.frdo', [
                 'examDate' => $request->validated('examDate'),
                 'success' => $request->validated('success')
             ])
-        ])->back();
+        ]);
     }
 
     public function flatTable(
         FlatTableRequest $request, 
         FlatTableGenerator $flatTableGenerator
     ){
-        return response()->streamDownload(function () use ($flatTableGenerator, $request) {
-
+        $dateFrom = Carbon::parse($request->validated('dateFrom'));
+        $dateTo = Carbon::parse($request->validated('dateTo'));
+        $fileName =  "Плоская_таблица". "_". $dateFrom->format('d.m.Y') . "_" . $dateTo->format('d.m.Y') . ".csv";
+        return response()->streamDownload(function () use ($flatTableGenerator, $dateFrom, $dateTo) {
+            
             $flatTableGenerator->execute( 
-                $request->validated('dateFrom'), 
-                $request->validated('dateTo')
+                $dateFrom, 
+                $dateTo
             );
  
-        }, 'report.csv');  
+        },$fileName,
+        [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+        ]);  
     }
 }

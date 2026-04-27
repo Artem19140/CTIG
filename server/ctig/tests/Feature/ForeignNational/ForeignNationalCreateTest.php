@@ -28,38 +28,38 @@ class ForeignNationalCreateTest extends TestCase
     protected Exam $exam;
 
     protected function setUp():void{
-            parent::setUp();
-            Center::factory()->create();
-            
-            
-            $operatorRole = Role::create([
-                'name' => UserRoles::Operator,
-            ]);
+        parent::setUp();
+        Center::factory()->create();
+        
+        
+        $operatorRole = Role::create([
+            'name' => UserRoles::Operator,
+        ]);
 
-            $this->user = User::factory()->create();
-            $this->user->roles()->attach($operatorRole);
+        $this->user = User::factory()->create();
+        $this->user->roles()->attach($operatorRole);
 
-            $this->examType = ExamType::factory()->create();
-            $this->address = Address::factory()->create();
-            
-            Carbon::setTestNow(now());
+        $this->examType = ExamType::factory()->create();
+        $this->address = Address::factory()->create();
+        
+        Carbon::setTestNow(now());
 
-            $this->exam = Exam::create([
-                'begin_time' => Carbon::now($this->user->center->time_zone)->addDay(),
-                'end_time' => Carbon::now($this->user->center->time_zone)->addDay()->addMinutes(ExamType::inRandomOrder()->first()->duration),
-                'begin_time_utc' => Carbon::now()->addDay(),
-                'exam_type_id' => ExamType::inRandomOrder()->first()->id,
-                'creator_id' => $this->user->id,
-                'capacity'=>$this->address->max_capacity,
-                'address_id' => $this->address->id,
-                'center_id' => Center::inRandomOrder()->first()->id
-            ]);
-            Storage::fake('private');
-            Counter::create([
-                'key' => CounterKey::RegNumKey,
-                'value' => Carbon::now()->format('y').'0000',
-                'center_id' => 1
-            ]);
+        $this->exam = Exam::create([
+            'begin_time' => Carbon::now($this->user->center->time_zone)->addDay(),
+            'end_time' => Carbon::now($this->user->center->time_zone)->addDay()->addMinutes(ExamType::inRandomOrder()->first()->duration),
+            'begin_time_utc' => Carbon::now()->addDay(),
+            'exam_type_id' => ExamType::inRandomOrder()->first()->id,
+            'creator_id' => $this->user->id,
+            'capacity'=>$this->address->max_capacity,
+            'address_id' => $this->address->id,
+            'center_id' => Center::inRandomOrder()->first()->id
+        ]);
+        Storage::fake('private');
+        Counter::create([
+            'key' => CounterKey::RegNumKey,
+            'value' => Carbon::now()->format('y').'0000',
+            'center_id' => 1
+        ]);
         }
     public function tearDown(): void
     {

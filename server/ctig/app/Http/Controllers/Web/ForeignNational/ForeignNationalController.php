@@ -99,7 +99,10 @@ class ForeignNationalController
         );
         return response()->streamDownload(function () use ($exportForeignNationalQuery, $request) {
             $exportForeignNationalQuery->execute($request->validated());
-        }, 'Выгрузка_ИГ.csv');
+        }, 'Выгрузка_ИГ.csv',
+        [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+        ]);
     }
 
     protected function ensureExportAvailable(

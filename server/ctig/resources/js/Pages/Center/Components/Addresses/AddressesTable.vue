@@ -23,13 +23,11 @@ const add = () => {
 </script>
 
 <template>
-    <v-toolbar>
+    <v-toolbar flat>
         <v-spacer />
-        <div>
-            <AppAddButton 
-                @click="add"
-            />
-        </div>
+        <AppAddButton 
+            @click="add"
+        />
     </v-toolbar>
     
     <div class="mt-4 p-4" >

@@ -95,10 +95,10 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
     Route::get('centers/{center}/addresses', [AddressController::class, "index"]);
     Route::put('centers/{center}/addresses', [AddressController::class, "update"]);
 
-    Route::patch('addresses/{address}/active', [AddressController::class, "toggleActive"]);
-    Route::patch('addresses/{address}', [AddressController::class, "update"]);
+    Route::patch('addresses/{address}/active', [AddressController::class, "toggleActive"])->name('addresses.toggle.active');
+    Route::patch('addresses/{address}', [AddressController::class, "update"])->name('addresses.update');
 
-    Route::post('addresses', [AddressController::class, "store"]);
+    Route::post('addresses', [AddressController::class, "store"])->name('addresses.store');
 
     Route::delete('employees/{user}', [UserController::class, "destroy"]);
     Route::post('employees', [UserController::class, "store"]);

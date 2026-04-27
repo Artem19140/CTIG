@@ -85,7 +85,6 @@
 
         public function test_success_different_addresses(): void
         {
-            $this->withoutExceptionHandling();
             $response = $this->postExam();
             $response->assertOk();
             $examiner = User::factory()->create();

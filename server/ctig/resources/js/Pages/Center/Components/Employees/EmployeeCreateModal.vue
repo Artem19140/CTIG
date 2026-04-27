@@ -93,7 +93,7 @@ onMounted(() => {
         />
 
         <AppInput 
-            label="email"
+            label="e-mail@"
             v-model="form.email"
             :error-messages="form?.errors?.email"
         />

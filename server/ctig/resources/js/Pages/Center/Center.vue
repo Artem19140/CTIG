@@ -1,45 +1,65 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import ShowData from './Components/ShowData.vue';
-import UpdateData from './Components/UpdateData.vue';
+import { computed, ref, watch } from 'vue';
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
-import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
-import { useAuth } from '@composables/useAuth';
-import { Roles } from '@constants/Roles';
 import BaseContainer from '@/components/BaseComponents/BaseContainer/BaseContainer.vue';
+import CenterData from './Components/Data/CenterData.vue';
+import EmployeesTable from './Components/Employees/EmployeesTable.vue';
+import { router } from '@inertiajs/vue3';
+import { useAuth } from '@/composables/useAuth';
+import { Address, User } from '@/interfaces/Interfaces';
+import AddressesTable from './Components/Addresses/AddressesTable.vue';
 
 defineOptions({
   layout: [EmployeeLayout],
 })
 
+const {user} = useAuth()
+const centerId = computed(() => user.center_id)
+
 const props = defineProps<{
-    center : any | null
+    tab: Tab
+    data?: {
+        data:any
+    },
+    employees?:{
+        data:User[]
+    } 
+    addresses?:{
+        data:Address[]
+    } 
 }>()
 
-const mode = ref<string>('show')
+type Tab = 'data' | 'employees' | 'addresses'
 
-const {can} = useAuth()
+const tab = ref<Tab>(props.tab ?? 'data')
+
+const visit = (route : string) => {
+    router.visit(`/centers/${centerId.value}${route}`)
+}
 </script>
 
 <template>
     <BaseContainer>
-            <v-card-text>
-                <ShowData :center="center" v-if="mode === 'show'" />
-                <UpdateData :center="center" v-if="mode === 'update'"  />
-            </v-card-text>
-            <v-card-actions  class="flex justify-center">
-                <AppPrimaryButton
-                    text="Обновить"
-                    v-if="mode === 'update'"
-                />
-                <v-btn @click="mode = 'show'" v-if="mode === 'update'">
-                    Отмена
-                </v-btn>
-                <AppPrimaryButton
-                    text="Редактировать"
-                    @click="mode = 'update'"
-                    v-if="mode === 'show' && can([Roles.ORG_ADMIN])"
-                />
-            </v-card-actions>
+        <v-tabs v-model="tab" color="primary">
+            <v-tab value="data" @click="() => visit('')">Данные</v-tab>
+            <v-tab value="employees" @click="() => visit('/employees')">Сотрудники</v-tab>
+            <v-tab value="addresses" @click="() => visit('/addresses')">Адреса</v-tab>
+        </v-tabs>
+
+        <v-divider></v-divider>
+
+        <v-tabs-window v-model="tab">
+            <v-tabs-window-item value="data" v-if="data?.data">
+                <CenterData :data="data?.data" />
+            </v-tabs-window-item>
+
+            <v-tabs-window-item value="employees" v-if="employees?.data">
+                <EmployeesTable :employees="employees?.data" />
+            </v-tabs-window-item>
+
+            <v-tabs-window-item value="addresses" v-if="addresses">
+                <AddressesTable :addresses="addresses?.data" />
+            </v-tabs-window-item>
+        </v-tabs-window>
     </BaseContainer>
 </template>

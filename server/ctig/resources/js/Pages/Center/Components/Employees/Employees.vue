@@ -14,7 +14,7 @@ const props = defineProps<{
 
 <template>
   <BaseContainer>
-      <EmployeesTable :employees="employees" />
+    <EmployeesTable :employees="employees" />
   </BaseContainer>
   
 </template>

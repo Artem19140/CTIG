@@ -114,7 +114,8 @@ export interface Attempt{
 export interface Address{
     id:number,
     address:string,
-    maxCapcity:number
+    maxCapcity:number,
+    isActive:boolean
 }
 
 export interface ExamType{

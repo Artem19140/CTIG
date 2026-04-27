@@ -9,7 +9,7 @@ import EnrollmentModal from '@pages/ForeignNationals/Components/EnrollmentModal.
 import AttemptCheckingModal from '@pages/ExamsChecking/Components/AttemptCheckingModal.vue';
 import PdfDialogViewer from '../PdfDialogViewer/PdfDialogViewer.vue';
 import ExamCommentModal from '@pages/ExamMonitoring/ExamCommentModal.vue';
-import EmployeeCreateModal from '@pages/Employees/EmployeeCreateModal.vue';
+import EmployeeCreateModal from '@pages/Center/Components/Employees/EmployeeCreateModal.vue';
 import ForeignNationalEditModal from '@pages/ForeignNationals/Components/Modals/ForeignNationalEditModal.vue';
 import ExamEditModal from '@pages/Exam/Components/Modals/ExamEditModal.vue';
 import ForeignNationalShowModal from '@pages/ForeignNationals/Components/Modals/ShowModal/ForeignNationalShowModal.vue';

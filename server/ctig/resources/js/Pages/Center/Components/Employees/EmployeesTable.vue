@@ -3,9 +3,11 @@ import Dropdown from './Dropdown.vue';
 import BasePaginatedTable from '@components/BaseComponents/BasePaginatedTable/BasePaginatedTable.vue';
 import { useModals } from '@composables/useModals';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
+import { User } from '@/interfaces/Interfaces';
+import BaseTable from '@/components/BaseComponents/BaseTable/BaseTable.vue';
 
 const props = defineProps<{
-  employees : any
+    employees : User[]
 }>()
 
 const {open} = useModals()
@@ -18,10 +20,9 @@ const headers = [
 </script>
 
 <template>
-    <BasePaginatedTable 
-        title="Сотрудники"
+    <BaseTable 
         :headers="headers"
-        :elements="employees"
+        :items="employees"
     >
         <template #toolbar-actions>
             <AppAddButton text="Добавить" 
@@ -30,5 +31,5 @@ const headers = [
         <template #item.actions="{item}">
             <Dropdown :employee="item" />
         </template>
-    </BasePaginatedTable>
+    </BaseTable>
 </template>

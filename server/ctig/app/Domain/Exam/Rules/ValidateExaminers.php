@@ -18,7 +18,7 @@ class ValidateExaminers{
 
         $examiners = User::with('roles')->whereIn('id', $examinersIds)->get();
 
-        $this->ensureNoBusyExaminers($parralellExaminersExams, $examiners);
+        $this->ensureHasNoExaminersConflict($parralellExaminersExams, $examiners);
 
         $this->ensureAllExaminersActive($examiners);
 
@@ -46,7 +46,7 @@ class ValidateExaminers{
             ->get();
     }
 
-    protected function ensureNoBusyExaminers(Collection $parallelExaminersExams, Collection $examiners): void{
+    protected function ensureHasNoExaminersConflict(Collection $parallelExaminersExams, Collection $examiners): void{
         $busyExaminers = $parallelExaminersExams
             ->pluck('examiners')
             ->flatten()

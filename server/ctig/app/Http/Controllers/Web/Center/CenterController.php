@@ -21,7 +21,8 @@ class CenterController
             abort(404);
         }
         return Inertia::render('Center/Center', [
-            'center' => new CenterResource($center)
+            'data' => new CenterResource($center),
+            'tab' => 'data'
         ]);
     }
 

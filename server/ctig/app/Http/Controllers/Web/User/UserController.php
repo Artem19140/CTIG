@@ -22,8 +22,9 @@ class UserController{
     }
 
     public function index(){
-        return Inertia::render('Employees/Employees', [
-            'employees' => UserResource::collection(User::paginate(10))
+        return Inertia::render('Center/Center', [
+            'employees' => UserResource::collection(User::paginate(10)),
+            'tab' => 'employees'
         ]);
     }
 

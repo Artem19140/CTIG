@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-    title:string
+    title?:string
 }>()
 
 const emit = defineEmits<{
@@ -17,7 +17,7 @@ const emit = defineEmits<{
         <template v-slot:top>
                 <v-toolbar flat>
                     <v-toolbar-title>
-                        {{ title ?? 'Таблица' }}
+                        {{ title ?? '' }}
                         <slot name="toolbar-left"></slot>
                     </v-toolbar-title>
                 

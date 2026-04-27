@@ -62,13 +62,6 @@
             value="center" 
             @click="go(`/centers/${centerId}`)"
           ></v-list-item>
-          <v-list-item 
-            prepend-icon="mdi-account-group" 
-            v-if="can([Roles.ORG_ADMIN])" 
-            title="Сотрудники" 
-            @click="go(`/centers/${centerId}/employees`)"
-            value="employees" 
-            ></v-list-item>
           
         </v-list>
     

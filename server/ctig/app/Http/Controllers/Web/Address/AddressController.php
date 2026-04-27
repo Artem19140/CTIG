@@ -5,13 +5,17 @@ namespace App\Http\Controllers\Web\Address;
 use App\Http\Resources\Address\AddressResource;
 use App\Models\Address;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class AddressController
 {
 
     public function index()
     {
-        return AddressResource::collection(Address::all());
+        return Inertia::render('Center/Center', [
+            'addresses' => AddressResource::collection(Address::all()),
+            'tab' => 'addresses'
+        ]);
     }
 
     public function store(Request $request)

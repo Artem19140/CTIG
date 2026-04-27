@@ -8,41 +8,40 @@ const props = defineProps<{
 
 <template>
     <AppInput 
-                v-model="center.data.name"
-                label="Название"
-            />
+        v-model="center.name"
+        label="Название"
+    />
     <AppInput 
-        v-model="center.data.ogrn"
+        v-model="center.ogrn"
         label="ОГРН"
     />
 
     <AppInput 
-        v-model="center.data.inn"
+        v-model="center.inn"
         label="ИНН"
     />
 
-
     <AppTextarea
-        v-model="center.data.address"
+        v-model="center.address"
         label="Адрес центра"
     />
 
     <AppTextarea
-        v-model="center.data.certificatesIssueAddress"
+        v-model="center.certificatesIssueAddress"
         label="Адрес выдачи сертификатов"
     />
 
     <AppTextarea
-        v-model="center.data.directorFio"
+        v-model="center.directorFio"
         label="Директор"
     />
 
     <AppTextarea
-        v-model="center.data.nameGenitive"
+        v-model="center.nameGenitive"
         label="Название в родительском падеже(для документов)"
     />
     <AppInput 
-        v-model="center.data.timeZone"
+        v-model="center.timeZone"
         label="Временная зона"
     />
     

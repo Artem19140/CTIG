@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\Address\AddressController;
 use App\Http\Controllers\Web\Attempt\AttemptCheckingController;
 use App\Http\Controllers\Web\Enrollment\EnrollmentDocumentController;
 use App\Http\Controllers\Web\Exam\ExamCheckingController;
@@ -91,6 +92,7 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
 
     Route::get('centers/{center}', [CenterController::class, "show"]);
     Route::get('centers/{center}/employees', [UserController::class, "index"]);
+    Route::get('centers/{center}/addresses', [AddressController::class, "index"]);
 
     Route::delete('employees/{user}', [UserController::class, "destroy"]);
     Route::post('employees', [UserController::class, "store"]);

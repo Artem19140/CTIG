@@ -15,7 +15,7 @@ final class CreateExamAction{
         protected ValidateExamForSave $validateExamForSave
     ){}
     public function execute(ExamDto $examDto, User $user){
-        $duration = $this->validateExamForSave->execute($examDto, $user);
+        $duration = $this->validateExamForSave->execute($examDto);
         
         return DB::transaction(function () use ($examDto, $user, $duration) {
             $exam = Exam::create($this->getAttributes($examDto, $user, $duration));

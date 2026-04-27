@@ -8,32 +8,70 @@ use App\Models\Exam;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Log;
-class ValidateExaminers{
-    public function execute(array $examiners, Carbon $examBeginTime, Carbon $examEndTime, int | null $examId = null ){
-        $conflictExams = Exam::whereBeginTimeLess($examEndTime)
-                                ->whereEndTimeMore($examBeginTime)
-                                ->notCancelled()
-                                ->with('examiners', function (BelongsToMany $query)use ($examiners): void{
-                                    $query->whereIn('users.id', $examiners);
-                                })
-                                ->whereHas('examiners', function (Builder $query) use ($examiners): void {
-                                    $query->whereIn('users.id', $examiners);
-                                })
-                                ->when($examId, function (Builder $query) use($examId){
-                                    $query->where('id', '<>', $examId);
-                                })
-                                ->get();
-        $busyExaminers = $conflictExams->pluck('examiners')->flatten();
 
-        if($conflictExams->isNotEmpty()){
-            $names = $busyExaminers->implode('full_name_short', ', ');
-            throw new BusinessException("Выбранные экзаменаторы недоступны в указанное время: $names");
+class ValidateExaminers{
+    public function execute(array $examinersIds, Carbon $beginTime, Carbon $endTime, int | null $examId = null ){
+
+        $parralellExaminersExams = $this->getParralellExaminersExams($beginTime, $endTime, $examinersIds, $examId);
+
+        $examiners = User::with('roles')->whereIn('id', $examinersIds)->get();
+
+        $this->ensureNoBusyExaminers($parralellExaminersExams, $examiners);
+
+        $this->ensureAllExaminersActive($examiners);
+
+        $this->ensureAllHasRoleExaminer($examiners);
+    }
+
+    protected function getParralellExaminersExams(
+        Carbon $beginTime, 
+        Carbon $endTime, 
+        array $examiners, 
+        int | null $examId = null
+    ):Collection{
+        return Exam::whereBeginTimeLess($endTime)
+            ->whereEndTimeMore($beginTime)
+            ->notCancelled()
+            ->with('examiners', function (BelongsToMany $query)use ($examiners): void{
+                $query->whereIn('users.id', $examiners);
+            })
+            ->whereHas('examiners', function (Builder $query) use ($examiners): void {
+                $query->whereIn('users.id', $examiners);
+            })
+            ->when($examId, function (Builder $query) use($examId){
+                $query->where('id', '<>', $examId);
+            })
+            ->get();
+    }
+
+    protected function ensureNoBusyExaminers(Collection $parallelExaminersExams, Collection $examiners): void{
+        $busyExaminers = $parallelExaminersExams
+            ->pluck('examiners')
+            ->flatten()
+            ->unique('id');
+
+        $busyExaminersIds = $busyExaminers->pluck('id');
+
+        $examinerIds = $examiners->pluck('id');
+
+        $intersection = $busyExaminersIds->intersect($examinerIds);
+
+        if ($intersection->isEmpty()) {
+            return;
         }
 
-        $examiners = User::with('roles')->whereIn('id', $examiners)->get();
+        $names = $busyExaminers
+            ->whereIn('id', $intersection)
+            ->implode('full_name_short', ', ');
 
+        throw new BusinessException(
+            "Выбранные экзаменаторы недоступны в указанное время: $names"
+        );
+    }
+
+    protected function ensureAllExaminersActive(Collection $examiners):void{
         $notActive = $examiners->filter(function($examiner){
             return !$examiner->is_active;
         });
@@ -42,20 +80,16 @@ class ValidateExaminers{
             $names = $notActive->implode('full_name', ', ');
             throw new BusinessException("$names уже не работает(-ют) в организации");
         }
+    }
 
-        $noExaminerRole = $examiners->filter(function($examiner){
+    protected function ensureAllHasRoleExaminer(Collection $examiners):void{
+        $noRoleExaminer = $examiners->filter(function($examiner){
             return !$examiner->hasRole(UserRoles::Examiner->value);
         });
 
-        if($noExaminerRole->isNotEmpty()){
-            $names = $noExaminerRole->implode('full_name', ', ');
+        if($noRoleExaminer->isNotEmpty()){
+            $names = $noRoleExaminer->implode('full_name', ', ');
             throw new BusinessException("$names не имеет(-ют) роли экзаменатора");
-        }
-
-        foreach($examiners as $examiner){
-            if(!$examiner->is_active){
-                throw new BusinessException("$examiner->full_name уже не работает(-ют) в организации");
-            }
         }
     }
 }

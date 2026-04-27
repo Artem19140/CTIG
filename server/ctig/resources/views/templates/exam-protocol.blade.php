@@ -84,7 +84,7 @@ td {
     min-width: 30px;
 }
 .prebox {
-    white-space: pre;      /* сохраняет переносы и пробелы */
+    white-space: pre;   
 }
 </style>
 </head>
@@ -111,7 +111,7 @@ td {
             <td class="label">Дата проведения экзамена:</td>
             <td class="value">
                 <span class="underline" style="text-align: center;">
-                    {{ \Carbon\Carbon::parse($exam->begin_time)->format('d.m.Y') }}
+                    {{ \Carbon\Carbon::parse($exam->begin_time_local)->format('d.m.Y') }}
                 </span>
             </td>
         </tr>
@@ -176,9 +176,9 @@ td {
     Лица, принимающие экзамен:
     @foreach($exam->examiners as $examiner)
         @include('templates.components.signature-section', [
-                    'date' =>  \Carbon\Carbon::now()->format('d.m.Y'), 
-                    'fio' => $examiner->full_name, 
-                ])
+            'date' =>  \Carbon\Carbon::now()->format('d.m.Y'), 
+            'fio' => $examiner->full_name, 
+        ])
     @endforeach
 
 </div>

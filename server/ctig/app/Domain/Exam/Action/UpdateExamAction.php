@@ -6,7 +6,6 @@ use App\Domain\Exam\Guard\ExamGuard;
 use App\Domain\Exam\Rules\ValidateExamForSave;
 use App\Http\Dto\ExamDto;
 use App\Models\Exam;
-use App\Models\User;
 use DB;
 use Illuminate\Validation\ValidationException;
 
@@ -16,12 +15,12 @@ final class UpdateExamAction{
         protected ExamGuard $examGuard,
         protected ValidateExamForSave $validateExamForSave
     ){}
-    public function execute(Exam $exam, ExamDto $examDto, User $user){
+    public function execute(Exam $exam, ExamDto $examDto){
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureNotGoing($exam);
         $this->examGuard->ensureNotFinished($exam);
 
-        $this->validateExamForSave->execute($examDto, $user, $exam->id);
+        $this->validateExamForSave->execute($examDto, $exam->id);
         
         $exam = DB::transaction(function () use ($examDto, $exam) {
             $exam->update(

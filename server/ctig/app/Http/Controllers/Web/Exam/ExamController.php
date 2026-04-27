@@ -76,7 +76,7 @@ class ExamController
         Exam $exam, 
         UpdateExamAction $updateExam
     ){   
-        $updateExam->execute($exam, $request->getDto(), $request->user());
+        $updateExam->execute($exam, $request->getDto());
         return response()->json(['exam' => new ExamResource($exam)]);
     }
 

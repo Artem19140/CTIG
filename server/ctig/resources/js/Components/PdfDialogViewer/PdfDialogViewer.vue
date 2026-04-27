@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import AppProgressCircular from '../UI/AppProgressCircular/AppProgressCircular.vue';
 
 const props = defineProps<{
   url: string
@@ -48,12 +49,11 @@ watch(() => props.url, () => {
         />
       </div>
 
-      <!-- loader -->
       <div v-if="isLoading" class="flex-grow-1 d-flex align-center justify-center">
-        <v-progress-circular indeterminate size="32" color="white" />
+        <AppProgressCircular />
       </div>
 
-      <!-- pdf -->
+
       <iframe
         v-show="!isLoading"
         class="flex-grow-1 border-0"

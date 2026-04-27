@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import AppProgressCircular from '@/components/UI/AppProgressCircular/AppProgressCircular.vue';
+
 
 const props = defineProps<{
     title?:string,
@@ -35,11 +37,7 @@ const close = () => {
                 <slot />
             </v-card-text>
             <v-card-text v-else class="d-flex flex-column align-center justify-center flex-grow-1 ">
-                <v-progress-circular 
-                    indeterminate 
-                    size="80"
-                    width="5"
-                    />
+                <AppProgressCircular size="80" />
                 <div class="mt-4 text-subtitle-2 text-medium-emphasis">
                     Загрузка...
                 </div>

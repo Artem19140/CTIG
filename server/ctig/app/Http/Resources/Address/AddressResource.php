@@ -19,7 +19,8 @@ class AddressResource extends JsonResource
             'address' => $this->address,
             'creator' => (new UserResource($this->whenLoaded('creator'))),
             'id' => $this->id,
-            'maxCapcity' => $this->max_capacity
+            'maxCapcity' => $this->max_capacity,
+            'examsExists' => $this->examsExists ?? null
         ];
     }
 }

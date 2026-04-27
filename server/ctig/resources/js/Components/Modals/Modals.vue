@@ -16,6 +16,7 @@ import ForeignNationalShowModal from '@pages/ForeignNationals/Components/Modals/
 import ForeignNationalExportModal from '@pages/ForeignNationals/Components/ForeignNationalTable/ForeignNationalExportModal.vue';
 import StatisticsModal from '@pages/ForeignNationals/Components/ForeignNationalTable/StatisticsModal.vue';
 import SpeakingTasksModal from '@/pages/ExamMonitoring/SpeakingTasksModal.vue';
+import AddressCreateModal from '@/pages/Center/Components/Addresses/AddressCreateModal.vue';
 
 const {modals, close} = useModals()
 
@@ -53,6 +54,8 @@ const modalComponent = (name: string) => {
             return StatisticsModal
         case 'speaking':
             return SpeakingTasksModal
+        case 'addressCreate':
+            return AddressCreateModal
     }
 }
 

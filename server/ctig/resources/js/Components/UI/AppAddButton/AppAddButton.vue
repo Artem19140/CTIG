@@ -12,6 +12,6 @@ const props = defineProps<{
         rounded="lg"
         border
     >
-        {{ text }}
+        {{ text ?? 'Добавить'}}
     </v-btn>
 </template>

@@ -1,38 +1,42 @@
 <script setup lang="ts">
 import { Address } from '@/interfaces/Interfaces';
-import { useConfirmationOptionsDialog } from '@/composables/useConfirmationOptionsDialog';
+import { ref, watch } from 'vue';
+import AppAddButton from '@/components/UI/AppAddButton/AppAddButton.vue';
+import { useModals } from '@/composables/useModals';
+import AddressCard from './AddressCard.vue';
+
 
 const props = defineProps<{
     addresses:Address[]
 }>()
+watch(() => props.addresses, (value) => {
+    addresses.value = value
+})
 
-const toggleAddressActivity = async (address : Address) => {
-    const {open} = useConfirmationOptionsDialog()
-    const message = address.isActive ?  'Активировать адрес' : 'Деактивировать адрес' 
-    const ok = await open(message)
-    if(!ok) return
-    alert('Тут будет смена статуса адреса')
+const addresses = ref<Address[]>(props.addresses)
+addresses.value.map(v => v.loading = false)
+
+const add = () => {
+    const {open} = useModals()
+    open('addressCreate')
 }
 </script>
 
 <template>
     <v-toolbar>
-
+        <v-spacer />
+        <div>
+            <AppAddButton 
+                @click="add"
+            />
+        </div>
     </v-toolbar>
-    <div class="mt-4 p-4">
-        <v-card v-for="address in addresses" :key="address.id" class="mb-10">
-            <v-card-title>{{ address.address }}</v-card-title>
-            <v-card-text>
-                {{ address.address }}
-            </v-card-text>
-            <v-card-actions>
-                <v-btn 
-                    :color="address.isActive ? 'green' : 'red'"
-                    @click="() => toggleAddressActivity(address)"
-                >
-                    {{address.isActive ?  'Активировать' : 'Деактивировать' }}
-                </v-btn>
-            </v-card-actions>
-        </v-card>
+    
+    <div class="mt-4 p-4" >
+        <AddressCard 
+            v-for="address in addresses" 
+            :key="address.id"
+            :address="address"
+        />
     </div>
 </template>

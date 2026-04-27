@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import AppProgressCircular from '@/components/UI/AppProgressCircular/AppProgressCircular.vue';
+
 
 const isOpen = defineModel<boolean>()
 const emit = defineEmits<{ (e: 'beforeClose', done: ()=>void) :void} >()
@@ -53,12 +55,7 @@ const close = () => {
 
             <v-container class="fill-height d-flex align-center justify-center" v-if="!skeleton && loading">
                 <div class="text-center">
-                <v-progress-circular
-                    indeterminate
-                    color="primary"
-                    size="56"
-                    width="5"
-                />
+                <AppProgressCircular size="56" width="5" />
                 <div class="mt-4">Загрузка</div>
                 </div>
             </v-container>

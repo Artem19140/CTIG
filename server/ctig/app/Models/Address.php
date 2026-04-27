@@ -18,7 +18,9 @@ class Address extends Model
     protected $fillable = [
         'is_active',
         'address',
-        'center_id'
+        'center_id',
+        'max_capacity',
+        //'creator_id'
     ];
 
     protected $casts = [

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppAutocomplete from '@/components/UI/AppAutocomplete/AppAutocomplete.vue';
+import AppProgressCircular from '@/components/UI/AppProgressCircular/AppProgressCircular.vue';
 import { Task } from '@/interfaces/Task';
 import { useHttp } from '@inertiajs/vue3';
 import { computed, onMounted, ref, watch } from 'vue';
@@ -61,12 +62,7 @@ onMounted(() => {
         />
 
         <div class="d-flex align-center ga-2" v-if="loading">
-            <v-progress-circular
-                indeterminate
-                size="18"
-                width="2"
-                color="primary"
-            />
+            <AppProgressCircular size="18" width="2" />
             <span>Сохранение...</span>
         </div>
         

@@ -125,7 +125,7 @@ td {
             <td>Начало экзамена:</td>
             <td>
                 <span class="underline" style="text-align: center;">
-                    {{ \Carbon\Carbon::parse($exam->begin_time_real)->format('H:i') }}
+                    {{ $beginTimeReal?->format('H:i') ?? 'Ашибка'}}
                 </span>
             </td>
         </tr>
@@ -134,7 +134,7 @@ td {
             <td>Окончание экзамена:</td>
             <td>
                 <div class="underline" style="text-align: center;">
-                    {{ \Carbon\Carbon::parse($exam->end_time)->format('H:i') }}
+                    {{ $endTimeReal?->format('H:i') ?? 'Ашибка' }}
                 </div>
             </td>
         </tr>

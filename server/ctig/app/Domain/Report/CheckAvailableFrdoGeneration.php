@@ -17,8 +17,8 @@ class CheckAvailableFrdoGeneration{
 
     protected function ensureAttemptsExists(Carbon $examDate):void{
         $attemptsExists = Attempt::whereCreatedAtMore($examDate->copy()->startOfDay())
-                            ->whereCreatedAtLess($examDate->copy()->endOfDay())
-                            ->exists();
+            ->whereCreatedAtLess($examDate->copy()->endOfDay())
+            ->exists();
 
         if(!$attemptsExists){
             $formattedDate = $examDate->copy()->format('d.m.Y');
@@ -27,10 +27,10 @@ class CheckAvailableFrdoGeneration{
 
     }
     protected function ensureAllAttemptsChecked(Carbon $examDate):void{
-         $uncheckedAttempts = Attempt::whereCreatedAtMore($examDate->copy()->startOfDay())
-                    ->whereCreatedAtLess($examDate->copy()->endOfDay())
-                    ->whereIn('status', AttemptStatus::unChecked())
-                    ->exists();
+        $uncheckedAttempts = Attempt::whereCreatedAtMore($examDate->copy()->startOfDay())
+            ->whereCreatedAtLess($examDate->copy()->endOfDay())
+            ->whereIn('status', AttemptStatus::unChecked())
+            ->exists();
 
         if($uncheckedAttempts){
             $formattedDate = $examDate->copy()->format('d.m.Y');

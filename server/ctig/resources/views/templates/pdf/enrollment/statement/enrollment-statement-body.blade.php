@@ -63,15 +63,20 @@
         </td>
     </tr>
     <tr>
-        <td colspan="2">Дополнительная информация (например, лицо с ограниченными возможностями здоровья): <span class="data">{{ $enrollment->foreignNational->comment }}</span></td>
+        <td colspan="2">
+            Дополнительная информация (например, лицо с ограниченными возможностями здоровья): 
+            <span class="data">
+                {{ $enrollment->foreignNational->comment }}
+            </span>
+        </td>
     </tr>
     <tr>
         <td colspan="2">
             ДОСТОВЕРНОСТЬ ПРЕДОСТАВЛЕННЫХ СВЕДЕНИЙ ПОДТВЕРЖДАЮ<br>
             @include('templates.components.signature-section', [
-                                                                'date' =>  $enrollment->exam->begin_time->format('d.m.Y'), 
-                                                                'fio' => $enrollment->foreignNational->full_name, 
-                                                            ])
+                'date' =>  $enrollment->exam->begin_time_local->format('d.m.Y'), 
+                'fio' => $enrollment->foreignNational->full_name, 
+            ])
             <p class="small" style="margin-bottom: 0; font-style: italic;">Согласие на использование средств видеофиксации.</p> 
             <p class="small" style="margin-top: 0;">Настоящим   даю   согласие  {{$enrollment->center->name_genitive}}
                 (ИНН {{$enrollment->center->inn}} , ОГРН {{$enrollment->center->ogrn}}), 
@@ -81,9 +86,9 @@
                 Проинформирован об использовании средств видеофиксации и хранении материаловпри проведении экзамена.
             </p>
             @include('templates.components.signature-section', [
-                                                                'date' =>  $enrollment->exam->begin_time->format('d.m.Y'), 
-                                                                'fio' => $enrollment->foreignNational->full_name, 
-                                                            ])
+                'date' =>  $enrollment->exam->begin_time->format('d.m.Y'), 
+                'fio' => $enrollment->foreignNational->full_name, 
+            ])
         </td>
     </tr>
 </table>
@@ -91,10 +96,10 @@
 <div class="page-break"></div>
 
 @include('templates.components.labeled-field', [
-                                                'value' => $enrollment->foreignNational->full_name, 
-                                                'label' => 'Я,' , 
-                                                'underline' => '(указать полностью ФИО)'
-                                            ])
+    'value' => $enrollment->foreignNational->full_name, 
+    'label' => 'Я,' , 
+    'underline' => '(указать полностью ФИО)'
+])
 
 <p>настоящим подтверждаю, что с условиями публичного договора-оферты возмездного оказания услуг ознакомлен(а) и согласен(а). Необходимый пакет документов для оказания услуги прилагается:</p>
 
@@ -105,20 +110,20 @@
 </ul>
 Заказчик:
 @include('templates.components.signature-section', [
-                                                    'date' =>  $enrollment->exam->begin_time->format('d.m.Y'), 
-                                                    'fio' => $enrollment->foreignNational->full_name, 
-                                                ])
+    'date' =>  $enrollment->exam->begin_time->format('d.m.Y'), 
+    'fio' => $enrollment->foreignNational->full_name, 
+])
 Исполнитель:
 @include('templates.components.signature-section', [
-                                                    'date' =>  $enrollment->exam->begin_time->format('d.m.Y'), 
-                                                    'fio' =>  $enrollment->creator->full_name, 
-                                                ])
+    'date' =>  $enrollment->exam->begin_time->format('d.m.Y'), 
+    'fio' =>  $enrollment->creator->full_name, 
+])
 <p>Услуга оказана в полном объеме. Претензий к оказанию Услуги не имею.</p>
 <br><br>
 <div style="border: 1px #000 solid; padding: 5px;">
     <p>
-        Дата экзамена: <span class="data">{{ $enrollment->exam->begin_time->format('d.m.Y') }}</span><br>
-        Время экзамена: <span class="data">{{ $enrollment->exam->begin_time->format('H:i')}}</span><br>
+        Дата экзамена: <span class="data">{{ $enrollment->exam->begin_time_local->format('d.m.Y') }}</span><br>
+        Время экзамена: <span class="data">{{ $enrollment->exam->begin_time_local->format('H:i')}}</span><br>
         Адрес проведения экзамена: <span class="data">{{ $enrollment->exam->address->address }}</span>
     </p>
 </div>

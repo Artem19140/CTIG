@@ -13,7 +13,7 @@ const props = defineProps<{
     }
 }>()
 
-const {examAttempt} = useExamAttempt()
+const {examAttempt, audioPlaying} = useExamAttempt()
 
 examAttempt.value = props.attempt.data
 
@@ -45,6 +45,7 @@ const finish = async () => {
 
     </template>
     <v-container class="flex flex-column gap-10 items-center">
+        {{ audioPlaying }}
         <TasksList :attempt="attempt.data" />
         <v-btn
             @click="finish"

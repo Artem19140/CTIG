@@ -45,9 +45,8 @@ class ForeignNationalCreateTest extends TestCase
         Carbon::setTestNow(now());
 
         $this->exam = Exam::create([
-            'begin_time' => Carbon::now($this->user->center->time_zone)->addDay(),
-            'end_time' => Carbon::now($this->user->center->time_zone)->addDay()->addMinutes(ExamType::inRandomOrder()->first()->duration),
-            'begin_time_utc' => Carbon::now()->addDay(),
+            'begin_time' => Carbon::now()->addDay(),
+            'end_time' => Carbon::now()->addDay()->addMinutes(ExamType::inRandomOrder()->first()->duration),
             'exam_type_id' => ExamType::inRandomOrder()->first()->id,
             'creator_id' => $this->user->id,
             'capacity'=>$this->address->max_capacity,

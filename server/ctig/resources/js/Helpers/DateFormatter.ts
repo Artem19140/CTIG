@@ -1,23 +1,29 @@
-export class DateFormatter{
-    protected date:Date
-    constructor(date: string){
-        this.date = new Date(date)
-    }
-    format(fmt:string) {
-        if (isNaN(this.date.getTime())) {
-            return '';
-        }
-        const pad = (n:number) => String(n).padStart(2, '0');
+export class DateFormatter {
+  protected raw: string;
 
-        const map = {
-            'H': pad(this.date.getUTCHours()),
-            'i': pad(this.date.getUTCMinutes()),
-            's': pad(this.date.getUTCSeconds()),
-            'd': pad(this.date.getUTCDate()),
-            'm': pad(this.date.getUTCMonth() + 1),
-            'Y': this.date.getUTCFullYear(),
-        };
+  constructor(date: string) {
+    this.raw = date;
+  }
 
-        return fmt.replace(/H|i|s|d|m|Y/g, (match) => map[match as keyof typeof map].toString());
-    }
+  format(fmt: string) {
+    const pad = (n: number) => String(n).padStart(2, '0');
+
+    const [datePart, timePart] = this.raw.split('T');
+
+    if (!datePart || !timePart) return '';
+
+    const [Y, M, D] = datePart.split('-');
+    const [H, i, s] = timePart.replace(/Z|[+-].*$/, '').split(':');
+
+    const map = {
+      H: pad(Number(H)),
+      i: pad(Number(i)),
+      s: pad(Number(s)),
+      d: D,
+      m: M,
+      Y: Y,
+    };
+
+    return fmt.replace(/H|i|s|d|m|Y/g, (m) => map[m as keyof typeof map]);
+  }
 }

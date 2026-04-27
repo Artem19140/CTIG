@@ -17,9 +17,9 @@ class StartAttemptAction{
         $this->attemptGuard->ensureNotStarted($attempt, 'Попытку можно начать только если она ещё не активна');
 
         return DB::transaction(function () use($attempt) {
-            $now =  Carbon::now($attempt->time_zone);
+            $now =  Carbon::now();
             $attempt->started_at = $now;
-            $attempt->expired_at = $now->addMinutes($attempt->exam->duration);
+            $attempt->expired_at = $now->copy()->addMinutes($attempt->exam->duration);
             $attempt->last_activity_at = $now;
             $attempt->status=AttemptStatus::Active;
             $attempt->save();

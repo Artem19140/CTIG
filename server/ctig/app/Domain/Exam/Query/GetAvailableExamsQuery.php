@@ -12,11 +12,12 @@ use Illuminate\Support\Facades\DB;
 class GetAvailableExamsQuery{
     public function execute(int  $examTypeId, int | null $foreignNationalId):Collection{
         $enrollmentCloseBeforeMinutes = Enrollment::CLOSE_BEFORE_START_MINUTES;
-        $exams = Exam::select('id', 'begin_time')
+        $exams = Exam::select('id', 'begin_time', 'center_id')
                     ->withCount('foreignNationals')
+                    ->with(['center'])
                     ->where('exam_type_id',$examTypeId)
                     ->notCancelled()
-                    ->where('begin_time_utc', '>', Carbon::now()->addMinutes($enrollmentCloseBeforeMinutes))
+                    ->whereBeginTimeMore(Carbon::now()->addMinutes($enrollmentCloseBeforeMinutes))
                     ->when($foreignNationalId, function (Builder $query) use ($foreignNationalId){
                         $query->whereDoesntHave('foreignNationals', function (Builder $q) use($foreignNationalId){
                             $q->where('foreign_national_id',$foreignNationalId);

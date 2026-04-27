@@ -28,7 +28,6 @@ class ExamFactory extends Factory
         return [
             'begin_time' => fake()->dateTimeBetween('-30 days', '+30 days')->format('Y-m-d'),
             'end_time' => fake()->dateTimeBetween('-30 days', '+30 days')->format('Y-m-d'),
-            'begin_time_utc' => fake()->dateTimeBetween('-30 days', '+30 days')->format('Y-m-d'),
             'exam_type_id' => ExamType::factory(),
             'creator_id' => User::factory(),
             'capacity'=>fake()->numberBetween(5, 20),
@@ -40,7 +39,7 @@ class ExamFactory extends Factory
     public function inFuture(){
         return $this->state(function(){
             return[
-                'begin_time_utc' => Carbon::now()->addMinutes(10),
+                'begin_time' => Carbon::now()->addMinutes(10),
             ];
         });
     }
@@ -48,7 +47,7 @@ class ExamFactory extends Factory
     public function now(){
         return $this->state(function(){
             return[
-                'begin_time_utc' => Carbon::now()->subMinutes(10),
+                'begin_time' => Carbon::now()->subMinutes(10),
             ];
         });
     }
@@ -56,7 +55,7 @@ class ExamFactory extends Factory
     public function inPast(int $duration = 90){
         return $this->state(function() use($duration){
             return[
-                'begin_time_utc' => Carbon::now()->subMinutes(
+                'begin_time' => Carbon::now()->subMinutes(
                     $duration + 10
                 ),
             ];

@@ -46,7 +46,7 @@ class RateAttemptAnswerAction{
         User $user
     ):void{
         $attemptAnswer->mark = $mark;
-        $attemptAnswer->checked_at = Carbon::now($attempt->time_zone);
+        $attemptAnswer->checked_at = Carbon::now();
         $attemptAnswer->checked_by_id = $user->id;
         $attemptAnswer->save();
     }

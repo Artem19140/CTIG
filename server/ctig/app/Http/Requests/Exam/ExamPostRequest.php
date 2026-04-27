@@ -18,55 +18,51 @@ class ExamPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'time'=>
-                    [
-                        'required',
-                        'date_format:H:i',
-                        //Rule::date()->afterOrEqual(Carbon::now($this->user()->time_zone))
-                    ],
-            'date'=>
-                    [
-                        'required',
-                        'date',
-                        Rule::date()->afterOrEqual(Carbon::now($this->user()->time_zone))
-                    ],
-            'addressId'=>
-                    [
-                        'required',
-                        'integer', 
-                        'min:1',
-                        'exists:addresses,id'
-                    ], 
+            'time'=>[
+                'required',
+                'date_format:H:i',
+            ],
+            'date'=>[
+                'required',
+                'date',
+                Rule::date()->afterOrEqual(Carbon::now())
+            ],
+            'addressId'=> [
+                'required',
+                'integer', 
+                'min:1',
+                'exists:addresses,id'
+            ], 
 
             'examTypeId' => [
-                        'required',
-                        'integer',
-                        'min:1',
-                        'exists:exam_types,id'
-                    ],
+                'required',
+                'integer',
+                'min:1',
+                'exists:exam_types,id'
+            ],
 
             'comment' => [
-                        'nullable',
-                        'string',
-                        'max:256'
-                    ],
+                'nullable',
+                'string',
+                'max:256'
+            ],
             'capacity' => [
-                        'required',
-                        'integer',
-                        'min:1'
-                    ],
+                'required',
+                'integer',
+                'min:1'
+            ],
 
             'examiners' => [
-                        'required',
-                        'array',
-                    ],
+                'required',
+                'array',
+            ],
 
             'examiners.*' => [
-                        'required',
-                        'integer',
-                        'min:1',
-                        'exists:users,id',
-                    ],
+                'required',
+                'integer',
+                'min:1',
+                'exists:users,id',
+            ],
         ];
     }
 
@@ -85,13 +81,12 @@ class ExamPostRequest extends FormRequest
 
    public function getDto(): ExamDto{
         return new ExamDto(
-            Carbon::createFromFormat('Y-m-d H:i',$this->input('date'). ' ' . $this->input('time'), request()->user()->center->time_zone),
+            Carbon::createFromFormat('Y-m-d H:i',$this->input('date'). ' ' . $this->input('time'), request()->user()->time_zone)->utc(),
             \intval($this->input('addressId')),
             \intval($this->input('examTypeId')),
             \strval($this->input('comment')),
             $this->input('examiners'),
             \intval($this->input('capacity')),
-            
         );
    }
 

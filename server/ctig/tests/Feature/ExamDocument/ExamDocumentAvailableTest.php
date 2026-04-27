@@ -44,7 +44,7 @@ class ExamDocumentAvailableTest extends TestCase
     public function test_codes_calls_guards_once(): void
     {
         $exam = Exam::factory()
-            ->has(Enrollment::factory())
+            ->has(Enrollment::factory(8))
             ->inFuture()
             ->create();
 
@@ -70,7 +70,7 @@ class ExamDocumentAvailableTest extends TestCase
     public function test_list_calls_guards_once(): void
     {
         $exam = Exam::factory()
-            ->has(Enrollment::factory())
+            ->has(Enrollment::factory(8))
             ->inFuture()
             ->create();
 
@@ -88,7 +88,7 @@ class ExamDocumentAvailableTest extends TestCase
     public function test_list_protocol_guards_once(): void
     {
         $exam = Exam::factory()
-            ->has(Enrollment::factory())
+            ->has(Enrollment::factory(8))
             ->inFuture()
             ->create();
 
@@ -114,7 +114,7 @@ class ExamDocumentAvailableTest extends TestCase
     public function test_list_results_guards_once(): void
     {
         $exam = Exam::factory()
-            ->has(Enrollment::factory())
+            ->has(Enrollment::factory(8))
             ->inFuture()
             ->create();
 

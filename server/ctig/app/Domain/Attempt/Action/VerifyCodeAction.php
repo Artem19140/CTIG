@@ -11,7 +11,7 @@ class VerifyCodeAction{
 
     public function execute(string $code):Enrollment{
         $enrollment = Enrollment::where('exam_code', $code)
-                        ->first();
+            ->first();
                 
         if(!$enrollment){
             throw ValidationException::withMessages([
@@ -31,7 +31,7 @@ class VerifyCodeAction{
         }
 
         $enrollment->exam_code = null;
-        $enrollment->exam_code_used_at = Carbon::now($enrollment->time_zone);
+        $enrollment->exam_code_used_at = Carbon::now();
         $enrollment->save();
 
        return $enrollment;

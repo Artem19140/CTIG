@@ -17,7 +17,7 @@ class BanAttemptAction{
         $attempt->ban_reason = $banReason;
         $attempt->ban_by_id = $banById;
         $attempt->status = AttemptStatus::Banned;
-        $attempt->banned_at = Carbon::now($attempt->time_zone);
+        $attempt->banned_at = Carbon::now();
         
         $attempt->save();
     }

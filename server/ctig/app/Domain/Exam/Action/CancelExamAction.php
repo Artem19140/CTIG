@@ -16,7 +16,7 @@ class CancelExamAction{
         $this->examGuard->ensureNotGoing($exam);
         
         $exam->cancelled_reason = request()->input('cancelledReason');
-        $exam->cancelled_at = Carbon::now($exam->time_zone);
+        $exam->cancelled_at = Carbon::now();
         $exam->save();
     }
 }

@@ -32,15 +32,15 @@ final class ExamCodesGenerator{
                 continue;
             }
             
-            $this->generateAndSaveUniqueCode($enrollment);
+            $this->generateAndSaveUniqueCode($enrollment, $exam);
 
         }
     }
 
-    protected function generateAndSaveUniqueCode(Enrollment $enrollment){
+    protected function generateAndSaveUniqueCode(Enrollment $enrollment, Exam $exam){
         while (true) {
             try {
-                $this->saveCode($enrollment, $this->generateCode());
+                $this->saveCode($enrollment, $this->generateCode(), $exam);
                 return;
             } catch (QueryException $e) {
                 if ($e->getCode() !== '23505') {
@@ -61,9 +61,9 @@ final class ExamCodesGenerator{
         return $code;
     }
 
-    protected function saveCode(Enrollment $enrollment, string $code):void{
+    protected function saveCode(Enrollment $enrollment, string $code, Exam $exam):void{
         $enrollment->exam_code = $code;
-        $enrollment->exam_code_expired_at = $enrollment->exam->begin_time->copy()->addMinutes(Exam::CODES_TTL);
+        $enrollment->exam_code_expired_at = $exam->begin_time->copy()->addMinutes(Exam::CODES_TTL);
         $enrollment->save();
     }
 }

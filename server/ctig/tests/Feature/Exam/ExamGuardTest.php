@@ -46,7 +46,7 @@ class ExamGuardTest extends TestCase
     {
         
         $exam = $this->createExam([
-            'begin_time_utc' => Carbon::now()->addMinutes($this->duration - 1)
+            'begin_time' => Carbon::now()->addMinutes($this->duration - 1)
         ]);
         $this->action->ensureNotFinished($exam);
         $this->assertTrue(true);

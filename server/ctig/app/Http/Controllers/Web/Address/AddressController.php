@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Web\Address;
 use App\Http\Resources\Address\AddressResource;
 use App\Models\Address;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class AddressController
 {

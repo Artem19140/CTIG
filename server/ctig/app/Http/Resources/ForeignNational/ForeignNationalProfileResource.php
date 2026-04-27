@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\ForeignNational;
 
-use App\Http\Resources\Attempt\AttemptResource;
 use App\Http\Resources\Enrollment\EnrollmentResource;
 use App\Http\Resources\Exam\ExamResource;
 use App\Http\Resources\User\UserResource;

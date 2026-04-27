@@ -42,7 +42,7 @@ final class CreateEnrollmentAction{
         $this->examGuard->ensureNotFinished($exam);
         $this->examGuard->ensureNotGoing($exam);
         $closeBeforeMinutes = Enrollment::CLOSE_BEFORE_START_MINUTES;
-        $enrollmentEnded = Carbon::now()->greaterThan($exam->begin_time_utc->subMinutes($closeBeforeMinutes));
+        $enrollmentEnded = Carbon::now()->greaterThan($exam->begin_time->subMinutes($closeBeforeMinutes));
         if($enrollmentEnded){
             throw new BusinessException("Запись закрывается за $closeBeforeMinutes минут до начала экзамена");
         }

@@ -3,12 +3,11 @@
 namespace App\Domain\Exam\Query;
 
 use App\Models\Exam;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\Paginator;
 
 class GetExamsQuery{
-    public function execute(array $data, User $user):Paginator
+    public function execute(array $data):Paginator
     {
         $examTypeId = $data['examTypeId'] ?? false;
         $dateFrom = $data['dateFrom'] ?? false;
@@ -18,7 +17,7 @@ class GetExamsQuery{
         $finished = $data['finished'] ?? false;
         $perPage = $data['perPage'] ?? 10;
 
-        $query = Exam::with(['type'])
+        $query = Exam::with(['type', 'center'])
             ->withCount(['enrollments']);
 
         $query->when($examTypeId, fn ($q) =>
@@ -38,12 +37,12 @@ class GetExamsQuery{
         );
 
         $query->when($finished, fn ($q) =>
-            $q->where('end_time', '<=', Carbon::now($user->time_zone))//timeZone
+            $q->where('end_time', '<=', Carbon::now())
         );
 
         $cancelled ? $query->Cancelled() : $query->notCancelled();
 
-        $now = Carbon::now($user->time_zone);
+        $now = Carbon::now();
         $query->sorting($now);
 
         return $query->simplePaginate($perPage)

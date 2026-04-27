@@ -10,7 +10,6 @@ import { useConfirmDialog } from '@composables/useConfirmDialog';
 const props = defineProps<{
     foreignNational: ForeignNational | null,
     examTypeId?:number | null,
-    onEnroll:(enrollment:Enrollment) => void
 }>()
 
 const isOpen = defineModel<boolean>()
@@ -20,8 +19,7 @@ const enroll = async () => {
     {
         onSuccess: (response:any) => {
             if(response.redirectUrl){
-                isOpen.value=false
-                props.onEnroll(response.enrollment)
+                isOpen.value = false
                 window.open(String(response.redirectUrl))
                 http.resetAndClearErrors()
             }

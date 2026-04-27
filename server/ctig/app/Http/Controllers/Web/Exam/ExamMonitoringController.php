@@ -16,17 +16,17 @@ class ExamMonitoringController
     public function index(Request $request){
         $user = $request->user();
         $past = $request->boolean('past');
-        $exams = Exam::with(['type'])
+        $exams = Exam::with(['type', 'center'])
             ->whereHas('examiners', function(Builder $query) use($user){
                 $query->where('examiner_id', $user->id);
             })
             ->withCount(['enrollments'])
-            ->with(['examiners', 'address']) //Убрать
-            ->when($past, function (Builder $query) use($request){
-                $query->where('end_time', '<', now($request->user()->center->time_zone));
+            //->with(['examiners', 'address']) //Убрать
+            ->when($past, function (Builder $query){
+                $query->whereEndTimeLess(now());
             })
-            ->when(!$past, function (Builder $query) use($request){
-                $query->where('end_time', '>', now($request->user()->center->time_zone)->subMinutes(30));
+            ->when(!$past, function (Builder $query){
+                $query->whereEndTimeMore(now()->subMinutes(30));;
             })
             ->notCancelled()
             ->sorting(Carbon::now($user->time_zone))

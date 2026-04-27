@@ -49,7 +49,7 @@ class Attempt extends Model
     ];
 
     public function isExpired(): bool{
-        return $this->expired_at->gte(Carbon::now($this->time_zone));
+        return Carbon::now($this->time_zone)->gte($this->expired_at);
     }
     
     public function finish(): void{

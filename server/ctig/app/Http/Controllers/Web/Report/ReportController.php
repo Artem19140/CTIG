@@ -63,13 +63,12 @@ class ReportController
         $dateTo = Carbon::parse($request->validated('dateTo'));
         $fileName =  "Плоская_таблица". "_". $dateFrom->format('d.m.Y') . "_" . $dateTo->format('d.m.Y') . ".csv";
         return response()->streamDownload(function () use ($flatTableGenerator, $dateFrom, $dateTo) {
-            
             $flatTableGenerator->execute( 
                 $dateFrom, 
                 $dateTo
             );
- 
-        },$fileName,
+        },
+        $fileName,
         [
             'Content-Type' => 'text/csv; charset=UTF-8',
         ]);  

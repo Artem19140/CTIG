@@ -42,13 +42,13 @@ const isCancellationDisabled  = isFinished.value || isCancelled.value || isGoing
 <template>
     
     <BaseThreeDotDropdown>
-        <AppListDropDownItem 
-            title="Заявление" 
-            @click="() => download('statements')"
-        />
         <PaymentChange 
             :enrollment="enrollment"
             :disabled="isPaymentChangeDisabled"
+        />
+        <AppListDropDownItem 
+            title="Заявление" 
+            @click="() => download('statements')"
         />
         <AppListDropDownItem 
             title="Отменить" 

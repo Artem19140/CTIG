@@ -77,7 +77,7 @@ class ExamDocumentController
 
     public function resultsAvailable(Exam $exam, CloseAbandonedAttemptsAction $closeAbandonedAttemptsAction)
     {
-        $closeAbandonedAttemptsAction->execute(request()->user()->time_zone);
+        $closeAbandonedAttemptsAction->execute();
         $this->examDocumentAvailable->results($exam);
         return Inertia::flash([
             'redirectUrl' => route('exam.documents.results', ['exam' => $exam])

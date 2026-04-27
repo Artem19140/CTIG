@@ -27,7 +27,6 @@ final class CreateExamAction{
     protected function getAttributes(ExamDto $examDto, User $user, int $duration):array{
         return [
             'begin_time' => $examDto->beginTime,
-            'begin_time_utc' => $examDto->beginTime->copy()->utc(),
             'address_id' => $examDto->addressId,
             'capacity' => $examDto->capacity,
             'exam_type_id' => $examDto->examTypeId,

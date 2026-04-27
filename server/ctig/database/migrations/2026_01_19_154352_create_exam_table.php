@@ -12,11 +12,8 @@ return new class extends Migration
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
             $table->dateTime('begin_time')->index();
-            $table->dateTime('begin_time_utc')->index();
+            
             $table->dateTime('end_time')->index();
-
-            $table->dateTime('begin_time_real')->nullable()->default(null);
-            $table->dateTime('end_time_real')->nullable()->default(null);
 
             $table->unsignedTinyInteger('capacity');
 

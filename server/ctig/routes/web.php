@@ -85,7 +85,7 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
     Route::prefix('reports')->group(function(){
         Route::get('frdo', [ReportController::class, "frdo"])->name('reports.frdo');
         Route::get('frdo/available', [ReportController::class, "available"])->name('reports.frdo.available');
-        Route::get('flat-table', [ReportController::class, "flatTable"]);
+        Route::get('flat-table', [ReportController::class, "flatTable"])->name('reports.flat-table');
     });
     
 

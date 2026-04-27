@@ -31,7 +31,7 @@ class ExamController
 {
     public function index(ExamIndexRequest $request, GetExamsQuery $getExamQuery)
     {
-        $exams = $getExamQuery->execute($request->validated() ?? [], $request->user());
+        $exams = $getExamQuery->execute($request->validated() ?? []);
         Inertia::flash('filters' , request()->all());
         return Inertia::render('Exam/Exam', [
             'exams' => ExamIndexResource::collection($exams),
@@ -108,9 +108,9 @@ class ExamController
         $dateFrom = Carbon::parse($request->input('dateFrom'))->startOfDay();
         $dateTo = Carbon::parse($request->input('dateTo'))->endOfDay();
 
-        $exams = Exam::with('type')
-            ->where('begin_time', '>=', $dateFrom)
-            ->where('begin_time','<=', $dateTo)
+        $exams = Exam::with(['type', 'center'])
+            ->whereBeginTimeMore( $dateFrom)
+            ->whereBeginTimeLess($dateTo)
             ->get();
         return Inertia::render('Schedule/Schedule',[
             'exams' => ExamCalendarResource::collection($exams )

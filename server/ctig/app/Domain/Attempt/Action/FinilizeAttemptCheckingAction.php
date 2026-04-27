@@ -12,7 +12,7 @@ class FinilizeAttemptCheckingAction{
     ){}
     public function execute(Attempt $attempt):Attempt{
         $attempt->status = AttemptStatus::Checked;
-        $attempt->checked_at = Carbon::now($attempt->time_zone);
+        $attempt->checked_at = Carbon::now();
         $attempt->total_mark = $attempt->answers()->sum('mark');
         $attempt->is_passed = $this->checkPassingThreshold->execute($attempt);
         $attempt->save();

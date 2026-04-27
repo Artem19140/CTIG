@@ -17,7 +17,6 @@ class AttemptExamResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        Log::info($this->expired_at->timestamp);
         return [
             'id' => $this->resource->id,
             'endsAt' => $this->expired_at->timestamp,

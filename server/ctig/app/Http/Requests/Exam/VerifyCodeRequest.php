@@ -26,8 +26,7 @@ class VerifyCodeRequest extends FormRequest
             'code' => [
                 'required', 
                 'string', 
-                'size:6', 
-                // 'exists:enrollments,exam_code',
+                'size:6'
             ]
         ];
     }

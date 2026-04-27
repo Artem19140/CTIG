@@ -17,8 +17,8 @@ class ExamCalendarResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'start' => $this->begin_time->copy()->format('Y-m-d H:i'),
-            'end' => $this->begin_time->copy()->addMinutes($this->duration)->format('Y-m-d H:i'),
+            'start' => $this->begin_time_local->copy()->format('Y-m-d H:i'),
+            'end' => $this->begin_time_local->copy()->addMinutes($this->duration)->format('Y-m-d H:i'),
             'name' => $this->whenLoaded('type', fn () => $this->type->short_name),
             'status' => app(ExamStatusResolver::class)->execute($this->resource)
         ];

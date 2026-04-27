@@ -3,6 +3,11 @@ import { Attempt } from '@/interfaces/Interfaces';
 import { Task } from '@/interfaces/Task';
 import { useHttp } from '@inertiajs/vue3';
 import { computed, ref } from 'vue'
+import { useExamAttempt } from '@/composables/useExamAttempt';
+import AppSnackbarQueue from '@/components/UI/AppSnackbarQueue/AppSnackbarQueue.vue';
+import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
+
+const {audioPlaying, examAttempt} = useExamAttempt()
 
 const props = defineProps<{ 
     value: string 
@@ -25,7 +30,15 @@ const playedTime = computed(() => {
 })
 
 const http = useHttp({})
+
 const togglePlay = () => {
+    if(!audioPlaying.value){
+        audioPlaying.value = true
+    }else{
+        const {add} = useSnackbarQueue()
+        add('Воспроизводится другая аудиозапись', 'red')
+    }
+    
     if(played.value) return
     if (!audioRef.value) return
     audioRef.value.play()
@@ -42,6 +55,12 @@ const onTimeUpdate = () => {
 const onLoaded = () => {
   if (!audioRef.value) return
   duration.value = audioRef.value.duration
+}
+
+const onEnded = () => {
+  audioPlaying.value = false
+  played.value = false
+  currentTime.value = 0
 }
 
 function format(time: number) {
@@ -75,6 +94,7 @@ function format(time: number) {
                     @timeupdate="onTimeUpdate"
                     @loadedmetadata="onLoaded"
                     preload="auto"
+                    @ended="onEnded"
                 />
                 <div class="flex items-center">
                     <v-btn 

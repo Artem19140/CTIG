@@ -9,7 +9,7 @@
 </div>
 
 <div class="text-small">Сессия № {{ $exam->session }}, группа № {{ $exam->group }}</div>
-<div class="text-small">Дата и время: {{ $exam->begin_time->format('d.m.Y, H:i') }}</div>   
+<div class="text-small">Дата и время: {{ $exam->begin_time_local->format('d.m.Y, H:i') }}</div>   
 
 <table class="table border center" style="small">
     <thead>

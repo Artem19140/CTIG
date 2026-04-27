@@ -43,7 +43,7 @@ tr:nth-child(even) td {
 
 <h2>Коды ИГ</h2>
 <div>Экзамен: {{ $exam->type->short_name }}</div>
-<div style="margin-bottom: 10px;">Дата и время: {{ $exam->begin_time->format('d.m.Y в H:i') }}</div>
+<div style="margin-bottom: 10px;">Дата и время: {{ $exam->begin_time_local->format('d.m.Y в H:i') }}</div>
 <table>
     <tr>
         <th>ФИО</th>

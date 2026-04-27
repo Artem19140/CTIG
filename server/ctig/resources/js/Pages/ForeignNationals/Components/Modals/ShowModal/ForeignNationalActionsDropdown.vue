@@ -6,6 +6,7 @@ import { useModals } from '@composables/useModals';
 import { router, useHttp } from '@inertiajs/vue3';
 import { useLoadingSnackbar } from '@/composables/useLoadingSnackBar';
 import { useConfirmationOptionsDialog } from '@/composables/useConfirmationOptionsDialog';
+import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
 
 const {open} = useModals()
 
@@ -18,7 +19,7 @@ const emit = defineEmits<{
     (e:'enroll', value:Enrollment):void,
     (e:'delete', value:ForeignNational):void
 }>()
-
+const http = useHttp()
 const destroy = async () => {
     if(!props.foreignNational) return
     const {open} = useConfirmationOptionsDialog()
@@ -26,10 +27,13 @@ const destroy = async () => {
     if(!ok) return
     const loading = useLoadingSnackbar()
     loading.open('Идет удаление...')
-    router.delete(`/foreign-nationals/${props.foreignNational.id}`,{
-        onSuccess:(response:any)=>{
+    http.delete(`/foreign-nationals/${props.foreignNational.id}`,{
+        onSuccess:()=>{
             if(!props.foreignNational)return
             emit('delete', props.foreignNational)
+            const {add} = useSnackbarQueue()
+            add('ИГ удален', 'green')
+            router.reload()
         },
         onFinish:() => {
             loading.close()
@@ -43,7 +47,7 @@ const destroy = async () => {
     <ThreeDotDropdown>
         <AppListDropDownItem 
             title="Записать на экзамен"
-            @click="open('enrollment', {foreignNational, onEnroll:(enrollment:Enrollment) => emit('enroll', enrollment)})"
+            @click="open('enrollment', {foreignNational})"
         />
         <AppListDropDownItem 
             title="Редактировать"

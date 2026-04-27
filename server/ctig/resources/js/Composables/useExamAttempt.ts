@@ -3,12 +3,14 @@ import { useHttp } from "@inertiajs/vue3";
 import { ref } from "vue";
 
 
-export const examAttempt = ref<Attempt>()
+const examAttempt = ref<Attempt>()
+const audioPlaying = ref<boolean>(false)
 
 export const useExamAttempt = ()  => {
     const http = useHttp({
         answer:null
     })
+    
     const updateAnswer = (answerId:number, answer: any) => {
         http.answer = answer
         if(!examAttempt.value) return
@@ -21,5 +23,5 @@ export const useExamAttempt = ()  => {
         })
     }
 
-    return {updateAnswer, examAttempt, http}
+    return {updateAnswer, examAttempt, http, audioPlaying}
 }

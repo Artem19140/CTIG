@@ -48,7 +48,7 @@ class EnrollmentCreateTest extends TestCase
         $this->withoutExceptionHandling();
 
         $exam = Exam::factory()->create([
-            'begin_time_utc' => Carbon::now()->addMinutes(Enrollment::CLOSE_BEFORE_START_MINUTES)->addMinute()
+            'begin_time' => Carbon::now()->addMinutes(Enrollment::CLOSE_BEFORE_START_MINUTES)->addMinute()
         ]);
 
         $response = $this->actingAs( $this->user)
@@ -65,7 +65,7 @@ class EnrollmentCreateTest extends TestCase
     public function test_fail_exam_past(): void
     {
         $exam = Exam::factory()->create([
-            'begin_time_utc' => Carbon::now()->subMinute()
+            'begin_time' => Carbon::now()->subMinute()
         ]);
         
         $response = $this->actingAs( $this->user)
@@ -83,7 +83,7 @@ class EnrollmentCreateTest extends TestCase
     {
 
         $exam = Exam::factory()->cancelled()->create([
-            'begin_time_utc' => Carbon::now()->addMinutes(Enrollment::CLOSE_BEFORE_START_MINUTES)->addMinute()
+            'begin_time' => Carbon::now()->addMinutes(Enrollment::CLOSE_BEFORE_START_MINUTES)->addMinute()
         ]);
         
         $response = $this->actingAs( $this->user)
@@ -101,7 +101,7 @@ class EnrollmentCreateTest extends TestCase
     {
 
         $exam = Exam::factory()->cancelled()->create([
-            'begin_time_utc' => Carbon::now()->addMinutes(Enrollment::CLOSE_BEFORE_START_MINUTES)->subMinute()
+            'begin_time' => Carbon::now()->addMinutes(Enrollment::CLOSE_BEFORE_START_MINUTES)->subMinute()
         ]);
         
         $response = $this->actingAs( $this->user)

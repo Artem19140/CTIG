@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\TimePresenter;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -21,7 +22,6 @@ class Exam extends Model
     public const CODES_TTL = 45;
     protected $fillable=[
         'begin_time',
-        'begin_time_utc',
         'exam_type_id',
         'creator_id',
         'session_number',
@@ -34,15 +34,12 @@ class Exam extends Model
         'center_id',
         'end_time',
         'protocol_comment',
-        'begin_time_real',
-        'end_time_real',
         'cancelled_at'
     ];
 
     protected $casts = [
         'end_time' => 'datetime',
         'begin_time' => 'datetime',
-        'begin_time_utc' => 'datetime',
         'cancelled_at' => 'datetime'
     ];
 
@@ -79,15 +76,15 @@ class Exam extends Model
     }
 
     public function isFinished(){
-        return $this->begin_time_utc->addMinutes($this->type->duration)->isPast();
+        return $this->begin_time->addMinutes($this->type->duration)->isPast();
     }
 
     public function isGoing(){
-        return !$this->begin_time_utc->addMinutes($this->type->duration)->isPast() && $this->begin_time_utc->isPast();
+        return !$this->begin_time->copy()->addMinutes($this->type->duration)->isPast() && $this->begin_time->copy()->isPast();
     }
 
     public function isPending(){
-        return !$this->begin_time_utc->isPast();
+        return !$this->begin_time->isPast();
     }
 
     public function isCancelled(){
@@ -118,10 +115,17 @@ class Exam extends Model
     }
 
 
-     protected function timeZone(): Attribute
+    protected function timeZone(): Attribute
     {
         return Attribute::get(function () {
             return $this->center->time_zone;
+        });
+    }
+
+    protected function beginTimeLocal(): Attribute
+    {
+        return Attribute::get(function () {
+            return TimePresenter::forCenter($this->begin_time, $this->center);
         });
     }
 
@@ -166,7 +170,7 @@ class Exam extends Model
     }
 
     public function canGenerateCodes():bool{
-        return $this->begin_time_utc->isToday() && !$this->isFinished();
+        return $this->begin_time->isToday() && !$this->isFinished();
     }
 
     public function scopeSorting(Builder $query, Carbon $now){

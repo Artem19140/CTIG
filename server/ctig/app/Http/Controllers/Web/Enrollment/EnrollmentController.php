@@ -8,9 +8,7 @@ use App\Domain\Exam\Query\GetAvailableExamsQuery;
 use App\Domain\Enrollment\Action\CreateEnrollmentAction;
 use App\Http\Requests\Enrollment\EnrollmentAvailableRequest;
 use App\Http\Requests\Enrollment\EnrollmentStoreRequest;
-use App\Http\Resources\Enrollment\EnrollmentResource;
 use App\Models\Enrollment;
-use Inertia\Inertia;
 
 class EnrollmentController
 {
@@ -58,7 +56,7 @@ class EnrollmentController
         return $exams->map(function ($exam) {
             return [
                 'id' => $exam->id,
-                'beginTime' => $exam->begin_time->format('H:i d.m.Y'),
+                'beginTime' => $exam->begin_time_local->format('H:i d.m.Y'),
             ];
         });
     } 

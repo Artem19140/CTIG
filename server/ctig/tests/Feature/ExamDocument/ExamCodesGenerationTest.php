@@ -34,7 +34,7 @@ class ExamCodesGenerationTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $exam = Exam::factory()
-            ->has(Enrollment::factory())
+            ->has(Enrollment::factory(8))
             ->inFuture()
             ->create();
         $exam->examiners()->attach($this->user);
@@ -49,7 +49,7 @@ class ExamCodesGenerationTest extends TestCase
     public function test_fail_too_early_generation(): void
     {
         $exam = Exam::factory()->create([
-            'begin_time_utc' => Carbon::now()->addDay()
+            'begin_time' => Carbon::now()->addDay()
         ]);
 
         $exam->examiners()->attach($this->user);

@@ -25,8 +25,8 @@ const http = useHttp<{ answer: number | null}>({
 
 const send = async () => {
     http.answer = attemptAnswer.value
-    // const {updateAnswer} = useExamAttempt()
-    // updateAnswer(attemptAnswerId, attemptAnswer.value)
+    const {updateAnswer} = useExamAttempt()
+    updateAnswer(attemptAnswerId, attemptAnswer.value)
     http.put(`/attempts/${props.attempt.id}/answers/${attemptAnswerId}`,{
         onSuccess:(response : any) => {
             props.task.attemptAnswer.answer = response.data.answer

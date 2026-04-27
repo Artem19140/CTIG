@@ -10,10 +10,10 @@
 
 <p>
     @include('templates.components.labeled-field', [
-                                                    'value' => $foreignNational->full_name, 
-                                                    'label' => 'Я,',
-                                                    'underline' => '(ФИО)'
-                                                ])
+        'value' => $foreignNational->full_name, 
+        'label' => 'Я,',
+        'underline' => '(ФИО)'
+    ])
 </p>
 
 <div style="vertical-align: 3.5px;">
@@ -75,7 +75,7 @@
 
 <div>
     @include('templates.components.signature-section', [
-                                                        'date' => \Carbon\Carbon::now()->format('d.m.Y'),
-                                                        'fio' => $foreignNational->full_name, 
-                                                    ])
+        'date' => \Carbon\Carbon::now()->format('d.m.Y'),
+        'fio' => $foreignNational->full_name, 
+    ])
 </div>

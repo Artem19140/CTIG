@@ -11,8 +11,8 @@ class CloseAbandonedAttemptsAction{
         protected FinilizeAttemptCheckingAction $finilizeAttemptCheckingAction,
         protected ZeroEmptyAutoCheckAnswersAction $zeroEmptyAutoAnswersAction
     ){}
-    public function execute(string $timeZone):void{
-        $now = Carbon::now($timeZone);
+    public function execute():void{
+        $now = Carbon::now();
         
         $attemtps = Attempt::where('expired_at', '<=', $now)
             ->whereIn('status', AttemptStatus::abandoned())

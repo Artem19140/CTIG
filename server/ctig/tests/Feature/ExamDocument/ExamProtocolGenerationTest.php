@@ -34,7 +34,7 @@ class ExamProtocolGenerationTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $exam = Exam::factory()
-            ->has(Enrollment::factory())
+            ->has(Enrollment::factory(8))
             ->inPast()
             ->create();
 

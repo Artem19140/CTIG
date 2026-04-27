@@ -84,7 +84,7 @@ class ExamResultsGenerator{
         }
 
         if($attempt->isBanned()){
-            return 'Снят';
+            return 'Справка';
         }
         return $attempt->is_passed ? 'Сертификат' : 'Справка';
     }

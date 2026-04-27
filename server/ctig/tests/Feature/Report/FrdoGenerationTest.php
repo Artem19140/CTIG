@@ -63,6 +63,6 @@ class FrdoGenerationTest extends TestCase
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             $response->headers->get('Content-Type')
         );
-        $response->assertStatus(200); //
+        $response->assertStatus(200); 
     }
 }

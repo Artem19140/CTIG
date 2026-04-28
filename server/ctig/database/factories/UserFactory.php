@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Enums\UserRoles;
 use App\Models\Center;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -45,24 +47,52 @@ class UserFactory extends Factory
         ];
     }
 
-    public function unverified(): static
-    {
+    public function unverified(): static{
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
     }
 
-    public function notActive(): static
-    {
+    public function notActive(): static{
         return $this->state(fn (array $attributes) => [
             'is_active' => false,
         ]);
     }
 
-    public function hasChangePassword(): static
-    {
+    public function hasChangePassword(): static{
         return $this->state(fn (array $attributes) => [
             'has_to_change_password' => true,
         ]);
+    }
+
+    public function withRole(UserRoles $role){
+        return $this->afterCreating(function ($user) use ($role) {
+            $role = Role::firstOrCreate(['name' => $role], ['name' => $role]);
+            $user->roles()->attach($role);
+        });
+    }
+
+    public function superAdmin(){
+        return $this->withRole(UserRoles::SuperAdmin);
+    }
+
+    public function orgAdmin(){
+        return $this->withRole(UserRoles::OrgAdmin);
+    }
+
+    public function operator(){
+        return $this->withRole(UserRoles::Operator);
+    }
+
+    public function director(){
+        return $this->withRole(UserRoles::Director);
+    }
+
+    public function sheduler(){
+        return $this->withRole(UserRoles::Scheduler);
+    }
+
+    public function examiner(){
+        return $this->withRole(UserRoles::Examiner);
     }
 }

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const props = defineProps<{
-    title?:string
+    title?:string,
+    toolbarColor?:string
 }>()
 
 const emit = defineEmits<{
@@ -14,8 +15,8 @@ const emit = defineEmits<{
         hide-default-footer
         @click:row="(event :Event, { item } : any) => emit('row-click', item)"
     >
-        <template v-slot:top>
-                <v-toolbar flat>
+        <template v-slot:top >
+                <v-toolbar flat :color="toolbarColor">
                     <v-toolbar-title>
                         {{ title ?? '' }}
                         <slot name="toolbar-left"></slot>

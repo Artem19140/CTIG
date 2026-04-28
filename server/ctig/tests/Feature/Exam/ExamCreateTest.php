@@ -12,7 +12,6 @@
     use Carbon\Carbon;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithFaker;
-    use Log;
     use Tests\TestCase;
 
     class ExamCreateTest extends TestCase
@@ -63,7 +62,6 @@
         protected function examBody(array $overrides = []){
             $fixedDate = Carbon::now($this->user->time_zone)->format('Y-m-d');
             $fixedTime = Carbon::now($this->user->time_zone)->addHours(Exam::CREATE_AVAILABLE_BEFORE_HOURS)->addMinute()->format('H:i');
-            Log::info($fixedTime);
             return array_merge([
                 'date' =>$fixedDate,
                 'time' => $fixedTime,

@@ -21,15 +21,19 @@ class UserController{
         return new UserResource($user);
     }
 
-    public function index(){
+    public function index(Request $request){
+        $users = User::active()
+            //уволенных тоже
+            ->get();
         return Inertia::render('Center/Center', [
-            'employees' => UserResource::collection(User::paginate(10)),
+            'employees' => UserResource::collection($users),
             'tab' => 'employees'
         ]);
     }
 
     public function store(UserPostRequest $request, CreateUserAction $createUser){
         $createUser->execute($request->validated(), $request->user());
+        return response()->json();
         return Inertia::flash('success', 'Сотрудник добавлен')->back();
     }
 

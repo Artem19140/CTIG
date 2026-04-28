@@ -39,6 +39,7 @@ const add = () => {
             label="Вместимость"
             v-model="http.capacity"
             :error-messages="http.errors.capacity"
+            :min="1"
         />
         <template #actions>
             <AppAddButton

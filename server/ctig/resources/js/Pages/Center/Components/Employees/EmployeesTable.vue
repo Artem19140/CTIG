@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Dropdown from './Dropdown.vue';
-import BasePaginatedTable from '@components/BaseComponents/BasePaginatedTable/BasePaginatedTable.vue';
 import { useModals } from '@composables/useModals';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import { User } from '@/interfaces/Interfaces';
@@ -23,10 +22,20 @@ const headers = [
     <BaseTable 
         :headers="headers"
         :items="employees"
+        toolbarColor="white"
     >
         <template #toolbar-actions>
-            <AppAddButton text="Добавить" 
-            @click="open('employeeCreate')" />
+            <div class="flex gap-4">
+                <v-btn
+                    @click=""
+                    border
+                >
+                    Уволенные
+                </v-btn>
+                <AppAddButton text="Добавить" 
+                    @click="open('employeeCreate')" 
+                />
+            </div>
         </template>
         <template #item.actions="{item}">
             <Dropdown :employee="item" />

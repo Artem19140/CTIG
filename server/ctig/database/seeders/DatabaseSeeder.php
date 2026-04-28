@@ -26,6 +26,9 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
+        $this->call([
+            RolesSeeder::class
+        ]);
         Center::create([
             'name' => 'Федеральное государственное бюджетное образовательное учреждение высшего образования «Удмуртский государственный университет»',
             'time_zone' => 'Europe/Samara',
@@ -50,33 +53,18 @@ class DatabaseSeeder extends Seeder
             'center_id' => 1
         ]);
 
-        $roleSpecialist = Role::create([
-            'name' => UserRoles::Operator,
-        ]);
+        $roleSpecialist = Role::where('name', UserRoles::Operator)->first();
 
-        $roleExaminer = Role::create([
-            'name' => UserRoles::Examiner,
-        ]);
+        $roleExaminer = Role::where('name', UserRoles::Examiner)->first();
 
-        $roleScheduler = Role::create([
-            'name' => UserRoles::Scheduler,
-        ]);
+        $roleScheduler = Role::where('name', UserRoles::Scheduler)->first();
 
-        $roleDirector = Role::create([
-            'name' => UserRoles::Director,
-        ]);
+        $roleDirector = Role::where('name', UserRoles::Director)->first();
 
-        $roleVideoRecordOperator = Role::create([
-            'name' => UserRoles::VideoRecordOperator,
-        ]);
 
-        $roleOrgAdmin = Role::create([
-            'name' => UserRoles::OrgAdmin,
-        ]);
+        $roleOrgAdmin = Role::where('name', UserRoles::OrgAdmin)->first();
 
-        $SuperAdmin = Role::create([
-            'name' => UserRoles::SuperAdmin,
-        ]);
+        $SuperAdmin = Role::where('name', UserRoles::SuperAdmin)->first();
         
         User::factory(5)->create();
 
@@ -97,7 +85,6 @@ class DatabaseSeeder extends Seeder
         $user->roles()->attach($roleScheduler);
         $user->roles()->attach($roleDirector);
         $user->roles()->attach($roleOrgAdmin);
-        $user->roles()->attach($roleVideoRecordOperator);
         
         $this->call([
             PatentSeeder::class,

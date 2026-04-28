@@ -10,7 +10,6 @@ use App\Models\ExamType;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\ValidationException;
-use Log;
 
 class ValidateExamForSave{
     public function __construct(
@@ -69,8 +68,6 @@ class ValidateExamForSave{
     }
 
     protected function ensureBeginTimeNotPassed(Carbon $beginTime){
-        Log::info("b-t " . $beginTime);
-        Log::info("now " . Carbon::now());
         if($beginTime < Carbon::now()){
             throw ValidationException::withMessages([
                 'date' => "Экзамен нельзя создать на прошедшие даты",

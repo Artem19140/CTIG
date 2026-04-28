@@ -4,6 +4,7 @@ import { ref, watch } from 'vue';
 import AppAddButton from '@/components/UI/AppAddButton/AppAddButton.vue';
 import { useModals } from '@/composables/useModals';
 import AddressCard from './AddressCard.vue';
+import BaseContainer from '@/components/BaseComponents/BaseContainer/BaseContainer.vue';
 
 
 const props = defineProps<{
@@ -23,11 +24,18 @@ const add = () => {
 </script>
 
 <template>
-    <v-toolbar flat>
+    <v-toolbar color="white">
         <v-spacer />
-        <AppAddButton 
-            @click="add"
-        />
+        <div class="flex gap-4">
+            <v-btn
+                border
+            >
+                Неактивные
+            </v-btn>
+            <AppAddButton 
+                @click="add"
+            />
+        </div>
     </v-toolbar>
     
     <div class="mt-4 p-4" >

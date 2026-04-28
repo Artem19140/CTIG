@@ -19,6 +19,7 @@ class CreateUserAction{
     $user->roles()->sync($data['roles']);
    }
 
+
     protected function ensureHasNoRoleSuperAdmin(array $data):void{
         $superAdminRole = Role::findByEnum(UserRoles::SuperAdmin);
         if(in_array($superAdminRole->id, $data['roles'])){

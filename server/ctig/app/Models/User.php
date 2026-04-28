@@ -49,6 +49,10 @@ class User extends Authenticatable
         return $this->hasRole(UserRoles::SuperAdmin->value);
     }
 
+    public function isOrgAdmin(){
+        return $this->hasRole(UserRoles::OrgAdmin->value);
+    }
+
     public function isActive(){
         return $this->is_active;
     }

@@ -3,16 +3,16 @@ import { onMounted, ref } from 'vue';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import AppInput from '@components/UI/AppInput/AppInput.vue';
-import { useForm } from '@inertiajs/vue3';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import AppAutocomplete from '@components/UI/AppAutocomplete/AppAutocomplete.vue';
 import {useHttp} from '@inertiajs/vue3';
 import AppPasswordConfirmation from '@/components/UI/AppPasswordConfirmation/AppPasswordConfirmation.vue';
+import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
 
 const isOpen = defineModel<boolean>({default:false})
 const roles = ref()
 
-const form = useForm({
+const httpCreate = useHttp({
     surname:'',
     name:'',
     patronymic:'',
@@ -24,27 +24,28 @@ const form = useForm({
 })
 
 const canClose = async (fn: () => void) => {
-    if(form.isDirty){
+    if(httpCreate.isDirty){
         const {confirmOpen} = useConfirmDialog()
         const ok = await confirmOpen('Отменить добавление?')
         if(!ok) return
     }
-    form.resetAndClearErrors()
+    httpCreate.resetAndClearErrors()
     fn()
 }
 
 const create = () => {
-    form.post('/employees',{
-        onSuccess:(page) => {
-            if(!page.flash.success) return
+    httpCreate.post('/employees',{
+        onSuccess:() => {
             isOpen.value=false
-            form.resetAndClearErrors()
+            httpCreate.resetAndClearErrors()
+            const {add} = useSnackbarQueue()
+            add('Сотрудник добавлен', 'green')
         }
     })
 }
-const http = useHttp()
+const httpRoles = useHttp()
 onMounted(() => {
-    http.get('/roles', {
+    httpRoles.get('/roles', {
         onSuccess:(response : any) => {
             roles.value = response.data
         }
@@ -61,56 +62,56 @@ onMounted(() => {
     >
         <AppInput 
             label="Фамилия"
-            v-model="form.surname"
-            :error-messages="form?.errors?.surname"
+            v-model="httpCreate.surname"
+            :error-messages="httpCreate?.errors?.surname"
         />
         <AppInput 
             label="Имя"
-            v-model="form.name"
-            :error-messages="form?.errors?.name"
+            v-model="httpCreate.name"
+            :error-messages="httpCreate?.errors?.name"
         />
         <AppInput 
             label="Отчество"
-            v-model="form.patronymic"
-            :error-messages="form?.errors?.patronymic"
+            v-model="httpCreate.patronymic"
+            :error-messages="httpCreate?.errors?.patronymic"
         />
 
         <AppInput 
             label="Должность"
-            v-model="form.jobTitle"
-            :error-messages="form?.errors?.jobTitle"
+            v-model="httpCreate.jobTitle"
+            :error-messages="httpCreate?.errors?.jobTitle"
         />
 
         <AppAutocomplete 
             label="Роли"
-            :loading="http.processing"
-            v-model="form.roles"
+            :loading="httpCreate.processing"
+            v-model="httpCreate.roles"
             :items="roles"
             item-title="label"
             item-value="id"
             multiple
-            :error-messages="form?.errors?.roles"
+            :error-messages="httpCreate?.errors?.roles"
         />
 
         <AppInput 
             label="e-mail@"
-            v-model="form.email"
-            :error-messages="form?.errors?.email"
+            v-model="httpCreate.email"
+            :error-messages="httpCreate?.errors?.email"
         />
 
         <AppPasswordConfirmation
-            v-model:password="form.password"
-            v-model:password-confirmation="form.password_confirmation"
-            :password-attr="{'error-messages':form?.errors?.password}"
-            :password-confirmation-attr="{'error-messages':form?.errors?.password_confirmation}"
+            v-model:password="httpCreate.password"
+            v-model:password-confirmation="httpCreate.password_confirmation"
+            :password-attr="{'error-messages':httpCreate?.errors?.password}"
+            :password-confirmation-attr="{'error-messages':httpCreate?.errors?.password_confirmation}"
         />
         <template #actions>
             <div>
                 <AppAddButton 
                     text="Добавить"
                     @click="create"
-                    :loading="form.processing"
-                    :disabled="form.processing"
+                    :loading="httpCreate.processing"
+                    :disabled="httpCreate.processing"
                 />
             </div>
         </template>

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers\Web\User;
 
 use App\Domain\User\CreateUserAction;
@@ -32,25 +31,30 @@ class UserController{
     }
 
     public function store(UserPostRequest $request, CreateUserAction $createUser){
+        if(!$request->user()->isOrgAdmin() && !$request->user()->isSuperAdmin()){
+            abort(403);
+        }
         $createUser->execute($request->validated(), $request->user());
         return response()->json();
     }
 
     public function destroy(User $user, Request $request){
+        if(!$request->user()->isOrgAdmin() && !$request->user()->isSuperAdmin()){
+            abort(403);
+        }
+
+        if($request->user()->center_id !== $user->center_id ){
+            abort(403);
+        }
+
         if(!$user->is_active){
             throw new BusinessException('Сотрудник уже уволен');
         }
-        if(
-            $request->user()->center_id !== $user->center_id 
-                || 
-            !$request->user()->isSuperAdmin()
-        ){
-            abort(404);
-        }
+        
         $user->is_active = false;
+        
         $user->save();
-        Inertia::flash('success', 'Сотрудник уволен');
-        return back();
+        return response()->noContent();
     }
 
     public function rolesShow(){

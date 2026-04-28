@@ -100,7 +100,7 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
 
     Route::post('addresses', [AddressController::class, "store"])->name('addresses.store');
 
-    Route::delete('employees/{user}', [UserController::class, "destroy"]);
+    Route::delete('employees/{user}', [UserController::class, "destroy"])->name('users.destroy');
     Route::post('employees', [UserController::class, "store"]);
 
     Route::get('files', [FileController::class, "show"]);

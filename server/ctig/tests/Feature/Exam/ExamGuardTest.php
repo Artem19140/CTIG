@@ -19,22 +19,20 @@ class ExamGuardTest extends TestCase
     use RefreshDatabase;
     protected $action;
     protected $exception;
-    protected ExamType $examType;
+
     
     protected int $duration = 90;
     
     protected function setUp():void{
         parent::setUp();
-        
         $this->action = app(ExamGuard::class);
         $this->exception = BusinessException::class;
-        $this->examType = ExamType::factory()->create(['duration' => $this->duration]);
         Carbon::setTestNow(Carbon::now());
     }
     protected function tearDown(): void
     {
         parent::tearDown();
-        Carbon::setTestNow(); // сброс
+        Carbon::setTestNow();
     }
 
     protected function createExam(array $overrides){

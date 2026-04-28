@@ -13,9 +13,6 @@ use Tests\TestCase;
 
 class ChangePaymentTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
     use RefreshDatabase;
     protected User $user;
     protected string $model;

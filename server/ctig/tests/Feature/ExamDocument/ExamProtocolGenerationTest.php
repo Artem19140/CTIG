@@ -12,9 +12,6 @@ use Tests\TestCase;
 
 class ExamProtocolGenerationTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
     use RefreshDatabase;
     protected User $user;
 

@@ -2,14 +2,13 @@
 
     namespace Tests\Feature\Exam;
 
-    use App\Enums\UserRoles;
     use App\Models\Address;
     use App\Models\Exam;
     use App\Models\ExamType;
     use App\Models\Center;
-    use App\Models\Role;
     use App\Models\User;
     use Carbon\Carbon;
+    use Database\Seeders\RolesSeeder;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithFaker;
     use Tests\TestCase;
@@ -21,26 +20,19 @@
         protected User $user;
         protected ExamType $examType;
         protected Address $address;
-        protected Role $examinerRole;
         protected User $examiner;
+        protected RolesSeeder $seed;
         protected function setUp():void{
             parent::setUp();
             $center = Center::factory()->create();
+            $this->seed(RolesSeeder::class);
             
-            $this->examinerRole = Role::create([
-                'name' => UserRoles::Examiner,
-            ]);
+            $this->examiner = User::factory()->examiner()->create(['center_id' => $center->id]);
 
-            $schedulerRole = Role::create([
-                'name' => UserRoles::Scheduler,
-            ]);
+            $this->user = User::factory()->sheduler()->create(['center_id' => $center->id]);
 
-            $this->examiner = User::factory()->create(['center_id' => $center->id]);
-            $this->examiner->roles()->attach($this->examinerRole);
-
-            $this->user = User::factory()->create(['center_id' => $center->id]);
-            $this->user->roles()->attach($schedulerRole);
             $this->examType = ExamType::factory()->create();
+
             $this->address = Address::factory()->create(['center_id' => $center->id]);
 
             Carbon::setTestNow(
@@ -51,7 +43,7 @@
         public function tearDown(): void
         {
             parent::tearDown();
-            Carbon::setTestNow(); // сброс фиксации
+            Carbon::setTestNow(); 
         }
 
         protected function postExam(array $overrides = []){
@@ -87,10 +79,10 @@
         {
             $response = $this->postExam();
             $response->assertOk();
-            $examiner = User::factory()->create();
-            $examiner->roles()->attach($this->examinerRole);
+            $examiner = User::factory()->examiner()->create();
 
             $address = Address::factory()->create();
+
             $response = $this->postExam([
                 'addressId' => $address->id,
                 'examiners' => [$examiner->id],
@@ -116,13 +108,11 @@
 
         public function test_fail_with_busy_tester(): void
         {
-
-            
             $response = $this->postExam();
             $response->assertOk();
 
-            // $response = $this->postExam();
             $address = Address::factory()->create();
+
             $response = $this->postExam([
                 'addressId' => $address->id,
                 'capacity' => $address->max_capacity
@@ -170,8 +160,8 @@
 
         public function test_fail_not_active_examiner(): void
         {   
-            $user = User::factory()->create(['is_active' => false]);
-            $user->roles()->attach($this->examinerRole);
+            $user = User::factory()->examiner()->notActive()->create();
+
             $response = $this->postExam([
                 'examiners' => [$user->id]
             ]);

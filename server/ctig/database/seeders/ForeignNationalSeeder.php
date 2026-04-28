@@ -2,12 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Enums\UserRoles;
-use App\Models\Role;
+use App\Models\ForeignNational;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class RolesSeeder extends Seeder
+class ForeignNationalSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,9 +14,8 @@ class RolesSeeder extends Seeder
     use WithoutModelEvents;
     public function run(): void
     {
-
-        foreach (UserRoles::cases() as $role) {
-            Role::firstOrCreate(['name' => $role->value]);
-        }
+        ForeignNational::factory(300) 
+            ->withRandomCreator()
+            ->create();
     }
 }

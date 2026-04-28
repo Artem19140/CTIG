@@ -2,12 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Enums\AttemptStatus;
 use App\Models\Attempt;
 use App\Models\Center;
 use App\Models\Enrollment;
-use App\Models\Exam;
-use App\Models\ForeignNational;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,7 +12,7 @@ use Illuminate\Database\Seeder;
 
 class AttemptSeeder extends Seeder
 {
-
+    use WithoutModelEvents;
     public function run(): void
     {
         Enrollment::factory(30)->hasPayment()->create([
@@ -23,21 +20,20 @@ class AttemptSeeder extends Seeder
 
             'creator_id' => User::inRandomOrder()->first()->id,
         ]);
-        //Exam::factory(10)->create();
         Attempt::factory(150)
             ->today()
             ->passed()
-            ->status(AttemptStatus::Checked)
+            ->checked()
             ->create();
         Attempt::factory(50)
             ->today()
             ->failed()
-            ->status(AttemptStatus::Checked)
+            ->checked()
             ->create();
         Attempt::factory(2)
             ->today()
             ->failed()
-            ->status(AttemptStatus::Banned)
+            ->banned()
             ->create();
     }
 }

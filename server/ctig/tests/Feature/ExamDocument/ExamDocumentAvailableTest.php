@@ -14,9 +14,6 @@ use Tests\TestCase;
 
 class ExamDocumentAvailableTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
     use RefreshDatabase;
     protected $exception;
 

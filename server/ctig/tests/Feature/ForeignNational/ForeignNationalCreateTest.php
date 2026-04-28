@@ -23,8 +23,6 @@ class ForeignNationalCreateTest extends TestCase
 {
     use RefreshDatabase;
     protected User $user;
-    protected ExamType $examType;
-    protected Address $address;
     protected Exam $exam;
 
     protected function setUp():void{
@@ -39,20 +37,14 @@ class ForeignNationalCreateTest extends TestCase
         $this->user = User::factory()->create();
         $this->user->roles()->attach($operatorRole);
 
-        $this->examType = ExamType::factory()->create();
-        $this->address = Address::factory()->create();
         
         Carbon::setTestNow(now());
-
-        $this->exam = Exam::create([
+        $this->exam = Exam::factory()->create([
             'begin_time' => Carbon::now()->addDay(),
-            'end_time' => Carbon::now()->addDay()->addMinutes(ExamType::inRandomOrder()->first()->duration),
-            'exam_type_id' => ExamType::inRandomOrder()->first()->id,
-            'creator_id' => $this->user->id,
-            'capacity'=>$this->address->max_capacity,
-            'address_id' => $this->address->id,
-            'center_id' => Center::inRandomOrder()->first()->id
+            'end_time' => Carbon::now()->addDay()->addMinutes(90),
+            'center_id' => $this->user->center_id
         ]);
+
         Storage::fake('private');
         Counter::create([
             'key' => CounterKey::RegNumKey,
@@ -68,26 +60,26 @@ class ForeignNationalCreateTest extends TestCase
     protected function foreignNationalBody(array $overrides = [])
     {
         return array_merge([
-            'addressReg' => 'Ижевск, Пушкинская 131',
+            'addressReg' => fake()->streetAddress,
             'citizenship' => 'UZ',
-            'comment' => 'ываыва',
+            'comment' => fake()->sentence(),
             'dateBirth' => '2005-10-10',
             'examId' => $this->exam->id,
             'gender' => 'M',
             'hasPayment' => false,
             'issuedBy' => 'МВД по УР',
             'issuedDate' => '2025-10-10',
-            'name' => 'Иван',
+            'name' => fake()->name,
             'nameLatin' => 'Ivan',
             'noPassportNumber' => false,
             'noPassportSeries' => false,
             'noPatronymic' => false,
             'passportNumber' => '1234',
             'passportSeries' => 'AB',
-            'patronymic' => 'Иванович',
+            'patronymic' => fake()->name,
             'patronymicLatin' => 'Ivanovich',
             'phone' => '89346573385',
-            'surname' => 'Иванов',
+            'surname' => fake()->name,
             'surnameLatin' => 'Ivanov',
             'noPatronymicLatin' => false,
             'passportScan' => UploadedFile::fake()->image('passport.pdf'),

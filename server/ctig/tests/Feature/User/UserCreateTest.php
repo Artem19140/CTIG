@@ -9,14 +9,10 @@ use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Log;
 use Tests\TestCase;
 
 class UserCreateTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
     use RefreshDatabase;
     protected $seeder = RolesSeeder::class;
     protected Role $superAdminRole;
@@ -27,8 +23,10 @@ class UserCreateTest extends TestCase
         parent::setUp(); 
         $this->seed(RolesSeeder::class);
         $this->user = User::factory()->orgAdmin()->create();
-        $this->superAdminRole = Role::where('name', UserRoles::SuperAdmin)->first();
-        $this->orgAdminRole = Role::where('name', UserRoles::OrgAdmin)->first();
+
+        $this->superAdminRole = Role::findByEnum(UserRoles::SuperAdmin);
+
+        $this->orgAdminRole = Role::findByEnum(UserRoles::OrgAdmin);
         Carbon::setTestNow(now());
     }
     public function tearDown(): void
@@ -60,7 +58,7 @@ class UserCreateTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $role = Role::where('name', UserRoles::Operator)->first();
+        $role = Role::findByEnum(UserRoles::Operator);
 
         $response = $this->postUser($this->user, ['roles' => [$role->id]]);
 

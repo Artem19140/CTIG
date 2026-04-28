@@ -34,7 +34,6 @@ class UserController{
     public function store(UserPostRequest $request, CreateUserAction $createUser){
         $createUser->execute($request->validated(), $request->user());
         return response()->json();
-        return Inertia::flash('success', 'Сотрудник добавлен')->back();
     }
 
     public function destroy(User $user, Request $request){

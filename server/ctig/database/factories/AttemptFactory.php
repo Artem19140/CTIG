@@ -72,6 +72,15 @@ class AttemptFactory extends Factory
         });
     }
 
+    public function banned(){
+        return $this->state(function (){
+            return[
+                'status'=> AttemptStatus::Banned,
+                'banned_at' => now()
+            ];
+        });
+    }
+
     public function today(){
         return $this->state(function (){
             return[

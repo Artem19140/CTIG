@@ -4,6 +4,7 @@ namespace Tests\Feature\Address;
 
 use App\Models\User;
 use Carbon\Carbon;
+use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -17,8 +18,8 @@ class AddressCreateTest extends TestCase
     protected User $user;
     protected function setUp():void{
         parent::setUp();
-
-        $this->user = User::factory()->create();
+        $this->seed(RolesSeeder::class);
+        $this->user = User::factory()->orgAdmin()->create();
 
         Carbon::setTestNow(
             Carbon::now()

@@ -15,4 +15,12 @@ class Role extends Model{
     protected $casts = [
         'name' => UserRoles::class,
     ];
+
+    public static function findByEnum(UserRoles $role){
+        return self::where('name', $role)->firstOrFail();
+    }
+
+    public static  function getIdByEnum(UserRoles $role){
+        return self::findByEnum($role)->id;
+    }
 }

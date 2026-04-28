@@ -12,9 +12,6 @@ use Tests\TestCase;
 
 class ExamListGenerationTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
     use RefreshDatabase;
     protected User $user;
 
@@ -28,7 +25,7 @@ class ExamListGenerationTest extends TestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        Carbon::setTestNow(); // сброс фиксации
+        Carbon::setTestNow();
     }
     public function test_success(): void
     {

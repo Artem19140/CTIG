@@ -8,8 +8,6 @@ use App\Models\Counter;
 use App\Models\Center;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\ForeignNational;
-
 use Carbon\Carbon;
 use Database\Seeders\ExamTypes\PATENT\PatentSeeder;
 use Database\Seeders\ExamTypes\RVP\RvpSeeder;
@@ -29,6 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesSeeder::class
         ]);
+
         Center::create([
             'name' => 'Федеральное государственное бюджетное образовательное учреждение высшего образования «Удмуртский государственный университет»',
             'time_zone' => 'Europe/Samara',
@@ -53,18 +52,18 @@ class DatabaseSeeder extends Seeder
             'center_id' => 1
         ]);
 
-        $roleSpecialist = Role::where('name', UserRoles::Operator)->first();
+        $roleSpecialist = Role::findByEnum(UserRoles::Operator);
 
-        $roleExaminer = Role::where('name', UserRoles::Examiner)->first();
+        $roleExaminer = Role::findByEnum(UserRoles::Examiner);
 
-        $roleScheduler = Role::where('name', UserRoles::Scheduler)->first();
+        $roleScheduler = Role::findByEnum(UserRoles::Scheduler);
 
-        $roleDirector = Role::where('name', UserRoles::Director)->first();
+        $roleDirector = Role::findByEnum(UserRoles::Director);
 
 
-        $roleOrgAdmin = Role::where('name', UserRoles::OrgAdmin)->first();
+        $roleOrgAdmin = Role::findByEnum(UserRoles::OrgAdmin);
 
-        $SuperAdmin = Role::where('name', UserRoles::SuperAdmin)->first();
+        $SuperAdmin = Role::findByEnum(UserRoles::SuperAdmin);
         
         User::factory(5)->create();
 
@@ -90,11 +89,9 @@ class DatabaseSeeder extends Seeder
             PatentSeeder::class,
             // VnzhSeeder::class,
             RvpSeeder::class,
-            ExamSeeder::class
+            ExamSeeder::class,
+            ForeignNationalSeeder::class
         ]);
         
-        ForeignNational::factory(300) 
-            ->withRandomCreator()
-            ->create();
     }
 }

@@ -67,8 +67,8 @@ class UserFactory extends Factory
 
     public function withRole(UserRoles $role){
         return $this->afterCreating(function ($user) use ($role) {
-            $role = Role::firstOrCreate(['name' => $role], ['name' => $role]);
-            $user->roles()->attach($role);
+            $role = Role::findByEnum($role);
+            $user->roles()->syncWithoutDetaching($role);
         });
     }
 

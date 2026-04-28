@@ -22,35 +22,4 @@ class RoleFactory extends Factory
             'name' => fake()->randomElement(array_column(UserRoles::cases(), 'value'))
         ];
     }
-    public function role(UserRoles $role){
-        return $this->state(function() use($role){
-            return [
-                'name' => $role,
-            ];
-        });
-    }
-
-    public function superAdmin(){
-        return $this->role(UserRoles::SuperAdmin);
-    }
-
-    public function orgAdmin(){
-        return $this->role(UserRoles::OrgAdmin);
-    }
-
-    public function operator(){
-        return $this->role(UserRoles::Operator);
-    }
-
-    public function director(){
-        return $this->role(UserRoles::Director);
-    }
-
-    public function scheduler(){
-        return $this->role(UserRoles::Scheduler);
-    }
-
-    public function examiner(){
-        return $this->role(UserRoles::Examiner);
-    }
 }

@@ -58,7 +58,6 @@ class AttemptController
         ]);
         $banAttempt->execute($attempt, $request->input('banReason'), $request->user()->id);
         return response()->noContent();
-        return back();
     }
 
     public function speaking(Attempt $attempt, GetAttemptSpeakingTasksQuery $getAttemptSpeakingQuery){

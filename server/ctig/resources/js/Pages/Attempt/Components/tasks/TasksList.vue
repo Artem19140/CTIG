@@ -30,15 +30,11 @@ const taskComponent = (type: string) => {
             return SingleChoiceTask
     }
 }
-const saved = (value:AttemptAnswer) => {
-    emit('updateAnswer', value)
-}
 </script>
 
 <template>
     <component 
         v-if="attempt.tasks.length > 0"
-        @answerSaved="saved"
         v-for="task in attempt.tasks"
         :key="task.id"
         :is="taskComponent(task.type)"

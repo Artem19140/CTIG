@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\BelongsToCenter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 class Enrollment extends Model
 {
     use HasFactory;
+    //use BelongsToCenter;
     public const int CLOSE_BEFORE_START_MINUTES = 10;
     protected $fillable = [
         'exam_id',

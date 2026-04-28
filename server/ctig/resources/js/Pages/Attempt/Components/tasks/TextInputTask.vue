@@ -4,6 +4,7 @@ import AppInput from '@components/UI/AppInput/AppInput.vue';
 import BaseTask from './BaseTask.vue';
 import { ref, watch } from 'vue';
 import { Attempt } from '@/interfaces/Interfaces';
+import { useAttempt } from '@/composables/useAttempt';
 
 const props = defineProps<{
     task:any,
@@ -18,6 +19,7 @@ const http = useHttp<{ answer: string | null }>({
     answer:props.task.attemptAnswer?.answer
 })
 
+const  {updateAnswer} = useAttempt()
 watch(answer, (text) => {
     if (timeout !== undefined) {
         clearTimeout(timeout)
@@ -27,10 +29,10 @@ watch(answer, (text) => {
         http.answer = text
         http.put(`/attempts/${props.attempt.id}/answers/${props.task.attemptAnswer.id}`,{
             onSuccess:(response:any) => {
+                updateAnswer(props.task.id, response.data)
                 props.task.attemptAnswer = response.data
             }
         })
-        console.log('Пользователь перестал печатать:', text)
     }, 3000)
 })
 

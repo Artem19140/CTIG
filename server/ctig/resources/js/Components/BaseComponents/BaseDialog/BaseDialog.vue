@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppProgressCircular from '@/components/UI/AppProgressCircular/AppProgressCircular.vue';
+import AppRefreshButton from '@/components/UI/AppRefreshButton/AppRefreshButton.vue';
 
 
 const isOpen = defineModel<boolean>()
@@ -73,14 +74,10 @@ const close = () => {
                 
                 >
                 Повторить
-                <v-btn 
+                <AppRefreshButton
                     @click="onRetry"
-                    icon
-                    variant="text"
-                    size="large"
-                >
-                    <v-icon size="36">mdi-refresh</v-icon>
-                </v-btn>
+                    icon-size="36"
+                />
                 
             </v-card-text>
             

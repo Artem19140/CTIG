@@ -1,19 +1,33 @@
 <script setup lang="ts">
 import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
-import { router } from '@inertiajs/vue3';
-import { useConfirmDialog } from '@composables/useConfirmDialog';
+import { router, useHttp } from '@inertiajs/vue3';
 import BaseThreeDotDropdown from '@/components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
+import { useLoadingSnackbar } from '@/composables/useLoadingSnackBar';
+import { useConfirmationOptionsDialog } from '@/composables/useConfirmationOptionsDialog';
 
 const props= defineProps<{
   employee:any
 }>()
 
+const deleteHttp = useHttp()
 const deleteEmployee = async () => {
-  const {confirmOpen} = useConfirmDialog()
-  const ok = await confirmOpen(`Удалить ${props.employee?.surname} ${props.employee?.name}?
-                                У сотрудника больше не будет доступа к системе`)
+  const useConfirmation = useConfirmationOptionsDialog()
+  const ok = await useConfirmation.open(
+    `Удалить ${props.employee?.surname} ${props.employee?.name}?
+    У сотрудника больше не будет доступа к системе`
+  )
   if(!ok) return
-  router.delete(`/employees/${props.employee?.id}`)
+  const {open, close} = useLoadingSnackbar()
+  open('Идет удаление...')
+  await deleteHttp.delete(`/employees/${props.employee?.id}`, {
+    onSuccess:() => {
+      router.reload()
+    },
+    onFinish:()=> {
+      close()
+    }
+  })
+  
 }
 </script>
 

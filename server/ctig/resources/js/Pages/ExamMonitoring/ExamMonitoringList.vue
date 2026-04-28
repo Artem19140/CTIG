@@ -5,12 +5,12 @@ import ExamActionsDropdown from '@components/Exam/ExamActionsDropdown.vue';
 import BasePaginatedTable from '@components/BaseComponents/BasePaginatedTable/BasePaginatedTable.vue';
 import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
-import BaseLayout from '@layouts/BaseLayout.vue';
 import { ref } from 'vue';
 import ExamCapacityChip from '@/components/Exam/ExamCapacityChip.vue';
 import AppPaginator from '@/components/UI/AppPaginator/AppPaginator.vue';
 import { Exam, Paginated } from '@/interfaces/Interfaces';
 import BaseContainer from '@/components/BaseComponents/BaseContainer/BaseContainer.vue';
+import AppBorderedButton from '@/components/UI/AppBorderedButton/AppBorderedButton.vue';
 
 defineOptions({
   layout: [EmployeeLayout]
@@ -72,16 +72,14 @@ const getPastExams = () =>{
             :loading="loading"
         >
             <template #toolbar-actions>
-                <v-btn 
-                    width="120"
-                    border
+                <AppBorderedButton
                     :loading="loading"
                     :disabled="loading"
                     @click="getPastExams"
-                >
-                    {{ past ? 'Текущие' : 'Прошедшие'}}
-                </v-btn>
+                    :text="past ? 'Текущие' : 'Прошедшие'"
+                />
             </template>
+
             <template #item.capacity="{ item }">
                 <ExamCapacityChip :exam="item" />
             </template>
@@ -91,12 +89,15 @@ const getPastExams = () =>{
                     :exam="item"
                 />
             </template>
+
             <template #item.beginTime="{ item }">
                 {{ new DateFormatter(item.beginTime).format('H:i, d.m.Y') }}
             </template>
+
             <template #item.actions="{ item }">
                 <ExamActionsDropdown :exam="item" />
             </template>
+            
             <template #bottom>
                 <AppPaginator
                     :meta="exams.meta"

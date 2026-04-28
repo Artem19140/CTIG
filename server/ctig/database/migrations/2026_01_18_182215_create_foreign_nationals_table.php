@@ -34,6 +34,10 @@ return new class extends Migration
 
             $table->foreignId('creator_id')
                 ->constrained('users');
+                
+            // $table->foreignId('center_id')
+            //     ->constrained('centers')
+            //     ->cascadeOnDelete();
 
             $table->string('surname_normalized');
             $table->string('name_normalized');

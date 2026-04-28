@@ -6,10 +6,10 @@ import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import { ru } from 'vuetify/locale'
-import BaseLayout from '@layouts/BaseLayout.vue';
 import { useHttpErrorHandler } from '@/composables/useHttpErrorHandler';
 import { http, router } from '@inertiajs/vue3';
 import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
+import { createPinia } from 'pinia'
 
 http.onError((error) => {
     const response = (error).response
@@ -55,9 +55,11 @@ createInertiaApp({
         return pages[`./pages/${name}.vue`]
     },
     setup({ el, App, props, plugin }) {
+        const pinia = createPinia()
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(vuetify)
+            .use(pinia)
             .mount(el)
     },
     defaults: {

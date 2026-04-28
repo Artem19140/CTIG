@@ -21,7 +21,6 @@ class ExamMonitoringController
                 $query->where('examiner_id', $user->id);
             })
             ->withCount(['enrollments'])
-            //->with(['examiners', 'address']) //Убрать
             ->when($past, function (Builder $query){
                 $query->whereEndTimeLess(now());
             })
@@ -29,7 +28,7 @@ class ExamMonitoringController
                 $query->whereEndTimeMore(now()->subMinutes(30));;
             })
             ->notCancelled()
-            ->sorting(Carbon::now($user->time_zone))
+            ->sorting(Carbon::now())
             ->paginate(10);
 
         return Inertia::render('ExamMonitoring/ExamMonitoringList', [

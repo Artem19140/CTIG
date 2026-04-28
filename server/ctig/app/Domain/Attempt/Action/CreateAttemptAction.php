@@ -25,6 +25,7 @@ class CreateAttemptAction{
     public function execute(string $code):Attempt{
         $attempt =  DB::transaction(function () use($code){
             $enrollment = $this->verifyCode->execute($code);
+            
             $foreignNational = ForeignNational::find($enrollment->foreign_national_id);
             $exam = Exam::find($enrollment->exam_id);
             

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\BelongsToCenter;
 use App\Support\TimePresenter;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Exam extends Model
 {
     use HasFactory, Notifiable;
+    //use BelongsToCenter;
     public const CREATE_AVAILABLE_BEFORE_HOURS = 3;
     public const CODES_LENGTH = 6;
     public const CODES_TTL = 45;
@@ -76,7 +78,7 @@ class Exam extends Model
     }
 
     public function isFinished(){
-        return $this->begin_time->addMinutes($this->type->duration)->isPast();
+        return $this->begin_time->copy()->addMinutes($this->type->duration)->isPast();
     }
 
     public function isGoing(){

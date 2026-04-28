@@ -2,7 +2,7 @@
 import RenderBlocks from './RenderBlocks.vue';
 
 const props = defineProps<{
-    rows : string
+    rows : Array<Object>
 }>()
 </script>
 

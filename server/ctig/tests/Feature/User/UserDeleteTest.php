@@ -39,7 +39,7 @@ class UserDeleteTest extends TestCase
         $response->assertNoContent();
     }
 
-    public function test_delete_not_active(): void{
+    public function test_fail_delete_not_active(): void{
         
         $userToDelete = User::factory()->notActive()->create(['center_id' => $this->user->center_id]);
         $response = $this->actingAs($this->user)
@@ -47,8 +47,21 @@ class UserDeleteTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'id' => $userToDelete->id,
-            'is_active' => false, 
+            'is_active' => $userToDelete->is_active, 
         ]);
         $response->assertBadRequest();
+    }
+
+    public function test_fail_another_center_employee(): void{
+        
+        $userToDelete = User::factory()->create();
+        $response = $this->actingAs($this->user)
+            ->deleteJson(route('users.destroy', ['user' => $userToDelete]));
+
+        $this->assertDatabaseHas('users', [
+            'id' => $userToDelete->id,
+            'is_active' => $userToDelete->is_active, 
+        ]);
+        $response->assertForbidden();
     }
 }

@@ -28,6 +28,7 @@ export default defineConfig({
             '@domain': fileURLToPath(new URL('./resources/js/domain', import.meta.url)),
             '@constants': fileURLToPath(new URL('./resources/js/constants', import.meta.url)),
             '@data': fileURLToPath(new URL('./resources/data', import.meta.url)),
+            '@stores': fileURLToPath(new URL('./resources/stores', import.meta.url)),
         }
     }
 })

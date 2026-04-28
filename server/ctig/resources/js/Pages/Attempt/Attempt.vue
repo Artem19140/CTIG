@@ -4,7 +4,7 @@ import TasksList from './Components/tasks/TasksList.vue';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import { useForm } from '@inertiajs/vue3';
 import { Attempt } from '@/interfaces/Interfaces';
-import { useExamAttempt } from '@/composables/useExamAttempt';
+import { useAttempt } from '@/composables/useAttempt';
 import BaseLayout from '@/layouts/BaseLayout.vue';
 
 const props = defineProps<{
@@ -13,11 +13,9 @@ const props = defineProps<{
     }
 }>()
 
-const {examAttempt, audioPlaying} = useExamAttempt()
+const {examAttempt, audioPlaying} = useAttempt()
 
 examAttempt.value = props.attempt.data
-
-console.log(examAttempt.value.tasks)
 
 const form = useForm()
 
@@ -34,29 +32,29 @@ const finish = async () => {
 
 <template>
     <BaseLayout>
-    <template #drawer>
-        <v-navigation-drawer
-            location="right"
-            permanent
-            width="300"
-        >
-            <SidePanel :attempt="attempt.data" :tasks="attempt.data.tasks"/>
-        </v-navigation-drawer>
+        <template #drawer>
+            <v-navigation-drawer
+                location="right"
+                permanent
+                width="300"
+            >
+                <SidePanel :attempt="examAttempt"/>
+            </v-navigation-drawer>
 
-    </template>
-    <v-container class="flex flex-column gap-10 items-center">
-        {{ audioPlaying }}
-        <TasksList :attempt="attempt.data" />
-        <v-btn
-            @click="finish"
-            variant="flat"
-            color="primary"
-            :disabled="form.processing"
-            :loading="form.processing"
-        >
-            Завершить
-        </v-btn>
-    </v-container>
+        </template>
+        <v-container class="flex flex-column gap-10 items-center">
+            {{ audioPlaying }}
+            <TasksList :attempt="examAttempt" />
+            <v-btn
+                @click="finish"
+                variant="flat"
+                color="primary"
+                :disabled="form.processing"
+                :loading="form.processing"
+            >
+                Завершить
+            </v-btn>
+        </v-container>
     
     </BaseLayout>
 </template>

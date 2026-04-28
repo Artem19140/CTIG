@@ -4,6 +4,7 @@ import { useModals } from '@composables/useModals';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import { User } from '@/interfaces/Interfaces';
 import BaseTable from '@/components/BaseComponents/BaseTable/BaseTable.vue';
+import AppBorderedButton from '@/components/UI/AppBorderedButton/AppBorderedButton.vue';
 
 const props = defineProps<{
     employees : User[]
@@ -26,12 +27,9 @@ const headers = [
     >
         <template #toolbar-actions>
             <div class="flex gap-4">
-                <v-btn
-                    @click=""
-                    border
-                >
-                    Уволенные
-                </v-btn>
+                <AppBorderedButton 
+                    text="Уволенные"
+                />
                 <AppAddButton text="Добавить" 
                     @click="open('employeeCreate')" 
                 />

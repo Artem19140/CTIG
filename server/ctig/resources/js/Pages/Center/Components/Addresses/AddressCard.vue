@@ -44,11 +44,10 @@ const edit = () => {
                 onSuccess:() => {
                     editMode.value = false
                 },
-                onFinish:()=>{
-                    editLoading.value = false
-                }
             })
-            
+        },
+        onFinish:()=>{
+            editLoading.value = false
         }
     })
 }
@@ -67,10 +66,10 @@ const edit = () => {
         </div>
         
         <v-card-actions>
-            <v-tooltip text="Редактируется до привязки экзаменов" v-if="address.examsExists">
+            <v-tooltip text="Редактирование возможно до привязки экзаменов" v-if="address.examsExists">
                 <template #activator="{ props }">
                     <v-icon v-bind="props" size="small" class="ml-1">
-                    mdi-information-outline
+                        mdi-information-outline
                     </v-icon>
                 </template>
             </v-tooltip>

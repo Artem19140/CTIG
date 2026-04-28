@@ -11,12 +11,10 @@ const {messages, queue} = useSnackbarQueue()
       :total-visible="3"
       location="bottom center"
       closable
-      contained
       timeout
       variant="flat"
       timer="bottom"
       transition="bouncy-slide-auto"
-      origin="Anchor"
       prepend-icon="$success"
     >
       <template v-slot:actions="{ props }">

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Laravel\Sanctum\HasApiTokens;
@@ -44,7 +43,8 @@ class ForeignNational extends Authenticatable {
         'passport_number_normalized',
         'passport_series_normalized',
         'storage_expired_at',
-        'address_reg'
+        'address_reg',
+        'center_id'
     ];
 
     protected $casts = [
@@ -53,8 +53,6 @@ class ForeignNational extends Authenticatable {
         'issued_date'=> 'date',
     ];
 
-    
-    
     public function exams(): BelongsToMany{
         return $this->belongsToMany(Exam::class, 'enrollments')->withPivot('reg_number', 'has_payment');
     }

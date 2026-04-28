@@ -4,8 +4,8 @@ import { ref, watch } from 'vue';
 import BaseTask from './BaseTask.vue';
 import RenderBlocks from './TaskContentBlocks/RenderBlocks.vue';
 import { Task } from '@/interfaces/Task';
-import { useExamAttempt } from '@/composables/useExamAttempt';
 import { Attempt } from '@/interfaces/Interfaces';
+import { useAttempt } from '@/composables/useAttempt';
 
 const props = defineProps<{
     task:Task,
@@ -17,23 +17,28 @@ const attemptAnswer = ref<number | null>(
   props.task.attemptAnswer?.answer?.id
 )
 
+const error = ref<boolean>(false)
+
 const attemptAnswerId = props.task?.attemptAnswer?.id
 
 const http = useHttp<{ answer: number | null}>({
     answer: null
 })
 
+const  {updateAnswer} = useAttempt()
+
 const send = async () => {
+    error.value = false
     http.answer = attemptAnswer.value
-    const {updateAnswer} = useExamAttempt()
-    updateAnswer(attemptAnswerId, attemptAnswer.value)
     http.put(`/attempts/${props.attempt.id}/answers/${attemptAnswerId}`,{
         onSuccess:(response : any) => {
-            props.task.attemptAnswer.answer = response.data.answer
+            updateAnswer(props.task.id, response.data)
         },
-        onError:() => {
-
-        }
+        onFinish() {
+            if(!http.wasSuccessful){
+                error.value = true
+            }
+        },
     })
 }
 
@@ -45,9 +50,12 @@ watch(attemptAnswer, () => {
 
 <template>
     <base-task
+        :onRetry="send"
         :task="task"
         :checking="checking"
         :attempt="attempt"
+        :error="error"
+        :loading="http.processing"
     >
         <template #answers>
             <div class="mb-4 flex flex-column">

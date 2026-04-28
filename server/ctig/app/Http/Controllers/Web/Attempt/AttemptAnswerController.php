@@ -22,12 +22,11 @@ class AttemptAnswerController
     }
 
     public function update(
-                            AttemptAnswerRequest $request,
-                            Attempt $attempt, 
-                            AttemptAnswer $attemptAnswer,
-                            HandleAttemptAnswerAction $handleAttemptAnswerAction
-                        )
-    {
+        AttemptAnswerRequest $request,
+        Attempt $attempt, 
+        AttemptAnswer $attemptAnswer,
+        HandleAttemptAnswerAction $handleAttemptAnswerAction
+    ){
         $foreignNational = $request->user();
         if($attempt->foreign_national_id !== $foreignNational->id){
             abort(403);
@@ -35,7 +34,7 @@ class AttemptAnswerController
         $answer = $request->input('answer');
         $savedAnswer = DB::transaction(function()use($answer, $attempt,$attemptAnswer, $handleAttemptAnswerAction){
             $answer = $handleAttemptAnswerAction->execute($answer, $attempt, $attemptAnswer);
-            $attempt->last_activity_at = Carbon::now($attempt->center->time_zone);
+            $attempt->last_activity_at = Carbon::now();
             $attempt->save();
             return $answer;
         });
@@ -43,10 +42,10 @@ class AttemptAnswerController
     }
 
     public function rate(
-                            Request $request,
-                            AttemptAnswer $attemptAnswer,
-                            RateAttemptAnswerAction $rateAttemptAnswerAction
-                        ){
+        Request $request,
+        AttemptAnswer $attemptAnswer,
+        RateAttemptAnswerAction $rateAttemptAnswerAction
+    ){
         $request->validate([
             'mark' => ['required', 'integer', 'min:0']
         ]);

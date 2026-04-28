@@ -3,11 +3,8 @@ import { Attempt } from '@/interfaces/Interfaces';
 import { Task } from '@/interfaces/Task';
 import { useHttp } from '@inertiajs/vue3';
 import { computed, ref } from 'vue'
-import { useExamAttempt } from '@/composables/useExamAttempt';
-import AppSnackbarQueue from '@/components/UI/AppSnackbarQueue/AppSnackbarQueue.vue';
+import { useAttempt } from '@/composables/useAttempt';
 import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
-
-const {audioPlaying, examAttempt} = useExamAttempt()
 
 const props = defineProps<{ 
     value: string 
@@ -29,14 +26,17 @@ const playedTime = computed(() => {
     return (currentTime.value / duration.value) * 100
 })
 
-const http = useHttp({})
+const http = useHttp()
+const {audioPlaying} = useAttempt()
 
 const togglePlay = () => {
+
     if(!audioPlaying.value){
         audioPlaying.value = true
     }else{
         const {add} = useSnackbarQueue()
         add('Воспроизводится другая аудиозапись', 'red')
+        return
     }
     
     if(played.value) return
@@ -68,6 +68,7 @@ function format(time: number) {
   const s = Math.floor(time % 60)
   return `${m}:${s.toString().padStart(2, '0')}`
 }
+
 </script>
 
 <template>
@@ -78,7 +79,7 @@ function format(time: number) {
                 variant="tonal"
                 class="ma-2"
                 >
-                    <div v-if="!task.attemptAnswer.audioPlayed">
+                    <div v-if="!task.attemptAnswer?.audioPlayed">
                         <strong>ВНИМАНИЕ!</strong> Аудиозапись можно прослушать только один раз. 
                         Не <strong>перезагружайте</strong> и не <strong>закрывайте</strong> вкладку во время прослушивания.
                     </div>
@@ -87,7 +88,7 @@ function format(time: number) {
                     </div>
                     
             </v-alert>
-            <div v-if="!task.attemptAnswer.audioPlayed">
+            <div v-if="!task.attemptAnswer?.audioPlayed">
                 <audio
                     ref="audioRef"
                     :src="value"

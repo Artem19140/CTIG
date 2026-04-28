@@ -4,66 +4,28 @@ import { Task } from '@/interfaces/Task';
 import { TaskTypes } from '@/constants/TaskTypes';
 import TaskRatingBlock from './TaskRatingBlock.vue';
 import { Attempt } from '@/interfaces/Interfaces';
+import AppStatusChip from '@/components/UI/AppStatusChip/AppStatusChip.vue';
+import AppRefreshButton from '@/components/UI/AppRefreshButton/AppRefreshButton.vue';
+import TaskSavingStatus from './TaskSavingStatus.vue';
 
 const props = defineProps<{
-    task:Task, 
-    attempt?:Attempt,
-    checking?:boolean
+  task:Task, 
+  attempt?:Attempt,
+  checking?:boolean,
+  onRetry:() => void,
+  error:boolean,
+  loading:boolean
 }>()
-
-const emit = defineEmits<{
-    (e:'answerSaved', value:any):void
-}>()
-
-const saved = (value:any) => {
-    emit('answerSaved', value)
-}
 
 const getDefaultDescription = (type:string) => {
   switch(type){
-      case TaskTypes.SINGLE_CHOICE:
-          return 'Выберите один вариант ответа'
-      case TaskTypes.TEXT_INPUT:
-          return 'Впишите ответ в поле ввода'
+    case TaskTypes.SINGLE_CHOICE:
+      return 'Выберите один вариант ответа'
+    case TaskTypes.TEXT_INPUT:
+      return 'Впишите ответ в поле ввода'
   }
 }
 </script>
-
-<!-- <template>
-    <div>
-        <v-card width="600"
-            :subtitle ="`Задание ${task?.order}`"
-            :id="`task-${task.id}`"
-        >
-            <div class="description">
-                {{ task?.description && task.description.trim() !== "" ? task.description : getDefaultDescription(task?.type) }}
-            </div>
-            
-            
-            <v-card-text>
-                <RenderBlocks :content="task.content" />
-            </v-card-text>
-
-            <v-card-actions>
-                <slot name="answers" />
-            </v-card-actions>
-        </v-card>
-
-        <div v-if="checking" class="mt-4 mb-8">
-            <TaskRatingBlock @saved="saved" :task="task" />
-        </div>
-    </div>
-</template>
-
-<style lang="css" scoped>
-    .description {
-    padding: 12px 16px;
-    background: #f5f5f5;
-    border-left: 4px solid #1976d2;
-    font-weight: 500;
-    }
-</style> -->
-
 <template>
   <div class="flex flex-column justify-center pa-4">
     <v-card
@@ -73,14 +35,20 @@ const getDefaultDescription = (type:string) => {
       :id="`task-${task.id}`"
     >
       <v-card-title class="d-flex flex-column align-start ga-1">
-        <v-chip
-          size="small"
-          color="primary"
-          variant="tonal"
-        >
-          Задание {{ task?.order }}
-        </v-chip>
+        <div class="flex items-center gap-2">
+          <AppStatusChip 
+            size="small" 
+            :text="`Задание ${task?.order}`"
+            color="primary"
+          />
+          <TaskSavingStatus 
+            :loading="loading"
+            :success="false"
+            :error="error"
+          />
+        </div>
       </v-card-title>
+      
       <div class="text-subtitle-1 font-weight-medium mt-1 pl-6 pr-4 pre-like">
         {{ 
           task?.description && task.description.trim() !== "" 
@@ -91,7 +59,7 @@ const getDefaultDescription = (type:string) => {
 
       <v-divider />
 
-      <v-card-text class="pt-4">
+      <v-card-text>
         <v-sheet
           rounded="lg"
           class="pa-3"
@@ -104,15 +72,35 @@ const getDefaultDescription = (type:string) => {
         </v-sheet>
       </v-card-text>
 
-
-
-      <v-card-actions class="px-4 py-3">
+      <v-card-actions class="px-4">
         <slot name="answers" />
+        
       </v-card-actions>
+      
     </v-card>
 
     <div v-if="checking" class="mt-6 mb-10 w-100">
-        <TaskRatingBlock @saved="saved" :task="task" />
+      <TaskRatingBlock :task="task" />
+    </div>
+    <div class="mt-4" v-if="error">
+      <v-alert
+        density="compact"
+        variant="tonal"
+        type="error"
+        prominent
+      >
+        <div class="flex items-center justify-between" >
+          <span>
+            Ошибка сохранения, пожалуйста, повторите действие
+          </span>
+          <AppRefreshButton
+            icon-size="25"
+            @click="onRetry"
+          />
+        </div>
+      </v-alert>
+      
+      
     </div>
   </div>
 </template>

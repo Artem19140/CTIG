@@ -14,7 +14,6 @@ const props = defineProps<{
     <BaseTask 
         :content="task.content"
         :task="task"
-    >
-        
+    >  
     </BaseTask>
 </template>

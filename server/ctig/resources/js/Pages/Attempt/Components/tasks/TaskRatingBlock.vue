@@ -4,14 +4,10 @@ import AppProgressCircular from '@/components/UI/AppProgressCircular/AppProgress
 import { Task } from '@/interfaces/Task';
 import { useHttp } from '@inertiajs/vue3';
 import { computed, onMounted, ref, watch } from 'vue';
+
 const props = defineProps<{
     task:Task
 }>()
-
-const emit = defineEmits<{
-    (e:'saved', value:any):void
-}>()
-
 const mark = computed(() => props.task.attemptAnswer.mark)
 
 const answerId = props.task?.attemptAnswer?.id
@@ -28,7 +24,7 @@ watch(() => http.mark, () => {
 const rate = () => {
     http.put(`/answers/${answerId}/rate`,{
         onSuccess:(response:any)=>{
-            emit('saved',  response.attemptAnswer)
+
         }
     })
 }
@@ -74,26 +70,26 @@ onMounted(() => {
             >
             Оценка успешно сохранена
         </v-alert>
-        <div v-else class="mt-2">
-            <v-alert
-                type="error"
-                variant="tonal"
-                density="compact"
-            >
-                <div class="d-flex align-center justify-space-between">
-                    <span>Не удалось загрузить данные</span>
-                    <v-btn
-                        size="small"
-                        color="error"
-                        variant="outlined"
-                        prepend-icon="mdi-refresh"
-                        :loading="loading"
-                        @click="rate"
-                    >
-                    Повторить
-                    </v-btn>
-                </div>
-            </v-alert>
-        </div>          
+        <v-alert
+            class="mt-2"
+            v-else
+            type="error"
+            variant="tonal"
+            density="compact"
+        >
+            <div class="d-flex align-center justify-space-between">
+                <span>Не удалось загрузить данные</span>
+                <v-btn
+                    size="small"
+                    color="error"
+                    variant="outlined"
+                    prepend-icon="mdi-refresh"
+                    :loading="loading"
+                    @click="rate"
+                >
+                Повторить
+                </v-btn>
+            </div>
+        </v-alert>          
     </div>
 </template>

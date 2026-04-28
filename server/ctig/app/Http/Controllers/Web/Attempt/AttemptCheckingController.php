@@ -30,9 +30,9 @@ class AttemptCheckingController
     }   
 
     public function finishChecking(
-                                    Attempt $attempt, 
-                                    FinilizeAttemptCheckingAction $finilizeAttemptCheckingAction
-                                ){
+        Attempt $attempt, 
+        FinilizeAttemptCheckingAction $finilizeAttemptCheckingAction
+    ){
         if($attempt->hasUncheckedAnswers()){
             throw new BusinessException('Существуют непроверенные задания, завершение невозможно');
         }

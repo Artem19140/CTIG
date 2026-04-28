@@ -12,7 +12,8 @@
       "@helpers/*": ["resources/js/helpers/*"],
       "@domain/*": ["resources/js/domain/*"],
       "@constants/*": ["resources/js/constants/*"],
-      "@data/*": ["resources/data/*"]
+      "@data/*": ["resources/data/*"],
+      "@stores/*": ["resources/stores/*"]
     }
   },
   "include": [

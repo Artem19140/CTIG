@@ -1,21 +1,19 @@
 <script setup lang="ts">
 import Timer from './Timer.vue';
 import TaskSideList from './TaskSideList.vue';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { Attempt } from '@/interfaces/Interfaces';
-import { Task } from '@/interfaces/Task';
 
 const props = defineProps<{
-    attempt:Attempt,
-    tasks:Task[]
+  attempt:Attempt
 }>()
 
 const progress = computed(() => {
-  if (!props.tasks?.length) return 0
-  return (solved.value / props.tasks.length) * 100
+  if (!props.attempt.tasks?.length) return 0
+  return (solved.value  / props.attempt.tasks.length) * 100
 })
-const tasks = ref(props.tasks)
-const solved = computed(() =>  props.tasks.filter(item => item?.attemptAnswer?.answer !== null).length)
+
+const solved = computed(() =>  props.attempt.tasks.filter(item => item?.attemptAnswer?.answer !== null).length)
 </script>
 
 <template>
@@ -38,7 +36,7 @@ const solved = computed(() =>  props.tasks.filter(item => item?.attemptAnswer?.a
         Задания
       </div>
       <div class="text-caption text-medium-emphasis">
-        {{ solved }} / {{ tasks?.length }}
+        {{ solved }} / {{ attempt.tasks?.length }}
       </div>
     </div>
 
@@ -50,6 +48,6 @@ const solved = computed(() =>  props.tasks.filter(item => item?.attemptAnswer?.a
       class="mb-4"
     />
 
-    <TaskSideList :tasks="tasks" />
-    </div>
+    <TaskSideList :tasks="attempt.tasks" />
+  </div>
 </template>

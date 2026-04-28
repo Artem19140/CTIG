@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import AppProgressCircular from '@/components/UI/AppProgressCircular/AppProgressCircular.vue';
-import AppRefreshButton from '@/components/UI/AppRefreshButton/AppRefreshButton.vue';
 
 const props = defineProps<{
     loading:boolean,
     success:boolean,
-    error:boolean
 }>()
 </script>
 
@@ -18,11 +16,6 @@ const props = defineProps<{
         
         <div v-if="success">
             Ответ сохранено
-        </div>
-
-        <div v-if="error" class="flex items-center text-red">
-            Ошибка сохранения, повторите действие
-            <AppRefreshButton icon-size="20" />
         </div>
     </div>
 </template>

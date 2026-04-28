@@ -44,7 +44,6 @@ const getDefaultDescription = (type:string) => {
           <TaskSavingStatus 
             :loading="loading"
             :success="false"
-            :error="error"
           />
         </div>
       </v-card-title>
@@ -99,8 +98,6 @@ const getDefaultDescription = (type:string) => {
           />
         </div>
       </v-alert>
-      
-      
     </div>
   </div>
 </template>

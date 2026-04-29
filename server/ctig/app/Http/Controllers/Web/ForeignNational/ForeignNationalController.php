@@ -47,9 +47,8 @@ class ForeignNationalController
         $foreignNational->load([
             'creator',
             'enrollments' => [ 
-                'exam.type', 
-                'attempt', 
-                'foreignNational'
+                'exam' => ['type', 'center'], 
+                'attempt.center'
             ]
         ]);
 

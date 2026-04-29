@@ -25,6 +25,14 @@ class AddressFactory extends Factory
             ];
         });
     }
+
+    public function withCapacity(int $capacity): AddressFactory{
+        return $this->state(function() use($capacity) {
+            return[
+                'max_capacity' => $capacity
+            ];
+        });
+    }
     public function definition(): array
     {
         return [

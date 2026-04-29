@@ -26,10 +26,10 @@ class EnrollmentResource extends JsonResource
             'attempt' => new AttemptResource($this->whenLoaded('attempt')),
             'regNum' => $this->reg_number,
             'examResult' => $this->when(
-                                        $this->relationLoaded('exam') && 
-                                        $this->relationLoaded('attempt'),
-                                        fn () => app(ExamResultResolver::class)->execute($this->resource)
-                                    )
+                $this->relationLoaded('exam') && 
+                $this->relationLoaded('attempt'),
+                fn () => app(ExamResultResolver::class)->execute($this->resource)
+            )
         ];
     }
 }

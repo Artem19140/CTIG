@@ -6,7 +6,6 @@ use App\Http\Resources\ForeignNational\ForeignNationalResource;
 use App\Http\Resources\TaskVariant\TaskVariantResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Log;
 
 class AttemptExamResource extends JsonResource
 {

@@ -28,19 +28,15 @@ const ban = async () => {
     const form = useForm({
         banReason : res
     })
-    form.put(`/attempts/${props.enrollment.attempt?.id}/ban`, 
-    {
+    form.put(`/attempts/${props.enrollment.attempt?.id}/ban`, {
         onFinish:()=> {
             loadingSnack.close()
         }
-    }
-    )
-    
+    })
 }
+
 const modals = useModals()
-const getSpeakingTasks = () => {
-    modals.open('speaking', {enrollment:props.enrollment})
-}
+
 const isBanned = computed(() => props.enrollment.attempt?.status === 'banned')
 const { isCancelled, isFinished, isGoing } = useExamStatus(props.exam)
 
@@ -60,8 +56,12 @@ const changePaymentDisabled = isCancelled.value || isFinished.value || hasAttemp
         <AppListDropDownItem 
             :disabled="getSpeakingDisabled"
             v-if="exam?.hasSpeakingTasks"
-            title="Устная часть" 
-            @click="getSpeakingTasks"
+            title="Говорение" 
+            @click="modals.open('speaking', {enrollment:props.enrollment})"
+        />
+        <AppListDropDownItem 
+            title="Нарушения" 
+            @click="modals.open('violation', {enrollment:props.enrollment})"
         />
         <AppListDropDownItem    
             color="text-red" 

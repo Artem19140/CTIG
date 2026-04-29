@@ -11,6 +11,6 @@ class Violation extends Model
     use HasFactory;
     protected $fillable = [
         'attempt_id',
-        'type'
+        'exam_id'
     ];
 }

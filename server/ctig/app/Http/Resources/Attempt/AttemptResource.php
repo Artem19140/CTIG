@@ -30,7 +30,8 @@ class AttemptResource extends JsonResource
             //'status' => app(AttemptStatusResolver::class)->execute($this->resource),
             'status' => $this->status(),
             'tasks' => TaskVariantResource::collection($this->whenLoaded('taskVariants', fn () =>  $this->taskVariants)),
-            'speakingFinishedAt' => $this->speaking_finished_at
+            'speakingFinishedAt' => $this->resource->speaking_finished_at,
+            'speakingStartedAt' => $this->resource->speaking_started_at
         ];
     }
 }

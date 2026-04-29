@@ -2,9 +2,8 @@
 
 namespace App\Domain\Report;
 
-use App\Domain\Report\CheckAvailableFrdoGeneration;
+use App\Domain\Report\EnsureFrdoGenerationAvailable;
 use App\Enums\AttemptStatus;
-use App\Exceptions\BusinessException;
 use App\Models\Attempt;
 use App\Models\Center;
 use Carbon\Carbon;
@@ -15,13 +14,13 @@ use PhpOffice\PhpSpreadsheet\Writer\IWriter;
 
 class FRDOReportsGenerator{
     public function __construct(
-        protected CheckAvailableFrdoGeneration $checkAvailableGeneration
+        protected EnsureFrdoGenerationAvailable $ensureFrdoGenerationAvailable
     ){
         
     }
     public function execute(string $examDate, bool $success, Center $center): IWriter{
         $examDate = Carbon::parse($examDate);
-        $this->checkAvailableGeneration->execute($examDate, $success);
+        $this->ensureFrdoGenerationAvailable->execute($examDate, $success);
         $spreadsheet = $this->generateReport($examDate, $success, $center);
         return IOFactory::createWriter($spreadsheet, 'Xlsx');
     }

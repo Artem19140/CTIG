@@ -46,6 +46,7 @@ class AttemptAnswerController
         AttemptAnswer $attemptAnswer,
         RateAttemptAnswerAction $rateAttemptAnswerAction
     ){
+
         $request->validate([
             'mark' => ['required', 'integer', 'min:0']
         ]);

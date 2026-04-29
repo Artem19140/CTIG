@@ -6,7 +6,6 @@ use App\Domain\Attempt\Action\BanAttemptAction;
 use App\Domain\Attempt\Action\FinishAttemptAction;
 use App\Domain\Attempt\Action\StartAttemptAction;
 use App\Domain\Attempt\Query\GetCurrentAttemptQuery;
-use App\Domain\Attempt\Query\GetAttemptSpeakingTasksQuery;
 use App\Enums\AttemptStatus;
 use App\Http\Resources\Attempt\AttemptExamResource;
 use App\Http\Resources\Attempt\AttemptResource;
@@ -15,7 +14,6 @@ use App\Models\Attempt;
 use App\Models\Exam;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class AttemptController
@@ -58,13 +56,6 @@ class AttemptController
         ]);
         $banAttempt->execute($attempt, $request->input('banReason'), $request->user()->id);
         return response()->noContent();
-    }
-
-    public function speaking(Attempt $attempt, GetAttemptSpeakingTasksQuery $getAttemptSpeakingQuery){
-        $exam = Exam::findOrFail($attempt->exam_id);
-        Gate::authorize('exam-manage-access', $exam);
-        $attempt = $getAttemptSpeakingQuery->execute($attempt);
-        return new AttemptResource($attempt);
     }
 
     public function finish(

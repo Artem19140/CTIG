@@ -45,6 +45,8 @@ return new class extends Migration
             $table->dateTime('finished_at')->nullable()->default(null);
             $table->dateTime('checked_at')->nullable()->default(null);
             $table->dateTime('expired_at')->nullable()->default(null);
+
+            $table->dateTime('speaking_started_at')->nullable()->default(null);
             $table->dateTime('speaking_finished_at')->nullable()->default(null);
 
             $table->timestamps();

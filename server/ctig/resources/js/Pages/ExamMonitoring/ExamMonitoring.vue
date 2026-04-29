@@ -3,12 +3,11 @@ import EnrollmentMonitoringDropdown from './EnrollmentMonitoringDropdown.vue';
 import { usePoll } from '@inertiajs/vue3'
 import { attemptStatus } from '@helpers/heplers';
 import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
-import BaseLayout from '@layouts/BaseLayout.vue';
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import { useModals } from '@composables/useModals';
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted} from 'vue';
 import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
-import { Enrollment, Exam } from '@interfaces/Interfaces';
+import { Exam } from '@interfaces/Interfaces';
 import { DateFormatter } from '@helpers/DateFormatter';
 import { useExamStatus } from '@/composables/useExamStatus';
 import BaseContainer from '@/components/BaseComponents/BaseContainer/BaseContainer.vue';
@@ -24,12 +23,6 @@ const props = defineProps<{
         data:Exam
     },
 }>()
-
-//const enrollments = ref<Enrollment[]>(props.exam.data.enrollments)
-
-// watch(() => props.exam.data.enrollments, (data) => {
-//     enrollments.value = data
-// })
 
 const { start, stop } = usePoll(10000, {}, {
     autoStart: false,
@@ -50,6 +43,7 @@ const headers = [
     },
     {title:'', key:"actions",sortable: false,align: 'end'}
 ]
+
 if(props.exam.data.hasSpeakingTasks){
     headers.splice(headers.length -1 , 0, {title:'Говор.', key:"speaking",sortable: false, align:'center'})
 }
@@ -69,6 +63,7 @@ onUnmounted(()=>{
 })
 
 const {open} = useModals()
+
 const openForeignNational = (event : Event, {item} :any) => {
     open('foreignNationalShow', {foreignNationalId:item.foreignNational.id})
 }

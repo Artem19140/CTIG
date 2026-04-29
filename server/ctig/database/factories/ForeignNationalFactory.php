@@ -60,6 +60,8 @@ public function definition(): array
         // normalized = lowercase кириллица
         'surname_normalized' => mb_strtolower($lastName),
         'name_normalized' => mb_strtolower($firstName),
+        'patronymic_normalized' => mb_strtolower($patronymic),
+
 
         // latin — синхронизированная транслитерация
         'surname_latin' =>$this->translit($lastName),

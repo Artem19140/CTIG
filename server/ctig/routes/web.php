@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Web\Address\AddressController;
 use App\Http\Controllers\Web\Attempt\AttemptCheckingController;
+use App\Http\Controllers\Web\Attempt\AttemptSpeakingController;
+use App\Http\Controllers\Web\Attempt\AttemptViolationController;
 use App\Http\Controllers\Web\Enrollment\EnrollmentDocumentController;
 use App\Http\Controllers\Web\Exam\ExamCheckingController;
 use App\Http\Controllers\Web\File\FileController;
@@ -65,19 +67,23 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
         Route::get('schedule', [ExamController::class, 'schedule'])->name('exams.schedule');
         
     });
-    Route::apiResource('exams', ExamController::class)->where(['exam' => '[0-9]+']);//->middleware('user.has.role:examiner1');
+    Route::apiResource('exams', ExamController::class)->where(['exam' => '[0-9]+']);
+
+    Route::prefix('attempts')->group(function(){
+        Route::put('{attempt}/ban', [AttemptController::class, 'ban'])->name('attempts.ban');
+
+        Route::get('{attempt}/checking/tasks', [AttemptCheckingController::class, 'show'])->name('attempts.checking.tasks');
+
+        Route::get('{attempt}/tasks/speaking', [AttemptCheckingController::class, 'show'])->name('attempts.speaking.tasks');
+
+        Route::get('{attempt}/speaking', [AttemptSpeakingController::class, 'show'])->name('attempts.speaking');
+        Route::post('{attempt}/speaking/finish', [AttemptSpeakingController::class, 'finish'])->name('attempts.speaking.finish');
+        Route::post('{attempt}/speaking/start', [AttemptSpeakingController::class, 'start'])->name('attempts.speaking.start');
+
+        Route::get('{attempt}/violations', [AttemptViolationController::class, 'index'])->name('attempts.violations');
+    });
     
-    Route::put('attempts/{attempt}/ban', [AttemptController::class, 'ban'])->name('attempts.ban');
-
     Route::put('answers/{attemptAnswer}/rate', [AttemptAnswerController::class, 'rate']);
-   
-    Route::get('attempts/{attempt}/checking/tasks', [AttemptCheckingController::class, 'show'])->name('attempts.checking.tasks');
-
-    Route::put('attempts/{attempt}/checking/finish', [AttemptCheckingController::class, 'finishChecking'])->name('attempts.checking.finish');
-
-    Route::get('attempts/{attempt}/tasks/speaking', [AttemptCheckingController::class, 'show'])->name('attempts.speaking.tasks');
-
-    Route::put('attempts/{attempt}/speaking', [AttemptCheckingController::class, 'finishSpeaking'])->name('attempts.speaking.tasks');
 
     Route::post('password/change', [LoginController::class, 'changePassword'])->withoutMiddleware(['password.change']);;
     Route::inertia('password/change', 'ChangePassword/ChangePassword')->name('password.change')->withoutMiddleware(['password.change']);;
@@ -110,7 +116,7 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
 
     Route::get('roles',  [UserController::class, "rolesShow"]);
 
-   Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+   Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });
 
 Route::middleware('guest')->group(function (){

@@ -10,10 +10,10 @@ const modals = useModals()
     <BaseThreeDotDropdown>
         <AppListDropDownItem 
             title="Еженедельный отчет"
-            @click="modals.open('ministryEsucationReport')"
+            @click="modals.open('ministryEducationReport')"
         />
         <AppListDropDownItem 
-            title="Выгрузить за период"
+            title="Экспорт ИГ"
             @click="modals.open('foreignNationalExport')"
         />
         <AppListDropDownItem 

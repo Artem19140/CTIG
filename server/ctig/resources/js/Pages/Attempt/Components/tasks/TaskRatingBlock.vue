@@ -21,18 +21,26 @@ watch(() => http.mark, () => {
     rate()
 })
 
+const error = ref<boolean>(false)
+
 const rate = () => {
+    error.value = false
     http.put(`/answers/${answerId}/rate`,{
         onSuccess:(response:any)=>{
 
-        }
+        },
+        onFinish() {
+            if(!http.wasSuccessful){
+                error.value = true
+            }
+        },
     })
 }
 
 const loading = computed(() => http.processing)
 
 const markSaved = computed(() => 
-    http.hasErrors && http.wasSuccessful && !loading.value || mark.value !== null 
+    mark.value !== null || http.wasSuccessful 
 )
 
 const marks = ref<Array<number>>([])
@@ -61,35 +69,37 @@ onMounted(() => {
             <AppProgressCircular size="18" width="2" />
             <span>Сохранение...</span>
         </div>
-        
-        <v-alert
-            v-if="markSaved"
-            type="success"
-            density="compact"
-            variant="tonal"
+        <div v-else>
+            <v-alert
+                v-if="markSaved"
+                type="success"
+                density="compact"
+                variant="tonal"
             >
-            Оценка успешно сохранена
-        </v-alert>
-        <v-alert
-            class="mt-2"
-            v-else
-            type="error"
-            variant="tonal"
-            density="compact"
-        >
-            <div class="d-flex align-center justify-space-between">
-                <span>Не удалось загрузить данные</span>
-                <v-btn
-                    size="small"
-                    color="error"
-                    variant="outlined"
-                    prepend-icon="mdi-refresh"
-                    :loading="loading"
-                    @click="rate"
-                >
-                Повторить
-                </v-btn>
-            </div>
-        </v-alert>          
+                Оценка успешно сохранена
+            </v-alert>
+
+            <v-alert
+                v-if="error"
+                class="mt-2"
+                type="error"
+                variant="tonal"
+                density="compact"
+            >
+                <div class="d-flex align-center justify-space-between">
+                    <span>Не удалось загрузить данные</span>
+                    <v-btn
+                        size="small"
+                        color="error"
+                        variant="outlined"
+                        prepend-icon="mdi-refresh"
+                        :loading="loading"
+                        @click="rate"
+                    >
+                    Повторить
+                    </v-btn>
+                </div>
+            </v-alert>
+        </div>          
     </div>
 </template>

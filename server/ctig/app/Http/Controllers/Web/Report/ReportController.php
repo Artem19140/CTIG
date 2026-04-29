@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web\Report;
 
 use App\Domain\Attempt\Action\CloseAbandonedAttemptsAction;
-use App\Domain\Report\CheckAvailableFrdoGeneration;
+use App\Domain\Report\EnsureFrdoGenerationAvailable;
 use App\Domain\Report\FlatTableGenerator;
 use App\Domain\Report\FRDOReportsGenerator;
 use App\Domain\Report\MinistryEducationReportGenerator;
@@ -43,11 +43,11 @@ class ReportController
 
     public function availableFrdo(
         FrdoReportRequest $request, 
-        CheckAvailableFrdoGeneration $checkAvailableGeneration, 
+        EnsureFrdoGenerationAvailable $ensureFrdoGenerationAvailable, 
         CloseAbandonedAttemptsAction $closeAbandonedAttemptsAction
     ){
         $closeAbandonedAttemptsAction->execute();
-        $checkAvailableGeneration->execute($request->input('examDate'), $request->input('success'));
+        $ensureFrdoGenerationAvailable->execute($request->input('examDate'), $request->input('success'));
         return response()->json([
             'redirectUrl' => route('reports.frdo', [
                 'examDate' => $request->validated('examDate'),

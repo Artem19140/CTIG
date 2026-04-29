@@ -12,9 +12,9 @@ const props = defineProps<{
   task:Task, 
   attempt?:Attempt,
   checking?:boolean,
-  onRetry:() => void,
-  error:boolean,
-  loading:boolean
+  onRetry?:() => void,
+  error?:boolean,
+  loading?:boolean
 }>()
 
 const getDefaultDescription = (type:string) => {

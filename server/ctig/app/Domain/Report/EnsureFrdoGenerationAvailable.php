@@ -7,7 +7,7 @@ use App\Exceptions\BusinessException;
 use App\Models\Attempt;
 use Carbon\Carbon;
 
-class CheckAvailableFrdoGeneration{
+class EnsureFrdoGenerationAvailable{
     public function execute(string $examDate, bool $success):void{
         $examDate = Carbon::parse($examDate);
         $this->ensureAttemptsExists($examDate);

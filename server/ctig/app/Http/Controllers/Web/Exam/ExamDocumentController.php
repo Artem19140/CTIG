@@ -18,6 +18,7 @@ class ExamDocumentController
     public function __construct(
         protected ExamDocumentAvailable $examDocumentAvailable
     ){}
+
     public function list(Exam $exam){
         $this->examDocumentAvailable->list($exam);
 
@@ -38,14 +39,16 @@ class ExamDocumentController
         ])->back();
     }
 
-    public function codes(Exam $exam, ExamCodesGenerator $examCodesGenerator)
-    {
+    public function codes(
+        Exam $exam, 
+        ExamCodesGenerator $examCodesGenerator
+    ){
+        $this->examDocumentAvailable->codes($exam);
         Gate::authorize('exam-manage-access', $exam);
         return $examCodesGenerator->execute($exam);
     }
 
-    public function codesAvailable(Exam $exam)
-    {
+    public function codesAvailable(Exam $exam){
         Gate::authorize('exam-manage-access', $exam);
         $this->examDocumentAvailable->codes($exam);
         return Inertia::flash([
@@ -53,42 +56,37 @@ class ExamDocumentController
         ])->back();
     }
 
-    public function protocol(Request $request, Exam $exam, ExamProtocolGenerator $examProtocolGenerator)
-    {
+    public function protocol(
+        Request $request, 
+        Exam $exam, 
+        ExamProtocolGenerator $examProtocolGenerator
+    ){
+        $this->examDocumentAvailable->protocol($exam);
         return $examProtocolGenerator->execute($exam, $request->user() );
     }
 
-    public function protocolAvailable(Exam $exam)
-    {
+    public function protocolAvailable(Exam $exam){
         $this->examDocumentAvailable->protocol($exam);
         return Inertia::flash([
             'redirectUrl' => route('exam.documents.protocol', ['exam' => $exam])
         ])->back();
     }
 
-    public function results(Exam $exam, ExamResultsGenerator $examResultsGenerator)
-    {
-        
+    public function results(Exam $exam, ExamResultsGenerator $examResultsGenerator){
+        $this->examDocumentAvailable->results($exam);
         $resultsPdf = $examResultsGenerator->execute($exam);
-        
         $fileName = "Результаты_".$exam->short_name."_".$exam->begin_time->format('H-i_d.m.Y').".pdf";
         return $resultsPdf->stream($fileName);
     }
 
-    public function resultsAvailable(Exam $exam, CloseAbandonedAttemptsAction $closeAbandonedAttemptsAction)
-    {
+    public function resultsAvailable(
+        Exam $exam, 
+        CloseAbandonedAttemptsAction $closeAbandonedAttemptsAction
+    ){
         $closeAbandonedAttemptsAction->execute();
         $this->examDocumentAvailable->results($exam);
         return Inertia::flash([
             'redirectUrl' => route('exam.documents.results', ['exam' => $exam])
         ])->back();
-    }
-
-    public function shortResults(Exam $exam, ExamResultsGenerator $generateExamResults)
-    {
-        
-        $resultsPdf = $generateExamResults->execute($exam);
-        $fileName = "Результаты_".$exam->short_name."_".$exam->begin_time->format('H-i_d.m.Y').".pdf";
-        return $resultsPdf->stream($fileName);
     }
 }

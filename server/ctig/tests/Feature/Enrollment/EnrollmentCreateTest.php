@@ -3,6 +3,7 @@
 namespace Tests\Feature\Enrollment;
 
 use App\Enums\CounterKey;
+use App\Models\Address;
 use App\Models\Center;
 use App\Models\Counter;
 use App\Models\Enrollment;
@@ -11,17 +12,12 @@ use App\Models\ForeignNational;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class EnrollmentCreateTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
     use RefreshDatabase;
     protected User $user;
-    protected Exam $exam;
     protected ForeignNational $foreignNational;
     protected string $model;
 
@@ -43,6 +39,15 @@ class EnrollmentCreateTest extends TestCase
         parent::tearDown();
         Carbon::setTestNow();
     }
+
+    protected function postEnrollment(int $examId){
+        return $this->actingAs( $this->user)
+            ->postJson('/enrollments',[
+                'examId' => $examId,
+                'foreignNationalId' => $this->foreignNational->id,
+                'hasPayment' => true
+            ]);
+    }
     public function test_success(): void
     {
         $this->withoutExceptionHandling();
@@ -51,14 +56,9 @@ class EnrollmentCreateTest extends TestCase
             'begin_time' => Carbon::now()->addMinutes(Enrollment::CLOSE_BEFORE_START_MINUTES)->addMinute()
         ]);
 
-        $response = $this->actingAs( $this->user)
-            ->postJson('/enrollments',[
-                'examId' => $exam->id,
-                'foreignNationalId' => $this->foreignNational->id,
-                'hasPayment' => true
-            ]);
+        $response = $this->postEnrollment($exam->id);
 
-        $response->assertStatus(200);
+        $response->assertOk();
         $this->assertDatabaseCount($this->model, 1);
     }
 
@@ -68,14 +68,9 @@ class EnrollmentCreateTest extends TestCase
             'begin_time' => Carbon::now()->subMinute()
         ]);
         
-        $response = $this->actingAs( $this->user)
-            ->postJson('/enrollments',[
-                'examId' => $exam->id,
-                'foreignNationalId' =>  $this->foreignNational->id,
-                'hasPayment' => true
-            ]);
+        $response = $this->postEnrollment($exam->id);
 
-        $response->assertStatus(400);
+        $response->assertBadRequest();
         $this->assertDatabaseEmpty($this->model);
     }
 
@@ -86,14 +81,9 @@ class EnrollmentCreateTest extends TestCase
             'begin_time' => Carbon::now()->addMinutes(Enrollment::CLOSE_BEFORE_START_MINUTES)->addMinute()
         ]);
         
-        $response = $this->actingAs( $this->user)
-            ->postJson('/enrollments',[
-                'examId' => $exam->id,
-                'foreignNationalId' =>  $this->foreignNational->id,
-                'hasPayment' => true
-            ]);
+        $response = $this->postEnrollment($exam->id);
 
-        $response->assertStatus(400);
+        $response->assertBadRequest();
         $this->assertDatabaseEmpty($this->model);
     }
 
@@ -104,14 +94,49 @@ class EnrollmentCreateTest extends TestCase
             'begin_time' => Carbon::now()->addMinutes(Enrollment::CLOSE_BEFORE_START_MINUTES)->subMinute()
         ]);
         
-        $response = $this->actingAs( $this->user)
-            ->postJson('/enrollments',[
-                'examId' => $exam->id,
-                'foreignNationalId' =>  $this->foreignNational->id,
-                'hasPayment' => true
+        $response = $this->postEnrollment($exam->id);
+
+        $response->assertBadRequest();
+        $this->assertDatabaseEmpty($this->model);
+    }
+
+    public function test_fail_full_enrollment(): void
+    {
+        $capacity = 8;
+
+        $address = Address::factory()
+            ->withCapacity($capacity)
+            ->create();
+
+        $exam = Exam::factory()
+            ->withCapacity($capacity)
+            ->has(Enrollment::factory($capacity))
+            ->create([
+                'begin_time' => Carbon::now()->addMinutes(Enrollment::CLOSE_BEFORE_START_MINUTES)->addMinute(),
+                'address_id' => $address->id
             ]);
 
-        $response->assertStatus(400);
-        $this->assertDatabaseEmpty($this->model);
+        
+        $response = $this->postEnrollment($exam->id);
+
+        $response->assertBadRequest();
+        $this->assertDatabaseCount($this->model, $capacity);
+    }
+
+    public function test_fail_more_than_one_enrollment(): void
+    {
+        $exam = Exam::factory()
+            ->create([
+                'begin_time' => Carbon::now()->addMinutes(Enrollment::CLOSE_BEFORE_START_MINUTES)->addMinute(),
+            ]);
+
+        
+        $response = $this->postEnrollment($exam->id);
+        $response->assertOk();
+        $this->assertDatabaseCount($this->model, 1);
+
+        $response = $this->postEnrollment($exam->id);
+        $response->assertBadRequest();
+        $this->assertDatabaseCount($this->model, 1);
     }
 }

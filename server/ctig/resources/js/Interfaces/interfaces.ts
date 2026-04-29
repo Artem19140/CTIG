@@ -108,7 +108,15 @@ export interface Attempt{
     examName:string,
     endsAt:number,
     serverNow:number,
-    speakingFinishedAt: string | null
+    speakingFinishedAt: string | null,
+    speakingStartedAt: string | null,
+    violations:Array<Violation>
+}
+
+export interface Violation{
+    id:number,
+    comment:string,
+    createdAt:string
 }
 
 export interface Address{

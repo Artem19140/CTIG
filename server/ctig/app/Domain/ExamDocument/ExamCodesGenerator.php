@@ -8,12 +8,7 @@ use Illuminate\Database\QueryException;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 final class ExamCodesGenerator{
-    public function __construct(
-        protected ExamDocumentAvailable $examDocumentAvailable
-    ){}
     public function execute(Exam $exam){
-        $this->examDocumentAvailable->codes($exam);
-
         $exam->load('enrollments.foreignNational');
 
         $this->generateCodesForExam($exam);

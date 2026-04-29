@@ -18,49 +18,35 @@ import StatisticsModal from '@pages/ForeignNationals/Components/ForeignNationalT
 import SpeakingTasksModal from '@/pages/ExamMonitoring/SpeakingTasksModal.vue';
 import AddressCreateModal from '@/pages/Center/Components/Addresses/AddressCreateModal.vue';
 import MinistryEducationReportModal from '@/pages/ForeignNationals/Components/ForeignNationalTable/MinistryEducationReportModal.vue';
+import ViolationModal from '@/pages/ExamMonitoring/ViolationModal.vue';
 
 const {modals, close} = useModals()
 
-const modalComponent = (name: string) => {
-    switch(name){
-        case 'foreignNationalShow':
-            return ForeignNationalShowModal
-        case 'examShow':
-            return ExamShowModal
-        case 'examCreate':
-            return ExamCreateModal
-        case 'frdo':
-            return FrdoModal
-        case 'foreignNationalCreate':
-            return ForeignNationalCreateModal
-        case 'flatTable':
-            return FlatTableModal
-        case 'enrollment':
-            return EnrollmentModal
-        case 'attemptChecking':
-            return AttemptCheckingModal
-        case 'pdf':
-            return PdfDialogViewer
-        case 'examComment':
-            return ExamCommentModal
-        case 'employeeCreate':
-            return EmployeeCreateModal
-        case 'foreignNationalEdit':
-            return ForeignNationalEditModal
-        case 'examEdit':
-            return ExamEditModal
-        case 'foreignNationalExport':
-            return ForeignNationalExportModal
-        case 'statistics':
-            return StatisticsModal
-        case 'speaking':
-            return SpeakingTasksModal
-        case 'addressCreate':
-            return AddressCreateModal
-        case 'ministryEsucationReport':
-            return MinistryEducationReportModal
-    }
-}
+export type ModalName = keyof typeof modalMap
+
+const modalComponent = (name: ModalName) => modalMap[name] ?? null
+
+const modalMap = {
+    foreignNationalShow: ForeignNationalShowModal,
+    examShow: ExamShowModal,
+    examCreate: ExamCreateModal,
+    frdo: FrdoModal,
+    foreignNationalCreate: ForeignNationalCreateModal,
+    flatTable: FlatTableModal,
+    enrollment: EnrollmentModal,
+    attemptChecking: AttemptCheckingModal,
+    pdf: PdfDialogViewer,
+    examComment: ExamCommentModal,
+    employeeCreate: EmployeeCreateModal,
+    foreignNationalEdit: ForeignNationalEditModal,
+    examEdit: ExamEditModal,
+    foreignNationalExport: ForeignNationalExportModal,
+    statistics: StatisticsModal,
+    speaking: SpeakingTasksModal,
+    addressCreate: AddressCreateModal,
+    ministryEducationReport: MinistryEducationReportModal,
+    violation: ViolationModal,
+} as const
 
 const closeModal = (id: number) => {
     close(id)

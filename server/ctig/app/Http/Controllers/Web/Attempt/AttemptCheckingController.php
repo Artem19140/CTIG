@@ -45,15 +45,11 @@ class AttemptCheckingController
     public function finishSpeaking(Attempt $attempt){
         $attempt->loadMissing('exam.type');
 
-        if(!$attempt->exam->hasSpeaking()){
-            throw new BusinessException('У данной попытки нет заданий на говорение');
-        }
-
         if($attempt->speaking_finished_at){
             throw new BusinessException('Задание на говорение уже пройдено');
         }
 
-        $attempt->speaking_finished_at = Carbon::now($attempt->time_zone);
+        $attempt->speaking_finished_at = Carbon::now();
         $attempt->save();
         return response()->noContent();
     }

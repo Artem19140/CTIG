@@ -14,20 +14,20 @@ class GetAttemptSpeakingTasksQuery{
     ){}
 
     public function execute(Attempt $attempt):Attempt{
-        $this->attemptGuard->ensureNotBanned($attempt);//Как они проводят speaking то??
+        $this->attemptGuard->ensureNotBanned($attempt);
         $this->attemptGuard->ensureStarted($attempt);
-        $this->attemptGuard->ensureNotFinished($attempt);
-        $this->attemptGuard->ensureNotExpired($attempt);
+
         $attempt->loadMissing([
-            'taskVariants'=> function(BelongsToMany $query){
-                $query->whereHas('task', function(Builder $q){
+            'taskVariants'=> function(BelongsToMany $query) use($attempt){
+                $query->whereHas('task', function(Builder $q) {
                     $q->where('type', TaskType::Speaking);
-                });
-            },
-            'taskVariants.task',
-            'taskVariants.answers',
-            'taskVariants.attemptsAnswer' => function($query)use($attempt){
-                $query->where('attempt_id', $attempt->id);
+                })->with([
+                        'task', 
+                        'answers',
+                        'attemptsAnswer' => function($query)use($attempt){
+                            $query->where('attempt_id', $attempt->id);
+                        }
+                    ]);
             }
         ]);
         $attempt->taskVariants = $attempt->taskVariants->sortBy('task.order');

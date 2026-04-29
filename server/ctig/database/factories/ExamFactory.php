@@ -70,13 +70,12 @@ class ExamFactory extends Factory
         });
     }
 
-    public function withForeignNationals(int $count = 3)
+    public function withCapacity(int $count = 3)
     {
         return $this
             ->state([
                 'capacity' => $count,
-            ])
-            ->hasAttached(ForeignNational::factory()->count($count));
+            ]);
     }    
 
     public function withRandomCreator(): ExamFactory{

@@ -124,10 +124,15 @@ class Exam extends Model
         });
     }
 
-    protected function beginTimeLocal(): Attribute
-    {
+    protected function beginTimeLocal(): Attribute{
         return Attribute::get(function () {
             return TimePresenter::forCenter($this->begin_time, $this->center);
+        });
+    }
+
+    protected function endTimeLocal(): Attribute{
+        return Attribute::get(function () {
+            return TimePresenter::forCenter($this->end_time, $this->center);
         });
     }
 

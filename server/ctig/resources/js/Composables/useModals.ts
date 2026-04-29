@@ -1,9 +1,10 @@
+import { ModalName } from "@/components/Modals/Modals.vue";
 import { ref } from "vue";
 const modals = ref<Modal[]>([])
 
 export const useModals = () => {
   
-  const open = <T>(name: string, data:T = {} as T) => {
+  const open = <T>(name: ModalName, data:T = {} as T) => {
     modals.value.push({
       name, 
       data, 
@@ -13,8 +14,6 @@ export const useModals = () => {
   }
 
   const close = (id:number) => {
-    // const modal = modals.value.find(m => m.id === id)
-    // if (modal) modal.isOpen = false
     modals.value = modals.value.filter(modal => modal.id !== id)
   }
 
@@ -23,7 +22,7 @@ export const useModals = () => {
 
 type Modal<T = any> = {
   id: number
-  name: string
+  name: ModalName
   data: T
   isOpen: boolean
 }

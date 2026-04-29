@@ -35,7 +35,7 @@ const loading = ref<boolean>(false)
         :loading="loading"
         :headers="headers"
         :elements="foreignNationals"
-        title="ИГ"
+        title="Иностранные граждане"
         @row-click="foreignNationalShowModal"
     >
         <template #toolbar-left>

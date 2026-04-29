@@ -19,7 +19,7 @@ class ExamShortResource extends JsonResource
             'id' => $this->id,
             'examTypeId' => $this->whenLoaded('type', fn () => $this->type->id),
             'shortName' => $this->whenLoaded('type', fn () => $this->type->short_name),
-            'beginTime' => $this->begin_time,
+            'beginTime' => $this->begin_time_local->toIso8601String(),
             'status' => app(ExamStatusResolver::class)->execute($this->resource)
         ];
     }

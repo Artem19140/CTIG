@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\ForeignNational;
  
-use App\Http\Resources\Attempt\AttemptResource;
 use App\Http\Resources\Enrollment\EnrollmentResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;

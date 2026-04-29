@@ -14,7 +14,8 @@ const props = defineProps<{
     height?:string,
     skeleton?:string,
     error?:boolean,
-    onRetry?:Function
+    onRetry?:Function,
+    loadingText?:string
 }>()
 
 const close = () => {
@@ -57,7 +58,7 @@ const close = () => {
             <v-container class="fill-height d-flex align-center justify-center" v-if="!skeleton && loading">
                 <div class="text-center">
                 <AppProgressCircular size="56" width="5" />
-                <div class="mt-4">Загрузка</div>
+                <div class="mt-4">{{ loadingText ?? 'Загрузка' }}</div>
                 </div>
             </v-container>
 

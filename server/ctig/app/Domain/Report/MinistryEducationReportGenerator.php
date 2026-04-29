@@ -15,9 +15,9 @@ class MinistryEducationReportGenerator
         Carbon $dateFrom,
         Carbon $dateTo,
     ){
-        
         $this->csvWriter->setHeaders($this->headers());
         $this->writeRows($dateFrom, $dateTo);
+        //$this->csvWriter->writeBom();
     }
 
     protected function headers():array{

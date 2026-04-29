@@ -9,7 +9,6 @@ import { ru } from 'vuetify/locale'
 import { useHttpErrorHandler } from '@/composables/useHttpErrorHandler';
 import { http, router } from '@inertiajs/vue3';
 import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
-import { createPinia } from 'pinia'
 
 http.onError((error) => {
     const response = (error).response
@@ -18,6 +17,7 @@ http.onError((error) => {
 })
 
 const { add } = useSnackbarQueue()
+
 router.on('flash', (event) => {
     if(event.detail.flash.success){
         add(String(event.detail.flash.success), 'green')
@@ -55,11 +55,9 @@ createInertiaApp({
         return pages[`./pages/${name}.vue`]
     },
     setup({ el, App, props, plugin }) {
-        const pinia = createPinia()
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(vuetify)
-            .use(pinia)
             .mount(el)
     },
     defaults: {
@@ -70,6 +68,5 @@ createInertiaApp({
         //   return { viewTransition: true };
         // },
     },
-    //layout: () => BaseLayout
 })
 

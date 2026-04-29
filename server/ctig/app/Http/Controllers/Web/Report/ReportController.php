@@ -6,10 +6,11 @@ use App\Domain\Attempt\Action\CloseAbandonedAttemptsAction;
 use App\Domain\Report\CheckAvailableFrdoGeneration;
 use App\Domain\Report\FlatTableGenerator;
 use App\Domain\Report\FRDOReportsGenerator;
+use App\Domain\Report\MinistryEducationReportGenerator;
 use App\Http\Requests\Report\FlatTableRequest;
 use App\Http\Requests\Report\FrdoReportRequest;
+use App\Http\Requests\Report\MinistryEducationReportRequest;
 use Carbon\Carbon;
-use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 
@@ -40,12 +41,12 @@ class ReportController
         }, 200, $headers);
     }
 
-    public function available(
+    public function availableFrdo(
         FrdoReportRequest $request, 
         CheckAvailableFrdoGeneration $checkAvailableGeneration, 
         CloseAbandonedAttemptsAction $closeAbandonedAttemptsAction
     ){
-        $closeAbandonedAttemptsAction->execute($request->user()->time_zone);
+        $closeAbandonedAttemptsAction->execute();
         $checkAvailableGeneration->execute($request->input('examDate'), $request->input('success'));
         return response()->json([
             'redirectUrl' => route('reports.frdo', [
@@ -72,5 +73,44 @@ class ReportController
         [
             'Content-Type' => 'text/csv; charset=UTF-8',
         ]);  
+    }
+
+    public function availableMinistryEducationReport(
+        MinistryEducationReportRequest $request
+    ){
+        return response()->json([
+            'redirectUrl' => route('reports.ministry-education', [
+                'lastWeek' => $request->validated('lastWeek'),
+                'dateFrom' => $request->validated('dateFrom'),
+                'dateTo' => $request->validated('dateTo')
+            ])
+        ]);
+    }
+
+    public function ministryEducationReport(
+        MinistryEducationReportRequest $request,
+        MinistryEducationReportGenerator $ministryEducationReportGenerator
+    ){
+        $dateFrom = '';
+        $dateTo = '';
+        if($request->validated('lastWeek')){
+            $dateFrom = Carbon::now()->subWeek()->startOfWeek();
+            $dateTo = Carbon::now()->subWeek()->endOfWeek();
+        }else{
+            $dateFrom = Carbon::parse($request->validated('dateFrom'))->startOfDay();
+            $dateTo = Carbon::parse($request->validated('dateTo'))->endOfDay();
+        }
+        $fileName = 'Отчет_минобрнауки_'. $dateFrom->copy()->format('d.m.Y') . "_" . $dateTo->copy()->format('d.m.Y') . ".csv";
+        return response()->streamDownload(function () use($ministryEducationReportGenerator, $dateFrom, $dateTo){
+            $ministryEducationReportGenerator->execute(
+                $dateFrom,
+                $dateTo 
+            );
+        },
+        $fileName,
+        [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+        ]
+        );
     }
 }

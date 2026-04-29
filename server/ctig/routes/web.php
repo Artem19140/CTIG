@@ -85,8 +85,11 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
     
     Route::prefix('reports')->group(function(){
         Route::get('frdo', [ReportController::class, "frdo"])->name('reports.frdo');
-        Route::get('frdo/available', [ReportController::class, "available"])->name('reports.frdo.available');
+        Route::get('frdo/available', [ReportController::class, "availableFrdo"])->name('reports.frdo.available');
         Route::get('flat-table', [ReportController::class, "flatTable"])->name('reports.flat-table');
+
+        Route::get('ministry-education/available', [ReportController::class, "availableMinistryEducationReport"])->name('reports.ministry-education.available');
+        Route::get('ministry-education', [ReportController::class, "ministryEducationReport"])->name('reports.ministry-education');
     });
     
 

@@ -52,7 +52,7 @@
         }
 
         protected function examBody(array $overrides = []){
-            $fixedDate = Carbon::now($this->user->time_zone)->format('Y-m-d');
+            $fixedDate = Carbon::now($this->user->time_zone)->addHours(Exam::CREATE_AVAILABLE_BEFORE_HOURS)->addMinute()->format('Y-m-d');
             $fixedTime = Carbon::now($this->user->time_zone)->addHours(Exam::CREATE_AVAILABLE_BEFORE_HOURS)->addMinute()->format('H:i');
             return array_merge([
                 'date' =>$fixedDate,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Exam;
 
+use App\Models\Exam;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Validation\Rule;
@@ -25,7 +26,7 @@ class ExamPostRequest extends FormRequest
             'date'=>[
                 'required',
                 'date',
-                Rule::date()->afterOrEqual(Carbon::now())
+                Rule::date()->afterOrEqual(Carbon::now()->addHours(Exam::CREATE_AVAILABLE_BEFORE_HOURS))
             ],
             'addressId'=> [
                 'required',

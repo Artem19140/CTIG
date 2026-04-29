@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  label: string
+  label?: string
   required?: boolean
 }>()
 </script>
@@ -12,12 +12,7 @@ defineProps<{
         variant="outlined"
         density="comfortable"
         counter
+        :label="label"
     >
-        <template #label>
-            <span>
-                {{ label }}
-                <span v-if="required" style="color:red">*</span>
-            </span>
-        </template>
     </v-textarea>
 </template>

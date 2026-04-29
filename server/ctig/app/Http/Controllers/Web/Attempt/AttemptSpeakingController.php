@@ -23,6 +23,12 @@ class AttemptSpeakingController
 
         $this->ensureAttemptHasSpeaking($attempt);
 
+        if(!$attempt->speaking_started_at){
+            throw new BusinessException('Говорение еще не начато');
+        }
+
+        $this->ensureSpeakingNotFinished($attempt);
+
         $attempt = $getAttemptSpeakingQuery->execute($attempt);
 
         return new AttemptResource($attempt);
@@ -42,14 +48,17 @@ class AttemptSpeakingController
 
     public function finish(Attempt $attempt){
         $this->ensureAttemptHasSpeaking($attempt);
-
-        if($attempt->speaking_finished_at){
-            throw new BusinessException('Говорение уже завершено');
-        }
+        $this->ensureSpeakingNotFinished($attempt);
 
         $attempt->speaking_finished_at = Carbon::now();
         $attempt->save();
         return response()->noContent();
+    }
+
+    protected function ensureSpeakingNotFinished(Attempt $attempt){
+        if($attempt->speaking_finished_at){
+            throw new BusinessException('Говорение уже завершено');
+        }
     }
 
     protected function ensureAttemptHasSpeaking(Attempt $attempt){

@@ -80,7 +80,10 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
         Route::post('{attempt}/speaking/finish', [AttemptSpeakingController::class, 'finish'])->name('attempts.speaking.finish');
         Route::post('{attempt}/speaking/start', [AttemptSpeakingController::class, 'start'])->name('attempts.speaking.start');
 
-        Route::get('{attempt}/violations', [AttemptViolationController::class, 'index'])->name('attempts.violations');
+        Route::get('{attempt}/violations', [AttemptViolationController::class, 'index'])->name('attempts.violations.index');
+        Route::post('{attempt}/violations', [AttemptViolationController::class, 'store'])->name('attempts.violations.store');
+        Route::delete('{attempt}/violations/{violation}', [AttemptViolationController::class, 'destroy'])->name('attempts.violations.destroy');
+        Route::patch('{attempt}/violations/{violation}', [AttemptViolationController::class, 'update'])->name('attempts.violations.update');
     });
     
     Route::put('answers/{attemptAnswer}/rate', [AttemptAnswerController::class, 'rate']);

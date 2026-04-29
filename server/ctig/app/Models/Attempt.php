@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AttemptStatus;
+use App\Support\TimePresenter;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -123,6 +124,18 @@ class Attempt extends Model
 
     public function scopeWhereCreatedAtLess(Builder $query, Carbon $date){
         return $query->where('created_at', '<', $date);
+    }
+
+    protected function startedAtLocal(): Attribute{
+        return Attribute::get(function () {
+            return TimePresenter::forCenter($this->started_at, $this->center);
+        });
+    }
+
+    protected function finishedAtLocal(): Attribute{
+        return Attribute::get(function () {
+            return TimePresenter::forCenter($this->finished_at, $this->center);
+        });
     }
 
     public function status(){

@@ -15,7 +15,7 @@ class AttemptViolationController
     }
 
     public function store(Request $request, Attempt $attempt){
-        $request->validate(['violation' => ['required', 'string']]);
+        $request->validate(['comment' => ['required', 'string']]);
         $violation = $attempt->violations()->create([
             'comment' => $request->input('comment')
         ]);

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Web\Login;
 
 use App\Http\Requests\Auth\ChangePasswordRequest;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\PasswordResetRequest;
+use App\Models\User;
 use Illuminate\Validation\ValidationException;
 use Hash;
 use Illuminate\Support\Facades\Auth;
@@ -68,5 +70,17 @@ class LoginController
         $request->session()->regenerateToken();
 
         return redirect('/login');
+   }
+
+   public function resetPassword(PasswordResetRequest $request, User $user){
+        $wrongPassword = !Hash::check($request->validated('adminPassword'), $request->user()->password);
+        if($wrongPassword){
+            throw ValidationException::withMessages(['adminPassword'  => 'Неверные учетные данные']);
+        }
+
+        $user->password = Hash::make($request->validated('password'));
+        $user->has_to_change_password = true;
+        $user->save();
+        return response()->json();
    }
 }

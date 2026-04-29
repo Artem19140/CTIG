@@ -4,6 +4,7 @@ import { router, useHttp } from '@inertiajs/vue3';
 import BaseThreeDotDropdown from '@/components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 import { useLoadingSnackbar } from '@/composables/useLoadingSnackBar';
 import { useConfirmationOptionsDialog } from '@/composables/useConfirmationOptionsDialog';
+import { useModals } from '@/composables/useModals';
 
 const props= defineProps<{
   employee:any
@@ -29,12 +30,19 @@ const deleteEmployee = async () => {
   })
   
 }
+
+const {open} = useModals()
+
 </script>
 
 <template>
   <BaseThreeDotDropdown>
     <AppListDropDownItem 
       title="Редактировать" 
+    />
+    <AppListDropDownItem 
+      title="Сбросить пароль"
+      @click="open('passwordReset', {user:employee})" 
     />
     <AppListDropDownItem 
       title="Удалить" 

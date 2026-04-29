@@ -64,9 +64,11 @@ class ExamController
             'examiners', 
             'address',
             'type',
-            'enrollments' => ['foreignNational', 'exam', 'attempt'] //, 'attempt'
+            'enrollments' => ['foreignNational', 'attempt.center'] 
         ]);
-        
+        $exam->enrollments->each(function ($enrollment) use ($exam) {
+            $enrollment->setRelation('exam', $exam);
+        });
         $exam->loadCount('enrollments');
         return new ExamResource($exam);
     }
@@ -112,6 +114,7 @@ class ExamController
             ->whereBeginTimeMore( $dateFrom)
             ->whereBeginTimeLess($dateTo)
             ->get();
+        
         return Inertia::render('Schedule/Schedule',[
             'exams' => ExamCalendarResource::collection($exams )
         ]);

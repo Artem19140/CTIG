@@ -36,7 +36,7 @@ const form = useForm({
 })
 
 const edit = () => {
-    form.put(`foreign-nationals/${props.foreignNational.id}`,{
+    form.put(`/foreign-nationals/${props.foreignNational.id}`,{
         onSuccess:(page : any) => {
             if(page.flash.foreignNational){
                 props.onEdit(page.flash.foreignNational)

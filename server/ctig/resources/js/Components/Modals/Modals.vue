@@ -19,6 +19,7 @@ import SpeakingTasksModal from '@/pages/ExamMonitoring/SpeakingTasksModal.vue';
 import AddressCreateModal from '@/pages/Center/Components/Addresses/AddressCreateModal.vue';
 import MinistryEducationReportModal from '@/pages/ForeignNationals/Components/ForeignNationalTable/MinistryEducationReportModal.vue';
 import ViolationModal from '@/pages/ExamMonitoring/ViolationModal.vue';
+import PasswordResetModal from '@/pages/Center/Components/Employees/PasswordResetModal.vue';
 
 const {modals, close} = useModals()
 
@@ -46,6 +47,7 @@ const modalMap = {
     addressCreate: AddressCreateModal,
     ministryEducationReport: MinistryEducationReportModal,
     violation: ViolationModal,
+    passwordReset:PasswordResetModal
 } as const
 
 const closeModal = (id: number) => {

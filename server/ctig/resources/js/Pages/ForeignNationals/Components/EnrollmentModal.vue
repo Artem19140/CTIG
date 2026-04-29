@@ -3,7 +3,7 @@ import {  ref } from 'vue';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import ExamEnrollment from '@components/Exam/ExamEnrollment.vue';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
-import { Enrollment, ForeignNational } from '@interfaces/Interfaces';
+import { ForeignNational } from '@interfaces/Interfaces';
 import {  useHttp } from '@inertiajs/vue3';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 
@@ -15,8 +15,7 @@ const props = defineProps<{
 const isOpen = defineModel<boolean>()
 
 const enroll = async () => {
-    http.post(`enrollments`,
-    {
+    http.post(`/enrollments`,{
         onSuccess: (response:any) => {
             if(response.redirectUrl){
                 isOpen.value = false

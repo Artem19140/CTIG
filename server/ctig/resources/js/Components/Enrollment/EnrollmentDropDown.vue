@@ -19,7 +19,7 @@ const emit = defineEmits<{
 const {confirmOpen} = useConfirmDialog()
 
 const download = (document : string) => {
-    window.open(`enrollments/${props.enrollment.id}/${document}`)
+    window.open(`/enrollments/${props.enrollment.id}/${document}`)
 }
 
 const cancell = async () => {
@@ -28,7 +28,7 @@ const cancell = async () => {
         return
     }
     const http = useHttp()
-    http.delete(`enrollments/${props.enrollment.id}`,{
+    http.delete(`/enrollments/${props.enrollment.id}`,{
         onSuccess: () =>{
             emit('cancell', props.enrollment)
         }

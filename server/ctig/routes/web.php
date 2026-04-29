@@ -114,6 +114,7 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
 
     Route::delete('employees/{user}', [UserController::class, "destroy"])->name('users.destroy');
     Route::post('employees', [UserController::class, "store"]);
+    Route::patch('employees/{user}/password', [LoginController::class, "resetPassword"]);
 
     Route::get('files', [FileController::class, "show"]);
 

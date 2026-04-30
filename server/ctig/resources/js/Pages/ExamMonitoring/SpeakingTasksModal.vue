@@ -88,7 +88,7 @@ const finish = () => {
             v-else
             action-text="Начать"
             icon="mdi-account-clock-outline"
-            title="Говорение еще не начато"
+            title="Говорение не начато"
             text="Нажмите, чтобы начать"
             @click:action="start"
         />

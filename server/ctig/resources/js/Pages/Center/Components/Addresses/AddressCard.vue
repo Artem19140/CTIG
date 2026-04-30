@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import AppInput from '@/components/UI/AppInput/AppInput.vue';
+import AppNumberInput from '@/components/UI/AppNumberInput/AppNumberInput.vue';
 import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import AppProgressCircular from '@/components/UI/AppProgressCircular/AppProgressCircular.vue';
+import AppTextarea from '@/components/UI/AppTextarea/AppTextarea.vue';
+import AppTooltip from '@/components/UI/AppTooltip/AppTooltip.vue';
 import { useConfirmationOptionsDialog } from '@/composables/useConfirmationOptionsDialog';
+import { useConfirmDialog } from '@/composables/useConfirmDialog';
 import { Address } from '@/interfaces/Interfaces';
 import { router, useHttp } from '@inertiajs/vue3';
 import { ref } from 'vue';
@@ -31,7 +34,8 @@ const toggleAddressActivity = async () => {
 }
 
 const editHttp = useHttp({
-    address:props.address.address ?? ''
+    address:props.address.address ?? '',
+    maxCapacity:props.address.maxCapcity
 })
 
 const editLoading = ref<boolean>(false)
@@ -51,31 +55,61 @@ const edit = () => {
         }
     })
 }
+
+const cancellEdit = async () => {
+    if(editHttp.isDirty){
+        const {confirmOpen} = useConfirmDialog()
+        const ok = await confirmOpen('Отменить редактирование?')
+        if(!ok) return
+    }
+    editHttp.resetAndClearErrors()
+    editMode.value = false
+}
 </script>
 
 <template>
     <v-card class="mb-10">
-        <v-card-title v-if="!editMode">{{ address.address }}</v-card-title>
-        <div class="flex w-75 ml-4 mt-4">
-            <AppInput
-                v-model="editHttp.address"
-                :error-messages="editHttp.errors.address"
+        <v-card-title  v-if="!editMode">
+              <div class="whitespace-pre-wrap break-words">
+                {{ address.address }}
+            </div>
+        </v-card-title>
+        <v-card-subtitle v-if="!editMode">Вместимость: {{ address.maxCapcity }} человек</v-card-subtitle>
+        <div class="flex flex-column w-75 ml-4 mt-4">
+            <div>
+                <div class="mb-3" v-if="address.examsExists && editMode">
+                    Почему редактирование адреса невозможно?
+                    <AppTooltip 
+                        text="Редактирование возможно до привязки экзаменов"
+                        v-if="address.examsExists" 
+                    />
+                </div>
+                <AppTextarea
+                    v-model="editHttp.address"
+                    :error-messages="editHttp.errors.address"
+                    :disabled="address.examsExists" 
+                    v-if="editMode" 
+                    label="Адрес"
+                    hint="Максимум 256 символов"
+                    maxlength="256"
+                />
+                
+            </div>
+            
+
+            <AppNumberInput
+                v-model="editHttp.maxCapacity"
+                :error-messages="editHttp.errors.maxCapacity"
                 v-if="editMode" 
-                label="Адрес"
+                label="Вместимость"
+                :min="1"
             />
         </div>
         
         <v-card-actions>
-            <v-tooltip text="Редактирование возможно до привязки экзаменов" v-if="address.examsExists">
-                <template #activator="{ props }">
-                    <v-icon v-bind="props" size="small" class="ml-1">
-                        mdi-information-outline
-                    </v-icon>
-                </template>
-            </v-tooltip>
+            
             <v-btn
                 v-if="!editMode"
-                :disabled="address.examsExists"
                 @click="editMode = true"
             >Редактировать</v-btn>
             <div v-else>
@@ -84,7 +118,7 @@ const edit = () => {
                     @click="edit"
                 />
                 <v-btn
-                    @click="editMode = false"
+                    @click="cancellEdit"
                 >Отмена</v-btn>
                 <AppProgressCircular v-if="editLoading" />
             </div>

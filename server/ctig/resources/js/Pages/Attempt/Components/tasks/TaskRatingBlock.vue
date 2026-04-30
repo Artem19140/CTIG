@@ -76,7 +76,7 @@ onMounted(() => {
                 density="compact"
                 variant="tonal"
             >
-                Оценка успешно сохранена
+                Результат успешно сохранен
             </v-alert>
 
             <v-alert
@@ -87,7 +87,7 @@ onMounted(() => {
                 density="compact"
             >
                 <div class="d-flex align-center justify-space-between">
-                    <span>Не удалось загрузить данные</span>
+                    <span>Не удалось сохранить данные</span>
                     <v-btn
                         size="small"
                         color="error"

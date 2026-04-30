@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Web\Address;
 
-use App\Exceptions\BusinessException;
 use App\Http\Requests\Address\AddressPostRequest;
 use App\Http\Resources\Address\AddressResource;
 use App\Models\Address;
@@ -16,6 +15,7 @@ class AddressController
     {
         $addresses = Address::where('center_id', $request->user()->center_id)
             ->withExists('exams as examsExists')
+            ->orderBy('id')
             ->get();
         return Inertia::render('Center/Center', [
             'addresses' => AddressResource::collection($addresses),
@@ -37,11 +37,16 @@ class AddressController
 
     public function update(Request $request, Address $address)
     {
-        $request->validate(['address' => ['required', 'string']]);
-        if($address->exams()->exists()){
-            throw new BusinessException('Нельзя редактировать адрес после привязки экзаменов');
+        $request->validate([
+            'address' => ['required', 'string'],
+            'maxCapacity' => ['required', 'integer', 'min:1']
+        ]);
+
+        if(!$address->exams()->exists()){
+            $address->address = $request->input('address');
         }
-        $address->address = $request->input('address');
+
+        $address->max_capacity = $request->input('maxCapacity');
         $address->save();
         return response()->json(new AddressResource($address));
     }

@@ -39,25 +39,35 @@ class AddressUpdateTest extends TestCase
         $response = $this
             ->actingAs($this->user)
             ->patchJson(route('addresses.update', ['address'=> $address]),[
-                'address' => fake()->streetAddress
+                'address' => fake()->streetAddress,
+                'maxCapacity' => $address->max_capacity + 1
             ]);
 
         $response->assertStatus(200);
     }
 
-    public function test_fail_has_exam(): void
+    public function test_success_has_exam(): void
     {
         $address = Address::factory()->has(Exam::factory(10))->create();
+
+        $oldAddress = $address->address;
+        $newCapacity = $address->max_capacity + 1;
+
         $response = $this
             ->actingAs($this->user)
             ->patchJson(route('addresses.update', ['address'=> $address]),[
-                'address' => fake()->streetAddress
+                'address' => fake()->streetAddress,
+                'maxCapacity' => $newCapacity
             ]);
+        $address->refresh();
 
-        $response->assertBadRequest();
+        $this->assertEquals($oldAddress, $address->address);
+
+        $this->assertEquals($newCapacity, $address->max_capacity);
+        $response->assertOk();
     }
 
-    public function test_fail_no_required_field_address(): void
+    public function test_fail_no_required_fields(): void
     {
         $address = Address::factory()->create();
         $response = $this

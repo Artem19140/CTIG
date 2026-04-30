@@ -7,7 +7,7 @@ use App\Models\Attempt;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Domain\Attempt\Guard\AttemptGuard;
-use Log;
+
 
 class FinishAttemptAction{
     public function __construct(
@@ -40,7 +40,6 @@ class FinishAttemptAction{
         $attemptCanBeFinished = $attempt->started_at->copy()->addMinutes($minTimeMinutes);
 
         $tooEarlyToFinish = $now->lte($attemptCanBeFinished);
-
         if($tooEarlyToFinish){
             throw new BusinessException("Попытку возможно завершить минимум через  $minTimeMinutes минут после начала");
         }

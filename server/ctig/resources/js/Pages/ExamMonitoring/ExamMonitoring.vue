@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import EnrollmentMonitoringDropdown from './EnrollmentMonitoringDropdown.vue';
-import { usePoll } from '@inertiajs/vue3'
+import { usePage, usePoll } from '@inertiajs/vue3'
 import { attemptStatus } from '@helpers/heplers';
 import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import { useModals } from '@composables/useModals';
-import { computed, onMounted, onUnmounted} from 'vue';
+import { computed, onMounted, onUnmounted, watch} from 'vue';
 import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
 import { Exam } from '@interfaces/Interfaces';
 import { DateFormatter } from '@helpers/DateFormatter';
@@ -24,7 +24,17 @@ const props = defineProps<{
     },
 }>()
 
-const { start, stop } = usePoll(10000, {}, {
+const page = usePage()
+
+//const enrollments = computed(() => page.props.exam.data.enrollments)
+
+// watch(
+//   () => props.exam.data.enrollments,
+//   (enrollments) => console.log('Работат все таки'),
+//   { deep: true }
+// )
+
+const { start, stop } = usePoll(3000, {}, {
     autoStart: false,
 })
 
@@ -102,7 +112,7 @@ const back = () => {
 
             <v-card-text>
                 <v-data-table
-                    :items="exam.data.enrollments"
+                    :items="props.exam.data.enrollments"
                     :headers="headers"
                     hover
                     hide-default-footer

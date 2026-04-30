@@ -6,9 +6,9 @@ use App\Exceptions\BusinessException;
 use App\Models\Attempt;
 
 class AttemptGuard{
-    public function ensureNotBanned(Attempt $attempt){
+    public function ensureNotBanned(Attempt $attempt, string | null $message = null){
         if($attempt->isBanned()){
-            throw new BusinessException('Попытка аннулирована');
+            throw new BusinessException($message ?? 'Попытка аннулирована');
         }
     }
 

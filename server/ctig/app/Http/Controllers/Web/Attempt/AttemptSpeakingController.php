@@ -8,7 +8,6 @@ use App\Http\Resources\Attempt\AttemptResource;
 use App\Models\Attempt;
 use App\Models\Exam;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class AttemptSpeakingController
@@ -21,7 +20,9 @@ class AttemptSpeakingController
 
         Gate::authorize('exam-manage-access', $exam);
 
-        $this->ensureAttemptHasSpeaking($attempt);
+        $this->ensureAttemptHasSpeaking($attempt); 
+        $this->ensureExamStarted($attempt);
+        $this->ensureTodayIsExamDay($attempt);
 
         if(!$attempt->speaking_started_at){
             throw new BusinessException('Говорение еще не начато');
@@ -36,6 +37,8 @@ class AttemptSpeakingController
 
     public function start(Attempt $attempt){
         $this->ensureAttemptHasSpeaking($attempt);
+        $this->ensureExamStarted($attempt);
+        $this->ensureTodayIsExamDay($attempt);
 
         if($attempt->speaking_started_at){
             throw new BusinessException('Говорение уже началось');
@@ -47,8 +50,11 @@ class AttemptSpeakingController
     }
 
     public function finish(Attempt $attempt){
+
         $this->ensureAttemptHasSpeaking($attempt);
         $this->ensureSpeakingNotFinished($attempt);
+        $this->ensureExamStarted($attempt);
+        $this->ensureTodayIsExamDay($attempt);
 
         $attempt->speaking_finished_at = Carbon::now();
         $attempt->save();
@@ -64,6 +70,18 @@ class AttemptSpeakingController
     protected function ensureAttemptHasSpeaking(Attempt $attempt){
         if(!$attempt->exam->hasSpeaking()){
             throw new BusinessException('У данной попытки нет заданий на говорение');
+        }
+    }
+
+    protected function ensureExamStarted(Attempt $attempt){
+        if(!$attempt->exam->begin_time->isPast()){
+            throw new BusinessException('Говорение доступно после начала экзамена');
+        }
+    }
+
+    protected function ensureTodayIsExamDay(Attempt $attempt){
+        if(!$attempt->exam->begin_time->isToday()){
+            throw new BusinessException('Говорение доступно в день экзамена');
         }
     }
 }

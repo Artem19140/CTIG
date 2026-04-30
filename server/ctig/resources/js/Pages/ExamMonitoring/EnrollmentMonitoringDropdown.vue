@@ -3,7 +3,7 @@ import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropD
 import { usePromptDialog } from '@composables/usePromptDialog';
 import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 import { useLoadingSnackbar } from '@composables/useLoadingSnackBar';
-import { useForm } from '@inertiajs/vue3';
+import { router, useHttp } from '@inertiajs/vue3';
 import { Enrollment, Exam } from '@interfaces/Interfaces';
 import { useExamStatus } from '@/composables/useExamStatus';
 import { computed } from 'vue';
@@ -25,10 +25,13 @@ const ban = async () => {
     }
     const loadingSnack = useLoadingSnackbar()
     loadingSnack.open('Идет аннулирование')
-    const form = useForm({
+    const http = useHttp({
         banReason : res
     })
-    form.put(`/attempts/${props.enrollment.attempt?.id}/ban`, {
+    http.put(`/attempts/${props.enrollment.attempt?.id}/ban`, {
+        onSuccess(response, httpResponse) {
+            router.reload()
+        },
         onFinish:()=> {
             loadingSnack.close()
         }
@@ -38,34 +41,36 @@ const ban = async () => {
 const modals = useModals()
 
 const isBanned = computed(() => props.enrollment.attempt?.status === 'banned')
-const { isCancelled, isFinished, isGoing } = useExamStatus(props.exam)
+
+const { isCancelled, isFinished } = useExamStatus(props.exam)
 
 const hasAttempt = computed(() => props.enrollment.attempt !== null)
 
-const banDisabled = isCancelled.value || isFinished.value || !isGoing.value || isBanned.value || !hasAttempt.value
-const getSpeakingDisabled =  !hasAttempt.value
+const speakingFinished = computed(() => props.enrollment.attempt?.speakingFinishedAt !== null)
+
 const changePaymentDisabled = isCancelled.value || isFinished.value || hasAttempt.value
 </script>
 
 <template>
     <BaseThreeDotDropdown>
         <PaymentChange  
-            :disabled="changePaymentDisabled "
+            :disabled="changePaymentDisabled"
             :enrollment="enrollment"
         />
         <AppListDropDownItem 
-            :disabled="getSpeakingDisabled"
+            :disabled="!hasAttempt || speakingFinished"
             v-if="exam?.hasSpeakingTasks"
             title="Говорение" 
             @click="modals.open('speaking', {enrollment:props.enrollment})"
         />
         <AppListDropDownItem 
             title="Нарушения" 
+            :disabled = "!hasAttempt"
             @click="modals.open('violation', {enrollment:props.enrollment})"
         />
         <AppListDropDownItem    
             color="text-red" 
-            :disabled="banDisabled"
+            :disabled="!hasAttempt || isBanned"
             title="Аннулировать" 
             @click="ban"
         />

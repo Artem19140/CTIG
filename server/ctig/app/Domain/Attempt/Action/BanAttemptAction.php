@@ -12,7 +12,7 @@ class BanAttemptAction{
         protected AttemptGuard $attemptGuard
     ){}
     public function execute(Attempt $attempt, string $banReason, int $banById){
-        $this->attemptGuard->ensureNotBanned($attempt);
+        $this->attemptGuard->ensureNotBanned($attempt, 'Попытка уже аннулирована');
 
         $attempt->ban_reason = $banReason;
         $attempt->ban_by_id = $banById;

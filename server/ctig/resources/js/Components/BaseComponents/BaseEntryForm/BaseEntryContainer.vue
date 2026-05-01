@@ -21,9 +21,7 @@ const props = defineProps<{
         <v-card-subtitle class="mb-6 text-h6">
             {{ subtitle }}
         </v-card-subtitle>
-
-            <slot />
-            
+            <slot /> 
         </v-card>
     </v-container>
 </template>

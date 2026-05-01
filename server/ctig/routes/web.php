@@ -95,7 +95,7 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
     Route::put('answers/{attemptAnswer}/rate', [AttemptAnswerController::class, 'rate']);
 
     Route::post('password/change', [LoginController::class, 'changePassword'])->withoutMiddleware(['password.change']);;
-    Route::inertia('password/change', 'ChangePassword/ChangePassword')->name('password.change')->withoutMiddleware(['password.change']);;
+    Route::inertia('password/change', 'Auth/ChangePassword')->name('password.change')->withoutMiddleware(['password.change']);;
 
     
     Route::prefix('reports')->group(function(){
@@ -131,7 +131,7 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
 });
 
 Route::middleware('guest')->group(function (){
-    Route::inertia('login', 'Login/Login')->name('login');
+    Route::inertia('login', 'Auth/Login')->name('login');
     Route::post('login', [LoginController::class, 'login']);
     Route::post( 'exam-codes/verify', [ExamController::class, 'verifyCode']);
 });

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Enrollment, type ForeignNational } from '@interfaces/Interfaces';
 import EnrollmentDropDown from '@/components/Enrollment/EnrollmentDropDown.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import { useModals } from '@composables/useModals';
@@ -7,6 +6,8 @@ import ExamResultStatusChip from '@/components/Exam/ExamResultStatusChip.vue';
 import ExamStatusChip from '@/components/Exam/ExamStatusChip.vue';
 import { ref, watch } from 'vue';
 import AppStatusChip from '@/components/UI/AppStatusChip/AppStatusChip.vue';
+import { ForeignNational } from '@/interfaces/ForeignNational';
+import { Enrollment } from '@/interfaces/Enrollment';
 
 const props = defineProps<{
   foreignNational: ForeignNational
@@ -53,9 +54,7 @@ const modals = useModals()
                 color="red"
                 size="x-small"
               />
-            </div>
-            <!-- <span>Оплата</span>
-            <PaymentIcon :enrollment="enrollment" /> size="x-small" --> 
+            </div> 
           </div>
           <div>
             <ExamResultStatusChip 

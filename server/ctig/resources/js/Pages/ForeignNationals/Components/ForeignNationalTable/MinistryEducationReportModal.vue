@@ -3,19 +3,27 @@ import BaseDialog from '@/components/BaseComponents/BaseDialog/BaseDialog.vue';
 import AppCheckbox from '@/components/UI/AppCheckbox/AppCheckbox.vue';
 import AppPeriodDate from '@/components/UI/AppPeriodDate/AppPeriodDate.vue';
 import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.vue';
+import { RedirectUrl } from '@/interfaces/Interfaces';
 import { useHttp } from '@inertiajs/vue3';
 import { computed, watch } from 'vue';
 
 const isOpen = defineModel<boolean>({default:false})
 
-const http = useHttp({
+interface MinistryEducation{
+    lastWeek:boolean,
+    dateFrom:string | null,
+    dateTo: string | null
+}
+
+const http = useHttp<MinistryEducation, RedirectUrl>({
     lastWeek:false,
     dateFrom:null,
     dateTo:null
 })
+
 const download = () => {
     http.get('/reports/ministry-education/available',{
-        onSuccess(response :any, httpResponse) {
+        onSuccess(response) {
             window.open(response.redirectUrl)
         },
     })
@@ -28,6 +36,7 @@ watch(() => http.lastWeek, (lastWeek) => {
 })
 
 const loading = computed(() =>http.processing)
+
 const isCustomPeriodInvalid = computed(() =>
   !http.lastWeek && (!http.dateFrom || !http.dateTo)
 )

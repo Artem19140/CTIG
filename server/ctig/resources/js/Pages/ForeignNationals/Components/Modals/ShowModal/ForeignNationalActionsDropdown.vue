@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import ThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
-import { Enrollment, ForeignNational } from '@interfaces/Interfaces';
 import { useModals } from '@composables/useModals';
 import { router, useHttp } from '@inertiajs/vue3';
 import { useLoadingSnackbar } from '@/composables/useLoadingSnackBar';
 import { useConfirmationOptionsDialog } from '@/composables/useConfirmationOptionsDialog';
 import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
+import { ForeignNational } from '@/interfaces/ForeignNational';
+import { Enrollment } from '@/interfaces/Enrollment';
 
 const {open} = useModals()
 

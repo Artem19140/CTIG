@@ -3,16 +3,17 @@ import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import ForeignNationalEnrollmentsList from './ForeignNationalEnrollmentsList.vue';
 import ForeignNationalActionsDropdown from './ForeignNationalActionsDropdown.vue';
 import { onMounted, ref } from 'vue';
-import type { Enrollment, ForeignNational } from '@interfaces/Interfaces';
 import { useHttp } from '@inertiajs/vue3'
 import { DateFormatter } from '@helpers/DateFormatter';
 import countries from '@data/countries.json'
+import { ForeignNational } from '@/interfaces/ForeignNational';
+import { Enrollment } from '@/interfaces/Enrollment';
 
 const props = defineProps<{
     foreignNationalId?:number
 }>()
 
-const http = useHttp()
+const http = useHttp<{}, {data:ForeignNational}>()
 
 const isOpen = defineModel<boolean>({default:false})
 const foreignNational = ref<ForeignNational | null>(null)
@@ -20,7 +21,7 @@ const foreignNational = ref<ForeignNational | null>(null)
 
 const getForeignNational = async () => {
     http.get(`/foreign-nationals/${props.foreignNationalId}`,{
-        onSuccess:(response : any)=>{
+        onSuccess:(response)=>{
             foreignNational.value = response.data
         },
     })
@@ -35,6 +36,7 @@ const showDocument = (url :string) => {
     if(!url) return
     window.open(`/files?path=${url}`)
 }
+
 const edit = (value:ForeignNational) => {
     foreignNational.value = value
 }

@@ -5,7 +5,13 @@ import { useForm } from '@inertiajs/vue3';
 import AppPasswordInput from '@components/UI/AppPasswordInput/AppPasswordInput.vue';
 import AppCheckbox from '@components/UI/AppCheckbox/AppCheckbox.vue';
 
-const form = useForm({
+interface LoginEntryForm{
+  email: string | null,
+  password: string | null,
+  rememberMe: boolean
+}
+
+const form = useForm<LoginEntryForm>({
   email: 'qwerty@bk.com',
   password: '123456789',
   rememberMe:false

@@ -4,7 +4,7 @@ import BaseFilter from '@components/BaseComponents/BaseFilter/BaseFilter.vue';
 import AppInput from '@components/UI/AppInput/AppInput.vue';
 import AppNumberInput from '@components/UI/AppNumberInput/AppNumberInput.vue';
 import { useForm, usePage } from '@inertiajs/vue3';
-import { computed, watch } from 'vue';
+import { computed } from 'vue';
 
 const page = usePage<{
     flash:{

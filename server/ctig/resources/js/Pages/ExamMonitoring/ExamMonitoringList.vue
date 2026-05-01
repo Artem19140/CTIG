@@ -32,21 +32,8 @@ const headers = [
     {title:'', key:"actions", sortable:false, align:'center'}
 ]
 
-let cancelRequest: any = null;
-
 const open = (event:Event, {item} : any) => {
-    if (cancelRequest) {
-        cancelRequest(); 
-    }
-
-    router.visit(`/exams/${item.id}/monitoring`,{
-        onCancelToken:(cancelToken) => {
-            cancelRequest = cancelToken
-        },
-        onFinish: () => {
-            cancelRequest = null;
-        }
-    })
+    router.visit(`/exams/${item.id}/monitoring`,{})
 }
 const loading=ref<boolean>(false)
 const getPastExams = () =>{

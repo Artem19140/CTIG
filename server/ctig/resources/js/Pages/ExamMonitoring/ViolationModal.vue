@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import BaseDialog from '@/components/BaseComponents/BaseDialog/BaseDialog.vue';
 import AppAddButton from '@/components/UI/AppAddButton/AppAddButton.vue';
-import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.vue';
-import AppTextarea from '@/components/UI/AppTextarea/AppTextarea.vue';
-import { Enrollment, Violation } from '@/interfaces/Interfaces';
 import { useHttp } from '@inertiajs/vue3';
 import { computed, onMounted, ref } from 'vue';
 import ViolatonListItem from './ViolatonListItem.vue';
 import ViolationForm from './ViolationForm.vue';
+import { Enrollment } from '@/interfaces/Enrollment';
+import { Violation } from '@/interfaces/Violation';
 
 const props = defineProps<{
     enrollment:Enrollment
@@ -46,6 +45,7 @@ const add = () => {
         },
     })
 }
+
 const deleteViolation = (id: number) => {
     violations.value = violations.value?.filter(v => v.id !== id)
 }

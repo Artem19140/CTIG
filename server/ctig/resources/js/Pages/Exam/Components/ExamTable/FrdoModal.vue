@@ -4,6 +4,7 @@ import AppInput from '@components/UI/AppInput/AppInput.vue';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import { useHttp } from '@inertiajs/vue3';
 import AppAutocomplete from '@components/UI/AppAutocomplete/AppAutocomplete.vue';
+import { RedirectUrl } from '@/interfaces/Interfaces';
 
 const isOpen = defineModel<boolean>()
 
@@ -11,6 +12,7 @@ const items = [
     { name: 'Сертификаты', success : true},
     { name: 'Справки', success : false}
 ]
+
 const  download = async () => {
     http.get('/reports/frdo/available', {
         onSuccess:(response:any) => {
@@ -23,7 +25,12 @@ const  download = async () => {
     
 }
 
-const http = useHttp({
+interface FrdoExport{
+    examDate:string | null,
+    success: boolean | null
+}
+
+const http = useHttp<FrdoExport, RedirectUrl>({
     examDate:null,
     success:null
 })

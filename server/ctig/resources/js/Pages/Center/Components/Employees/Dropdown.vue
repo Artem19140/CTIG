@@ -29,9 +29,7 @@ const deleteEmployee = async () => {
       close()
     }
   })
-  
 }
-
 const {open} = useModals()
 
 </script>

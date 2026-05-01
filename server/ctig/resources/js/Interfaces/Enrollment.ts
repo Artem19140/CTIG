@@ -1,10 +1,10 @@
 import { Attempt } from "./Attempt";
 import { Exam } from "./Exam";
-import { ForeignNational } from "./ForeignNational";
+import { ForeignNationalEnrollment } from "./ForeignNational";
 
 export interface Enrollment{
     id:number,
-    foreignNational:ForeignNational,
+    foreignNational:ForeignNationalEnrollment,
     hasPayment:boolean,
     isLoading?: boolean,
     exam:Exam,

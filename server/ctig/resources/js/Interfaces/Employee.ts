@@ -10,14 +10,9 @@ export interface Employee{
     roles:Array<Role>
 }
 
-export interface EmployeeCreate extends Omit<Employee, 'id' | 'roles'>{
+export interface EmployeeFormI extends Omit<Employee, 'id' | 'roles'>{
     roles:Array<number | undefined>,
-    password:string,
-    password_confirmation:string
-}
-
-export interface EmployeeEdit extends Omit<Employee, 'roles'>{
-    roles:Array<number>
+    
 }
 
 export interface Role{

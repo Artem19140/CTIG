@@ -2,7 +2,6 @@
 import AppProgressCircular from '@/components/UI/AppProgressCircular/AppProgressCircular.vue';
 import AppRefreshButton from '@/components/UI/AppRefreshButton/AppRefreshButton.vue';
 
-
 const isOpen = defineModel<boolean>()
 const emit = defineEmits<{ (e: 'beforeClose', done: ()=>void) :void} >()
 
@@ -35,7 +34,6 @@ const close = () => {
         :height="height"
         scroll-strategy="none"
     >
-
         <v-card class="dialog-card d-flex flex-column">
             <v-card-title v-if="$slots.title || title" class="d-flex align-center sticky-top pb-0" > 
                 <slot name="title">
@@ -93,6 +91,4 @@ const close = () => {
             
         </v-card>
     </v-dialog>
-
-
 </template>

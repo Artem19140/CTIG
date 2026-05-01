@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {  Attempt, Enrollment, Exam } from '@/interfaces/Interfaces';
 import BaseTable from '@/components/BaseComponents/BaseTable/BaseTable.vue';
 import BaseContainer from '@/components/BaseComponents/BaseContainer/BaseContainer.vue';
 import BaseLayout from '@layouts/BaseLayout.vue';
@@ -8,6 +7,9 @@ import { DateFormatter } from '@/helpers/DateFormatter';
 import { useModals } from '@composables/useModals';
 import { ref } from 'vue';
 import AppStatusChip from '@/components/UI/AppStatusChip/AppStatusChip.vue';
+import { Attempt } from '@/interfaces/Attempt';
+import { Enrollment } from '@/interfaces/Enrollment';
+import { ExamChecking } from '@/interfaces/Exam';
 const {open} = useModals()
 
 defineOptions({
@@ -16,7 +18,7 @@ defineOptions({
 
 const props = defineProps<{
     exam:{
-        data:Exam
+        data:ExamChecking
     }
 }>()
 
@@ -55,7 +57,7 @@ const openAttempt =  (item : Enrollment) => {
         <template #item.index="{ index }">
            {{ index + 1 }}
         </template>
-        <template #item.name="{ item, index }">
+        <template #item.name="{ item }">
            {{ item.regNum }}
         </template>
         <template #item.status="{ item }">
@@ -67,8 +69,4 @@ const openAttempt =  (item : Enrollment) => {
         </template>
     </BaseTable>
     </BaseContainer>
-    <!-- <AttemptCheckingModal 
-        v-model="isOpen"
-        :attempt-id="attemptId"
-    /> -->
 </template>

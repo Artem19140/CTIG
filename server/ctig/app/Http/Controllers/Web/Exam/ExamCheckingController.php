@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Web\Exam;
 
 use App\Domain\Exam\Query\GetExamsToCheckQuery;
+use App\Http\Resources\Exam\ExamCheckingResource;
 use App\Http\Resources\Exam\ExamIndexResource;
-use App\Http\Resources\Exam\ExamResource;
 use App\Models\Exam;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Inertia\Inertia;
@@ -29,7 +29,7 @@ class ExamCheckingController
         ]); 
 
         return Inertia::render('ExamsChecking/ExamChecking', [
-            'exam' => new ExamResource($exam)
+            'exam' => new ExamCheckingResource($exam)
         ]);
     }
 }

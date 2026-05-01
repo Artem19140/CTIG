@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import BaseContainer from '@/components/BaseComponents/BaseContainer/BaseContainer.vue';
 import CenterData from './Components/Data/CenterData.vue';
 import EmployeesTable from './Components/Employees/EmployeesTable.vue';
 import { router } from '@inertiajs/vue3';
 import { useAuth } from '@/composables/useAuth';
-import { Address, User } from '@/interfaces/Interfaces';
 import AddressesTable from './Components/Addresses/AddressesTable.vue';
+import { Employee } from '@/interfaces/Employee';
+import { Address } from '@/interfaces/Address';
 
 defineOptions({
   layout: [EmployeeLayout],
@@ -22,7 +23,7 @@ const props = defineProps<{
         data:any
     },
     employees?:{
-        data:User[]
+        data:Employee[]
     } 
     addresses?:{
         data:Address[]
@@ -50,15 +51,15 @@ const visit = (route : string) => {
 
         <v-tabs-window v-model="tab">
             <v-tabs-window-item value="data" v-if="data?.data">
-                <CenterData :data="data?.data" />
+                <CenterData :data="data.data" />
             </v-tabs-window-item>
 
             <v-tabs-window-item value="employees" v-if="employees?.data">
-                <EmployeesTable :employees="employees?.data" />
+                <EmployeesTable :employees="employees.data" />
             </v-tabs-window-item>
 
             <v-tabs-window-item value="addresses" v-if="addresses">
-                <AddressesTable :addresses="addresses?.data" />
+                <AddressesTable :addresses="addresses.data" />
             </v-tabs-window-item>
         </v-tabs-window>
     </BaseContainer>

@@ -49,6 +49,13 @@ export interface ExamType{
     name:string
 }
 
+export interface ExamChecking{
+    id:number,
+    shortName:string,
+    beginTime:string,
+    enrollments:Enrollment[]
+}
+
 export interface ExamForm{
     examTypeId: number | null,
     addressId: number | null,

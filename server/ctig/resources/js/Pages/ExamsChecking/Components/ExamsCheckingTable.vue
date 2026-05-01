@@ -2,11 +2,11 @@
 import BaseTable from '@components/BaseComponents/BaseTable/BaseTable.vue';
 import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
-import { Exam } from '@/interfaces/Interfaces';
 import { DateFormatter } from '@/helpers/DateFormatter';
+import { ExamIndex } from '@/interfaces/Exam';
 
 const props = defineProps<{
-    exams: Exam[]
+    exams: ExamIndex[]
 }>()
 
 const headers = [
@@ -14,7 +14,7 @@ const headers = [
     {title : "Дата",sortable: false, key: 'beginTime', align: 'center' }
 ]
 
-const examCheck =  (item : Exam) => {
+const examCheck =  (item : ExamIndex) => {
     router.visit(`/exams/${item.id}/checking`)
 }
 const loading = ref<boolean>(false)

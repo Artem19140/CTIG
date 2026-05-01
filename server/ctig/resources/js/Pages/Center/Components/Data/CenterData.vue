@@ -3,9 +3,10 @@ import { ref } from 'vue';
 import ShowData from './ShowData.vue';
 import UpdateData from './UpdateData.vue';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
+import { Center } from '@/interfaces/Center';
 
 const props = defineProps<{
-    data : any
+    data : Center
 }>()
 
 const mode = ref<string>('show')
@@ -17,8 +18,6 @@ const mode = ref<string>('show')
         <ShowData :center="data" v-if="mode === 'show'" />
         <UpdateData :center="data" v-if="mode === 'update'"  />
         <div class="flex gap-4">
-
-        
             <AppPrimaryButton
                 text="Обновить"
                 v-if="mode === 'update'"

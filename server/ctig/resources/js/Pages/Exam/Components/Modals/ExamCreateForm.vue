@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { Address, ExamType, User } from '@interfaces/Interfaces';
 import { useHttp } from '@inertiajs/vue3';
 import AppAutocomplete from '@components/UI/AppAutocomplete/AppAutocomplete.vue';
 import AppInput from '@components/UI/AppInput/AppInput.vue';
 import AppTextarea from '@components/UI/AppTextarea/AppTextarea.vue';
 import AppDateInput from '@components/UI/AppDateInput/AppDateInput.vue';
 import AppNumberInput from '@components/UI/AppNumberInput/AppNumberInput.vue';
+import { Address } from '@/interfaces/Address';
+import { Employee } from '@/interfaces/Employee';
+import { ExamType } from '@/interfaces/Exam';
 
 const props = defineProps<{
     form:any, 
@@ -14,7 +16,7 @@ const props = defineProps<{
 }>()
 
 const addresses = ref<Address[]>()
-const examiners = ref<User[]>()
+const examiners = ref<Employee[]>()
 const examTypes = ref<ExamType[]>()
 
 

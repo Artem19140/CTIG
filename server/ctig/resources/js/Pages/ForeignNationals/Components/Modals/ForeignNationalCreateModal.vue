@@ -5,7 +5,7 @@ import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import ForeignNationalForm from './ForeignNationalForm.vue';
-import ExamEnrollment from '../../../../components/Exam/ExamEnrollment.vue';
+import ExamEnrollment from '@components/Exam/ExamEnrollment.vue';
 import { Exam } from '@/interfaces/Exam';
 import { ForeignNationalFormI } from '@/interfaces/ForeignNational';
 import { RedirectUrl } from '@/interfaces/Interfaces';

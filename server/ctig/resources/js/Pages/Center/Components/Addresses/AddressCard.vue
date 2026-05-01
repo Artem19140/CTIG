@@ -6,7 +6,7 @@ import AppTextarea from '@/components/UI/AppTextarea/AppTextarea.vue';
 import AppTooltip from '@/components/UI/AppTooltip/AppTooltip.vue';
 import { useConfirmationOptionsDialog } from '@/composables/useConfirmationOptionsDialog';
 import { useConfirmDialog } from '@/composables/useConfirmDialog';
-import { Address } from '@/interfaces/Interfaces';
+import { Address } from '@/interfaces/Address';
 import { router, useHttp } from '@inertiajs/vue3';
 import { ref } from 'vue';
 

@@ -1,30 +1,24 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import AppPeriodDate from '@components/UI/AppPeriodDate/AppPeriodDate.vue';
-import AppInput from '@components/UI/AppInput/AppInput.vue';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue'; 
 import { useHttp } from '@inertiajs/vue3';
+import { RedirectUrl } from '@/interfaces/Interfaces';
 
 const isOpen = defineModel<boolean>({default:false})
 
-const form = ref({
-    dateFrom:'',
-    dateTo:''
-})
-
-const http = useHttp({
+const http = useHttp<FlatTable, RedirectUrl>({
     dateFrom:null,
     dateTo:null
 })
 
+interface FlatTable{
+    dateFrom:string | null,
+    dateTo:string |  null
+}
+
 const donwload = () => {
     window.open(`/reports/flat-table?dateFrom=${http.dateFrom}&dateTo=${http.dateTo}`)
-    // http.get('/reports/flat-table',{
-    //     onSuccess:(response :any) => {
-    //         window.location.href = response
-    //     }
-    // })
 }
 
 </script>
@@ -34,7 +28,7 @@ const donwload = () => {
         width="500"
         title="Плоская таблица"
         v-model="isOpen"
-        @before-close="(done) => done()"
+        @before-close="(close) => close()"
     >
         <AppPeriodDate 
             :errors="http.errors"

@@ -4,15 +4,16 @@ import { usePromptDialog } from '@composables/usePromptDialog';
 import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 import { useLoadingSnackbar } from '@composables/useLoadingSnackBar';
 import { router, useHttp } from '@inertiajs/vue3';
-import { Enrollment, Exam } from '@interfaces/Interfaces';
 import { useExamStatus } from '@/composables/useExamStatus';
 import { computed } from 'vue';
 import PaymentChange from '@/components/Enrollment/PaymentChange.vue';
 import { useModals } from '@/composables/useModals';
+import { Enrollment } from '@/interfaces/Enrollment';
+import { ExamMonitoring } from '@/interfaces/Exam';
 
 const props = defineProps<{ 
     enrollment:Enrollment,
-    exam : Exam
+    exam : ExamMonitoring
 }>()
 
 const promptDialog = usePromptDialog()

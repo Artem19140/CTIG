@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { router, useHttp } from '@inertiajs/vue3'
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
-import {  ExamForm } from '@interfaces/Interfaces';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import ExamCreateForm from './ExamCreateForm.vue';
 import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
+import { ExamForm } from '@/interfaces/Exam';
 
 const props = defineProps<{
     date?:string

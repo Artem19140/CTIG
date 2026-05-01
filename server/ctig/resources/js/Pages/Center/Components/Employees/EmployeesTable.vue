@@ -2,12 +2,12 @@
 import Dropdown from './Dropdown.vue';
 import { useModals } from '@composables/useModals';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
-import { User } from '@/interfaces/Interfaces';
 import BaseTable from '@/components/BaseComponents/BaseTable/BaseTable.vue';
 import AppBorderedButton from '@/components/UI/AppBorderedButton/AppBorderedButton.vue';
+import { Employee } from '@/interfaces/Employee';
 
 const props = defineProps<{
-    employees : User[]
+    employees : Employee[]
 }>()
 
 const {open} = useModals()

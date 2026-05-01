@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { Address } from '@/interfaces/Interfaces';
 import { ref, watch } from 'vue';
 import AppAddButton from '@/components/UI/AppAddButton/AppAddButton.vue';
 import { useModals } from '@/composables/useModals';
 import AddressCard from './AddressCard.vue';
+import { Address } from '@/interfaces/Address';
 
 const props = defineProps<{
     addresses:Address[]
@@ -13,6 +13,7 @@ watch(() => props.addresses, (value) => {
 })
 
 const addresses = ref<Address[]>(props.addresses)
+
 addresses.value.map(v => v.loading = false)
 
 const add = () => {

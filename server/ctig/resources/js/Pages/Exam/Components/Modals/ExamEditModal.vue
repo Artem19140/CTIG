@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { useHttp } from '@inertiajs/vue3';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
-import { Exam, ExamForm } from '@interfaces/Interfaces';
 import ExamCreateForm from './ExamCreateForm.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import { computed, ref } from 'vue';
 import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
+import { Exam, ExamForm } from '@/interfaces/Exam';
 
 const props = defineProps<{
     exam: Exam,
@@ -26,25 +26,14 @@ const http = useHttp<ExamForm>({
 
 const isOpen = defineModel<boolean>({default:false})
 
-const beforeClose = async (fn: () => void) => {
-    if(http.isDirty){
-        const {confirmOpen} = useConfirmDialog()
-        const ok = await confirmOpen('Отменить редактирование?')
-        if(!ok) return
-    }
-    http.resetAndClearErrors()
-    fn()
-}
-
 const hasEnrollment = computed(() => Boolean(props.exam.enrollmentsCount))
 
 const loading = ref(false)
+
 const edit = () => {
     http.put(`/exams/${props.exam.id}`,{
         onSuccess:(response: any) => {
-            console.log(props.onEdit, response.exam)
             if(!props.onEdit || !response.exam) return
-            console.log(response.exam)
             props.onEdit(response.exam)
             isOpen.value = false
             const {add} = useSnackbarQueue()
@@ -52,7 +41,6 @@ const edit = () => {
         }
     })
 }
-
 </script>
 
 <template>
@@ -60,7 +48,15 @@ const edit = () => {
         width="500"
         v-model="isOpen"
         title="Редактирование экзамена"
-        @before-close="(done) => beforeClose(done)"
+        @before-close="async (close) => {
+            if(http.isDirty){
+                const {confirmOpen} = useConfirmDialog()
+                const ok = await confirmOpen('Отменить редактирование?')
+                if(!ok) return
+            }
+            http.resetAndClearErrors()
+            close()
+        }"
     >
         <ExamCreateForm 
             :form="http"

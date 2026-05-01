@@ -4,16 +4,21 @@ import AppLogo from '@components/UI/AppLogo/AppLogo.vue';
 import AppPasswordConfirmation from '@/components/UI/AppPasswordConfirmation/AppPasswordConfirmation.vue';
 import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 
-const form = useForm({
-    password: '', //qwerty1231123@gmail.com
-    password_confirmation: '' //12345678 
+interface PasswordChange{
+  password: string | null, 
+  password_confirmation: string | null 
+}
+
+const form = useForm<PasswordChange>({
+  password: null, 
+  password_confirmation: null 
 })
 
 const change = () => {
-    if(form.password !== form.password_confirmation){
-        alert('Пароли не совпадают')
-        return
-    }
+  if(form.password !== form.password_confirmation){
+    alert('Пароли не совпадают')
+    return
+  }
   form.post('/password/change', {
     preserveScroll: true,
     preserveState: true

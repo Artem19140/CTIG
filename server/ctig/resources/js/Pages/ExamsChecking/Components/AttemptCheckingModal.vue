@@ -4,9 +4,9 @@ import { useHttp } from '@inertiajs/vue3';
 import { onMounted, ref } from 'vue';
 import AttemptCheckingSidePanel from './AttemptCheckingSidePanel.vue';
 import BaseDialog from '@/components/BaseComponents/BaseDialog/BaseDialog.vue';
-import { Attempt } from '@/interfaces/Interfaces';
 import { AttemptAnswer } from '@/interfaces/Task';
 import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.vue';
+import { Attempt } from '@/interfaces/Attempt';
 
 const isOpen = defineModel<boolean>({default:false})
 
@@ -18,6 +18,7 @@ const props = defineProps<{
 const attempt = ref<Attempt | null>(null)
 
 const http = useHttp()
+
 const scrollToTask = (id: number) => {
   const el = document.getElementById(`task-${id}`)
   el?.scrollIntoView({
@@ -55,9 +56,6 @@ onMounted(() => {
     getAttemptTasks()
 })
 
-const beforeClose = (fn:  ()  => void) =>{
-    fn()
-}
 </script>
 
 <template>
@@ -67,7 +65,7 @@ const beforeClose = (fn:  ()  => void) =>{
         :error="!http"
         :loading="http.processing"
         :onRetry="getAttemptTasks"
-        @before-close="(close) => beforeClose(close)"
+        @before-close="(close) => close()"
     >
         <h1 v-if="http.processing">Загрузка</h1>
         <div class="flex gap-10 items-start">

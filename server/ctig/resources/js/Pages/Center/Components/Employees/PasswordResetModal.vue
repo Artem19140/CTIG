@@ -6,25 +6,31 @@ import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.
 import AppTooltip from '@/components/UI/AppTooltip/AppTooltip.vue';
 import { useConfirmDialog } from '@/composables/useConfirmDialog';
 import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
-import { User } from '@/interfaces/Interfaces';
+import { Employee } from '@/interfaces/Employee';
 import { useHttp } from '@inertiajs/vue3';
 import { computed } from 'vue';
 
 const props = defineProps<{
-    user:User
+    employee:Employee
 }>()
 
 const isOpen = defineModel<boolean>({default:false})
 
-const http = useHttp({
+interface PasswordReset {
+    password:string | null,
+    password_confirmation: string |null,
+    adminPassword:string | null
+}
+
+const http = useHttp<PasswordReset>({
     password:null,
     password_confirmation:null,
     adminPassword:null
 })
 
 const reset = () => {
-    http.patch(`/employees/${props.user.id}/password`,{
-        onSuccess(response, httpResponse) {
+    http.patch(`/employees/${props.employee.id}/password`,{
+        onSuccess() {
             isOpen.value = false
             const {add} = useSnackbarQueue()
             add('Пароль успешно сброшен', 'green')

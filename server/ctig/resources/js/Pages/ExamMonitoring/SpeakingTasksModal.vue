@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import BaseDialog from '@/components/BaseComponents/BaseDialog/BaseDialog.vue';
-import { Attempt, Enrollment } from '@/interfaces/Interfaces';
 import { computed, onMounted, ref } from 'vue';
 import TasksList from '../Attempt/Components/tasks/TasksList.vue';
 import { router, useHttp } from '@inertiajs/vue3';
 import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import BaseEmptyState from '@/components/BaseComponents/BaseEmptyState/BaseEmptyState.vue';
+import { Enrollment } from '@/interfaces/Enrollment';
+import { Attempt } from '@/interfaces/Attempt';
 
 const props = defineProps<{
     enrollment:Enrollment

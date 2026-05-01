@@ -2,7 +2,7 @@
 import BaseDialog from '@/components/BaseComponents/BaseDialog/BaseDialog.vue';
 import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
-import { Employee, EmployeeEdit } from '@/interfaces/Employee';
+import { Employee, EmployeeFormI } from '@/interfaces/Employee';
 import { router, useHttp } from '@inertiajs/vue3';
 import EmployeeForm from './EmployeeForm.vue';
 import { useConfirmDialog } from '@/composables/useConfirmDialog';
@@ -13,8 +13,7 @@ const props = defineProps<{
 
 const employee = props.employee
 
-const http = useHttp <EmployeeEdit>({
-    id:employee.id,
+const http = useHttp <EmployeeFormI>({
     surname:employee.surname,
     name:employee.name,
     patronymic:employee.patronymic,
@@ -53,12 +52,7 @@ const isOpen = defineModel<boolean>({default:false})
         }"
     >
         <EmployeeForm 
-            v-model:surname="http.surname"
-            v-model:name="http.name"
-            v-model:patronymic="http.patronymic"
-            v-model:email="http.email"
-            v-model:job-title="http.jobTitle"
-            v-model:roles="http.roles"
+            v-model:form="http"
             :errors="http.errors"
             :loading="http.processing"
         />

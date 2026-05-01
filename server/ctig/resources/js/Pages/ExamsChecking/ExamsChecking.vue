@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import ExamsCheckingTable from './Components/ExamsCheckingTable.vue';
-import { Exam } from '@/interfaces/Interfaces';
+import { ExamIndex } from '@/interfaces/Exam';
 
 defineOptions({
   layout: [EmployeeLayout],
@@ -9,7 +9,7 @@ defineOptions({
 
 const props = defineProps<{
     exams: {
-        data:Exam[]
+        data:ExamIndex[]
     }
 }>()
 </script>

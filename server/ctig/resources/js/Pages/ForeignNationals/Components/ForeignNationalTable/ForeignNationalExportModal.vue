@@ -2,23 +2,30 @@
 import AppAutocomplete from '@components/UI/AppAutocomplete/AppAutocomplete.vue';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
-import countries from '../../../../../../storage/app/public/countries.json'
+import countries from '@data/countries.json'
 import { useHttp } from '@inertiajs/vue3';
 import AppPeriodDate from '@/components/UI/AppPeriodDate/AppPeriodDate.vue';
+import { RedirectUrl } from '@/interfaces/Interfaces';
 
 const isOpen = defineModel({default:false})
-const http = useHttp({
+
+interface ForeignNationalExport{
+    dateFrom:string | null,
+    dateTo: string | null,
+    citizenship: string | undefined,
+}
+
+const http = useHttp<ForeignNationalExport, RedirectUrl>({
     dateFrom:null,
     dateTo:null,
     citizenship:undefined,
-    withAttemtps:false
 })
 
 const download = () => {
     http.get('/foreign-nationals/export/available',{
-        onSuccess(response: any){
+        onSuccess(response){
             if(response.redirectUrl){
-                window.open(String(response.redirectUrl))
+                window.open(response.redirectUrl)
             }
         }
     })
@@ -30,7 +37,7 @@ const download = () => {
         width="500"
         v-model="isOpen"
         title="Выгрузка ИГ"
-        @before-close="(done) => done()"
+        @before-close="(close) => close()"
     >
         <AppPeriodDate 
             :errors="http.errors"

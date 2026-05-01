@@ -17,20 +17,25 @@ export interface ForeignNational{
   phone:string,
   creator?:Employee | null,
   passportScan?:string | null,
-  createdAt?:string,
   citizenship:string | null,
   dateBirth:string,
   attempts?:Array<Attempt> | null,
-  fullName?:string,
-  fullNameLatin?:string,
-  fullPassport?:string,
-  isLoading?: boolean,
+  fullName:string,
+  fullNameLatin:string,
+  fullPassport:string,
   passportTranslateScan?:string | null,
   comment:''
   gender:string | null,
   enrollments:Array<Enrollment>,
   creatorFullName:string,
   addressReg:string
+}
+
+export interface ForeignNationalEnrollment{
+  id:number,
+  fullName:string,
+  fullPassport:string,
+  isLoading?: boolean,
 }
 
 export interface ForeignNationalIndex{
@@ -42,7 +47,7 @@ export interface ForeignNationalIndex{
 export type ForeignNationalFormI = Omit<
   ForeignNational,
   'id' | 'creator' | 'exams' | 'createdAt' | 'passportScan'  | 'attempts' | 'exam' | 'fullName' | 'fullPassport' | 
-  'passportTranslateScanPath' | 'passportScanPath' | 'creatorFullName' | 'enrollments'
+  'passportTranslateScanPath' | 'passportScanPath' | 'creatorFullName' | 'enrollments'  | 'fullNameLatin' 
 > & {
   passportScan: File | null
   passportTranslateScan: File | null

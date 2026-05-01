@@ -42,7 +42,6 @@ class ExamResource extends JsonResource
             'foreignNationalsCount' => $this->whenCounted('foreignNationals_count'),
             'enrollmentsCount' => $this->whenCounted('enrollments_count'),
             'attempts' => AttemptResource::collection( $this->whenLoaded('attempts')),
-            //'duration' => $this->whenLoaded('type', fn () => $this->type->duration),
             'tasksCount' => $this->whenLoaded('type', fn () => $this->type->tasks_count),
             'hasSpeakingTasks' => $this->whenLoaded('type', fn () => $this->type->has_speaking_tasks),
             'status' => app(ExamStatusResolver::class)->execute($this->resource),

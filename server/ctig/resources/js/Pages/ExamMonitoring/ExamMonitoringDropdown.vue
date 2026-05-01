@@ -2,11 +2,11 @@
 import BaseThreeDotDropdown from '@/components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 import AppListDropDownItem from '@/components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import { useModals } from '@/composables/useModals';
-import { Exam } from '@/interfaces/Interfaces';
 import { useExamStatus } from '@/composables/useExamStatus';
+import { ExamMonitoring } from '@/interfaces/Exam';
 
 const props = defineProps<{
-    exam: Exam
+    exam: ExamMonitoring
 }>()
 
 const {open} = useModals()

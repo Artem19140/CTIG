@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import AppProgressCircular from '@/components/UI/AppProgressCircular/AppProgressCircular.vue';
 import { useConfirmDialog } from '@/composables/useConfirmDialog';
-import { Attempt, Violation } from '@/interfaces/Interfaces';
 import { useHttp } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import ViolationForm from './ViolationForm.vue';
+import { Violation } from '@/interfaces/Violation';
+import { Attempt } from '@/interfaces/Attempt';
 
 const props = defineProps<{
     index:number,
@@ -23,20 +24,21 @@ const deleteViolation = async () => {
     const ok = await confirmOpen('Удалить нарушение?')
     if(!ok) return
     deleteHttp.delete(`/attempts/${props.attempt.id}/violations/${props.violation.id}`,{
-        onSuccess(response, httpResponse) {
+        onSuccess() {
             emit('delete', props.violation.id)
         },
     })
 }
 
 const editting = ref<boolean>(false)
-const editHttp = useHttp({
+
+const editHttp = useHttp<{comment:string}, {data:Violation}>({
     comment:props.violation.comment
 })
 const editViolation = async () => {
 
     editHttp.patch(`/attempts/${props.attempt.id}/violations/${props.violation.id}`,{
-        onSuccess(response:any, httpResponse) {
+        onSuccess(response, httpResponse) {
             emit('edit', response.data)
             editting.value = false
         },

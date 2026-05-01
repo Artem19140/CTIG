@@ -6,11 +6,11 @@ import {router, useHttp} from '@inertiajs/vue3';
 import AppPasswordConfirmation from '@/components/UI/AppPasswordConfirmation/AppPasswordConfirmation.vue';
 import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
 import EmployeeForm from './EmployeeForm.vue';
-import { EmployeeCreate } from '@/interfaces/Employee';
+import { EmployeeFormI } from '@/interfaces/Employee';
 
 const isOpen = defineModel<boolean>({default:false})
 
-const http = useHttp<EmployeeCreate>({
+const http = useHttp<EmployeeFormI & {password:string, password_confirmation:string}>({
     surname:'',
     name:'',
     patronymic:'',
@@ -52,12 +52,7 @@ const create = () => {
         @before-close="(done) => canClose(done)"
     >
         <EmployeeForm 
-            v-model:surname="http.surname"
-            v-model:name="http.name"
-            v-model:patronymic="http.patronymic"
-            v-model:email="http.email"
-            v-model:job-title="http.jobTitle"
-            v-model:roles="http.roles"
+            v-model:form="http"
             :errors="http.errors"
             :loading="http.processing"
         />

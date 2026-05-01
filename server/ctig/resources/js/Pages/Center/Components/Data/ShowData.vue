@@ -2,72 +2,116 @@
 import { Center } from '@/interfaces/Center';
 
 const props = defineProps<{
-    center : Center
+  center : Center
 }>()
 </script>
 
 <template>
-    <v-container fluid class="pa-0" v-if="center">
-      <v-row dense>
-        
-        <v-col cols="12" md="6">
-          <div class="field">
-            <div class="label">Название</div>
-            <div class="value">{{ center.name }}</div>
-          </div>
-        </v-col>
+  <v-card class="pa-4" variant="text">
 
-        <v-col cols="12" md="3">
-          <div class="field">
-            <div class="label">ОГРН</div>
-            <div class="value">{{ center.ogrn }}</div>
-          </div>
-        </v-col>
+  <v-row class="py-2" align="start">
+    <v-col cols="12" sm="4" class="text-medium-emphasis">
+      Название
+    </v-col>
+    <v-col cols="12" sm="8">
+      <div class="break-words whitespace-pre-wrap">
+        {{ center.name }}
+      </div>
+    </v-col>
+  </v-row>
 
-        <v-col cols="12" md="3">
-          <div class="field">
-            <div class="label">ИНН</div>
-            <div class="value">{{ center.inn }}</div>
-          </div>
-        </v-col>
+  <v-divider />
 
-        <v-col cols="12" md="6">
-          <div class="field">
-            <div class="label">Адрес центра</div>
-            <div class="value text-wrap">{{ center.address }}</div>
-          </div>
-        </v-col>
+  <v-row class="py-2" align="start">
+    <v-col cols="12" sm="4" class="text-medium-emphasis">
+      ОГРН
+    </v-col>
+    <v-col cols="12" sm="8">
+      <div class="break-words">
+        {{ center.ogrn }}
+      </div>
+    </v-col>
+  </v-row>
 
-        <v-col cols="12" md="6">
-          <div class="field">
-            <div class="label">Адрес выдачи сертификатов</div>
-            <div class="value text-wrap">{{ center.certificatesIssueAddress }}</div>
-          </div>
-        </v-col>
+  <v-divider />
 
-        <v-col cols="12" md="4">
-          <div class="field">
-            <div class="label">Директор</div>
-            <div class="value">{{ center.directorFio }}</div>
-          </div>
-        </v-col>
+  <v-row class="py-2" align="start">
+    <v-col cols="12" sm="4" class="text-medium-emphasis">
+      ИНН
+    </v-col>
+    <v-col cols="12" sm="8">
+      <div class="break-words">
+        {{ center.inn }}
+      </div>
+    </v-col>
+  </v-row>
 
-        <v-col cols="12" md="8">
-          <div class="field">
-            <div class="label">Название (в родительном падеже)</div>
-            <div class="value text-wrap">{{ center.nameGenitive }}</div>
-          </div>
-        </v-col>
+  <v-divider />
 
-        <v-col cols="12" md="4">
-          <div class="field">
-            <div class="label">Временная зона</div>
-            <div class="value">{{ center.timeZone }}</div>
-          </div>
-        </v-col>
+  <v-row class="py-2" align="start">
+    <v-col cols="12" sm="4" class="text-medium-emphasis">
+      Адрес центра
+    </v-col>
+    <v-col cols="12" sm="8">
+      <div class="break-words whitespace-pre-wrap">
+        {{ center.address }}
+      </div>
+    </v-col>
+  </v-row>
 
-      </v-row>
-  </v-container>
+  <v-divider />
+
+  <v-row class="py-2" align="start">
+    <v-col cols="12" sm="4" class="text-medium-emphasis">
+      Адрес выдачи сертификатов
+    </v-col>
+    <v-col cols="12" sm="8">
+      <div class="break-words whitespace-pre-wrap">
+        {{ center.certificatesIssueAddress }}
+      </div>
+    </v-col>
+  </v-row>
+
+  <v-divider />
+
+  <v-row class="py-2" align="start">
+    <v-col cols="12" sm="4" class="text-medium-emphasis">
+      Директор
+    </v-col>
+    <v-col cols="12" sm="8">
+      <div class="break-words">
+        {{ center.directorFio }}
+      </div>
+    </v-col>
+  </v-row>
+
+  <v-divider />
+
+  <v-row class="py-2" align="start">
+    <v-col cols="12" sm="4" class="text-medium-emphasis">
+      Председатель комиссии
+    </v-col>
+    <v-col cols="12" sm="8">
+      <div class="break-words">
+        {{ center.commissionChairman }}
+      </div>
+    </v-col>
+  </v-row>
+
+  <v-divider />
+
+  <v-row class="py-2" align="start">
+    <v-col cols="12" sm="4" class="text-medium-emphasis">
+      Название (в родительном падеже)
+    </v-col>
+    <v-col cols="12" sm="8">
+      <div class="break-words whitespace-pre-wrap">
+        {{ center.nameGenitive }}
+      </div>
+    </v-col>
+  </v-row>
+
+</v-card>
 </template>
 
 <style lang="css" scoped>

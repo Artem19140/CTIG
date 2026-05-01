@@ -63,7 +63,7 @@ const loading = ref<boolean>(false)
         </template>
         <template #item.status="{ item }">
             <ExamStatusChip 
-                :exam="item"
+                :status="item.status"
             />
         </template>
         <template #bottom>

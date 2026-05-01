@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { capacityColor } from '@/helpers/heplers';
+import { Exam } from '@/interfaces/Exam';
 import AppStatusChip from '../UI/AppStatusChip/AppStatusChip.vue';
-import { Exam } from '@/interfaces/Interfaces';
 import { computed, ref } from 'vue';
 
 const props = defineProps<{

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('name_genitive');
             $table->string('time_zone');
-
+            $table->string('commission_chairman');
             $table->timestamps();
         });
     }

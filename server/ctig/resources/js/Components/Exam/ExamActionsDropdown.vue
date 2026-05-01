@@ -2,7 +2,6 @@
 import { useForm, useHttp } from '@inertiajs/vue3'
 import { usePromptDialog } from '@composables/usePromptDialog';
 import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
-import { Exam } from '@interfaces/Interfaces';
 import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 import { useAuth } from '@composables/useAuth';
 import { Roles } from '@constants/Roles';
@@ -10,6 +9,7 @@ import { useModals } from '@composables/useModals';
 import { useLoadingSnackbar } from '@composables/useLoadingSnackBar';
 import { useExamStatus } from '@/composables/useExamStatus';
 import { computed } from 'vue';
+import { Exam } from '@/interfaces/Exam';
 
 
 const props = defineProps<{exam : Exam | null}>()

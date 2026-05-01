@@ -24,7 +24,7 @@ class CenterResource extends JsonResource
             'inn' => $this->inn,
             'address' => $this->address,
             'nameGenitive' => $this->name_genitive,
-            'timeZone' => $this->time_zone,
+            'commissionChairman' => $this->commission_chairman
         ];
     }
 }

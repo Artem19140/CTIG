@@ -16,15 +16,13 @@ const mode = ref<string>('show')
 <template>
     <div class="p-3">
         <ShowData :center="data" v-if="mode === 'show'" />
-        <UpdateData :center="data" v-if="mode === 'update'"  />
-        <div class="flex gap-4">
-            <AppPrimaryButton
-                text="Обновить"
-                v-if="mode === 'update'"
-            />
-            <v-btn @click="mode = 'show'" v-if="mode === 'update'">
-                Отмена
-            </v-btn>
+        <UpdateData 
+            @mode-show="mode = 'show'" 
+            :center="data" 
+            v-if="mode === 'update'"  
+        />
+        <div class="flex gap-4 mt-4">
+            
             <AppPrimaryButton
                 text="Редактировать"
                 @click="mode = 'update'"

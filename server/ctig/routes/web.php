@@ -111,6 +111,7 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
     Route::get('centers/{center}', [CenterController::class, "show"]);
     Route::get('centers/{center}/employees', [UserController::class, "index"]);
     Route::get('centers/{center}/addresses', [AddressController::class, "index"]);
+    Route::put('centers/{center}', [CenterController::class, "update"]);
     Route::put('centers/{center}/addresses', [AddressController::class, "update"]);
 
     Route::patch('addresses/{address}/active', [AddressController::class, "toggleActive"])->name('addresses.toggle.active');

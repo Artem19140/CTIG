@@ -8,7 +8,6 @@ const props = defineProps<{
 </script>
 
 <template>
-    
     <AppStatusChip 
         v-if="status"
         :text="examResultStatus(status).text"

@@ -25,6 +25,7 @@ const headers = [
         :headers="headers"
         :items="employees"
         toolbarColor="white"
+        class="p-2"
     >
         <template #toolbar-actions>
             <div class="flex gap-4">

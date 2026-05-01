@@ -1,4 +1,5 @@
 export interface Center {
+  id:number,
   name: string
   ogrn: string
   inn: string
@@ -6,5 +7,5 @@ export interface Center {
   certificatesIssueAddress: string
   directorFio: string
   nameGenitive: string
-  timeZone: string
+  commissionChairman:string
 }

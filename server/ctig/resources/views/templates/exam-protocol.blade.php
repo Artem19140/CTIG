@@ -84,7 +84,7 @@ td {
     min-width: 30px;
 }
 .prebox {
-    white-space: pre;   
+    white-space: pre;  
 }
 </style>
 </head>
@@ -146,38 +146,43 @@ td {
         </span>
         <div>
         @if ($exam->protocol_comment)
-            <div class="prebox">
-{{ $exam->protocol_comment}}
+        Общий комментарий:
+            <div style="margin-left: 15px;">
+{!!  nl2br(e($exam->protocol_comment)) !!}
             </div>
         @endif
             <div>
-                @foreach ( $bannedAttempts as $attempt )
-                    <div>
-                        - Cдающий {{ $attempt->foreignNational->full_name_short }}
-                        (паспорт: {{ $attempt->foreignNational->full_passport }}) был снят с экзамена в {{ $attempt->banned_at->format('H:i') }} по причине: 
-                        "{{ $attempt->ban_reason }}";
-                    </div> 
-                @endforeach
+                @if($bannedAttempts->isNotEmpty())
+                    @foreach ( $bannedAttempts as $attempt )
+                        <div>
+                            - Cдающий {{ $attempt->foreignNational->full_name_short }}
+                            (паспорт: {{ $attempt->foreignNational->full_passport }}) был снят с экзамена в {{ $attempt->banned_at->format('H:i') }} по причине: 
+                            "{{ $attempt->ban_reason }}";
+                        </div> 
+                    @endforeach
+                @endif
             </div>
 
             <div>
-                @foreach ( $attemptWithViolations as $attempt )
-                    <div style="margin-bottom: 10px;">
-                        <div>
-                            За сдающим {{ $attempt->foreignNational->full_name_short }}
-                            (паспорт: {{ $attempt->foreignNational->full_passport }})
-                            зафиксированы нарушения:
-                        </div>
+                @if($attemptWithViolations->isNotEmpty())
+                    @foreach ( $attemptWithViolations as $attempt )
+                        <div style="margin-bottom: 10px;">
+                            <div>
+                                За сдающим {{ $attempt->foreignNational->full_name_short }}
+                                (паспорт: {{ $attempt->foreignNational->full_passport }})
+                                зафиксированы нарушения:
+                            </div>
 
-                        <ol style="margin-top: 5px; margin-left: 15px;">
-                            @foreach ($attempt->violations as $violation)
-                                <li style="margin-bottom: 3px;">
-                                    {{ $violation->comment }};
-                                </li>
-                            @endforeach
-                        </ol>
-                    </div>
-                @endforeach
+                            <ol style="margin-top: 5px; margin-left: 15px;">
+                                @foreach ($attempt->violations as $violation)
+                                    <li style="margin-bottom: 3px;">
+                                        {{ $violation->comment }} ( {{ $violation->updated_at->format('H:i') }} );
+                                    </li>
+                                @endforeach
+                            </ol>
+                        </div>
+                    @endforeach
+                @endif
             </div>
         </div>
         <div>{{ !$exam->protocol_comment && $bannedAttempts->isEmpty() ?  'Нарушения не установлены' : '' }}</div>

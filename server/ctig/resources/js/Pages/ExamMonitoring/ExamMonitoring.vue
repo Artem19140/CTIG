@@ -82,7 +82,7 @@ const back = () => {
                     <div>
                         Мониторинг
                         <ExamStatusChip 
-                            :exam="exam.data" 
+                            :status="exam.data.status" 
                         />
                     </div>
                     <div>

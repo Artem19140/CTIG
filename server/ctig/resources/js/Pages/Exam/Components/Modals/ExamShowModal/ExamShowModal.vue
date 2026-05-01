@@ -3,12 +3,13 @@ import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import ExamActionsDropdown from '@components/Exam/ExamActionsDropdown.vue';
 import EnrollmentsTable from './EnrollmentsTable.vue';
 import { computed, onMounted, ref } from 'vue';
-import { Enrollment, Exam } from '@interfaces/Interfaces';
 import { router, useHttp } from '@inertiajs/vue3';
 import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import { ExamStatus } from '@/constants/ExamStatus';
 import ExamCapacityChip from '@/components/Exam/ExamCapacityChip.vue';
+import { Exam } from '@/interfaces/Exam';
+import { Enrollment } from '@/interfaces/Enrollment';
 
 const props = defineProps<{
     examId:number
@@ -72,7 +73,8 @@ const edit =(value :Exam) => {
             <div class="flex gap-2">
                 Экзамен
                 <ExamStatusChip
-                    :exam="exam"
+                    v-if="exam"
+                    :status="exam?.status"
                 />
             </div>
         </template>

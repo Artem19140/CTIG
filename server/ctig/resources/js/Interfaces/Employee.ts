@@ -7,12 +7,12 @@ export interface Employee{
     patronymic:string | null,
     email:string,
     jobTitle:string,
-    roles:Array<Role>
+    roles:Array<Role>,
+    fullName:string
 }
 
-export interface EmployeeFormI extends Omit<Employee, 'id' | 'roles'>{
-    roles:Array<number | undefined>,
-    
+export interface EmployeeFormI extends Omit<Employee, 'id' | 'roles' | 'fullName'>{
+    roles:Array<number | undefined>
 }
 
 export interface Role{

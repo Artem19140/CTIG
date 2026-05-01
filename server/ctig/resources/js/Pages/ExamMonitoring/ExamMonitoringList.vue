@@ -74,7 +74,7 @@ const getPastExams = () =>{
             
             <template #item.status="{ item }">
                 <ExamStatusChip
-                    :exam="item"
+                    :status="item.status"
                 />
             </template>
 

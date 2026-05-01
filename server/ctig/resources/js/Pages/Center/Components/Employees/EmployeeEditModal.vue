@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import BaseDialog from '@/components/BaseComponents/BaseDialog/BaseDialog.vue';
 import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.vue';
-import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
 import { Employee, EmployeeFormI } from '@/interfaces/Employee';
 import { router, useHttp } from '@inertiajs/vue3';
 import EmployeeForm from './EmployeeForm.vue';
@@ -26,8 +25,6 @@ const edit = () => {
     http.put(`/employees/${employee.id}`,{
         onSuccess() {
             isOpen.value = false
-            const {add} = useSnackbarQueue()
-            add('Данные успешно обновлены', 'green')
             router.reload()
         },
     })

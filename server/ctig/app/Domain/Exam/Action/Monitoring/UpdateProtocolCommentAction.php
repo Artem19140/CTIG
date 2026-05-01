@@ -20,11 +20,11 @@ class UpdateProtocolCommentAction{
 
     protected function ensureCanUpdateProtocolComment(Exam $exam){
         if(
-            $exam->begin_time->addMinutes(30)->isPast() 
-                &&
+            !$exam->begin_time->isToday() 
+                ||
             !$exam->begin_time->isPast()
         ){
-            throw new BusinessException('Комментарий можно редактировать во время и в течении 30 минут после экзамена');
+            throw new BusinessException('Комментарий возможно редактировать во время и в течении всего дня после экзамена');
         }
     }
 }

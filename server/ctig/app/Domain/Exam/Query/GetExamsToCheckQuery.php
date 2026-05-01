@@ -13,7 +13,7 @@ class GetExamsToCheckQuery{
                 $query->where('need_human_check', true);
             })
             ->whereHas('attempts', function(Builder $query){
-                $query->where('status', AttemptStatus::Finished);
+                $query->whereIn('status', AttemptStatus::unChecked());
             })
             ->with(['type'])
             ->get();

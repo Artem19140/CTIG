@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import {  router, useHttp } from '@inertiajs/vue3'
-import {h, ref } from 'vue';
+import {ref } from 'vue';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
-import { type Exam, type IForeignNationalCreateForm } from '@interfaces/Interfaces';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
-import ForeignNationalCreateForm from './ForeignNationalCreateForm.vue';
+import ForeignNationalForm from './ForeignNationalForm.vue';
 import ExamEnrollment from '../../../../components/Exam/ExamEnrollment.vue';
-import { useAlert } from '@composables/useAlert';
-import AppCheckbox from '@components/UI/AppCheckbox/AppCheckbox.vue';
+import { Exam } from '@/interfaces/Exam';
+import { ForeignNationalFormI } from '@/interfaces/ForeignNational';
+import { RedirectUrl } from '@/interfaces/Interfaces';
 
 const isOpen = defineModel<boolean>({default:false})
 const examTypeId = ref<number | null>(null)
 
 const exams = ref<Exam[]>()
 
-// const http = useHttp<IForeignNationalCreateForm>({
+// const http = useHttp<ForeignNationalCreateForm, RedirectUrl>({
 //     surname: '', 
 //     name:'',
 //     patronymic:"",
@@ -23,7 +23,7 @@ const exams = ref<Exam[]>()
 //     surnameLatin:'',
 //     nameLatin:'',
 //     patronymicLatin:"",
-//     noPatronymicLatin:"",
+//     noPatronymicLatin:false,
 //     passportNumber:"",
 //     passportSeries:"",
 //     noPassportNumber:false,
@@ -41,7 +41,7 @@ const exams = ref<Exam[]>()
 //     comment:'',
 //     addressReg:''
 // })
-const http = useHttp<IForeignNationalCreateForm>({
+const http = useHttp<ForeignNationalFormI & {hasPayment:boolean, examId: number | null}, RedirectUrl>({
     surname: 'Иванов', 
     name:'Иван',
     patronymic:"Иванович",
@@ -69,39 +69,24 @@ const http = useHttp<IForeignNationalCreateForm>({
 })
 
 const create = () => {
-    // if(!http.examId){
-    //     http.errors.examId = 'Выберите экзамен для записи'
-    //     return   
-    // }
-        
     http.post('/foreign-nationals', {
-
-    onSuccess: (response:any) => {
-        if(response.redirectUrl){
-            examTypeId.value = null
-            exams.value = undefined
-            http.resetAndClearErrors()
-            window.open(String(response.redirectUrl))
-            router.visit('/foreign-nationals')
-            isOpen.value=false
+        onSuccess: (response) => {
+            if(response.redirectUrl){
+                window.open(String(response.redirectUrl))
+                router.visit('/foreign-nationals')
+                isOpen.value=false
+                reset()
+            }
         }
-    }
     })
 }
 
 const {confirmOpen} = useConfirmDialog()
 
-const  close  = async (fn:  ()  => void)  =>  {
-    if (http.isDirty) {
-        if(!await confirmOpen("Отменить добавление ИГ?")){
-            return
-        }
-    }
+const  reset = ()  =>  { 
     examTypeId.value = null
     exams.value = undefined
-    http.reset()
-    http.clearErrors()
-    fn()
+    http.resetAndClearErrors()
 }
 
 </script>
@@ -112,13 +97,21 @@ const  close  = async (fn:  ()  => void)  =>  {
             title="Добавление ИГ"
             width="1000"
             height="100%"
-            @before-close="(done) => {close(done); }"
+            @before-close="async (close) => {
+                if (http.isDirty) {
+                    const ok = await confirmOpen('Отменить добавление ИГ?')
+                    if(!ok) return
+                    
+                }
+                reset()
+                close()
+            }"
         >   
                 <v-card title="Экзамен" class="mb-4" >
                     <v-card-text>
                         <v-container>
                             <v-col cols="12" class="subtitle mb-4">
-                                    Выберите экзамен для записи
+                                Выберите экзамен для записи
                             </v-col>
                             <ExamEnrollment 
                                 v-model:exam-id="http.examId"
@@ -129,7 +122,11 @@ const  close  = async (fn:  ()  => void)  =>  {
                     </v-card-text>
                 </v-card>
                 
-                <ForeignNationalCreateForm :form="http" />
+                <ForeignNationalForm 
+                    v-model:form="http"
+                    :loading="http.processing"
+                    :errors="http.errors"    
+                />
                   
             <template #actions>
                 <span class="text-red" v-if="http.hasErrors">Есть ошибки заполнения</span>

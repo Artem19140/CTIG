@@ -7,6 +7,7 @@ use App\Http\Controllers\Web\Attempt\AttemptViolationController;
 use App\Http\Controllers\Web\Enrollment\EnrollmentDocumentController;
 use App\Http\Controllers\Web\Exam\ExamCheckingController;
 use App\Http\Controllers\Web\File\FileController;
+use App\Http\Controllers\Web\ForeignNational\ForeignNationalExportController;
 use App\Http\Controllers\Web\Statistics\StatisticsController;
 use App\Http\Controllers\Web\User\UserController;
 use App\Http\Controllers\Web\Attempt\AttemptController;
@@ -24,9 +25,12 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->group(function(){
+    Route::middleware(['user.has.role:scheduler'])->group(function(){
+        
+    });
     
-    Route::get('foreign-nationals/export', [ForeignNationalController::class, 'export'])->name('foreign-nationals.export');
-    Route::get('foreign-nationals/export/available', [ForeignNationalController::class, 'exportAvailable']);
+    Route::get('foreign-nationals/export', [ForeignNationalExportController::class, 'export'])->name('foreign-nationals.export');
+    Route::get('foreign-nationals/export/available', [ForeignNationalExportController::class, 'exportAvailable']);
     Route::apiResource('foreign-nationals', ForeignNationalController::class);
     Route::apiResource('enrollments', EnrollmentController::class);
     Route::prefix('enrollments')->group(function(){
@@ -74,6 +78,8 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
 
         Route::get('{attempt}/checking/tasks', [AttemptCheckingController::class, 'show'])->name('attempts.checking.tasks');
 
+        Route::post('{attempt}/checking/finish', [AttemptCheckingController::class, 'finish'])->name('attempts.checking.finish');
+
         Route::get('{attempt}/tasks/speaking', [AttemptCheckingController::class, 'show'])->name('attempts.speaking.tasks');
 
         Route::get('{attempt}/speaking', [AttemptSpeakingController::class, 'show'])->name('attempts.speaking');
@@ -114,6 +120,7 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
 
     Route::delete('employees/{user}', [UserController::class, "destroy"])->name('users.destroy');
     Route::post('employees', [UserController::class, "store"]);
+    Route::put('employees/{user}', [UserController::class, "update"]);
     Route::patch('employees/{user}/password', [LoginController::class, "resetPassword"]);
 
     Route::get('files', [FileController::class, "show"]);

@@ -29,13 +29,22 @@ class AttemptCheckingController
         return new AttemptResource($attempt);
     }   
 
-    public function finishChecking(
+    public function finish(
         Attempt $attempt, 
         FinilizeAttemptCheckingAction $finilizeAttemptCheckingAction
     ){
-        if($attempt->hasUncheckedAnswers()){
+        $notAllManualTasksChecked =  $attempt->answers()
+            ->notChecked()
+            ->whereHas('taskVariant', function (Builder $query){
+                $query->whereHas('task', function(Builder $q){
+                    $q->whereIn('type',TaskType::manualCheckTypes());
+                });
+            })
+            ->exists();
+        if($notAllManualTasksChecked){
             throw new BusinessException('Существуют непроверенные задания, завершение невозможно');
         }
+
         $attempt = $finilizeAttemptCheckingAction->execute($attempt);
         return response()->json([
             'attempt' => new AttemptResource($attempt)

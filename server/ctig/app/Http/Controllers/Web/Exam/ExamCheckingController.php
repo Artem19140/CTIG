@@ -24,7 +24,7 @@ class ExamCheckingController
             'type',
             'enrollments' => function(HasMany $query){
                 $query->whereHas('attempt')
-                    ->with('attempt');
+                    ->with('attempt.center');
             }
         ]); 
 

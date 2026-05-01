@@ -7,14 +7,18 @@ import { computed } from 'vue';
 import countries from '@data/countries.json'
 import AppOptionalInput from '@/components/UI/AppOptionalInput/AppOptionalInput.vue';
 import AppDateInput from '@/components/UI/AppDateInput/AppDateInput.vue';
+import { ForeignNationalFormI } from '@/interfaces/ForeignNational';
 
 const props = defineProps<{
-    form: any,
-    mode?:string
+    mode?:string,
+    errors:any,
+    loading:boolean,
 }>()
-
+const form = defineModel<ForeignNationalFormI>('form',{
+  required: true
+})
 const edit = computed(() => props.mode === 'edit')
-const readonly = computed(() => props.form.processing)
+const readonly = computed(() => props.loading)
 function required (v:any) {
     return !!v || 'Поле обязательно'
 }
@@ -39,7 +43,7 @@ function required (v:any) {
                             :rules="[required]"
                             v-model="form.surname"
                             :readonly="readonly"
-                            :error-messages="form.errors.surname"
+                            :error-messages="errors.surname"
                         />
                     </v-col>
 
@@ -49,7 +53,7 @@ function required (v:any) {
                         label="Имя на русском"
                         v-model="form.name"
                         :readonly="readonly"
-                        :error-messages="form.errors.name"
+                        :error-messages="errors.name"
                 />
                     </v-col>
 
@@ -58,8 +62,8 @@ function required (v:any) {
                             :form="form"
                             v-model:input="form.patronymic"
                             v-model:checkbox="form.noPatronymic"
-                            :input-attr="{label:'Отчество кириллица', 'error-messages':form.errors.patronymic}"
-                            :checkbox-attr="{label:'Нет отчества кириллица', 'error-messages':form.errors.noPatronymic}"
+                            :input-attr="{label:'Отчество кириллица', 'error-messages':errors.patronymic}"
+                            :checkbox-attr="{label:'Нет отчества кириллица', 'error-messages':errors.noPatronymic}"
                         />
                     </v-col>
                     <v-divider class="my-4" />
@@ -78,7 +82,7 @@ function required (v:any) {
                             :required="true && !edit"
                             v-model="form.surnameLatin"
                             :readonly="readonly"
-                            :error-messages="form.errors.surnameLatin"
+                            :error-messages="errors.surnameLatin"
                         />
                     </v-col>
 
@@ -88,7 +92,7 @@ function required (v:any) {
                             :required="true && !edit"
                             v-model="form.nameLatin"
                             :readonly="readonly"
-                            :error-messages="form.errors.nameLatin"
+                            :error-messages="errors.nameLatin"
                         />
                     </v-col>
                     <v-col cols="6" md="12">
@@ -96,8 +100,8 @@ function required (v:any) {
                             :form="form"
                             v-model:input="form.patronymicLatin"
                             v-model:checkbox="form.noPatronymicLatin"
-                            :input-attr="{label:'Отчество на латинице', 'error-messages':form.errors.patronymicLatin}"
-                            :checkbox-attr="{label:'Нет отчества латиница', 'error-messages':form.errors.noPatronymicLatin}"
+                            :input-attr="{label:'Отчество на латинице', 'error-messages':errors.patronymicLatin}"
+                            :checkbox-attr="{label:'Нет отчества латиница', 'error-messages':errors.noPatronymicLatin}"
                         />
                     </v-col>
 
@@ -105,7 +109,7 @@ function required (v:any) {
                         <AppDateInput 
                             :readonly="readonly"
                             v-model="form.dateBirth"
-                            :error-messages="form.errors.dateBirth"
+                            :error-messages="errors.dateBirth"
                             label="Дата рождения"
                         />
                     </v-col>
@@ -121,7 +125,7 @@ function required (v:any) {
                             :items="countries"
                             item-value="value"
                             v-model="form.citizenship"
-                            :error-messages="form.errors.citizenship"
+                            :error-messages="errors.citizenship"
                             clearable
                         />
                     </v-col>
@@ -133,7 +137,7 @@ function required (v:any) {
                             :readonly="readonly"
                             inline
                             label="Пол"
-                            :error-messages="form.errors.gender"
+                            :error-messages="errors.gender"
                         >
                             <v-radio
                                 label="М"
@@ -151,8 +155,8 @@ function required (v:any) {
                             :form="form"
                             v-model:input="form.passportSeries"
                             v-model:checkbox="form.noPassportSeries"
-                            :input-attr="{label:'Серия паспорта', 'error-messages':form.errors.passportSeries}"
-                            :checkbox-attr="{label:'Нет серии', 'error-messages':form.errors.noPassportSeries}"
+                            :input-attr="{label:'Серия паспорта', 'error-messages':errors.passportSeries}"
+                            :checkbox-attr="{label:'Нет серии', 'error-messages':errors.noPassportSeries}"
                         />
                     </v-col>
 
@@ -161,8 +165,8 @@ function required (v:any) {
                             :form="form"
                             v-model:input="form.passportNumber"
                             v-model:checkbox="form.noPassportNumber"
-                            :input-attr="{label:'Номер паспорта', 'error-messages':form.errors.passportNumber}"
-                            :checkbox-attr="{label:'Нет номера', 'error-messages':form.errors.noPassportNumber}"
+                            :input-attr="{label:'Номер паспорта', 'error-messages':errors.passportNumber}"
+                            :checkbox-attr="{label:'Нет номера', 'error-messages':errors.noPassportNumber}"
                         />
                     </v-col>
 
@@ -172,7 +176,7 @@ function required (v:any) {
                             :required="true && !edit"
                             :readonly="readonly"
                             v-model="form.issuedBy"
-                            :error-messages="form.errors.issuedBy"
+                            :error-messages="errors.issuedBy"
                             clearable
                         />
                     </v-col>
@@ -182,7 +186,7 @@ function required (v:any) {
                             label="Дата выдачи"
                             :readonly="readonly"
                             v-model="form.issuedDate"
-                            :error-messages="form.errors.issuedDate"
+                            :error-messages="errors.issuedDate"
                         />  
                     </v-col>
 
@@ -199,7 +203,7 @@ function required (v:any) {
                             label="Адрес"
                             :readonly="readonly"
                             v-model="form.addressReg"
-                            :error-messages="form.errors.addressReg"
+                            :error-messages="errors.addressReg"
                         /> 
                     </v-col>
                     
@@ -217,7 +221,7 @@ function required (v:any) {
                             label="Номер телефона"
                             :readonly="readonly"
                             v-model="form.phone"
-                            :error-messages="form.errors.phone"
+                            :error-messages="errors.phone"
                         /> 
                     </v-col>
                 </v-row>
@@ -238,7 +242,7 @@ function required (v:any) {
                         v-model="form.passportScan"
                         :readonly="readonly"
                         accept=".pdf,application/pdf"
-                        :error-messages="form.errors.passportScan"
+                        :error-messages="errors.passportScan"
                         />
                     </v-col>
 
@@ -249,7 +253,7 @@ function required (v:any) {
                         v-model="form.passportTranslateScan"
                         :readonly="readonly"
                         accept=".pdf,application/pdf"
-                        :error-messages="form.errors.passportTranslateScan"
+                        :error-messages="errors.passportTranslateScan"
                         />
                     </v-col>
                 </v-row>
@@ -269,7 +273,7 @@ function required (v:any) {
                         auto-grow
                         rows="1"
                         v-model="form.comment"
-                        :error-messages="form.errors.comment"
+                        :error-messages="errors.comment"
                     />
                 </v-row>
             </v-container>

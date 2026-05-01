@@ -8,16 +8,17 @@ import { DateFormatter } from '@helpers/DateFormatter';
 import { ref } from 'vue';
 import ExamCapacityChip from '@/components/Exam/ExamCapacityChip.vue';
 import AppPaginator from '@/components/UI/AppPaginator/AppPaginator.vue';
-import { Exam, Paginated } from '@/interfaces/Interfaces';
+import { Paginated } from '@/interfaces/Interfaces';
 import BaseContainer from '@/components/BaseComponents/BaseContainer/BaseContainer.vue';
 import AppBorderedButton from '@/components/UI/AppBorderedButton/AppBorderedButton.vue';
+import { ExamIndex } from '@/interfaces/Exam';
 
 defineOptions({
   layout: [EmployeeLayout]
 })
 
 const props = defineProps<{
-    exams:Paginated<Exam>,
+    exams:Paginated<ExamIndex>,
     past:boolean
 }>()
 

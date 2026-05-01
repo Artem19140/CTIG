@@ -3,9 +3,10 @@ import {  ref } from 'vue';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import ExamEnrollment from '@components/Exam/ExamEnrollment.vue';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
-import { ForeignNational } from '@interfaces/Interfaces';
+import {  RedirectUrl } from '@interfaces/Interfaces';
 import {  useHttp } from '@inertiajs/vue3';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
+import { ForeignNational } from '@/interfaces/ForeignNational';
 
 const props = defineProps<{
     foreignNational: ForeignNational | null,
@@ -16,7 +17,7 @@ const isOpen = defineModel<boolean>()
 
 const enroll = async () => {
     http.post(`/enrollments`,{
-        onSuccess: (response:any) => {
+        onSuccess: (response) => {
             if(response.redirectUrl){
                 isOpen.value = false
                 window.open(String(response.redirectUrl))
@@ -26,7 +27,13 @@ const enroll = async () => {
     })
 }
 
-const http = useHttp({
+interface EnrollmentData {
+    foreignNationalId: number | null,
+    hasPayment: boolean,
+    examId: number | null
+}
+
+const http = useHttp<EnrollmentData, RedirectUrl>({
     foreignNationalId:props.foreignNational?.id ?? null,
     hasPayment:false,
     examId:null

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useModals } from '@composables/useModals';
-import type { Exam, Paginated } from '@interfaces/Interfaces';
+import type { Paginated } from '@interfaces/Interfaces';
 import BasePaginatedTable from '@components/BaseComponents/BasePaginatedTable/BasePaginatedTable.vue';
 import ExamTableDropDown from './ExamTableDropDown.vue';
 import ExamTableFilter from './ExamTableFilter.vue';
@@ -12,9 +12,10 @@ import { DateFormatter } from '@helpers/DateFormatter';
 import ExamCapacityChip from '@/components/Exam/ExamCapacityChip.vue';
 import { ref } from 'vue';
 import AppPaginator from '@/components/UI/AppPaginator/AppPaginator.vue';
+import { ExamIndex } from '@/interfaces/Exam';
 
 const props = defineProps<{
-    exams: Paginated<Exam>
+    exams: Paginated<ExamIndex>
 }>()
 
 const headers = [

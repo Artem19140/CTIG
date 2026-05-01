@@ -5,6 +5,7 @@ import AppCheckbox from '@components/UI/AppCheckbox/AppCheckbox.vue';
 import BaseFilter from '@components/BaseComponents/BaseFilter/BaseFilter.vue';
 import AppPeriodDate from '@components/UI/AppPeriodDate/AppPeriodDate.vue';
 import { computed, onMounted} from 'vue';
+import { ExamFilters } from '@/interfaces/Exam';
 
 const page = usePage<{
     flash:{
@@ -31,13 +32,7 @@ const form = useForm<ExamFilters>({
     finished: Boolean(filters.value?.finished) ?? null,
 })
 
-type ExamFilters = {
-    dateFrom: string | null,
-    cancelled: boolean | null,
-    examTypeId: number | null,
-    dateTo: string | null,
-    finished: boolean | null,
-}
+
 const loading = defineModel<boolean>({default:false})
 </script>
 

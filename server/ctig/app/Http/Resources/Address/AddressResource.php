@@ -20,7 +20,8 @@ class AddressResource extends JsonResource
             'creator' => (new UserResource($this->whenLoaded('creator'))),
             'id' => $this->id,
             'maxCapcity' => $this->max_capacity,
-            'examsExists' => $this->examsExists ?? null
+            'examsExists' => $this->examsExists ?? null,
+            'isActive' => $this->is_active
         ];
     }
 }

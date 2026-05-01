@@ -15,6 +15,7 @@ const props = defineProps<{
 }>()
 
 const editMode = ref<boolean>(false)
+    
 const http = useHttp()
 
 const toggleAddressActivity = async () => {
@@ -125,10 +126,10 @@ const cancellEdit = async () => {
            
             <v-btn 
                 v-if="!editMode"
-                :color="address.isActive ? 'green' : 'red'"
+                :color="address.isActive ? 'red' :  'green'"
                 @click="() => toggleAddressActivity()"
             >
-                {{address.isActive ?  'Активировать' : 'Деактивировать' }}
+                {{address.isActive ?   'Деактивировать'   : 'Активировать' }}
             </v-btn>
             <AppProgressCircular v-if="address.loading" size="32" />
         </v-card-actions>

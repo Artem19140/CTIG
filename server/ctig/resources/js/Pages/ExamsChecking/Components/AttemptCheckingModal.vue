@@ -43,7 +43,7 @@ const getAttemptTasks = () => {
 }
 
 const finishChecking = () => {
-    http.put(`/attempts/${props.attemptId}/checking/finish`,{
+    http.post(`/attempts/${props.attemptId}/checking/finish`,{
         onSuccess:(response:any)=>{
             props.onFinishChecking(response.attempt)
             isOpen.value = false

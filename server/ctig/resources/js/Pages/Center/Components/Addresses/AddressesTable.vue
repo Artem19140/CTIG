@@ -4,8 +4,6 @@ import { ref, watch } from 'vue';
 import AppAddButton from '@/components/UI/AppAddButton/AppAddButton.vue';
 import { useModals } from '@/composables/useModals';
 import AddressCard from './AddressCard.vue';
-import AppBorderedButton from '@/components/UI/AppBorderedButton/AppBorderedButton.vue';
-
 
 const props = defineProps<{
     addresses:Address[]
@@ -21,15 +19,13 @@ const add = () => {
     const {open} = useModals()
     open('addressCreate')
 }
+
 </script>
 
 <template>
     <v-toolbar color="white">
         <v-spacer />
         <div class="flex gap-4">
-            <AppBorderedButton 
-                text="Неактивные"
-            />
             <AppAddButton 
                 @click="add"
             />

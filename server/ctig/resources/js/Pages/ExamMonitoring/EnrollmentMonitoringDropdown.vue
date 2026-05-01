@@ -48,7 +48,8 @@ const hasAttempt = computed(() => props.enrollment.attempt !== null)
 
 const speakingFinished = computed(() => props.enrollment.attempt?.speakingFinishedAt !== null)
 
-const changePaymentDisabled = isCancelled.value || isFinished.value || hasAttempt.value
+const changePaymentDisabled = computed(() => isCancelled.value || isFinished.value || hasAttempt.value)
+console.log(hasAttempt.value)
 </script>
 
 <template>

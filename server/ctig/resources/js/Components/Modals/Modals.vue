@@ -20,6 +20,7 @@ import AddressCreateModal from '@/pages/Center/Components/Addresses/AddressCreat
 import MinistryEducationReportModal from '@/pages/ForeignNationals/Components/ForeignNationalTable/MinistryEducationReportModal.vue';
 import ViolationModal from '@/pages/ExamMonitoring/ViolationModal.vue';
 import PasswordResetModal from '@/pages/Center/Components/Employees/PasswordResetModal.vue';
+import EmployeeEditModal from '@/pages/Center/Components/Employees/EmployeeEditModal.vue';
 
 const {modals, close} = useModals()
 
@@ -47,7 +48,8 @@ const modalMap = {
     addressCreate: AddressCreateModal,
     ministryEducationReport: MinistryEducationReportModal,
     violation: ViolationModal,
-    passwordReset:PasswordResetModal
+    passwordReset:PasswordResetModal,
+    employeeEdit:EmployeeEditModal
 } as const
 
 const closeModal = (id: number) => {

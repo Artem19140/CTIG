@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ForeignNationalFilters } from '@/interfaces/ForeignNational';
 import BaseFilter from '@components/BaseComponents/BaseFilter/BaseFilter.vue';
 import AppInput from '@components/UI/AppInput/AppInput.vue';
 import AppNumberInput from '@components/UI/AppNumberInput/AppNumberInput.vue';
@@ -31,14 +32,6 @@ const form = useForm<ForeignNationalFilters>({
     id: filters.value.id ?  Number(filters.value.id) : null,
 })
 
-type ForeignNationalFilters= {
-    surname: string | null,
-    name: string | null,
-    patronymic: string | null,
-    passportSeries: string | null,
-    passportNumber: string | null,
-    id: number | null,
-}
 
 const loading = defineModel<boolean>({default:false})
 </script>

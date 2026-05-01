@@ -3,7 +3,6 @@
 namespace App\Http\Resources\Exam;
 
 use App\Domain\Exam\Resolver\ExamStatusResolver;
-use App\Support\TimePresenter;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,7 +23,6 @@ class ExamIndexResource extends JsonResource
             'shortName' => $this->whenLoaded('type', fn () => $this->type->short_name),
             'enrollmentsCount' => $this->whenCounted('enrollments_count'),
             'status' => app(ExamStatusResolver::class)->execute($this->resource),
-            'attemptsCount' => $this->whenCounted('attempts_count'),
         ];
     }
 }

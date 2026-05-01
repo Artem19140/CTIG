@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import EnrollmentMonitoringDropdown from './EnrollmentMonitoringDropdown.vue';
-import { usePage, usePoll } from '@inertiajs/vue3'
+import { usePoll } from '@inertiajs/vue3'
 import { attemptStatus } from '@helpers/heplers';
 import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import { useModals } from '@composables/useModals';
 import { computed, onMounted, onUnmounted, watch} from 'vue';
 import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
-import { Exam } from '@interfaces/Interfaces';
 import { DateFormatter } from '@helpers/DateFormatter';
 import { useExamStatus } from '@/composables/useExamStatus';
 import BaseContainer from '@/components/BaseComponents/BaseContainer/BaseContainer.vue';
 import PaymentIcon from '@/components/Enrollment/PaymentIcon.vue';
 import ExamMonitoringDropdown from './ExamMonitoringDropdown.vue';
+import { ExamMonitoring } from '@/interfaces/Exam';
 
 defineOptions({
   layout: [EmployeeLayout]
@@ -20,19 +20,9 @@ defineOptions({
 
 const props = defineProps<{
     exam:{
-        data:Exam
+        data:ExamMonitoring
     },
 }>()
-
-const page = usePage()
-
-//const enrollments = computed(() => page.props.exam.data.enrollments)
-
-// watch(
-//   () => props.exam.data.enrollments,
-//   (enrollments) => console.log('Работат все таки'),
-//   { deep: true }
-// )
 
 const { start, stop } = usePoll(3000, {}, {
     autoStart: false,

@@ -15,7 +15,8 @@ class AddressController
     {
         $addresses = Address::where('center_id', $request->user()->center_id)
             ->withExists('exams as examsExists')
-            ->orderBy('id')
+            ->orderByDesc('id')
+            ->orderBy('is_active')
             ->get();
         return Inertia::render('Center/Center', [
             'addresses' => AddressResource::collection($addresses),
@@ -53,7 +54,7 @@ class AddressController
     
     public function toggleActive(Address $address){
         //Только лишь org_admin
-        $address->is_active = false;
+        $address->is_active = !$address->is_active;
         $address->save();
         return response()->noContent();
     }

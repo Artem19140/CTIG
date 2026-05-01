@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3';
+import { useHttp } from '@inertiajs/vue3';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
-import { ForeignNational } from '@interfaces/Interfaces';
-import ForeignNationalCreateForm from './ForeignNationalCreateForm.vue';
+
+import ForeignNationalForm from './ForeignNationalForm.vue';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
+import { ForeignNational, ForeignNationalFormI} from '@/interfaces/ForeignNational';
 
 const props = defineProps<{
     foreignNational: ForeignNational,
@@ -14,7 +15,7 @@ const props = defineProps<{
 
 const isOpen = defineModel<boolean>({default:false})
 
-const form = useForm({
+const http = useHttp<Omit<ForeignNationalFormI, 'hasPayment' | 'examId'>, {foreignNational : ForeignNational}>({
     surname: props.foreignNational?.surname, 
     name: props.foreignNational?.name,
     patronymic: props.foreignNational?.patronymic ?? "",
@@ -32,14 +33,18 @@ const form = useForm({
     comment: props.foreignNational?.comment,
     passportTranslateScan:null,
     passportScan:null,
-    addressReg: props.foreignNational.addressReg ?? ''
+    addressReg: props.foreignNational.addressReg ?? '',
+    noPatronymic: props.foreignNational?.patronymic ? false  : true,
+    noPassportNumber:false,
+    noPassportSeries:false,
+    noPatronymicLatin:false,
 })
 
 const edit = () => {
-    form.put(`/foreign-nationals/${props.foreignNational.id}`,{
-        onSuccess:(page : any) => {
-            if(page.flash.foreignNational){
-                props.onEdit(page.flash.foreignNational)
+    http.put(`/foreign-nationals/${props.foreignNational.id}`,{
+        onSuccess:(response, HttpResponse) => {
+            if(response.foreignNational){
+                props.onEdit(response.foreignNational)
                 isOpen.value=false
             }
         }
@@ -48,11 +53,11 @@ const edit = () => {
 
 const {confirmOpen} = useConfirmDialog()
 const beforeClose = async (fn: () => void) => {
-    if(form.isDirty){
+    if(http.isDirty){
         const ok = await confirmOpen('Отменить редактирование?')
         if(!ok) return
     }
-    form.resetAndClearErrors()
+    http.resetAndClearErrors()
     fn()
 }
 
@@ -67,8 +72,10 @@ const beforeClose = async (fn: () => void) => {
         @before-close="(done) => beforeClose(done)"
     >
         
-        <ForeignNationalCreateForm 
-            :form="form"
+        <ForeignNationalForm 
+            v-model:form="http"
+            :errors="http.errors"
+            :loading="http.processing"
             :mode="'edit'"
         />
 
@@ -76,8 +83,8 @@ const beforeClose = async (fn: () => void) => {
             <AppPrimaryButton
                 text="Сохранить"
                 @click="edit"
-                :loading="form.processing"
-                :disabled="form.processing || !form.isDirty"
+                :loading="http.processing"
+                :disabled="http.processing || !http.isDirty"
             />
         </template>
     </BaseDialog>

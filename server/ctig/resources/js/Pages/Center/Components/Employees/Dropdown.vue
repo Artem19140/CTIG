@@ -5,9 +5,10 @@ import BaseThreeDotDropdown from '@/components/BaseComponents/BaseThreeDotDropdo
 import { useLoadingSnackbar } from '@/composables/useLoadingSnackBar';
 import { useConfirmationOptionsDialog } from '@/composables/useConfirmationOptionsDialog';
 import { useModals } from '@/composables/useModals';
+import { Employee } from '@/interfaces/Employee';
 
 const props= defineProps<{
-  employee:any
+  employee:Employee
 }>()
 
 const deleteHttp = useHttp()
@@ -39,6 +40,7 @@ const {open} = useModals()
   <BaseThreeDotDropdown>
     <AppListDropDownItem 
       title="Редактировать" 
+      @click="open('employeeEdit', {employee:employee})"
     />
     <AppListDropDownItem 
       title="Сбросить пароль"

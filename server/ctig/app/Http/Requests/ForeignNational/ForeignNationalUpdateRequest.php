@@ -35,6 +35,26 @@ class ForeignNationalUpdateRequest extends FormRequest
                     ->pluck('value')
                     ->toArray();
         return [
+            'noPatronymic' =>
+                [
+                    'required',
+                    'boolean'
+                ],
+            'noPatronymicLatin' =>
+            [
+                'required',
+                'boolean'
+            ],
+            'noPassportNumber' =>
+                [
+                    'required',
+                    'boolean'
+                ],
+            'noPassportSeries' =>
+                [
+                    'required',
+                    'boolean'
+                ],
             'surname' =>
                 [
                     'required',
@@ -54,8 +74,8 @@ class ForeignNationalUpdateRequest extends FormRequest
                 ],
             'patronymicLatin' =>
                 [
-                    'prohibited_if_accepted:noPatronymic',
-                    'required_if_declined:noPatronymic',
+                    'prohibited_if_accepted:noPatronymicLatin',
+                    'required_if_declined:noPatronymicLatin',
                     'nullable',
                     'string'
                 ],
@@ -132,9 +152,9 @@ class ForeignNationalUpdateRequest extends FormRequest
                     File::types(['pdf'])->max(4096)
                 ],
             'passportScan' => [
-                    'nullable', 
-                    File::types(['pdf'])->max(4096)
-                ],
+                'nullable', 
+                File::types(['pdf'])->max(4096)
+            ],
         ];
     }
 }

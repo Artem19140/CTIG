@@ -2,18 +2,20 @@
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import { router } from '@inertiajs/vue3';
 import { ref } from 'vue';
-import { Exam } from '@interfaces/Interfaces';
 import { useModals } from '@composables/useModals';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import { useAuth } from '@composables/useAuth';
 import { Roles } from '@constants/Roles';
 import { examStatus } from '@helpers/heplers';
+import { ExamCalendar } from '@/interfaces/Exam';
 
 defineOptions({
   layout: [EmployeeLayout],
 })
 const props = defineProps<{
-  exams : any | null
+  exams : {
+    data:ExamCalendar[]
+  }
 }>()
 
 const {can} = useAuth()
@@ -35,7 +37,7 @@ const openExam = (nativeEvent : Event, { event } :any) => {
   open('examShow', {examId:event.id})
 }
 
-const getColor = (event : Exam) => {
+const getColor = (event : ExamCalendar) => {
   return examStatus(event).color
 }
 

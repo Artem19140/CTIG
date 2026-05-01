@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Web\User;
 
 use App\Domain\User\CreateUserAction;
+use App\Domain\User\UpdateUserAction;
 use App\Enums\UserRoles;
 use App\Exceptions\BusinessException;
 use App\Http\Requests\User\UserPostRequest;
+use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\Role\RoleResource;
 use App\Models\Role;
 use App\Models\User;
@@ -20,8 +22,10 @@ class UserController{
         return new UserResource($user);
     }
 
-    public function index(Request $request){
+    public function index(){
         $users = User::active()
+            ->with(['roles'])
+            ->orderBy('surname')
             //уволенных тоже
             ->get();
         return Inertia::render('Center/Center', [
@@ -35,6 +39,15 @@ class UserController{
             abort(403);
         }
         $createUser->execute($request->validated(), $request->user());
+        return response()->json();
+    }
+
+    public function update(
+        UserUpdateRequest $request,
+        User $user,
+        UpdateUserAction $updateUserAction
+    ){
+        $updateUserAction->execute($request->validated(),  $user);
         return response()->json();
     }
 

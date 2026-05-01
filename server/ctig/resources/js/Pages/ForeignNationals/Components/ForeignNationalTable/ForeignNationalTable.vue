@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ForeignNational, Paginated } from '@interfaces/Interfaces';
+import type { Paginated } from '@interfaces/Interfaces';
 import BasePaginatedTable from '@components/BaseComponents/BasePaginatedTable/BasePaginatedTable.vue';
 import ForeignNationalTableFilters from './ForeignNationalTableFilters.vue';
 import { useModals } from '@composables/useModals';
@@ -9,6 +9,7 @@ import { useAuth } from '@composables/useAuth';
 import { Roles } from '@/constants/Roles';
 import AppPaginator from '@/components/UI/AppPaginator/AppPaginator.vue';
 import { ref } from 'vue';
+import { ForeignNationalIndex } from '@/interfaces/ForeignNational';
 
 const modals = useModals()
 
@@ -17,7 +18,7 @@ function foreignNationalShowModal(item : any) {
 }
 
 const props = defineProps<{
-    foreignNationals: Paginated<ForeignNational>
+    foreignNationals: Paginated<ForeignNationalIndex>
 }>()
 
 const headers = [

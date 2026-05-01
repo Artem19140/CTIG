@@ -18,12 +18,18 @@ class ExamProtocolGenerator{
         $beginTimeReal = $this->getBeginTimeReal($exam);
         $endTimeReal = $this->getEndTimeReal($exam);
 
+        $attemptWithViolations = $exam->attempts()
+            ->whereHas('violations')
+            ->with(['foreignNational', 'center', 'violations'])
+            ->get();
+
         $pdf = Pdf::loadView('templates.exam-protocol', [
             'exam' => $exam,
             'center' => $user->center, 
             'bannedAttempts' => $bannedAttempts,
             'beginTimeReal' => $beginTimeReal,
-            'endTimeReal' => $endTimeReal
+            'endTimeReal' => $endTimeReal,
+            'attemptWithViolations' => $attemptWithViolations
         ]);
 
         return $pdf->stream("codes.pdf");
@@ -43,10 +49,9 @@ class ExamProtocolGenerator{
     }
 
     protected function getEndTimeReal(Exam $exam):Carbon | null{
-        $max = Carbon::parse(
-            $exam->attempts()
-                ->max('finished_at')
-        );
-        return $max;
+        $max = $exam->attempts()
+            ->max('finished_at');
+
+        return $max ? Carbon::parse($max, 'UTC') : null;
     }
 }

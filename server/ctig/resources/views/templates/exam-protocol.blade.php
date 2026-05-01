@@ -111,7 +111,7 @@ td {
             <td class="label">Дата проведения экзамена:</td>
             <td class="value">
                 <span class="underline" style="text-align: center;">
-                    {{ \Carbon\Carbon::parse($exam->begin_time_local)->format('d.m.Y') }}
+                    {{ $exam->begin_time_local->format('d.m.Y') }}
                 </span>
             </td>
         </tr>
@@ -147,7 +147,7 @@ td {
         <div>
         @if ($exam->protocol_comment)
             <div class="prebox">
-    {{ $exam->protocol_comment}}
+{{ $exam->protocol_comment}}
             </div>
         @endif
             <div>
@@ -159,13 +159,33 @@ td {
                     </div> 
                 @endforeach
             </div>
+
+            <div>
+                @foreach ( $attemptWithViolations as $attempt )
+                    <div style="margin-bottom: 10px;">
+                        <div>
+                            За сдающим {{ $attempt->foreignNational->full_name_short }}
+                            (паспорт: {{ $attempt->foreignNational->full_passport }})
+                            зафиксированы нарушения:
+                        </div>
+
+                        <ol style="margin-top: 5px; margin-left: 15px;">
+                            @foreach ($attempt->violations as $violation)
+                                <li style="margin-bottom: 3px;">
+                                    {{ $violation->comment }};
+                                </li>
+                            @endforeach
+                        </ol>
+                    </div>
+                @endforeach
+            </div>
         </div>
         <div>{{ !$exam->protocol_comment && $bannedAttempts->isEmpty() ?  'Нарушения не установлены' : '' }}</div>
     </div>
     
     
 
-    <div class="section center" style="margin-top:50px;">
+    <div class="section center" style="margin-top:20px;">
         <div class="bold" style="margin-bottom:10px;">
             ПРОТОКОЛ СОСТАВЛЕН
         </div>

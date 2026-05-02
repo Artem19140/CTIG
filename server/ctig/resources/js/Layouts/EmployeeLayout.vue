@@ -1,82 +1,91 @@
 <template>
   <base-layout>
     <template #drawer>
-  
-    <v-navigation-drawer
-      expand-on-hover
-      permanent
-      rail
-    >
-      <div class="d-flex flex-column fill-height">
+      <BaseDrawer
+        expand-on-hover
+        permanent
+        rail
+      >
+        <div class="d-flex flex-column fill-height">
+          <BaseList>
+            <BaseListItem
+              prepend-avatar="/storage/images/tigr.png"
+              :subtitle="user?.job_title"
+              :title="employeeName"
+            />
+          </BaseList>
+
+          <v-divider></v-divider>
+
+          <BaseList density="compact" nav v-model="activeItem">
+            <BaseListItem
+              prepend-icon="mdi-account-group" 
+              title="Иностранные граждане" 
+              v-if="can([Roles.OPERATOR])"
+              @click="go('/foreign-nationals')"  
+              value="foreignNationals"
+            />
+
+            <BaseListItem 
+              prepend-icon="mdi-school" 
+              title="Экзамены" 
+              v-if="can([Roles.OPERATOR, Roles.SCHEDULER])"
+              @click="go('/exams')"
+              value="exams" 
+            />
+
+            <BaseListItem
+              prepend-icon="mdi-monitor-eye" 
+              v-if="can([Roles.EXAMINER])"
+              title="Мониторинг экзамена" 
+              value="monitoring" 
+              @click="go('/exams/monitoring')"
+            />
+
+            <BaseListItem 
+              prepend-icon="mdi-clipboard-check" 
+              v-if="can([Roles.EXAMINER])"
+              title="Проверка"
+              @click="go('/exams/checking')"
+              value="checking" 
+            />
+            
+            <BaseListItem
+              prepend-icon="mdi-calendar-month" 
+              title="Расписание" 
+              v-if="can([Roles.OPERATOR, Roles.SCHEDULER])"
+              @click="go('/exams/schedule')"
+              value="schedule"
+            />
+
+            <BaseListItem 
+              prepend-icon="mdi-office-building" 
+              v-if="can([Roles.ORG_ADMIN])" 
+              title="Центр" 
+              value="center" 
+              @click="go(`/centers/${centerId}`)"
+            />
+            
+          </BaseList>
       
-        <v-list>
-          <v-list-item
-            prepend-avatar="/storage/images/tigr.png"
-            :subtitle="user?.job_title"
-            :title="employeeName"
-          ></v-list-item>
-        </v-list>
-
-        <v-divider></v-divider>
-
-        <v-list density="compact" nav v-model="activeItem">
-          <v-list-item 
-            prepend-icon="mdi-account-group" 
-            title="Иностранные граждане" 
-            v-if="can([Roles.OPERATOR])"
-            @click="go('/foreign-nationals')"  
-            value="foreignNationals"
-          ></v-list-item>
-          <v-list-item 
-            prepend-icon="mdi-school" 
-            title="Экзамены" 
-            v-if="can([Roles.OPERATOR, Roles.SCHEDULER])"
-            @click="go('/exams')"
-            value="exams" 
-          ></v-list-item>
-          <v-list-item 
-            prepend-icon="mdi-clipboard-check" 
-            v-if="can([Roles.EXAMINER])"
-            title="Проверка"
-            @click="go('/exams/checking')"
-            value="checking" 
-          ></v-list-item>
-          <v-list-item 
-            prepend-icon="mdi-monitor-eye" 
-            v-if="can([Roles.EXAMINER])"
-            title="Мониторинг экзамена" 
-            value="monitoring" 
-            @click="go('/exams/monitoring')"
-          ></v-list-item>
-          <v-list-item 
-            prepend-icon="mdi-calendar-month" 
-            title="Расписание" 
-            v-if="can([Roles.OPERATOR, Roles.SCHEDULER])"
-            @click="go('/exams/schedule')"
-            value="schedule"
-            ></v-list-item>
-          <v-list-item 
-            prepend-icon="mdi-office-building" 
-            v-if="can([Roles.ORG_ADMIN])" 
-            title="Центр" 
-            value="center" 
-            @click="go(`/centers/${centerId}`)"
-          ></v-list-item>
-          
-        </v-list>
-    
-        <v-list density="compact" nav class="mt-auto">
-          <v-list-item 
-            prepend-icon="mdi-logout" 
-            title="Выйти из аккаунта" 
-            @click="logout"
-          ></v-list-item>
-        </v-list>
-      </div>
-    </v-navigation-drawer>
-  </template>
-  <slot />
-</base-layout>
+          <BaseList density="compact" nav class="mt-auto">
+            <BaseListItem 
+              prepend-icon="mdi-book-open-page-variant" 
+              title="Инструкция" 
+              value="instruction" 
+              @click="go('/instruction/foreign-nationals')"
+            />
+            <BaseListItem
+              prepend-icon="mdi-logout" 
+              title="Выйти из аккаунта" 
+              @click="logout"
+            />
+          </BaseList>
+        </div>
+      </BaseDrawer>
+    </template>
+    <slot />
+  </base-layout>
 </template>
 
 <script setup lang="ts">
@@ -87,6 +96,9 @@ import { useAuth } from '@composables/useAuth';
 import { Roles } from '@constants/Roles';
 import { router } from '@inertiajs/vue3'
 import { useConfirmDialog } from '@/composables/useConfirmDialog';
+import BaseDrawer from '@/components/BaseComponents/BaseDrawer/BaseDrawer.vue';
+import BaseList from '@/components/BaseComponents/BaseList/BaseList.vue';
+import BaseListItem from '@/components/BaseComponents/BaseList/BaseListItem.vue';
 
 const go = (url:string) => {
   router.visit(url)

@@ -1,0 +1,490 @@
+[
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          [
+            {
+              "type": "text",
+              "value": "Уважаемые мамы и папы, бабушки и дедушки!\n Мы кормим детей строго в соответствии с меню и по расписанию. Запрещено приносить продукты питания."
+            }
+          ]
+        ]
+      }
+    ],
+    "fipi_number": "2DAC44",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в банке"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в детском саду"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в трамвае"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          [
+            {
+              "type": "text",
+              "value": "Уважаемые посетители!\n Большая просьба убирать за собой посуду!\n Пожалуйста, поставьте использованную посуду на полку справа от выхода."
+            }
+          ]
+        ]
+      }
+    ],
+    "fipi_number": "3A6260",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на почте"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в столовой"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в магазине"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          [
+            {
+              "type": "text",
+              "value": "Уважаемые посетители! На территории ведутся ремонтные работы. Пожалуйста, будьте осторожны. Скамейки и заборы окрашены."
+            }
+          ]
+        ]
+      }
+    ],
+    "fipi_number": "B6153B",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на почте"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в парке"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в столовой"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          [
+            {
+              "type": "text",
+              "value": "Уважаемые посетители! Обращаем ваше внимание на то, что обмен валюты осуществляется только при наличии паспорта!"
+            }
+          ]
+        ]
+      }
+    ],
+    "fipi_number": "6D6B55",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в библиотеке"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в банке"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в аптеке"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+        {
+            "type": "image",
+            "value": "/storage/images/RVP/dont_feed_animal.jpg"
+        }
+    ],
+    "fipi_number": "99128E",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на автостоянке"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в зоопарке"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в музее"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          [
+            {
+              "type": "text",
+              "value": "Городской клинической больнице № 25 на постоянную работу требуется санитар!\n Требования: возраст – от 35 лет, опыт работы в медицинских учреждениях – от 3 лет."
+            }
+          ]
+        ]
+      }
+    ],
+    "fipi_number": "6AB787",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "найти работу"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "хорошо отдохнуть"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "стать врачом"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          [
+            {
+              "type": "text",
+              "value": "Уважаемые родители!\n В связи c карантином в младшей и в средней группах все детские праздники пройдут без присутствия родителей и других членов семьи."
+            }
+          ]
+        ]
+      }
+    ],
+    "fipi_number": "E63E26",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в  автобусе"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в  детском саду"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в аптеке"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          [
+            {
+              "type": "text",
+              "value": "Уважаемые родители!\n Просим вас начинать разучивать стихи дома с детьми к новогоднему утреннику, который будет в нашей группе 25 декабря."
+            }
+          ]
+        ]
+      }
+    ],
+    "fipi_number": "A20A01",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в парке"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в детском саду"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в самолёте"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          [
+            {
+              "type": "text",
+              "value": "Уважаемые родители и учащиеся!\n Со 2 апреля у нас проходит акция «Подари книгу». Принимается художественная литература, словари, справочники в хорошем состоянии."
+            }
+          ]
+        ]
+      }
+    ],
+    "fipi_number": "5941BB",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в банке"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в библиотеке"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в аптеке"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          [
+            {
+              "type": "text",
+              "value": "Уважаемые посетители!\n Убедительно просим вас после занятий убирать за собой мячи, коврики, гантели, штанги на специальные полки. Надеемся на понимание."
+            }
+          ]
+        ]
+      }
+    ],
+    "fipi_number": "414C7C",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в автобусе"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в спортзале"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в столовой"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          [
+            {
+              "type": "text",
+              "value": "Уважаемые родители!\n 2 апреля в 9.00 начнётся запись детей 2016 года рождения в первый класс. Ждём вас по адресу: улица Строителей, дом 3."
+            }
+          ]
+        ]
+      }
+    ],
+    "fipi_number": "A62DB8",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в школе"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в столовой"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в магазине"
+          }
+        ]
+      }
+    ]
+  }
+]

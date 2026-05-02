@@ -10,6 +10,7 @@ import { Paginated } from '@/interfaces/Interfaces';
 import BaseContainer from '@/components/BaseComponents/BaseContainer/BaseContainer.vue';
 import AppBorderedButton from '@/components/UI/AppBorderedButton/AppBorderedButton.vue';
 import { ExamIndex } from '@/interfaces/Exam';
+import AppTooltip from '@/components/UI/AppTooltip/AppTooltip.vue';
 
 defineOptions({
   layout: [EmployeeLayout]
@@ -58,6 +59,11 @@ const getPastExams = () =>{
             title="Мониторинг"
             :loading="loading"
         >
+            <template #toolbar-left>
+                <AppTooltip
+                    text="Здесь будут экзамены, где вы являетесь экзаменатором"
+                />
+            </template>
             <template #toolbar-actions>
                 <AppBorderedButton
                     :loading="loading"

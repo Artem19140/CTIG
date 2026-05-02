@@ -45,6 +45,9 @@ class AttemptController
 
     public function start(StartAttemptAction $startAttempt, Attempt $attempt)
     {
+        if($attempt->status !== AttemptStatus::Pending){
+            return redirect('login')->with('У вас нет текущей попытки экзамена');
+        }
         $startedAttempt = $startAttempt->execute($attempt);
         return redirect()->route('attempts', ['attempt' => $startedAttempt->id]);
     }

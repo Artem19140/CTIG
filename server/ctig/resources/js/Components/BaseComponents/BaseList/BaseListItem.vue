@@ -3,9 +3,8 @@
 </script>
 
 <template>
-    <v-navigation-drawer 
- 
+    <v-list-item 
     >
         <slot />
-    </v-navigation-drawer>
+    </v-list-item>
 </template>

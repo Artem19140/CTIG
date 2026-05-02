@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import BaseListItem from '@/components/BaseComponents/BaseList/BaseListItem.vue';
+
 
 const props = defineProps<{
     title:string,
@@ -8,12 +10,12 @@ const props = defineProps<{
 </script>
 
 <template>
-    <v-list-item link class="cursor-pointer">
+    <BaseListItem link class="cursor-pointer">
         <v-list-item-title :class="color">
             {{ title }}
         </v-list-item-title>
         <v-list-item-subtitle :class="color">
             {{ subtitle }}
         </v-list-item-subtitle>
-    </v-list-item>
+    </BaseListItem>
 </template>

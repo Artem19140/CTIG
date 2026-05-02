@@ -17,6 +17,7 @@ class RvpSeeder extends Seeder
     /**
      * Run the database seeds.
      */
+    protected string $path = 'resources/data/RVP/';
     public function run(): void
     {
         $exam = ExamType::firstOrCreate(
@@ -100,7 +101,7 @@ class RvpSeeder extends Seeder
             'subblocks'=>[
                 $this->speakingSubblock(),
                 $this->audioSubblock(),
-                // $this->readingSubblock(),
+                $this->readingSubblock(),
                 // $this->letterSubblock(),
                 // $this->vocabularAndGrammarSubblock()
             ]
@@ -108,7 +109,7 @@ class RvpSeeder extends Seeder
     }
 
     private function speakingSubblock(){
-        $path = 'resources/data/RVP/';
+        $path = $this->path;
         return [
             'name' => 'Говорение',
             'min_mark' => 6,
@@ -136,7 +137,7 @@ class RvpSeeder extends Seeder
     }
 
      private function audioSubblock(): array{
-        $path = 'resources/data/RVP/';
+        $path = $this->path;
         return [
             'name' => 'Аудирование',
             'min_mark' => 6,
@@ -186,7 +187,18 @@ class RvpSeeder extends Seeder
             'name' => 'Чтение', 
             'min_mark' => 6,
             'tasks' => [
-
+                [
+                    'type' => TaskType::SingleChoice,
+                    'description' => 'Прочитайте объявление и выберите правильный ответ.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task10.json')), true)
+                ],
+                [
+                    'type' => TaskType::SingleChoice,
+                    'description' => 'Прочитайте объявление и выберите правильный ответ.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task11.json')), true)
+                ],
             ]
         ];
     }

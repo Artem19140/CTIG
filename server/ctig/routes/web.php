@@ -127,6 +127,16 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
 
     Route::get('files', [FileController::class, "show"]);
 
+    Route::prefix('instruction')->group(function(){
+        Route::inertia('/exams', 'Instruction/ExamsInstruction')->name('instruction.exams');
+        Route::inertia('/foreign-nationals', 'Instruction/ForeignNationalsInstruction')->name('instruction.foreign-nationals');
+        Route::inertia('/centers', 'Instruction/CentersInstruction')->name('instruction.foreign-nationals');
+        Route::inertia('/exams/monitoring', 'Instruction/ExamMonitoringInstruction')->name('instruction.exams.monitoring');
+        Route::inertia('/exams/checking', 'Instruction/ExamCheckingInstruction')->name('instruction.exams.checking');
+        Route::inertia('/exams/schedule', 'Instruction/ExamScheduleInstruction')->name('instruction.exams.schedule');
+    });
+    
+
     Route::get('roles',  [UserController::class, "rolesShow"]);
 
    Route::post('logout', [LoginController::class, 'logout'])->name('logout');

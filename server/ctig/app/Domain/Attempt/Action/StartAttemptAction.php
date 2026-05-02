@@ -14,7 +14,6 @@ class StartAttemptAction{
     ){}
     public function execute(Attempt $attempt):Attempt{
         $this->attemptGuard->ensureNotBanned($attempt);
-        $this->attemptGuard->ensureNotStarted($attempt, 'Попытку можно начать только если она ещё не активна');
 
         return DB::transaction(function () use($attempt) {
             $now = Carbon::now();

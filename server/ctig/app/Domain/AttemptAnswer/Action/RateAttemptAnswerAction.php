@@ -4,6 +4,7 @@ namespace App\Domain\AttemptAnswer\Action;
 
 use App\Domain\Attempt\Action\FinilizeAttemptCheckingAction;
 use App\Enums\TaskType;
+use App\Exceptions\BusinessException;
 use App\Models\Attempt;
 use App\Models\AttemptAnswer;
 use App\Models\Task;
@@ -24,7 +25,7 @@ class RateAttemptAnswerAction{
         $attempt = $attemptAnswer->attempt;
 
         if($task->type !== TaskType::Speaking){
-            $this->attemptGuard->ensureFinished($attempt, 'Данный тип задания возможно оценить только при завершенной попытке');
+            $this->ensureAttemptFinished($attempt);
         }
 
         $this->ensureAttemptNotChecked($attempt);
@@ -68,6 +69,12 @@ class RateAttemptAnswerAction{
             throw ValidationException::withMessages([
                 'mark' => 'Выставленный балл больше, чем максимально возможный'
             ]);
+        }
+    }
+
+    protected function ensureAttemptFinished(Attempt $attempt){
+        if(!$attempt->isFinished()){
+            throw new BusinessException('Данный тип задания возможно оценить только при завершенной попытке');
         }
     }
 }

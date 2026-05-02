@@ -16,7 +16,7 @@ const {isPending} = useExamStatus(props.exam)
 <template>
     <BaseThreeDotDropdown>
         <AppListDropDownItem 
-            title="Комментарий"
+            title="Комментарий (протокол)"
             :disabled="!exam.editProtocolCommentAvailable"
             @click="open('examComment', {exam:exam})"
         />

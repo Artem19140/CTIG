@@ -6,6 +6,7 @@ import { useConfirmDialog } from '@composables/useConfirmDialog';
 import AppTextarea from '@components/UI/AppTextarea/AppTextarea.vue';
 import { ExamMonitoring } from '@/interfaces/Exam';
 import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
+import AppTooltip from '@/components/UI/AppTooltip/AppTooltip.vue';
 
 const props = defineProps<{
     exam: ExamMonitoring
@@ -43,8 +44,13 @@ const beforeClose = async (fn:() => void ) => {
         width="500"
         v-model="isOpen"
         @before-close="(close) => beforeClose(close)"
-        title="Комментарий"
     >
+        <template #title>
+            <span class="mr-2">Комментарий</span>
+            <AppTooltip 
+                text="Комментарий можно редактировать во время и в течении всего дня после экзамена"
+            />
+        </template>
         <AppTextarea
             v-model="http.protocolComment"
             maxlength="1000"

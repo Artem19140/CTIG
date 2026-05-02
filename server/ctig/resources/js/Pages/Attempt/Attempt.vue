@@ -3,9 +3,10 @@ import SidePanel from './Components/SidePanel.vue';
 import TasksList from './Components/tasks/TasksList.vue';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import { useForm } from '@inertiajs/vue3';
-import { Attempt } from '@/interfaces/Interfaces';
 import { useAttempt } from '@/composables/useAttempt';
 import BaseLayout from '@/layouts/BaseLayout.vue';
+import BaseDrawer from '@/components/BaseComponents/BaseDrawer/BaseDrawer.vue';
+import { Attempt } from '@/interfaces/Attempt';
 
 const props = defineProps<{
     attempt:{
@@ -33,13 +34,13 @@ const finish = async () => {
 <template>
     <BaseLayout>
         <template #drawer>
-            <v-navigation-drawer
+            <BaseDrawer
                 location="right"
                 permanent
                 width="300"
             >
                 <SidePanel :attempt="examAttempt"/>
-            </v-navigation-drawer>
+            </BaseDrawer>
 
         </template>
         <v-container class="flex flex-column gap-10 items-center">

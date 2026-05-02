@@ -31,7 +31,6 @@ class FinishAttemptAction{
     protected function canFinish(Attempt $attempt){
         $this->attemptGuard->ensureNotBanned($attempt);
         $this->attemptGuard->ensureNotFinished($attempt);
-        $this->attemptGuard->ensureActive($attempt, 'Завершить возможно только активную попытку');
 
         $minTimeMinutes = Attempt::MIN_TIME_FROM_START_TO_FINISH_MINUTES;
         $now = Carbon::now();

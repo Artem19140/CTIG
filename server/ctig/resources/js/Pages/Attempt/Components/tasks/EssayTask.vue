@@ -15,8 +15,11 @@ const props = defineProps<{
         v-if="task"
         :task="task"
     >
-        <AppTextarea
-            label="Введите текст"
-        />
+        <template #answers>
+            <AppTextarea
+                label="Введите текст"
+                rows="4"
+            />
+        </template>
     </BaseTask>
 </template>

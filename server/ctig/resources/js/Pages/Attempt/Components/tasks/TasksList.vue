@@ -4,8 +4,8 @@ import SpeakingTask from './SpeakingTask.vue';
 import EssayTask from './EssayTask.vue';
 import TextInputTask from './TextInputTask.vue';
 import { TaskTypes } from '@/constants/TaskTypes';
-import { Attempt } from '@/interfaces/Interfaces';
 import { AttemptAnswer } from '@/interfaces/Task';
+import { Attempt } from '@/interfaces/Attempt';
 
 const props = defineProps<{
     attempt:Attempt,

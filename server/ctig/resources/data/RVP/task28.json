@@ -1,0 +1,420 @@
+[
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Договор о создании Евразийского экономического союза вступил в силу в период президентства"
+      }
+    ],
+    "fipi_number": "9BF9DF",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Б.Н. Ельцина"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "В.В. Путина"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Д.А. Медведева"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Одним из важнейших событий XXI в. для России стало"
+      }
+    ],
+    "fipi_number": "F52796",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "принятие Конституции России"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "принятие Республики Крым и г. Севастополя в состав России"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "строительство на территории России первой в мире атомной электростанции"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Договор о принятии Республики Крым и г. Севастополя в состав Российской Федерации подписал"
+      }
+    ],
+    "fipi_number": "CB2C7D",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "В.В. Путин"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Б.Н. Ельцин"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "М.С. Горбачёв"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Договор о создании Евразийского экономического союза вступил в силу"
+      }
+    ],
+    "fipi_number": "D2C65C",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1993 г."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 2000 г."
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 2015 г."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "В 2014 г. Президентом России был"
+      }
+    ],
+    "fipi_number": "F252E2",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "В.В. Путин"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "М.С. Горбачёв"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Б.Н. Ельцин"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "В 2014 г. в состав России вошёл город"
+      }
+    ],
+    "fipi_number": "529232",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Севастополь"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Волгоград"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Краснодар"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Город Севастополь вошёл в состав России"
+      }
+    ],
+    "fipi_number": "FFEB1B",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1991 г."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1993 г."
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 2014 г."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "В 2014 г. в состав России вошёл город"
+      }
+    ],
+    "fipi_number": "154871",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Севастополь"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Краснодар"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Челябинск"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Одним из субъектов, вошедших в состав России в 2014 г., был"
+      }
+    ],
+    "fipi_number": "31FB8F",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Красноярский край"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "город Севастополь"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Краснодарский край"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "В состав Евразийского экономического союза входит"
+      }
+    ],
+    "fipi_number": "215E2C",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Федеративная Республика Германия"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Турецкая Республика"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Республика Беларусь"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Евразийский экономический союз был создан в"
+      }
+    ],
+    "fipi_number": "C01FF9",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "1961 г."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "1991 г."
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "2015 г."
+          }
+        ]
+      }
+    ]
+  }
+]

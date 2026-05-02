@@ -1,0 +1,420 @@
+[
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Во время Великой Отечественной войны произошла"
+      }
+    ],
+    "fipi_number": "8B7B45",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Куликовская битва"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Курская битва"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Невская битва"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "В октябре 1917 г. в ходе революции к власти в России пришли"
+      }
+    ],
+    "fipi_number": "7E0070",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "кадеты"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "октябристы"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "большевики"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "В феврале 1917 г. в ходе революции"
+      }
+    ],
+    "fipi_number": "F4C395",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Москва была захвачена французским войском"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Россия была провозглашена империей"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в России был свергнут император"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "В 1917 г. в России"
+      }
+    ],
+    "fipi_number": "BD795C",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "состоялись Летние Олимпийские игры"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "произошла революция"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "был запущен первый искусственный спутник Земли"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Во время Великой Отечественной войны произошла"
+      }
+    ],
+    "fipi_number": "AEE635",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Полтавская битва"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Куликовская битва"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Курская битва"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "В 1941 г. на СССР напала"
+      }
+    ],
+    "fipi_number": "5D9A26",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Франция"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Германия"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Англия"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Во время Великой Отечественной войны советские войска\n  освободили"
+      }
+    ],
+    "fipi_number": "F97624",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Вашингтон"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Варшаву"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Лондон"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "С событиями Великой российской революции связана деятельность"
+      }
+    ],
+    "fipi_number": "1DF8CB",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "В.И. Ленина"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Б.Н. Ельцина"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "М.С. Горбачёва"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Во время Великой Отечественной войны противником СССР была"
+      }
+    ],
+    "fipi_number": "1BFD89",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Великобритания"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Германия"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Швейцария"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Участником Великой российской революции был"
+      }
+    ],
+    "fipi_number": "A7811C",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "К. Минин"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "И.В. Сталин"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "А.В. Суворов"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Великая Отечественная война окончилась"
+      }
+    ],
+    "fipi_number": "D87D58",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в январе"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в мае"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в сентябре"
+          }
+        ]
+      }
+    ]
+  }
+]

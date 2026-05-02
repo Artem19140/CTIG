@@ -1,0 +1,420 @@
+[
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Акт о безоговорочной капитуляции фашистской Германии и её вооруженных сил был подписан"
+      }
+    ],
+    "fipi_number": "DB217D",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в январе 1945 г."
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в мае 1945 г."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в августе 1945 г."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Весной 1945 г. Красная армия вошла"
+      }
+    ],
+    "fipi_number": "327E9E",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Минск"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Берлин"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Париж"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Военачальником в Московской битве был"
+      }
+    ],
+    "fipi_number": "B53FC8",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Ю.А. Гагарин"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Г.К. Жуков"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "А.В. Суворов"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "В 1917 г. в России к власти пришли"
+      }
+    ],
+    "fipi_number": "A2904F",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "декабристы"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "большевики"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "варяги"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "В 1917 г. в России"
+      }
+    ],
+    "fipi_number": "8CF5F5",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "состоялся первый полёт человека в космос"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "произошла Сталинградская битва"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "император отказался от власти"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Руководителем СССР был"
+      }
+    ],
+    "fipi_number": "EF6A2F",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "П.А. Столыпин"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Ю.А. Гагарин"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "В.И. Ленин"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "В начале XX в. реформы в России\n  проводил"
+      }
+    ],
+    "fipi_number": "CB0B07",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "М.И. Кутузов"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "П.А. Столыпин"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Ю.А. Гагарин"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Первым человеком, совершившим полёт в космос, был"
+      }
+    ],
+    "fipi_number": "4ACB52",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "П.А. Столыпин"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Ю.А. Гагарин"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "А.В. Суворов"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Участником событий, связанных с образованием СССР, был"
+      }
+    ],
+    "fipi_number": "811290",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "И.В. Сталин"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Б.Н. Ельцин"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "В.В. Путин"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "В годы Великой Отечественной войны упорные бои шли за город"
+      }
+    ],
+    "fipi_number": "08EEB7",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Сталинград"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Челябинск"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Владивосток"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "В.И. Ленин участвовал"
+      }
+    ],
+    "fipi_number": "13DBFD",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Великой российской революции"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Великой Отечественной войне"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в подготовке полёта первого космонавта"
+          }
+        ]
+      }
+    ]
+  }
+]

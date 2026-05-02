@@ -1,0 +1,420 @@
+[
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "В процессе распада СССР некоторые бывшие советские республики создали"
+      }
+    ],
+    "fipi_number": "AA7F4A",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Организацию Объединенных наций (ООН)"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Содружество Независимых Государств (СНГ)"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Совет Европы (СЕ)"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Какое событие произошло в 1961 г.?"
+      }
+    ],
+    "fipi_number": "39FA18",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "юридическое оформление распада СССР"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "первый полёт человека в космос"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "образование СССР"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Действующая в настоящее время Конституция России была принята"
+      }
+    ],
+    "fipi_number": "18ACF0",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1945 г."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1961 г."
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1993 г."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Первым руководителем правительства СССР был"
+      }
+    ],
+    "fipi_number": "9E671E",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "В.И. Ленин"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Г.К. Жуков"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "М.С. Горбачёв"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Великая Отечественная война завершилась разгромом"
+      }
+    ],
+    "fipi_number": "8281E2",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "США"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Англии"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Германии"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Конституция Российской Федерации была принята"
+      }
+    ],
+    "fipi_number": "406A70",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1945 г."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1961 г."
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1993 г."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Первый в мире полёт в космос совершил гражданин"
+      }
+    ],
+    "fipi_number": "E00D2E",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "США"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Англии"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "СССР"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "22 июня 1941 г. на территорию СССР вторглись войска"
+      }
+    ],
+    "fipi_number": "70A0E3",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Германии"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "США"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Китая"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Советский космонавт совершил первый космический полёт"
+      }
+    ],
+    "fipi_number": "366BC1",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1917 г."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1945 г."
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1961 г."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Действующая Конституция России была принята"
+      }
+    ],
+    "fipi_number": "BF6182",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1945 г."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1961 г."
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1993 г."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "СССР распался"
+      }
+    ],
+    "fipi_number": "ADD842",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1922 г."
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1941 г."
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в 1991 г."
+          }
+        ]
+      }
+    ]
+  }
+]

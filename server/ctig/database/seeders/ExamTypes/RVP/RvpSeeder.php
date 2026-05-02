@@ -102,7 +102,7 @@ class RvpSeeder extends Seeder
                 $this->speakingSubblock(),
                 $this->audioSubblock(),
                 $this->readingSubblock(),
-                // $this->letterSubblock(),
+                $this->letterSubblock(),
                 // $this->vocabularAndGrammarSubblock()
             ]
         ];
@@ -226,7 +226,18 @@ class RvpSeeder extends Seeder
             'name' => 'Письмо',
             'min_mark' => 6,
             'tasks' => [
-
+                [
+                    'type' => TaskType::SingleChoice,
+                    'description' => 'Напишите письмо.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task15.json')), true)
+                ],
+                [
+                    'type' => TaskType::Essay,
+                    'description' => 'Напишите письмо.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task16.json')), true)
+                ],
             ]
         ];
     }

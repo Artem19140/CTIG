@@ -265,6 +265,12 @@ class RvpSeeder extends Seeder
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task19.json')), true)
                 ],
+                [
+                    'type' => TaskType::SingleChoice,
+                    'description' => '',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task10.json')), true)
+                ],
             ]
         ];
     }

@@ -3,26 +3,17 @@
     "content": [
       {
         "type": "text",
-        "value": "В 1612 г. Москва была освобождена от"
+        "value": "Великим полководцем периода правления Екатерины II является"
       }
     ],
-    "fipi_number": "D615B0",
+    "fipi_number": "8A8474",
     "answers": [
-      {
-        "is_correct": false,
-        "content": [
-          {
-            "type": "text",
-            "value": "шведских интервентов"
-          }
-        ]
-      },
       {
         "is_correct": true,
         "content": [
           {
             "type": "text",
-            "value": "польско-литовских интервентов"
+            "value": "Александр Суворов"
           }
         ]
       },
@@ -31,7 +22,16 @@
         "content": [
           {
             "type": "text",
-            "value": "французских интервентов"
+            "value": "Дмитрий Пожарский"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Иван Грозный"
           }
         ]
       }
@@ -41,10 +41,10 @@
     "content": [
       {
         "type": "text",
-        "value": "В освобождении Москвы от польско-литовских захватчиков в 1612 г. важную роль сыграл"
+        "value": "Участником Отечественной войны 1812 г. был"
       }
     ],
-    "fipi_number": "C0890E",
+    "fipi_number": "71C675",
     "answers": [
       {
         "is_correct": false,
@@ -60,6 +60,149 @@
         "content": [
           {
             "type": "text",
+            "value": "Дмитрий Пожарский"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Михаил Кутузов"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Отечественная война 1812 г. окончилась победой"
+      }
+    ],
+    "fipi_number": "4D366C",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Франции"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "России"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Англии"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Во время правления Ивана Грозного к России был присоединен город"
+      }
+    ],
+    "fipi_number": "D5D630",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "Казань"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Новгород Великий"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Тверь"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Пётр I известен в истории как"
+      }
+    ],
+    "fipi_number": "235DC9",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "основатель Санкт-Петербурга"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "победитель Наполеона Бонапарта"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "освободитель Москвы от польско-литовских интервентов"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "В Полтавской битве участвовал"
+      }
+    ],
+    "fipi_number": "AADD1E",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
             "value": "Александр Невский"
           }
         ]
@@ -69,112 +212,7 @@
         "content": [
           {
             "type": "text",
-            "value": "Кузьма Минин"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "content": [
-      {
-        "type": "text",
-        "value": "Пётр I победил"
-      }
-    ],
-    "fipi_number": "4450BE",
-    "answers": [
-      {
-        "is_correct": false,
-        "content": [
-          {
-            "type": "text",
-            "value": "в Ледовом побоище"
-          }
-        ]
-      },
-      {
-        "is_correct": true,
-        "content": [
-          {
-            "type": "text",
-            "value": "в Полтавской битве"
-          }
-        ]
-      },
-      {
-        "is_correct": false,
-        "content": [
-          {
-            "type": "text",
-            "value": "в Бородинском сражении"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "content": [
-      {
-        "type": "text",
-        "value": "Освобождение Руси от ордынского владычества произошло в результате"
-      }
-    ],
-    "fipi_number": "4B35C4",
-    "answers": [
-      {
-        "is_correct": false,
-        "content": [
-          {
-            "type": "text",
-            "value": "Ледового побоища"
-          }
-        ]
-      },
-      {
-        "is_correct": true,
-        "content": [
-          {
-            "type": "text",
-            "value": "«стояния» на Угре"
-          }
-        ]
-      },
-      {
-        "is_correct": false,
-        "content": [
-          {
-            "type": "text",
-            "value": "Бородинского сражения"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "content": [
-      {
-        "type": "text",
-        "value": "В освобождении Москвы от польско-литовских войск в 1612 г.\n  важную роль сыграл"
-      }
-    ],
-    "fipi_number": "6F279C",
-    "answers": [
-      {
-        "is_correct": true,
-        "content": [
-          {
-            "type": "text",
-            "value": "Д.М. Пожарский"
-          }
-        ]
-      },
-      {
-        "is_correct": false,
-        "content": [
-          {
-            "type": "text",
-            "value": "М.И. Кутузов"
+            "value": "Пётр I"
           }
         ]
       },
@@ -193,17 +231,17 @@
     "content": [
       {
         "type": "text",
-        "value": "Дмитрий Донской был участником"
+        "value": "В 1812 г. произошло"
       }
     ],
-    "fipi_number": "13D273",
+    "fipi_number": "2F9E95",
     "answers": [
       {
         "is_correct": true,
         "content": [
           {
             "type": "text",
-            "value": "Куликовской битвы"
+            "value": "Бородинское сражение"
           }
         ]
       },
@@ -212,7 +250,7 @@
         "content": [
           {
             "type": "text",
-            "value": "Ледового побоища"
+            "value": "Ледовое побоище"
           }
         ]
       },
@@ -221,7 +259,7 @@
         "content": [
           {
             "type": "text",
-            "value": "освобождения Москвы от польско-литовских войск"
+            "value": "крещение Руси"
           }
         ]
       }
@@ -231,22 +269,51 @@
     "content": [
       {
         "type": "text",
-        "value": "Первым императором России был"
+        "value": "В 1812 г. на Россию напала"
       }
     ],
-    "fipi_number": "E96CE0",
+    "fipi_number": "5EAA4E",
     "answers": [
       {
         "is_correct": true,
         "content": [
           {
             "type": "text",
-            "value": "Пётр I"
+            "value": "Франция"
           }
         ]
       },
       {
         "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Япония"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Великобритания"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Русским войском во время Ледового побоища командовал"
+      }
+    ],
+    "fipi_number": "E4C1F0",
+    "answers": [
+      {
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -259,7 +326,16 @@
         "content": [
           {
             "type": "text",
-            "value": "Кузьма Минин"
+            "value": "Дмитрий Донской"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "Рюрик"
           }
         ]
       }
@@ -269,17 +345,17 @@
     "content": [
       {
         "type": "text",
-        "value": "Победа России в Северной войне относится к правлению"
+        "value": "Бородинская битва произошла"
       }
     ],
-    "fipi_number": "DE41F3",
+    "fipi_number": "14F7CB",
     "answers": [
       {
         "is_correct": false,
         "content": [
           {
             "type": "text",
-            "value": "Дмитрия Донского"
+            "value": "в 1612 г."
           }
         ]
       },
@@ -288,7 +364,7 @@
         "content": [
           {
             "type": "text",
-            "value": "Петра I"
+            "value": "в 1812 г."
           }
         ]
       },
@@ -297,7 +373,7 @@
         "content": [
           {
             "type": "text",
-            "value": "Рюрика"
+            "value": "в 1917 г."
           }
         ]
       }
@@ -307,93 +383,17 @@
     "content": [
       {
         "type": "text",
-        "value": "Д.М. Пожарский участвовал в освобождении Москвы от польско-литовских интервентов вместе"
+        "value": "В ходе Отечественной войны 1812 г. была разгромлена"
       }
     ],
-    "fipi_number": "52E368",
-    "answers": [
-      {
-        "is_correct": true,
-        "content": [
-          {
-            "type": "text",
-            "value": "с К. Мининым"
-          }
-        ]
-      },
-      {
-        "is_correct": false,
-        "content": [
-          {
-            "type": "text",
-            "value": "с М.И. Кутузовым"
-          }
-        ]
-      },
-      {
-        "is_correct": false,
-        "content": [
-          {
-            "type": "text",
-            "value": "с Ю.А. Гагариным"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "content": [
-      {
-        "type": "text",
-        "value": "В Ледовом побоище было разгромлено войско"
-      }
-    ],
-    "fipi_number": "970EA1",
-    "answers": [
-      {
-        "is_correct": true,
-        "content": [
-          {
-            "type": "text",
-            "value": "немецких рыцарей-крестоносцев"
-          }
-        ]
-      },
-      {
-        "is_correct": false,
-        "content": [
-          {
-            "type": "text",
-            "value": "монгольских завоевателей"
-          }
-        ]
-      },
-      {
-        "is_correct": false,
-        "content": [
-          {
-            "type": "text",
-            "value": "арабских завоевателей"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "content": [
-      {
-        "type": "text",
-        "value": "В 1612 г. от польско-литовских захватчиков была освобождена"
-      }
-    ],
-    "fipi_number": "0BAA54",
+    "fipi_number": "81A274",
     "answers": [
       {
         "is_correct": false,
         "content": [
           {
             "type": "text",
-            "value": "Астрахань"
+            "value": "монгольская армия"
           }
         ]
       },
@@ -402,7 +402,7 @@
         "content": [
           {
             "type": "text",
-            "value": "Москва"
+            "value": "французская армия"
           }
         ]
       },
@@ -411,7 +411,7 @@
         "content": [
           {
             "type": "text",
-            "value": "Казань"
+            "value": "шведская армия"
           }
         ]
       }

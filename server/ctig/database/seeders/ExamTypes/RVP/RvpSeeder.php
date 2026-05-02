@@ -103,7 +103,7 @@ class RvpSeeder extends Seeder
                 $this->audioSubblock(),
                 $this->readingSubblock(),
                 $this->letterSubblock(),
-                // $this->vocabularAndGrammarSubblock()
+                $this->vocabularAndGrammarSubblock()
             ]
         ];
     }
@@ -247,7 +247,12 @@ class RvpSeeder extends Seeder
             'name' => 'Лексика и грамматика',
             'min_mark' => 6,
             'tasks' => [
-
+                [
+                    'type' => TaskType::SingleChoice,
+                    'description' => '',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task17.json')), true)
+                ],
             ]
         ];
     }

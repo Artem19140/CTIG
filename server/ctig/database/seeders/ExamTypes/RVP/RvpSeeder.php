@@ -90,7 +90,7 @@ class RvpSeeder extends Seeder
         return [  
                 $this->russianBlock(),
                 $this->historyBlock(),
-                // $this->legislationBlock()
+                $this->legislationBlock()
         ];
     }
 
@@ -347,7 +347,42 @@ class RvpSeeder extends Seeder
                     'name' => '',
                     'min_mark'=> 0,
                     'tasks' => [
-
+                        [
+                            'type' => TaskType::SingleChoice,
+                            'description' => '',
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task29.json')), true)
+                        ],
+                        [
+                            'type' => TaskType::SingleChoice,
+                            'description' => '',
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task30.json')), true)
+                        ],
+                        [
+                            'type' => TaskType::SingleChoice,
+                            'description' => '',
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task31.json')), true)
+                        ],
+                        [
+                            'type' => TaskType::SingleChoice,
+                            'description' => '',
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task32.json')), true)
+                        ],
+                        [
+                            'type' => TaskType::SingleChoice,
+                            'description' => '',
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task33.json')), true)
+                        ],
+                        [
+                            'type' => TaskType::SingleChoice,
+                            'description' => '',
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task34.json')), true)
+                        ]
                     ]
                 ]
             ]

@@ -92,7 +92,7 @@ const back = () => {
             </v-card-title>
 
             <v-card-subtitle >
-                <div>{{ exam.data.shortName }}</div>
+                <div>{{ exam.data.shortName }} </div>
                 <div>
                     {{ new DateFormatter(exam.data?.beginTime).format('H:i') }}
                     - 

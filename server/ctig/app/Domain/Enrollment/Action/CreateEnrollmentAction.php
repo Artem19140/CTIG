@@ -3,21 +3,22 @@
 namespace App\Domain\Enrollment\Action;
 
 use App\Domain\Counter\GenerateRegNumberAction;
+use App\Domain\Exam\Guard\ExamEnrollmentGuard;
 use App\Exceptions\BusinessException;
 use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\User;
-use App\Domain\Enrollment\Guard\EnrollmentGuard;
 use App\Domain\Exam\Guard\ExamGuard;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 
 final class CreateEnrollmentAction{
     public function __construct(
         protected GenerateRegNumberAction $generateRegNumber,
         protected ExamGuard $examGuard,
-        protected EnrollmentGuard $enrollmentGuard
+        protected ExamEnrollmentGuard $examEnrollmentGuard
     ){}
     public function execute(int $examId, int $foreignNationalId, User $user, bool $hasPayment):Enrollment{
         $exam = Exam::find($examId);
@@ -49,12 +50,18 @@ final class CreateEnrollmentAction{
             throw new BusinessException("Запись закрывается за $closeBeforeMinutes минут до начала экзамена");
         }
 
-        $this->examGuard->ensureHasSeats($exam);
-        $this->enrollmentGuard->ensureNotExists($exam, $foreignNational);
+        $this->examEnrollmentGuard->ensureNotFullEnrollment($exam);
+        $this->examEnrollmentGuard->ensureEnrollmentNotExists($exam, $foreignNational);
         
-        $this->enrollmentGuard->ensureNoParallelEnrollments(
-            $foreignNational, 
-            $exam
-        ); 
+        $enrollmentsExists = Exam::whereBeginTimeLess($exam->end_time)
+            ->whereEndTimeMore($exam->begin_time)
+            ->notCancelled()
+            ->whereHas('enrollments', function(Builder $query)use($foreignNational){
+                $query->where('foreign_national_id', $foreignNational->id);
+            })
+            ->exists();
+        if($enrollmentsExists){
+            throw new BusinessException('ИГ имеет парралельные записи на экзамен');
+        }
     }
 }

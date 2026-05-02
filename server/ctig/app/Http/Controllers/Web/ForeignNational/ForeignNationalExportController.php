@@ -47,13 +47,13 @@ class ForeignNationalExportController
         string | null $citizenship = null
     ){
         $available = ForeignNational::whereBetween('created_at', [
-                Carbon::parse($dateFrom), 
-                Carbon::parse($dateTo)
-            ])
-            ->when($citizenship, function (Builder $query) use($citizenship){
-                $query->where('citizenship', $citizenship);
-            })
-            ->exists();
+            Carbon::parse($dateFrom), 
+            Carbon::parse($dateTo)
+        ])
+        ->when($citizenship, function (Builder $query) use($citizenship){
+            $query->where('citizenship', $citizenship);
+        })
+        ->exists();
         if(!$available){
             throw new BusinessException('Нет данных ИГ для выгрузки');
         }

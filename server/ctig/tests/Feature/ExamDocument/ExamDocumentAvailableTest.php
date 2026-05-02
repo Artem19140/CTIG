@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\ExamDocument;
 
+use App\Domain\Exam\Guard\ExamEnrollmentGuard;
 use App\Domain\Exam\Guard\ExamGuard;
 use App\Domain\ExamDocument\ExamDocumentAvailable;
 use App\Exceptions\BusinessException;
@@ -9,7 +10,6 @@ use App\Models\Enrollment;
 use App\Models\Exam;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ExamDocumentAvailableTest extends TestCase
@@ -21,7 +21,6 @@ class ExamDocumentAvailableTest extends TestCase
         parent::setUp();
         Carbon::setTestNow(now());
         $this->exception = BusinessException::class;
-        
     }
     public function tearDown(): void
     {
@@ -47,6 +46,8 @@ class ExamDocumentAvailableTest extends TestCase
 
         $guard = \Mockery::mock(ExamGuard::class);
 
+        
+
         $guard->shouldReceive('ensureNotFinished')
             ->once()
             ->with($exam);
@@ -55,11 +56,12 @@ class ExamDocumentAvailableTest extends TestCase
             ->once()
             ->with($exam);
 
-        $guard->shouldReceive('ensureHasEnrollment')
+        $examEnrollmentGuard = \Mockery::mock(ExamEnrollmentGuard::class);
+        $examEnrollmentGuard->shouldReceive('ensureEnrollmentsExists')
             ->once()
             ->with($exam);
 
-        $service = new ExamDocumentAvailable($guard);
+        $service = new ExamDocumentAvailable($guard,  $examEnrollmentGuard);
 
         $service->codes($exam);
     }
@@ -73,11 +75,12 @@ class ExamDocumentAvailableTest extends TestCase
 
         $guard = \Mockery::mock(ExamGuard::class);
 
-        $guard->shouldReceive('ensureHasEnrollment')
+        $examEnrollmentGuard = \Mockery::mock(ExamEnrollmentGuard::class);
+        $examEnrollmentGuard->shouldReceive('ensureEnrollmentsExists')
             ->once()
             ->with($exam);
 
-        $service = new ExamDocumentAvailable($guard);
+        $service = new ExamDocumentAvailable($guard, $examEnrollmentGuard);
 
         $service->list($exam);
     }
@@ -99,11 +102,12 @@ class ExamDocumentAvailableTest extends TestCase
             ->once()
             ->with($exam);
 
-        $guard->shouldReceive('ensureHasEnrollment')
+        $examEnrollmentGuard = \Mockery::mock(ExamEnrollmentGuard::class);
+        $examEnrollmentGuard->shouldReceive('ensureEnrollmentsExists')
             ->once()
             ->with($exam);
 
-        $service = new ExamDocumentAvailable($guard);
+        $service = new ExamDocumentAvailable($guard, $examEnrollmentGuard);
 
         $service->protocol($exam);
     }
@@ -124,16 +128,18 @@ class ExamDocumentAvailableTest extends TestCase
         $guard->shouldReceive('ensureNotCancelled')
             ->once()
             ->with($exam);
-
-        $guard->shouldReceive('ensureHasEnrollment')
-            ->once()
-            ->with($exam);
-
         $guard->shouldReceive('ensureAllAttemptsChecked')
             ->once()
             ->with($exam);
 
-        $service = new ExamDocumentAvailable($guard);
+        $examEnrollmentGuard = \Mockery::mock(ExamEnrollmentGuard::class);
+        $examEnrollmentGuard->shouldReceive('ensureEnrollmentsExists')
+            ->once()
+            ->with($exam);
+
+        
+
+        $service = new ExamDocumentAvailable($guard, $examEnrollmentGuard);
 
         $service->results($exam);
     }

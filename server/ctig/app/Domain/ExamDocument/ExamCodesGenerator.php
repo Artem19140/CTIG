@@ -58,7 +58,7 @@ final class ExamCodesGenerator{
 
     protected function saveCode(Enrollment $enrollment, string $code, Exam $exam):void{
         $enrollment->exam_code = $code;
-        $enrollment->exam_code_expired_at = $exam->begin_time->copy()->addMinutes(Exam::CODES_TTL);
+        $enrollment->exam_code_expired_at = $exam->begin_time->copy()->addMinutes(Exam::CODES_TTL_AFTER_BEGIN_MINUTES);
         $enrollment->save();
     }
 }

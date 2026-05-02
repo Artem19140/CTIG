@@ -1,12 +1,13 @@
+import { Roles } from "@/constants/Roles";
 import { usePage } from "@inertiajs/vue3"
 
 export const useAuth = () => {
     const page = usePage()
     const user  = page.props?.auth?.user ?? null
     const roles = user?.roles ?? [];
-    const isSuperAdmin = user?.roles?.includes('super_admin') ?? false
+    const isSuperAdmin = user?.roles?.includes(Roles.SUPER_ADMIN) ?? false
 
-    const can = (rolesAllowed: Array<string>): boolean => {
+    const can = (rolesAllowed: Array<Roles>): boolean => {
         if (isSuperAdmin) return true;
         if (!roles.length) return false;
         

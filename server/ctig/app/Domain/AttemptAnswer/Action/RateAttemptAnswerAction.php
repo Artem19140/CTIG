@@ -3,22 +3,19 @@
 namespace App\Domain\AttemptAnswer\Action;
 
 use App\Domain\Attempt\Action\FinilizeAttemptCheckingAction;
-use App\Domain\Attempt\Action\ZeroEmptyAutoCheckAnswersAction;
 use App\Enums\TaskType;
 use App\Models\Attempt;
 use App\Models\AttemptAnswer;
 use App\Models\Task;
 use App\Models\User;
 use Carbon\Carbon;
-use DB;
 use App\Domain\Attempt\Guard\AttemptGuard;
 use Illuminate\Validation\ValidationException;
 
 class RateAttemptAnswerAction{
     public function __construct(
         protected AttemptGuard $attemptGuard,
-        protected FinilizeAttemptCheckingAction $finilizeAttemptCheckingAction,
-        protected ZeroEmptyAutoCheckAnswersAction $zeroEmptyAutoAnswersAction
+        protected FinilizeAttemptCheckingAction $finilizeAttemptCheckingAction
     ){}
     public function execute(AttemptAnswer $attemptAnswer, int $mark, User $user){
         $attemptAnswer->loadMissing(['taskVariant.task', 'attempt']);
@@ -34,13 +31,12 @@ class RateAttemptAnswerAction{
         $this->ensureTaskIsNotAutoCheck($task);
         $this->ensureMarkIsValid($mark, $task);
 
-        $this->rate($attempt, $attemptAnswer, $mark, $user);
+        $this->rate($attemptAnswer, $mark, $user);
 
         return $attemptAnswer;
     }
 
     protected function rate(
-        Attempt $attempt,
         AttemptAnswer $attemptAnswer,
         int $mark,
         User $user

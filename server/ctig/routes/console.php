@@ -1,7 +1,7 @@
 <?php
 
 use App\Domain\Attempt\Action\CloseAbandonedAttemptsAction;
-use Carbon\Carbon;
+use App\Domain\Exam\Action\ClearExpiredExamCodesAction;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 
@@ -10,10 +10,7 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::call(function () {
-    DB::table('enrollments')
-        ->where('exam_code_expired_at', '<', Carbon::now())
-        ->whereNotNull('exam_code')
-        ->update(['exam_code' => null]);
+    app(ClearExpiredExamCodesAction::class)->execute();
 })->monthly();
 
 Schedule::call(function () {

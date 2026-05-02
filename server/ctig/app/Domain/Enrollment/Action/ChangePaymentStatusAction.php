@@ -2,7 +2,6 @@
 
 namespace App\Domain\Enrollment\Action;
 
-use App\Domain\Enrollment\Guard\EnrollmentGuard;
 use App\Domain\Exam\Guard\ExamGuard;
 use App\Exceptions\BusinessException;
 use App\Models\Enrollment;
@@ -10,8 +9,7 @@ use App\Models\Enrollment;
 
 class ChangePaymentStatusAction{
     public function __construct(
-        protected ExamGuard $examGuard,
-        protected EnrollmentGuard $enrollmentGuard
+        protected ExamGuard $examGuard
     ){}
 
     public function execute(Enrollment $enrollment){

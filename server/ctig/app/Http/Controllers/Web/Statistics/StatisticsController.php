@@ -33,17 +33,18 @@ class StatisticsController
 
 
         $successfulAttemptsCount = (clone $attemptsQuery)
-                            ->where('is_passed', true)
-                            ->count();
+            ->where('is_passed', true)
+            ->count();
 
         $failedAttemptsCount = (clone $attemptsQuery)
-                            ->where('is_passed', false)
-                            ->where('status', '<>', AttemptStatus::Banned)
-                            ->count();
+            ->where('is_passed', false)
+            ->where('status', '<>', AttemptStatus::Banned)
+            ->count();
 
         $bannedAttemptsCount = (clone $attemptsQuery)
             ->where('status', AttemptStatus::Banned)
             ->count();
+            
         return response()->json([
             'examsCount' => $examsCount,
             'attemptsCount' => $attemptsCount,

@@ -5,6 +5,7 @@ namespace App\Domain\User;
 use App\Enums\UserRoles;
 use App\Models\Role;
 use App\Models\User;
+use DB;
 use Illuminate\Validation\ValidationException;
 
 class UpdateUserAction{
@@ -12,9 +13,11 @@ class UpdateUserAction{
    
     $this->ensureHasNoRoleSuperAdmin($data);
     $this->ensureOrgAdminValidCreation($data, $user);
-
-    $user->update($this->getAttributes($data));
-    $user->roles()->sync($data['roles']);
+    DB::transaction(function() use($user, $data){
+        $user->update($this->getAttributes($data));
+        $user->roles()->sync($data['roles']);
+    });
+    
    }
 
    protected function ensureUniqueEmail(string $email, int $id){

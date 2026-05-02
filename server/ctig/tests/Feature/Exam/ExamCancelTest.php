@@ -2,17 +2,12 @@
 
 namespace Tests\Feature\Exam;
 
-use App\Enums\UserRoles;
-use App\Models\Address;
 use App\Models\Exam;
-use App\Models\ExamType;
 use App\Models\Center;
-use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ExamCancelTest extends TestCase

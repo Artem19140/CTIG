@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3';
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
-import ExamActionsDropdown from '@components/Exam/ExamActionsDropdown.vue';
 import BasePaginatedTable from '@components/BaseComponents/BasePaginatedTable/BasePaginatedTable.vue';
 import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
@@ -28,8 +27,7 @@ const headers = [
     {title:'Название', key:"shortName",sortable:false, align:'center'},
     {title:'Дата', key:"beginTime",sortable:false, align:'center'},
     {title:'Запись', key:"capacity", sortable:false, align:'center'},
-    {title:'Статус', key:"status", sortable:false, align:'center'},
-    {title:'', key:"actions", sortable:false, align:'center'}
+    {title:'Статус', key:"status", sortable:false, align:'center'}
 ]
 
 const open = (event:Event, {item} : any) => {
@@ -80,10 +78,6 @@ const getPastExams = () =>{
 
             <template #item.beginTime="{ item }">
                 {{ new DateFormatter(item.beginTime).format('H:i, d.m.Y') }}
-            </template>
-
-            <template #item.actions="{ item }">
-                <ExamActionsDropdown :exam="item" />
             </template>
             
             <template #bottom>

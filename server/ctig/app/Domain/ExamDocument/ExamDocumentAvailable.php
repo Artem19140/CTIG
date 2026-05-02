@@ -2,44 +2,47 @@
 
 namespace App\Domain\ExamDocument;
 
+use App\Domain\Exam\Guard\ExamEnrollmentGuard;
 use App\Domain\Exam\Guard\ExamGuard;
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
 
 class ExamDocumentAvailable{
     public function __construct(
-        protected ExamGuard $examGuard
+        protected ExamGuard $examGuard,
+        protected ExamEnrollmentGuard $examEnrollmentGuard
     ){}
     public function codes(Exam $exam){
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureNotFinished($exam);
-        $this->examGuard->ensureHasEnrollment($exam);
+        $this->examEnrollmentGuard->ensureEnrollmentsExists($exam);
         if(!$exam->canGenerateCodes()){
-            throw new BusinessException("Коды возможно сформировать в день экзамена и до его окончания");
+            $minutes = Exam::CODES_TTL_AFTER_BEGIN_MINUTES;
+            throw new BusinessException("Коды возможно сформировать в день экзамена и в течении $minutes минут после его начала");
         }
     }
 
     public function list(Exam $exam){
-        $this->examGuard->ensureHasEnrollment($exam);
+        $this->examEnrollmentGuard->ensureEnrollmentsExists($exam);
     }
 
     public function protocol(Exam $exam){
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureFinished($exam);
-        $this->examGuard->ensureHasEnrollment($exam);
+        $this->examEnrollmentGuard->ensureEnrollmentsExists($exam);
     }
 
     public function statement(Exam $exam){
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureFinished($exam);
-        $this->examGuard->ensureHasEnrollment($exam);
+        $this->examEnrollmentGuard->ensureEnrollmentsExists($exam);
         $this->examGuard->ensureAllAttemptsChecked($exam);
     }
 
     public function results(Exam $exam){
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureFinished($exam);
-        $this->examGuard->ensureHasEnrollment($exam);
+        $this->examEnrollmentGuard->ensureEnrollmentsExists($exam);
         $this->examGuard->ensureAllAttemptsChecked($exam);
     }
 }

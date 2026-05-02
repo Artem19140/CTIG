@@ -1,4 +1,4 @@
-import { Attempt } from "@/interfaces/Interfaces";
+import { Attempt } from "@/interfaces/Attempt";
 import { AttemptAnswer } from "@/interfaces/Task";
 import { ref } from "vue";
 

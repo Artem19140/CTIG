@@ -10,20 +10,25 @@ const props = defineProps<{
 }>()
 
 const {open} = useModals()
-const {isGoing, isPending} = useExamStatus(props.exam)
+const {isPending} = useExamStatus(props.exam)
 </script>
 
 <template>
     <BaseThreeDotDropdown>
         <AppListDropDownItem 
             title="Комментарий"
-            :disabled="!isGoing"
+            :disabled="!exam.editProtocolCommentAvailable"
             @click="open('examComment', {exam:exam})"
         />
 
         <AppListDropDownItem 
             :disabled="isPending"
             title="Итоги экзамена"
+        />
+
+        <AppListDropDownItem 
+            title="Карточка экзамена"
+            @click="open('examShow', {examId:exam.id})"
         />
     </BaseThreeDotDropdown>
 </template>

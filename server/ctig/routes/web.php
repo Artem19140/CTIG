@@ -6,6 +6,7 @@ use App\Http\Controllers\Web\Attempt\AttemptSpeakingController;
 use App\Http\Controllers\Web\Attempt\AttemptViolationController;
 use App\Http\Controllers\Web\Enrollment\EnrollmentDocumentController;
 use App\Http\Controllers\Web\Exam\ExamCheckingController;
+use App\Http\Controllers\Web\Exam\ExamEnrollmentController;
 use App\Http\Controllers\Web\File\FileController;
 use App\Http\Controllers\Web\ForeignNational\ForeignNationalExportController;
 use App\Http\Controllers\Web\Statistics\StatisticsController;
@@ -42,7 +43,7 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
     Route::get('statistics', [StatisticsController::class, 'index']);
 
     Route::prefix('exams')->group(function(){
-        Route::get('available', [EnrollmentController::class, "available"]);
+        Route::get('available', [ExamEnrollmentController::class, "available"]);
 
         Route::get('checking', [ExamCheckingController::class, "index"]);
         Route::get('{exam}/checking', [ExamCheckingController::class, "show"]);

@@ -21,11 +21,13 @@ class FlatTableGenerator{
             ->whereCreatedAtMore( $dateFrom->copy()->startOfDay())
             ->whereCreatedAtLess($dateTo = $dateTo->copy()->endOfDay())
             ->where('status', AttemptStatus::Checked)
-            ->chunkById(1000, function($items) use($handle, &$strNumber) {
-                foreach($items as $item){
-                    $answers = $item->answers->sortBy(fn($a) => $a->taskVariant->task->order);
+            ->chunkById(300, function($attempts) use($handle, &$strNumber) {
+                foreach($attempts as $attempt){
+                    $answers = $attempt->answers->sortBy(fn($a) => $a->taskVariant->task->order);
                     foreach($answers as $answer){    
-                        $task = $answer->taskVariant?->task;
+                        $taskVariant = $answer->taskVariant;
+                        $task = $taskVariant?->task;
+
                         $answerInTable = '';
 
                         if($task->type === TaskType::SingleChoice){
@@ -37,15 +39,15 @@ class FlatTableGenerator{
                             
                         fputcsv($handle, [
                             $strNumber,
-                            $item->exam->type->level,
-                            $item->foreign_national_id,
-                            $item->id,
-                            $answer->taskVariant->task->order,
-                            $answer->taskVariant->fipi_number,
+                            $attempt->exam->type->level,
+                            $attempt->foreign_national_id,
+                            $attempt->id,
+                            $taskVariant->task->order,
+                            $taskVariant->fipi_number,
                             $answerInTable,
                             $answer->mark,
-                            $item->total_mark,
-                            $item->is_passed ? 'да' : 'нет'
+                            $attempt->total_mark,
+                            $this->isPassed($attempt)
                         ]);
                         $strNumber ++;
                     }
@@ -67,5 +69,12 @@ class FlatTableGenerator{
             'TotalMark',
             'Resolution'
         ];
+    }
+
+    protected function isPassed(Attempt $attempt):string{
+        if($attempt->isBanned()){
+            return 'нет';
+        }
+        return $attempt->is_passed ? 'да' : 'нет';
     }
 }

@@ -5,18 +5,19 @@ namespace App\Domain\User;
 use App\Enums\UserRoles;
 use App\Models\Role;
 use App\Models\User;
+use DB;
 use Hash;
 
 
 class CreateUserAction{
    public function execute(array $data, User $user){
-   
-    $this->ensureHasNoRoleSuperAdmin($data);
-    $this->ensureOrgAdminValidCreation($data, $user);
-
-    $user = User::create($this->getAttributes($data, $user));
-    
-    $user->roles()->sync($data['roles']);
+        $this->ensureHasNoRoleSuperAdmin($data);
+        $this->ensureOrgAdminValidCreation($data, $user);
+        
+        DB::transaction(function() use($user, $data){
+            $user = User::create($this->getAttributes($data, $user));
+            $user->roles()->sync($data['roles']);
+        });
    }
 
 

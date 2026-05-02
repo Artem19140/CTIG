@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\Exam;
 
 use App\Domain\Exam\Action\Monitoring\UpdateProtocolCommentAction;
+use App\Http\Resources\Exam\ExamMonitoringResource;
 use App\Http\Resources\Exam\ExamResource;
 use App\Models\Exam;
 use Carbon\Carbon;
@@ -47,7 +48,7 @@ class ExamMonitoringController
         $exam->enrollments = $exam->enrollments->sortBy('foreignNational.surname');
         
         return Inertia::render('ExamMonitoring/ExamMonitoring', [
-            'exam' => new ExamResource($exam)
+            'exam' => new ExamMonitoringResource($exam)
         ]);
     }
 
@@ -57,7 +58,7 @@ class ExamMonitoringController
             'protocolComment' => ['required', 'string']
         ]);
         $updateProtocolComment->execute($exam, $request->input('protocolComment'));
-        Inertia::flash('success', 'Комментарий добавлен');
-        return back();
+        
+        return response()->noContent();
     }
 }

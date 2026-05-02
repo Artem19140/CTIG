@@ -29,9 +29,9 @@ class CreateAttemptAction{
             $foreignNational = ForeignNational::find($enrollment->foreign_national_id);
             $exam = Exam::find($enrollment->exam_id);
             
+            $this->examGuard->ensureNotCancelled($exam);
             $this->examGuard->ensureNotFinished($exam);
             $this->examGuard->ensureGoing($exam);
-            $this->examGuard->ensureNotCancelled($exam);
             
             $attempt =  $this->createAttempt($foreignNational, $enrollment);
             
@@ -54,14 +54,18 @@ class CreateAttemptAction{
         }
 
         return Attempt::create([
-                'foreign_national_id' => $foreignNational->id,
-                'enrollment_id' => $enrollment->id,
-                'exam_id' => $enrollment->exam_id,
-                'center_id' => $enrollment->center_id
-            ]);
+            'foreign_national_id' => $foreignNational->id,
+            'enrollment_id' => $enrollment->id,
+            'exam_id' => $enrollment->exam_id,
+            'center_id' => $enrollment->center_id
+        ]);
     }
 
-    protected function generateExamVariant(Exam $exam, Attempt $attempt, ForeignNational $foreignNational):array{
+    protected function generateExamVariant(
+        Exam $exam, 
+        Attempt $attempt, 
+        ForeignNational $foreignNational
+    ):array{
         $exam->load('type.blocks.subblocks.tasks.variants');
         $tasks = $exam->type->blocks
             ->pluck('subblocks')
@@ -72,11 +76,11 @@ class CreateAttemptAction{
         $examVariant = [];
         foreach($tasks as $task){    
             $variants = $task->variants
-                        ->where('is_active',true);
-                        
+                ->where('is_active',true);
+
             $variant = $variants
-                        ->whereIn('group_number', $groups)
-                        ->first();
+                ->whereIn('group_number', $groups)
+                ->first();
 
             if(!$variant){
                 $variant = $variants->random();

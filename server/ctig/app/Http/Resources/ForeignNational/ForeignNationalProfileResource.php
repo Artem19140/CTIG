@@ -3,7 +3,6 @@
 namespace App\Http\Resources\ForeignNational;
 
 use App\Http\Resources\Enrollment\EnrollmentResource;
-use App\Http\Resources\Exam\ExamResource;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;

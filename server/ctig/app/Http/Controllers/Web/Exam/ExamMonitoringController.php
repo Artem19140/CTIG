@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\Exam;
 
 use App\Domain\Exam\Action\Monitoring\UpdateProtocolCommentAction;
+use App\Http\Resources\Exam\ExamIndexResource;
 use App\Http\Resources\Exam\ExamMonitoringResource;
 use App\Http\Resources\Exam\ExamResource;
 use App\Models\Exam;
@@ -33,7 +34,7 @@ class ExamMonitoringController
             ->paginate(10);
 
         return Inertia::render('ExamMonitoring/ExamMonitoringList', [
-            'exams' => ExamResource::collection($exams),
+            'exams' => ExamIndexResource::collection($exams),
             'past' => $past 
         ]);
     }

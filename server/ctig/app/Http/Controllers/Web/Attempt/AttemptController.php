@@ -10,6 +10,7 @@ use App\Enums\AttemptStatus;
 use App\Http\Resources\Attempt\AttemptExamResource;
 use App\Http\Resources\Attempt\AttemptResource;
 use App\Http\Resources\Exam\ExamResource;
+use App\Http\Resources\Exam\ExamShortResource;
 use App\Models\Attempt;
 use App\Models\Exam;
 use Illuminate\Database\Eloquent\Builder;
@@ -87,7 +88,7 @@ class AttemptController
         ])->find($attempt->exam_id);
         
         return Inertia::render('Attempt/BeforeAttempt', [
-            'exam' => new ExamResource($exam),
+            'exam' => new ExamShortResource($exam),
             'duration' => $exam->type->duration,
             'minMark' => $exam->type->min_mark,
             'attempt' => $attempt,

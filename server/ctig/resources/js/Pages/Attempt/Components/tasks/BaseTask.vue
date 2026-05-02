@@ -3,10 +3,10 @@ import RenderBlocks from './TaskContentBlocks/RenderBlocks.vue';
 import { Task } from '@/interfaces/Task';
 import { TaskTypes } from '@/constants/TaskTypes';
 import TaskRatingBlock from './TaskRatingBlock.vue';
-import { Attempt } from '@/interfaces/Interfaces';
 import AppStatusChip from '@/components/UI/AppStatusChip/AppStatusChip.vue';
 import AppRefreshButton from '@/components/UI/AppRefreshButton/AppRefreshButton.vue';
 import TaskSavingStatus from './TaskSavingStatus.vue';
+import { Attempt } from '@/interfaces/Attempt';
 
 const props = defineProps<{
   task:Task, 
@@ -20,7 +20,7 @@ const props = defineProps<{
 const getDefaultDescription = (type:string) => {
   switch(type){
     case TaskTypes.SINGLE_CHOICE:
-      return 'Выберите один вариант ответа'
+      return 'Выберите правильный ответ.'
     case TaskTypes.TEXT_INPUT:
       return 'Впишите ответ в поле ввода'
   }

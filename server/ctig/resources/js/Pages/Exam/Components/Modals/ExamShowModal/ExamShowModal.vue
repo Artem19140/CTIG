@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
-import ExamActionsDropdown from '@components/Exam/ExamActionsDropdown.vue';
+import ExamActionsDropdown from '@/pages/Exam/Components/Modals/ExamShowModal/ExamActionsDropdown.vue';
 import EnrollmentsTable from './EnrollmentsTable.vue';
 import { computed, onMounted, ref } from 'vue';
 import { router, useHttp } from '@inertiajs/vue3';

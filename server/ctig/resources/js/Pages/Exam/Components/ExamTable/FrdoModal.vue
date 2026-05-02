@@ -8,21 +8,19 @@ import { RedirectUrl } from '@/interfaces/Interfaces';
 
 const isOpen = defineModel<boolean>()
 
-const items = [
-    { name: 'Сертификаты', success : true},
-    { name: 'Справки', success : false}
-]
+const http = useHttp<FrdoExport, RedirectUrl>({
+    examDate:null,
+    success:null
+})
 
 const  download = async () => {
     http.get('/reports/frdo/available', {
-        onSuccess:(response:any) => {
+        onSuccess:(response) => {
             if(response.redirectUrl){
-                window.location.href = String(response.redirectUrl)
-            }
-            
+                window.location.href = response.redirectUrl
+            }     
         }
     })
-    
 }
 
 interface FrdoExport{
@@ -30,24 +28,21 @@ interface FrdoExport{
     success: boolean | null
 }
 
-const http = useHttp<FrdoExport, RedirectUrl>({
-    examDate:null,
-    success:null
-})
-
-const beforeClose = async (fn : () => void) => {
-    http.resetAndClearErrors()
-    fn()
-}
+const items = [
+    { name: 'Сертификаты', success : true},
+    { name: 'Справки', success : false}
+]
 </script>
 
 <template>
-    
     <BaseDialog 
         v-model="isOpen"
         title="Отчеты ФИС ФРДО"
         width="500"
-        @before-close="(done) => beforeClose(done)"
+        @before-close="(close) => {
+            http.resetAndClearErrors()
+            close()
+        }"
     >
         <AppAutocomplete
             label="Тип"

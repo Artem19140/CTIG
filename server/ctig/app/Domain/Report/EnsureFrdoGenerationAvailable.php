@@ -29,7 +29,7 @@ class EnsureFrdoGenerationAvailable{
     protected function ensureAllAttemptsChecked(Carbon $examDate):void{
         $uncheckedAttempts = Attempt::whereCreatedAtMore($examDate->copy()->startOfDay())
             ->whereCreatedAtLess($examDate->copy()->endOfDay())
-            ->whereIn('status', AttemptStatus::unChecked())
+            ->statusUnchecked()
             ->exists();
 
         if($uncheckedAttempts){

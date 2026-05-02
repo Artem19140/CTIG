@@ -7,7 +7,6 @@ import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import ForeignNationalTableDropdown from './ForeignNationalTableDropdown.vue';
 import { useAuth } from '@composables/useAuth';
 import { Roles } from '@/constants/Roles';
-import AppPaginator from '@/components/UI/AppPaginator/AppPaginator.vue';
 import { ref } from 'vue';
 import { ForeignNationalIndex } from '@/interfaces/ForeignNational';
 
@@ -50,13 +49,6 @@ const loading = ref<boolean>(false)
                 @click="modals.open('foreignNationalCreate')"
             />
             <ForeignNationalTableDropdown  v-if="auth.can([Roles.DIRECTOR])" />
-        </template>
-        <template #bottom>
-            <AppPaginator
-                :meta="foreignNationals.meta"
-                :links="foreignNationals.links"
-                v-model="loading"
-            />
         </template>
     </BasePaginatedTable>
 </template>

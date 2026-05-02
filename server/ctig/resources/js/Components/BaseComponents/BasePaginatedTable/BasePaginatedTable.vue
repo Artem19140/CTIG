@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppPaginator from '@/components/UI/AppPaginator/AppPaginator.vue';
 import { Paginated } from '@interfaces/Interfaces';
     const props = defineProps<{
         elements? : Paginated<any>,
@@ -38,6 +39,14 @@ import { Paginated } from '@interfaces/Interfaces';
                 #[slotName]="slotProps"
             >
                 <slot :name="slotName" v-bind="slotProps" />
+            </template>
+
+            <template #bottom>
+                <AppPaginator v-if="elements"
+                    :meta="elements.meta"
+                    :links="elements.links"
+                    :loading="loading"
+                />
             </template>
         </v-data-table>
 

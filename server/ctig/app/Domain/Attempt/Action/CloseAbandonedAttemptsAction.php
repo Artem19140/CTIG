@@ -15,7 +15,7 @@ class CloseAbandonedAttemptsAction{
         
         Attempt::where('expired_at', '<=', $now)
             ->with(['exam.type'])
-            ->where('status', AttemptStatus::Active)
+            ->statusActive()
             ->get()
             ->each(function($attempt){
                 $this->close($attempt);

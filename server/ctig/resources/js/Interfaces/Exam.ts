@@ -24,7 +24,8 @@ export interface Exam{
     enrollments:Array<Enrollment>,
     enrollmentsCount:number,
     codesAvailable:boolean,
-    addressId:number
+    addressId:number,
+    documentsAvailable:ExamDocumentAvailble
 }
 
 export interface ExamIndex{
@@ -85,4 +86,17 @@ export interface ExamMonitoring  {
     hasSpeakingTasks:boolean,
     enrollments:Array<Enrollment>,
     editProtocolCommentAvailable:boolean
+}
+
+interface ExamDocumentAvailble{
+    list:DocumentAvailble,
+    protocol:DocumentAvailble,
+    results:DocumentAvailble,
+    codes:DocumentAvailble
+}
+
+interface DocumentAvailble{
+    available:boolean,
+    reason:string | null,
+    label:string | null
 }

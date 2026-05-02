@@ -17,8 +17,6 @@ const props = defineProps<{
 
 const attempt = ref<Attempt | null>(null)
 
-
-
 const scrollToTask = (id: number) => {
   const el = document.getElementById(`task-${id}`)
   el?.scrollIntoView({
@@ -28,7 +26,6 @@ const scrollToTask = (id: number) => {
 }
 
 const update = (value:AttemptAnswer) => {
-    console.log(value)
     if(!attempt.value) return
     const task = attempt.value?.tasks.find(t => t.attemptAnswer.id === value.id)
     if(!task) return

@@ -7,6 +7,7 @@ use App\Domain\Exam\Action\CancelExamAction;
 use App\Domain\Exam\Action\CreateExamAction;
 use App\Domain\Exam\Action\UpdateExamAction;
 use App\Domain\Exam\Query\GetExamsQuery;
+use App\Enums\AttemptStatus;
 use App\Enums\UserRoles;
 use App\Http\Requests\Exam\ExamIndexRequest;
 use App\Http\Requests\Exam\VerifyCodeRequest;
@@ -14,6 +15,7 @@ use App\Http\Resources\Address\AddressResource;
 use App\Http\Resources\Exam\ExamCalendarResource;
 use App\Http\Resources\Exam\ExamIndexResource;
 use App\Http\Resources\ExamType\ExamTypeResource;
+use App\Models\Attempt;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -66,6 +68,17 @@ class ExamController
             'type',
             'enrollments' => ['foreignNational', 'attempt.center'] 
         ]);
+
+        $exam->loadExists([
+            'attempts as has_unchecked_attempts' => function ($query) {
+                $query->statusUnchecked();
+            },
+            'attempts as has_active_attempts' => function ($query) {
+                $query->statusActive();
+            },
+            'attempts as has_attempts',
+        ]);
+
         $exam->enrollments->each(function ($enrollment) use ($exam) {
             $enrollment->setRelation('exam', $exam);
         });

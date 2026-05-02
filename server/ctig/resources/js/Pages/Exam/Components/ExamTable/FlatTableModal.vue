@@ -28,7 +28,10 @@ const donwload = () => {
         width="500"
         title="Плоская таблица"
         v-model="isOpen"
-        @before-close="(close) => close()"
+        @before-close="(close) => {
+            http.resetAndClearErrors()
+            close()
+        }"
     >
         <AppPeriodDate 
             :errors="http.errors"

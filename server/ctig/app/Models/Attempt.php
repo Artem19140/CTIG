@@ -126,6 +126,14 @@ class Attempt extends Model
         return $query->where('created_at', '<', $date);
     }
 
+    public function scopeStatusUnchecked(Builder $query){
+        return $query->whereIn('status', AttemptStatus::unChecked());
+    }
+
+    public function scopeStatusActive(Builder $query){
+        return $query->where('status', AttemptStatus::Active);
+    }
+
     protected function startedAtLocal(): Attribute{
         return Attribute::get(function () {
             return TimePresenter::forCenter($this->started_at, $this->center);

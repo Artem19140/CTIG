@@ -11,7 +11,6 @@ import { useExamStatus } from '@/composables/useExamStatus';
 import { computed } from 'vue';
 import { Exam } from '@/interfaces/Exam';
 
-
 const props = defineProps<{exam : Exam | null}>()
 
 const emit = defineEmits<{
@@ -22,8 +21,6 @@ const emit = defineEmits<{
 const http = useHttp({
   cancelledReason: ''
 })
-
-
 
 const prompt = usePromptDialog()
 const loadingSnackbar = useLoadingSnackbar()
@@ -70,16 +67,12 @@ const auth = useAuth()
 const modals = useModals()
 const {isFinished, isCancelled, isPending} = useExamStatus(props.exam)
 
-const hasEnrollment  = computed(() => {
-    return Boolean(props.exam?.enrollmentsCount)
-})
-
-const downloadStatementlDisabled  = !isFinished.value || isCancelled.value || !hasEnrollment.value 
-const downloadProtocolDisabled = !isFinished.value || isCancelled.value || !hasEnrollment.value 
-const downloadListDisabled =  !hasEnrollment.value
+const downloadResultslDisabled  = !props.exam?.documentsAvailable.results.available 
+const downloadProtocolDisabled = !props.exam?.documentsAvailable.protocol.available 
+const downloadListDisabled =  !props.exam?.documentsAvailable.list.available
 const editDisabled  = !isPending.value || isCancelled.value 
 const cancelDisabled = !isPending.value || isCancelled.value 
-const downloadCodesDisabled  =  isCancelled.value || !hasEnrollment.value || !(props.exam?.codesAvailable ?? false)
+const downloadCodesDisabled  = !props.exam?.documentsAvailable.codes.available
 </script>
 
 <template>
@@ -99,7 +92,8 @@ const downloadCodesDisabled  =  isCancelled.value || !hasEnrollment.value || !(p
 
       <AppListDropDownItem 
         title="Результаты"
-        :disabled="downloadStatementlDisabled" 
+        :subtitle="props.exam?.documentsAvailable.results.label"
+        :disabled="downloadResultslDisabled" 
         v-if="auth.can([Roles.EXAMINER])"
         @click="() => download('results')" 
       />

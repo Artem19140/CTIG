@@ -6,7 +6,6 @@ import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import { ref } from 'vue';
 import ExamCapacityChip from '@/components/Exam/ExamCapacityChip.vue';
-import AppPaginator from '@/components/UI/AppPaginator/AppPaginator.vue';
 import { Paginated } from '@/interfaces/Interfaces';
 import BaseContainer from '@/components/BaseComponents/BaseContainer/BaseContainer.vue';
 import AppBorderedButton from '@/components/UI/AppBorderedButton/AppBorderedButton.vue';
@@ -33,7 +32,9 @@ const headers = [
 const open = (event:Event, {item} : any) => {
     router.visit(`/exams/${item.id}/monitoring`,{})
 }
+
 const loading=ref<boolean>(false)
+
 const getPastExams = () =>{
     loading.value = true
     past.value = !past.value
@@ -79,15 +80,6 @@ const getPastExams = () =>{
             <template #item.beginTime="{ item }">
                 {{ new DateFormatter(item.beginTime).format('H:i, d.m.Y') }}
             </template>
-            
-            <template #bottom>
-                <AppPaginator
-                    :meta="exams.meta"
-                    :links="exams.links"
-                    v-model="loading"
-                />
-            </template>
-            
         </BasePaginatedTable>
     </BaseContainer>
 </template>

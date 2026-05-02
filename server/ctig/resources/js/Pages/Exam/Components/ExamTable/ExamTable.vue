@@ -11,7 +11,6 @@ import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import ExamCapacityChip from '@/components/Exam/ExamCapacityChip.vue';
 import { ref } from 'vue';
-import AppPaginator from '@/components/UI/AppPaginator/AppPaginator.vue';
 import { ExamIndex } from '@/interfaces/Exam';
 
 const props = defineProps<{
@@ -19,11 +18,11 @@ const props = defineProps<{
 }>()
 
 const headers = [
-        {title : "Название",sortable: false, key: 'shortName', align: 'center' },
-        {title : "Дата",sortable: false, key: 'beginTime', align: 'center' },
-        {title : "Запись",sortable: false, key: 'foreignNationalsCount', align: 'center' },
-        {title : "Статус",sortable: false, key: 'status', align: 'center' },
-    ]
+    {title : "Название",sortable: false, key: 'shortName', align: 'center' },
+    {title : "Дата",sortable: false, key: 'beginTime', align: 'center' },
+    {title : "Запись",sortable: false, key: 'foreignNationalsCount', align: 'center' },
+    {title : "Статус",sortable: false, key: 'status', align: 'center' },
+]
 const {open} = useModals()
 
 const openModal = (item :any) => {
@@ -34,7 +33,6 @@ const loading = ref<boolean>(false)
 </script>
 
 <template>
-    
     <BasePaginatedTable
         :headers="headers"
         :elements="exams"
@@ -64,13 +62,6 @@ const loading = ref<boolean>(false)
         <template #item.status="{ item }">
             <ExamStatusChip 
                 :status="item.status"
-            />
-        </template>
-        <template #bottom>
-            <AppPaginator
-                :meta="exams.meta"
-                :links="exams.links"
-                v-model="loading"
             />
         </template>
     </BasePaginatedTable>

@@ -40,7 +40,7 @@ class ExamGuard{
 
     public function ensureAllAttemptsChecked(Exam $exam, string | null $message = null){
         $attemptsNotChecked = $exam->attempts()
-            ->whereIn('status', AttemptStatus::unChecked())
+            ->statusUnchecked()
             ->exists();
 
         if($attemptsNotChecked){

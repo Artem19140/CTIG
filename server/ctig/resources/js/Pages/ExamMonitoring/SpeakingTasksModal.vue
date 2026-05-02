@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import BaseDialog from '@/components/BaseComponents/BaseDialog/BaseDialog.vue';
 import { computed, onMounted, ref } from 'vue';
-import TasksList from '../Attempt/Components/tasks/TasksList.vue';
+import TasksList from '@pages/Attempt/Components/tasks/TasksList.vue';
 import { router, useHttp } from '@inertiajs/vue3';
 import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import BaseEmptyState from '@/components/BaseComponents/BaseEmptyState/BaseEmptyState.vue';

@@ -13,7 +13,8 @@ const props = defineProps<{
         last:string | null,
         prev:string | null,
         next:string
-    }
+    },
+    loading:boolean
 }>()
 
 const loading = defineModel<boolean>({default:false})

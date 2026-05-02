@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Exam;
 
 use App\Domain\Exam\Resolver\ExamStatusResolver;
+use App\Domain\ExamDocument\ExamDocumentAvailableResolver;
 use App\Http\Resources\Attempt\AttemptResource;
 use App\Http\Resources\Enrollment\EnrollmentResource;
 use App\Http\Resources\User\UserResource;
@@ -40,7 +41,8 @@ class ExamResource extends JsonResource
             'attempts' => AttemptResource::collection( $this->whenLoaded('attempts')),
             'tasksCount' => $this->whenLoaded('type', fn () => $this->type->tasks_count),
             'status' => app(ExamStatusResolver::class)->execute($this->resource),
-            'codesAvailable' => $this->canGenerateCodes()
+            'codesAvailable' => $this->canGenerateCodes(),
+            'documentsAvailable' => app(ExamDocumentAvailableResolver::class)->resolve($this->resource)
         ];
     }
 }

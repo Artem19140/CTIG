@@ -38,7 +38,7 @@ const openExam = (nativeEvent : Event, { event } :any) => {
 }
 
 const getColor = (event : ExamCalendar) => {
-  return examStatus(event).color
+  return examStatus(event.status).color
 }
 
 const prev = () => {
@@ -52,13 +52,13 @@ const next = () => {
 function getEvents ({ start, end } :any) {
   loading.value=true
   router.reload({
-      data: {
-        dateFrom: start.date,
-        dateTo:end.date
-      },
-      onFinish:()=>{
-        loading.value=false
-      }
+    data: {
+      dateFrom: start.date,
+      dateTo:end.date
+    },
+    onFinish:()=>{
+      loading.value=false
+    }
   })
 }
 const addExam = (nativeEvent : Event, { date } : any) => {

@@ -35,10 +35,10 @@ const editting = ref<boolean>(false)
 const editHttp = useHttp<{comment:string}, {data:Violation}>({
     comment:props.violation.comment
 })
-const editViolation = async () => {
 
+const editViolation = async () => {
     editHttp.patch(`/attempts/${props.attempt.id}/violations/${props.violation.id}`,{
-        onSuccess(response, httpResponse) {
+        onSuccess(response) {
             emit('edit', response.data)
             editting.value = false
         },

@@ -89,7 +89,7 @@ class RvpSeeder extends Seeder
     public function examBlocks(){
         return [  
                 $this->russianBlock(),
-                // $this->historyBlock(),
+                $this->historyBlock(),
                 // $this->legislationBlock()
         ];
     }
@@ -269,7 +269,13 @@ class RvpSeeder extends Seeder
                     'type' => TaskType::SingleChoice,
                     'description' => '',
                     'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task10.json')), true)
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task20.json')), true)
+                ],
+                [
+                    'type' => TaskType::SingleChoice,
+                    'description' => '',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task21.json')), true)
                 ],
             ]
         ];
@@ -284,7 +290,12 @@ class RvpSeeder extends Seeder
                     'name' => '',
                     'min_mark'=> 0,
                     'tasks' => [
-
+                        [
+                            'type' => TaskType::SingleChoice,
+                            'description' => '',
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task22.json')), true)
+                        ],
                     ]
                 ]
             ]

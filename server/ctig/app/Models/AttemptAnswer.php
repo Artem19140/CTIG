@@ -48,7 +48,7 @@ class AttemptAnswer extends Model
     }
 
     public function scopeNotChecked(Builder $query){
-        return $query->where('is_checked', false);
+        return $query->whereNull('mark');
     }
 
 }

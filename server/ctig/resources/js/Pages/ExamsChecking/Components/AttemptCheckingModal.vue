@@ -17,7 +17,7 @@ const props = defineProps<{
 
 const attempt = ref<Attempt | null>(null)
 
-const http = useHttp()
+
 
 const scrollToTask = (id: number) => {
   const el = document.getElementById(`task-${id}`)
@@ -34,6 +34,8 @@ const update = (value:AttemptAnswer) => {
     if(!task) return
     task.attemptAnswer = value
 }
+
+const http = useHttp()
 
 const getAttemptTasks = () => {
     http.get(`/attempts/${props.attemptId}/checking/tasks`,{

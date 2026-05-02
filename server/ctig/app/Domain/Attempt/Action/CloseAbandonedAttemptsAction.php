@@ -8,28 +8,30 @@ use Carbon\Carbon;
 
 class CloseAbandonedAttemptsAction{
     public function __construct(
-        protected FinilizeAttemptCheckingAction $finilizeAttemptCheckingAction,
-        protected ZeroEmptyAutoCheckAnswersAction $zeroEmptyAutoAnswersAction
+        protected FinilizeAttemptCheckingAction $finilizeAttemptCheckingAction
     ){}
     public function execute():void{
         $now = Carbon::now();
         
-        $attemtps = Attempt::where('expired_at', '<=', $now)
-            ->whereIn('status', AttemptStatus::abandoned())
-            ->get();
-        if($attemtps->isEmpty()){
-            return;
-        }
-        foreach($attemtps as $attempt){
-            $this->close($attempt);
-        }
+        Attempt::where('expired_at', '<=', $now)
+            ->with(['exam.type'])
+            ->where('status', AttemptStatus::Active)
+            ->get()
+            ->each(function($attempt){
+                $this->close($attempt);
+            });
     }
 
     protected function close(Attempt $attempt){
-        $this->zeroEmptyAutoAnswersAction->execute($attempt);
-        if(!$attempt->hasUncheckedAnswers()){
-            $attempt->finished_at = $attempt->last_activity_at ?? $attempt->expired_at;
+        if ($attempt->finished_at !== null) {
+            return;
+        }
+        $attempt->finished_at = $attempt->last_activity_at;
+        if ($attempt->canBeAutomaticallyFinalized()) {
             $this->finilizeAttemptCheckingAction->execute($attempt);
+        } else {
+            $attempt->status = AttemptStatus::Finished;
+            $attempt->save();
         }
     }
 }

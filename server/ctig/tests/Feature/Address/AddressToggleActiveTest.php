@@ -7,7 +7,6 @@ use App\Models\User;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AddressToggleActiveTest extends TestCase
@@ -30,11 +29,15 @@ class AddressToggleActiveTest extends TestCase
     }
     public function test_success(): void
     {
-        $address = Address::factory()->create();
+        $this->withoutExceptionHandling();
+        $address = Address::factory()->notActive()->create();
         $response = $this
             ->actingAs($this->user)
-            ->patchJson(route('addresses.toggle.active', ['address'=> $address]));
-
+            ->patchJson(route('addresses.toggle.activity', ['address'=> $address]),[
+                'active' => !$address->is_active
+            ]);
         $response->assertStatus(204);
+        $this->assertFalse($address->is_active);
     }
+
 }

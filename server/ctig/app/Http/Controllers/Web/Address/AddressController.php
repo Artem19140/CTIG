@@ -52,9 +52,9 @@ class AddressController
         return response()->json(new AddressResource($address));
     }
     
-    public function toggleActive(Address $address){
-        //Только лишь org_admin
-        $address->is_active = !$address->is_active;
+    public function toggleActive(Request $request, Address $address){
+        $request->validate(['active' => 'required', 'boolean']);
+        $address->is_active = $request->input('active');
         $address->save();
         return response()->noContent();
     }

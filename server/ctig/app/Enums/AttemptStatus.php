@@ -32,7 +32,7 @@ enum AttemptStatus:string
         ];
     }
 
-    public static function abandoned(): array{
+    public static function notFinished(): array{
         return [
             self::Pending,
             self::Active

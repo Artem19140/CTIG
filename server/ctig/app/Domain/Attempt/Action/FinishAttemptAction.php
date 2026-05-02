@@ -12,7 +12,6 @@ use App\Domain\Attempt\Guard\AttemptGuard;
 class FinishAttemptAction{
     public function __construct(
         protected AttemptGuard $attemptGuard,
-        protected ZeroEmptyAutoCheckAnswersAction $zeroEmptyAutoAnswers,
         protected CheckPassingThresholdAction $checkPassingThreshold,
         protected FinilizeAttemptCheckingAction $finilizeAttemptCheckingAction
     ){}

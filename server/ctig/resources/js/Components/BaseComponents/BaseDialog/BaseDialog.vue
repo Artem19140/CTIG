@@ -81,7 +81,7 @@ const close = () => {
             </v-card-text>
             
 
-            <v-card-actions v-if="!loading" class="sticky-bottom">
+            <v-card-actions class="sticky-bottom">
                 <slot name="actions" :close="close" />
                 <v-btn 
                     @click="close"

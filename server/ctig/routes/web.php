@@ -80,7 +80,7 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
 
         Route::post('{attempt}/checking/finish', [AttemptCheckingController::class, 'finish'])->name('attempts.checking.finish');
 
-        Route::get('{attempt}/tasks/speaking', [AttemptCheckingController::class, 'show'])->name('attempts.speaking.tasks');
+        //Route::get('{attempt}/tasks/speaking', [AttemptCheckingController::class, 'show'])->name('attempts.speaking.tasks');
 
         Route::get('{attempt}/speaking', [AttemptSpeakingController::class, 'show'])->name('attempts.speaking');
         Route::post('{attempt}/speaking/finish', [AttemptSpeakingController::class, 'finish'])->name('attempts.speaking.finish');
@@ -114,7 +114,7 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
     Route::put('centers/{center}', [CenterController::class, "update"]);
     Route::put('centers/{center}/addresses', [AddressController::class, "update"]);
 
-    Route::patch('addresses/{address}/active', [AddressController::class, "toggleActive"])->name('addresses.toggle.active');
+    Route::patch('addresses/{address}/activity', [AddressController::class, "toggleActive"])->name('addresses.toggle.activity');
     Route::patch('addresses/{address}', [AddressController::class, "update"])->name('addresses.update');
 
     Route::post('addresses', [AddressController::class, "store"])->name('addresses.store');

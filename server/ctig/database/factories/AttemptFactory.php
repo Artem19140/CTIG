@@ -7,6 +7,7 @@ use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\Center;
 use App\Models\ForeignNational;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -26,18 +27,47 @@ class AttemptFactory extends Factory
             'exam_id' =>Exam::factory(),
             'total_mark' =>  fake()->numberBetween(5, 20),
             'started_at'=>now(),
-            'center_id' => Center::inRandomOrder()->first()->id,
-            'enrollment_id' => Enrollment::factory()->create()
+            'center_id' => Center::factory(),
+            'enrollment_id' => Enrollment::factory()
         ];
     }
 
-    public function status(AttemptStatus $status){
-        return $this->state(function () use($status){
+    public function acive(){
+        return $this->state(function (){
             return[
-                'status'=> $status
+                'status'=> AttemptStatus::Active,
+                'last_activity_at' => Carbon::now()
             ];
         });
     }
+
+    public function finished(){
+        return $this->state(function (){
+            return[
+                'status'=> AttemptStatus::Finished,
+                'finished_at' => Carbon::now(),
+                'last_activity_at' => Carbon::now()
+            ];
+        });
+    }
+
+    public function expired(){
+        return $this->state(function (){
+            return[
+               'expired_at' => now()->subMinutes(80),
+            ];
+        });
+    }
+
+    public function notExpired(){
+        return $this->state(function (){
+            return[
+               'expired_at' => now()->addMinutes(80),
+            ];
+        });
+    }
+
+
 
     public function checked(){
         return $this->state(function (){

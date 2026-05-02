@@ -107,7 +107,7 @@ class Attempt extends Model
     }
 
     public function canBeAutomaticallyFinalized():bool{
-        return $this->exam->type->need_human_check;
+        return !$this->exam->type->need_human_check;
     }
 
     public function taskVariants():BelongsToMany{

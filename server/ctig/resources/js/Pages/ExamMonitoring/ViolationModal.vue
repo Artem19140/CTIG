@@ -7,6 +7,7 @@ import ViolatonListItem from './ViolatonListItem.vue';
 import ViolationForm from './ViolationForm.vue';
 import { Enrollment } from '@/interfaces/Enrollment';
 import { Violation } from '@/interfaces/Violation';
+import BaseEmptyState from '@/components/BaseComponents/BaseEmptyState/BaseEmptyState.vue';
 
 const props = defineProps<{
     enrollment:Enrollment
@@ -110,7 +111,7 @@ const editViolation = (updatedViolation: Violation) => {
             </v-list>
         </v-card>
 
-        <v-empty-state
+        <BaseEmptyState
             v-if="!violationsExists && !adding"
             action-text="Добавить"
             icon="mdi-clipboard-text-off-outline"

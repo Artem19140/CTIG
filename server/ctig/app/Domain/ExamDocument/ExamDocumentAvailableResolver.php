@@ -112,7 +112,7 @@ class ExamDocumentAvailableResolver
     }
 
     protected function hasNoAttempts(Exam $exam){
-        return $exam->has_attempts;
+        return !$exam->has_attempts;
     }
 
     protected function hasUncheckedAttemtps(Exam $exam){

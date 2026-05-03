@@ -6,6 +6,6 @@
     <v-empty-state
 
     >
-    
+        <slot />
     </v-empty-state>
 </template>

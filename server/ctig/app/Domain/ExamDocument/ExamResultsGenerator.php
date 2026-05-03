@@ -5,6 +5,7 @@ namespace App\Domain\ExamDocument;
 use App\Models\Attempt;
 use App\Models\Exam;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ExamResultsGenerator{
@@ -36,7 +37,7 @@ class ExamResultsGenerator{
         ]);   
     }
 
-    protected function getHeadersStatement(Exam $exam){
+    protected function getHeadersStatement(Exam $exam):Collection{
         return $exam->type->blocks->map(function($block){
             return [
                 'id' => $block->id,
@@ -51,7 +52,7 @@ class ExamResultsGenerator{
         });  
     }
 
-    protected function getRowsStatement(Exam $exam){
+    protected function getRowsStatement(Exam $exam):Collection{
         $subblocks = $exam->type->blocks
             ->sortBy('order')
             ->flatMap(fn ($b) => $b->subblocks->sortBy('order'));
@@ -78,7 +79,7 @@ class ExamResultsGenerator{
         });
     }
 
-    protected function getAttemptResultStatus(Attempt | null $attempt){
+    protected function getAttemptResultStatus(Attempt | null $attempt):string{
         if(!$attempt){
             return 'н/я';
         }
@@ -89,7 +90,7 @@ class ExamResultsGenerator{
         return $attempt->is_passed ? 'Сертификат' : 'Справка';
     }
 
-    protected function getRowsMarksTable(Exam $exam){
+    protected function getRowsMarksTable(Exam $exam):Collection{
         return $exam->enrollments->map(function($enrollment){
             return [
                 'fullName' => $enrollment->foreignNational->full_name,

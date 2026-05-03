@@ -6,9 +6,9 @@ import CenterData from './Components/Data/CenterData.vue';
 import EmployeesTable from './Components/Employees/EmployeesTable.vue';
 import { router } from '@inertiajs/vue3';
 import { useAuth } from '@/composables/useAuth';
-import AddressesTable from './Components/Addresses/AddressesTable.vue';
 import { Employee } from '@/interfaces/Employee';
 import { Address } from '@/interfaces/Address';
+import AddressesList from './Components/Addresses/AddressesList.vue';
 
 defineOptions({
   layout: [EmployeeLayout],
@@ -59,7 +59,7 @@ const visit = (route : string) => {
             </v-tabs-window-item>
 
             <v-tabs-window-item value="addresses" v-if="addresses">
-                <AddressesTable :addresses="addresses.data" />
+                <AddressesList :addresses="addresses.data" />
             </v-tabs-window-item>
         </v-tabs-window>
     </BaseContainer>

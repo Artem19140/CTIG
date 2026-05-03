@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { Attempt } from '@/interfaces/Interfaces';
 import { Task } from '@/interfaces/Task';
 import { useHttp } from '@inertiajs/vue3';
 import { computed, ref } from 'vue'
 import { useAttempt } from '@/composables/useAttempt';
 import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
+import { Attempt } from '@/interfaces/Attempt';
 
 const props = defineProps<{ 
     value: string 

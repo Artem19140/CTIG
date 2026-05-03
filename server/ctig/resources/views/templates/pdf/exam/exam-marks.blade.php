@@ -37,7 +37,7 @@
 
         @if ($row['answers'])
             @foreach ( $row['answers'] as $answer)
-                <td class="border">{{ $answer->mark }}</td>
+                <td class="border">{{ $answer->mark ?? 0}}</td>
             @endforeach                
         @endif
        @if ($row['answers'] === null)
@@ -50,11 +50,21 @@
 
     </tbody>
 </table>
-<div class="text-small">Результаты экзамена проверены.</div>
-<div class="text-small">Ответственные по проведению экзамена (тесторы):</div>
+<div class="text-small" style="margin-top:10px; margin-bottom:10px;">Результаты экзамена проверены.</div>
+<div class="text-small" style=" margin-bottom:10px;">Ответственные по проведению экзамена (тесторы):</div>
 @foreach($exam->examiners as $examiner)
     @include('templates.components.signature-section', [
-                'date' =>  \Carbon\Carbon::now()->format('d.m.Y'), 
-                'fio' => $examiner->full_name, 
-            ])
+        'date' =>  \Carbon\Carbon::now()->format('d.m.Y'), 
+        'fio' => $examiner->full_name, 
+    ])
 @endforeach
+
+@if ($exam->hasSpeaking())
+    <div class="text-small" style="margin-top:10px;">
+        Председатель комиссии:
+    </div>
+    @include('templates.components.signature-section', [
+        'date' =>  \Carbon\Carbon::now()->format('d.m.Y'), 
+        'fio' => $exam->center->commission_chairman, 
+    ])
+@endif

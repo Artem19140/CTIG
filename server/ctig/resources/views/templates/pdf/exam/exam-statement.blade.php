@@ -4,7 +4,7 @@
 </div>
 
 <div class="center text-small">
-     Экзамен на уровень {{ $exam->type->level }} - Сертификат о владении русским языком, знании истории России и основ законодательства Российской Федерации на уровне, 
+    Экзамен на уровень {{ $exam->type->level }} - Сертификат о владении русским языком, знании истории России и основ законодательства Российской Федерации на уровне, 
     соответствующем цели получения {{ $exam->type->certificate_name }}
 </div>
 
@@ -58,11 +58,21 @@
         
     </tbody>
 </table>
-<div class="text-small">Результаты экзамена проверены.</div>
+<div class="text-small" style="margin-top:10px; margin-bottom:10px;">Результаты экзамена проверены.</div>
 <div class="text-small">Ответственные по проведению экзамена (тесторы):</div>
 @foreach($exam->examiners as $examiner)
     @include('templates.components.signature-section', [
-                'date' =>  \Carbon\Carbon::now()->format('d.m.Y'), 
-                'fio' => $examiner->full_name, 
-            ])
+        'date' =>  \Carbon\Carbon::now()->format('d.m.Y'), 
+        'fio' => $examiner->full_name, 
+    ])
 @endforeach
+
+@if ($exam->hasSpeaking())
+    <div class="text-small" style="margin-top:10px;">
+        Председатель комиссии:
+    </div>
+    @include('templates.components.signature-section', [
+        'date' =>  \Carbon\Carbon::now()->format('d.m.Y'), 
+        'fio' => $exam->center->commission_chairman, 
+    ])
+@endif

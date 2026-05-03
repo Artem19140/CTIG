@@ -2,7 +2,6 @@
 
 namespace App\Domain\Exam\Query;
 
-use App\Enums\AttemptStatus;
 use App\Models\Exam;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;

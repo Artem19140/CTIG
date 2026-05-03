@@ -4,8 +4,8 @@ import { ref, watch } from 'vue';
 import BaseTask from './BaseTask.vue';
 import RenderBlocks from './TaskContentBlocks/RenderBlocks.vue';
 import { Task } from '@/interfaces/Task';
-import { Attempt } from '@/interfaces/Interfaces';
 import { useAttempt } from '@/composables/useAttempt';
+import { Attempt } from '@/interfaces/Attempt';
 
 const props = defineProps<{
     task:Task,
@@ -68,6 +68,7 @@ watch(attemptAnswer, () => {
                         v-for="answer in props.task.answers"
                         :key="answer?.id"
                         :value="answer?.id"
+                        :readonly="checking"
                     >
                         <template #label>
                             <div class="">

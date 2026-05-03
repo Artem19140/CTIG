@@ -3,8 +3,8 @@ import { useHttp } from '@inertiajs/vue3';
 import AppInput from '@components/UI/AppInput/AppInput.vue';
 import BaseTask from './BaseTask.vue';
 import { ref, watch } from 'vue';
-import { Attempt } from '@/interfaces/Interfaces';
 import { useAttempt } from '@/composables/useAttempt';
+import { Attempt } from '@/interfaces/Attempt';
 
 const props = defineProps<{
     task:any,

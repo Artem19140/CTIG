@@ -45,7 +45,7 @@ const finish = async () => {
         </template>
         <v-container class="flex flex-column gap-10 items-center">
             {{ audioPlaying }}
-            <TasksList :attempt="examAttempt" />
+            <TasksList v-if="examAttempt" :attempt="examAttempt" />
             <v-btn
                 @click="finish"
                 variant="flat"

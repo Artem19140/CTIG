@@ -28,20 +28,12 @@ class ExamDocumentAvailable{
 
     public function protocol(Exam $exam){
         $this->examGuard->ensureNotCancelled($exam);
-        $this->examGuard->ensureFinished($exam);
         $this->examEnrollmentGuard->ensureEnrollmentsExists($exam);
-    }
-
-    public function statement(Exam $exam){
-        $this->examGuard->ensureNotCancelled($exam);
-        $this->examGuard->ensureFinished($exam);
-        $this->examEnrollmentGuard->ensureEnrollmentsExists($exam);
-        $this->examGuard->ensureAllAttemptsChecked($exam);
+        //Что попытки проверены и оценены
     }
 
     public function results(Exam $exam){
         $this->examGuard->ensureNotCancelled($exam);
-        $this->examGuard->ensureFinished($exam);
         $this->examEnrollmentGuard->ensureEnrollmentsExists($exam);
         $this->examGuard->ensureAllAttemptsChecked($exam);
     }

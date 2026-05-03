@@ -9,7 +9,6 @@ use App\Models\Exam;
 use App\Models\ExamType;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CloseAbandonedAttemptsTest extends TestCase

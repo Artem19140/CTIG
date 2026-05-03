@@ -19,7 +19,9 @@ class ExamCheckingController
     }
 
     public function show(Exam $exam){
-
+        if(!$exam->type->need_human_check){
+            abort(403);
+        }
         $exam->load([
             'type',
             'enrollments' => function(HasMany $query){

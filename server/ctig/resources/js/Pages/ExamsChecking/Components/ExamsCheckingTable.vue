@@ -32,7 +32,7 @@ const loading = ref<boolean>(false)
         <template #toolbar-left>
             <AppTooltip  
             >
-                <div>Здесь будут экзамены, требующие ручной проверки(РВП, ВНЖ)</div>
+                <div>Здесь будут экзамены, требующие ручной проверки (РВП, ВНЖ)</div>
                 <div>После ПОЛНОЙ проверки экзамен исчезнет из списка</div>
             </AppTooltip>
         </template>

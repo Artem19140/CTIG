@@ -13,21 +13,21 @@ class GetAvailableExamsQuery{
     public function execute(int  $examTypeId, int | null $foreignNationalId):Collection{
         $enrollmentCloseBeforeMinutes = Enrollment::CLOSE_BEFORE_START_MINUTES;
         $exams = Exam::select('id', 'begin_time', 'center_id')
-                    ->withCount('foreignNationals')
-                    ->with(['center'])
-                    ->where('exam_type_id',$examTypeId)
-                    ->notCancelled()
-                    ->whereBeginTimeMore(Carbon::now()->addMinutes($enrollmentCloseBeforeMinutes))
-                    ->when($foreignNationalId, function (Builder $query) use ($foreignNationalId){
-                        $query->whereDoesntHave('foreignNationals', function (Builder $q) use($foreignNationalId){
-                            $q->where('foreign_national_id',$foreignNationalId);
-                        });
-                    })
-                    ->whereHas('foreignNationals', function ($q) {
-                    }, '<', DB::raw('exams.capacity'))
-                    ->orderBy('begin_time') 
-                    ->limit(10)
-                    ->get();
+            ->withCount('enrollments')
+            ->with(['center'])
+            ->where('exam_type_id',$examTypeId)
+            ->notCancelled()
+            ->whereBeginTimeMore(Carbon::now()->addMinutes($enrollmentCloseBeforeMinutes))
+            ->when($foreignNationalId, function (Builder $query) use ($foreignNationalId){
+                $query->whereDoesntHave('enrollments', function (Builder $q) use($foreignNationalId){
+                    $q->where('foreign_national_id',$foreignNationalId);
+                });
+            })
+            ->whereHas('enrollments', function (Builder $q) {
+            }, '<', DB::raw('exams.capacity'))
+            ->orderBy('begin_time') 
+            ->limit(10)
+            ->get();
         return $exams;
     }
 }

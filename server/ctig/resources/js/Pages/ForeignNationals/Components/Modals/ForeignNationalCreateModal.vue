@@ -110,9 +110,6 @@ const  reset = ()  =>  {
                 <v-card title="Экзамен" class="mb-4" >
                     <v-card-text>
                         <v-container>
-                            <v-col cols="12" class="subtitle mb-4">
-                                Выберите экзамен для записи
-                            </v-col>
                             <ExamEnrollment 
                                 v-model:exam-id="http.examId"
                                 v-model:has-payment="http.hasPayment"

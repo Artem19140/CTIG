@@ -4,6 +4,7 @@ import AppAutocomplete from '@components/UI/AppAutocomplete/AppAutocomplete.vue'
 import {useHttp} from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
 import AppCheckbox from '../UI/AppCheckbox/AppCheckbox.vue';
+import AppTooltip from '../UI/AppTooltip/AppTooltip.vue';
 
 const page = usePage()
 
@@ -39,6 +40,12 @@ watch(() => http.examTypeId, async () => {
 </script>
 
 <template>
+  <div class="mb-3">
+    Выберите экзамен для записи
+    <AppTooltip 
+      text="Запись закрывается за 10 минут до начала экзамена"
+    />
+  </div>
   <AppAutocomplete
     v-model="http.examTypeId"
     :items="examsTypes"
@@ -62,7 +69,4 @@ watch(() => http.examTypeId, async () => {
     v-model="hasPayment" 
     label="Есть оплата"
   ></AppCheckbox>
-  <div class="text-caption text-medium-emphasis mt-2">
-      Запись закрывается за 10 минут до начала экзамена
-  </div>
 </template>

@@ -8,6 +8,7 @@ import countries from '@data/countries.json'
 import AppOptionalInput from '@/components/UI/AppOptionalInput/AppOptionalInput.vue';
 import AppDateInput from '@/components/UI/AppDateInput/AppDateInput.vue';
 import { ForeignNationalFormI } from '@/interfaces/ForeignNational';
+import AppTooltip from '@/components/UI/AppTooltip/AppTooltip.vue';
 
 const props = defineProps<{
     mode?:string,
@@ -261,12 +262,15 @@ function required (v:any) {
         </v-card-text>
     </v-card>
 
-    <v-card title="Дополнительная информация" class="mb-4" variant="flat" >
+    <v-card class="mb-4" variant="flat" >
+        <v-card-title>
+            Дополнительная информация
+            <AppTooltip
+                text="например, лицо с ограниченными возможностями здоровья"
+            />
+        </v-card-title>
         <v-card-text>
             <v-container fluid>
-                <v-row class="subtitle mb-4">
-                    (например, лицо с ограниченными возможностями здоровья)
-                </v-row>
                 <v-row>
                     <AppTextarea
                         label="Введите комментарий"

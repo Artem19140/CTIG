@@ -50,7 +50,6 @@ onMounted(() => {
         marks.value.push(i)
     }
 })
-
 </script>
 
 <template>

@@ -18,12 +18,11 @@ const http = useHttp<{}, {data:ForeignNational}>()
 const isOpen = defineModel<boolean>({default:false})
 const foreignNational = ref<ForeignNational | null>(null)
 
-
 const getForeignNational = async () => {
     http.get(`/foreign-nationals/${props.foreignNationalId}`,{
         onSuccess:(response)=>{
             foreignNational.value = response.data
-        },
+        }
     })
 }
 
@@ -57,6 +56,7 @@ const getCountryTitle = (value:string | null) => {
 </script>
 
 <template>
+    
     <BaseDialog 
         width="700"
         height="900"
@@ -68,6 +68,7 @@ const getCountryTitle = (value:string | null) => {
         @before-close="(done) => done()"
         skeleton="paragraph,divider, paragraph, divider, list-item-two-line, divider"
     >
+    
         <template #titleActions>
             <ForeignNationalActionsDropdown 
                 :foreignNational="foreignNational"

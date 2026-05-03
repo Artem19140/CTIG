@@ -80,9 +80,6 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
         Route::get('{attempt}/checking/tasks', [AttemptCheckingController::class, 'show'])->name('attempts.checking.tasks');
 
         Route::post('{attempt}/checking/finish', [AttemptCheckingController::class, 'finish'])->name('attempts.checking.finish');
-
-        //Route::get('{attempt}/tasks/speaking', [AttemptCheckingController::class, 'show'])->name('attempts.speaking.tasks');
-
         Route::get('{attempt}/speaking', [AttemptSpeakingController::class, 'show'])->name('attempts.speaking');
         Route::post('{attempt}/speaking/finish', [AttemptSpeakingController::class, 'finish'])->name('attempts.speaking.finish');
         Route::post('{attempt}/speaking/start', [AttemptSpeakingController::class, 'start'])->name('attempts.speaking.start');
@@ -98,7 +95,6 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
     Route::post('password/change', [LoginController::class, 'changePassword'])->withoutMiddleware(['password.change']);;
     Route::inertia('password/change', 'Auth/ChangePassword')->name('password.change')->withoutMiddleware(['password.change']);;
 
-    
     Route::prefix('reports')->group(function(){
         Route::get('frdo', [ReportController::class, "frdo"])->name('reports.frdo');
         Route::get('frdo/available', [ReportController::class, "availableFrdo"])->name('reports.frdo.available');
@@ -108,7 +104,6 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
         Route::get('ministry-education', [ReportController::class, "ministryEducationReport"])->name('reports.ministry-education');
     });
     
-
     Route::get('centers/{center}', [CenterController::class, "show"]);
     Route::get('centers/{center}/employees', [UserController::class, "index"]);
     Route::get('centers/{center}/addresses', [AddressController::class, "index"]);
@@ -136,7 +131,6 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
         Route::inertia('/exams/schedule', 'Instruction/ExamScheduleInstruction')->name('instruction.exams.schedule');
     });
     
-
     Route::get('roles',  [UserController::class, "rolesShow"]);
 
    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
@@ -145,13 +139,14 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
 Route::middleware('guest')->group(function (){
     Route::inertia('login', 'Auth/Login')->name('login');
     Route::post('login', [LoginController::class, 'login']);
-    Route::post( 'exam-codes/verify', [ExamController::class, 'verifyCode']);
+    Route::post('exam-codes/verify', [ExamController::class, 'verifyCode']);
 });
 
 Route::middleware('auth:foreignNationals')->group(function (){
     Route::prefix('attempts')->group(function(){
         Route::put('{attempt}/finish', [AttemptController::class, 'finish'])
             ->can('attempt-access', 'attempt');
+            
         Route::get('{attempt}/before', [AttemptController::class, 'before'])->name('attempts.before')
             ->can('attempt-access', 'attempt');
 

@@ -6,6 +6,7 @@ import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import ExamCreateForm from './ExamCreateForm.vue';
 import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
 import { ExamForm } from '@/interfaces/Exam';
+import AppTooltip from '@/components/UI/AppTooltip/AppTooltip.vue';
 
 const props = defineProps<{
     date?:string
@@ -50,11 +51,18 @@ const beforeClose = async (fn:  ()  => void) => {
 
 <template>
     <BaseDialog 
-        title="Добавление экзамена"
         width="500"
         v-model="isOpen"
         @before-close="(done) => beforeClose(done)"
     >
+    <template #title>
+        <div class="flex gap-2">
+            Добавление экзамена
+            <AppTooltip 
+                text="Создать экзамен возможно минимум за 3 часа до его начала"
+            />
+        </div>
+    </template>
     <ExamCreateForm :form="http" />
         <template #actions >
             <AppAddButton  

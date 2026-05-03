@@ -18,6 +18,12 @@
             <th colspan="2">
                 Время экзамена
             </th>
+            @if ($exam->hasSpeaking())
+                <th colspan="2">
+                    Время устной части
+                </th>
+            @endif
+            
             @foreach ($statementTable['headers'] as $block)
                 <th colspan="{{ count($block['subblocks']) }}">
                     {{ $block['name'] }}
@@ -33,6 +39,14 @@
             <th>
                 Конца
             </th>
+            @if ($exam->hasSpeaking())
+                <th>
+                    Начала
+                </th>
+                <th>
+                    Конца
+                </th>
+            @endif
             @foreach ($statementTable['headers'] as $block)
                 @foreach ($block['subblocks'] as $subblock)
                     <th>{{ $subblock['name'] }}</th>
@@ -46,7 +60,9 @@
             <td >{{ $row['fullName'] }}</td>
             <td>{{ $row['fullPassport'] }}</td>
             <td>{{ $row['startedAt'] ?? ''}}</td>
-            <td>{{ $row['finishedAt']  ?? ''}}</td>    
+            <td>{{ $row['finishedAt']  ?? ''}}</td> 
+            <td>{{ $row['speakingStartedAt'] ?? ''}}</td>
+            <td>{{ $row['speakingfinishedAt']  ?? ''}}</td>   
             @foreach ($row['subblockMarks'] as $marks)
                 <td>{{ $marks['sum'] !== null ? $marks['sum'] : ''}}</td>   
             @endforeach

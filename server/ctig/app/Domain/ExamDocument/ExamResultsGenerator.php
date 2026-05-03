@@ -64,13 +64,17 @@ class ExamResultsGenerator{
             $answersBySubblock = $answers->groupBy(function ($a) {
                 return $a->taskVariant?->task?->subblock_id;
             });
+
             $marksBySubblock = $subblocks->map(function($subblock) use($answersBySubblock){
                 $sum = $answersBySubblock->get($subblock->id)?->sum('mark');
                 return ['sum' =>  $sum];
             });
+
             return [
                 'fullName' => $enrollment->foreignNational->full_name,
                 'fullPassport' => $enrollment->foreignNational->full_passport,
+                'speakingStartedAt' => $attempt?->speaking_started_at?->format('H:i') ?? null,
+                'speakingFinishedAt' => $attempt?->speaking_finished_at?->format('H:i') ?? null,
                 'startedAt' => $attempt?->started_at?->format('H:i') ?? null,
                 'finishedAt' => $attempt?->finished_at?->format('H:i') ?? null,
                 'result' => $this->getAttemptResultStatus($attempt),

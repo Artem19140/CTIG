@@ -13,6 +13,7 @@ import BaseContainer from '@/components/BaseComponents/BaseContainer/BaseContain
 import PaymentIcon from '@/components/Enrollment/PaymentIcon.vue';
 import ExamMonitoringDropdown from './ExamMonitoringDropdown.vue';
 import { ExamMonitoring } from '@/interfaces/Exam';
+import AppTooltip from '@/components/UI/AppTooltip/AppTooltip.vue';
 
 defineOptions({
   layout: [EmployeeLayout]
@@ -24,7 +25,9 @@ const props = defineProps<{
     },
 }>()
 
-const { start, stop } = usePoll(3000, {}, {
+const pollFrequency = 15000
+
+const { start, stop } = usePoll(pollFrequency, {}, {
     autoStart: false,
 })
 
@@ -84,19 +87,29 @@ const back = () => {
                         <ExamStatusChip 
                             :status="exam.data.status" 
                         />
+                        <AppTooltip 
+                            v-if="pollingCanStart"
+                        >
+                            <div >
+                                <div>
+                                Обновления происходят каждые {{pollFrequency / 1000}} секунд
+                                </div>
+                                <div>
+                                При необходимости обновите страницу
+                                </div>
+                            </div>
+                        </AppTooltip>    
+                        
                     </div>
-                    <div>
-                        <ExamMonitoringDropdown :exam="exam.data" />
-                    </div>
+                    <ExamMonitoringDropdown :exam="exam.data" />
                 </div>
             </v-card-title>
 
             <v-card-subtitle >
                 <div>{{ exam.data.shortName }} </div>
                 <div>
-                    {{ new DateFormatter(exam.data?.beginTime).format('H:i') }}
-                    - 
-                    {{ new DateFormatter(exam.data?.endTime).format('H:i, d.m.Y') }}
+                    {{ new DateFormatter(exam.data?.beginTime).format('H:i, d.m.Y') }}
+
                 </div>
             </v-card-subtitle>
 

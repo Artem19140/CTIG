@@ -40,8 +40,8 @@
 зарегистрированный по адресу:
 <div>
     @include('templates.components.labeled-field', [
-                                                    'value' =>  $foreignNational->address_reg ?? ''
-                                                ])
+        'value' =>  $foreignNational->address_reg ?? ''
+    ])
 </div>
 
 <div style="font-size:11px;">

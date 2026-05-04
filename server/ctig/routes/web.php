@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\UserRoles;
 use App\Http\Controllers\Web\Address\AddressController;
 use App\Http\Controllers\Web\Attempt\AttemptCheckingController;
 use App\Http\Controllers\Web\Attempt\AttemptSpeakingController;
@@ -26,22 +27,24 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->group(function(){
-    Route::middleware(['user.has.role:scheduler'])->group(function(){
+    Route::apiResource('foreign-nationals', ForeignNationalController::class)->middleware(['user.has.role:' . UserRoles::Operator->value]);
+
+    Route::prefix('enrollments')->middleware(['user.has.role:' . UserRoles::Operator->value])->group(function(){
         
-    });
-    
-    Route::get('foreign-nationals/export', [ForeignNationalExportController::class, 'export'])->name('foreign-nationals.export');
-    Route::get('foreign-nationals/export/available', [ForeignNationalExportController::class, 'exportAvailable']);
-    Route::apiResource('foreign-nationals', ForeignNationalController::class);
-    Route::apiResource('enrollments', EnrollmentController::class);
-    Route::prefix('enrollments')->group(function(){
-        Route::put('{enrollment}/payment', [EnrollmentController::class, 'changePayment']);
+        Route::apiResource('', EnrollmentController::class);
+        Route::put('{enrollment}/payment', [EnrollmentController::class, 'changePayment'])->name('enrollments.change.payment');
         Route::get('{enrollment}/statements', [EnrollmentDocumentController::class, 'statement'])->name('enrollments.statements');
         
     });
 
-    Route::get('statistics', [StatisticsController::class, 'index']);
+    Route::middleware(['user.has.role:' . UserRoles::Director->value])->group(function() {
+        Route::get('foreign-nationals/export', [ForeignNationalExportController::class, 'export'])->name('foreign-nationals.export');
+        Route::get('foreign-nationals/export/available', [ForeignNationalExportController::class, 'exportAvailable']);
+        Route::get('statistics', [StatisticsController::class, 'index']);
+    });
+    
 
+    Route::apiResource('exams', ExamController::class)->where(['exam' => '[0-9]+']);
     Route::prefix('exams')->group(function(){
         Route::get('available', [ExamEnrollmentController::class, "available"]);
 
@@ -51,51 +54,55 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
         Route::get('types', function(){
             return ExamType::select(['id', 'name'])->get();
         });
-        Route::prefix('{exam}/documents')->group(function(){
-            Route::get('codes', [ExamDocumentController::class, "codes"])->name('exam.documents.codes');
-            Route::get('codes/available', [ExamDocumentController::class, "codesAvailable"])->name('exam.documents.codes.available');
-            Route::get('protocol', [ExamDocumentController::class, "protocol"])->name('exam.documents.protocol');
-            Route::get('protocol/available', [ExamDocumentController::class, "protocolAvailable"]);
-            Route::get('results', [ExamDocumentController::class, 'results'])->name('exam.documents.results');
-            Route::get('results/available', [ExamDocumentController::class, 'resultsAvailable']);
-            Route::get('list', [ExamDocumentController::class, 'list'])->name('exam.documents.list');
-            Route::get('list/available', [ExamDocumentController::class, 'listAvailable']);
+
+        Route::get('create/modal-data', [ExamController::class,'createModalData']);
+        Route::get('schedule', [ExamController::class, 'schedule'])->name('exams.schedule');
+
+        Route::middleware(['user.has.role:' . UserRoles::Examiner->value])->group(function (){
+            Route::get('monitoring', [ExamMonitoringController::class, 'index'])->name('exam.monitoring');
+            Route::get('{exam}/monitoring', [ExamMonitoringController::class, 'show']);
+            Route::put('{exam}/monitoring/protocol-comments', [ExamMonitoringController::class, 'updateProtocolComment']);
         });
         
-        
-        Route::get('create/modal-data', [ExamController::class,'createModalData']);//->middleware('user.has.role:scheduler');
-        
-        Route::get('monitoring', [ExamMonitoringController::class, 'index'])->name('exam.monitoring');
-        Route::get('{exam}/monitoring', [ExamMonitoringController::class, 'show']);
-        Route::put('{exam}/monitoring/protocol-comments', [ExamMonitoringController::class, 'updateProtocolComment']);
-        
-        Route::get('schedule', [ExamController::class, 'schedule'])->name('exams.schedule');
-        
-    });
-    Route::apiResource('exams', ExamController::class)->where(['exam' => '[0-9]+']);
-
-    Route::prefix('attempts')->group(function(){
-        Route::put('{attempt}/ban', [AttemptController::class, 'ban'])->name('attempts.ban');
-
-        Route::get('{attempt}/checking/tasks', [AttemptCheckingController::class, 'show'])->name('attempts.checking.tasks');
-
-        Route::post('{attempt}/checking/finish', [AttemptCheckingController::class, 'finish'])->name('attempts.checking.finish');
-        Route::get('{attempt}/speaking', [AttemptSpeakingController::class, 'show'])->name('attempts.speaking');
-        Route::post('{attempt}/speaking/finish', [AttemptSpeakingController::class, 'finish'])->name('attempts.speaking.finish');
-        Route::post('{attempt}/speaking/start', [AttemptSpeakingController::class, 'start'])->name('attempts.speaking.start');
-
-        Route::get('{attempt}/violations', [AttemptViolationController::class, 'index'])->name('attempts.violations.index');
-        Route::post('{attempt}/violations', [AttemptViolationController::class, 'store'])->name('attempts.violations.store');
-        Route::delete('{attempt}/violations/{violation}', [AttemptViolationController::class, 'destroy'])->name('attempts.violations.destroy');
-        Route::patch('{attempt}/violations/{violation}', [AttemptViolationController::class, 'update'])->name('attempts.violations.update');
+        Route::prefix('{exam}/documents')->group(function(){
+            Route::middleware(['user.has.role:' . UserRoles::Examiner->value . ',' . UserRoles::Director->value])->group(function (){
+                Route::get('codes', [ExamDocumentController::class, "codes"])->name('exam.documents.codes');
+                Route::get('codes/available', [ExamDocumentController::class, "codesAvailable"])->name('exam.documents.codes.available');
+                Route::get('protocol', [ExamDocumentController::class, "protocol"])->name('exam.documents.protocol');
+                Route::get('protocol/available', [ExamDocumentController::class, "protocolAvailable"]);
+                Route::get('results', [ExamDocumentController::class, 'results'])->name('exam.documents.results');
+                Route::get('results/available', [ExamDocumentController::class, 'resultsAvailable']);
+        });
+            Route::get('list', [ExamDocumentController::class, 'list'])->name('exam.documents.list')->middleware(['user.has.role:' . UserRoles::Operator->value]);
+            Route::get('list/available', [ExamDocumentController::class, 'listAvailable'])->middleware(['user.has.role:' . UserRoles::Operator->value]);
+        });
     });
     
-    Route::put('answers/{attemptAnswer}/rate', [AttemptAnswerController::class, 'rate']);
+
+    Route::prefix('attempts')->middleware(['user.has.role:' . UserRoles::Examiner->value])
+        ->group(function(){
+            Route::put('{attempt}/ban', [AttemptController::class, 'ban'])->name('attempts.ban');
+
+            Route::get('{attempt}/checking/tasks', [AttemptCheckingController::class, 'show'])->name('attempts.checking.tasks');
+
+            Route::post('{attempt}/checking/finish', [AttemptCheckingController::class, 'finish'])->name('attempts.checking.finish');
+            Route::get('{attempt}/speaking', [AttemptSpeakingController::class, 'show'])->name('attempts.speaking');
+            Route::post('{attempt}/speaking/finish', [AttemptSpeakingController::class, 'finish'])->name('attempts.speaking.finish');
+            Route::post('{attempt}/speaking/start', [AttemptSpeakingController::class, 'start'])->name('attempts.speaking.start');
+
+            Route::get('{attempt}/violations', [AttemptViolationController::class, 'index'])->name('attempts.violations.index');
+            Route::post('{attempt}/violations', [AttemptViolationController::class, 'store'])->name('attempts.violations.store');
+            Route::delete('{attempt}/violations/{violation}', [AttemptViolationController::class, 'destroy'])->name('attempts.violations.destroy');
+            Route::patch('{attempt}/violations/{violation}', [AttemptViolationController::class, 'update'])->name('attempts.violations.update');
+            Route::put('answers/{attemptAnswer}/rate', [AttemptAnswerController::class, 'rate']);
+    });
+    
+    
 
     Route::post('password/change', [LoginController::class, 'changePassword'])->withoutMiddleware(['password.change']);;
     Route::inertia('password/change', 'Auth/ChangePassword')->name('password.change')->withoutMiddleware(['password.change']);;
 
-    Route::prefix('reports')->group(function(){
+    Route::prefix('reports')->middleware(['user.has.role:' . UserRoles::Examiner->value . ',' . UserRoles::Director->value])->group(function(){
         Route::get('frdo', [ReportController::class, "frdo"])->name('reports.frdo');
         Route::get('frdo/available', [ReportController::class, "availableFrdo"])->name('reports.frdo.available');
         Route::get('flat-table', [ReportController::class, "flatTable"])->name('reports.flat-table');
@@ -103,36 +110,37 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
         Route::get('ministry-education/available', [ReportController::class, "availableMinistryEducationReport"])->name('reports.ministry-education.available');
         Route::get('ministry-education', [ReportController::class, "ministryEducationReport"])->name('reports.ministry-education');
     });
-    
-    Route::get('centers/{center}', [CenterController::class, "show"]);
-    Route::get('centers/{center}/employees', [UserController::class, "index"]);
-    Route::get('centers/{center}/addresses', [AddressController::class, "index"]);
-    Route::put('centers/{center}', [CenterController::class, "update"]);
-    Route::put('centers/{center}/addresses', [AddressController::class, "update"]);
 
-    Route::patch('addresses/{address}/activity', [AddressController::class, "toggleActive"])->name('addresses.toggle.activity');
-    Route::patch('addresses/{address}', [AddressController::class, "update"])->name('addresses.update');
+    Route::middleware(['user.has.role:' . UserRoles::OrgAdmin->value])->group(function (){
+        Route::get('centers/{center}', [CenterController::class, "show"]);
+        Route::get('centers/{center}/employees', [UserController::class, "index"]);
+        Route::get('centers/{center}/addresses', [AddressController::class, "index"]);
+        Route::put('centers/{center}', [CenterController::class, "update"]);
+        Route::put('centers/{center}/addresses', [AddressController::class, "update"]);
 
-    Route::post('addresses', [AddressController::class, "store"])->name('addresses.store');
+        Route::patch('addresses/{address}/activity', [AddressController::class, "toggleActive"])->name('addresses.toggle.activity');
+        Route::patch('addresses/{address}', [AddressController::class, "update"])->name('addresses.update');
 
-    Route::delete('employees/{user}', [UserController::class, "destroy"])->name('users.destroy');
-    Route::post('employees', [UserController::class, "store"]);
-    Route::put('employees/{user}', [UserController::class, "update"]);
-    Route::patch('employees/{user}/password', [LoginController::class, "resetPassword"]);
+        Route::post('addresses', [AddressController::class, "store"])->name('addresses.store');
+
+        Route::delete('employees/{user}', [UserController::class, "destroy"])->name('users.destroy');
+        Route::post('employees', [UserController::class, "store"]);
+        Route::put('employees/{user}', [UserController::class, "update"]);
+        Route::patch('employees/{user}/password', [LoginController::class, "resetPassword"]);
+        Route::get('roles',  [UserController::class, "rolesShow"]);
+    });
 
     Route::get('files', [FileController::class, "show"]);
 
     Route::prefix('instruction')->group(function(){
         Route::inertia('/exams', 'Instruction/ExamsInstruction')->name('instruction.exams');
         Route::inertia('/foreign-nationals', 'Instruction/ForeignNationalsInstruction')->name('instruction.foreign-nationals');
-        Route::inertia('/centers', 'Instruction/CentersInstruction')->name('instruction.foreign-nationals');
-        Route::inertia('/exams/monitoring', 'Instruction/ExamMonitoringInstruction')->name('instruction.exams.monitoring');
-        Route::inertia('/exams/checking', 'Instruction/ExamCheckingInstruction')->name('instruction.exams.checking');
+        Route::inertia('/centers', 'Instruction/CentersInstruction')->name('instruction.foreign-nationals')->middleware(['user.has.role:' . UserRoles::OrgAdmin->value]);
+        Route::inertia('/exams/monitoring', 'Instruction/ExamMonitoringInstruction')->name('instruction.exams.monitoring')->middleware(['user.has.role:' . UserRoles::Examiner->value]);
+        Route::inertia('/exams/checking', 'Instruction/ExamCheckingInstruction')->name('instruction.exams.checking')->middleware(['user.has.role:' . UserRoles::Examiner->value]);
         Route::inertia('/exams/schedule', 'Instruction/ExamScheduleInstruction')->name('instruction.exams.schedule');
     });
     
-    Route::get('roles',  [UserController::class, "rolesShow"]);
-
    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });
 

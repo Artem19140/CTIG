@@ -8,6 +8,7 @@ import { ref, watch } from 'vue';
 import AppStatusChip from '@/components/UI/AppStatusChip/AppStatusChip.vue';
 import { ForeignNational } from '@/interfaces/ForeignNational';
 import { Enrollment } from '@/interfaces/Enrollment';
+import AppProgressCircular from '@/components/UI/AppProgressCircular/AppProgressCircular.vue';
 
 const props = defineProps<{
   foreignNational: ForeignNational
@@ -54,6 +55,7 @@ const modals = useModals()
                 color="red"
                 size="x-small"
               />
+              <AppProgressCircular size="20" v-if="enrollment.isLoading" />
             </div> 
           </div>
           <div>
@@ -61,7 +63,7 @@ const modals = useModals()
               :status="enrollment.examResult"
             />
             <ExamStatusChip 
-              :exam="enrollment.exam"
+              :status="enrollment.exam.status"
               v-if="enrollment.exam.status === 'cancelled'"
             />
             <EnrollmentDropDown :enrollment="enrollment"/>

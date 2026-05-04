@@ -3,8 +3,8 @@ import { ref, watch } from 'vue';
 import AppAutocomplete from '@components/UI/AppAutocomplete/AppAutocomplete.vue';
 import {useHttp} from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
-import AppCheckbox from '../UI/AppCheckbox/AppCheckbox.vue';
-import AppTooltip from '../UI/AppTooltip/AppTooltip.vue';
+import AppCheckbox from '@components/UI/AppCheckbox/AppCheckbox.vue';
+import AppTooltip from '@components/UI/AppTooltip/AppTooltip.vue';
 
 const page = usePage()
 

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Enrollment } from '@/interfaces/Interfaces';
 import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import { useHttp } from '@inertiajs/vue3';
 import { useConfirmationOptionsDialog } from '@/composables/useConfirmationOptionsDialog';
+import { Enrollment } from '@/interfaces/Enrollment';
 
 const props = defineProps<{
     enrollment: Enrollment
@@ -11,7 +11,7 @@ const props = defineProps<{
 const changePayment = async () => {
     const {open} = useConfirmationOptionsDialog()
     const action = props.enrollment.hasPayment ?  'Отменить' : 'Подтвердить'
-    const ok = await open(`${action} оплату ${props.enrollment.foreignNational.fullName}`)
+    const ok = await open(`${action} оплату ${props.enrollment.foreignNational?.fullName ?? ''}`)
     if(!ok) return
     const http = useHttp()
     props.enrollment.isLoading = true

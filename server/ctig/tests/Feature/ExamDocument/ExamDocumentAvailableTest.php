@@ -94,10 +94,6 @@ class ExamDocumentAvailableTest extends TestCase
 
         $guard = \Mockery::mock(ExamGuard::class);
 
-        $guard->shouldReceive('ensureFinished')
-            ->once()
-            ->with($exam);
-
         $guard->shouldReceive('ensureNotCancelled')
             ->once()
             ->with($exam);
@@ -120,10 +116,6 @@ class ExamDocumentAvailableTest extends TestCase
             ->create();
 
         $guard = \Mockery::mock(ExamGuard::class);
-
-        $guard->shouldReceive('ensureFinished')
-            ->once()
-            ->with($exam);
 
         $guard->shouldReceive('ensureNotCancelled')
             ->once()

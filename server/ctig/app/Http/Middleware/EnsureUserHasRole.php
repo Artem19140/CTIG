@@ -15,7 +15,7 @@ class EnsureUserHasRole
      */
     public function handle(Request $request, Closure $next, string $role): Response
     {
-        if (! $request->user()->hasRole($role)) {
+        if (! $request->user()->hasRole($role) || ! $request->user()->isSuperAdmin()) {
             abort(403);
         }
         return $next($request);

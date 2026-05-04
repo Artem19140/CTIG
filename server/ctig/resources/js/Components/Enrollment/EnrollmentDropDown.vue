@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useConfirmDialog } from '@/composables/useConfirmDialog';
-import { Enrollment } from '@/interfaces/Interfaces';
 import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import { useHttp } from '@inertiajs/vue3';
 import { useExamStatus } from '@/composables/useExamStatus';
 import PaymentChange from './PaymentChange.vue';
+import { Enrollment } from '@/interfaces/Enrollment';
 
 const props = defineProps<{
     enrollment:Enrollment

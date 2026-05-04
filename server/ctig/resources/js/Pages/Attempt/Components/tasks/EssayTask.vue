@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Task } from '@/interfaces/Task';
+import { AttemptAnswer, Task } from '@/interfaces/Task';
 import BaseTask from './BaseTask.vue';
 import AppTextarea from '@/components/UI/AppTextarea/AppTextarea.vue';
 import { ref, watch } from 'vue';
@@ -9,7 +9,7 @@ import { useAttempt } from '@/composables/useAttempt';
 
 const props = defineProps<{
     content?:any,
-    task?:Task,
+    task:Task,
     checking:boolean,
     attempt:Attempt
 }>()
@@ -18,7 +18,7 @@ const answer = ref<string | null>(props.task?.attemptAnswer.answer)
 
 let timeout: number | undefined
 
-const http = useHttp<{ answer: string | null }>({
+const http = useHttp<{ answer: string | null }, {data:AttemptAnswer}>({
     answer:props.task?.attemptAnswer?.answer
 })
 const  {updateAnswer} = useAttempt()
@@ -31,7 +31,7 @@ watch(answer, (text) => {
         http.answer = text
         console.log(1)
         http.put(`/attempts/${props.attempt.id}/answers/${props.task?.attemptAnswer.id}`,{
-            onSuccess:(response:any) => {
+            onSuccess:(response) => {
                 updateAnswer(props.task?.id, response.data)
                 props.task.attemptAnswer = response.data
             }

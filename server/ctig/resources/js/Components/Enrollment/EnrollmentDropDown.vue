@@ -6,6 +6,8 @@ import { useHttp } from '@inertiajs/vue3';
 import { useExamStatus } from '@/composables/useExamStatus';
 import PaymentChange from './PaymentChange.vue';
 import { Enrollment } from '@/interfaces/Enrollment';
+import { useAuth } from '@/composables/useAuth';
+import { Roles } from '@/constants/Roles';
 
 const props = defineProps<{
     enrollment:Enrollment
@@ -37,11 +39,12 @@ const cancell = async () => {
 const {isGoing, isFinished, isCancelled} = useExamStatus(props.enrollment.exam)
 const isPaymentChangeDisabled  = isFinished.value || isCancelled.value
 const isCancellationDisabled  = isFinished.value || isCancelled.value || isGoing.value
+const {can} = useAuth()
 </script>
 
 <template>
     
-    <BaseThreeDotDropdown>
+    <BaseThreeDotDropdown v-if="can([Roles.OPERATOR])">
         <PaymentChange 
             :enrollment="enrollment"
             :disabled="isPaymentChangeDisabled"

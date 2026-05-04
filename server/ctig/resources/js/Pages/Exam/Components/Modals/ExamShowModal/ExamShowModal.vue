@@ -10,6 +10,8 @@ import { ExamStatus } from '@/constants/ExamStatus';
 import ExamCapacityChip from '@/components/Exam/ExamCapacityChip.vue';
 import { Exam } from '@/interfaces/Exam';
 import { Enrollment } from '@/interfaces/Enrollment';
+import { useAuth } from '@/composables/useAuth';
+import { Roles } from '@/constants/Roles';
 
 const props = defineProps<{
     examId:number
@@ -54,7 +56,7 @@ const edit =(value :Exam) => {
     console.log(value)
     exam.value = value
 }
-
+const {can} = useAuth()
 </script>
 
 <template>
@@ -120,7 +122,7 @@ const edit =(value :Exam) => {
         </v-list>
         </v-card-text>
         <v-divider></v-divider>
-        <v-card-text>
+        <v-card-text v-if="can([Roles.OPERATOR, Roles.EXAMINER, Roles.DIRECTOR])">
             <v-list>
                 <v-list-item>
                     <div class="flex justify-between">

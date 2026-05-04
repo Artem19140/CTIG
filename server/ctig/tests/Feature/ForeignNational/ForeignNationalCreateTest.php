@@ -4,16 +4,14 @@ namespace Tests\Feature\ForeignNational;
 
 use App\Enums\CounterKey;
 use App\Enums\UserRoles;
-use App\Models\Address;
 use App\Models\Counter;
 use App\Models\Exam;
-use App\Models\ExamType;
 use App\Models\Center;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
+use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
@@ -27,6 +25,7 @@ class ForeignNationalCreateTest extends TestCase
 
     protected function setUp():void{
         parent::setUp();
+        $this->seed(RolesSeeder::class);
         Center::factory()->create();
         
         
@@ -34,7 +33,7 @@ class ForeignNationalCreateTest extends TestCase
             'name' => UserRoles::Operator,
         ]);
 
-        $this->user = User::factory()->create();
+        $this->user = User::factory()->operator()->create();
         $this->user->roles()->attach($operatorRole);
 
         

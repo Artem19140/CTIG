@@ -8,7 +8,6 @@ use App\Models\Enrollment;
 use App\Models\Exam;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class GetSessionNumberTest extends TestCase

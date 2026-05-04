@@ -7,8 +7,8 @@ use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\User;
 use Carbon\Carbon;
+use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ChangePaymentTest extends TestCase
@@ -18,7 +18,8 @@ class ChangePaymentTest extends TestCase
     protected string $model;
     protected function setUp():void{
         parent::setUp();
-        $this->user = User::factory()->create();
+        $this->seed(RolesSeeder::class);
+        $this->user = User::factory()->operator()->create();
         Carbon::setTestNow(now());
     }
 

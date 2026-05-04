@@ -62,8 +62,12 @@ class User extends Authenticatable
         return $this->has_to_change_password;
     }
 
-    public function roles(){
+    public function roles():BelongsToMany{
         return $this->belongsToMany(Role::class,'role_user', 'user_id', 'role_id');
+    }
+
+    public function hasAnyRole(array $roles):bool{
+        return count(array_intersect($roles, $this->roles->pluck('name')->toArray())) > 0;
     }
     
     public function hasRole(string $role){

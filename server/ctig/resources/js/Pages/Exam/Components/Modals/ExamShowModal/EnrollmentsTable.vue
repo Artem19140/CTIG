@@ -1,11 +1,12 @@
 <script setup lang="ts">
 
-import { Enrollment, Exam} from '@interfaces/Interfaces';
 import { useModals } from '@composables/useModals';
 import { ref } from 'vue';
 import EnrollmentDropDown from '@/components/Enrollment/EnrollmentDropDown.vue';
 import ExamResultStatusChip from '@/components/Exam/ExamResultStatusChip.vue';
 import PaymentIcon from '@/components/Enrollment/PaymentIcon.vue';
+import { Exam } from '@/interfaces/Exam';
+import { Enrollment } from '@/interfaces/Enrollment';
 
 const props = defineProps<{
     exam: Exam

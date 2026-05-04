@@ -8,7 +8,6 @@ use App\Models\User;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AddressUpdateTest extends TestCase

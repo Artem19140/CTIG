@@ -41,12 +41,14 @@ const loading = ref<boolean>(false)
         <template #toolbar-left>
             <ForeignNationalTableFilters  
                 v-model="loading"
+                
             />
         </template>
         <template #toolbar-actions>
             <AppAddButton
                 text="Добавить"
                 @click="modals.open('foreignNationalCreate')"
+                v-if="auth.can([Roles.OPERATOR])"
             />
             <ForeignNationalTableDropdown  v-if="auth.can([Roles.DIRECTOR])" />
         </template>

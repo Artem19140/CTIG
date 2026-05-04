@@ -8,7 +8,6 @@ use App\Enums\CounterKey;
 use App\Models\Counter;
 use App\Models\Center;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Carbon\Carbon;
 use Tests\TestCase;
 

@@ -5,7 +5,6 @@ namespace Tests\Feature\Middleware;
 use App\Models\Center;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class EnsureCenterActiveTest extends TestCase

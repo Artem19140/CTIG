@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Web\Exam;
 use App\Domain\Exam\Action\Monitoring\UpdateProtocolCommentAction;
 use App\Http\Resources\Exam\ExamIndexResource;
 use App\Http\Resources\Exam\ExamMonitoringResource;
-use App\Http\Resources\Exam\ExamResource;
 use App\Models\Exam;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;

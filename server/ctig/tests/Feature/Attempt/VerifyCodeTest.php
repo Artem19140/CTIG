@@ -7,7 +7,6 @@ use App\Domain\Attempt\Action\VerifyCodeAction;
 use App\Models\Enrollment;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 

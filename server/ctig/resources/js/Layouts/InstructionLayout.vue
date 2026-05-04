@@ -25,7 +25,7 @@ const items:Array<ItemsInstruction> = [
     {
         label:'Экзамены', 
         url:'exams',
-        access:[]
+        access:[Roles.SCHEDULER]
     },
     {
         label:'Мониторинг', 
@@ -40,7 +40,7 @@ const items:Array<ItemsInstruction> = [
     {
         label:'Расписание', 
         url:'exams/schedule',
-        access:[]
+        access:[Roles.SCHEDULER]
     },
     {
         label:'Центр', 

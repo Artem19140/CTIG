@@ -11,6 +11,7 @@ use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\User;
 use Carbon\Carbon;
+use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -23,7 +24,8 @@ class EnrollmentCreateTest extends TestCase
 
     protected function setUp():void{
         parent::setUp();
-        $this->user = User::factory()->create();
+        $this->seed(RolesSeeder::class);
+        $this->user = User::factory()->operator()->create();
         $this->foreignNational = ForeignNational::factory()->create();
         $this->model = Enrollment::class;
         Counter::create([

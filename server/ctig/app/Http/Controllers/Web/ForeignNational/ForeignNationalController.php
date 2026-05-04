@@ -15,7 +15,6 @@ use Inertia\Inertia;
 
 class ForeignNationalController 
 {
-
     public function index(ForeignNationalIndexRequest $request, GetForeignNationalsQuery $getForeignNationalsQuery){
         $foreignNationals = $getForeignNationalsQuery->execute($request->validated() ?? []);
         Inertia::flash(['filters' => request()->all()]);

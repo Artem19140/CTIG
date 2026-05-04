@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Web\Exam;
 
-use App\Domain\Attempt\Action\CloseAbandonedAttemptsAction;
 use App\Domain\ExamDocument\ExamDocumentAvailable;
 use App\Domain\ExamDocument\ExamCodesGenerator;
 use App\Domain\ExamDocument\ExamProtocolGenerator;
@@ -80,10 +79,8 @@ class ExamDocumentController
     }
 
     public function resultsAvailable(
-        Exam $exam, 
-        CloseAbandonedAttemptsAction $closeAbandonedAttemptsAction
+        Exam $exam
     ){
-        $closeAbandonedAttemptsAction->execute();
         $this->examDocumentAvailable->results($exam);
         return Inertia::flash([
             'redirectUrl' => route('exam.documents.results', ['exam' => $exam])

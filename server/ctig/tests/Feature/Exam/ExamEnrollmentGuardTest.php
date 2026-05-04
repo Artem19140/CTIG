@@ -15,9 +15,6 @@ use Tests\TestCase;
 
 class ExamEnrollmentGuardTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
     use RefreshDatabase;
     protected $action;
     protected $exception;

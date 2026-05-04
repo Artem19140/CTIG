@@ -21,7 +21,7 @@
             <BaseListItem
               prepend-icon="mdi-account-group" 
               title="Иностранные граждане" 
-              v-if="can([Roles.OPERATOR])"
+              v-if="can([Roles.OPERATOR, Roles.DIRECTOR])"
               @click="go('/foreign-nationals')"  
               value="foreignNationals"
             />
@@ -29,7 +29,7 @@
             <BaseListItem 
               prepend-icon="mdi-school" 
               title="Экзамены" 
-              v-if="can([Roles.OPERATOR, Roles.SCHEDULER])"
+              v-if="can([Roles.OPERATOR, Roles.SCHEDULER, Roles.DIRECTOR])"
               @click="go('/exams')"
               value="exams" 
             />
@@ -53,7 +53,7 @@
             <BaseListItem
               prepend-icon="mdi-calendar-month" 
               title="Расписание" 
-              v-if="can([Roles.OPERATOR, Roles.SCHEDULER])"
+              v-if="can([Roles.OPERATOR, Roles.SCHEDULER, Roles.DIRECTOR])"
               @click="go('/exams/schedule')"
               value="schedule"
             />
@@ -121,5 +121,4 @@ const activeItem = ref('')
   html {
     overflow-y: scroll;
   }
-
 </style>

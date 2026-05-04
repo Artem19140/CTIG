@@ -8,7 +8,6 @@ import { Roles } from '@constants/Roles';
 import { useModals } from '@composables/useModals';
 import { useLoadingSnackbar } from '@composables/useLoadingSnackBar';
 import { useExamStatus } from '@/composables/useExamStatus';
-import { computed } from 'vue';
 import { Exam } from '@/interfaces/Exam';
 
 const props = defineProps<{exam : Exam | null}>()
@@ -86,6 +85,7 @@ const downloadCodesDisabled  = !props.exam?.documentsAvailable.codes.available
 
       <AppListDropDownItem 
         title="Список"
+        v-if="auth.can([Roles.OPERATOR, Roles.EXAMINER, Roles.DIRECTOR])"
         :disabled="downloadListDisabled"  
         @click="download('list')" 
       />

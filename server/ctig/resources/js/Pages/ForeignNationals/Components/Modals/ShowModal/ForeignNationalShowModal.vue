@@ -8,6 +8,8 @@ import { DateFormatter } from '@helpers/DateFormatter';
 import countries from '@data/countries.json'
 import { ForeignNational } from '@/interfaces/ForeignNational';
 import { Enrollment } from '@/interfaces/Enrollment';
+import { useAuth } from '@/composables/useAuth';
+import { Roles } from '@/constants/Roles';
 
 const props = defineProps<{
     foreignNationalId?:number
@@ -53,6 +55,9 @@ const getCountryTitle = (value:string | null) => {
     const result = countries.find(item => item.value === value);
     return result ? result.text : '-';
 }
+
+const {can} = useAuth()
+
 </script>
 
 <template>
@@ -75,6 +80,7 @@ const getCountryTitle = (value:string | null) => {
                 @delete="deleteFN"
                 @enroll="enroll"
                 @edit="edit"
+                v-if="can([Roles.OPERATOR])"
             />
         </template>
 

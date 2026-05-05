@@ -44,7 +44,7 @@ class UpdateUserAction{
         if (
             \in_array($orgAdminRole->id, $data['roles'])
             &&
-            !$user->isSuperAdmin()
+            !request()->user->isSuperAdmin()
         ) {
             abort(403);
         }

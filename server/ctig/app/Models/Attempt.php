@@ -52,12 +52,12 @@ class Attempt extends Model
     ];
 
     public function isExpired(): bool{
-        return Carbon::now($this->time_zone)->gte($this->expired_at);
+        return $this->expired_at->gte(Carbon::now());
     }
     
     public function finish(): void{
         $this->status = AttemptStatus::Finished;
-        $this->finished_at = Carbon::now($this->time_zone);
+        $this->finished_at = Carbon::now();
     }
     public function isStarted(): bool{
         return $this->started_at !== null;

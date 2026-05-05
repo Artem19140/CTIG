@@ -11,10 +11,10 @@ use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\Role\RoleResource;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Resources\User\UserResource;
 use Inertia\Inertia;
-
 
 class UserController{
 
@@ -47,6 +47,9 @@ class UserController{
         User $user,
         UpdateUserAction $updateUserAction
     ){
+        if($user->isSuperAdmin()){
+            abort(403);
+        }
         $updateUserAction->execute($request->validated(),  $user);
         return response()->json();
     }
@@ -70,11 +73,13 @@ class UserController{
         return response()->noContent();
     }
 
-    public function rolesShow(){
+    public function rolesShow(Request $request){
         return RoleResource::collection(
             Role::select(['id', 'name'])
-                ->where('name','<>', UserRoles::SuperAdmin)
-                ->where('name','<>', UserRoles::OrgAdmin)
+                ->when(!$request->user()->isSuperAdmin(), function (Builder $query){
+                    $query->where('name','<>', UserRoles::SuperAdmin)
+                        ->where('name','<>', UserRoles::OrgAdmin);
+                })
                 ->get()
         );
     }

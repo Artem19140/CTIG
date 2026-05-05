@@ -45,7 +45,7 @@ class FlatTableGenerator{
                             $taskVariant->task->order,
                             $taskVariant->fipi_number,
                             $answerInTable,
-                            $answer->mark,
+                            $answer->mark ?? 0,
                             $attempt->total_mark,
                             $this->isPassed($attempt)
                         ]);

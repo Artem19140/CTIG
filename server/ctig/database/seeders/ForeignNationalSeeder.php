@@ -14,7 +14,7 @@ class ForeignNationalSeeder extends Seeder
     use WithoutModelEvents;
     public function run(): void
     {
-        ForeignNational::factory(300) 
+        ForeignNational::factory(5000) 
             ->withRandomCreator()
             ->create();
     }

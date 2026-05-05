@@ -20,12 +20,12 @@ const items:Array<ItemsInstruction> = [
     {
         label:'Иностранные граждане', 
         url:'foreign-nationals',
-        access:[]
+        access:[Roles.DIRECTOR, Roles.OPERATOR]
     },
     {
         label:'Экзамены', 
         url:'exams',
-        access:[Roles.SCHEDULER]
+        access:[Roles.SCHEDULER, Roles.DIRECTOR, Roles.OPERATOR]
     },
     {
         label:'Мониторинг', 
@@ -40,7 +40,7 @@ const items:Array<ItemsInstruction> = [
     {
         label:'Расписание', 
         url:'exams/schedule',
-        access:[Roles.SCHEDULER]
+        access:[Roles.SCHEDULER, Roles.DIRECTOR, Roles.OPERATOR]
     },
     {
         label:'Центр', 

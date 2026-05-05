@@ -23,6 +23,6 @@ Route::prefix('attempts')->middleware(['user.has.any.role:' . UserRoles::Examine
         Route::delete('{attempt}/violations/{violation}', [AttemptViolationController::class, 'destroy'])->name('attempts.violations.destroy');
         Route::patch('{attempt}/violations/{violation}', [AttemptViolationController::class, 'update'])->name('attempts.violations.update');
 
-        Route::put('answers/{attemptAnswer}/rate', [AttemptAnswerController::class, 'rate']);
+        
 });
-
+Route::put('answers/{attemptAnswer}/rate', [AttemptAnswerController::class, 'rate']);

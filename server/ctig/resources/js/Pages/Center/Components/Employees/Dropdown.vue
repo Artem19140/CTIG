@@ -42,7 +42,7 @@ const {open} = useModals()
     />
     <AppListDropDownItem 
       title="Сбросить пароль"
-      @click="open('passwordReset', {user:employee})" 
+      @click="open('passwordReset', {employee:employee})" 
     />
     <AppListDropDownItem 
       title="Удалить" 

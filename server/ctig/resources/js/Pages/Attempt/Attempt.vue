@@ -7,6 +7,7 @@ import { useAttempt } from '@/composables/useAttempt';
 import BaseLayout from '@/layouts/BaseLayout.vue';
 import BaseDrawer from '@/components/BaseComponents/BaseDrawer/BaseDrawer.vue';
 import { Attempt } from '@/interfaces/Attempt';
+import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 
 const props = defineProps<{
     attempt:{
@@ -41,20 +42,20 @@ const finish = async () => {
             >
                 <SidePanel :attempt="examAttempt"/>
             </BaseDrawer>
-
         </template>
-        <v-container class="flex flex-column gap-10 items-center">
-            {{ audioPlaying }}
-            <TasksList v-if="examAttempt" :attempt="examAttempt" />
-            <v-btn
+        <v-container class="flex flex-column items-center gap-10">
+            <TasksList 
+                v-if="examAttempt" 
+                :attempt="examAttempt"
+            />
+            <AppPrimaryButton
+                text="Завершить"
                 @click="finish"
-                variant="flat"
-                color="primary"
                 :disabled="form.processing"
                 :loading="form.processing"
-            >
-                Завершить
-            </v-btn>
+            />
+                
+
         </v-container>
     
     </BaseLayout>

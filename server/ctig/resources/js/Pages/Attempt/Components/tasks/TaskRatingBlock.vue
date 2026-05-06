@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AppAutocomplete from '@/components/UI/AppAutocomplete/AppAutocomplete.vue';
 import AppProgressCircular from '@/components/UI/AppProgressCircular/AppProgressCircular.vue';
+import AppRetryAlert from '@/components/UI/AppRetryAlert/AppRetryAlert.vue';
 import { Task } from '@/interfaces/Task';
 import { useHttp } from '@inertiajs/vue3';
 import { computed, onMounted, ref, watch } from 'vue';
@@ -8,6 +9,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 const props = defineProps<{
     task:Task
 }>()
+
 const mark = computed(() => props.task.attemptAnswer.mark)
 
 const answerId = props.task?.attemptAnswer?.id
@@ -77,28 +79,11 @@ onMounted(() => {
             >
                 Результат успешно сохранен
             </v-alert>
-
-            <v-alert
+            <AppRetryAlert
                 v-if="error"
-                class="mt-2"
-                type="error"
-                variant="tonal"
-                density="compact"
-            >
-                <div class="d-flex align-center justify-space-between">
-                    <span>Не удалось сохранить данные</span>
-                    <v-btn
-                        size="small"
-                        color="error"
-                        variant="outlined"
-                        prepend-icon="mdi-refresh"
-                        :loading="loading"
-                        @click="rate"
-                    >
-                    Повторить
-                    </v-btn>
-                </div>
-            </v-alert>
+                text="Не удалось сохранить балл"
+                :onRetry="() => rate"
+            />
         </div>          
     </div>
 </template>

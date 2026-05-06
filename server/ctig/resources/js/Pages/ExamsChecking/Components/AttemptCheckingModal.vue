@@ -7,6 +7,7 @@ import BaseDialog from '@/components/BaseComponents/BaseDialog/BaseDialog.vue';
 import { AttemptAnswer } from '@/interfaces/Task';
 import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import { Attempt } from '@/interfaces/Attempt';
+import TaskCheckingList from '@/pages/Attempt/Components/tasks/TaskCheckingList.vue';
 
 const isOpen = defineModel<boolean>({default:false})
 
@@ -75,13 +76,19 @@ onMounted(() => {
                 />
             </div>
             <div class="mx-auto">
-                <TasksList 
+                <TaskCheckingList
+                    v-if="attempt"
+                    @update-answer="update"
+                    :attempt="attempt"
+                    :checking="true"
+                />
+                <!-- <TasksList 
                     @update-answer="update"
                     v-if="attempt"
                     class="flex-grow"
                     :attempt="attempt"
                     :checking="true"
-                />
+                /> -->
             </div>
         </div>
         

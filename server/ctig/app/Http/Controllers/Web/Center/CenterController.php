@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Web\Center;
 
 use App\Http\Requests\Center\CenterUpdateRequest;
-use App\Http\Resources\CenterResource;
+use App\Http\Resources\Center\CenterIndexResource;
+use App\Http\Resources\Center\CenterResource;
 use App\Models\Center;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -11,10 +12,21 @@ use Inertia\Inertia;
 class CenterController
 {
     public function index(){
-        //Все организации. Можно переиспользовать для info и для sa
+        return  CenterIndexResource::collection(Center::all());
     }
+
+    public function show(Request $request, Center $center){
+        if($center->id != $request->user()->center_id){
+            abort(404);
+        }
+        return Inertia::render('Center/Center', [
+            'data' => new CenterResource($center),
+            'tab' => 'data'
+        ]);
+    }
+
     public function store(){
-        //Создать, а потом еще orgadmin
+        
     }
 
     public function update(CenterUpdateRequest $request, Center $center){
@@ -34,15 +46,7 @@ class CenterController
         return response()->json($center);
     }
     
-    public function show(Request $request, Center $center){
-        if($center->id != $request->user()->center_id){
-            abort(404);
-        }
-        return Inertia::render('Center/Center', [
-            'data' => new CenterResource($center),
-            'tab' => 'data'
-        ]);
-    }
+    
 
     public function destroy(Center $center){
         $center->is_active = false;

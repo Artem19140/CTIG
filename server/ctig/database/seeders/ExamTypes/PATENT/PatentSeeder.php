@@ -279,9 +279,10 @@ class PatentSeeder extends Seeder
                             'variants'=> json_decode(file_get_contents(base_path($this->path.'task21.json')), true)
                         ],
                         [
-                            'type' => TaskType::SingleChoice,
+                            'type' => TaskType::SingleChoice, 
                             'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task22.json')), true)
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task22.json')), true),
+                            'postscriptum' => 'Верно ли это суждение?'
                         ]
                     ]
                 ]

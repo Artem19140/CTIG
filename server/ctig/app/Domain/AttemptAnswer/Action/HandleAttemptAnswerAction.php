@@ -20,9 +20,9 @@ class HandleAttemptAnswerAction{
         $this->attemptGuard->ensureNotBanned($attempt);
         $this->attemptGuard->ensureNotFinished($attempt);
         $this->attemptGuard->ensureNotExpired($attempt); 
-
+        
         $attemptAnswer->load('taskVariant.task');
-
+        sleep(3);
         $taskVariant = $attemptAnswer->taskVariant;
         $task = $taskVariant->task;
 

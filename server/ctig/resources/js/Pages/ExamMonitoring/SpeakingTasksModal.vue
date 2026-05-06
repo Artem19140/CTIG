@@ -7,6 +7,7 @@ import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.
 import BaseEmptyState from '@/components/BaseComponents/BaseEmptyState/BaseEmptyState.vue';
 import { Enrollment } from '@/interfaces/Enrollment';
 import { Attempt } from '@/interfaces/Attempt';
+import TaskCheckingList from '../Attempt/Components/tasks/TaskCheckingList.vue';
 
 const props = defineProps<{
     enrollment:Enrollment
@@ -78,7 +79,7 @@ const finish = () => {
             class="flex flex-column items-center gap-8 mt-2 mb-2"
             v-if="speakingStarted"
         >
-            <TasksList 
+            <TaskCheckingList
                 v-if="attempt" 
                 :attempt="attempt" 
                 :checking="checking"

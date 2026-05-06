@@ -128,7 +128,7 @@ class RvpSeeder extends Seeder
                 ],
                 [
                     'type' => TaskType::Speaking,
-                    'description' => 'Подготовьте сообщение на заданную тему. Время на подготовку –до 3 мин. \nВаш ответ должен быть полным.',
+                    'description' => 'Подготовьте сообщение на заданную тему. Время на подготовку –до 3 мин.Ваш ответ должен быть полным.',
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($path.'task3.json')), true)
                 ],

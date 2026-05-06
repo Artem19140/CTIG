@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { AttemptAnswer, Task } from '@/interfaces/Task';
+import { Task } from '@/interfaces/Task';
 import BaseTask from './BaseTask.vue';
 import AppTextarea from '@/components/UI/AppTextarea/AppTextarea.vue';
 import { ref, watch } from 'vue';
-import { useHttp } from '@inertiajs/vue3';
 import { Attempt } from '@/interfaces/Attempt';
-import { useAttempt } from '@/composables/useAttempt';
 
 const props = defineProps<{
     content?:any,
@@ -14,29 +12,29 @@ const props = defineProps<{
     attempt:Attempt
 }>()
 
+const emit = defineEmits<{
+    (e:'updateAnswer', value: {
+        task:Task,
+        answer:any
+    }):void
+}>()
+
 const answer = ref<string | null>(props.task?.attemptAnswer.answer)
 
-let timeout: number | undefined
+let timeoutSet: boolean = false
 
-const http = useHttp<{ answer: string | null }, {data:AttemptAnswer}>({
-    answer:props.task?.attemptAnswer?.answer
-})
-const  {updateAnswer} = useAttempt()
 watch(answer, (text) => {
-    if (timeout !== undefined) {
-        clearTimeout(timeout)
+    if (timeoutSet) {
+        return 
     }
-
-    timeout = setTimeout(async () => {
-        http.answer = text
-        console.log(1)
-        http.put(`/attempts/${props.attempt.id}/answers/${props.task?.attemptAnswer.id}`,{
-            onSuccess:(response) => {
-                updateAnswer(props.task?.id, response.data)
-                props.task.attemptAnswer = response.data
-            }
+    timeoutSet = true
+    setTimeout(async () => {
+        timeoutSet = false
+        emit('updateAnswer', {
+            task:props.task,
+            answer:text
         })
-    }, 3000)
+    }, 10000)
 })
 
 </script>

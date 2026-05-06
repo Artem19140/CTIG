@@ -6,7 +6,8 @@ export interface Task{
     answers:Array<Answer>,
     mark:number,
     description:string,
-    order:number
+    order:number,
+    postscriptum:string
 }
 
 export interface AttemptAnswer{

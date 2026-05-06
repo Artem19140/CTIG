@@ -4,7 +4,6 @@ import { ref, watch } from 'vue';
 import BaseTask from './BaseTask.vue';
 import RenderBlocks from './TaskContentBlocks/RenderBlocks.vue';
 import { Task } from '@/interfaces/Task';
-import { useAttempt } from '@/composables/useAttempt';
 import { Attempt } from '@/interfaces/Attempt';
 
 const props = defineProps<{
@@ -13,48 +12,39 @@ const props = defineProps<{
     checking?:boolean
 }>()
 
+const emit = defineEmits<{
+    (e:'updateAnswer', value: {
+        task:Task,
+        answer:any
+    }):void
+}>()
+
 const attemptAnswer = ref<number | null>(
   props.task.attemptAnswer?.answer?.id
 )
-
-const error = ref<boolean>(false)
-
-const attemptAnswerId = props.task?.attemptAnswer?.id
 
 const http = useHttp<{ answer: number | null}>({
     answer: null
 })
 
-const  {updateAnswer} = useAttempt()
-
 const send = async () => {
-    error.value = false
-    http.answer = attemptAnswer.value
-    http.put(`/attempts/${props.attempt.id}/answers/${attemptAnswerId}`,{
-        onSuccess:(response : any) => {
-            updateAnswer(props.task.id, response.data)
-        },
-        onFinish() {
-            if(!http.wasSuccessful){
-                error.value = true
-            }
-        },
+    emit('updateAnswer', {
+        task:props.task,
+        answer: attemptAnswer.value
     })
 }
 
 watch(attemptAnswer, () => {
     send()
 })
-
 </script>
 
 <template>
     <base-task
-        :onRetry="send"
+        @retry="send"
         :task="task"
         :checking="checking"
         :attempt="attempt"
-        :error="error"
         :loading="http.processing"
     >
         <template #answers>

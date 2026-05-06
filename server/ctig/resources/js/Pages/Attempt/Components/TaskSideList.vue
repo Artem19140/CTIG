@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Task } from '@/interfaces/Task';
+import { useAttempt } from '@/composables/useAttempt';
 
 const props = defineProps<{
   tasks:Task[]
@@ -9,6 +10,18 @@ const go = (id:string) => {
   document.getElementById(id)?.scrollIntoView({
     behavior: 'smooth'
   })
+}
+
+const {errors} = useAttempt()
+
+const getColor = (task:Task) :string => {
+  if(errors.value.includes(task.order)){
+    return 'red'
+  }
+  if(task?.attemptAnswer?.answer){
+    return 'grey'
+  }
+  return ''
 }
 </script>
 
@@ -26,8 +39,8 @@ const go = (id:string) => {
         >
           <v-btn
             icon
-            :variant="task?.attemptAnswer?.answer ? 'flat' : 'outlined'"
-            :color="task?.attemptAnswer?.answer ? 'grey' : 'grey'"
+
+            :color="getColor(task)"
             class="task-btn"
             @click="go(`task-${task.id}`)"
           >

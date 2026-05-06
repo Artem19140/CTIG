@@ -2,20 +2,24 @@
 import RenderBlocks from './TaskContentBlocks/RenderBlocks.vue';
 import { Task } from '@/interfaces/Task';
 import { TaskTypes } from '@/constants/TaskTypes';
-import TaskRatingBlock from './TaskRatingBlock.vue';
 import AppStatusChip from '@/components/UI/AppStatusChip/AppStatusChip.vue';
-import AppRefreshButton from '@/components/UI/AppRefreshButton/AppRefreshButton.vue';
 import TaskSavingStatus from './TaskSavingStatus.vue';
 import { Attempt } from '@/interfaces/Attempt';
+import AppRetryAlert from '@/components/UI/AppRetryAlert/AppRetryAlert.vue';
+import { useAttempt } from '@/composables/useAttempt';
+
 
 const props = defineProps<{
   task:Task, 
   attempt?:Attempt,
   checking?:boolean,
-  onRetry?:() => void,
   error?:boolean,
   loading?:boolean
 }>()
+
+const emit = defineEmits<{
+  (e:'retry'):void
+}>() 
 
 const getDefaultDescription = (type:string) => {
   switch(type){
@@ -25,9 +29,11 @@ const getDefaultDescription = (type:string) => {
       return 'Впишите ответ в поле ввода'
   }
 }
+
+const {errors} = useAttempt()
 </script>
 <template>
-  <div class="flex flex-column justify-center pa-4">
+  <div class="flex flex-column justify-center">
     <v-card
       width="600"
       elevation="6"
@@ -35,7 +41,7 @@ const getDefaultDescription = (type:string) => {
       :id="`task-${task.id}`"
     >
       <v-card-title class="d-flex flex-column align-start ga-1">
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 mt-2">
           <AppStatusChip 
             size="small" 
             :text="`Задание ${task?.order}`"
@@ -71,42 +77,25 @@ const getDefaultDescription = (type:string) => {
         </v-sheet>
       </v-card-text>
 
+      <v-card-text v-if="task.postscriptum">
+        {{ task.postscriptum }}
+      </v-card-text>
+
       <v-card-actions class="px-4">
-        <slot name="answers" />
-        
+        <slot name="answers" /> 
       </v-card-actions>
-      
     </v-card>
 
-    <div v-if="checking" class="mt-6 mb-10 w-100">
-      <TaskRatingBlock :task="task" />
-    </div>
-    <div class="mt-4" v-if="error">
-      <v-alert
-        density="compact"
-        variant="tonal"
-        type="error"
-        prominent
-      >
-        <div class="flex items-center justify-between" >
-          <span>
-            Ошибка сохранения, пожалуйста, повторите действие
-          </span>
-          <AppRefreshButton
-            icon-size="25"
-            @click="onRetry"
-          />
-        </div>
-      </v-alert>
-    </div>
+    <AppRetryAlert 
+      v-if="errors.includes(task.order)"
+      text="Ошибка сохранения, пожалуйста, повторите действие"
+      :onRetry="() => emit('retry')"
+    />
   </div>
 </template>
 
 <style scoped>
-.description {
-  line-height: 1.5;
-  color: rgba(0, 0, 0, 0.75);
-}
+
 
 .v-card {
   transition: all 0.2s ease;
@@ -114,9 +103,5 @@ const getDefaultDescription = (type:string) => {
 
 .v-card:hover {
   transform: translateY(-2px);
-}
-
-.pre-like{
-  white-space: pre-wrap;
 }
 </style>

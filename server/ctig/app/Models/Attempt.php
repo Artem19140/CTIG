@@ -52,7 +52,7 @@ class Attempt extends Model
     ];
 
     public function isExpired(): bool{
-        return $this->expired_at->gte(Carbon::now());
+        return Carbon::now()->gte($this->expired_at);
     }
     
     public function finish(): void{

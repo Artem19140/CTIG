@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import TasksList from '@pages/Attempt/Components/tasks/TasksList.vue';
-import { useHttp } from '@inertiajs/vue3';
+import { router, useHttp } from '@inertiajs/vue3';
 import { onMounted, ref } from 'vue';
 import AttemptCheckingSidePanel from './AttemptCheckingSidePanel.vue';
 import BaseDialog from '@/components/BaseComponents/BaseDialog/BaseDialog.vue';
@@ -12,8 +11,7 @@ import TaskCheckingList from '@/pages/Attempt/Components/tasks/TaskCheckingList.
 const isOpen = defineModel<boolean>({default:false})
 
 const props = defineProps<{
-    attemptId:number | null,
-    onFinishChecking:(attempt : any) => void
+    attemptId:number | null
 }>()
 
 const attempt = ref<Attempt | null>(null)
@@ -30,7 +28,7 @@ const update = (value:AttemptAnswer) => {
     if(!attempt.value) return
     const task = attempt.value?.tasks.find(t => t.attemptAnswer.id === value.id)
     if(!task) return
-    task.attemptAnswer = value
+    task.attemptAnswer = {...value}
 }
 
 const http = useHttp()
@@ -45,8 +43,8 @@ const getAttemptTasks = () => {
 
 const finishChecking = () => {
     http.post(`/attempts/${props.attemptId}/checking/finish`,{
-        onSuccess:(response:any)=>{
-            props.onFinishChecking(response.attempt)
+        onSuccess:()=>{
+            router.reload()
             isOpen.value = false
         }
     })
@@ -71,24 +69,18 @@ onMounted(() => {
         <div class="flex gap-10 items-start">
             <div class="flex-shrink-0 sticky top-0 self-start">
                 <AttemptCheckingSidePanel
-                    :tasks="attempt?.tasks" 
+                    v-if="attempt"
+                    :attempt="attempt" 
                     @select="scrollToTask"
                 />
             </div>
             <div class="mx-auto">
                 <TaskCheckingList
                     v-if="attempt"
-                    @update-answer="update"
+                    @rated="update"
                     :attempt="attempt"
                     :checking="true"
                 />
-                <!-- <TasksList 
-                    @update-answer="update"
-                    v-if="attempt"
-                    class="flex-grow"
-                    :attempt="attempt"
-                    :checking="true"
-                /> -->
             </div>
         </div>
         

@@ -100,6 +100,7 @@ function format(time: number) {
                 />
                 <div class="flex items-center">
                     <v-btn 
+                        v-if="!currentTime"
                         icon 
                         @click="togglePlay" 
                         variant="text"

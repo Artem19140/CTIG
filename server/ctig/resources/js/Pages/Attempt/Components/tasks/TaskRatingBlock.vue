@@ -2,20 +2,21 @@
 import AppAutocomplete from '@/components/UI/AppAutocomplete/AppAutocomplete.vue';
 import AppProgressCircular from '@/components/UI/AppProgressCircular/AppProgressCircular.vue';
 import AppRetryAlert from '@/components/UI/AppRetryAlert/AppRetryAlert.vue';
-import { Task } from '@/interfaces/Task';
+import { AttemptAnswer, Task } from '@/interfaces/Task';
 import { useHttp } from '@inertiajs/vue3';
 import { computed, onMounted, ref, watch } from 'vue';
 
 const props = defineProps<{
     task:Task
 }>()
-
-const mark = computed(() => props.task.attemptAnswer.mark)
+const emit = defineEmits<{
+    (e:'rated', value:AttemptAnswer):void
+}>()
 
 const answerId = props.task?.attemptAnswer?.id
 
-const http = useHttp({
-    mark: mark.value
+const http = useHttp<{mark:number | null}, {attemptAnswer:AttemptAnswer}>({
+    mark: props.task.attemptAnswer.mark
 })
 
 watch(() => http.mark, () => {
@@ -23,26 +24,18 @@ watch(() => http.mark, () => {
     rate()
 })
 
-const error = ref<boolean>(false)
-
 const rate = () => {
-    error.value = false
     http.put(`/answers/${answerId}/rate`,{
-        onSuccess:(response:any)=>{
-
-        },
-        onFinish() {
-            if(!http.wasSuccessful){
-                error.value = true
-            }
-        },
+        onSuccess:(response)=>{
+            emit('rated', response.attemptAnswer)
+        }
     })
 }
 
 const loading = computed(() => http.processing)
 
 const markSaved = computed(() => 
-    mark.value !== null || http.wasSuccessful 
+    props.task.attemptAnswer.checkedAt !== null 
 )
 
 const marks = ref<Array<number>>([])
@@ -80,9 +73,9 @@ onMounted(() => {
                 Результат успешно сохранен
             </v-alert>
             <AppRetryAlert
-                v-if="error"
+                v-if="!http.wasSuccessful"
                 text="Не удалось сохранить балл"
-                :onRetry="() => rate"
+                :onRetry="rate"
             />
         </div>          
     </div>

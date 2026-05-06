@@ -4,10 +4,10 @@ import SpeakingTask from './SpeakingTask.vue';
 import EssayTask from './EssayTask.vue';
 import TextInputTask from './TextInputTask.vue';
 import { TaskTypes } from '@/constants/TaskTypes';
-import { AttemptAnswer } from '@/interfaces/Task';
 import { Attempt } from '@/interfaces/Attempt';
 import TaskRatingBlock from './TaskRatingBlock.vue';
 import BaseEmptyState from '@/components/BaseComponents/BaseEmptyState/BaseEmptyState.vue';
+import { AttemptAnswer } from '@/interfaces/Task';
 
 const props = defineProps<{
     attempt:Attempt,
@@ -15,7 +15,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-    (e:'updateAnswer', value:AttemptAnswer):void
+    (e:'rated', value:AttemptAnswer):void
 }>()
 
 const taskComponent = (type: string) => {
@@ -32,6 +32,9 @@ const taskComponent = (type: string) => {
             return SingleChoiceTask
     }
 }
+const rated = (value :AttemptAnswer) => {
+    emit('rated', value)
+}
 </script>
 
 <template>
@@ -43,11 +46,12 @@ const taskComponent = (type: string) => {
             <component 
                 :key="task.id"
                 :is="taskComponent(task.type)"
-       
+                :checking="checking"
                 :task="task"
                 :attempt="attempt"
             />
             <TaskRatingBlock 
+                @rated="rated"
                 :task="task"
                 v-if="checking"
             />

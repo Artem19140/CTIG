@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { Task } from '@/interfaces/Task';
+import { Attempt } from '@/interfaces/Attempt';
 
 const props = defineProps<{
-  tasks?: Task[]
+  attempt: Attempt
 }>()
 
 const emit = defineEmits<{
   (e: 'select', id: number): void
 }>()
 
-const getParams =(checkedAt:string | null) => {
+const getParams = (checkedAt:string | null) => {
   if(checkedAt === null) return {icon:'', color:'grey'}
   return checkedAt ? {icon:'mdi-check', color:'success'} : {icon:'mdi-close', color:'error'} 
 }
@@ -20,7 +20,7 @@ const getParams =(checkedAt:string | null) => {
 
   <v-list density="compact" nav>
     <v-list-item
-      v-for="task in tasks"
+      v-for="task in attempt.tasks"
       :key="task.id"
       @click="emit('select', task.id)"
       class="cursor-pointer"

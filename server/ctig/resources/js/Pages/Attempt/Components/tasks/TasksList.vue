@@ -9,11 +9,9 @@ import { Attempt } from '@/interfaces/Attempt';
 import { useAttempt } from '@/composables/useAttempt';
 import { useHttp } from '@inertiajs/vue3';
 import BaseEmptyState from '@/components/BaseComponents/BaseEmptyState/BaseEmptyState.vue';
-import AppRetryAlert from '@/components/UI/AppRetryAlert/AppRetryAlert.vue';
 
 const props = defineProps<{
-    attempt:Attempt,
-    checking?:boolean 
+    attempt:Attempt
 }>()
 
 const taskComponent = (type: string) => {
@@ -30,20 +28,23 @@ const taskComponent = (type: string) => {
             return SingleChoiceTask
     }
 }
+
 const http = useHttp<{answer:any}, {data:AttemptAnswer}>({
     answer:null
 })
 
-const {updateAnswer, setError, removeError} = useAttempt()
+const {updateAnswer, setError, removeError, setSaving, removeSaving } = useAttempt()
 
 const update = (value:any) => {
     http.answer = value.answer
+    setSaving(value.task.id)
     http.put(`/attempts/${props.attempt.id}/answers/${value.task.attemptAnswer.id}`,{
         onSuccess:(response) => {
             updateAnswer(value.task.id, response.data)
         },
         onFinish() {
-            http.wasSuccessful ? removeError(value.task.order) : setError(value.task.order)
+            http.wasSuccessful ? removeError(value.task.id) : setError(value.task.id)
+            removeSaving(value.task.id)
         },
     })
 }
@@ -61,7 +62,6 @@ const update = (value:any) => {
                 :is="taskComponent(task.type)"
                 :task="task"
                 :attempt="attempt"
-                :checking="checking"
                 @update-answer="update"
             />
         </div>

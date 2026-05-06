@@ -3,18 +3,13 @@ import RenderBlocks from './TaskContentBlocks/RenderBlocks.vue';
 import { Task } from '@/interfaces/Task';
 import { TaskTypes } from '@/constants/TaskTypes';
 import AppStatusChip from '@/components/UI/AppStatusChip/AppStatusChip.vue';
-import TaskSavingStatus from './TaskSavingStatus.vue';
-import { Attempt } from '@/interfaces/Attempt';
+
 import AppRetryAlert from '@/components/UI/AppRetryAlert/AppRetryAlert.vue';
 import { useAttempt } from '@/composables/useAttempt';
-
+import AppProgressCircular from '@/components/UI/AppProgressCircular/AppProgressCircular.vue';
 
 const props = defineProps<{
-  task:Task, 
-  attempt?:Attempt,
-  checking?:boolean,
-  error?:boolean,
-  loading?:boolean
+  task:Task
 }>()
 
 const emit = defineEmits<{
@@ -30,8 +25,10 @@ const getDefaultDescription = (type:string) => {
   }
 }
 
-const {errors} = useAttempt()
+const {errors, saving} = useAttempt()
+
 </script>
+
 <template>
   <div class="flex flex-column justify-center">
     <v-card
@@ -47,10 +44,14 @@ const {errors} = useAttempt()
             :text="`Задание ${task?.order}`"
             color="primary"
           />
-          <TaskSavingStatus 
-            :loading="loading"
-            :success="false"
-          />
+          <div 
+            v-if="saving.has(task.id)" 
+            class="flex items-center gap-2 text-grey text-caption"
+            style="font-size: 12px;"
+          >
+              <AppProgressCircular size="20" />
+              <span>Идет сохранение ответа...</span>
+          </div>
         </div>
       </v-card-title>
       
@@ -71,7 +72,6 @@ const {errors} = useAttempt()
         >
           <RenderBlocks 
             :task="task"
-            :attempt="attempt"
             :content="task.content" 
         />
         </v-sheet>
@@ -87,7 +87,7 @@ const {errors} = useAttempt()
     </v-card>
 
     <AppRetryAlert 
-      v-if="errors.includes(task.order)"
+      v-if="errors.has(task.id)"
       text="Ошибка сохранения, пожалуйста, повторите действие"
       :onRetry="() => emit('retry')"
     />

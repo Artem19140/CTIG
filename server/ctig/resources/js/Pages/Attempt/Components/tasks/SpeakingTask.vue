@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { Task } from '@/interfaces/Task';
 import BaseTask from './BaseTask.vue';
-import { Attempt } from '@/interfaces/Attempt';
-
 
 const props = defineProps<{
-    task:Task,
-    attempt:Attempt
+    task:Task
 }>()
 
 </script>

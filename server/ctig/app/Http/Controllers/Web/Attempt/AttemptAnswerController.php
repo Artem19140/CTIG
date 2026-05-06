@@ -27,10 +27,7 @@ class AttemptAnswerController
         AttemptAnswer $attemptAnswer,
         HandleAttemptAnswerAction $handleAttemptAnswerAction
     ){
-        $foreignNational = $request->user();
-        if($attempt->foreign_national_id !== $foreignNational->id){
-            abort(403);
-        }
+        //attemptAnswer принадлежит попытке
         $answer = $request->input('answer');
         $savedAnswer = DB::transaction(function()use($answer, $attempt,$attemptAnswer, $handleAttemptAnswerAction){
             $answer = $handleAttemptAnswerAction->execute($answer, $attempt, $attemptAnswer);
@@ -46,6 +43,7 @@ class AttemptAnswerController
         AttemptAnswer $attemptAnswer,
         RateAttemptAnswerAction $rateAttemptAnswerAction
     ){
+        //Что attempt может оценивать проктор
         $request->validate([
             'mark' => ['required', 'integer', 'min:0']
         ]);
@@ -59,6 +57,7 @@ class AttemptAnswerController
         Attempt $attempt,
         AttemptAnswer $attemptAnswer,
     ){
+        //attemptAnswer принадлежит attemtp
         $attemptAnswer->audio_played = true;
         $attemptAnswer->save();
         return response()->noContent();

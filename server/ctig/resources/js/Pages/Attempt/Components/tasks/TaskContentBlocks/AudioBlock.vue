@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { Task } from '@/interfaces/Task';
-import { useHttp } from '@inertiajs/vue3';
 import { computed, ref } from 'vue'
 import { useAttempt } from '@/composables/useAttempt';
 import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
-import { Attempt } from '@/interfaces/Attempt';
+import { useHttp } from '@inertiajs/vue3';
 
 const props = defineProps<{ 
     value: string 
-    task:Task, 
-    attempt: Attempt
+    task:Task
 }>()
 
 const emit = defineEmits<{ 
@@ -20,31 +18,33 @@ const audioRef = ref<HTMLAudioElement | null>(null)
 
 const currentTime = ref(0)
 const duration = ref(0)
-const played = ref<boolean>(false)
 
 const playedTime = computed(() => {
     return (currentTime.value / duration.value) * 100
 })
 
-const http = useHttp()
-const {audioPlaying} = useAttempt()
+const audioPlayed = ref<boolean>(props.task.attemptAnswer.audioPlayed ?? false)
 
+const {audioPlaying, audioStartPlaying, audioStopPlaying, examAttempt} = useAttempt()
+const http = useHttp()
 const togglePlay = () => {
 
     if(!audioPlaying.value){
-        audioPlaying.value = true
+        audioStartPlaying()
     }else{
         const {add} = useSnackbarQueue()
         add('Воспроизводится другая аудиозапись', 'red')
         return
     }
-    
-    if(played.value) return
+
     if (!audioRef.value) return
     audioRef.value.play()
-    played.value = true
-    if(!props.attempt?.id) return
-    http.put(`/attempts/${props.attempt.id}/answers/${props.task.attemptAnswer.id}/audio`)
+
+    http.put(`/attempts/${examAttempt.value?.id}/answers/${props.task.attemptAnswer.id}/audio`,{
+        onSuccess(response, httpResponse) {
+            
+        },
+    })
 }
 
 const onTimeUpdate = () => {
@@ -58,9 +58,9 @@ const onLoaded = () => {
 }
 
 const onEnded = () => {
-  audioPlaying.value = false
-  played.value = false
+  audioStopPlaying()
   currentTime.value = 0
+  audioPlayed.value = true
 }
 
 function format(time: number) {
@@ -79,7 +79,7 @@ function format(time: number) {
                 variant="tonal"
                 class="ma-2"
                 >
-                    <div v-if="!task.attemptAnswer?.audioPlayed">
+                    <div v-if="!audioPlayed">
                         <strong>ВНИМАНИЕ!</strong> Аудиозапись можно прослушать только один раз. 
                         Не <strong>перезагружайте</strong> и не <strong>закрывайте</strong> вкладку во время прослушивания.
                     </div>
@@ -88,8 +88,9 @@ function format(time: number) {
                     </div>
                     
             </v-alert>
-            <div v-if="!task.attemptAnswer?.audioPlayed">
+            <div v-if="!audioPlayed">
                 <audio
+
                     ref="audioRef"
                     :src="value"
                     @timeupdate="onTimeUpdate"
@@ -101,7 +102,6 @@ function format(time: number) {
                     <v-btn 
                         icon 
                         @click="togglePlay" 
-                        v-if="!played"
                         variant="text"
                     >
                         <v-icon>mdi-play</v-icon>

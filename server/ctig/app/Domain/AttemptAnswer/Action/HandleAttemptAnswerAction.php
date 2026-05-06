@@ -22,7 +22,6 @@ class HandleAttemptAnswerAction{
         $this->attemptGuard->ensureNotExpired($attempt); 
         
         $attemptAnswer->load('taskVariant.task');
-        sleep(3);
         $taskVariant = $attemptAnswer->taskVariant;
         $task = $taskVariant->task;
 

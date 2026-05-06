@@ -32,8 +32,6 @@ const taskComponent = (type: string) => {
             return SingleChoiceTask
     }
 }
-
-//         v-bind="task"
 </script>
 
 <template>

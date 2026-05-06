@@ -15,7 +15,7 @@ const go = (id:string) => {
 const {errors} = useAttempt()
 
 const getColor = (task:Task) :string => {
-  if(errors.value.includes(task.order)){
+  if(errors.value.has(task.order)){
     return 'red'
   }
   if(task?.attemptAnswer?.answer){

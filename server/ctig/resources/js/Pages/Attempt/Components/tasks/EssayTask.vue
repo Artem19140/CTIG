@@ -3,13 +3,10 @@ import { Task } from '@/interfaces/Task';
 import BaseTask from './BaseTask.vue';
 import AppTextarea from '@/components/UI/AppTextarea/AppTextarea.vue';
 import { ref, watch } from 'vue';
-import { Attempt } from '@/interfaces/Attempt';
 
 const props = defineProps<{
-    content?:any,
     task:Task,
-    checking:boolean,
-    attempt:Attempt
+    checking:boolean
 }>()
 
 const emit = defineEmits<{
@@ -27,7 +24,9 @@ watch(answer, (text) => {
     if (timeoutSet) {
         return 
     }
+
     timeoutSet = true
+    
     setTimeout(async () => {
         timeoutSet = false
         emit('updateAnswer', {

@@ -71,7 +71,7 @@ class User extends Authenticatable
     }
     
     public function hasRole(string $role){
-        return $this->roles()->where('name', $role)->exists();
+        return $this->roles->contains('name', $role);
     }
 
     public function exams(): BelongsToMany{
@@ -109,6 +109,19 @@ class User extends Authenticatable
                 ($this->surname  ?? '') . ' ' . (mb_strtoupper(mb_substr($this->name, 0, 1)).'.' ?? '') . ' ' .( mb_strtoupper(mb_substr($this->patronymic, 0, 1)).'.' ?? '')
             );
         });
+    }
+
+    public function resolveRedirect():string
+    {
+        return match (true){
+            $this->hasRole(UserRoles::Operator->value) => route('exams.index'),
+            $this->hasRole(UserRoles::Scheduler->value) => route('exams.index'),
+            $this->hasRole(UserRoles::Director->value) => route('exams.index'),
+            $this->hasRole(UserRoles::Examiner->value) => route('exams.monitoring'),
+            $this->hasRole(UserRoles::OrgAdmin->value) => route('centers.show', ['center' => $this->center]),
+            $this->hasRole(UserRoles::SuperAdmin->value) => route('centers.show', ['center' => $this->center]),
+            default => abort(403)
+        };
     }
     
     

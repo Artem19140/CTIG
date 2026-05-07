@@ -30,6 +30,8 @@ class LoginController
         if ($user->hasChangePassword()) {
             return redirect()->route('password.change');
         }
+        
+        return redirect()->to($user->resolveRedirect());
 
         return redirect()->route('exams.index');
     }

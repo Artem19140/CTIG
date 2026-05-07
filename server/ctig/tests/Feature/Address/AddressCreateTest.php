@@ -11,9 +11,6 @@ use Tests\TestCase;
 
 class AddressCreateTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
     use RefreshDatabase;
     protected User $user;
     protected Center $center;

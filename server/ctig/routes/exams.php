@@ -30,7 +30,7 @@ Route::prefix('exams')->group(function(){
     Route::get('schedule', [ExamController::class, 'schedule'])->name('exams.schedule');
 
     Route::middleware(['user.has.any.role:' . UserRoles::Examiner->value])->group(function (){
-        Route::get('monitoring', [ExamMonitoringController::class, 'index'])->name('exam.monitoring');
+        Route::get('monitoring', [ExamMonitoringController::class, 'index'])->name('exams.monitoring');
         Route::get('{exam}/monitoring', [ExamMonitoringController::class, 'show']);
         Route::put('{exam}/monitoring/protocol-comments', [ExamMonitoringController::class, 'updateProtocolComment']);
     });

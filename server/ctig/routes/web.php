@@ -10,6 +10,7 @@ use App\Http\Controllers\Web\Enrollment\EnrollmentController;
 use App\Http\Controllers\Web\Login\LoginController;
 use App\Http\Controllers\Web\Report\ReportController;
 use App\Http\Controllers\Web\ForeignNational\ForeignNationalController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->group(function(){
@@ -67,12 +68,14 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
         Route::inertia('/exams/schedule', 'Instruction/ExamScheduleInstruction')->name('instruction.exams.schedule');
     });
 
+    Route::get('home', function(Request $request){
+        return redirect()->to($request->user()->resolveRedirect());
+    })->name('home');
 
     Route::post('password/change', [LoginController::class, 'changePassword'])->withoutMiddleware(['password.change']);
     Route::inertia('password/change', 'Auth/ChangePassword')->name('password.change')->withoutMiddleware(['password.change']);
     Route::get('files', [FileController::class, "show"])->middleware(['user.has.any.role:' . UserRoles::implode([UserRoles::Operator, UserRoles::Examiner, UserRoles::Director])]);
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-
 });
 
 Route::middleware('guest')->group(function (){

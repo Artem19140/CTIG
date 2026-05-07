@@ -45,8 +45,8 @@ Route::prefix('exams')->group(function(){
 
             Route::get('results', [ExamDocumentController::class, 'results'])->name('exam.documents.results');
             Route::get('results/available', [ExamDocumentController::class, 'resultsAvailable']);
-    });
-        Route::get('list', [ExamDocumentController::class, 'list'])->name('exam.documents.list')->middleware(['user.has.any.role:' . UserRoles::Operator->value]);
-        Route::get('list/available', [ExamDocumentController::class, 'listAvailable'])->middleware(['user.has.any.role:' . UserRoles::Operator->value]);
+        });
+        Route::get('list', [ExamDocumentController::class, 'list'])->name('exam.documents.list')->middleware(['user.has.any.role:' . UserRoles::implode([UserRoles::Operator, UserRoles::Director, UserRoles::Examiner])]);
+        Route::get('list/available', [ExamDocumentController::class, 'listAvailable'])->middleware(['user.has.any.role:' . UserRoles::implode([UserRoles::Operator, UserRoles::Director, UserRoles::Examiner])]);
     });
 });

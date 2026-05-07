@@ -47,7 +47,7 @@ class LoginController
         $plainPassword = $request->validated('password');
 
         if(Hash::check($plainPassword, $user->password)){
-            return ValidationException::withMessages([
+            throw ValidationException::withMessages([
                 'password' =>'Пароль должен отличаться от старого'
             ]);
         }
@@ -74,13 +74,16 @@ class LoginController
         if($user->isSuperAdmin()){
             abort(404);
         }
+
         $wrongPassword = !Hash::check($request->validated('adminPassword'), $request->user()->password);
+
         if($wrongPassword){
             throw ValidationException::withMessages(['adminPassword'  => 'Неверные учетные данные']);
         }
 
         $user->password = Hash::make($request->validated('password'));
         $user->has_to_change_password = true;
+
         $user->save();
         return response()->json();
    }

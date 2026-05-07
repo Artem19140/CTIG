@@ -10,7 +10,7 @@ class UserUpdateRequest extends FormRequest
 {
     public function authorize(Request $request): bool
     {
-        return !$request->user()->isOrgAdmin() || !$request->user()->isSuperAdmin();
+        return $request->user()->isOrgAdmin() || $request->user()->isSuperAdmin();
     }
 
     /**

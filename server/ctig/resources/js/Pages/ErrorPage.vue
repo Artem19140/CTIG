@@ -33,12 +33,9 @@ const icon = computed(() => {
 })
 
 const home = () => {
-  router.get('/exams')
+  router.get('/home')
 }
 
-const back = () => {
-  window.history.go(-1)
-}
 </script>
 
 <template>
@@ -55,9 +52,6 @@ const back = () => {
         <v-spacer></v-spacer>
         <v-btn color="red darken-2" variant="elevated" @click="home">
           На главную
-        </v-btn>
-        <v-btn color="red darken-2" variant="elevated" @click="back">
-          Назад
         </v-btn>
       </v-card-actions>
     </v-card>

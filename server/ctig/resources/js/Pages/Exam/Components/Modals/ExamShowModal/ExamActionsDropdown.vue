@@ -65,7 +65,7 @@ const download = (document :string) => {
 
 const auth = useAuth()
 const modals = useModals()
-const {isFinished, isCancelled, isPending} = useExamStatus(props.exam)
+const {isCancelled, isPending} = useExamStatus(props.exam)
 
 const downloadResultslDisabled  = !props.exam?.documentsAvailable.results.available 
 const downloadProtocolDisabled = !props.exam?.documentsAvailable.protocol.available 

@@ -64,7 +64,7 @@ class UserController{
         }
 
         if(!$user->isActive()){
-            throw new BusinessException('Сотрудник уже уволен');
+            throw new BusinessException('Сотрудник уволен');
         }
         
         $user->is_active = false;

@@ -43,6 +43,10 @@ class AttemptAnswer extends Model
         return $this->belongsTo(Attempt::class, 'attempt_id');
     }
 
+    public function exam(): BelongsTo{
+        return $this->belongsTo(Exam::class, 'exam_id');
+    }
+
     public function taskVariant(): BelongsTo{
         return $this->belongsTo(TaskVariant::class, 'task_variant_id');
     }

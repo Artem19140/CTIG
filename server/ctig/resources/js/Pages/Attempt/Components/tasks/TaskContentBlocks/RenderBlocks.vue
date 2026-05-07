@@ -36,5 +36,6 @@ const taskBlocks = (type: string) => {
         :is="taskBlocks(block.type)"
         v-bind="block"
         :task="task"
+        :class="block.margin ? 'mb-8' : ''"
     />
 </template>

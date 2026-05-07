@@ -39,7 +39,7 @@ class ExamMonitoringController
     }
 
     public function show(Exam $exam){
-        Gate::authorize('exam-manage-access', $exam);
+        $this->authorize($exam);
 
         $exam->load([
             'enrollments' => ['foreignNational', 'attempt.center'],
@@ -53,12 +53,16 @@ class ExamMonitoringController
     }
 
     public function updateProtocolComment(Request $request, Exam $exam, UpdateProtocolCommentAction $updateProtocolComment){
-        Gate::authorize('exam-manage-access', $exam);
+        $this->authorize($exam);
         $request->validate([
             'protocolComment' => ['required', 'string']
         ]);
         $updateProtocolComment->execute($exam, $request->input('protocolComment'));
         
         return response()->noContent();
+    }
+
+    protected function authorize(Exam $exam){
+        Gate::authorize('exam-examiner-access', $exam);
     }
 }

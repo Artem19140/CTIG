@@ -16,6 +16,8 @@ import ConfirmationOptionsModal from '@/components/Modals/ConfirmationOptionsMod
                 min-height: 100vh;
                 background-size: cover;
                 background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
             "
         >       
                 <slot />

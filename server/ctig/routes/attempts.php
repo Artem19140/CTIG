@@ -21,8 +21,6 @@ Route::prefix('attempts')->middleware(['user.has.any.role:' . UserRoles::Examine
         Route::get('{attempt}/violations', [AttemptViolationController::class, 'index'])->name('attempts.violations.index');
         Route::post('{attempt}/violations', [AttemptViolationController::class, 'store'])->name('attempts.violations.store');
         Route::delete('{attempt}/violations/{violation}', [AttemptViolationController::class, 'destroy'])->name('attempts.violations.destroy');
-        Route::patch('{attempt}/violations/{violation}', [AttemptViolationController::class, 'update'])->name('attempts.violations.update');
-
-        
+        Route::patch('{attempt}/violations/{violation}', [AttemptViolationController::class, 'update'])->name('attempts.violations.update');     
 });
 Route::put('answers/{attemptAnswer}/rate', [AttemptAnswerController::class, 'rate']);

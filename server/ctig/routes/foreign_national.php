@@ -9,7 +9,7 @@ Route::middleware('auth:foreignNationals')->group(function (){
         Route::put('{attempt}/finish', [AttemptController::class, 'finish'])
             ->can('attempt-access', 'attempt');
             
-        Route::get('{attempt}/before', [AttemptController::class, 'before'])->name('attempts.before')
+        Route::get('{attempt}/preparing', [AttemptController::class, 'preparing'])->name('attempts.preparing')
             ->can('attempt-access', 'attempt');
 
         Route::get('{attempt}', [AttemptController::class, 'show'])->name('attempts') 

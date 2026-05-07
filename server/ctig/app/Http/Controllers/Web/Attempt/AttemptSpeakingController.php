@@ -6,7 +6,6 @@ use App\Domain\Attempt\Query\GetAttemptSpeakingTasksQuery;
 use App\Exceptions\BusinessException;
 use App\Http\Resources\Attempt\AttemptResource;
 use App\Models\Attempt;
-use App\Models\Exam;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 
@@ -16,10 +15,7 @@ class AttemptSpeakingController
         Attempt $attempt, 
         GetAttemptSpeakingTasksQuery $getAttemptSpeakingQuery
     ){
-        $exam = Exam::findOrFail($attempt->exam_id);
-
-        Gate::authorize('exam-manage-access', $exam);
-
+        Gate::authorize('attempt-examiner-access', $attempt);
         $this->ensureAttemptHasSpeaking($attempt); 
         $this->ensureExamStarted($attempt);
         $this->ensureTodayIsExamDay($attempt);
@@ -36,6 +32,7 @@ class AttemptSpeakingController
     }
 
     public function start(Attempt $attempt){
+        Gate::authorize('attempt-examiner-access', $attempt);
         $this->ensureAttemptHasSpeaking($attempt);
         $this->ensureExamStarted($attempt);
         $this->ensureTodayIsExamDay($attempt);
@@ -43,14 +40,13 @@ class AttemptSpeakingController
         if($attempt->speaking_started_at){
             throw new BusinessException('Говорение уже началось');
         }
-
         $attempt->speaking_started_at = Carbon::now();
         $attempt->save();
         return new AttemptResource($attempt);
     }
 
     public function finish(Attempt $attempt){
-
+        Gate::authorize('attempt-examiner-access', $attempt);
         $this->ensureAttemptHasSpeaking($attempt);
         $this->ensureSpeakingNotFinished($attempt);
         $this->ensureExamStarted($attempt);
@@ -59,6 +55,10 @@ class AttemptSpeakingController
         $attempt->speaking_finished_at = Carbon::now();
         $attempt->save();
         return response()->noContent();
+    }
+
+    protected function authorize(Attempt $attempt){
+        Gate::authorize('attempt-examiner-access', $attempt);
     }
 
     protected function ensureSpeakingNotFinished(Attempt $attempt){

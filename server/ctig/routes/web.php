@@ -79,6 +79,7 @@ Route::middleware('guest')->group(function (){
     Route::inertia('login', 'Auth/Login')->name('login');
     Route::post('login', [LoginController::class, 'login']);
     Route::post('exam-codes/verify', [ExamController::class, 'verifyCode']);
+    Route::inertia('attempts/finish', 'Attempt/AfterAttempt')->name('attempts.finish');
 });
 
 require __DIR__.'/foreign_national.php';

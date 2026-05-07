@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Models\Attempt;
+use App\Models\AttemptAnswer;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -34,8 +36,15 @@ class AppServiceProvider extends ServiceProvider
             return $foreignNational->id === $attempt->foreign_national_id;
         });
 
-        Gate::define('exam-manage-access', function (User $user, Exam $exam){
-            return $exam->examiners()->where('examiner_id', $user->id)->first();;
+        Gate::define('exam-examiner-access', function (User $user, Exam $exam){
+            return $exam->examiners()->where('examiner_id', $user->id)->first();
+        });
+
+        Gate::define('attempt-examiner-access', function (User $user, Attempt $attempt){
+            return $attempt->exam()
+                ->whereHas('examiners', function(Builder $query) use($user){
+                    $query->where('examiner_id', $user->id);
+                })->exists();
         });
 
         Model::preventLazyLoading(

@@ -10,6 +10,7 @@ use App\Models\Attempt;
 use App\Models\AttemptAnswer;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class AttemptAnswerController
@@ -27,7 +28,7 @@ class AttemptAnswerController
         AttemptAnswer $attemptAnswer,
         HandleAttemptAnswerAction $handleAttemptAnswerAction
     ){
-        //attemptAnswer принадлежит попытке
+        abort_if($attempt->id === $attemptAnswer->attempt_id, 403);
         $answer = $request->input('answer');
         $savedAnswer = DB::transaction(function()use($answer, $attempt,$attemptAnswer, $handleAttemptAnswerAction){
             $answer = $handleAttemptAnswerAction->execute($answer, $attempt, $attemptAnswer);
@@ -43,7 +44,14 @@ class AttemptAnswerController
         AttemptAnswer $attemptAnswer,
         RateAttemptAnswerAction $rateAttemptAnswerAction
     ){
-        //Что attempt может оценивать проктор
+        $canRate = $attemptAnswer->exam()
+            ->whereHas('examiners', function(Builder $query) use($request){
+                $query->where('examiner_id', $request->user()->id);
+            })->exists();
+
+        if(!$canRate){
+            abort(403);
+        }
         $request->validate([
             'mark' => ['required', 'integer', 'min:0']
         ]);
@@ -57,6 +65,7 @@ class AttemptAnswerController
         Attempt $attempt,
         AttemptAnswer $attemptAnswer,
     ){
+        abort_if($attempt->id === $attemptAnswer->attempt_id, 403);
         //attemptAnswer принадлежит attemtp
         $attemptAnswer->audio_played = true;
         $attemptAnswer->save();

@@ -9,13 +9,13 @@ use App\Domain\Attempt\Query\GetCurrentAttemptQuery;
 use App\Enums\AttemptStatus;
 use App\Http\Resources\Attempt\AttemptExamResource;
 use App\Http\Resources\Attempt\AttemptResource;
-use App\Http\Resources\Exam\ExamResource;
 use App\Http\Resources\Exam\ExamShortResource;
 use App\Models\Attempt;
 use App\Models\Exam;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Gate;
 
 class AttemptController
 {
@@ -37,6 +37,7 @@ class AttemptController
         Attempt $attempt,
         GetCurrentAttemptQuery $getCurrentAttemptQuery
     ){
+
         $attempt = $getCurrentAttemptQuery->execute($attempt);
         
         return Inertia::render('Attempt/Attempt', [
@@ -55,6 +56,7 @@ class AttemptController
 
     public function ban(Request $request, Attempt $attempt, BanAttemptAction $banAttempt)
     {
+        Gate::authorize('attempt-examiner-access', $attempt);
         $request->validate([
             'banReason' => ['required', 'string']
         ]);
@@ -71,23 +73,22 @@ class AttemptController
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
-        return Inertia::render('Attempt/AfterAttempt', [
-            'foreignNational' => $request->user()->full_name,
-            'examName' => $attempt->exam->name
-        ]);
+
+        return redirect()->route('attempts.finish');
     }
 
-    public function before(Attempt $attempt){
+    public function preparing(Attempt $attempt){
 
         if($attempt->status !== AttemptStatus::Pending){
-            return redirect('login')->with('У вас нет текущей попытки экзамена');
+            Inertia::flash(['error' => 'У вас нет текущей попытки экзамена']);
+            return Inertia::render('Auth/Login');
         }
 
         $exam = Exam::with([
             'type'
         ])->find($attempt->exam_id);
         
-        return Inertia::render('Attempt/BeforeAttempt', [
+        return Inertia::render('Attempt/PrepareAttempt', [
             'exam' => new ExamShortResource($exam),
             'duration' => $exam->type->duration,
             'minMark' => $exam->type->min_mark,

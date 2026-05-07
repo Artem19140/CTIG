@@ -7,6 +7,7 @@ use App\Http\Resources\Exam\ExamCheckingResource;
 use App\Http\Resources\Exam\ExamIndexResource;
 use App\Models\Exam;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class ExamCheckingController
@@ -19,6 +20,8 @@ class ExamCheckingController
     }
 
     public function show(Exam $exam){
+        Gate::authorize('exam-examiner-access', $exam);
+        
         if(!$exam->type->need_human_check){
             abort(403);
         }

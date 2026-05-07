@@ -7,7 +7,7 @@ const props = defineProps<{
 }>()
 
 let interval:number | null = null
-//нужно выдавать просто точку старта и запускать
+
 const timeLeft = ref<number>(0)
 
 const offset = ref(0)
@@ -57,8 +57,8 @@ onMounted(() => {
     syncTime()
     startTimer()
     interval = setInterval(calculateTime, 1000)
-    setInterval(syncTime, 60000)
-document.addEventListener('visibilitychange', calculateTime)
+    setInterval(syncTime, 20000)
+    document.addEventListener('visibilitychange', calculateTime)
 })
 
 onUnmounted(() => {

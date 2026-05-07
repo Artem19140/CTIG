@@ -42,13 +42,13 @@ class ExamDocumentController
         Exam $exam, 
         ExamCodesGenerator $examCodesGenerator
     ){
+        $this->authorize($exam);
         $this->examDocumentAvailable->codes($exam);
-        Gate::authorize('exam-manage-access', $exam);
         return $examCodesGenerator->execute($exam);
     }
 
     public function codesAvailable(Exam $exam){
-        Gate::authorize('exam-manage-access', $exam);
+        $this->authorize($exam);
         $this->examDocumentAvailable->codes($exam);
         return Inertia::flash([
             'redirectUrl' => route('exam.documents.codes', ['exam' => $exam])
@@ -85,5 +85,9 @@ class ExamDocumentController
         return response()->json([
             'redirectUrl' => route('exam.documents.results', ['exam' => $exam])
         ]);
+    }
+
+    protected function authorize(Exam $exam){
+        Gate::authorize('exam-examiner-access', $exam);
     }
 }

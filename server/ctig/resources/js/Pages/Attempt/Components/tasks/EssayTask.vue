@@ -12,7 +12,7 @@ const props = defineProps<{
 const emit = defineEmits<{
     (e:'updateAnswer', value: {
         task:Task,
-        answer:any
+        answer:string
     }):void
 }>()
 
@@ -20,18 +20,17 @@ const answer = ref<string | null>(props.task?.attemptAnswer.answer)
 
 let timeoutSet: boolean = false
 
-watch(answer, (text) => {
+watch(answer, () => {
     if (timeoutSet) {
         return 
     }
-
     timeoutSet = true
-    
+
     setTimeout(async () => {
         timeoutSet = false
         emit('updateAnswer', {
             task:props.task,
-            answer:text
+            answer:answer.value ?? ''
         })
     }, 10000)
 })

@@ -28,7 +28,7 @@ const audioPlayed = ref<boolean>(props.task.attemptAnswer.audioPlayed ?? false)
 const {audioPlaying, audioStartPlaying, audioStopPlaying, examAttempt} = useAttempt()
 const http = useHttp()
 const togglePlay = () => {
-
+    
     if(!audioPlaying.value){
         audioStartPlaying()
     }else{
@@ -39,11 +39,9 @@ const togglePlay = () => {
 
     if (!audioRef.value) return
     audioRef.value.play()
-
+    
+    if(!examAttempt.value) return
     http.put(`/attempts/${examAttempt.value?.id}/answers/${props.task.attemptAnswer.id}/audio`,{
-        onSuccess(response, httpResponse) {
-            
-        },
     })
 }
 

@@ -11,10 +11,12 @@ use App\Models\Attempt;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Gate;
 
 class AttemptCheckingController
 {
     public function show(Attempt $attempt){
+        $this->authorize($attempt);
         $attempt->load([
             'taskVariants' => function (BelongsToMany $query){
                 $query->whereHas('task', function (Builder $q){
@@ -34,6 +36,7 @@ class AttemptCheckingController
         Attempt $attempt, 
         FinilizeAttemptCheckingAction $finilizeAttemptCheckingAction
     ){
+        $this->authorize($attempt);
         $notAllManualTasksChecked =  $attempt->answers()
             ->notChecked()
             ->whereHas('taskVariant', function (Builder $query){
@@ -53,6 +56,7 @@ class AttemptCheckingController
     }
 
     public function finishSpeaking(Attempt $attempt){
+        $this->authorize($attempt);
         $attempt->loadMissing('exam.type');
 
         if($attempt->speaking_finished_at){
@@ -62,5 +66,9 @@ class AttemptCheckingController
         $attempt->speaking_finished_at = Carbon::now();
         $attempt->save();
         return response()->noContent();
+    }
+
+    protected function authorize(Attempt $attempt){
+        Gate::authorize('attempt-examiner-access', $attempt);
     }
 }

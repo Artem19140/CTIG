@@ -10,7 +10,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 final class ExamCodesGenerator{
     public function execute(Exam $exam){
         $exam->load('enrollments.foreignNational');
-
+         
         $this->generateCodesForExam($exam);
 
         $pdf = Pdf::loadView('templates.exam-codes', [

@@ -6,7 +6,6 @@ import { DateFormatter } from '@helpers/DateFormatter';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import { computed, ref } from 'vue';
-import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
 import { Exam, ExamForm } from '@/interfaces/Exam';
 
 const props = defineProps<{
@@ -36,8 +35,6 @@ const edit = () => {
             if(!props.onEdit || !response.exam) return
             props.onEdit(response.exam)
             isOpen.value = false
-            const {add} = useSnackbarQueue()
-            add('Данные успешно изменены', 'green')
         }
     })
 }

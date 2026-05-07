@@ -1,9 +1,10 @@
-<script setup>
-import { computed } from 'vue'
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { router } from '@inertiajs/vue3';
 
-const props = defineProps({ status: Number })
-
+const props = defineProps<{
+  status: number
+}>()
 
 const title = computed(() => {
   return {
@@ -32,8 +33,14 @@ const icon = computed(() => {
   }[props.status] || 'mdi-alert'
 })
 
+const loading = ref<boolean>(false) 
 const home = () => {
-  router.get('/home')
+  loading.value = true
+  router.get('/home', {}, {
+    onFinish:() => {
+      loading.value = false
+    }
+  })
 }
 
 </script>
@@ -50,7 +57,13 @@ const home = () => {
       </v-card-text>
       <v-card-actions class="actions">
         <v-spacer></v-spacer>
-        <v-btn color="red darken-2" variant="elevated" @click="home">
+        <v-btn  
+          color="red darken-2" 
+          variant="elevated" 
+          @click="home"
+          :loading="loading"
+          :disabled="loading"
+        >
           На главную
         </v-btn>
       </v-card-actions>
@@ -87,7 +100,6 @@ const home = () => {
 .description {
   margin-top: 12px;
   font-size: 1.1rem;
-  color: #b71c1c;
 }
 
 .actions {

@@ -11,7 +11,8 @@ import { router, useHttp } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 const props = defineProps<{
-    address:Address
+    address:Address,
+    centerId:number
 }>()
 
 const editMode = ref<boolean>(false)
@@ -26,7 +27,7 @@ const toggleAddressActivity = async () => {
     const ok = await open(message)
     if(!ok) return
     props.address.loading = true
-    http.patch(`/addresses/${props.address.id}/activity`,{
+    http.patch(`/centers/${props.centerId}/addresses/${props.address.id}/activity`,{
         onSuccess:() => {
             router.reload()
         },
@@ -45,7 +46,7 @@ const editLoading = ref<boolean>(false)
 
 const edit = () => {
     editLoading.value = true
-    editHttp.patch(`/addresses/${props.address.id}`,{
+    editHttp.patch(`/centers/${props.centerId}/addresses/${props.address.id}`,{
         onSuccess:() => {
             router.reload({
                 onSuccess:() => {

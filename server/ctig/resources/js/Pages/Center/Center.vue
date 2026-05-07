@@ -36,7 +36,7 @@ const tab = ref<Tab>(props.tab ?? 'data')
 
 const visit = (route : string) => {
     router.visit(`/centers/${centerId.value}${route}`)
-}
+} 
 </script>
 
 <template>
@@ -59,7 +59,10 @@ const visit = (route : string) => {
             </v-tabs-window-item>
 
             <v-tabs-window-item value="addresses" v-if="addresses">
-                <AddressesList :addresses="addresses.data" />
+                <AddressesList 
+                    :center-id="centerId"
+                    :addresses="addresses.data"
+                 />
             </v-tabs-window-item>
         </v-tabs-window>
     </BaseContainer>

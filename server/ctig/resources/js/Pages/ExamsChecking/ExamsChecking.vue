@@ -2,6 +2,7 @@
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import ExamsCheckingTable from './Components/ExamsCheckingTable.vue';
 import { ExamIndex } from '@/interfaces/Exam';
+import { Head } from '@inertiajs/vue3';
 
 defineOptions({
   layout: [EmployeeLayout],
@@ -16,6 +17,9 @@ const props = defineProps<{
 
 
 <template>
+    <Head>
+        <title>Проверка список</title>
+    </Head>
     <v-container>
         <v-card>
             <ExamsCheckingTable :exams="exams.data" />

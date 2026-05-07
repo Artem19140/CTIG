@@ -7,6 +7,7 @@ import { useModals } from '@composables/useModals';
 import AppStatusChip from '@/components/UI/AppStatusChip/AppStatusChip.vue';
 import { Enrollment } from '@/interfaces/Enrollment';
 import { ExamChecking } from '@/interfaces/Exam';
+import { Head } from '@inertiajs/vue3';
 
 defineOptions({
   layout: [EmployeeLayout],
@@ -32,6 +33,9 @@ const openAttempt =  (item : Enrollment) => {
 </script>
 
 <template>
+    <Head>
+        <title>Проверка {{ exam.data.shortName }}</title>
+    </Head>
     <BaseContainer>
         <BaseTable
             :headers="headers"

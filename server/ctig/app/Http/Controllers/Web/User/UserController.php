@@ -55,15 +55,19 @@ class UserController{
     }
 
     public function destroy(User $user, Request $request){
-        if(!$request->user()->isOrgAdmin() && !$request->user()->isSuperAdmin()){
+        if($request->user()->center_id !== $user->center_id && !$request->user()->isSuperAdmin()){
+            abort(403);
+        }
+        
+        if($user->isSuperAdmin()){
+            abort(403);
+        }
+        
+        if($user->isOrgAdmin() && !$request->user()->isSuperAdmin()){
             abort(403);
         }
 
-        if($request->user()->center_id !== $user->center_id ){
-            abort(403);
-        }
-
-        if(!$user->is_active){
+        if(!$user->isActive()){
             throw new BusinessException('Сотрудник уже уволен');
         }
         

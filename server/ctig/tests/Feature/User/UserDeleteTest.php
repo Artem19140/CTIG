@@ -29,7 +29,7 @@ class UserDeleteTest extends TestCase
     public function test_success(): void{
         $this->withoutExceptionHandling();
         
-        $userToDelete = User::factory()->create(['center_id' => $this->user->center_id]);
+        $userToDelete = User::factory()->operator()->create(['center_id' => $this->user->center_id]);
         $response = $this->actingAs($this->user)
             ->deleteJson(route('users.destroy', ['user' => $userToDelete]));
         $this->assertDatabaseHas('users', [
@@ -40,7 +40,6 @@ class UserDeleteTest extends TestCase
     }
 
     public function test_fail_delete_not_active(): void{
-        
         $userToDelete = User::factory()->notActive()->create(['center_id' => $this->user->center_id]);
         $response = $this->actingAs($this->user)
             ->deleteJson(route('users.destroy', ['user' => $userToDelete]));

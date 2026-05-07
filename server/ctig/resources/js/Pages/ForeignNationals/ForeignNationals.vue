@@ -4,6 +4,7 @@ import ForeignNationalTable from './Components/ForeignNationalTable/ForeignNatio
 import BaseContainer from '@/components/BaseComponents/BaseContainer/BaseContainer.vue';
 import { Paginated } from '@/interfaces/Interfaces';
 import { ForeignNationalIndex } from '@/interfaces/ForeignNational';
+import { Head } from '@inertiajs/vue3';
 
 defineOptions({
   layout: [EmployeeLayout]
@@ -15,6 +16,9 @@ const props = defineProps<{
 </script>
 
 <template>
+  <Head>
+    <title>ИГ</title>
+  </Head>
   <BaseContainer >
     <ForeignNationalTable 
       :foreignNationals="foreignNationals" 

@@ -5,6 +5,7 @@ import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import BaseTable from '@/components/BaseComponents/BaseTable/BaseTable.vue';
 import AppBorderedButton from '@/components/UI/AppBorderedButton/AppBorderedButton.vue';
 import { Employee } from '@/interfaces/Employee';
+import { Head } from '@inertiajs/vue3';
 
 const props = defineProps<{
     employees : Employee[]
@@ -21,6 +22,9 @@ const headers = [
 </script>
 
 <template>
+    <Head>
+        <title>Сотрудники</title>
+    </Head>
     <BaseTable 
         :headers="headers"
         :items="employees"

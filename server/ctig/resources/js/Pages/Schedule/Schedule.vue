@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
-import { router } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import { useModals } from '@composables/useModals';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
@@ -68,6 +68,9 @@ const addExam = (nativeEvent : Event, { date } : any) => {
 </script>
 
 <template>
+  <Head>
+      <title>Расписание</title>
+  </Head>
   <v-sheet class="d-flex" tile>
     <v-btn
       class="ma-2"

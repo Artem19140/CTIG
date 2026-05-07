@@ -87,7 +87,7 @@ const beforeClose = async () => {
         <AppPrimaryButton
             text="Обновить"
             @click="edit"
-            :disabled="http.processing"
+            :disabled="http.processing || !http.isDirty"
             :loading="http.processing"
             class="mr-4"
         />

@@ -28,6 +28,7 @@ const {isOpen, confimation, confimationError, message, close, ok} = useConfirmat
             <AppPrimaryButton
                 @click="ok"
                 text="Подтвердить"
+                :disabled="!confimation"
             />
         </template>
     </BaseDialog>

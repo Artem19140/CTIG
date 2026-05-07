@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { router } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import BasePaginatedTable from '@components/BaseComponents/BasePaginatedTable/BasePaginatedTable.vue';
 import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
@@ -51,6 +51,9 @@ const getPastExams = () =>{
 </script>
 
 <template>
+    <Head>
+        <title>Мониторинг список</title>
+    </Head>
     <BaseContainer>
         <BasePaginatedTable
             :elements="exams"

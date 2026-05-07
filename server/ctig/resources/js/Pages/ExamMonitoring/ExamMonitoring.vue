@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import EnrollmentMonitoringDropdown from './EnrollmentMonitoringDropdown.vue';
-import { usePoll } from '@inertiajs/vue3'
+import { Head, usePoll } from '@inertiajs/vue3'
 import { attemptStatus } from '@helpers/heplers';
 import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
@@ -78,6 +78,9 @@ const back = () => {
 
 
 <template>
+    <Head>
+        <title>{{ exam.data.shortName }} {{ new DateFormatter(exam.data?.beginTime).format('d.m.Y') }}</title>
+    </Head>
     <v-btn class="mt-4 ml-4" @click="back">Назад</v-btn>
     <BaseContainer>
             <v-card-title>

@@ -4,6 +4,7 @@ import ShowData from './ShowData.vue';
 import UpdateData from './UpdateData.vue';
 import AppPrimaryButton from '@components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import { Center } from '@/interfaces/Center';
+import { Head } from '@inertiajs/vue3';
 
 const props = defineProps<{
     data : Center
@@ -14,6 +15,9 @@ const mode = ref<string>('show')
 
 
 <template>
+    <Head>
+        <title>Данные центра</title>
+    </Head>
     <div class="p-3">
         <ShowData :center="data" v-if="mode === 'show'" />
         <UpdateData 

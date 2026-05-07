@@ -10,7 +10,6 @@ use Illuminate\Validation\ValidationException;
 
 class UpdateUserAction{
    public function execute(array $data, User $user){
-   
     $this->ensureHasNoRoleSuperAdmin($data);
     $this->ensureOrgAdminValidCreation($data, $user);
     DB::transaction(function() use($user, $data){
@@ -34,7 +33,7 @@ class UpdateUserAction{
 
     protected function ensureHasNoRoleSuperAdmin(array $data):void{
         $superAdminRole = Role::findByEnum(UserRoles::SuperAdmin);
-        if(in_array($superAdminRole->id, $data['roles'])){
+        if(\in_array($superAdminRole->id, $data['roles'])){
             abort(403);
         }
     }

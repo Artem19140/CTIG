@@ -3,12 +3,13 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class UserPostRequest extends FormRequest
 {
-    public function authorize(): bool
+    public function authorize(Request $request): bool
     {
-        return true;
+        return $request->user()->isOrgAdmin() && $request->user()->isSuperAdmin();
     }
 
     /**

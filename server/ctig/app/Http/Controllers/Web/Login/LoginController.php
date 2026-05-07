@@ -30,10 +30,8 @@ class LoginController
         if ($user->hasChangePassword()) {
             return redirect()->route('password.change');
         }
-        
-        return redirect()->to($user->resolveRedirect());
 
-        return redirect()->route('exams.index');
+        return redirect()->to($user->resolveRedirect());
     }
 
     protected function noAccess(LoginRequest $request):bool{
@@ -46,19 +44,20 @@ class LoginController
 
    public function changePassword(ChangePasswordRequest $request){
         $user = $request->user();
+        $plainPassword = $request->validated('password');
 
-        if(Hash::check($request->validated('newPassword'), $user->password)){
+        if(Hash::check($plainPassword, $user->password)){
             return ValidationException::withMessages([
-                'newPassword' =>'Пароль должен отличаться от старого'
+                'password' =>'Пароль должен отличаться от старого'
             ]);
         }
 
         $user->update([
-            'password' => Hash::make($request->input('newPassword')),
+            'password' => Hash::make($plainPassword),
             'has_to_change_password' => false
         ]);
         
-        return redirect()->route('exams.index')->with('success', 'Пароль изменён!');
+        return redirect()->to($user->resolveRedirect());
    }
 
    public function logout(Request $request){

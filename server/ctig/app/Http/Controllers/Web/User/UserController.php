@@ -26,7 +26,6 @@ class UserController{
         $users = User::active()
             ->with(['roles'])
             ->orderBy('surname')
-            //уволенных тоже
             ->get();
         return Inertia::render('Center/Center', [
             'employees' => UserResource::collection($users),
@@ -35,9 +34,6 @@ class UserController{
     }
 
     public function store(UserPostRequest $request, CreateUserAction $createUser){
-        if(!$request->user()->isOrgAdmin() && !$request->user()->isSuperAdmin()){
-            abort(403);
-        }
         $createUser->execute($request->validated(), $request->user());
         return response()->json();
     }

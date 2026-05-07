@@ -26,7 +26,6 @@ const http = useHttp<ExamForm>({
 const create =  () => {
     http.post('/exams', {
     onSuccess: (response:any) => {
-        console.log(response)
         http.resetAndClearErrors()
         isOpen.value = false
         router.reload()

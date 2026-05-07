@@ -62,7 +62,7 @@
             <td>{{ $row['startedAt'] ?? ''}}</td>
             <td>{{ $row['finishedAt']  ?? ''}}</td> 
             <td>{{ $row['speakingStartedAt'] ?? ''}}</td>
-            <td>{{ $row['speakingfinishedAt']  ?? ''}}</td>   
+            <td>{{ $row['speakingFinishedAt']  ?? ''}}</td>   
             @foreach ($row['subblockMarks'] as $marks)
                 <td>{{ $marks['sum'] !== null ? $marks['sum'] : ''}}</td>   
             @endforeach

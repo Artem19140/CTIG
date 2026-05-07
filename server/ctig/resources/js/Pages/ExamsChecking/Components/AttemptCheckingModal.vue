@@ -5,8 +5,9 @@ import AttemptCheckingSidePanel from './AttemptCheckingSidePanel.vue';
 import BaseDialog from '@/components/BaseComponents/BaseDialog/BaseDialog.vue';
 import { AttemptAnswer } from '@/interfaces/Task';
 import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.vue';
-import { Attempt } from '@/interfaces/Attempt';
+import { AttemptChecking } from '@/interfaces/Attempt';
 import TaskCheckingList from '@/pages/Attempt/Components/tasks/TaskCheckingList.vue';
+import AttemptCheckingPanel from '@/components/Attempt/AttemptCheckingPanel.vue';
 
 const isOpen = defineModel<boolean>({default:false})
 
@@ -14,15 +15,7 @@ const props = defineProps<{
     attemptId:number | null
 }>()
 
-const attempt = ref<Attempt | null>(null)
-
-const scrollToTask = (id: number) => {
-  const el = document.getElementById(`task-${id}`)
-  el?.scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  })
-}
+const attempt = ref<AttemptChecking | null>(null)
 
 const update = (value:AttemptAnswer) => {
     if(!attempt.value) return
@@ -34,7 +27,7 @@ const update = (value:AttemptAnswer) => {
 const http = useHttp()
 
 const getAttemptTasks = () => {
-    http.get(`/attempts/${props.attemptId}/checking/tasks`,{
+    http.get(`/attempts/${props.attemptId}/checking`,{
         onSuccess:(response :any) => {
             attempt.value = response.data
         }
@@ -65,29 +58,17 @@ onMounted(() => {
         :onRetry="getAttemptTasks"
         @before-close="(close) => close()"
     >
-        <h1 v-if="http.processing">Загрузка</h1>
-        <div class="flex gap-10 items-start">
-            <div class="flex-shrink-0 sticky top-0 self-start">
-                <AttemptCheckingSidePanel
-                    v-if="attempt"
-                    :attempt="attempt" 
-                    @select="scrollToTask"
-                />
-            </div>
-            <div class="mx-auto">
-                <TaskCheckingList
-                    v-if="attempt"
-                    @rated="update"
-                    :attempt="attempt"
-                    :checking="true"
-                />
-            </div>
-        </div>
-        
+        <AttemptCheckingPanel 
+            v-if="attempt"
+            :attempt="attempt"
+            @rated="update"
+        />
+
         <template #actions>
+            <span class="bg-red p-1.5 rounded" v-if="attempt?.checkedAt">Попытка проверена. Изменения недоступны.</span>
             <AppPrimaryButton 
                 :loading="http.processing"
-                :disabled="http.processing"
+                :disabled="http.processing || attempt?.checkedAt"
                 @click="finishChecking"
                 text="Завершить проверку"
             />

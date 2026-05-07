@@ -20,3 +20,25 @@ export interface Attempt{
     speakingStartedAt: string | null,
     violations:Array<Violation>
 }
+
+export interface AttemptChecking{
+    id:number,
+    status:string,
+    expiredAt:string,
+    tasks: Task[],
+    checkedAt:string
+}
+
+export interface AttemptMonitoring{
+    id:number,
+    startedAt:string,
+    finishedAt:string | null,
+    status:string,
+    foreignNational: ForeignNational,
+    endsAt:number,
+    serverNow:number,
+    speakingFinishedAt: string | null,
+    speakingStartedAt: string | null,
+    tasks: Task[],
+    checkedAt:string
+}

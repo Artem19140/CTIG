@@ -30,7 +30,7 @@ const ban = async () => {
         banReason : res
     })
     http.put(`/attempts/${props.enrollment.attempt?.id}/ban`, {
-        onSuccess(response, httpResponse) {
+        onSuccess() {
             router.reload()
         },
         onFinish:()=> {
@@ -50,7 +50,6 @@ const hasAttempt = computed(() => props.enrollment.attempt !== null)
 const speakingFinished = computed(() => props.enrollment.attempt?.speakingFinishedAt !== null)
 
 const changePaymentDisabled = computed(() => isCancelled.value || isFinished.value || hasAttempt.value)
-console.log(hasAttempt.value)
 </script>
 
 <template>

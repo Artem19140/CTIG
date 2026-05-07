@@ -5,13 +5,13 @@ import EssayTask from './EssayTask.vue';
 import TextInputTask from './TextInputTask.vue';
 import { TaskTypes } from '@/constants/TaskTypes';
 import { AttemptAnswer } from '@/interfaces/Task';
-import { Attempt } from '@/interfaces/Attempt';
+import { Attempt, AttemptMonitoring } from '@/interfaces/Attempt';
 import { useAttempt } from '@/composables/useAttempt';
 import { useHttp } from '@inertiajs/vue3';
 import BaseEmptyState from '@/components/BaseComponents/BaseEmptyState/BaseEmptyState.vue';
 
 const props = defineProps<{
-    attempt:Attempt
+    attempt:Attempt | AttemptMonitoring
 }>()
 
 const taskComponent = (type: string) => {

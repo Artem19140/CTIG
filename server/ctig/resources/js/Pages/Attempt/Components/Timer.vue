@@ -42,7 +42,6 @@ const stopTimer = () => {
 }
 
 const onTimeEnd = () => {
-    console.log('Время вышло!')
 }
 
 const formattedTime = computed(() => {

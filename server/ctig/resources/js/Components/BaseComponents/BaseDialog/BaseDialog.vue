@@ -14,7 +14,6 @@ const props = defineProps<{
     skeleton?:string,
     error?:boolean,
     onRetry?:Function,
-    loadingText?:string
 }>()
 
 const close = () => {
@@ -56,7 +55,7 @@ const close = () => {
             <v-container class="fill-height d-flex align-center justify-center" v-if="!skeleton && loading">
                 <div class="text-center">
                 <AppProgressCircular size="56" width="5" />
-                <div class="mt-4">{{ loadingText ?? 'Загрузка' }}</div>
+                <div class="mt-4">'Идет загрузка...'</div>
                 </div>
             </v-container>
 
@@ -80,8 +79,8 @@ const close = () => {
                 
             </v-card-text>
             
-
-            <v-card-actions class="sticky-bottom">
+            <!-- class="sticky-bottom" -->
+            <v-card-actions > 
                 <slot name="actions" :close="close" />
                 <v-btn 
                     @click="close"

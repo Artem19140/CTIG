@@ -82,8 +82,6 @@ class LoginController
             abort(404);
         }
         $wrongPassword = !Hash::check($request->validated('adminPassword'), $request->user()->password);
-        Log::info(Hash::check($request->validated('adminPassword'), $request->user()->password));
-        Log::info($request->validated('adminPassword'));
         if($wrongPassword){
             throw ValidationException::withMessages(['adminPassword'  => 'Неверные учетные данные']);
         }

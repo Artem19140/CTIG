@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import { Attempt } from '@/interfaces/Attempt';
+import { AttemptChecking, AttemptMonitoring } from '@/interfaces/Attempt';
 
 const props = defineProps<{
-  attempt: Attempt
-}>()
-
-const emit = defineEmits<{
-  (e: 'select', id: number): void
+  attempt: AttemptChecking | AttemptMonitoring
 }>()
 
 const getParams = (checkedAt:string | null) => {
@@ -14,6 +10,13 @@ const getParams = (checkedAt:string | null) => {
   return checkedAt ? {icon:'mdi-check', color:'success'} : {icon:'mdi-close', color:'error'} 
 }
 
+const scrollToTask = (id: number) => {
+  const el = document.getElementById(`task-${id}`)
+  el?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  }) 
+}
 </script>
 
 <template>
@@ -22,7 +25,7 @@ const getParams = (checkedAt:string | null) => {
     <v-list-item
       v-for="task in attempt.tasks"
       :key="task.id"
-      @click="emit('select', task.id)"
+      @click="scrollToTask(task.id)"
       class="cursor-pointer"
     >
       <template #prepend>

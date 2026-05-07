@@ -11,7 +11,7 @@ Route::prefix('attempts')->middleware(['user.has.any.role:' . UserRoles::Examine
     ->group(function(){
         Route::put('{attempt}/ban', [AttemptController::class, 'ban'])->name('attempts.ban');
 
-        Route::get('{attempt}/checking/tasks', [AttemptCheckingController::class, 'show'])->name('attempts.checking.tasks');
+        Route::get('{attempt}/checking', [AttemptCheckingController::class, 'show'])->name('attempts.checking');
         Route::post('{attempt}/checking/finish', [AttemptCheckingController::class, 'finish'])->name('attempts.checking.finish');
 
         Route::get('{attempt}/speaking', [AttemptSpeakingController::class, 'show'])->name('attempts.speaking');

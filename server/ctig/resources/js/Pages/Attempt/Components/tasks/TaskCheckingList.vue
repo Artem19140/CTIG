@@ -4,14 +4,15 @@ import SpeakingTask from './SpeakingTask.vue';
 import EssayTask from './EssayTask.vue';
 import TextInputTask from './TextInputTask.vue';
 import { TaskTypes } from '@/constants/TaskTypes';
-import { Attempt } from '@/interfaces/Attempt';
+import { AttemptChecking, AttemptMonitoring } from '@/interfaces/Attempt';
 import TaskRatingBlock from './TaskRatingBlock.vue';
 import BaseEmptyState from '@/components/BaseComponents/BaseEmptyState/BaseEmptyState.vue';
 import { AttemptAnswer } from '@/interfaces/Task';
 
 const props = defineProps<{
-    attempt:Attempt,
-    checking?:boolean 
+    attempt:AttemptChecking | AttemptMonitoring,
+    checking?:boolean,
+    readonly?:boolean
 }>()
 
 const emit = defineEmits<{
@@ -54,6 +55,7 @@ const rated = (value :AttemptAnswer) => {
                 @rated="rated"
                 :task="task"
                 v-if="checking"
+                :readonly="Boolean(attempt.checkedAt)"
             />
         </div>
     </div>

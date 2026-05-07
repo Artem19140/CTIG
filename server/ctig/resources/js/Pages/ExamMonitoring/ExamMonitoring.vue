@@ -5,7 +5,7 @@ import { attemptStatus } from '@helpers/heplers';
 import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import EmployeeLayout from '@layouts/EmployeeLayout.vue';
 import { useModals } from '@composables/useModals';
-import { computed, onMounted, onUnmounted, watch} from 'vue';
+import { computed, onMounted, onUnmounted} from 'vue';
 import AppStatusChip from '@components/UI/AppStatusChip/AppStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import { useExamStatus } from '@/composables/useExamStatus';

@@ -7,8 +7,10 @@ import { useHttp } from '@inertiajs/vue3';
 import { computed, onMounted, ref, watch } from 'vue';
 
 const props = defineProps<{
-    task:Task
+    task:Task,
+    readonly:boolean
 }>()
+
 const emit = defineEmits<{
     (e:'rated', value:AttemptAnswer):void
 }>()
@@ -24,18 +26,25 @@ watch(() => http.mark, () => {
     rate()
 })
 
+const error = ref<boolean>(false)
 const rate = () => {
+    error.value = false
     http.put(`/answers/${answerId}/rate`,{
         onSuccess:(response)=>{
             emit('rated', response.attemptAnswer)
-        }
+        },
+        onFinish() {
+            if(!http.wasSuccessful){
+                error.value = true
+            }
+        },
     })
 }
 
 const loading = computed(() => http.processing)
 
 const markSaved = computed(() => 
-    props.task.attemptAnswer.checkedAt !== null 
+    props.task.attemptAnswer.checkedAt !== null  && !error.value
 )
 
 const marks = ref<Array<number>>([])
@@ -57,6 +66,7 @@ onMounted(() => {
             :disabled="loading"
             :base-color="markSaved ? 'green' : ''"
             :error-messages="http.errors.mark"
+            :readonly="readonly"
         />
 
         <div class="d-flex align-center ga-2" v-if="loading">
@@ -73,7 +83,7 @@ onMounted(() => {
                 Результат успешно сохранен
             </v-alert>
             <AppRetryAlert
-                v-if="!http.wasSuccessful"
+                v-if="error"
                 text="Не удалось сохранить балл"
                 :onRetry="rate"
             />

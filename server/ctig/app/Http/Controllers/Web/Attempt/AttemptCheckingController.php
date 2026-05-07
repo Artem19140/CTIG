@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Attempt;
 use App\Domain\Attempt\Action\FinilizeAttemptCheckingAction;
 use App\Enums\TaskType;
 use App\Exceptions\BusinessException;
+use App\Http\Resources\Attempt\AttemptCheckingResource;
 use App\Http\Resources\Attempt\AttemptResource;
 use App\Models\Attempt;
 use Carbon\Carbon;
@@ -26,7 +27,7 @@ class AttemptCheckingController
             }
         ]);
         $attempt->taskVariants = $attempt->taskVariants->sortBy('task.order');
-        return new AttemptResource($attempt);
+        return new AttemptCheckingResource($attempt);
     }   
 
     public function finish(

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm, useHttp } from '@inertiajs/vue3'
+import { useHttp } from '@inertiajs/vue3'
 import { usePromptDialog } from '@composables/usePromptDialog';
 import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
@@ -9,6 +9,7 @@ import { useModals } from '@composables/useModals';
 import { useLoadingSnackbar } from '@composables/useLoadingSnackBar';
 import { useExamStatus } from '@/composables/useExamStatus';
 import { Exam } from '@/interfaces/Exam';
+import { RedirectUrl } from '@/interfaces/Interfaces';
 
 const props = defineProps<{exam : Exam | null}>()
 
@@ -46,13 +47,13 @@ const download = (document :string) => {
     if(!props.exam?.id || !document){
         return
     }
-    const form = useForm()
+    const http = useHttp<{},RedirectUrl>()
     loadingSnackbar.open('Скачивание')
-    form.get(`/exams/${props.exam.id}/documents/${document}/available`,{
-      onSuccess:(page) => {
-        if(page.flash.redirectUrl){
+    http.get(`/exams/${props.exam.id}/documents/${document}/available`,{
+      onSuccess:(response) => {
+        if(response.redirectUrl){
           //modals.open('pdf', {url:page.flash.redirectUrl})
-          window.open(String(page.flash.redirectUrl))
+          window.open(String(response.redirectUrl))
         }
       },
       onFinish:()=>{

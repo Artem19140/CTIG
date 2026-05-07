@@ -2,7 +2,6 @@
 import BaseThreeDotDropdown from '@/components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 import AppListDropDownItem from '@/components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import { useModals } from '@/composables/useModals';
-import { useExamStatus } from '@/composables/useExamStatus';
 import { ExamMonitoring } from '@/interfaces/Exam';
 
 const props = defineProps<{
@@ -10,7 +9,6 @@ const props = defineProps<{
 }>()
 
 const {open} = useModals()
-const {isPending} = useExamStatus(props.exam)
 </script>
 
 <template>
@@ -19,11 +17,6 @@ const {isPending} = useExamStatus(props.exam)
             title="Комментарий (протокол)"
             :disabled="!exam.editProtocolCommentAvailable"
             @click="open('examComment', {exam:exam})"
-        />
-
-        <AppListDropDownItem 
-            :disabled="isPending"
-            title="Итоги экзамена"
         />
 
         <AppListDropDownItem 

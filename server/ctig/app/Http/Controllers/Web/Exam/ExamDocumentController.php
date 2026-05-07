@@ -33,9 +33,9 @@ class ExamDocumentController
 
     public function listAvailable(Exam $exam){
         $this->examDocumentAvailable->list($exam);
-        return Inertia::flash([
+        return response()->json([
             'redirectUrl' => route('exam.documents.list', ['exam' => $exam])
-        ])->back();
+        ]);
     }
 
     public function codes(
@@ -66,9 +66,9 @@ class ExamDocumentController
 
     public function protocolAvailable(Exam $exam){
         $this->examDocumentAvailable->protocol($exam);
-        return Inertia::flash([
+        return response()->json([
             'redirectUrl' => route('exam.documents.protocol', ['exam' => $exam])
-        ])->back();
+        ]);
     }
 
     public function results(Exam $exam, ExamResultsGenerator $examResultsGenerator){
@@ -82,8 +82,8 @@ class ExamDocumentController
         Exam $exam
     ){
         $this->examDocumentAvailable->results($exam);
-        return Inertia::flash([
+        return response()->json([
             'redirectUrl' => route('exam.documents.results', ['exam' => $exam])
-        ])->back();
+        ]);
     }
 }

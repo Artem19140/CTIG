@@ -18,7 +18,7 @@ import StatisticsModal from '@pages/ForeignNationals/Components/ForeignNationalT
 import SpeakingTasksModal from '@/pages/ExamMonitoring/SpeakingTasksModal.vue';
 import AddressCreateModal from '@/pages/Center/Components/Addresses/AddressCreateModal.vue';
 import MinistryEducationReportModal from '@/pages/ForeignNationals/Components/ForeignNationalTable/MinistryEducationReportModal.vue';
-import ViolationModal from '@/pages/ExamMonitoring/ViolationModal.vue';
+import ViolationModal from '@/pages/ExamMonitoring/Violations/ViolationModal.vue';
 import PasswordResetModal from '@/pages/Center/Components/Employees/PasswordResetModal.vue';
 import EmployeeEditModal from '@/pages/Center/Components/Employees/EmployeeEditModal.vue';
 
@@ -58,13 +58,13 @@ const closeModal = (id: number) => {
 </script>
 
 <template>
-<component
-    v-for="modal in modals"
-    :key="modal.id"
-    v-bind="modal.data"
-    :is="modalComponent(modal.name)"
-    v-model = modal.isOpen
-    @update:modelValue="closeModal(modal.id)"
-/>
+    <component
+        v-for="modal in modals"
+        :key="modal.id"
+        v-bind="modal.data"
+        :is="modalComponent(modal.name)"
+        v-model = modal.isOpen
+        @update:modelValue="closeModal(modal.id)"
+    />
 
 </template>

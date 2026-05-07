@@ -20,7 +20,6 @@ class RateAttemptAnswerAction{
     ){}
     public function execute(AttemptAnswer $attemptAnswer, int $mark, User $user){
         $attemptAnswer->loadMissing(['taskVariant.task', 'attempt']);
-
         $task = $attemptAnswer->taskVariant->task;
         $attempt = $attemptAnswer->attempt;
 

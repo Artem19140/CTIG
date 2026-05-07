@@ -53,7 +53,6 @@ const cancel =(reason : string) => {
 
 const edit =(value :Exam) => {
     router.visit('/exams')
-    console.log(value)
     exam.value = value
 }
 const {can} = useAuth()

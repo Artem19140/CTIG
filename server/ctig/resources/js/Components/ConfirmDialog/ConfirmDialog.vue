@@ -15,8 +15,10 @@ const {isOpen, message, confirmOk, confirmClose} = useConfirmDialog()
             width="400"
             subtitle="Подтвердите действие"
         >
-            <v-card-text>
-                {{ message }}
+            <v-card-text >
+                <div style="white-space: pre-line;">
+                    {{ message }}
+                </div>
             </v-card-text>
             
         <v-card-actions>

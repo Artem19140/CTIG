@@ -1,21 +1,23 @@
 <script setup lang="ts">
 import BaseDialog from '@/components/BaseComponents/BaseDialog/BaseDialog.vue';
 import { computed, onMounted, ref } from 'vue';
-import TasksList from '@pages/Attempt/Components/tasks/TasksList.vue';
 import { router, useHttp } from '@inertiajs/vue3';
 import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import BaseEmptyState from '@/components/BaseComponents/BaseEmptyState/BaseEmptyState.vue';
 import { Enrollment } from '@/interfaces/Enrollment';
-import { Attempt } from '@/interfaces/Attempt';
-import TaskCheckingList from '../Attempt/Components/tasks/TaskCheckingList.vue';
+import { AttemptMonitoring } from '@/interfaces/Attempt';
+import { AttemptAnswer } from '@/interfaces/Task';
+import AppTooltip from '@/components/UI/AppTooltip/AppTooltip.vue';
+import AttemptCheckingPanel from '@/components/Attempt/AttemptCheckingPanel.vue';
+import TasksList from '../Attempt/Components/tasks/TasksList.vue';
+import { useConfirmDialog } from '@/composables/useConfirmDialog';
 
 const props = defineProps<{
     enrollment:Enrollment
 }>()
 
 const isOpen = defineModel<boolean>({default:false})
-const loading = ref<boolean>(false)
-const attempt = ref<Attempt | null>(null)
+const attempt = ref<AttemptMonitoring | null>(null)
 const speakingStarted = computed(() => props.enrollment?.attempt?.speakingStartedAt)
 const checking = ref<boolean>(false)
 
@@ -27,13 +29,9 @@ onMounted(() => {
 })
 
 const getSpeaking = () => {
-    loading.value = true
     http.get(`/attempts/${props.enrollment.attempt?.id}/speaking`,{
         onSuccess:(response : any) => {
             attempt.value=response.data
-        },
-        onFinish() {
-            loading.value = false
         },
     })
 }
@@ -42,27 +40,32 @@ const getSpeaking = () => {
 const startHttp = useHttp()
 
 const start = () => {
-    loading.value = true
     startHttp.post(`/attempts/${props.enrollment.attempt?.id}/speaking/start`,{
         onSuccess:(response : any)=>{
             getSpeaking()
             props.enrollment.attempt = {... response.data}
         },
-        onFinish() {
-            loading.value = false
-        },
     })
 }    
 
 const finishHttp = useHttp()
-const finish = () => {
+const finish = async () => {
+    const {confirmOpen} = useConfirmDialog()
+    const ok = await confirmOpen('Завершить говорение? \n Задания больше не будут доступны')
+    if(!ok) return
     finishHttp.post(`/attempts/${props.enrollment.attempt?.id}/speaking/finish`,{
         onSuccess:()=> {
-            
-            isOpen.value = false
             router.reload()
+            checking.value = true
         }
     })
+}
+
+const update = (value: AttemptAnswer) => {
+    if(!attempt.value) return
+    const task = attempt.value?.tasks.find(t => t.attemptAnswer.id === value.id)
+    if(!task) return
+    task.attemptAnswer = {...value}
 }
 </script>
 
@@ -70,22 +73,20 @@ const finish = () => {
     <BaseDialog
         fullscreen
         v-model="isOpen"
-        :loading="loading"
+        :loading="http.processing || startHttp.processing"
         @before-close="(close) => close()"
-        loading-text="Идет получение заданий говорения "
         :title="`Говорение ( ${enrollment.foreignNational.fullName}, ${enrollment.foreignNational.fullPassport} )`"
     >
-        <div 
-            class="flex flex-column items-center gap-8 mt-2 mb-2"
-            v-if="speakingStarted"
-        >
-            <TaskCheckingList
-                v-if="attempt" 
-                :attempt="attempt" 
-                :checking="checking"
+        <AttemptCheckingPanel 
+            v-if="speakingStarted && attempt && checking"
+            :attempt="attempt"
+            @rated="update"
+        />
+        <div v-else-if="attempt" class="flex justify-center">
+            <TasksList 
+                :attempt="attempt"
             />
         </div>
-
         <BaseEmptyState 
             v-else
             action-text="Начать"
@@ -98,24 +99,18 @@ const finish = () => {
         <template #actions>
             <AppPrimaryButton
                 v-if="!checking"
-                text="Продолжить"
-                @click="checking = true"
-            />
-            <div v-if="checking" class="flex gap-2">
-            
-            <AppPrimaryButton
-                :loading="finishHttp.processing"
-                text="Оценить позднее"
-                @click="finish"
-            />
-
-            <AppPrimaryButton
                 text="Завершить"
-                :loading="finishHttp.processing"
                 @click="finish"
             />
+            <div v-if="checking" class="flex gap-2 items-center">
+                <AppTooltip
+                    text="Оценить задания возможно будет после завершения"
+                />
+                <AppPrimaryButton
+                    text="Завершить"
+                    @click="isOpen = false"
+                />
             </div>
-            
         </template>
     </BaseDialog>
 </template>

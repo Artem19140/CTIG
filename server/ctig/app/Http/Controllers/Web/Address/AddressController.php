@@ -5,14 +5,16 @@ namespace App\Http\Controllers\Web\Address;
 use App\Http\Requests\Address\AddressPostRequest;
 use App\Http\Resources\Address\AddressResource;
 use App\Models\Address;
+use App\Models\Center;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class AddressController
 {
 
-    public function index(Request $request)
+    public function index(Request $request, Center $center)
     {
+        abort_if($request->user()->center_id !== $center->id, 403);
         $addresses = Address::where('center_id', $request->user()->center_id)
             ->withExists('exams as examsExists')
             ->orderByDesc('id')
@@ -24,20 +26,20 @@ class AddressController
         ]);
     }
 
-    public function store(AddressPostRequest $request)
+    public function store(AddressPostRequest $request, Center $center)
     {
         $user = $request->user();
-
+        abort_if($user->center_id !== $center->id, 403);
         Address::create([
             'address' => $request->validated('address'),
-            //'creator_id' => $user->id,
             'max_capacity' => $request->validated('capacity'),
             'center_id' => $user->center_id
         ]);
     }
 
-    public function update(Request $request, Address $address)
+    public function update(Request $request, Center $center, Address $address)
     {
+        $this->authorize($center, $address);
         $request->validate([
             'address' => ['required', 'string'],
             'maxCapacity' => ['required', 'integer', 'min:1']
@@ -52,17 +54,22 @@ class AddressController
         return response()->json(new AddressResource($address));
     }
     
-    public function toggleActive(Request $request, Address $address){
+    public function toggleActive(Request $request, Center $center, Address $address){
         $request->validate(['active' => 'required', 'boolean']);
         $address->is_active = $request->input('active');
         $address->save();
         return response()->noContent();
     }
 
-    public function destroy(Address $address)
+    public function destroy(Center $center, Address $address)
     {
+        $this->authorize($center, $address);
         $address->is_active = false;
         $address->save();
         return ;
+    }
+
+    protected function authorize(Center $center, Address $address){
+        abort_if($address->center_id !== $center->id, 403);
     }
 }

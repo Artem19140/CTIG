@@ -3,6 +3,7 @@
 namespace Tests\Feature\Address;
 
 use App\Models\Address;
+use App\Models\Center;
 use App\Models\User;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
@@ -13,10 +14,14 @@ class AddressToggleActiveTest extends TestCase
 {
     use RefreshDatabase;
     protected User $user;
+    protected Center $center;
     protected function setUp():void{
         parent::setUp();
         $this->seed(RolesSeeder::class);
-        $this->user = User::factory()->orgAdmin()->create();
+        $this->center = Center::factory()->create();
+        $this->user = User::factory()->orgAdmin()->create([
+            'center_id' => $this->center->id
+        ]);
         Carbon::setTestNow(
             Carbon::now()
         );
@@ -33,8 +38,9 @@ class AddressToggleActiveTest extends TestCase
         $address = Address::factory()->notActive()->create();
         $response = $this
             ->actingAs($this->user)
-            ->patchJson(route('addresses.toggle.activity', ['address'=> $address]),[
-                'active' => !$address->is_active
+            ->patchJson(route('centers.addresses.toggle.activity', ['address'=> $address , 'center' => $this->center]),[
+                'active' => !$address->is_active,
+                'center' => $this->center
             ]);
         $response->assertStatus(204);
         $this->assertFalse($address->is_active);

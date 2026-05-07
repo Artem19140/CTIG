@@ -3,6 +3,7 @@
 namespace Tests\Feature\Address;
 
 use App\Models\Address;
+use App\Models\Center;
 use App\Models\Exam;
 use App\Models\User;
 use Carbon\Carbon;
@@ -12,15 +13,16 @@ use Tests\TestCase;
 
 class AddressUpdateTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
     use RefreshDatabase;
     protected User $user;
+    protected Center $center;
     protected function setUp():void{
         parent::setUp();
         $this->seed(RolesSeeder::class);
-        $this->user = User::factory()->orgAdmin()->create();
+        $this->center = Center::factory()->create();
+        $this->user = User::factory()->orgAdmin()->create([
+            'center_id' => $this->center->id
+        ]);
 
         Carbon::setTestNow(
             Carbon::now()
@@ -37,7 +39,7 @@ class AddressUpdateTest extends TestCase
         $address = Address::factory()->create();
         $response = $this
             ->actingAs($this->user)
-            ->patchJson(route('addresses.update', ['address'=> $address]),[
+            ->patchJson(route('centers.addresses.update', ['address'=> $address,  'center' => $this->center]),[
                 'address' => fake()->streetAddress,
                 'maxCapacity' => $address->max_capacity + 1
             ]);
@@ -54,7 +56,7 @@ class AddressUpdateTest extends TestCase
 
         $response = $this
             ->actingAs($this->user)
-            ->patchJson(route('addresses.update', ['address'=> $address]),[
+            ->patchJson(route('centers.addresses.update', ['address'=> $address,  'center' => $this->center]),[
                 'address' => fake()->streetAddress,
                 'maxCapacity' => $newCapacity
             ]);
@@ -71,9 +73,20 @@ class AddressUpdateTest extends TestCase
         $address = Address::factory()->create();
         $response = $this
             ->actingAs($this->user)
-            ->patchJson(route('addresses.update', ['address'=> $address]),[
+            ->patchJson(route('centers.addresses.update', ['address'=> $address,  'center' => $this->center]),[
             ]);
 
         $response->assertUnprocessable();
+    }
+
+    public function test_fail_no_diff_center_403(): void
+    {
+        $address = Address::factory()->create();
+        $response = $this
+            ->actingAs($this->user)
+            ->patchJson(route('centers.addresses.update', ['address'=> $address,  'center' => Center::factory()->create()]),[
+            ]);
+
+        $response->assertForbidden();
     }
 }

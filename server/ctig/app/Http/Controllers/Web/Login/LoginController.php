@@ -10,8 +10,6 @@ use Illuminate\Validation\ValidationException;
 use Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Log;
-
 
 
 class LoginController
@@ -21,6 +19,7 @@ class LoginController
         if ($this->noAccess($request)) { 
             throw ValidationException::withMessages([
                 'email' => 'Неверные учетные данные.',
+                'password' => ''
             ]);
         }
 
@@ -46,13 +45,6 @@ class LoginController
    public function changePassword(ChangePasswordRequest $request){
         $user = $request->user();
 
-        if($user->isSuperAdmin()){
-            abort(404);
-        }
-
-        if(!$user->has_to_change_password){
-            abort(403);
-        }
         if(Hash::check($request->validated('newPassword'), $user->password)){
             return ValidationException::withMessages([
                 'newPassword' =>'Пароль должен отличаться от старого'

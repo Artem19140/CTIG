@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Address;
 
+use App\Models\Center;
 use App\Models\User;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
@@ -15,11 +16,13 @@ class AddressCreateTest extends TestCase
      */
     use RefreshDatabase;
     protected User $user;
+    protected Center $center;
     protected function setUp():void{
         parent::setUp();
         $this->seed(RolesSeeder::class);
-        $this->user = User::factory()->orgAdmin()->create();
-
+        $this->center = Center::factory()->create();
+        $this->user = User::factory()->orgAdmin()->create(['center_id' => $this->center->id]);
+        
         Carbon::setTestNow(
             Carbon::now()
         );
@@ -34,9 +37,10 @@ class AddressCreateTest extends TestCase
     {
         $response = $this
             ->actingAs($this->user)
-            ->postJson(route('addresses.store'), [
+            ->postJson(route('centers.addresses.store', ['center' => $this->center]), [
                 'address' => fake()->streetAddress,
-                'capacity' => 12
+                'capacity' => 12,
+                
             ]);
 
         $response->assertStatus(200);
@@ -46,7 +50,8 @@ class AddressCreateTest extends TestCase
     {
         $response = $this
             ->actingAs($this->user)
-            ->postJson(route('addresses.store'), [
+            ->postJson(route('centers.addresses.store', ['center' => $this->center]), [
+                'center' => $this->center
             ]);
 
         $response->assertUnprocessable();
@@ -56,9 +61,10 @@ class AddressCreateTest extends TestCase
     {
         $response = $this
             ->actingAs($this->user)
-            ->postJson(route('addresses.store'), [
+            ->postJson(route('centers.addresses.store', ['center' => $this->center]), [
                 'address' => fake()->streetAddress,
-                'capacity' => -12
+                'capacity' => -12,
+                'center' => $this->center
             ]);
 
         $response->assertUnprocessable();

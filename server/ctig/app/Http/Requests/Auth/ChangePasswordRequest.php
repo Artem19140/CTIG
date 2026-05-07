@@ -3,15 +3,16 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class ChangePasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
+    public function authorize(Request $request): bool 
     {
-        return true;
+        return $request->user()->isSuperAdmin() || $request->user()->has_to_change_password;
     }
 
     /**

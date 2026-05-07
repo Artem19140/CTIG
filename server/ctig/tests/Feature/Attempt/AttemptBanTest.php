@@ -30,10 +30,11 @@ class AttemptBanTest extends TestCase
     public function test_success(): void
     {
         $this->withoutExceptionHandling();
-        $user = User::factory()->examiner()->create();
+
         $exam = Exam::factory()->inPast()->create();
+        $exam->examiners()->attach($this->user);
         $attempt = Attempt::factory()->create(['exam_id'=>$exam->id]);
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($this->user)
             ->putJson(route('attempts.ban', ['attempt' => $attempt]),[
                 'banReason' => 'Есть'
             ]);
@@ -45,6 +46,7 @@ class AttemptBanTest extends TestCase
     {
         
         $exam = Exam::factory()->inPast()->create();
+        $exam->examiners()->attach($this->user);
         $attempt = Attempt::factory()->create(['exam_id'=>$exam->id]);
         $response = $this->actingAs($this->user)
             ->putJson(route('attempts.ban', ['attempt' => $attempt]));
@@ -55,6 +57,7 @@ class AttemptBanTest extends TestCase
     public function test_fail_ban_twice(): void
     {
         $exam = Exam::factory()->inPast()->create();
+        $exam->examiners()->attach($this->user);
         $attempt = Attempt::factory()->create(['exam_id'=>$exam->id]);
         $response = $this->actingAs($this->user)
             ->putJson(route('attempts.ban', ['attempt' => $attempt]),[
@@ -68,5 +71,17 @@ class AttemptBanTest extends TestCase
                 'banReason' => 'Есть'
             ]);
         $response->assertBadRequest();
+    }
+
+    public function test_fail_no_examiner_access(): void
+    {
+        $exam = Exam::factory()->inPast()->create();
+        $attempt = Attempt::factory()->create(['exam_id'=>$exam->id]);
+        $response = $this->actingAs($this->user)
+            ->putJson(route('attempts.ban', ['attempt' => $attempt]),[
+                'banReason' => 'Есть'
+            ]);
+
+        $response->assertForbidden();
     }
 }

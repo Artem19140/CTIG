@@ -27,7 +27,6 @@ class ForeignNationalExportController
         ForeignNationalExportRequest $request,
         ExportForeignNationalQuery $exportForeignNationalQuery
     ){
-        //Токо директор
         $this->ensureExportAvailable(
             $request->validated('dateFrom'), 
             $request->validated('dateTo'), 

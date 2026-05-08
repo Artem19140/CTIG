@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\BaseException;
 use App\Exceptions\BusinessException;
 use App\Http\Middleware\EnsureCenterActive;
 use App\Http\Middleware\EnsurePasswordChange;
@@ -41,17 +42,18 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions
-            ->render(function (BusinessException $e, Request $request) {
-                if($request->inertia() || !$request->expectsJson()){
-                    Inertia::flash('error', $e->getMessage());
-                    return back();
+            ->render(function (BaseException $e, Request $request) {
+                if($request->expectsJson()){
+                    return response()->json([
+                        'message' => $e->getMessage()
+                    ], $e->getCode());
                 }
-            })
-            ->shouldRenderJsonWhen(function (Request $request, Throwable $e) {
-                if ($request->is('api/*')) {
-                    return true;
+
+                if($request->inertia()){
+                    return Inertia::flash('error', $e->getMessage())->back();
                 }
-                return $request->expectsJson();
+               
+                return back()->with('error', $e->getMessage());
             });
     
     })->create();

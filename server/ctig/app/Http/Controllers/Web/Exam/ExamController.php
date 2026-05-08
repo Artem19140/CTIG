@@ -103,7 +103,7 @@ class ExamController
 
         $request->session()->regenerate();
 
-        return redirect()->route('attempts.before', ['attempt' => $attempt->id]);
+        return redirect()->route('attempts.preparing', ['attempt' => $attempt->id]);
     }
 
     public function destroy(Exam $exam , CancelExamAction $cancelExam)

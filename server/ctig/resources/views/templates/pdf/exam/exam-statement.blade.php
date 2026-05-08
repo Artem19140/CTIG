@@ -61,8 +61,10 @@
             <td>{{ $row['fullPassport'] }}</td>
             <td>{{ $row['startedAt'] ?? ''}}</td>
             <td>{{ $row['finishedAt']  ?? ''}}</td> 
+            @if ($exam->hasSpeaking())
             <td>{{ $row['speakingStartedAt'] ?? ''}}</td>
-            <td>{{ $row['speakingFinishedAt']  ?? ''}}</td>   
+            <td>{{ $row['speakingFinishedAt']  ?? ''}}</td>  
+            @endif 
             @foreach ($row['subblockMarks'] as $marks)
                 <td>{{ $marks['sum'] !== null ? $marks['sum'] : ''}}</td>   
             @endforeach

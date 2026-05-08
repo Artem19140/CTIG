@@ -33,7 +33,7 @@ const http = useHttp<{answer:any}, {data:AttemptAnswer}>({
     answer:null
 })
 
-const {updateAnswer, setError, removeError, setSaving, removeSaving } = useAttempt()
+const {updateAnswer, setError, removeError, setSaving, removeSaving, errors } = useAttempt()
 
 const update = (value:any) => {
     http.answer = value.answer

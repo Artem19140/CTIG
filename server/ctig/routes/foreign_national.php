@@ -26,3 +26,12 @@ Route::middleware('auth:foreignNationals')->group(function (){
     });
     
 });
+
+// $attempt->latest();
+// return match($attempt){
+//     $attempt->isBanned() => throw new AttemptBannedException,
+//     $attempt->isFinished() => throw new AttemptFinishedException,
+//     $attempt->isExpired() => throw new AttemptExpiredException,
+//     $attempt->isPending()  => route('attempts.pending', ['attempt' => $attempt]),
+//     default => route('attempts.show' => , ['attempt' => $attempt])
+// }

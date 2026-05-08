@@ -50,9 +50,9 @@ class ExamDocumentController
     public function codesAvailable(Exam $exam){
         $this->authorize($exam);
         $this->examDocumentAvailable->codes($exam);
-        return Inertia::flash([
+        return response()->json([
             'redirectUrl' => route('exam.documents.codes', ['exam' => $exam])
-        ])->back();
+        ]);
     }
 
     public function protocol(

@@ -2,7 +2,7 @@
 import Timer from './Timer.vue';
 import TaskSideList from './TaskSideList.vue';
 import { computed } from 'vue';
-import { Attempt } from '@/interfaces/Interfaces';
+import { Attempt } from '@/interfaces/Attempt';
 
 const props = defineProps<{
   attempt:Attempt

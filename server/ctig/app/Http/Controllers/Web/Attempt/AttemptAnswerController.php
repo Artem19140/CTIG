@@ -28,7 +28,7 @@ class AttemptAnswerController
         AttemptAnswer $attemptAnswer,
         HandleAttemptAnswerAction $handleAttemptAnswerAction
     ){
-        abort_if($attempt->id === $attemptAnswer->attempt_id, 403);
+        abort_if($attempt->id !== $attemptAnswer->attempt_id, 403);
         $answer = $request->input('answer');
         $savedAnswer = DB::transaction(function()use($answer, $attempt,$attemptAnswer, $handleAttemptAnswerAction){
             $answer = $handleAttemptAnswerAction->execute($answer, $attempt, $attemptAnswer);
@@ -65,7 +65,7 @@ class AttemptAnswerController
         Attempt $attempt,
         AttemptAnswer $attemptAnswer,
     ){
-        abort_if($attempt->id === $attemptAnswer->attempt_id, 403);
+        abort_if($attempt->id !== $attemptAnswer->attempt_id, 403);
         //attemptAnswer принадлежит attemtp
         $attemptAnswer->audio_played = true;
         $attemptAnswer->save();

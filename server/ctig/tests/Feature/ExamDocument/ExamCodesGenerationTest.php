@@ -40,7 +40,7 @@ class ExamCodesGenerationTest extends TestCase
 
         $response = $this
             ->actingAs($this->user)
-            ->get(route('exam.documents.codes', ['exam' => $exam]));
+            ->getJson(route('exam.documents.codes', ['exam' => $exam]));
         $response->assertOk();
         $response->assertHeader('Content-Type', 'application/pdf');
     }
@@ -55,7 +55,7 @@ class ExamCodesGenerationTest extends TestCase
 
         $response = $this
             ->actingAs($this->user)
-            ->get(route('exam.documents.codes.available', ['exam' => $exam]));
+            ->getJson(route('exam.documents.codes.available', ['exam' => $exam]));
 
         $response->assertBadRequest();
     }
@@ -70,7 +70,7 @@ class ExamCodesGenerationTest extends TestCase
         $user = User::factory()->create();
         $response = $this
             ->actingAs($user)
-            ->get(route('exam.documents.codes', ['exam' => $exam]));
+            ->getJson(route('exam.documents.codes', ['exam' => $exam]));
         $response->assertForbidden();
     }
 }

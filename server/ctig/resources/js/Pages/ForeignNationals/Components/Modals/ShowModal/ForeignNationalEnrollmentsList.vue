@@ -48,7 +48,7 @@ const modals = useModals()
                 
             </div>
             <div class="text-caption text-medium-emphasis">
-              {{ new DateFormatter(enrollment.exam.beginTime).format('d.m.Y') }}
+              {{ new DateFormatter(enrollment.exam.beginTime).format('H:i, d.m.Y') }}
               <AppStatusChip 
                 v-if="!enrollment.hasPayment"
                 text="Нет оплаты"

@@ -46,7 +46,7 @@ class ChangePasswordTest extends TestCase
                 'password' => $newPassword,
                 'password_confirmation' => $newPassword
             ]);
-        $response->assertRedirectToRoute('exams.index');
+        $response->assertRedirectToRoute('foreign-nationals.index');
         $user->refresh();
         $this->assertTrue(Hash::check($newPassword, $user->password));
     }

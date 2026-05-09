@@ -64,7 +64,7 @@ const home = () => {
           :loading="loading"
           :disabled="loading"
         >
-          На главную
+          В систему
         </v-btn>
       </v-card-actions>
     </v-card>

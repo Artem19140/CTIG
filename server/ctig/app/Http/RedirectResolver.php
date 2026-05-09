@@ -3,9 +3,6 @@
 namespace App\Http;
 
 use App\Domain\Attempt\Guard\AttemptGuard;
-use App\Exceptions\Attempt\AttemptBannedException;
-use App\Exceptions\Attempt\AttemptExpiredException;
-use App\Exceptions\Attempt\AttemptFinishedException;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -30,6 +27,7 @@ class RedirectResolver{
             }
 
             $this->attemptGuard->ensureAccessible($attempt);
+            
             if($attempt->isPending()){
                 return redirect()->route('attempts.pending', ['attempt' => $attempt]);
             }

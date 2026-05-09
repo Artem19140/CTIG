@@ -30,7 +30,7 @@ class RedirectResolverTest extends TestCase
        $user = User::factory()
         ->operator()
         ->create();
-        $this->assertEquals(route('exams.index'), $user->resolveRedirect());
+        $this->assertEquals(route('foreign-nationals.index'), $user->resolveRedirect());
     }
     public function test_examiner(): void
     {
@@ -44,7 +44,7 @@ class RedirectResolverTest extends TestCase
        $user = User::factory()
         ->director()
         ->create();
-        $this->assertEquals(route('exams.index'), $user->resolveRedirect());
+        $this->assertEquals(route('foreign-nationals.index'), $user->resolveRedirect());
     }
     public function test_org_admin(): void
     {

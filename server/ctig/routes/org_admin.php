@@ -3,7 +3,7 @@
 use App\Enums\UserRoles;
 use App\Http\Controllers\Web\Address\AddressController;
 use App\Http\Controllers\Web\Center\CenterController;
-use App\Http\Controllers\Web\Login\LoginController;
+use App\Http\Controllers\Web\Auth\PasswordController;
 use App\Http\Controllers\Web\User\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,7 +22,7 @@ Route::middleware(['user.has.any.role:' . UserRoles::OrgAdmin->value])->group(fu
     Route::delete('employees/{user}', [UserController::class, "destroy"])->name('users.destroy');
     Route::post('employees', [UserController::class, "store"]);
     Route::put('employees/{user}', [UserController::class, "update"]);
-    Route::patch('employees/{user}/password', [LoginController::class, "resetPassword"]);
+    Route::patch('employees/{user}/password', [PasswordController::class, "reset"]);
 
     Route::get('roles',  [UserController::class, "rolesShow"]);
 });

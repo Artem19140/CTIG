@@ -79,7 +79,16 @@
               prepend-icon="mdi-logout" 
               title="Выйти из аккаунта" 
               @click="logout"
-            />
+            >
+              <template #append>
+                <BaseThreeDotDropdown nav>
+                  <BaseListItem
+                    title="Выйти с других устройств"
+                    @click="open('logoutAll')"
+                  />
+                </BaseThreeDotDropdown>
+              </template>
+            </BaseListItem>
           </BaseList>
         </div>
       </BaseDrawer>
@@ -99,6 +108,10 @@ import { useConfirmDialog } from '@/composables/useConfirmDialog';
 import BaseDrawer from '@/components/BaseComponents/BaseDrawer/BaseDrawer.vue';
 import BaseList from '@/components/BaseComponents/BaseList/BaseList.vue';
 import BaseListItem from '@/components/BaseComponents/BaseList/BaseListItem.vue';
+import BaseThreeDotDropdown from '@/components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
+import { useModals } from '@/composables/useModals';
+
+
 
 const go = (url:string) => {
   router.visit(url)
@@ -115,6 +128,8 @@ const {can, user} = useAuth()
 const centerId = user?.center_id
 const employeeName = `${user?.surname} ${user?.name}`
 const activeItem = ref('')
+
+const {open} = useModals()
 </script>
 
 <style>

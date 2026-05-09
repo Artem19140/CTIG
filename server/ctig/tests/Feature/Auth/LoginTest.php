@@ -40,7 +40,7 @@ class LoginTest extends TestCase
         ]);
         $this->assertAuthenticatedAs($user);
         $this->assertAuthenticated('web');
-        $response->assertRedirectToRoute('exams.index');
+        $response->assertRedirectToRoute('foreign-nationals.index');
     }
 
     public function test_fail(): void

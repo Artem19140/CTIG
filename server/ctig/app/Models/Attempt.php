@@ -150,6 +150,18 @@ class Attempt extends Model
         });
     }
 
+    protected function speakingStartedAtLocal(): Attribute{
+        return Attribute::get(function () {
+            return TimePresenter::forCenter($this->speaking_started_at, $this->center);
+        });
+    }
+
+    protected function speakingFinishedAtLocal(): Attribute{
+        return Attribute::get(function () {
+            return TimePresenter::forCenter($this->speaking_finished_at, $this->center);
+        });
+    }
+
     public function status(){
         if($this->isBanned()){
             return AttemptStatus::Banned;
@@ -157,9 +169,6 @@ class Attempt extends Model
         if($this->isFinished()){
             return AttemptStatus::Finished;
         }
-        // if($this->isChecked()){
-        //     return AttemptStatus::Checked;
-        // }
         if($this->isStarted()){
             return AttemptStatus::Active;
         }

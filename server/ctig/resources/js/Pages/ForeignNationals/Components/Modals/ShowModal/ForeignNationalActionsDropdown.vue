@@ -8,6 +8,7 @@ import { useConfirmationOptionsDialog } from '@/composables/useConfirmationOptio
 import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
 import { ForeignNational } from '@/interfaces/ForeignNational';
 import { Enrollment } from '@/interfaces/Enrollment';
+import BaseListItem from '@/components/BaseComponents/BaseList/BaseListItem.vue';
 
 const {open} = useModals()
 
@@ -46,18 +47,19 @@ const destroy = async () => {
 
 <template>
     <ThreeDotDropdown>
-        <AppListDropDownItem 
+        <BaseListItem 
             title="Записать на экзамен"
             @click="open('enrollment', {foreignNational})"
         />
-        <AppListDropDownItem 
+        <BaseListItem
             title="Редактировать"
             @click="open('foreignNationalEdit', {foreignNational, onEdit:(foreignNational : ForeignNational)=>emit('edit', foreignNational)})"
         />
-        <AppListDropDownItem 
+        <v-divider></v-divider>
+        <BaseListItem 
             title="Удалить"
+            
             @click="destroy"
-            color="text-red"
         />
     </ThreeDotDropdown>
 </template>

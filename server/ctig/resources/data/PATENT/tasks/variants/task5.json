@@ -14,7 +14,8 @@
             "value": "Оплачивайте свой проезд вовремя",
             "align":"center"
           }
-        ]
+        ],
+        "margin":"bottom"
       },
       {
         "type": "text",

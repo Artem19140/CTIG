@@ -73,10 +73,10 @@ class ExamResultsGenerator{
             return [
                 'fullName' => $enrollment->foreignNational->full_name,
                 'fullPassport' => $enrollment->foreignNational->full_passport,
-                'speakingStartedAt' => $attempt?->speaking_started_at?->format('H:i') ?? null,
-                'speakingFinishedAt' => $attempt?->speaking_finished_at?->format('H:i') ?? null,
-                'startedAt' => $attempt?->started_at?->format('H:i') ?? null,
-                'finishedAt' => $attempt?->finished_at?->format('H:i') ?? null,
+                'speakingStartedAt' => $attempt?->speaking_started_at_local?->format('H:i') ?? null,
+                'speakingFinishedAt' => $attempt?->speaking_finished_at_local?->format('H:i') ?? null,
+                'startedAt' => $attempt?->started_at_local?->format('H:i') ?? null,
+                'finishedAt' => $attempt?->finished_at_local?->format('H:i') ?? null,
                 'result' => $this->getAttemptResultStatus($attempt),
                 'subblockMarks' => $marksBySubblock
             ];

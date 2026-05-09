@@ -1,20 +1,22 @@
 <?php
 
 use App\Enums\UserRoles;
+use App\Http\Controllers\Web\Auth\LogoutController;
+use App\Http\Controllers\Web\Auth\PasswordController;
 use App\Http\Controllers\Web\Enrollment\EnrollmentDocumentController;
 use App\Http\Controllers\Web\File\FileController;
 use App\Http\Controllers\Web\ForeignNational\ForeignNationalExportController;
 use App\Http\Controllers\Web\Statistics\StatisticsController;
 use App\Http\Controllers\Web\Exam\ExamController;
 use App\Http\Controllers\Web\Enrollment\EnrollmentController;
-use App\Http\Controllers\Web\Login\LoginController;
+use App\Http\Controllers\Web\Auth\LoginController;
 use App\Http\Controllers\Web\Report\ReportController;
 use App\Http\Controllers\Web\ForeignNational\ForeignNationalController;
 use App\Http\RedirectResolver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->group(function(){
+Route::middleware(['auth', 'auth.session', 'user.active', 'center.active', 'password.change'])->group(function(){
 
     Route::apiResource('foreign-nationals', ForeignNationalController::class)
         ->where(['foreign_national' => '[0-9]+'])
@@ -69,10 +71,11 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
         Route::inertia('/exams/schedule', 'Instruction/ExamScheduleInstruction')->name('instruction.exams.schedule');
     });
 
-    Route::post('password/change', [LoginController::class, 'changePassword'])->withoutMiddleware(['password.change']);
+    Route::post('password/change', [PasswordController::class, 'change'])->withoutMiddleware(['password.change']);
     Route::inertia('password/change', 'Auth/ChangePassword')->name('password.change')->withoutMiddleware(['password.change']);
     Route::get('files', [FileController::class, "show"])->middleware(['user.has.any.role:' . UserRoles::implode([UserRoles::Operator, UserRoles::Examiner, UserRoles::Director])]);
-    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+    Route::post('logout', [LogoutController::class, 'logout'])->name('logout');
+    Route::post('logout/all', [LogoutController::class, 'logoutAll'])->name('logout.all');
 });
 
 Route::middleware('guest:web,foreignNationals')->group(function (){

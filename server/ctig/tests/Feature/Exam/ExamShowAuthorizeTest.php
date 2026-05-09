@@ -35,7 +35,7 @@ class ExamShowAuthorizeTest extends TestCase
         $user = User::factory()->examiner()->create(['center_id' => $this->center->id]);
         $this->exam->examiners()->attach($user);
         $response = $this->actingAs($user)
-            ->get(route('exams.show', ['exam' => $this->exam]));
+            ->getJson(route('exams.show', ['exam' => $this->exam]));
         $response->assertStatus(200);
     }
 
@@ -43,28 +43,28 @@ class ExamShowAuthorizeTest extends TestCase
     {
         $user = User::factory()->examiner()->create(['center_id' => $this->center->id]);
         $response = $this->actingAs($user)
-            ->get(route('exams.show', ['exam' => $this->exam]));
+            ->getJson(route('exams.show', ['exam' => $this->exam]));
         $response->assertStatus(403);
     }
 
     public function test_success_operator(): void{
         $user = User::factory()->operator()->create(['center_id' => $this->center->id]);
         $response = $this->actingAs($user)
-            ->get(route('exams.show', ['exam' => $this->exam]));
+            ->getJson(route('exams.show', ['exam' => $this->exam]));
         $response->assertStatus(200);
     }
 
     public function test_success_director(): void{
         $user = User::factory()->director()->create(['center_id' => $this->center->id]);
         $response = $this->actingAs($user)
-            ->get(route('exams.show', ['exam' => $this->exam]));
+            ->getJson(route('exams.show', ['exam' => $this->exam]));
         $response->assertStatus(200);
     }
 
     public function test_success_super_admin(): void{
         $user = User::factory()->superAdmin()->create(['center_id' => $this->center->id]);
         $response = $this->actingAs($user)
-            ->get(route('exams.show', ['exam' => $this->exam]));
+            ->getJson(route('exams.show', ['exam' => $this->exam]));
         $response->assertStatus(200);
     }
 }

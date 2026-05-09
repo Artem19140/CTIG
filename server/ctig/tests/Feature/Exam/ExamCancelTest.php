@@ -21,7 +21,7 @@ class ExamCancelTest extends TestCase
         parent::setUp();
         $this->seed(RolesSeeder::class);
         $center = Center::factory()->create();
-        $this->user = User::factory()->sheduler()->create();
+        $this->user = User::factory()->scheduler()->create();
 
         Carbon::setTestNow(now());
 

@@ -28,7 +28,7 @@ class ExamCreateTest extends TestCase
         
         $this->examiner = User::factory()->examiner()->create(['center_id' => $center->id]);
 
-        $this->user = User::factory()->sheduler()->create(['center_id' => $center->id]);
+        $this->user = User::factory()->scheduler()->create(['center_id' => $center->id]);
 
         $this->examType = ExamType::factory()->create();
 

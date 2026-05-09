@@ -57,7 +57,7 @@ class RedirectResolverTest extends TestCase
     public function test_scheduler(): void
     {
        $user = User::factory()
-        ->sheduler()
+        ->scheduler()
         ->create();
         $this->assertEquals(route('exams.index'), $user->resolveRedirect());
     }

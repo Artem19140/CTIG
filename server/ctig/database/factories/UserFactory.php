@@ -88,7 +88,7 @@ class UserFactory extends Factory
         return $this->withRole(UserRoles::Director);
     }
 
-    public function sheduler(){
+    public function scheduler(){
         return $this->withRole(UserRoles::Scheduler);
     }
 

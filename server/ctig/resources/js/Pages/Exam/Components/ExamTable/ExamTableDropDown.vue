@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 import { useAuth } from '@composables/useAuth';
 import { Roles } from '@constants/Roles';
 import { useModals } from '@composables/useModals';
+import BaseListItem from '@/components/BaseComponents/BaseList/BaseListItem.vue';
 
 const auth = useAuth()
 const modals = useModals()
@@ -12,11 +12,11 @@ const modals = useModals()
 
 <template>
     <BaseThreeDotDropdown v-if="auth.can([Roles.EXAMINER, Roles.DIRECTOR])">
-        <AppListDropDownItem 
+        <BaseListItem 
             title="ФИС ФРДО" 
             @click="modals.open('frdo')" 
         />
-        <AppListDropDownItem 
+        <BaseListItem 
             title="Плоская таблица" 
             @click="modals.open('flatTable')"
         />

@@ -46,11 +46,6 @@ const enroll = (value:Enrollment) => {
     if (!foreignNational.value) return
     foreignNational.value.enrollments = [value, ... foreignNational.value.enrollments]
 }
-
-const deleteFN = (value: ForeignNational) => {
-    isOpen.value = false
-}
-
 const getCountryTitle = (value:string | null) => {
     const result = countries.find(item => item.value === value);
     return result ? result.text : '-';
@@ -80,7 +75,6 @@ const {can} = useAuth()
         <template #titleActions>
             <ForeignNationalActionsDropdown 
                 :foreignNational="foreignNational"
-                @delete="deleteFN"
                 @enroll="enroll"
                 @edit="edit"
                 v-if="can([Roles.OPERATOR])"

@@ -1,11 +1,6 @@
 <script setup lang="ts">
-import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import ThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 import { useModals } from '@composables/useModals';
-import { router, useHttp } from '@inertiajs/vue3';
-import { useLoadingSnackbar } from '@/composables/useLoadingSnackBar';
-import { useConfirmationOptionsDialog } from '@/composables/useConfirmationOptionsDialog';
-import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
 import { ForeignNational } from '@/interfaces/ForeignNational';
 import { Enrollment } from '@/interfaces/Enrollment';
 import BaseListItem from '@/components/BaseComponents/BaseList/BaseListItem.vue';
@@ -21,28 +16,6 @@ const emit = defineEmits<{
     (e:'enroll', value:Enrollment):void,
     (e:'delete', value:ForeignNational):void
 }>()
-const http = useHttp()
-const destroy = async () => {
-    if(!props.foreignNational) return
-    const {open} = useConfirmationOptionsDialog()
-    const ok = await open('Удалить ИГ из системы? Также будут удалены все связанные с ним данные')
-    if(!ok) return
-    const loading = useLoadingSnackbar()
-    loading.open('Идет удаление...')
-    http.delete(`/foreign-nationals/${props.foreignNational.id}`,{
-        onSuccess:()=>{
-            if(!props.foreignNational)return
-            emit('delete', props.foreignNational)
-            const {add} = useSnackbarQueue()
-            add('ИГ удален', 'green')
-            router.reload()
-        },
-        onFinish:() => {
-            loading.close()
-        }
-    })
-}
-
 </script>
 
 <template>
@@ -54,12 +27,6 @@ const destroy = async () => {
         <BaseListItem
             title="Редактировать"
             @click="open('foreignNationalEdit', {foreignNational, onEdit:(foreignNational : ForeignNational)=>emit('edit', foreignNational)})"
-        />
-        <v-divider></v-divider>
-        <BaseListItem 
-            title="Удалить"
-            
-            @click="destroy"
         />
     </ThreeDotDropdown>
 </template>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import { usePromptDialog } from '@composables/usePromptDialog';
 import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 import { useLoadingSnackbar } from '@composables/useLoadingSnackBar';
@@ -10,6 +9,7 @@ import PaymentChange from '@/components/Enrollment/PaymentChange.vue';
 import { useModals } from '@/composables/useModals';
 import { Enrollment } from '@/interfaces/Enrollment';
 import { ExamMonitoring } from '@/interfaces/Exam';
+import BaseListItem from '@/components/BaseComponents/BaseList/BaseListItem.vue';
 
 const props = defineProps<{ 
     enrollment:Enrollment,
@@ -58,19 +58,20 @@ const changePaymentDisabled = computed(() => isCancelled.value || isFinished.val
             :disabled="changePaymentDisabled"
             :enrollment="enrollment"
         />
-        <AppListDropDownItem 
+        <BaseListItem 
             :disabled="!hasAttempt || speakingFinished"
             v-if="exam?.hasSpeakingTasks"
             title="Говорение" 
             @click="modals.open('speaking', {enrollment:props.enrollment})"
         />
-        <AppListDropDownItem 
+        <BaseListItem 
             title="Нарушения" 
             :disabled = "!hasAttempt"
             @click="modals.open('violation', {enrollment:props.enrollment})"
         />
-        <AppListDropDownItem    
-            color="text-red" 
+        <v-divider></v-divider>
+        <BaseListItem    
+            base-color="red" 
             :disabled="!hasAttempt || isBanned"
             title="Аннулировать" 
             @click="ban"

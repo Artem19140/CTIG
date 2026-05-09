@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import { useHttp } from '@inertiajs/vue3';
 import { useConfirmationOptionsDialog } from '@/composables/useConfirmationOptionsDialog';
 import { Enrollment } from '@/interfaces/Enrollment';
+import BaseListItem from '../BaseComponents/BaseList/BaseListItem.vue';
 
 const props = defineProps<{
     enrollment: Enrollment
@@ -27,7 +27,7 @@ const changePayment = async () => {
 </script>
 
 <template>
-    <AppListDropDownItem 
+    <BaseListItem 
         @click="changePayment"
         :title="enrollment.hasPayment ? 'Отменить оплату' : 'Подтвердить оплату'"
     />

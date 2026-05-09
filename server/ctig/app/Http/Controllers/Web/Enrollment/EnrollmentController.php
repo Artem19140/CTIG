@@ -30,7 +30,7 @@ class EnrollmentController
     {
         $cancellErollmentAction->execute($enrollment);
 
-        return response()->json();
+        return response()->noContent();
     }
 
     public function changePayment(

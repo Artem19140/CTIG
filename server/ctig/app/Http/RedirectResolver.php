@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Domain\Attempt\Guard\AttemptGuard;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -10,7 +11,7 @@ class RedirectResolver{
     public function __construct(
         protected AttemptGuard $attemptGuard
     ){}
-    public function execute(){
+    public function execute(): RedirectResponse|string{
         if(Auth::guard('web')->check()){
             $user = Auth::guard('web')->user();
             return redirect()->to($user->resolveRedirect());

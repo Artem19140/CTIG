@@ -71,7 +71,6 @@ const beforeClose = async (fn: () => void) => {
         title="Редактирование ИГ"
         @before-close="(done) => beforeClose(done)"
     >
-        
         <ForeignNationalForm 
             v-model:form="http"
             :errors="http.errors"

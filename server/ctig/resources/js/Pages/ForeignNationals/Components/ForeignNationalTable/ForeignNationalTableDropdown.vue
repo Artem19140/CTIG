@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 import { useModals } from '@composables/useModals';
+import BaseListItem from '@/components/BaseComponents/BaseList/BaseListItem.vue';
 
 const modals = useModals()
 </script>
 
 <template>
     <BaseThreeDotDropdown>
-        <AppListDropDownItem 
+        <BaseListItem 
             title="Еженедельный отчет"
             @click="modals.open('ministryEducationReport')"
         />
-        <AppListDropDownItem 
+        <BaseListItem 
             title="Экспорт ИГ"
             @click="modals.open('foreignNationalExport')"
         />
-        <AppListDropDownItem 
+        <BaseListItem 
             title="Статистика"
             @click="modals.open('statistics')"
         />

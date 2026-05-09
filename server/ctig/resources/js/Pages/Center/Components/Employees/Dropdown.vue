@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import { router, useHttp } from '@inertiajs/vue3';
 import BaseThreeDotDropdown from '@/components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 import { useLoadingSnackbar } from '@/composables/useLoadingSnackBar';
 import { useConfirmationOptionsDialog } from '@/composables/useConfirmationOptionsDialog';
 import { useModals } from '@/composables/useModals';
 import { Employee } from '@/interfaces/Employee';
+import BaseListItem from '@/components/BaseComponents/BaseList/BaseListItem.vue';
 
 const props= defineProps<{
   employee:Employee
@@ -36,17 +36,18 @@ const {open} = useModals()
 
 <template>
   <BaseThreeDotDropdown>
-    <AppListDropDownItem 
+    <BaseListItem 
       title="Редактировать" 
       @click="open('employeeEdit', {employee:employee})"
     />
-    <AppListDropDownItem 
+    <BaseListItem 
       title="Сбросить пароль"
       @click="open('passwordReset', {employee:employee})" 
     />
-    <AppListDropDownItem 
+    <v-divider></v-divider>
+    <BaseListItem 
       title="Удалить" 
-      color="text-red" 
+      base-color="red" 
       @click="deleteEmployee"
     />
   </BaseThreeDotDropdown>

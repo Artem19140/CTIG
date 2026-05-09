@@ -11,15 +11,16 @@ import { ForeignNationalFormI } from '@/interfaces/ForeignNational';
 import AppTooltip from '@/components/UI/AppTooltip/AppTooltip.vue';
 
 const props = defineProps<{
-    mode?:string,
     errors:any,
     loading:boolean,
 }>()
+
 const form = defineModel<ForeignNationalFormI>('form',{
   required: true
 })
-const edit = computed(() => props.mode === 'edit')
+
 const readonly = computed(() => props.loading)
+
 function required (v:any) {
     return !!v || 'Поле обязательно'
 }
@@ -39,7 +40,6 @@ function required (v:any) {
 
                     <v-col cols="12" md="6">
                         <AppInput
-                            :required="true && !edit"
                             label="Фамилия на русском"
                             :rules="[required]"
                             v-model="form.surname"
@@ -50,7 +50,7 @@ function required (v:any) {
 
                     <v-col cols="12" md="6">
                         <AppInput 
-                        :required="true && !edit"
+                        :rules="[required]"
                         label="Имя на русском"
                         v-model="form.name"
                         :readonly="readonly"
@@ -80,7 +80,7 @@ function required (v:any) {
                     <v-col cols="12" md="6">
                         <AppInput  
                             label="Фамилия на латинице"
-                            :required="true && !edit"
+                            :rules="[required]"
                             v-model="form.surnameLatin"
                             :readonly="readonly"
                             :error-messages="errors.surnameLatin"
@@ -90,7 +90,7 @@ function required (v:any) {
                     <v-col cols="12" md="6">
                         <AppInput  
                             label="Имя на латинице"
-                            :required="true && !edit"
+                            :rules="[required]"
                             v-model="form.nameLatin"
                             :readonly="readonly"
                             :error-messages="errors.nameLatin"
@@ -109,6 +109,7 @@ function required (v:any) {
                     <v-col cols="12" md="6">
                         <AppDateInput 
                             :readonly="readonly"
+                            :rules="[required]"
                             v-model="form.dateBirth"
                             :error-messages="errors.dateBirth"
                             label="Дата рождения"
@@ -120,8 +121,8 @@ function required (v:any) {
                     <v-col md="6" cols="12">
                         <AppAutocomplete
                             label="Гражданство"
-                            :required="true && !edit"
                             :readonly="readonly"
+                            :rules="[required]"
                             item-title="text"
                             :items="countries"
                             item-value="value"
@@ -133,8 +134,8 @@ function required (v:any) {
 
                     <v-col md="6" cols="12">
                         <v-radio-group
+                            :rules="[required]"
                             v-model="form.gender"
-                            :required="true && !edit"
                             :readonly="readonly"
                             inline
                             label="Пол"
@@ -156,7 +157,7 @@ function required (v:any) {
                             :form="form"
                             v-model:input="form.passportSeries"
                             v-model:checkbox="form.noPassportSeries"
-                            :input-attr="{label:'Серия паспорта', 'error-messages':errors.passportSeries}"
+                            :input-attr="{label:'Серия паспорта',  'error-messages':errors.passportSeries}"
                             :checkbox-attr="{label:'Нет серии', 'error-messages':errors.noPassportSeries}"
                         />
                     </v-col>
@@ -164,6 +165,7 @@ function required (v:any) {
                     <v-col cols="6" md="12">
                         <AppOptionalInput
                             :form="form"
+                            :rules="[required]"
                             v-model:input="form.passportNumber"
                             v-model:checkbox="form.noPassportNumber"
                             :input-attr="{label:'Номер паспорта', 'error-messages':errors.passportNumber}"
@@ -173,8 +175,8 @@ function required (v:any) {
 
                     <v-col cols="12" md="6">  
                         <AppInput
+                            :rules="[required]"
                             label="Кем выдан"
-                            :required="true && !edit"
                             :readonly="readonly"
                             v-model="form.issuedBy"
                             :error-messages="errors.issuedBy"
@@ -185,6 +187,7 @@ function required (v:any) {
                     <v-col cols="12" md="6">
                         <AppDateInput 
                             label="Дата выдачи"
+                            :rules="[required]"
                             :readonly="readonly"
                             v-model="form.issuedDate"
                             :error-messages="errors.issuedDate"
@@ -202,6 +205,7 @@ function required (v:any) {
                     <v-col cols="12" md="6">
                         <AppInput 
                             label="Адрес"
+                            :rules="[required]"
                             :readonly="readonly"
                             v-model="form.addressReg"
                             :error-messages="errors.addressReg"
@@ -220,6 +224,7 @@ function required (v:any) {
                     <v-col cols="12" md="6">
                         <AppInput 
                             label="Номер телефона"
+                            :rules="[required]"
                             :readonly="readonly"
                             v-model="form.phone"
                             :error-messages="errors.phone"
@@ -239,6 +244,7 @@ function required (v:any) {
                     <v-col cols="12" md="6">
                         <AppFileInput
                         label="Скан паспорта PDF"
+                        :rules="[required]"
                         clearable
                         v-model="form.passportScan"
                         :readonly="readonly"
@@ -250,6 +256,7 @@ function required (v:any) {
                     <v-col cols="12" md="6">
                         <AppFileInput
                         label="Скан перевода паспорта PDF"
+                        :rules="[required]"
                         clearable
                         v-model="form.passportTranslateScan"
                         :readonly="readonly"

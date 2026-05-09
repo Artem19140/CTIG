@@ -2,9 +2,9 @@
 import { ref } from 'vue';
 import EmployeeEntryForm from './Components/EmployeeEntryForm.vue';
 import ForeignNationalEntryForm from './Components/ForeignNationalEntryForm.vue';
-import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import BaseEntryCard from '@/components/BaseComponents/BaseEntryCard/BaseEntryCard.vue';
 import BaseLayout from '@/layouts/BaseLayout.vue';
+import BaseListItem from '@/components/BaseComponents/BaseList/BaseListItem.vue';
 
 const isForeignNationalEntry = ref<boolean>(true)
 
@@ -32,7 +32,7 @@ const isForeignNationalEntry = ref<boolean>(true)
             </v-btn>
         </template>
         <v-list>
-            <AppListDropDownItem 
+            <BaseListItem 
                 :title="isForeignNationalEntry ? 'Вход сотрудник' : 'Вход ИГ'"
                 @click="isForeignNationalEntry = !isForeignNationalEntry" 
             />

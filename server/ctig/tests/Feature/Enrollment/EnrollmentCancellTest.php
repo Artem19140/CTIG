@@ -45,7 +45,7 @@ class EnrollmentCancellTest extends TestCase
         ]);
 
         $response = $this->deleteEnrollment($enrollment->id);
-        $response->assertOk();
+        $response->assertNoContent();
     }
 
     public function test_fail_has_attempt(): void

@@ -60,10 +60,4 @@ class ForeignNationalController
             'foreignNational' => new ForeignNationalProfileResource($updatedForeignNational)
         ]);
     }
-
-    public function destroy(ForeignNational $foreignNational)
-    {
-        $foreignNational->delete();
-        return response()->noContent();
-    }
 }

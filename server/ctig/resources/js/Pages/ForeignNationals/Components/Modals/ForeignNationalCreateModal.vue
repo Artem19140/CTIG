@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {  router, useHttp } from '@inertiajs/vue3'
-import {ref } from 'vue';
+import { router, useHttp } from '@inertiajs/vue3'
+import { ref } from 'vue';
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
@@ -68,7 +68,19 @@ const http = useHttp<ForeignNationalFormI & {hasPayment:boolean, examId: number 
     addressReg:'г. Ижевск, ул. Удмурская 158, кв. 23'
 })
 
-const create = () => {
+const form = ref()
+
+const create = async () => {
+    http.hasErrors = false
+    const { valid } = await form.value.validate()
+    if(!http.examId){
+        http.errors.examId = 'Выберите экзамен'
+    }
+    if(!valid || !http.examId) {
+        http.hasErrors = true
+        return
+    }
+
     http.post('/foreign-nationals', {
         onSuccess: (response) => {
             if(response.redirectUrl){
@@ -86,6 +98,7 @@ const {confirmOpen} = useConfirmDialog()
 const  reset = ()  =>  { 
     examTypeId.value = null
     exams.value = undefined
+    http.cancel()
     http.resetAndClearErrors()
 }
 
@@ -118,19 +131,19 @@ const  reset = ()  =>  {
                         </v-container>
                     </v-card-text>
                 </v-card>
-                
-                <ForeignNationalForm 
-                    v-model:form="http"
-                    :loading="http.processing"
-                    :errors="http.errors"    
-                />
+                <v-form ref="form">
+                    <ForeignNationalForm 
+                        v-model:form="http"
+                        :loading="http.processing"
+                        :errors="http.errors"    
+                    />
+                </v-form>
                   
             <template #actions>
                 <span class="text-red" v-if="http.hasErrors">Есть ошибки заполнения</span>
                 <AppAddButton text="Добавить" 
                     :disabled="http.processing"
                     :loading="http.processing"
-                    type="submit"
                     @click="create"
                 />
             </template>

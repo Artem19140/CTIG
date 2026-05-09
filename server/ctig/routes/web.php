@@ -13,7 +13,6 @@ use App\Http\Controllers\Web\Auth\LoginController;
 use App\Http\Controllers\Web\Report\ReportController;
 use App\Http\Controllers\Web\ForeignNational\ForeignNationalController;
 use App\Http\RedirectResolver;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'auth.session', 'user.active', 'center.active', 'password.change'])->group(function(){
@@ -21,7 +20,7 @@ Route::middleware(['auth', 'auth.session', 'user.active', 'center.active', 'pass
     Route::apiResource('foreign-nationals', ForeignNationalController::class)
         ->where(['foreign_national' => '[0-9]+'])
         ->middleware(['user.has.any.role:' . UserRoles::implode([UserRoles::Operator, UserRoles::Director])])
-        ->except(['show']);
+        ->except(['show', 'destroy']);
 
     Route::apiResource('foreign-nationals', ForeignNationalController::class)
         ->where(['foreign_national' => '[0-9]+'])

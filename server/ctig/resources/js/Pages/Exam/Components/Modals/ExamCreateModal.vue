@@ -7,6 +7,7 @@ import ExamCreateForm from './ExamCreateForm.vue';
 import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
 import { ExamForm } from '@/interfaces/Exam';
 import AppTooltip from '@/components/UI/AppTooltip/AppTooltip.vue';
+import { ref } from 'vue';
 
 const props = defineProps<{
     date?:string
@@ -22,8 +23,11 @@ const http = useHttp<ExamForm>({
     date:props.date ?? null,
     capacity:null
 })
+const form = ref()
+const create = async () => {
+    const {valid} = await  form.value.validate()
+    if(!valid) return
 
-const create =  () => {
     http.post('/exams', {
     onSuccess: (response:any) => {
         http.resetAndClearErrors()
@@ -32,8 +36,7 @@ const create =  () => {
         const {add} = useSnackbarQueue()
         add('Экзамен создан', 'green')
     },
-    })
-    
+    })   
 }
 </script>
 
@@ -49,18 +52,21 @@ const create =  () => {
                 }
             }
             http.resetAndClearErrors()
+            http.cancel()
             close()
         }"
     >
-    <template #title>
-        <div class="flex gap-2">
-            Добавление экзамена
-            <AppTooltip 
-                text="Создать экзамен возможно минимум за 3 часа до его начала"
-            />
-        </div>
-    </template>
-    <ExamCreateForm :form="http" />
+        <template #title>
+            <div class="flex gap-2">
+                Добавление экзамена
+                <AppTooltip 
+                    text="Создать экзамен возможно минимум за 3 часа до его начала"
+                />
+            </div>
+        </template>
+        <v-form ref="form">
+            <ExamCreateForm :form="http" />
+        </v-form>
         <template #actions >
             <AppAddButton  
                 text="Добавить"

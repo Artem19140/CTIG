@@ -7,9 +7,6 @@ use App\Models\Counter;
 use Carbon\Carbon;
 
 class GenerateRegNumberAction{
-    public function __construct(
-        protected Counter $counter
-    ){}
     public function execute(){
         $regNumber = Counter::where('key', CounterKey::RegNumKey)->lockForUpdate()->first();
         if($this->isNewYear($regNumber)){

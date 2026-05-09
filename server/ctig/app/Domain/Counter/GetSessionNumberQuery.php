@@ -7,7 +7,6 @@ use Carbon\Carbon;
 
 class GetSessionNumberQuery{
     public function execute(Carbon $beginTime):int{
-        //Где еще есть попытки
         $sessionNumber = Exam::whereBeginTimeMore($beginTime->copy()->startOfYear(),)
             ->whereBeginTimeLess($beginTime->copy()->subDay()->endOfDay())
             ->notCancelled()

@@ -31,12 +31,16 @@ onMounted( async () => {
         }
     })
 })
+function required (v:any) {
+    return !!v || 'Поле обязательно'
+}
 </script>
 
 <template>
     <div class="flex flex-column gap-2">
         <AppAutocomplete 
             label="Тип экзамена"
+            :rules="[required]"
             item-title="name"
             :items="examTypes"
             v-model="form.examTypeId"
@@ -51,6 +55,7 @@ onMounted( async () => {
             <div class="flex-1">
                 <AppDateInput 
                     label="Дата"
+                    :rules="[required]"
                     v-model="form.date"
                     :disabled="hasEnrollment"
                     :error-messages="form.errors.date"
@@ -61,6 +66,7 @@ onMounted( async () => {
                 <AppInput 
                     label="Время"
                     type="time"
+                    :rules="[required]"
                     :disabled="hasEnrollment"
                     v-model="form.time"
                     :error-messages="form.errors.time"
@@ -73,6 +79,7 @@ onMounted( async () => {
             item-title="address"
             :items="addresses"
             item-value="id"
+            :rules="[required]"
             :disabled="hasEnrollment"
             v-model="form.addressId"
             :error-messages="form.errors.addressId"
@@ -85,12 +92,14 @@ onMounted( async () => {
             :error-messages="form.errors.capacity"
             control-variant="hidden"
             label="Вместимость"
+            :rules="[required]"
             :min="0"
         />
 
         <AppAutocomplete 
             label="Экзаменаторы"
             item-title="fullName"
+            :rules="[required]"
             :items="examiners"
             v-model="form.examiners"
             item-value="id"

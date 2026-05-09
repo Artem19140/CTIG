@@ -28,7 +28,7 @@ class AttemptAnswerController
         AttemptAnswer $attemptAnswer,
         HandleAttemptAnswerAction $handleAttemptAnswerAction
     ){
-        abort_if($attempt->id !== $attemptAnswer->attempt_id, 403);
+        $this->authorize($attempt, $attemptAnswer);
         $answer = $request->input('answer');
         $savedAnswer = DB::transaction(function()use($answer, $attempt,$attemptAnswer, $handleAttemptAnswerAction){
             $answer = $handleAttemptAnswerAction->execute($answer, $attempt, $attemptAnswer);
@@ -44,6 +44,10 @@ class AttemptAnswerController
         AttemptAnswer $attemptAnswer,
         RateAttemptAnswerAction $rateAttemptAnswerAction
     ){
+        $request->validate([
+            'mark' => ['required', 'integer', 'min:0']
+        ]);
+
         $canRate = $attemptAnswer->exam()
             ->whereHas('examiners', function(Builder $query) use($request){
                 $query->where('examiner_id', $request->user()->id);
@@ -52,9 +56,6 @@ class AttemptAnswerController
         if(!$canRate){
             abort(403);
         }
-        $request->validate([
-            'mark' => ['required', 'integer', 'min:0']
-        ]);
         
         $attemptAnswer = $rateAttemptAnswerAction->execute($attemptAnswer, $request->input('mark'), $request->user());
         
@@ -65,10 +66,14 @@ class AttemptAnswerController
         Attempt $attempt,
         AttemptAnswer $attemptAnswer,
     ){
-        abort_if($attempt->id !== $attemptAnswer->attempt_id, 403);
-        //attemptAnswer принадлежит attemtp
+        $this->authorize($attempt, $attemptAnswer);
+
         $attemptAnswer->audio_played = true;
         $attemptAnswer->save();
         return response()->noContent();
+    }
+
+    protected function authorize(Attempt $attempt, AttemptAnswer $attemptAnswer){
+        abort_if($attempt->id !== $attemptAnswer->attempt_id, 403);
     }
 }

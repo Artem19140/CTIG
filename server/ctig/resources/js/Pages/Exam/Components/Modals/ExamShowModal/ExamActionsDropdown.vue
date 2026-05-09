@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useHttp } from '@inertiajs/vue3'
 import { usePromptDialog } from '@composables/usePromptDialog';
-import AppListDropDownItem from '@components/UI/AppListDropDownItem/AppListDropDownItem.vue';
 import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 import { useAuth } from '@composables/useAuth';
 import { Roles } from '@constants/Roles';
@@ -10,6 +9,7 @@ import { useLoadingSnackbar } from '@composables/useLoadingSnackBar';
 import { useExamStatus } from '@/composables/useExamStatus';
 import { Exam } from '@/interfaces/Exam';
 import { RedirectUrl } from '@/interfaces/Interfaces';
+import BaseListItem from '@/components/BaseComponents/BaseList/BaseListItem.vue';
 
 const props = defineProps<{exam : Exam | null}>()
 
@@ -77,21 +77,21 @@ const downloadCodesDisabled  = !props.exam?.documentsAvailable.codes.available
 
 <template>
     <BaseThreeDotDropdown>
-      <AppListDropDownItem 
+      <BaseListItem 
         title="Кода" 
         :disabled="downloadCodesDisabled"
         @click="() => download('codes')" 
         v-if="auth.can([Roles.EXAMINER])"
       />
 
-      <AppListDropDownItem 
+      <BaseListItem 
         title="Список"
         v-if="auth.can([Roles.OPERATOR, Roles.EXAMINER, Roles.DIRECTOR])"
         :disabled="downloadListDisabled"  
         @click="download('list')" 
       />
 
-      <AppListDropDownItem 
+      <BaseListItem 
         title="Результаты"
         :subtitle="props.exam?.documentsAvailable.results.label"
         :disabled="downloadResultslDisabled" 
@@ -99,22 +99,22 @@ const downloadCodesDisabled  = !props.exam?.documentsAvailable.codes.available
         @click="() => download('results')" 
       />
 
-      <AppListDropDownItem 
+      <BaseListItem 
         title="Протокол" 
         v-if="auth.can([Roles.EXAMINER])"
         :disabled="downloadProtocolDisabled"
         @click="() => download('protocol')" 
       />
-      
-      <AppListDropDownItem 
+      <v-divider></v-divider>
+      <BaseListItem 
         title="Редактировать" 
         v-if="auth.can([Roles.SCHEDULER])" 
         @click="modals.open('examEdit', {exam:exam, onEdit:(exam:Exam) => emit('edit', exam)})"
         :disabled="editDisabled"
       />
-
-      <AppListDropDownItem 
-        color="text-red" 
+      
+      <BaseListItem 
+        base-color="red"
         title="Отменить" 
         @click="cancelExam"
         :disabled="cancelDisabled" 

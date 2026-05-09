@@ -71,6 +71,10 @@ class Attempt extends Model
         return $this->banned_at !== null;
     }
 
+    public function isPending(): bool{
+        return $this->status === AttemptStatus::Pending;
+    }
+
     public function isFinished(): bool{
         return $this->finished_at !== null;
     }
@@ -153,6 +157,9 @@ class Attempt extends Model
         if($this->isFinished()){
             return AttemptStatus::Finished;
         }
+        // if($this->isChecked()){
+        //     return AttemptStatus::Checked;
+        // }
         if($this->isStarted()){
             return AttemptStatus::Active;
         }

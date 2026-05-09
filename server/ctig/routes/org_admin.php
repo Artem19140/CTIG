@@ -15,7 +15,7 @@ Route::middleware(['user.has.any.role:' . UserRoles::OrgAdmin->value])->group(fu
     Route::put('centers/{center}', [CenterController::class, "update"]);
     Route::put('centers/{center}/addresses', [AddressController::class, "update"]);
 
-    Route::patch('centers/{center}/addresses/{address}/activity', [AddressController::class, "toggleActive"])->name('centers.addresses.toggle.activity');
+    Route::delete('centers/{center}/addresses/{address}', [AddressController::class, "destroy"])->name('centers.addresses.destroy');
     Route::patch('centers/{center}/addresses/{address}', [AddressController::class, "update"])->name('centers.addresses.update');
     Route::post('centers/{center}/addresses', [AddressController::class, "store"])->name('centers.addresses.store');
 

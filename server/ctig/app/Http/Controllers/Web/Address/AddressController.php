@@ -18,7 +18,7 @@ class AddressController
         $addresses = Address::where('center_id', $request->user()->center_id)
             ->withExists('exams as examsExists')
             ->orderByDesc('id')
-            ->orderBy('is_active')
+            ->where('is_active', true)
             ->get();
         return Inertia::render('Center/Center', [
             'addresses' => AddressResource::collection($addresses),
@@ -54,19 +54,13 @@ class AddressController
         return response()->json(new AddressResource($address));
     }
     
-    public function toggleActive(Request $request, Center $center, Address $address){
-        $request->validate(['active' => 'required', 'boolean']);
-        $address->is_active = $request->input('active');
-        $address->save();
-        return response()->noContent();
-    }
 
     public function destroy(Center $center, Address $address)
     {
         $this->authorize($center, $address);
         $address->is_active = false;
         $address->save();
-        return ;
+        return response()->noContent();
     }
 
     protected function authorize(Center $center, Address $address){

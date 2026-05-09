@@ -16,18 +16,16 @@ const props = defineProps<{
 }>()
 
 const editMode = ref<boolean>(false)
+
     
-const http = useHttp({
-    active: !props.address.isActive
-})
+const http = useHttp()
 
 const toggleAddressActivity = async () => {
-    const {open} = useConfirmationOptionsDialog()
-    const message = props.address.isActive ?  'Активировать адрес' : 'Деактивировать адрес'  
-    const ok = await open(message)
+    const {open} = useConfirmationOptionsDialog() 
+    const ok = await open('Деактивировать адрес')
     if(!ok) return
     props.address.loading = true
-    http.patch(`/centers/${props.centerId}/addresses/${props.address.id}/activity`,{
+    http.delete(`/centers/${props.centerId}/addresses/${props.address.id}`,{
         onSuccess:() => {
             router.reload()
         },

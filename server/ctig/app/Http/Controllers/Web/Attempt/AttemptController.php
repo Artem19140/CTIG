@@ -51,7 +51,7 @@ class AttemptController
             return redirect('login')->with('У вас нет текущей попытки экзамена');
         }
         $startedAttempt = $startAttempt->execute($attempt);
-        return redirect()->route('attempts', ['attempt' => $startedAttempt->id]);
+        return redirect()->route('attempts.show', ['attempt' => $startedAttempt->id]);
     }
 
     public function ban(Request $request, Attempt $attempt, BanAttemptAction $banAttempt)

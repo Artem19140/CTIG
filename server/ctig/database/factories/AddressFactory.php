@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class AddressFactory extends Factory
 {
-    public function isActive(): AddressFactory{
+    public function active(): AddressFactory{
         return $this->state(function(){
             return[
                 'is_active' => true

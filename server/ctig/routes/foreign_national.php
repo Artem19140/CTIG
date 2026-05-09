@@ -12,7 +12,7 @@ Route::middleware('auth:foreignNationals')->group(function (){
         Route::get('{attempt}/preparing', [AttemptController::class, 'preparing'])->name('attempts.preparing')
             ->can('attempt-access', 'attempt');
 
-        Route::get('{attempt}', [AttemptController::class, 'show'])->name('attempts') 
+        Route::get('{attempt}', [AttemptController::class, 'show'])->name('attempts.show') 
             ->can('attempt-access', 'attempt');
 
         Route::put('{attempt}', [AttemptController::class, 'start'])
@@ -26,12 +26,3 @@ Route::middleware('auth:foreignNationals')->group(function (){
     });
     
 });
-
-// $attempt->latest();
-// return match($attempt){
-//     $attempt->isBanned() => throw new AttemptBannedException,
-//     $attempt->isFinished() => throw new AttemptFinishedException,
-//     $attempt->isExpired() => throw new AttemptExpiredException,
-//     $attempt->isPending()  => route('attempts.pending', ['attempt' => $attempt]),
-//     default => route('attempts.show' => , ['attempt' => $attempt])
-// }

@@ -10,6 +10,7 @@ use App\Http\Controllers\Web\Enrollment\EnrollmentController;
 use App\Http\Controllers\Web\Login\LoginController;
 use App\Http\Controllers\Web\Report\ReportController;
 use App\Http\Controllers\Web\ForeignNational\ForeignNationalController;
+use App\Http\RedirectResolver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -68,25 +69,21 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
         Route::inertia('/exams/schedule', 'Instruction/ExamScheduleInstruction')->name('instruction.exams.schedule');
     });
 
-    Route::get('me', function(Request $request){
-        return redirect()->to($request->user()->resolveRedirect());
-    })->name('me');
-
     Route::post('password/change', [LoginController::class, 'changePassword'])->withoutMiddleware(['password.change']);
     Route::inertia('password/change', 'Auth/ChangePassword')->name('password.change')->withoutMiddleware(['password.change']);
     Route::get('files', [FileController::class, "show"])->middleware(['user.has.any.role:' . UserRoles::implode([UserRoles::Operator, UserRoles::Examiner, UserRoles::Director])]);
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });
 
-Route::middleware('guest')->group(function (){
-    Route::inertia('login', 'Auth/Login')->name('login');
+Route::middleware('guest:web,foreignNationals')->group(function (){
+    Route::inertia('login', 'Auth/Login')->name('login');  
     Route::post('login', [LoginController::class, 'login']);
     Route::post('exam-codes/verify', [ExamController::class, 'verifyCode']);
     Route::inertia('attempts/finish', 'Attempt/AfterAttempt')->name('attempts.finish');
 });
 
-require __DIR__.'/foreign_national.php';
+Route::get('me', function(RedirectResolver $resolver){
+    return $resolver->execute();
+})->name('me');
 
-Route::fallback(function () {
-    return redirect()->route('exams.index');
-});
+require __DIR__.'/foreign_national.php';

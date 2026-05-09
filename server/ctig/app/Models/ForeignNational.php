@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Laravel\Sanctum\HasApiTokens;
@@ -15,6 +16,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class ForeignNational extends Authenticatable {
 
     use HasFactory, Notifiable, HasApiTokens;
+    public function getRememberTokenName(){
+        return null;
+    }
     public const int STORAGE_TTL = 3;
     protected $fillable=[
         'surname',
@@ -72,6 +76,10 @@ class ForeignNational extends Authenticatable {
 
     public function creator():BelongsTo{
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function latestAttempt(): HasOne{
+        return $this->attempts()->one()->latestOfMany();
     }
 
     protected function fullPassport(): Attribute

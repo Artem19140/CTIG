@@ -10,7 +10,7 @@ use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class AddressToggleActiveTest extends TestCase
+class AddressDeleteTest extends TestCase
 {
     use RefreshDatabase;
     protected User $user;
@@ -34,15 +34,14 @@ class AddressToggleActiveTest extends TestCase
     }
     public function test_success(): void
     {
-        $this->withoutExceptionHandling();
-        $address = Address::factory()->notActive()->create();
+        $address = Address::factory()->active()->create(['center_id' => $this->center->id]);
         $response = $this
             ->actingAs($this->user)
-            ->patchJson(route('centers.addresses.toggle.activity', ['address'=> $address , 'center' => $this->center]),[
-                'active' => !$address->is_active,
+            ->deleteJson(route('centers.addresses.destroy', ['address'=> $address , 'center' => $this->center]),[
                 'center' => $this->center
             ]);
-        $response->assertStatus(204);
+        $response->assertNoContent();
+        $address->refresh();
         $this->assertFalse($address->is_active);
     }
 

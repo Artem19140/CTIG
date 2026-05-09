@@ -17,6 +17,10 @@ watch(() => props.addresses, (value) => {
 
 const addresses = ref<Address[]>(props.addresses)
 
+watch(() => props.addresses, () => {
+    addresses.value = props.addresses
+})
+
 addresses.value.map(v => v.loading = false)
 
 const add = () => {

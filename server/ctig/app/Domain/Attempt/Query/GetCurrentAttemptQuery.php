@@ -13,10 +13,11 @@ class GetCurrentAttemptQuery{
         protected AttemptGuard $attemptGuard
     ){}
     public function execute(Attempt $attempt):Attempt{
-        $this->attemptGuard->ensureStarted($attempt);
         $this->attemptGuard->ensureNotBanned($attempt);
-       //$this->attemptGuard->ensureNotExpired($attempt);
+        $this->attemptGuard->ensureNotExpired($attempt);
         $this->attemptGuard->ensureNotFinished($attempt);
+        $this->attemptGuard->ensureStarted($attempt);
+
         $attempt->load([
             'taskVariants'=> function(BelongsToMany $query){
                 $query->whereHas('task', function(Builder $q){

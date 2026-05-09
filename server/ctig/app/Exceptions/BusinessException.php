@@ -2,9 +2,22 @@
 
 namespace App\Exceptions;
 
+use Inertia\Inertia;
+use Illuminate\Http\Request;
+
 class BusinessException extends BaseException
 {
-    public function __construct(string $message = ""){
-        parent::__construct(400,$message);
+    public function render(Request $request){
+        if($request->expectsJson()){
+            return response()->json([
+                'message' => $this->message
+            ], 400);
+        }
+
+        if($request->inertia()){
+            return Inertia::flash('error', $this->message)->back();
+        }
+
+        return back()->with('error', $this->message);
     }
 }

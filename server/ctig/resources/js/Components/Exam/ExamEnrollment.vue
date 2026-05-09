@@ -5,6 +5,7 @@ import {useHttp} from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
 import AppCheckbox from '@components/UI/AppCheckbox/AppCheckbox.vue';
 import AppTooltip from '@components/UI/AppTooltip/AppTooltip.vue';
+import { ExamIndex } from '@/interfaces/Exam';
 
 const page = usePage()
 
@@ -12,7 +13,7 @@ const examId = defineModel<number | null>('examId', {default:null})
 const hasPayment = defineModel<boolean>('hasPayment', {default:false})
 
 const examsTypes = page.props.examTypes
-const examDates = ref<any[]>([])
+const examDates = ref<ExamIndex[]>([])
 
 const props = defineProps<{
   foreignNationalId?:number,
@@ -22,7 +23,7 @@ const props = defineProps<{
 const http = useHttp<{
   examTypeId: number | null
   foreignNationalId?: number
-}>({
+}, ExamIndex[]>({
   examTypeId: null,
   foreignNationalId: props.foreignNationalId ?? undefined
 })
@@ -32,7 +33,7 @@ watch(() => http.examTypeId, async () => {
   if(http.examTypeId === null) return
   examDates.value = []
   http.get('/exams/available',{
-    onSuccess:(response:any) => {
+    onSuccess:(response) => {
       examDates.value = response
     }
   })

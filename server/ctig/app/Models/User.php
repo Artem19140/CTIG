@@ -114,9 +114,9 @@ class User extends Authenticatable
     public function resolveRedirect():string
     {
         return match (true){
-            $this->hasRole(UserRoles::Operator->value) => route('exams.index'),
+            $this->hasRole(UserRoles::Operator->value) => route('foreign-nationals.index'),
             $this->hasRole(UserRoles::Scheduler->value) => route('exams.index'),
-            $this->hasRole(UserRoles::Director->value) => route('exams.index'),
+            $this->hasRole(UserRoles::Director->value) => route('foreign-nationals.index'),
             $this->hasRole(UserRoles::Examiner->value) => route('exams.monitoring'),
             $this->hasRole(UserRoles::OrgAdmin->value) => route('centers.show', ['center' => $this->center]),
             $this->hasRole(UserRoles::SuperAdmin->value) => route('centers.show', ['center' => $this->center]),

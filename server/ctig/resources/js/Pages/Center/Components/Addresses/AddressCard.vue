@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import AppNumberInput from '@/components/UI/AppNumberInput/AppNumberInput.vue';
 import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.vue';
-import AppProgressCircular from '@/components/UI/AppProgressCircular/AppProgressCircular.vue';
 import AppTextarea from '@/components/UI/AppTextarea/AppTextarea.vue';
 import AppTooltip from '@/components/UI/AppTooltip/AppTooltip.vue';
 import { useConfirmationOptionsDialog } from '@/composables/useConfirmationOptionsDialog';
@@ -20,18 +19,15 @@ const editMode = ref<boolean>(false)
     
 const http = useHttp()
 
-const toggleAddressActivity = async () => {
+const deleteAddress = async () => {
     const {open} = useConfirmationOptionsDialog() 
     const ok = await open('Деактивировать адрес')
     if(!ok) return
-    props.address.loading = true
+
     http.delete(`/centers/${props.centerId}/addresses/${props.address.id}`,{
         onSuccess:() => {
             router.reload()
         },
-        onFinish:() =>{
-            props.address.loading = false
-        }
     })
 }
 
@@ -40,10 +36,8 @@ const editHttp = useHttp({
     maxCapacity:props.address.maxCapcity
 })
 
-const editLoading = ref<boolean>(false)
 
 const edit = () => {
-    editLoading.value = true
     editHttp.patch(`/centers/${props.centerId}/addresses/${props.address.id}`,{
         onSuccess:() => {
             router.reload({
@@ -51,9 +45,6 @@ const edit = () => {
                     editMode.value = false
                 },
             })
-        },
-        onFinish:()=>{
-            editLoading.value = false
         }
     })
 }
@@ -117,22 +108,25 @@ const cancellEdit = async () => {
             <div v-else>
                 <AppPrimaryButton
                     text="Сохранить"
+                    :disabled="!editHttp.isDirty"
+                    :loading="editHttp.processing"
                     @click="edit"
                 />
                 <v-btn
                     @click="cancellEdit"
                 >Отмена</v-btn>
-                <AppProgressCircular v-if="editLoading" />
             </div>
            
             <v-btn 
                 v-if="!editMode"
-                :color="address.isActive ? 'red' :  'green'"
-                @click="() => toggleAddressActivity()"
+                color="red"
+                @click="deleteAddress"
+                :loading="http.processing"
+                :disabled="http.processing"
             >
-                {{address.isActive ?   'Деактивировать'   : 'Активировать' }}
+                Деактивировать
             </v-btn>
-            <AppProgressCircular v-if="address.loading" size="32" />
+
         </v-card-actions>
     </v-card>
 </template>

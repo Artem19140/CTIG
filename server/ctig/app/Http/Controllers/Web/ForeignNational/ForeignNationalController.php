@@ -11,6 +11,7 @@ use App\Http\Requests\ForeignNational\ForeignNationalUpdateRequest;
 use App\Http\Resources\ForeignNational\ForeignNationalIndexResource;
 use App\Http\Resources\ForeignNational\ForeignNationalProfileResource;
 use App\Models\ForeignNational;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class ForeignNationalController 
@@ -38,6 +39,7 @@ class ForeignNationalController
         ]);
     }
     public function show(ForeignNational $foreignNational){
+        Gate::authorize('view', $foreignNational);
         $foreignNational->load([
             'creator',
             'enrollments' => [ 

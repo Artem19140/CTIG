@@ -2,7 +2,7 @@
 import SidePanel from './Components/SidePanel.vue';
 import TasksList from './Components/tasks/TasksList.vue';
 import { useConfirmDialog } from '@composables/useConfirmDialog';
-import { useForm } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import { useAttempt } from '@/composables/useAttempt';
 import BaseLayout from '@/layouts/BaseLayout.vue';
 import BaseDrawer from '@/components/BaseComponents/BaseDrawer/BaseDrawer.vue';
@@ -15,7 +15,7 @@ const props = defineProps<{
     }
 }>()
 
-const {examAttempt, audioPlaying} = useAttempt()
+const {examAttempt} = useAttempt()
 
 examAttempt.value = props.attempt.data
 
@@ -33,6 +33,9 @@ const finish = async () => {
 </script>
 
 <template>
+    <Head>
+        <title>Экзамен </title>
+    </Head>
     <BaseLayout>
         <template #drawer>
             <BaseDrawer
@@ -40,7 +43,7 @@ const finish = async () => {
                 permanent
                 width="300"
             >
-                <SidePanel :attempt="examAttempt"/>
+                <SidePanel v-if="examAttempt" :attempt="examAttempt"/>
             </BaseDrawer>
         </template>
         <v-container class="flex flex-column items-center gap-10">
@@ -54,8 +57,6 @@ const finish = async () => {
                 :disabled="form.processing"
                 :loading="form.processing"
             />
-                
-
         </v-container>
     
     </BaseLayout>

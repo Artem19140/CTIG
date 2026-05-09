@@ -67,7 +67,8 @@ class User extends Authenticatable
     }
 
     public function hasAnyRole(array $roles):bool{
-        return count(array_intersect($roles, $this->roles->pluck('name')->toArray())) > 0;
+        $rolesArray = $this->roles->map(fn ($status) => $status->name->value)->toArray();
+        return \count(array_intersect($roles, $rolesArray)) > 0;
     }
     
     public function hasRole(string $role){

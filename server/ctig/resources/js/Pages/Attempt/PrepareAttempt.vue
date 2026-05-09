@@ -29,8 +29,6 @@ const form = useForm()
 const begin = () => {
     form.put(`/attempts/${props.attempt.id}`)
 }
-
-
 </script>
 
 <template>

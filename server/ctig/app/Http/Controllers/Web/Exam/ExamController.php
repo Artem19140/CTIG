@@ -25,13 +25,13 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\Exam\ExamResource;
 use App\Http\Requests\Exam\ExamPostRequest;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class ExamController
 {
     public function index(ExamIndexRequest $request, GetExamsQuery $getExamQuery)
     {
-        
         $exams = $getExamQuery->execute($request->validated() ?? []);
         Inertia::flash('filters' , request()->all());
         return Inertia::render('Exam/Exam', [
@@ -46,14 +46,14 @@ class ExamController
         return response()->json();
     }
 
-    public function createModalData(){
+    public function createModalData(Request $request){
         $examiners=User::whereHas('roles', function(Builder $query){
                 $query->where('name',UserRoles::Examiner->value);
             })
             ->active()
             ->get();
         return response()->json([
-            'addresses' => AddressResource::collection(Address::where('is_active', true)->get()),
+            'addresses' => AddressResource::collection(Address::where('is_active', true)->where('center_id', $request->user()->center_id)->get()),
             'examTypes' => ExamTypeResource::collection(ExamType::all()),
             'examiners' => UserResource::collection($examiners)
         ], 200);
@@ -61,6 +61,8 @@ class ExamController
 
     public function show(Exam $exam)
     {
+        Gate::authorize('view', $exam);
+
         $exam->load([
             'examiners', 
             'address',

@@ -35,24 +35,22 @@ const create =  () => {
     })
     
 }
-
-const beforeClose = async (fn:  ()  => void) => {
-    if(http.isDirty){
-        const {confirmOpen} = useConfirmDialog()
-        if(! await confirmOpen("Отменить добавление экзамена?") ){
-            return
-        }
-    }
-    http.resetAndClearErrors()
-    fn()
-}
 </script>
 
 <template>
     <BaseDialog 
         width="500"
         v-model="isOpen"
-        @before-close="(done) => beforeClose(done)"
+        @before-close="async (close) => {
+            if(http.isDirty){
+                const {confirmOpen} = useConfirmDialog()
+                if(! await confirmOpen('Отменить добавление экзамена?') ){
+                    return
+                }
+            }
+            http.resetAndClearErrors()
+            close()
+        }"
     >
     <template #title>
         <div class="flex gap-2">

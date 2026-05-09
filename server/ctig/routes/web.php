@@ -68,9 +68,9 @@ Route::middleware(['auth', 'user.active', 'center.active', 'password.change'])->
         Route::inertia('/exams/schedule', 'Instruction/ExamScheduleInstruction')->name('instruction.exams.schedule');
     });
 
-    Route::get('home', function(Request $request){
+    Route::get('me', function(Request $request){
         return redirect()->to($request->user()->resolveRedirect());
-    })->name('home');
+    })->name('me');
 
     Route::post('password/change', [LoginController::class, 'changePassword'])->withoutMiddleware(['password.change']);
     Route::inertia('password/change', 'Auth/ChangePassword')->name('password.change')->withoutMiddleware(['password.change']);

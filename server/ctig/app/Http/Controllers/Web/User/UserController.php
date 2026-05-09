@@ -23,6 +23,7 @@ class UserController{
     }
 
     public function index(){
+        
         $users = User::active()
             ->with(['roles'])
             ->orderBy('surname')

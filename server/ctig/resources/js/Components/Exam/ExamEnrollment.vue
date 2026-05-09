@@ -8,8 +8,8 @@ import AppTooltip from '@components/UI/AppTooltip/AppTooltip.vue';
 
 const page = usePage()
 
-const examId = defineModel<number | null>('examId')
-const hasPayment = defineModel<boolean>('hasPayment')
+const examId = defineModel<number | null>('examId', {default:null})
+const hasPayment = defineModel<boolean>('hasPayment', {default:false})
 
 const examsTypes = page.props.examTypes
 const examDates = ref<any[]>([])
@@ -28,6 +28,7 @@ const http = useHttp<{
 })
 
 watch(() => http.examTypeId, async () => {
+  examId.value = null
   if(http.examTypeId === null) return
   examDates.value = []
   http.get('/exams/available',{

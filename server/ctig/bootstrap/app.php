@@ -52,7 +52,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 if($request->inertia()){
                     return Inertia::flash('error', $e->getMessage())->back();
                 }
-               
+                return Inertia::flash('error', $e->getMessage())->back();
                 return back()->with('error', $e->getMessage());
             });
     

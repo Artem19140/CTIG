@@ -36,7 +36,7 @@ const icon = computed(() => {
 const loading = ref<boolean>(false) 
 const home = () => {
   loading.value = true
-  router.get('/home', {}, {
+  router.get('/me', {}, {
     onFinish:() => {
       loading.value = false
     }

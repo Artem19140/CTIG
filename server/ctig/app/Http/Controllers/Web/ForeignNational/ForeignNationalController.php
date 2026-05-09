@@ -38,7 +38,6 @@ class ForeignNationalController
         ]);
     }
     public function show(ForeignNational $foreignNational){
-        
         $foreignNational->load([
             'creator',
             'enrollments' => [ 

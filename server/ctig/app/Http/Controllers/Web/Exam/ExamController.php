@@ -31,6 +31,7 @@ class ExamController
 {
     public function index(ExamIndexRequest $request, GetExamsQuery $getExamQuery)
     {
+        
         $exams = $getExamQuery->execute($request->validated() ?? []);
         Inertia::flash('filters' , request()->all());
         return Inertia::render('Exam/Exam', [

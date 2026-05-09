@@ -67,7 +67,10 @@ const {can} = useAuth()
         :error="!http.wasSuccessful"
         :onRetry="getExam"
         :subtitle="`${exam?.sessionNumber ?? '-'} / ${exam?.group ?? '-'}`"
-        @before-close="(done) =>  done()"
+        @before-close="(close) =>  {
+            http.cancel()
+            close()
+        }"
         skeleton="heading, list-item-two-line, list-item-two-line"
     >
         <template #title>

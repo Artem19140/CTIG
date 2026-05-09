@@ -70,7 +70,10 @@ const {can} = useAuth()
         v-model="isOpen"
         :error="!http.wasSuccessful"
         :onRetry="getForeignNational"
-        @before-close="(done) => done()"
+        @before-close="(close) => {
+            http.cancel()
+            close()
+        }"
         skeleton="paragraph,divider, paragraph, divider, list-item-two-line, divider"
     >
     

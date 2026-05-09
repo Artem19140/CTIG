@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { router, useHttp } from '@inertiajs/vue3';
 import { onMounted, ref } from 'vue';
-import AttemptCheckingSidePanel from './AttemptCheckingSidePanel.vue';
 import BaseDialog from '@/components/BaseComponents/BaseDialog/BaseDialog.vue';
 import { AttemptAnswer } from '@/interfaces/Task';
 import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import { AttemptChecking } from '@/interfaces/Attempt';
-import TaskCheckingList from '@/pages/Attempt/Components/tasks/TaskCheckingList.vue';
 import AttemptCheckingPanel from '@/components/Attempt/AttemptCheckingPanel.vue';
 
 const isOpen = defineModel<boolean>({default:false})
@@ -56,7 +54,10 @@ onMounted(() => {
         :error="!http"
         :loading="http.processing"
         :onRetry="getAttemptTasks"
-        @before-close="(close) => close()"
+        @before-close="(close) => {
+            http.cancel()
+            close()
+        } "
     >
         <AttemptCheckingPanel 
             v-if="attempt"

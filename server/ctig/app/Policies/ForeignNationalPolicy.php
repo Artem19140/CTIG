@@ -31,7 +31,7 @@ class ForeignNationalPolicy
             return true;
         }
         if($user->hasRole(UserRoles::Examiner->value)){
-            return $user->exams()->whereHas('foreignNationals', function (Builder $query)use($foreignNational){
+            return $user->exams()->whereHas('foreignNationals', function (Builder $query) use($foreignNational){
                 $query->where('foreign_national_id', $foreignNational->id);
             })->exists();
         }

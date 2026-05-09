@@ -7,6 +7,7 @@ use App\Domain\Enrollment\Action\ChangePaymentStatusAction;
 use App\Domain\Enrollment\Action\CreateEnrollmentAction;
 use App\Http\Requests\Enrollment\EnrollmentStoreRequest;
 use App\Models\Enrollment;
+use Illuminate\Support\Facades\Gate;
 
 class EnrollmentController
 {
@@ -37,6 +38,7 @@ class EnrollmentController
         Enrollment $enrollment,
         ChangePaymentStatusAction $changePaymentStatusAction
     ){
+        Gate::authorize('update', $enrollment);
         $changePaymentStatusAction->execute($enrollment);
         return response()->json();
     }

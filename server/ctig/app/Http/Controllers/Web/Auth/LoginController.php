@@ -11,6 +11,7 @@ class LoginController
 {
    public function login(LoginRequest $request)
     {
+        
         if ($this->noAccess($request)) { 
             throw ValidationException::withMessages([
                 'email' => 'Неверные учетные данные.',
@@ -18,9 +19,16 @@ class LoginController
             ]);
         }
 
-        $request->session()->regenerate();
-        
         $user = Auth::user();
+        $request->session()->regenerate();
+        $user->loadMissing('center');
+        if(!$user->isActive() || !$user->center->isActive()){
+            Auth::logout();
+            throw ValidationException::withMessages([
+                'email' => 'Неверные учетные данные.',
+                'password' => ''
+            ]);
+        }
 
         if ($user->hasChangePassword()) {
             return redirect()->route('password.change');
@@ -34,7 +42,7 @@ class LoginController
             'email' => $request->validated('email'),
             'password' => $request->validated('password')
         ], $request->validated('rememberMe'));
-        return $wrongCredentials || !Auth::user()->isActive() ||  !Auth::user()->center->isActive();
+        return $wrongCredentials;
     }
 
    

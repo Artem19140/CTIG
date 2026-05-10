@@ -29,18 +29,11 @@ class ChangePasswordTest extends TestCase
         $user = User::factory()
             ->operator()
             ->create([
-            'password' => '1234567890',
-            'has_to_change_password' => true
-        ]);
+                'has_to_change_password' => true
+            ]);
 
-        $response = $this->post('/login',[
-            'email' => $user->email,
-            'password' => '1234567890'
-        ]);
         $newPassword = '123456789';
-        $this->assertAuthenticatedAs($user);
-        $this->assertAuthenticated('web');
-        $response->assertRedirect(route('password.change'));
+
         $response = $this->actingAs($user)
             ->postJson('password/change', [
                 'password' => $newPassword,
@@ -55,22 +48,17 @@ class ChangePasswordTest extends TestCase
         $user = User::factory()
             ->operator()
             ->create([
-            'password' => '1234567890',
             'has_to_change_password' => false
         ]);
 
-        $response = $this->post('/login',[
-            'email' => $user->email,
-            'password' => '1234567890'
-        ]);
         $newPassword = '123456789';
-        $this->assertAuthenticatedAs($user);
-        $this->assertAuthenticated('web');
+
         $response = $this->actingAs($user)
             ->postJson('password/change', [
                 'password' => $newPassword,
                 'password_confirmation' => $newPassword
             ]);
+
         $response->assertForbidden();
         $user->refresh();
         $this->assertFalse(Hash::check($newPassword, $user->password));
@@ -80,17 +68,11 @@ class ChangePasswordTest extends TestCase
         $user = User::factory()
             ->operator()
             ->create([
-            'password' => '1234567890',
-            'has_to_change_password' => true
+                'has_to_change_password' => true
         ]);
 
-        $response = $this->post('/login',[
-            'email' => $user->email,
-            'password' => '1234567890'
-        ]);
         $newPassword = '123456789';
-        $this->assertAuthenticatedAs($user);
-        $this->assertAuthenticated('web');
+
         $response = $this->actingAs($user)
             ->postJson('password/change', [
                 'password' => $newPassword,
@@ -101,4 +83,24 @@ class ChangePasswordTest extends TestCase
         $this->assertFalse(Hash::check($newPassword, $user->password));
     }
 
+    public function test_fail_old_password(): void{
+        $newPassword = '123456789';
+
+        $user = User::factory()
+            ->operator()
+            ->create([
+                'has_to_change_password' => true,
+                'password' => Hash::make($newPassword)
+        ]);
+
+        $response = $this->actingAs($user)
+            ->postJson('password/change', [
+                'password' => $newPassword,
+                'password_confirmation' => $newPassword
+            ]);
+
+        $response->assertUnprocessable();
+        $user->refresh();
+        $this->assertTrue(Hash::check($newPassword, $user->password));
+    }
 }

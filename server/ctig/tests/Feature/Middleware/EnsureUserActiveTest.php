@@ -4,7 +4,6 @@ namespace Tests\Feature\Middleware;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class EnsureUserActiveTest extends TestCase
@@ -19,7 +18,7 @@ class EnsureUserActiveTest extends TestCase
 
         $response = $this->actingAs($user)
             ->get('/exams');
-
+        $this->assertGuest('web');
         $response->assertRedirectToRoute('login');
     }
 }

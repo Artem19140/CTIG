@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureCenterActive
@@ -16,6 +17,7 @@ class EnsureCenterActive
     public function handle(Request $request, Closure $next): Response
     {
         if(!$request->user()->center->isActive()){
+            Auth::guard('web')->logout();
             return redirect()->route('login');
         }
         return $next($request);

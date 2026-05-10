@@ -2,12 +2,12 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Enums\UserRoles;
 use App\Models\Center;
 use App\Models\User;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
@@ -26,34 +26,35 @@ class LoginTest extends TestCase
         Carbon::setTestNow();
     }
     use RefreshDatabase;
+    protected string $password = '1234567890';
     public function test_success_operator(): void
     {
         $user = User::factory()
             ->operator()
             ->create([
-                'password' => '1234567890',
+                'password' => Hash::make($this->password),
                 'has_to_change_password' => false
             ]);
         $response = $this->post('/login',[
             'email' => $user->email,
-            'password' => '1234567890'
+            'password' => $this->password
         ]);
         $this->assertAuthenticatedAs($user);
         $this->assertAuthenticated('web');
         $response->assertRedirectToRoute('foreign-nationals.index');
     }
 
-    public function test_fail(): void
+    public function test_fail_wrong_credentials(): void
     {
         $user = User::factory()->create([
-            'password' => '1234567890'
+            'password' => $this->password
         ]);
         $response = $this->post('/login',[
             'email' => $user->email,
-            'password' => '123456789'
+            'password' => $this->password.'1'
         ]);
         $response->assertRedirectBack();
-        $response->assertSessionHasErrors(['email']);
+        $this->assertGuest('web');
     }
 
     public function test_fail_not_active_user(): void
@@ -61,15 +62,16 @@ class LoginTest extends TestCase
         $user = User::factory()
             ->notActive()
             ->create([
-                'password' => '1234567890'
+                'password' => Hash::make($this->password)
             ]);
 
         $response = $this->post('/login',[
             'email' => $user->email,
-            'password' => '1234567890'
+            'password' => $this->password
         ]);
 
        $response->assertSessionHasErrors(['email']);
+       $this->assertGuest('web');
     }
 
     public function test_fail_not_active_center(): void
@@ -77,15 +79,16 @@ class LoginTest extends TestCase
         $center = Center::factory()->notActive()->create();
         $user = User::factory()
             ->create([
-                'password' => '1234567890',
+                'password' => Hash::make($this->password),
                 'center_id' => $center->id
             ]);
 
         $response = $this->post('/login',[
             'email' => $user->email,
-            'password' => '1234567890'
+            'password' =>$this->password
         ]);
 
-       $response->assertSessionHasErrors(['email']);
+       $response->assertRedirectBack();
+       $this->assertGuest('web');
     }
 }

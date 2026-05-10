@@ -64,7 +64,7 @@ class ForeignNationalShowAuthorizeTest extends TestCase
         $response->assertStatus(403);
     }
 
-    public function test_success_access(){
+    public function test_access_roles(){
         $this->accessRolesCheck(
             allowedRoles:[UserRoles::Director, UserRoles::Operator],
             method:'GET',

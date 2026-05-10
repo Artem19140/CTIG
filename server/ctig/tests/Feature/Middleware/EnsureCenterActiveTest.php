@@ -23,7 +23,7 @@ class EnsureCenterActiveTest extends TestCase
 
         $response = $this->actingAs($user)
             ->get('/exams');
-
+        $this->assertGuest('web');
         $response->assertRedirectToRoute('login');
     }
 }

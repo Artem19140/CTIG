@@ -2,13 +2,17 @@
 
 namespace App\Domain\ExamDocument;
 
+use App\Enums\ExamDocuments;
+use App\Events\ExamDocumentGenerated;
 use App\Models\Enrollment;
 use App\Models\Exam;
+use App\Models\User;
+use App\Support\Log\BusinessLog;
 use Illuminate\Database\QueryException;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 final class ExamCodesGenerator{
-    public function execute(Exam $exam){
+    public function execute(Exam $exam, User $user){
         $exam->load('enrollments.foreignNational');
          
         $this->generateCodesForExam($exam);
@@ -17,7 +21,8 @@ final class ExamCodesGenerator{
             'exam' => $exam
         ]);
 
-        $fileName = 'Кода_' . $exam->short_name . '_' . $exam->begin_time->format('H-i_d.m.y') . '.pdf';
+        $fileName = $this->getFileName($exam);
+        event(new ExamDocumentGenerated($exam, $user, ExamDocuments::Codes));
         return $pdf->stream($fileName);
     }
 
@@ -60,5 +65,9 @@ final class ExamCodesGenerator{
         $enrollment->exam_code = $code;
         $enrollment->exam_code_expired_at = $exam->begin_time->copy()->addMinutes(Exam::CODES_TTL_AFTER_BEGIN_MINUTES);
         $enrollment->save();
+    }
+
+    protected function getFileName(Exam $exam):string{
+        return 'Кода_' . $exam->short_name . '_' . $exam->begin_time->format('H-i_d.m.y') . '.pdf';
     }
 }

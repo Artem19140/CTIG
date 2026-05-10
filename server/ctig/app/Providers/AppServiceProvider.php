@@ -2,11 +2,14 @@
 
 namespace App\Providers;
 
+use App\Listeners\LogSuccessfulLogin;
 use App\Models\Attempt;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\User;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -15,6 +18,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Database\Eloquent\Model;
 use Inertia\Inertia;
 use Inertia\ExceptionResponse;
+use Log;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
     }
     public function boot(): void
     {
+        Event::listen(LogSuccessfulLogin::class);
         Gate::define('attempt-access', function (ForeignNational $foreignNational, Attempt $attempt){
             return $foreignNational->id === $attempt->foreign_national_id;
         });

@@ -4,6 +4,8 @@ namespace  App\Domain\Attempt\Action;
 
 use App\Enums\AttemptStatus;
 use App\Models\Attempt;
+use App\Models\ForeignNational;
+use App\Support\Log\BusinessLog;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Domain\Attempt\Guard\AttemptGuard;
@@ -22,8 +24,15 @@ class StartAttemptAction{
             $attempt->last_activity_at = $now;
             $attempt->status=AttemptStatus::Active;
             $attempt->save();
+            $this->log($attempt);
             return $attempt;
         });
         
+    }
+
+    protected function log(Attempt $attempt){
+        BusinessLog::event('attempt_started', [
+            'attempt_id' => $attempt->id
+        ]);
     }
 }

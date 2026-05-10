@@ -10,6 +10,7 @@ use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\User;
 use App\Domain\Exam\Guard\ExamGuard;
+use App\Support\Log\BusinessLog;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -20,7 +21,12 @@ final class CreateEnrollmentAction{
         protected ExamGuard $examGuard,
         protected ExamEnrollmentGuard $examEnrollmentGuard
     ){}
-    public function execute(int $examId, int $foreignNationalId, User $user, bool $hasPayment):Enrollment{
+    public function execute(
+        int $examId, 
+        int $foreignNationalId, 
+        User $user, 
+        bool $hasPayment
+    ):Enrollment{
         $exam = Exam::find($examId);
         $foreignNational = ForeignNational::find($foreignNationalId);
         
@@ -33,6 +39,11 @@ final class CreateEnrollmentAction{
             'has_payment' => $hasPayment,
             'exam_id' => $exam->id,
             'foreign_national_id' => $foreignNational->id
+        ]);
+
+        BusinessLog::event('enrollment_created', [
+            'enrollment_id' => $enrollment->id,
+            'user_id' => $user->id
         ]);
 
         return $enrollment;

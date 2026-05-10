@@ -47,7 +47,7 @@ class UserController{
         if($user->isSuperAdmin()){
             abort(403);
         }
-        $updateUserAction->execute($request->validated(),  $user);
+        $updateUserAction->execute($request->validated(),  $user, $request->user());
         return response()->json();
     }
 

@@ -4,6 +4,8 @@ namespace App\Domain\Attempt\Action;
 
 use App\Exceptions\BusinessException;
 use App\Models\Attempt;
+use App\Models\ForeignNational;
+use App\Support\Log\BusinessLog;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Domain\Attempt\Guard\AttemptGuard;
@@ -19,7 +21,7 @@ class FinishAttemptAction{
         $this->canFinish($attempt);
         DB::transaction(function() use($attempt){
             $attempt->finish();
-            
+            $this->log($attempt);
             if($attempt->canBeAutomaticallyFinalized()){
                 $this->finilizeAttemptCheckingAction->execute($attempt);
             }
@@ -41,5 +43,11 @@ class FinishAttemptAction{
         if($tooEarlyToFinish){
             throw new BusinessException("Попытку возможно завершить минимум через  $minTimeMinutes минут после начала");
         }
+    }
+
+    protected function log(Attempt $attempt){
+        BusinessLog::event('attempt_finished', [
+            'attempt_id' => $attempt->id
+        ]);
     }
 }

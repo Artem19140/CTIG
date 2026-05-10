@@ -7,6 +7,7 @@ use App\Domain\Exam\Rules\ValidateExamForSave;
 use App\Http\Dto\ExamDto;
 use App\Models\Exam;
 use App\Models\User;
+use App\Support\Log\BusinessLog;
 use DB;
 
 
@@ -20,6 +21,7 @@ final class CreateExamAction{
         return DB::transaction(function () use ($examDto, $user, $duration) {
             $exam = Exam::create($this->getAttributes($examDto, $user, $duration));
             $exam->examiners()->attach($examDto->examiners);
+            $this->log($user, $exam);
             return $exam;
         });        
     }
@@ -35,5 +37,12 @@ final class CreateExamAction{
             'end_time' => $examDto->beginTime->copy()->addMinutes($duration),
             'center_id' => $user->center->id
         ];
+    }
+
+    protected function log(User $user, Exam $exam){
+        BusinessLog::event('exam_created', [
+            'user_id' => $user->id,
+            'exam_id'=> $exam->id
+        ]);
     }
 }

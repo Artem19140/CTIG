@@ -41,7 +41,7 @@ class AddressCreateTest extends TestCase
                 
             ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
     }
 
     public function test_fail_no_required_fields(): void

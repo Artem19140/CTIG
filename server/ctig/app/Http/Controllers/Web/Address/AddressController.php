@@ -6,6 +6,7 @@ use App\Http\Requests\Address\AddressPostRequest;
 use App\Http\Resources\Address\AddressResource;
 use App\Models\Address;
 use App\Models\Center;
+use App\Support\Log\BusinessLog;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -30,11 +31,19 @@ class AddressController
     {
         $user = $request->user();
         abort_if($user->center_id !== $center->id, 403);
-        Address::create([
+        $address = Address::create([
             'address' => $request->validated('address'),
             'max_capacity' => $request->validated('capacity'),
             'center_id' => $user->center_id
         ]);
+        BusinessLog::event('address_created', [
+            'address_id' => $address->id,
+            'user_id' => $request->user()->id
+        ]);
+        return response()->json([
+            'address' => new AddressResource($address)
+        ], 
+        201);
     }
 
     public function update(Request $request, Center $center, Address $address)
@@ -55,11 +64,18 @@ class AddressController
     }
     
 
-    public function destroy(Center $center, Address $address)
-    {
+    public function destroy(
+        Request $request,
+        Center $center, 
+        Address $address
+    ){
         $this->authorize($center, $address);
         $address->is_active = false;
         $address->save();
+        BusinessLog::event('address_deleted', [
+            'address_id' => $address->id,
+            'user_id' => $request->user()->id
+        ]);
         return response()->noContent();
     }
 

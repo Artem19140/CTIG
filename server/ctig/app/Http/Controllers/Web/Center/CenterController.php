@@ -46,8 +46,6 @@ class CenterController
         return response()->json($center);
     }
     
-    
-
     public function destroy(Center $center){
         $center->is_active = false;
         return response()->noContent();

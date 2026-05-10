@@ -5,16 +5,18 @@ namespace App\Domain\User;
 use App\Enums\UserRoles;
 use App\Models\Role;
 use App\Models\User;
+use App\Support\Log\BusinessLog;
 use DB;
 use Illuminate\Validation\ValidationException;
 
 class UpdateUserAction{
-   public function execute(array $data, User $user){
+   public function execute(array $data, User $updatedUser, User $updator){
     $this->ensureHasNoRoleSuperAdmin($data);
-    $this->ensureOrgAdminValidCreation($data, $user);
-    DB::transaction(function() use($user, $data){
-        $user->update($this->getAttributes($data));
-        $user->roles()->sync($data['roles']);
+    $this->ensureOrgAdminValidCreation($data, $updatedUser);
+    DB::transaction(function() use($updatedUser, $data, $updator){
+        $updatedUser->update($this->getAttributes($data));
+        $updatedUser->roles()->sync($data['roles']);
+        $this->log($updator, $updatedUser);
     });
     
    }
@@ -57,6 +59,13 @@ class UpdateUserAction{
             'surname' => $data['surname'],
             'patronymic' => $data['patronymic'],
         ];
+    }
+
+    protected function log(User $user, User $updatedUser){
+        BusinessLog::event('user_updated',[
+            'updated_by_id' => $user->id,
+            'updated_id' => $updatedUser->id
+        ]);
     }
 
 }

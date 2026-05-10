@@ -3,13 +3,21 @@ import { useHttp } from '@inertiajs/vue3';
 import BaseDialog from '../BaseComponents/BaseDialog/BaseDialog.vue';
 import AppPrimaryButton from '../UI/AppPrimaryButton/AppPrimaryButton.vue';
 import AppPasswordInput from '../UI/AppPasswordInput/AppPasswordInput.vue';
+import { useSnackbarQueue } from '@/composables/useSnackbarQueue';
 
 const isOpen = defineModel<boolean>({default:false})
 const http = useHttp<{password :string| null}>({
     password:null
 })
 const logout = () => {
-    http.post('/logout/all')
+    http.post('/logout/all', {
+        onSuccess(response, httpResponse) {
+            isOpen.value = false
+            const {add} = useSnackbarQueue()
+            add('Успешный выход с других устройств', 'green')
+            http.resetAndClearErrors()
+        },
+    })
 }
 </script>
 

@@ -44,7 +44,7 @@ class AttemptController
         $request->validate([
             'banReason' => ['required', 'string']
         ]);
-        $banAttempt->execute($attempt, $request->input('banReason'), $request->user()->id);
+        $banAttempt->execute($attempt, $request->input('banReason'), $request->user());
         return response()->noContent();
     }
 

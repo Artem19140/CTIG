@@ -5,18 +5,20 @@ namespace App\Domain\User;
 use App\Enums\UserRoles;
 use App\Models\Role;
 use App\Models\User;
+use App\Support\Log\BusinessLog;
 use DB;
 use Hash;
 
 
 class CreateUserAction{
-   public function execute(array $data, User $user){
+   public function execute(array $data, User $creator){
         $this->ensureHasNoRoleSuperAdmin($data);
-        $this->ensureOrgAdminValidCreation($data, $user);
+        $this->ensureOrgAdminValidCreation($data, $creator);
         
-        DB::transaction(function() use($user, $data){
-            $user = User::create($this->getAttributes($data, $user));
+        DB::transaction(function() use($creator, $data){
+            $user = User::create($this->getAttributes($data, $creator));
             $user->roles()->sync($data['roles']);
+            $this->log($creator, $user);
         });
    }
 
@@ -49,6 +51,13 @@ class CreateUserAction{
             'password' => Hash::make($data['password']),
             'center_id' => $user->center_id
         ];
+    }
+
+    protected function log(User $user, User $createdUser){
+        BusinessLog::event('user_created',[
+            'creator_id' => $user->id,
+            'created_id' => $createdUser->id
+        ]);
     }
 
 }

@@ -16,7 +16,7 @@ class CreateForeignNationalWithEnrollmentAction{
     public function execute(array $foreignNationalData, int $examId, User $user):Enrollment{
         
         $enrollent = DB::transaction(function () use($foreignNationalData, $user, $examId) {
-            $foreignNational = $this->storeForeignNational->execute($foreignNationalData, $user->id);
+            $foreignNational = $this->storeForeignNational->execute($foreignNationalData, $user);
             return $this->createEnrollment->execute($examId, $foreignNational->id, $user, $foreignNationalData['hasPayment'] );
         });//Удалить файлы загруженные при исключении
         return $enrollent;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Web\Enrollment;
 
-use App\Domain\Enrollment\Action\CancellEnrollmentAction;
+
 use App\Domain\Enrollment\Action\ChangePaymentStatusAction;
 use App\Domain\Enrollment\Action\CreateEnrollmentAction;
 use App\Http\Requests\Enrollment\EnrollmentStoreRequest;
@@ -25,13 +25,6 @@ class EnrollmentController
         return response()->json([
             'redirectUrl' => route('enrollments.statements', ['enrollment' => $enrollment])
         ]);
-    }
-
-    public function destroy(Enrollment $enrollment, CancellEnrollmentAction $cancellErollmentAction)
-    {
-        $cancellErollmentAction->execute($enrollment);
-
-        return response()->noContent();
     }
 
     public function changePayment(

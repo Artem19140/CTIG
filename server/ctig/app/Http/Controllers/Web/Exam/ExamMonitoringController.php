@@ -52,12 +52,20 @@ class ExamMonitoringController
         ]);
     }
 
-    public function updateProtocolComment(Request $request, Exam $exam, UpdateProtocolCommentAction $updateProtocolComment){
+    public function updateProtocolComment(
+        Request $request, 
+        Exam $exam, 
+        UpdateProtocolCommentAction $updateProtocolComment
+    ){
         $this->authorize($exam);
         $request->validate([
             'protocolComment' => ['required', 'string']
         ]);
-        $updateProtocolComment->execute($exam, $request->input('protocolComment'));
+        $updateProtocolComment->execute(
+            $exam, 
+            $request->input('protocolComment'),
+            $request->user()
+        );
         
         return response()->noContent();
     }

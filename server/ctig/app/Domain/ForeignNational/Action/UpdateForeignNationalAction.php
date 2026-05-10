@@ -4,19 +4,26 @@ namespace App\Domain\ForeignNational\Action;
 
 use App\Domain\ForeignNational\Guard\ForeignNationalGuard;
 use App\Models\ForeignNational;
+use App\Models\User;
+use App\Support\Log\BusinessLog;
 use Storage;
 
 final class UpdateForeignNationalAction{
     public function __construct(
         protected ForeignNationalGuard $foreignNationalGuard
     ){}
-    public function execute(array $data, ForeignNational $foreignNational):ForeignNational{
+    public function execute(
+        array $data, 
+        ForeignNational $foreignNational,
+        User $user
+    ):ForeignNational{
         $this->foreignNationalGuard->ensureAge($data['dateBirth']);
         $this->foreignNationalGuard->ensureUniquePassport($data, $foreignNational->id);
         $foreignNational->update(
             $this->attributes($data)
         );
         $foreignNational->save();
+        $this->log($user, $foreignNational);
         return $foreignNational;
     }
     protected function attributes(array $data):array{
@@ -52,5 +59,12 @@ final class UpdateForeignNationalAction{
             $files['passport_translate_scan'] = Storage::putFile('avatars', $data['passportTranslateScan']);
         }
         return  $files;
+    }
+
+    protected function log(User $user, ForeignNational $foreignNational){
+        BusinessLog::event('foreign_national_updated', [
+            'user_id' => $user->id,
+            'foreign_national_id'=> $foreignNational->id
+        ]);
     }
 }

@@ -8,6 +8,7 @@ use App\Models\Attempt;
 use App\Models\AttemptAnswer;
 use App\Domain\Attempt\Guard\AttemptGuard;
 use App\Models\Task;
+use Log;
 
 
 class HandleAttemptAnswerAction{
@@ -21,7 +22,7 @@ class HandleAttemptAnswerAction{
         $this->attemptGuard->ensureNotBanned($attempt);
         $this->attemptGuard->ensureNotFinished($attempt);
         $this->attemptGuard->ensureNotExpired($attempt); 
-        
+        Log::channel('business')->info('ПРивет!');
         $taskVariant = $attemptAnswer->taskVariant;
         $task = $taskVariant->task;
         $this->ensureTaskNeedAutoCheck($task);

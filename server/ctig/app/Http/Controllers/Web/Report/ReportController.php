@@ -25,7 +25,8 @@ class ReportController
         $writer = $frdoGenerator->execute(
             $examDate,
             $success,
-            $request->user()->center
+            $request->user()->center,
+            $request->user()
         );
         $stringDate = $examDate->format('d.m.Y');
         $fileName =  $success ? "cerftificates_frdo_$stringDate.xlsx" : "references_frdo_$stringDate.xlsx";
@@ -63,10 +64,16 @@ class ReportController
         $dateFrom = Carbon::parse($request->validated('dateFrom'));
         $dateTo = Carbon::parse($request->validated('dateTo'));
         $fileName =  "Плоская_таблица". "_". $dateFrom->format('d.m.Y') . "_" . $dateTo->format('d.m.Y') . ".csv";
-        return response()->streamDownload(function () use ($flatTableGenerator, $dateFrom, $dateTo) {
+        return response()->streamDownload(function () use (
+            $flatTableGenerator, 
+            $dateFrom, 
+            $dateTo,
+            $request
+        ) {
             $flatTableGenerator->execute( 
                 $dateFrom, 
-                $dateTo
+                $dateTo,
+                $request->user()
             );
         },
         $fileName,
@@ -101,10 +108,16 @@ class ReportController
             $dateTo = Carbon::parse($request->validated('dateTo'))->endOfDay();
         }
         $fileName = 'Отчет_минобрнауки_'. $dateFrom->copy()->format('d.m.Y') . "_" . $dateTo->copy()->format('d.m.Y') . ".csv";
-        return response()->streamDownload(function () use($ministryEducationReportGenerator, $dateFrom, $dateTo){
+        return response()->streamDownload(function () use(
+            $ministryEducationReportGenerator, 
+            $dateFrom, 
+            $dateTo, 
+            $request
+        ){
             $ministryEducationReportGenerator->execute(
                 $dateFrom,
-                $dateTo 
+                $dateTo,
+                $request->user()
             );
         },
         $fileName,

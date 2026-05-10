@@ -3,6 +3,7 @@
 namespace App\Domain\Attempt\Action;
 
 use App\Models\Enrollment;
+use App\Support\Log\BusinessLog;
 use Carbon\Carbon;
 use Illuminate\Validation\ValidationException;
 
@@ -48,6 +49,13 @@ class VerifyCodeAction{
     protected function makeCodeUsed(Enrollment $enrollment){
         $enrollment->exam_code = null;
         $enrollment->exam_code_used_at = Carbon::now();
+        $this->log($enrollment);
         $enrollment->save();
+    }
+
+    protected function log(Enrollment $enrollement){
+        BusinessLog::event('exam_code_used', [
+            'enrollement_id' => $enrollement->id
+        ]);
     }
 }

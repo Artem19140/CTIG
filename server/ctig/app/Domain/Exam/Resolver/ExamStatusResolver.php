@@ -7,7 +7,6 @@ use App\Models\Exam;
 
 class ExamStatusResolver{
     public function execute(Exam $exam):ExamStatus{
-        
         if($exam->isCancelled()){
             return ExamStatus::Cancelled;
         }

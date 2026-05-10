@@ -57,7 +57,11 @@ class ForeignNationalController
         ForeignNational $foreignNational,
         UpdateForeignNationalAction $updateForeignNationalAction
     ){   
-        $updatedForeignNational = $updateForeignNationalAction->execute($request->validated(), $foreignNational);
+        $updatedForeignNational = $updateForeignNationalAction->execute(
+            $request->validated(), 
+            $foreignNational,
+            $request->user()
+        );
         return response()->json([
             'foreignNational' => new ForeignNationalProfileResource($updatedForeignNational)
         ]);

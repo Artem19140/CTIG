@@ -92,7 +92,11 @@ class ExamController
         Exam $exam, 
         UpdateExamAction $updateExam
     ){   
-        $updateExam->execute($exam, $request->getDto());
+        $updateExam->execute(
+            $exam, 
+            $request->getDto(),
+            $request->user()
+        );
         return response()->json(['exam' => new ExamResource($exam)]);
     }
 
@@ -109,12 +113,16 @@ class ExamController
         return redirect()->route('attempts.preparing', ['attempt' => $attempt->id]);
     }
 
-    public function destroy(Exam $exam , CancelExamAction $cancelExam)
+    public function destroy(
+        Request $request,
+        Exam $exam , 
+        CancelExamAction $cancelExam
+    )
     {
         request()->validate( [
             'cancelledReason' => ['required', 'string']
         ]);
-        $cancelExam->execute($exam);
+        $cancelExam->execute($exam, $request->user());
         
         return response()->noContent();
     }

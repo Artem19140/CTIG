@@ -12,6 +12,7 @@ use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\AttemptAnswer;
+use App\Support\Log\BusinessLog;
 use Illuminate\Support\Facades\DB;
 
 
@@ -40,7 +41,7 @@ class CreateAttemptAction{
             AttemptAnswer::insert($examVariant);
 
             $this->initializeExamAttributes($exam);
-
+            $this->log($attempt);
             return $attempt;
         });
         return $attempt;
@@ -114,5 +115,11 @@ class CreateAttemptAction{
         if($needSave){
             $exam->save();
         }
+    }
+
+    protected function log(Attempt $attempt){
+        BusinessLog::event('attempt_created', [
+            'attempt_id' => $attempt->id
+        ]);
     }
 }

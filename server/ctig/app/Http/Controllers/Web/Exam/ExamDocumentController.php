@@ -6,6 +6,8 @@ use App\Domain\ExamDocument\ExamDocumentAvailable;
 use App\Domain\ExamDocument\ExamCodesGenerator;
 use App\Domain\ExamDocument\ExamProtocolGenerator;
 use App\Domain\ExamDocument\ExamResultsGenerator;
+use App\Enums\ExamDocuments;
+use App\Events\ExamDocumentGenerated;
 use App\Models\Exam;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -17,9 +19,10 @@ class ExamDocumentController
         protected ExamDocumentAvailable $examDocumentAvailable
     ){}
 
-    public function list(Exam $exam){
+    public function list(Request $request, Exam $exam){
         $this->examDocumentAvailable->list($exam);
         Gate::authorize('list', $exam);
+        
         $exam->load(['foreignNationals', 'type']);
         $pdf = Pdf::loadView('templates.exam-foreign_nationals-list', [
             'foreignNationals' => $exam->foreignNationals,
@@ -27,6 +30,7 @@ class ExamDocumentController
         ]);
         $stringDate = $exam->begin_time->copy()->format('_H:i_d.m.Y_');
         $name = $exam->type->short_name;
+        event(new ExamDocumentGenerated($exam, $request->user(), ExamDocuments::List));
         return $pdf->stream("список_$name _ $stringDate.pdf");
     }
 
@@ -38,12 +42,13 @@ class ExamDocumentController
     }
 
     public function codes(
+        Request $request,
         Exam $exam, 
         ExamCodesGenerator $examCodesGenerator
     ){
         $this->authorize($exam);
         $this->examDocumentAvailable->codes($exam);
-        return $examCodesGenerator->execute($exam);
+        return $examCodesGenerator->execute($exam, $request->user());
     }
 
     public function codesAvailable(Exam $exam){
@@ -55,11 +60,12 @@ class ExamDocumentController
     }
 
     public function protocol(
+        Request $request,
         Exam $exam, 
         ExamProtocolGenerator $examProtocolGenerator
     ){
         $this->examDocumentAvailable->protocol($exam);
-        return $examProtocolGenerator->execute($exam);
+        return $examProtocolGenerator->execute($exam, $request->user());
     }
 
     public function protocolAvailable(Exam $exam){
@@ -69,9 +75,13 @@ class ExamDocumentController
         ]);
     }
 
-    public function results(Exam $exam, ExamResultsGenerator $examResultsGenerator){
+    public function results(
+        Request $request,
+        Exam $exam, 
+        ExamResultsGenerator $examResultsGenerator
+    ){
         $this->examDocumentAvailable->results($exam);
-        $resultsPdf = $examResultsGenerator->execute($exam);
+        $resultsPdf = $examResultsGenerator->execute($exam, $request->user());
         $fileName = "Результаты_".$exam->short_name."_".$exam->begin_time->format('H-i_d.m.Y').".pdf";
         return $resultsPdf->stream($fileName);
     }

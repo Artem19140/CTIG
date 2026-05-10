@@ -37,4 +37,6 @@ class ExamDocumentAvailable{
         $this->examEnrollmentGuard->ensureEnrollmentsExists($exam);
         $this->examGuard->ensureAllAttemptsChecked($exam);
     }
+
+    
 }

@@ -4,8 +4,12 @@ namespace App\Domain\Report;
 
 use App\Domain\Report\EnsureFrdoGenerationAvailable;
 use App\Enums\AttemptStatus;
+use App\Enums\ReportTypes;
+use App\Events\ReportGenerated;
 use App\Models\Attempt;
 use App\Models\Center;
+use App\Models\User;
+use App\Support\Log\BusinessLog;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -18,10 +22,16 @@ class FRDOReportsGenerator{
     ){
         
     }
-    public function execute(string $examDate, bool $success, Center $center): IWriter{
+    public function execute(
+        string $examDate, 
+        bool $success, 
+        Center $center,
+        User $user
+    ): IWriter{
         $examDate = Carbon::parse($examDate);
         $this->ensureFrdoGenerationAvailable->execute($examDate, $success);
         $spreadsheet = $this->generateReport($examDate, $success, $center);
+        event(new ReportGenerated($user, ReportTypes::Frdo));
         return IOFactory::createWriter($spreadsheet, 'Xlsx');
     }
 

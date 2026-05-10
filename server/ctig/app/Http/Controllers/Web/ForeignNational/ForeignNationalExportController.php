@@ -27,14 +27,19 @@ class ForeignNationalExportController
         ForeignNationalExportRequest $request,
         ExportForeignNationalQuery $exportForeignNationalQuery
     ){
+        $dateFrom = Carbon::parse($request->validated('dateFrom'));
+        $dateTo = Carbon::parse($request->validated('dateTo'));
+        $citizenship = $request->validated('citizenship');
         $this->ensureExportAvailable(
             $request->validated('dateFrom'), 
             $request->validated('dateTo'), 
-            $request->validated('citizenship')
+            $citizenship
         );
-        return response()->streamDownload(function () use ($exportForeignNationalQuery, $request) {
-            $exportForeignNationalQuery->execute($request->validated());
-        }, 'Выгрузка_ИГ.csv',
+        $fileName = "Выгрузка_ИГ_{$dateFrom->toDateString()}_{$dateTo->toDateString()}{$citizenship}.csv";
+        return response()->streamDownload(function () use ($exportForeignNationalQuery, $request, $dateFrom, $dateTo, $citizenship) {
+            
+            $exportForeignNationalQuery->execute($dateFrom, $dateTo, $citizenship, $request->user());
+        }, $fileName,
         [
             'Content-Type' => 'text/csv; charset=UTF-8',
         ]);

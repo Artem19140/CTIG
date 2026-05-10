@@ -2,20 +2,18 @@
 
 namespace Tests\Feature\Report;
 
+use App\Enums\UserRoles;
 use App\Models\Attempt;
 use App\Models\User;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Tests\Helpers\RolesAccessCheck;
 use Tests\TestCase;
 
 class FrdoGenerationTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-    use RefreshDatabase;
+    use RefreshDatabase, RolesAccessCheck;
     protected User $user;
     protected function setUp():void{
         parent::setUp(); 
@@ -30,7 +28,7 @@ class FrdoGenerationTest extends TestCase
         Carbon::setTestNow(); 
     }
 
-    public function test_success_passed(): void
+    public function test_success_certificate(): void
     {
         Attempt::factory(5)->checked()->passed()->create([
             'created_at' => Carbon::now()
@@ -49,7 +47,7 @@ class FrdoGenerationTest extends TestCase
         $response->assertStatus(200); //
     }
 
-    public function test_success_failed(): void
+    public function test_success_references(): void
     {
         Attempt::factory(5)->checked()->failed()->create([
             'created_at' => Carbon::now()
@@ -66,5 +64,21 @@ class FrdoGenerationTest extends TestCase
             $response->headers->get('Content-Type')
         );
         $response->assertStatus(200); 
+    }
+
+    public function test_access_roles(){
+        Attempt::factory(5)->checked()->failed()->create([
+            'created_at' => Carbon::now()
+        ]);
+
+        $this->accessRolesCheck(
+            allowedRoles:[UserRoles::Director, UserRoles::Operator],
+            method:'GET',
+            route: route('reports.frdo', [
+                'success' => false,
+                'examDate' => Carbon::now()->format('Y-m-d')
+            ]),
+            expectedCode: 200
+        );
     }
 }

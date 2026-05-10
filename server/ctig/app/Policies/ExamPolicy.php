@@ -5,79 +5,43 @@ namespace App\Policies;
 use App\Enums\UserRoles;
 use App\Models\Exam;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
-use Illuminate\Database\Eloquent\Builder;
+
 
 class ExamPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
     public function viewAny(User $user): bool
     {
         return false;
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
     public function view(User $user, Exam $exam): bool{
-
-        if($user->hasAnyRole([
+        if($user->hasAnyRole(
             UserRoles::Operator->value, 
             UserRoles::Director->value, 
             UserRoles::Scheduler->value,
             UserRoles::SuperAdmin->value
-        ])){
+        )){
             return true;
         }
+        return $this->isExaminer($user, $exam);
+    }
 
-        if($user->hasRole(UserRoles::Examiner->value)){
-            return $user->exams()
-                ->wherePivot('exam_id', $exam->id)
-                ->exists();
+    public function monitoring(User $user, Exam $exam): bool{
+        return $this->isExaminer($user, $exam);
+    }
+
+    public function checking(User $user, Exam $exam): bool{
+        return $this->isExaminer($user, $exam);
+    }
+
+
+    protected function isExaminer(User $user, Exam $exam){
+        if(!$user->hasRole(UserRoles::Examiner->value)){
+            return false;
         }
-        
-        return false;
+        return $user->exams()
+            ->wherePivot('exam_id', $exam->id)
+            ->exists();
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Exam $exam): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Exam $exam): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Exam $exam): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Exam $exam): bool
-    {
-        return false;
-    }
 }

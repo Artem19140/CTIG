@@ -46,13 +46,13 @@ const rechedule = (value: Enrollment) => {
 }
 const cancel =(reason : string) => {
     if(!exam.value) return
-    router.visit('/exams')
+    router.reload()
     exam.value.status = ExamStatus.CANCELLED
     exam.value.cancelledReason = reason
 }
 
 const edit =(value :Exam) => {
-    router.visit('/exams')
+    router.reload()
     exam.value = value
 }
 const {can} = useAuth()

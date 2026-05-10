@@ -55,12 +55,11 @@ class ExamDocumentController
     }
 
     public function protocol(
-        Request $request, 
         Exam $exam, 
         ExamProtocolGenerator $examProtocolGenerator
     ){
         $this->examDocumentAvailable->protocol($exam);
-        return $examProtocolGenerator->execute($exam, $request->user() );
+        return $examProtocolGenerator->execute($exam);
     }
 
     public function protocolAvailable(Exam $exam){

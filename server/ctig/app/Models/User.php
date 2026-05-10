@@ -66,12 +66,12 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class,'role_user', 'user_id', 'role_id');
     }
 
-    public function hasAnyRole(array $roles):bool{
+    public function hasAnyRole(...$roles):bool{
         $rolesArray = $this->roles->map(fn ($status) => $status->name->value)->toArray();
         return \count(array_intersect($roles, $rolesArray)) > 0;
     }
     
-    public function hasRole(string $role){
+    public function hasRole(string $role):bool{
         return $this->roles->contains('name', $role);
     }
 

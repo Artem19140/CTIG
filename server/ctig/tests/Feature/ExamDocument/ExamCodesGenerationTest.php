@@ -2,24 +2,28 @@
 
 namespace Tests\Feature\ExamDocument;
 
+use App\Enums\UserRoles;
+use App\Models\Center;
 use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\User;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Tests\Helpers\RolesAccessCheck;
 use Tests\TestCase;
 
 class ExamCodesGenerationTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, RolesAccessCheck;
     protected User $user;
+    protected Center $center;
 
     protected function setUp():void{
         parent::setUp();
         $this->seed(RolesSeeder::class);
-        $this->user = User::factory()->examiner()->create();
+        $this->center = Center::factory()->create();
+        $this->user = User::factory()->examiner()->create(['center_id' =>  $this->center->id]);
 
         Carbon::setTestNow(now());
         
@@ -35,7 +39,7 @@ class ExamCodesGenerationTest extends TestCase
         $exam = Exam::factory()
             ->has(Enrollment::factory(8))
             ->inFuture()
-            ->create();
+            ->create(['center_id' =>  $this->center->id]);
         $exam->examiners()->attach($this->user);
 
         $response = $this
@@ -48,7 +52,8 @@ class ExamCodesGenerationTest extends TestCase
     public function test_fail_too_early_generation(): void
     {
         $exam = Exam::factory()->create([
-            'begin_time' => Carbon::now()->addDay()
+            'begin_time' => Carbon::now()->addDay(),
+            'center_id' =>  $this->center->id
         ]);
 
         $exam->examiners()->attach($this->user);
@@ -60,17 +65,29 @@ class ExamCodesGenerationTest extends TestCase
         $response->assertBadRequest();
     }
 
-    public function test_fail_403(): void
+    public function test_fail_examiner_no_attach(): void
     {
         $exam = Exam::factory()
             ->has(Enrollment::factory())
             ->inFuture()
-            ->create();
-        $exam->examiners()->attach($this->user);
-        $user = User::factory()->create();
+            ->create(['center_id' =>  $this->center->id]);
+
         $response = $this
-            ->actingAs($user)
+            ->actingAs($this->user)
             ->getJson(route('exam.documents.codes', ['exam' => $exam]));
         $response->assertForbidden();
+    }
+
+    public function test_access_roles(){
+        $exam = Exam::factory()
+            ->has(Enrollment::factory(8))
+            ->inFuture()
+            ->create();
+
+        $this->accessRolesCheck(
+            allowedRoles:[],
+            method:'GET',
+            route: route('exam.documents.codes', ['exam' => $exam])
+        );
     }
 }

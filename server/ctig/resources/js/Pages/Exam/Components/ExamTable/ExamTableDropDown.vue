@@ -11,13 +11,14 @@ const modals = useModals()
 </script>
 
 <template>
-    <BaseThreeDotDropdown v-if="auth.can([Roles.EXAMINER, Roles.DIRECTOR])">
+    <BaseThreeDotDropdown v-if="auth.can([Roles.DIRECTOR, Roles.OPERATOR])">
         <BaseListItem 
             title="ФИС ФРДО" 
             @click="modals.open('frdo')" 
         />
         <BaseListItem 
             title="Плоская таблица" 
+            v-if="auth.can([Roles.DIRECTOR])"
             @click="modals.open('flatTable')"
         />
     </BaseThreeDotDropdown>

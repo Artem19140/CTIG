@@ -2,15 +2,17 @@
 
 namespace Tests\Feature\Report;
 
+use App\Enums\UserRoles;
 use App\Models\User;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Helpers\RolesAccessCheck;
 use Tests\TestCase;
 
 class MinistryEducationGenerationTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, RolesAccessCheck;
     protected User $user;
     protected function setUp():void{
         parent::setUp(); 
@@ -90,5 +92,17 @@ class MinistryEducationGenerationTest extends TestCase
                 'dateTo' => null
             ]));
         $response->assertStatus(422);
+    }
+
+    public function test_access_roles(){
+        $this->accessRolesCheck(
+            allowedRoles:[UserRoles::Director],
+            method:'GET',
+            route: route('reports.flat-table', [
+                'dateFrom' => Carbon::now()->subDay()->format('Y-m-d'),
+                'dateTo' => Carbon::now()->addDay()->format('Y-m-d')
+            ]),
+            expectedCode: 200
+        );
     }
 }

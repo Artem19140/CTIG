@@ -21,11 +21,12 @@ class ExamCheckingController
     }
 
     public function show(Exam $exam){
-        Gate::authorize('exam-examiner-access', $exam);
+        Gate::authorize('checking', $exam);
         
         if(!$exam->type->need_human_check){
             abort(403);
         }
+        
         $exam->load([
             'type',
             'enrollments' => function(HasMany $query){

@@ -23,11 +23,11 @@ class ForeignNationalPolicy
      */
     public function view(User $user, ForeignNational $foreignNational): bool
     {
-        if($user->hasAnyRole([
+        if($user->hasAnyRole(
             UserRoles::Operator->value, 
             UserRoles::Director->value, 
             UserRoles::SuperAdmin->value
-        ])){
+        )){
             return true;
         }
         if($user->hasRole(UserRoles::Examiner->value)){

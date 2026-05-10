@@ -46,6 +46,10 @@ trait RolesAccessCheck
         bool $json = true,
         Center | null $center = null
     ): void {
+        if(empty($roles)){        
+            return ;
+        }
+        
         foreach ($roles as $role) {
             $user = User::factory()
                 ->withRole($role)

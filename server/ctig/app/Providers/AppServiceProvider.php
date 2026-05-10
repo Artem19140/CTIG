@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Models\Attempt;
-use App\Models\AttemptAnswer;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\User;
@@ -19,17 +18,10 @@ use Inertia\ExceptionResponse;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         //
     }
-
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         Gate::define('attempt-access', function (ForeignNational $foreignNational, Attempt $attempt){
@@ -37,10 +29,16 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Gate::define('exam-examiner-access', function (User $user, Exam $exam){
+            if($user->isSuperAdmin()){
+                return true;
+            }
             return $exam->examiners()->where('examiner_id', $user->id)->first();
         });
 
         Gate::define('attempt-examiner-access', function (User $user, Attempt $attempt){
+            if($user->isSuperAdmin()){
+                return true;
+            }
             return $attempt->exam()
                 ->whereHas('examiners', function(Builder $query) use($user){
                     $query->where('examiner_id', $user->id);

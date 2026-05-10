@@ -5,14 +5,13 @@ namespace App\Domain\ExamDocument;
 use App\Enums\AttemptStatus;
 use App\Models\Attempt;
 use App\Models\Exam;
-use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 
 class ExamProtocolGenerator{
-    public function execute(Exam $exam, User $user){
+    public function execute(Exam $exam){
 
         $bannedAttempts = $this->getBannedAttempts($exam);
         $beginTimeReal = $this->getBeginTimeReal($exam);
@@ -25,7 +24,7 @@ class ExamProtocolGenerator{
 
         $pdf = Pdf::loadView('templates.exam-protocol', [
             'exam' => $exam,
-            'center' => $user->center, 
+            'center' => $exam->center, 
             'bannedAttempts' => $bannedAttempts,
             'beginTimeReal' => $beginTimeReal,
             'endTimeReal' => $endTimeReal,

@@ -11,7 +11,7 @@ enum UserRoles :string {
     case OrgAdmin = 'org_admin';
     case SuperAdmin = 'super_admin';
 
-    public static function implode(array $roles){
+    public static function implode(self ...$roles){
         
         $rolesValues = array_map(fn(UserRoles $role) => $role->value, $roles);
         return implode(',', $rolesValues);

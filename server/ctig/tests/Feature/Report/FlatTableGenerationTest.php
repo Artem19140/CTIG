@@ -2,19 +2,18 @@
 
 namespace Tests\Feature\Report;
 
+use App\Enums\UserRoles;
 use App\Models\Attempt;
 use App\Models\User;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Helpers\RolesAccessCheck;
 use Tests\TestCase;
 
 class FlatTableGenerationTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-    use RefreshDatabase;
+    use RefreshDatabase, RolesAccessCheck;
 
     protected User $user;
     protected function setUp():void{
@@ -47,5 +46,17 @@ class FlatTableGenerationTest extends TestCase
         );
 
         $response->assertStatus(200);
+    }
+
+    public function test_access_roles(){
+        $this->accessRolesCheck(
+            allowedRoles:[UserRoles::Director],
+            method:'GET',
+            route: route('reports.flat-table', [
+                'dateFrom' => Carbon::now()->subDay()->format('Y-m-d'),
+                'dateTo' => Carbon::now()->addDay()->format('Y-m-d')
+            ]),
+            expectedCode: 200
+        );
     }
 }

@@ -34,12 +34,12 @@ class EnrollmentPolicy
         return false;
     }
 
-    public function update(User $user, Enrollment $enrollment): bool
+    public function payment(User $user, Enrollment $enrollment): bool
     {
-        if($user->hasAnyRole([
+        if($user->hasAnyRole(
             UserRoles::Operator->value, 
             UserRoles::SuperAdmin->value
-        ])){
+        )){
             return true;
         }
         if($user->hasRole(UserRoles::Examiner->value)){

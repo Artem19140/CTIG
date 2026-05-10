@@ -98,9 +98,8 @@ class MinistryEducationGenerationTest extends TestCase
         $this->accessRolesCheck(
             allowedRoles:[UserRoles::Director],
             method:'GET',
-            route: route('reports.flat-table', [
-                'dateFrom' => Carbon::now()->subDay()->format('Y-m-d'),
-                'dateTo' => Carbon::now()->addDay()->format('Y-m-d')
+            route: route('reports.ministry-education.available', [
+                'lastWeek' => true
             ]),
             expectedCode: 200
         );

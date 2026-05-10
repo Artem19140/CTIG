@@ -8,8 +8,7 @@ use App\Models\Violation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
-class AttemptViolationController
-{
+class AttemptViolationController{
     public function index(Attempt $attempt){
         $this->authorize($attempt);
         $attempt->load('violations');
@@ -19,6 +18,7 @@ class AttemptViolationController
     public function store(Request $request, Attempt $attempt){
         $this->authorize($attempt);
         $request->validate(['comment' => ['required', 'string']]);
+
         $violation = $attempt->violations()->create([
             'comment' => $request->input('comment')
         ]);

@@ -57,7 +57,6 @@ onMounted(() => {
     syncTime()
     startTimer()
     interval = setInterval(calculateTime, 1000)
-    setInterval(syncTime, 20000)
     document.addEventListener('visibilitychange', calculateTime)
 })
 

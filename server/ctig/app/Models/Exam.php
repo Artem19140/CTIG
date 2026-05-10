@@ -178,13 +178,13 @@ class Exam extends Model
 
     public function canGenerateCodes():bool{
         return 
-            $this->begin_time->isToday() 
+            $this->begin_time->setTimezone($this->time_zone)->isToday() 
             && 
             $this->begin_time->addMinutes(self::CODES_TTL_AFTER_BEGIN_MINUTES)->isFuture();
     }
 
     public function isStartedToday():bool{
-        return $this->begin_time->isToday() && $this->begin_time->isPast();
+        return $this->begin_time->setTimezone($this->time_zone)->isToday() && $this->begin_time->isPast();
     }
 
     public function scopeSorting(Builder $query, Carbon $now){

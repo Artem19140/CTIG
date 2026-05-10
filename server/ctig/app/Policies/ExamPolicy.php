@@ -34,8 +34,24 @@ class ExamPolicy
         return $this->isExaminer($user, $exam);
     }
 
+    public function list(User $user, Exam $exam): bool{
+        if($user->hasAnyRole(
+            UserRoles::Operator->value, 
+        )){
+            return true;
+        }
+        return $this->isExaminer($user, $exam);
+    }
 
-    protected function isExaminer(User $user, Exam $exam){
+    public function examiner(User $user, Exam $exam):bool{
+        return $this->isExaminer($user, $exam);
+    }
+
+
+    protected function isExaminer(User $user, Exam $exam):bool{
+        if($user->isSuperAdmin()){
+            return true;
+        }
         if(!$user->hasRole(UserRoles::Examiner->value)){
             return false;
         }

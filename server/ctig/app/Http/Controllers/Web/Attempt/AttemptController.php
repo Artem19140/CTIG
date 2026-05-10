@@ -8,31 +8,15 @@ use App\Domain\Attempt\Action\StartAttemptAction;
 use App\Domain\Attempt\Query\GetCurrentAttemptQuery;
 use App\Enums\AttemptStatus;
 use App\Http\Resources\Attempt\AttemptExamResource;
-use App\Http\Resources\Attempt\AttemptResource;
 use App\Http\Resources\Exam\ExamShortResource;
 use App\Models\Attempt;
 use App\Models\Exam;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Gate;
 
 class AttemptController
 {
-    public function index(Request $request)
-    {
-        $foreignNationalId = $request->input('foreignNationalId');
-        $examId = $request->input('examId');
-        $examAttempts = Attempt::when($foreignNationalId, function (Builder $query, int $foreignNationalId){
-                $query->where('foreign_national_id', $foreignNationalId);
-            })
-            ->when($examId, function (Builder $query, int $examId){
-                $query->where('exam_id', $examId);
-            })
-            ->get();
-        return AttemptResource::collection($examAttempts);
-    }
-
     public function show(
         Attempt $attempt,
         GetCurrentAttemptQuery $getCurrentAttemptQuery
@@ -78,12 +62,10 @@ class AttemptController
     }
 
     public function preparing(Attempt $attempt){
-
         if($attempt->status !== AttemptStatus::Pending){
-            Inertia::flash(['error' => 'У вас нет текущей попытки экзамена']);
-            return Inertia::render('Auth/Login');
+            return redirect()->route('me');
         }
-
+        
         $exam = Exam::with([
             'type'
         ])->find($attempt->exam_id);

@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Domain\Attempt\Guard\AttemptGuard;
+use App\Models\ForeignNational;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,21 +20,26 @@ class RedirectResolver{
 
         if(Auth::guard('foreignNationals')->check()){
             $foreignNational = Auth::guard('foreignNationals')->user();
-
-            $attempt = $foreignNational->latestAttempt;
-            
-            if(!$attempt){
-                Auth::guard('foreignNationals')->logout();
-                return route('login');
-            }
-
-            $this->attemptGuard->ensureAccessible($attempt);
-            
-            if($attempt->isPending()){
-                return redirect()->route('attempts.pending', ['attempt' => $attempt]);
-            }
-            return redirect()->route('attempts.show', ['attempt' => $attempt]);
+            return $this->resolveRedirectForeingnNational($foreignNational);
         }
         abort(404);
+    }
+
+    protected function resolveRedirectForeingnNational(ForeignNational $foreignNational){
+        $attempt = $foreignNational->latestAttempt;
+
+        if(!$attempt){
+            Auth::guard('foreignNationals')->logout();
+            return route('login');
+        }
+
+        $this->attemptGuard->ensureAccessible($attempt);
+        
+        if($attempt->isPending()){
+            
+            return redirect()->route('attempts.preparing', ['attempt' => $attempt]);
+        }
+
+        return redirect()->route('attempts.show', ['attempt' => $attempt]);
     }
 }

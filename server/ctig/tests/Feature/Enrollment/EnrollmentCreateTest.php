@@ -3,6 +3,7 @@
 namespace Tests\Feature\Enrollment;
 
 use App\Enums\CounterKey;
+use App\Enums\UserRoles;
 use App\Models\Address;
 use App\Models\Center;
 use App\Models\Counter;
@@ -13,19 +14,22 @@ use App\Models\User;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Helpers\RolesAccessCheck;
 use Tests\TestCase;
 
 class EnrollmentCreateTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, RolesAccessCheck;
     protected User $user;
+    protected Center $center;
     protected ForeignNational $foreignNational;
     protected string $model;
 
     protected function setUp():void{
         parent::setUp();
         $this->seed(RolesSeeder::class);
-        $this->user = User::factory()->operator()->create();
+        $this->center = Center::factory()->create();
+        $this->user = User::factory()->operator()->create(['center_id' => $this->center->id]);
         $this->foreignNational = ForeignNational::factory()->create();
         $this->model = Enrollment::class;
         Counter::create([
@@ -55,7 +59,8 @@ class EnrollmentCreateTest extends TestCase
         $this->withoutExceptionHandling();
 
         $exam = Exam::factory()->create([
-            'begin_time' => Carbon::now()->addMinutes(Enrollment::CLOSE_BEFORE_START_MINUTES)->addMinute()
+            'begin_time' => Carbon::now()->addMinutes(Enrollment::CLOSE_BEFORE_START_MINUTES)->addMinute(),
+            'center_id' => $this->center->id
         ]);
 
         $response = $this->postEnrollment($exam->id);
@@ -67,7 +72,8 @@ class EnrollmentCreateTest extends TestCase
     public function test_fail_exam_past(): void
     {
         $exam = Exam::factory()->create([
-            'begin_time' => Carbon::now()->subMinute()
+            'begin_time' => Carbon::now()->subMinute(),
+            'center_id' => $this->center->id
         ]);
         
         $response = $this->postEnrollment($exam->id);
@@ -80,7 +86,8 @@ class EnrollmentCreateTest extends TestCase
     {
 
         $exam = Exam::factory()->cancelled()->create([
-            'begin_time' => Carbon::now()->addMinutes(Enrollment::CLOSE_BEFORE_START_MINUTES)->addMinute()
+            'begin_time' => Carbon::now()->addMinutes(Enrollment::CLOSE_BEFORE_START_MINUTES)->addMinute(),
+            'center_id' => $this->center->id
         ]);
         
         $response = $this->postEnrollment($exam->id);
@@ -93,7 +100,8 @@ class EnrollmentCreateTest extends TestCase
     {
 
         $exam = Exam::factory()->cancelled()->create([
-            'begin_time' => Carbon::now()->addMinutes(Enrollment::CLOSE_BEFORE_START_MINUTES)->subMinute()
+            'begin_time' => Carbon::now()->addMinutes(Enrollment::CLOSE_BEFORE_START_MINUTES)->subMinute(),
+            'center_id' => $this->center->id
         ]);
         
         $response = $this->postEnrollment($exam->id);
@@ -115,7 +123,8 @@ class EnrollmentCreateTest extends TestCase
             ->has(Enrollment::factory($capacity))
             ->create([
                 'begin_time' => Carbon::now()->addMinutes(Enrollment::CLOSE_BEFORE_START_MINUTES)->addMinute(),
-                'address_id' => $address->id
+                'address_id' => $address->id,
+                'center_id' => $this->center->id
             ]);
 
         
@@ -130,6 +139,7 @@ class EnrollmentCreateTest extends TestCase
         $exam = Exam::factory()
             ->create([
                 'begin_time' => Carbon::now()->addMinutes(Enrollment::CLOSE_BEFORE_START_MINUTES)->addMinute(),
+                'center_id' => $this->center->id
             ]);
 
         
@@ -140,5 +150,24 @@ class EnrollmentCreateTest extends TestCase
         $response = $this->postEnrollment($exam->id);
         $response->assertBadRequest();
         $this->assertDatabaseCount($this->model, 1);
+    }
+
+    public function test_access_roles(){
+        $exam = Exam::factory()->create([
+            'begin_time' => Carbon::now()->addMinutes(Enrollment::CLOSE_BEFORE_START_MINUTES)->addMinute(),
+            'center_id' => $this->center->id
+        ]);
+
+        $this->accessRolesCheck(
+            allowedRoles:[UserRoles::Operator],
+            method:'POST',
+            route: '/enrollments',
+            data: fn () => [
+                'examId' => $exam->id,
+                'foreignNationalId' => ForeignNational::factory()->create()->id,
+                'hasPayment' => true
+            ],
+            center:$this->center
+        );
     }
 }

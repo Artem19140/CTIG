@@ -5,7 +5,8 @@ use App\Http\Controllers\Web\Attempt\AttemptController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:foreignNationals')->group(function (){
-    Route::prefix('attempts')->group(function(){
+    Route::prefix('attempts')
+    ->group(function(){
         Route::put('{attempt}/finish', [AttemptController::class, 'finish'])
             ->can('attempt-access', 'attempt');
             

@@ -19,7 +19,7 @@ class ExamDocumentController
 
     public function list(Exam $exam){
         $this->examDocumentAvailable->list($exam);
-
+        Gate::authorize('list', $exam);
         $exam->load(['foreignNationals', 'type']);
         $pdf = Pdf::loadView('templates.exam-foreign_nationals-list', [
             'foreignNationals' => $exam->foreignNationals,
@@ -86,6 +86,6 @@ class ExamDocumentController
     }
 
     protected function authorize(Exam $exam){
-        Gate::authorize('exam-examiner-access', $exam);
+        Gate::authorize('examiner', $exam);
     }
 }

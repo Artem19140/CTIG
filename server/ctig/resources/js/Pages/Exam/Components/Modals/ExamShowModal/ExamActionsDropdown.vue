@@ -105,7 +105,7 @@ const downloadCodesDisabled  = !props.exam?.documentsAvailable.codes.available
         :disabled="downloadProtocolDisabled"
         @click="() => download('protocol')" 
       />
-      <v-divider></v-divider>
+      <v-divider v-if="auth.can([Roles.SCHEDULER])"></v-divider>
       <BaseListItem 
         title="Редактировать" 
         v-if="auth.can([Roles.SCHEDULER])" 

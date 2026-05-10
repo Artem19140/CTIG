@@ -52,6 +52,9 @@ class Attempt extends Model
     ];
 
     public function isExpired(): bool{
+        if(!$this->expired_at){
+            return false;
+        }
         return Carbon::now()->gte($this->expired_at);
     }
     

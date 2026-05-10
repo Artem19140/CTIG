@@ -4,7 +4,7 @@ namespace App\Domain\AttemptAnswer\Action;
 
 use App\Domain\Attempt\Action\FinilizeAttemptCheckingAction;
 use App\Enums\TaskType;
-use App\Exceptions\BusinessException;
+use App\Exceptions\Attempt\AttemptFinishedException;
 use App\Models\Attempt;
 use App\Models\AttemptAnswer;
 use App\Models\Task;
@@ -73,7 +73,7 @@ class RateAttemptAnswerAction{
 
     protected function ensureAttemptFinished(Attempt $attempt){
         if(!$attempt->isFinished()){
-            throw new BusinessException('Данный тип задания возможно оценить только при завершенной попытке');
+            throw new AttemptFinishedException('Данный тип задания возможно оценить только при завершенной попытке');
         }
     }
 }

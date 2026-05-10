@@ -68,7 +68,8 @@ class ForeignNationalShowAuthorizeTest extends TestCase
         $this->accessRolesCheck(
             allowedRoles:[UserRoles::Director, UserRoles::Operator],
             method:'GET',
-            route:route('foreign-nationals.show', ['foreign_national' => $this->foreignNational])
+            route:route('foreign-nationals.show', ['foreign_national' => $this->foreignNational]),
+            center:$this->center
         );
     }
 }

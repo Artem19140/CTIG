@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Enrollment;
 
+use App\Enums\UserRoles;
 use App\Models\Attempt;
 use App\Models\Center;
 use App\Models\Enrollment;
@@ -10,11 +11,12 @@ use App\Models\User;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Helpers\RolesAccessCheck;
 use Tests\TestCase;
 
 class EnrollmentChangePaymentTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, RolesAccessCheck;
     protected User $user;
     protected string $model;
     protected Center $center;
@@ -102,5 +104,21 @@ class EnrollmentChangePaymentTest extends TestCase
         $response = $this->putPayment($enrollment->id, $user);
 
         $response->assertForbidden();
+    }
+
+    public function test_access_roles(){
+        $exam = Exam::factory()->inFuture()->create(['center_id' => $this->center->id]);
+
+        $enrollment = Enrollment::factory()->create([
+            'exam_id' => $exam->id,
+            'center_id' => $this->center->id
+        ]);
+
+        $this->accessRolesCheck(
+            allowedRoles:[UserRoles::Operator],
+            method:'PUT',
+            route: fn () => "/enrollments/$enrollment->id/payment",
+            center:$this->center
+        );
     }
 }

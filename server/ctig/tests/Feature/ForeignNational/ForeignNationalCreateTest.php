@@ -22,22 +22,15 @@ class ForeignNationalCreateTest extends TestCase
 {
     use RefreshDatabase, RolesAccessCheck;
     protected User $user;
+    protected Center $center;
     protected Exam $exam;
 
     protected function setUp():void{
         parent::setUp();
         $this->seed(RolesSeeder::class);
-        Center::factory()->create();
-        
-        
-        $operatorRole = Role::create([
-            'name' => UserRoles::Operator,
-        ]);
+        $this->center = Center::factory()->create();
 
-        $this->user = User::factory()->operator()->create();
-        $this->user->roles()->attach($operatorRole);
-
-        
+        $this->user = User::factory()->operator()->create(['center_id' =>$this->center->id]); 
         Carbon::setTestNow(now());
         $this->exam = Exam::factory()->create([
             'begin_time' => Carbon::now()->addDay(),
@@ -55,7 +48,7 @@ class ForeignNationalCreateTest extends TestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        Carbon::setTestNow(); // сброс фиксации
+        Carbon::setTestNow();
     }
     protected function foreignNationalBody(array $overrides = [])
     {
@@ -180,7 +173,8 @@ class ForeignNationalCreateTest extends TestCase
             data: fn () => $this->foreignNationalBody([
                 'passportNumber' => fake()->unique()->regexify('[A-Za-z0-9]{10}')
             ]),
-            expectedCode: 200
+            expectedCode: 200,
+            center:$this->center
         );
     }
 }

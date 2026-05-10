@@ -2,30 +2,33 @@
 
 namespace Tests\Feature\Exam;
 
+use App\Enums\UserRoles;
 use App\Models\Exam;
 use App\Models\Center;
 use App\Models\User;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Helpers\RolesAccessCheck;
 use Tests\TestCase;
 
 class ExamCancelTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, RolesAccessCheck;
     protected User $user;
 
     protected Exam $exam;
+    protected Center $center;
 
     protected function setUp():void{
         parent::setUp();
         $this->seed(RolesSeeder::class);
-        $center = Center::factory()->create();
-        $this->user = User::factory()->scheduler()->create();
+        $this->center = Center::factory()->create();
+        $this->user = User::factory()->scheduler()->create(['center_id' => $this->center->id]);
 
         Carbon::setTestNow(now());
 
-        $this->exam = Exam::factory()->inFuture($center->time_zone)->create();
+        $this->exam = Exam::factory()->inFuture($this->center->time_zone)->create(['center_id' => $this->center->id]);
         
     }
     public function tearDown(): void
@@ -58,19 +61,18 @@ class ExamCancelTest extends TestCase
 
     public function test_fail_cancel_repeat(): void
     {
-        $examId = $this->exam->id;
-        $response = $response =$this->postCancell($examId);
+        $response = $response =$this->postCancell($this->exam->id);
 
         $response->assertNoContent();
 
-        $response = $response =$this->postCancell($examId);;
+        $response = $response =$this->postCancell($this->exam->id);;
 
         $response->assertBadRequest();
     }
 
     public function test_fail_cancel_past_exam(): void
     {
-        $exam = Exam::factory()->inPast()->create();
+        $exam = Exam::factory()->inPast()->create(['center_id' => $this->center->id]);
         $response = $response = $this->postCancell($exam->id);;
 
         $response->assertBadRequest();
@@ -78,19 +80,22 @@ class ExamCancelTest extends TestCase
 
     public function test_fail_cancel_going_exam(): void
     {
-        $exam = Exam::factory()->now()->create();
+        $exam = Exam::factory()->now()->create(['center_id' => $this->center->id]);
         $response = $response = $this->postCancell($exam->id);;
 
         $response->assertBadRequest();
     }
 
-    // public function test_fail_no_role_scheduler(): void
-    // {
-    //     $examId = $this->exam->id;
-    //     $user=User::factory()->create();
-    //     $response = $this->actingAs($user)
-    //                     ->delete("/exams/$examId", ['cancelledReason' => 'Отменен']);
-
-    //     $response->assertInertiaFlashMissing('success');
-    // }
+    public function test_access_roles(){
+        $this->accessRolesCheck(
+            allowedRoles:[UserRoles::Scheduler],
+            method:'DELETE',
+            route:fn () => route('exams.destroy', [
+                'exam' => Exam::factory()->inFuture()->create(['center_id' => $this->center->id]),
+                'cancelledReason' => 'Отменен'
+            ]),
+            expectedCode:204,
+            center:$this->center
+        );
+    }
 }

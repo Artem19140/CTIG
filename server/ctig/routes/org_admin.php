@@ -8,7 +8,7 @@ use App\Http\Controllers\Web\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::middleware(['user.has.any.role:' . UserRoles::OrgAdmin->value])->group(function (){
+Route::middleware(['user.has.any.role:' . UserRoles::implode([UserRoles::OrgAdmin])])->group(function (){
     Route::get('centers/{center}', [CenterController::class, "show"])->name('centers.show');
     Route::get('centers/{center}/employees', [UserController::class, "index"]);
     Route::get('centers/{center}/addresses', [AddressController::class, "index"]);

@@ -7,11 +7,12 @@ use App\Models\User;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Helpers\RolesAccessCheck;
 use Tests\TestCase;
 
 class AddressCreateTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, RolesAccessCheck;
     protected User $user;
     protected Center $center;
     protected function setUp():void{

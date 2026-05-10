@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\ForeignNational;
 
+use App\Enums\UserRoles;
 use App\Models\Center;
 use App\Models\Enrollment;
 use App\Models\Exam;
@@ -10,11 +11,13 @@ use App\Models\User;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Helpers\RolesAccessCheck;
 use Tests\TestCase;
 
 class ForeignNationalShowAuthorizeTest extends TestCase
 {
-    use RefreshDatabase;
+    
+    use RefreshDatabase, RolesAccessCheck;
     protected Enrollment $enrollment;
     protected ForeignNational $foreignNational;
     protected Exam $exam;
@@ -61,53 +64,11 @@ class ForeignNationalShowAuthorizeTest extends TestCase
         $response->assertStatus(403);
     }
 
-    public function test_fail_director(): void
-    {
-        $user = User::factory()->director()->create();
-
-        $response = $this->actingAs($user)
-            ->getJson(route('foreign-nationals.show', ['foreign_national' => $this->foreignNational]));
-
-        $response->assertStatus(200);
-    }
-
-    public function test_fail_operator(): void
-    {
-        $user = User::factory()->operator()->create();
-
-        $response = $this->actingAs($user)
-            ->getJson(route('foreign-nationals.show', ['foreign_national' => $this->foreignNational]));
-
-        $response->assertStatus(200);
-    }
-
-    public function test_fail_super_admin(): void
-    {
-        $user = User::factory()->superAdmin()->create();
-
-        $response = $this->actingAs($user)
-            ->getJson(route('foreign-nationals.show', ['foreign_national' => $this->foreignNational]));
-
-        $response->assertStatus(200);
-    }
-
-    public function test_fail_scheduler(): void
-    {
-        $user = User::factory()->scheduler()->create();
-
-        $response = $this->actingAs($user)
-            ->getJson(route('foreign-nationals.show', ['foreign_national' => $this->foreignNational]));
-
-        $response->assertStatus(403);
-    }
-
-    public function test_fail_org_admin(): void
-    {
-        $user = User::factory()->orgAdmin()->create();
-
-        $response = $this->actingAs($user)
-            ->getJson(route('foreign-nationals.show', ['foreign_national' => $this->foreignNational]));
-
-        $response->assertStatus(403);
+    public function test_success_access(){
+        $this->accessRolesCheck(
+            allowedRoles:[UserRoles::Director, UserRoles::Operator],
+            method:'GET',
+            route:route('foreign-nationals.show', ['foreign_national' => $this->foreignNational])
+        );
     }
 }

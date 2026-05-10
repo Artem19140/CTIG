@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Exam;
 
+use App\Enums\UserRoles;
 use App\Models\Address;
 use App\Models\Exam;
 use App\Models\ExamType;
@@ -10,29 +11,31 @@ use App\Models\User;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Helpers\RolesAccessCheck;
 use Tests\TestCase;
 
 class ExamCreateTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, RolesAccessCheck;
 
     protected User $user;
     protected ExamType $examType;
     protected Address $address;
     protected User $examiner;
+    protected Center $center;
     protected RolesSeeder $seed;
     protected function setUp():void{
         parent::setUp();
-        $center = Center::factory()->create();
+        $this->center = Center::factory()->create();
         $this->seed(RolesSeeder::class);
         
-        $this->examiner = User::factory()->examiner()->create(['center_id' => $center->id]);
+        $this->examiner = User::factory()->examiner()->create(['center_id' => $this->center->id]);
 
-        $this->user = User::factory()->scheduler()->create(['center_id' => $center->id]);
+        $this->user = User::factory()->scheduler()->create(['center_id' => $this->center->id]);
 
         $this->examType = ExamType::factory()->create();
 
-        $this->address = Address::factory()->create(['center_id' => $center->id]);
+        $this->address = Address::factory()->create(['center_id' => $this->center->id]);
 
         Carbon::setTestNow(
             Carbon::now()
@@ -167,5 +170,17 @@ class ExamCreateTest extends TestCase
         $response->assertBadRequest();
         $this->assertDatabaseEmpty('exams');
     }
-
+    
+    public function test_success_access(){
+        $this->accessRolesCheck(
+            allowedRoles:[UserRoles::Scheduler],
+            method:'POST',
+            route:route('exams.store'),
+            data: fn () => $this->examBody([
+                'examiners' => [User::factory()->examiner()->create(['center_id' => $this->center->id])->id],
+                'addressId' => Address::factory()->create(['max_capacity' => 14])->id,
+                'capacity' => 13
+            ])
+        );
+    }
 }

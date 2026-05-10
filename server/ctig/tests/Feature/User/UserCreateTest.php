@@ -3,26 +3,29 @@
 namespace Tests\Feature\User;
 
 use App\Enums\UserRoles;
+use App\Models\Center;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Tests\Helpers\RolesAccessCheck;
 use Tests\TestCase;
 
 class UserCreateTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, RolesAccessCheck;
     protected $seeder = RolesSeeder::class;
     protected Role $superAdminRole;
     protected Role $orgAdminRole;
     protected User $user;
+    protected Center $center;
 
     protected function setUp():void{
         parent::setUp(); 
         $this->seed(RolesSeeder::class);
-        $this->user = User::factory()->orgAdmin()->create();
+        $this->center = Center::factory()->create();
+        $this->user = User::factory()->orgAdmin()->create(['center_id' => $this->center->id]);
 
         $this->superAdminRole = Role::findByEnum(UserRoles::SuperAdmin);
 
@@ -43,7 +46,7 @@ class UserCreateTest extends TestCase
             'jobTitle' => 'Сотрудник ЦТИГ',
             'password' => '12345678',
             'password_confirmation' => '12345678',
-            'roles' => [],
+            'roles' => [Role::findByEnum(UserRoles::Operator)->id],
             'email' => 'unique@bk.ru'
         ], $overrrides);
     }
@@ -84,5 +87,15 @@ class UserCreateTest extends TestCase
         $response->assertForbidden();
     }
 
-    
+    public function test_success_access(){
+        $this->accessRolesCheck(
+            allowedRoles:[UserRoles::OrgAdmin],
+            method:'POST',
+            route:"/employees",
+            data:fn () => $this->userBody([
+                'email'=>fake()->unique()->email(),
+            ]),
+            center: $this->center
+        );
+    }
 }

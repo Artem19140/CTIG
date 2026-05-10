@@ -19,7 +19,7 @@ Route::middleware(['auth', 'auth.session', 'user.active', 'center.active', 'pass
 
     Route::apiResource('foreign-nationals', ForeignNationalController::class)
         ->where(['foreign_national' => '[0-9]+'])
-        ->middleware(['user.has.any.role:' . UserRoles::implode([UserRoles::Operator, UserRoles::Director])])
+        ->middleware(['user.has.any.role:' . UserRoles::implode([UserRoles::Operator])])
         ->except(['show', 'destroy']);
 
     Route::apiResource('foreign-nationals', ForeignNationalController::class)
@@ -39,7 +39,7 @@ Route::middleware(['auth', 'auth.session', 'user.active', 'center.active', 'pass
         ->middleware(['user.has.any.role:' . UserRoles::implode([UserRoles::Operator])])
         ->name('enrollments.statements');
 
-    Route::middleware(['user.has.any.role:' . UserRoles::Director->value])->group(function() {
+    Route::middleware(['user.has.any.role:' . UserRoles::implode([UserRoles::Director])])->group(function() {
         Route::get('foreign-nationals/export', [ForeignNationalExportController::class, 'export'])->name('foreign-nationals.export');
         Route::get('foreign-nationals/export/available', [ForeignNationalExportController::class, 'exportAvailable']);
         Route::get('statistics', [StatisticsController::class, 'index']);

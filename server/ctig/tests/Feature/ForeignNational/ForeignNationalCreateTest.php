@@ -14,12 +14,13 @@ use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Testing\TestResponse;
+use Tests\Helpers\RolesAccessCheck;
 use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
 
 class ForeignNationalCreateTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, RolesAccessCheck;
     protected User $user;
     protected Exam $exam;
 
@@ -169,5 +170,17 @@ class ForeignNationalCreateTest extends TestCase
         ->assertJsonStructure([
             'redirectUrl'
         ]);
+    }
+
+    public function test_access_roles(){
+        $this->accessRolesCheck(
+            allowedRoles:[UserRoles::Operator],
+            method:'POST',
+            route: route('foreign-nationals.store'),
+            data: fn () => $this->foreignNationalBody([
+                'passportNumber' => fake()->unique()->regexify('[A-Za-z0-9]{10}')
+            ]),
+            expectedCode: 200
+        );
     }
 }

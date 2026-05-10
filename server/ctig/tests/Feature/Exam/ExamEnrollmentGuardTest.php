@@ -69,4 +69,6 @@ class ExamEnrollmentGuardTest extends TestCase
         
         $this->action->ensureEnrollmentNotExists($exam, $foreignNational);
     }
+
+
 }

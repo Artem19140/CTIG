@@ -9,12 +9,16 @@ use App\Http\Controllers\Web\Exam\ExamMonitoringController;
 use App\Models\ExamType;
 
 Route::apiResource('exams', ExamController::class)->where(['exam' => '[0-9]+'])
-    ->only(['show', 'index'])
-    ->middleware(['user.has.any.role:' . UserRoles::implode([UserRoles::Operator, UserRoles::Director, UserRoles::Examiner, UserRoles::Scheduler])]);
-
-Route::apiResource('exams', ExamController::class)->where(['exam' => '[0-9]+'])
-    ->except(['show', 'index'])
-    ->middleware(['user.has.any.role:' . UserRoles::implode([UserRoles::Scheduler])]);
+    ->middlewareFor(['destroy', 'store', 'update'], ['user.has.any.role:' . UserRoles::implode([UserRoles::Scheduler])])
+    ->middlewareFor(
+        ['show', 'index'], 
+        ['user.has.any.role:' . UserRoles::implode([
+            UserRoles::Operator, 
+            UserRoles::Director, 
+            UserRoles::Examiner, 
+            UserRoles::Scheduler
+        ])
+    ]);
 
 Route::prefix('exams')->group(function(){
     Route::get('available', [ExamEnrollmentController::class, "available"]);

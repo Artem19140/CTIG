@@ -59,6 +59,12 @@ class UserFactory extends Factory
         ]);
     }
 
+    public function active(): static{
+        return $this->state(fn (array $attributes) => [
+            'is_active' => true,
+        ]);
+    }
+
     public function hasChangePassword(): static{
         return $this->state(fn (array $attributes) => [
             'has_to_change_password' => true,

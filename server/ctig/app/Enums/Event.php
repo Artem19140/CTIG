@@ -15,6 +15,6 @@ enum Event:string
     case Checked = 'checked';
     case Login = 'login';
     case Logout = 'logout';
-    case PasswordReset = 'password_reset';
+    case PasswordReseted = 'password_reseted';
     case PasswordChanged = 'password_changed';
 }

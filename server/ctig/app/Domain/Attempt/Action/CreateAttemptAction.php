@@ -6,16 +6,12 @@ namespace App\Domain\Attempt\Action;
 use App\Domain\Counter\GenerateGroupNumberAction;
 use App\Domain\Counter\GetSessionNumberQuery;
 use App\Domain\Exam\Guard\ExamGuard;
-use App\Enums\AttemptStatus;
-use App\Enums\Event;
-use App\Enums\Resource;
 use App\Exceptions\BusinessException;
 use App\Models\Attempt;
 use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\AttemptAnswer;
-use App\Support\Log\LogActivity;
 use Illuminate\Support\Facades\DB;
 
 
@@ -44,7 +40,6 @@ class CreateAttemptAction{
             AttemptAnswer::insert($examVariant);
 
             $this->initializeExamAttributes($exam);
-            $this->log($attempt);
             return $attempt;
         });
         return $attempt;
@@ -118,15 +113,5 @@ class CreateAttemptAction{
         if($needSave){
             $exam->save();
         }
-    }
-
-    protected function log(Attempt $attempt){
-        LogActivity::event(
-            event: Event::Created,
-            resource:Resource::Attempt,
-            context:[
-                'attempt_id' => $attempt->id,
-                'status' => AttemptStatus::Pending
-            ]);
     }
 }

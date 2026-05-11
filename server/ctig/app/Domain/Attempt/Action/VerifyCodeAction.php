@@ -2,10 +2,7 @@
 
 namespace App\Domain\Attempt\Action;
 
-use App\Enums\Event;
-use App\Enums\Resource;
 use App\Models\Enrollment;
-use App\Support\Log\LogActivity;
 use Carbon\Carbon;
 use Illuminate\Validation\ValidationException;
 
@@ -52,17 +49,6 @@ class VerifyCodeAction{
     protected function makeCodeUsed(Enrollment $enrollment){
         $enrollment->exam_code = null;
         $enrollment->exam_code_used_at = Carbon::now();
-        $this->log($enrollment, 'used');
         $enrollment->save();
-    }
-
-    protected function log(Enrollment $enrollment , string $status){
-        LogActivity::event(
-            event:Event::Updated,
-            resource:Resource::Enrollment,
-            context: [
-                'enrollment_id' => $enrollment->id,
-                'exam_code_status' => $status
-            ]);
     }
 }

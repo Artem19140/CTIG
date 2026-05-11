@@ -3,10 +3,7 @@
 namespace  App\Domain\Attempt\Action;
 
 use App\Enums\AttemptStatus;
-use App\Enums\Event;
-use App\Enums\Resource;
 use App\Models\Attempt;
-use App\Support\Log\LogActivity;
 use Carbon\Carbon;
 
 use Illuminate\Support\Facades\DB;
@@ -26,19 +23,8 @@ class StartAttemptAction{
             $attempt->last_activity_at = $now;
             $attempt->status=AttemptStatus::Active;
             $attempt->save();
-            $this->log($attempt);
             return $attempt;
         });
         
-    }
-
-    protected function log(Attempt $attempt){
-        LogActivity::event(
-            event: Event::Updated,
-            resource:Resource::Attempt,
-            context:[
-                'attempt_id' => $attempt->id,
-                'status' => AttemptStatus::Active
-            ]);
     }
 }

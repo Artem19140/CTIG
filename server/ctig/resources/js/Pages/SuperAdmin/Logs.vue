@@ -7,7 +7,6 @@ import { DateFormatter } from '@/helpers/DateFormatter';
 import { ActivityLog } from '@/interfaces/ActivityLog';
 import { Paginated } from '@/interfaces/Interfaces';
 import EmployeeLayout from '@/layouts/EmployeeLayout.vue';
-import { onMounted } from 'vue';
 
 defineOptions({
   layout: [EmployeeLayout],

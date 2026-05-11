@@ -10,13 +10,13 @@ use DB;
 use Illuminate\Validation\ValidationException;
 
 class UpdateUserAction{
-   public function execute(array $data, User $updatedUser, User $updator){
+   public function execute(array $data, User $updatedUser){
     $this->ensureHasNoRoleSuperAdmin($data);
     $this->ensureOrgAdminValidCreation($data, $updatedUser);
-    DB::transaction(function() use($updatedUser, $data, $updator){
+    DB::transaction(function() use($updatedUser, $data){
         $updatedUser->update($this->getAttributes($data));
         $updatedUser->roles()->sync($data['roles']);
-        $this->log($updator, $updatedUser);
+        $this->log($updatedUser);
     });
     
    }
@@ -61,9 +61,8 @@ class UpdateUserAction{
         ];
     }
 
-    protected function log(User $user, User $updatedUser){
+    protected function log(User $updatedUser){
         BusinessLog::event('user_updated',[
-            'updated_by_id' => $user->id,
             'updated_id' => $updatedUser->id
         ]);
     }

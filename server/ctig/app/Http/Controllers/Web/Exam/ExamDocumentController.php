@@ -19,7 +19,7 @@ class ExamDocumentController
         protected ExamDocumentAvailable $examDocumentAvailable
     ){}
 
-    public function list(Request $request, Exam $exam){
+    public function list(Exam $exam){
         $this->examDocumentAvailable->list($exam);
         Gate::authorize('list', $exam);
         
@@ -30,7 +30,7 @@ class ExamDocumentController
         ]);
         $stringDate = $exam->begin_time->copy()->format('_H:i_d.m.Y_');
         $name = $exam->type->short_name;
-        event(new ExamDocumentGenerated($exam, $request->user(), ExamDocuments::List));
+        event(new ExamDocumentGenerated($exam, ExamDocuments::List));
         return $pdf->stream("список_$name _ $stringDate.pdf");
     }
 
@@ -42,13 +42,12 @@ class ExamDocumentController
     }
 
     public function codes(
-        Request $request,
         Exam $exam, 
         ExamCodesGenerator $examCodesGenerator
     ){
         $this->authorize($exam);
         $this->examDocumentAvailable->codes($exam);
-        return $examCodesGenerator->execute($exam, $request->user());
+        return $examCodesGenerator->execute($exam);
     }
 
     public function codesAvailable(Exam $exam){
@@ -60,12 +59,11 @@ class ExamDocumentController
     }
 
     public function protocol(
-        Request $request,
         Exam $exam, 
         ExamProtocolGenerator $examProtocolGenerator
     ){
         $this->examDocumentAvailable->protocol($exam);
-        return $examProtocolGenerator->execute($exam, $request->user());
+        return $examProtocolGenerator->execute($exam);
     }
 
     public function protocolAvailable(Exam $exam){
@@ -81,7 +79,7 @@ class ExamDocumentController
         ExamResultsGenerator $examResultsGenerator
     ){
         $this->examDocumentAvailable->results($exam);
-        $resultsPdf = $examResultsGenerator->execute($exam, $request->user());
+        $resultsPdf = $examResultsGenerator->execute($exam);
         $fileName = "Результаты_".$exam->short_name."_".$exam->begin_time->format('H-i_d.m.Y').".pdf";
         return $resultsPdf->stream($fileName);
     }

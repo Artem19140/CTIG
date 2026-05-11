@@ -15,7 +15,6 @@ final class UpdateForeignNationalAction{
     public function execute(
         array $data, 
         ForeignNational $foreignNational,
-        User $user
     ):ForeignNational{
         $this->foreignNationalGuard->ensureAge($data['dateBirth']);
         $this->foreignNationalGuard->ensureUniquePassport($data, $foreignNational->id);
@@ -23,7 +22,7 @@ final class UpdateForeignNationalAction{
             $this->attributes($data)
         );
         $foreignNational->save();
-        $this->log($user, $foreignNational);
+        $this->log($foreignNational);
         return $foreignNational;
     }
     protected function attributes(array $data):array{
@@ -61,9 +60,8 @@ final class UpdateForeignNationalAction{
         return  $files;
     }
 
-    protected function log(User $user, ForeignNational $foreignNational){
+    protected function log(ForeignNational $foreignNational){
         BusinessLog::event('foreign_national_updated', [
-            'user_id' => $user->id,
             'foreign_national_id'=> $foreignNational->id
         ]);
     }

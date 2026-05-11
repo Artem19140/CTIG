@@ -18,7 +18,7 @@ final class StoreForeignNationalAction{
         $foreignNational =  ForeignNational::create(
             $this->attributes($data, $user->id),
         );
-        $this->log($user, $foreignNational);
+        $this->log($foreignNational);
         return $foreignNational;
     }
 
@@ -63,9 +63,8 @@ final class StoreForeignNationalAction{
         return $value;
     }
 
-    protected function log(User $user, ForeignNational $foreignNational){
+    protected function log(ForeignNational $foreignNational){
         BusinessLog::event('foreign_national_created', [
-            'user_id' => $user->id,
             'foreign_national_id'=> $foreignNational->id
         ]);
     }

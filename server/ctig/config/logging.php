@@ -130,13 +130,13 @@ return [
         'business' => [
             'driver' => 'daily',
             'path' => storage_path('logs/business.log'),
-            'days' => 14,
+            'days' => 30,
         ],
 
         'audit' => [
             'driver' => 'daily',
             'path' => storage_path('logs/audit.log'),
-            'days' => 14,
+            'days' => 30,
         ],
 
     ],

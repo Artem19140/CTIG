@@ -17,14 +17,9 @@ class FileController
             abort(404);
         }
 
-        $this->log($request->user(), $path);
-        return Storage::disk('local')->response($path);
-    }
-
-    protected function log(User $user, string $path){
         BusinessLog::event('file_access', [
-            'user_id' => $user->id,
             'path'=>$path
         ]);
+        return Storage::disk('local')->response($path);
     }
 }

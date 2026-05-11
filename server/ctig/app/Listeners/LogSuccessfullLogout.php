@@ -25,7 +25,6 @@ class LogSuccessfullLogout
     {
         Log::channel('audit')->info('auth_logout', [
             'guard' => $event->guard,
-            'user_id' => $event->user->getAuthIdentifier(),
             'user_type' => $event->user::class,
         ]);
     }

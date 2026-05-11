@@ -14,15 +14,14 @@ class UpdateProtocolCommentAction{
     ){}
     public function execute(
         Exam $exam, 
-        string $protocolComment,
-        User $author
+        string $protocolComment
     ){
         $this->examGuard->ensureNotCancelled($exam);
         $this->ensureCanUpdateProtocolComment($exam);
 
         $exam->protocol_comment = $protocolComment;
         $exam->save();
-        $this->log($author, $exam);
+        $this->log($exam);
     }
 
     protected function ensureCanUpdateProtocolComment(Exam $exam){
@@ -35,9 +34,8 @@ class UpdateProtocolCommentAction{
         }
     }
 
-    protected function log(User $author, Exam $exam){
+    protected function log(Exam $exam){
         BusinessLog::event('exam_protocol_comment_updated', [
-            'user_id' => $author->id,
             'exam_id' => $exam->id
         ]);
     }

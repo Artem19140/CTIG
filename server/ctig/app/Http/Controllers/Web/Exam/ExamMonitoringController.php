@@ -63,8 +63,7 @@ class ExamMonitoringController
         ]);
         $updateProtocolComment->execute(
             $exam, 
-            $request->input('protocolComment'),
-            $request->user()
+            $request->input('protocolComment')
         );
         
         return response()->noContent();

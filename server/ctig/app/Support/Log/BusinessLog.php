@@ -2,7 +2,7 @@
 
 namespace App\Support\Log;
 
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class BusinessLog{
     public static function event(string $event, array $data = []){

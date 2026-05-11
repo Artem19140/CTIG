@@ -21,7 +21,7 @@ final class CreateExamAction{
         return DB::transaction(function () use ($examDto, $user, $duration) {
             $exam = Exam::create($this->getAttributes($examDto, $user, $duration));
             $exam->examiners()->attach($examDto->examiners);
-            $this->log($user, $exam);
+            $this->log($exam);
             return $exam;
         });        
     }
@@ -39,9 +39,8 @@ final class CreateExamAction{
         ];
     }
 
-    protected function log(User $user, Exam $exam){
+    protected function log(Exam $exam){
         BusinessLog::event('exam_created', [
-            'user_id' => $user->id,
             'exam_id'=> $exam->id
         ]);
     }

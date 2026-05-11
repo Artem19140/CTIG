@@ -23,12 +23,11 @@ class BanAttemptAction{
         
         $attempt->save();
 
-        $this->log($user, $attempt);
+        $this->log($attempt);
     }
 
-    protected function log(User $user, Attempt $attempt){
+    protected function log( Attempt $attempt){
         BusinessLog::event('attempt_banned', [
-            'user_id' => $user->id,
             'attempt_id' => $attempt->id
         ]);
     }

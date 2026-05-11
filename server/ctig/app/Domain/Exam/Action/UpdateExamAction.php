@@ -6,7 +6,6 @@ use App\Domain\Exam\Guard\ExamGuard;
 use App\Domain\Exam\Rules\ValidateExamForSave;
 use App\Http\Dto\ExamDto;
 use App\Models\Exam;
-use App\Models\User;
 use App\Support\Log\BusinessLog;
 use DB;
 use Illuminate\Validation\ValidationException;
@@ -20,7 +19,6 @@ final class UpdateExamAction{
     public function execute(
         Exam $exam, 
         ExamDto $examDto,
-        User $user
     ){
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureNotGoing($exam);
@@ -28,7 +26,7 @@ final class UpdateExamAction{
 
         $this->validateExamForSave->execute($examDto, $exam->id);
         
-        $exam = DB::transaction(function () use ($examDto, $exam, $user) {
+        $exam = DB::transaction(function () use ($examDto, $exam) {
             $exam->update(
                 $this->getAttributes($exam, $examDto)
             );
@@ -37,7 +35,7 @@ final class UpdateExamAction{
             
             $exam->load(['examiners', 'type', 'address']);
             $exam->loadCount('enrollments');
-            $this->log($user, $exam);
+            $this->log($exam);
             return $exam;
         });      
         
@@ -68,9 +66,8 @@ final class UpdateExamAction{
         return $attributes;
     }
 
-    protected function log(User $user, Exam $exam){
+    protected function log(Exam $exam){
         BusinessLog::event('exam_updated', [
-            'user_id' => $user->id,
             'exam_id' => $exam->id
         ]);
     }

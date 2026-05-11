@@ -94,8 +94,7 @@ class ExamController
     ){   
         $updateExam->execute(
             $exam, 
-            $request->getDto(),
-            $request->user()
+            $request->getDto()
         );
         return response()->json(['exam' => new ExamResource($exam)]);
     }
@@ -122,7 +121,7 @@ class ExamController
         request()->validate( [
             'cancelledReason' => ['required', 'string']
         ]);
-        $cancelExam->execute($exam, $request->user());
+        $cancelExam->execute($exam);
         
         return response()->noContent();
     }

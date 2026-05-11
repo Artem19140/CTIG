@@ -7,12 +7,10 @@ use App\Enums\ReportTypes;
 use App\Enums\TaskType;
 use App\Events\ReportGenerated;
 use App\Models\Attempt;
-use App\Models\User;
-use App\Support\Log\BusinessLog;
 use Carbon\Carbon;
 
 class FlatTableGenerator{
-    public function execute(Carbon $dateFrom,Carbon $dateTo, User $user){
+    public function execute(Carbon $dateFrom,Carbon $dateTo){
         $handle = fopen('php://output', 'w');
         fwrite($handle, "\xEF\xBB\xBF");
         fputcsv($handle, $this->headers());
@@ -59,7 +57,7 @@ class FlatTableGenerator{
             });   
 
         fclose($handle);
-        event(new ReportGenerated($user, ReportTypes::FlatTable));
+        event(new ReportGenerated(ReportTypes::FlatTable));
     }
 
     protected function headers(){

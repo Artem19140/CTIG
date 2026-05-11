@@ -6,15 +6,14 @@ use App\Enums\ExamDocuments;
 use App\Events\ExamDocumentGenerated;
 use App\Models\Attempt;
 use App\Models\Exam;
-use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ExamResultsGenerator{
-    public function execute(Exam $exam, User $user){
+    public function execute(Exam $exam){
         $this->loadRelations($exam);
-        event(new ExamDocumentGenerated($exam, $user, ExamDocuments::Results));
+        event(new ExamDocumentGenerated($exam, ExamDocuments::Results));
         return Pdf::loadView('templates.pdf.exam.exam-results', [
             'exam' => $exam,
             'statementTable' => [

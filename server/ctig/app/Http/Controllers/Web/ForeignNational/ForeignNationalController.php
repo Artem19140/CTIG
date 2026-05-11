@@ -59,8 +59,7 @@ class ForeignNationalController
     ){   
         $updatedForeignNational = $updateForeignNationalAction->execute(
             $request->validated(), 
-            $foreignNational,
-            $request->user()
+            $foreignNational
         );
         return response()->json([
             'foreignNational' => new ForeignNationalProfileResource($updatedForeignNational)

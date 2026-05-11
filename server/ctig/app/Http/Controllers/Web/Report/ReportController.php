@@ -25,8 +25,7 @@ class ReportController
         $writer = $frdoGenerator->execute(
             $examDate,
             $success,
-            $request->user()->center,
-            $request->user()
+            $request->user()->center
         );
         $stringDate = $examDate->format('d.m.Y');
         $fileName =  $success ? "cerftificates_frdo_$stringDate.xlsx" : "references_frdo_$stringDate.xlsx";
@@ -67,13 +66,11 @@ class ReportController
         return response()->streamDownload(function () use (
             $flatTableGenerator, 
             $dateFrom, 
-            $dateTo,
-            $request
+            $dateTo
         ) {
             $flatTableGenerator->execute( 
                 $dateFrom, 
-                $dateTo,
-                $request->user()
+                $dateTo
             );
         },
         $fileName,
@@ -111,13 +108,11 @@ class ReportController
         return response()->streamDownload(function () use(
             $ministryEducationReportGenerator, 
             $dateFrom, 
-            $dateTo, 
-            $request
+            $dateTo
         ){
             $ministryEducationReportGenerator->execute(
                 $dateFrom,
-                $dateTo,
-                $request->user()
+                $dateTo
             );
         },
         $fileName,

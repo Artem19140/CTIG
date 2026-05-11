@@ -6,13 +6,11 @@ use App\Enums\ExamDocuments;
 use App\Events\ExamDocumentGenerated;
 use App\Models\Enrollment;
 use App\Models\Exam;
-use App\Models\User;
-use App\Support\Log\BusinessLog;
 use Illuminate\Database\QueryException;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 final class ExamCodesGenerator{
-    public function execute(Exam $exam, User $user){
+    public function execute(Exam $exam){
         $exam->load('enrollments.foreignNational');
          
         $this->generateCodesForExam($exam);
@@ -22,7 +20,7 @@ final class ExamCodesGenerator{
         ]);
 
         $fileName = $this->getFileName($exam);
-        event(new ExamDocumentGenerated($exam, $user, ExamDocuments::Codes));
+        event(new ExamDocumentGenerated($exam,ExamDocuments::Codes));
         return $pdf->stream($fileName);
     }
 

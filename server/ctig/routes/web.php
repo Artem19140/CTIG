@@ -15,7 +15,7 @@ use App\Http\Controllers\Web\ForeignNational\ForeignNationalController;
 use App\Http\RedirectResolver;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'auth.session', 'user.active', 'center.active', 'password.change'])->group(function(){
+Route::middleware(['log.context','auth', 'auth.session', 'user.active', 'center.active', 'password.change'])->group(function(){
 
     Route::apiResource('foreign-nationals', ForeignNationalController::class)
         ->where(['foreign_national' => '[0-9]+'])
@@ -23,6 +23,7 @@ Route::middleware(['auth', 'auth.session', 'user.active', 'center.active', 'pass
         ->middlewareFor(['show', 'index'],  ['user.has.any.role:' . UserRoles::implode(UserRoles::Operator, UserRoles::Director)])
         ->middlewareFor(['show'],  ['user.has.any.role:' . UserRoles::implode(UserRoles::Operator, UserRoles::Examiner, UserRoles::Director)])
         ->except(['destroy']);
+
 
     Route::apiResource('enrollments', EnrollmentController::class)
         ->where(['enrollment' => '[0-9]+'])
@@ -103,7 +104,7 @@ Route::middleware(['auth', 'auth.session', 'user.active', 'center.active', 'pass
     Route::post('logout/all', [LogoutController::class, 'logoutAll'])->name('logout.all');
 });
 
-Route::middleware('guest:web,foreignNationals')->group(function (){
+Route::middleware(['log.context','guest:web,foreignNationals'])->group(function (){
     Route::inertia('login', 'Auth/Login')->name('login');  
     Route::post('login', [LoginController::class, 'login']);
     Route::post('exam-codes/verify', [ExamController::class, 'verifyCode']);
@@ -112,6 +113,6 @@ Route::middleware('guest:web,foreignNationals')->group(function (){
 
 Route::get('me', function(RedirectResolver $resolver){
     return $resolver->execute();
-})->name('me');
+})->name('me'); 
 
 require __DIR__.'/foreign_national.php';

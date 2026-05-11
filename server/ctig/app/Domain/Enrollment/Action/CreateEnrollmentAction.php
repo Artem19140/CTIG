@@ -42,8 +42,7 @@ final class CreateEnrollmentAction{
         ]);
 
         BusinessLog::event('enrollment_created', [
-            'enrollment_id' => $enrollment->id,
-            'user_id' => $user->id
+            'enrollment_id' => $enrollment->id
         ]);
 
         return $enrollment;

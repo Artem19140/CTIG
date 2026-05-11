@@ -18,7 +18,7 @@ class CreateUserAction{
         DB::transaction(function() use($creator, $data){
             $user = User::create($this->getAttributes($data, $creator));
             $user->roles()->sync($data['roles']);
-            $this->log($creator, $user);
+            $this->log($creator);
         });
    }
 
@@ -53,9 +53,8 @@ class CreateUserAction{
         ];
     }
 
-    protected function log(User $user, User $createdUser){
+    protected function log(User $createdUser){
         BusinessLog::event('user_created',[
-            'creator_id' => $user->id,
             'created_id' => $createdUser->id
         ]);
     }

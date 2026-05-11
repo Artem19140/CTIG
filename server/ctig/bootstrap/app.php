@@ -4,6 +4,7 @@ use App\Http\Middleware\EnsureCenterActive;
 use App\Http\Middleware\EnsurePasswordChange;
 use App\Http\Middleware\EnsureUserActive;
 use App\Http\Middleware\EnsureUserHasAnyRole;
+use App\Http\Middleware\LogContext;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -26,7 +27,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'password.change' => EnsurePasswordChange::class,
             'user.active' => EnsureUserActive::class,
             'center.active' => EnsureCenterActive::class,
-            'user.has.any.role' => EnsureUserHasAnyRole::class
+            'user.has.any.role' => EnsureUserHasAnyRole::class,
+            'log.context' => LogContext::class
         ]);
 
         $middleware->redirectUsersTo('/me');

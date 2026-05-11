@@ -5,7 +5,6 @@ namespace App\Domain\Report;
 use App\Enums\ReportTypes;
 use App\Events\ReportGenerated;
 use App\Models\Attempt;
-use App\Models\User;
 use App\Support\Export\CsvWriter;
 use Carbon\Carbon;
 
@@ -16,12 +15,11 @@ class MinistryEducationReportGenerator
     ){}
     public function execute(
         Carbon $dateFrom,
-        Carbon $dateTo,
-        User $user
+        Carbon $dateTo
     ){
         $this->csvWriter->setHeaders($this->headers());
         $this->writeRows($dateFrom, $dateTo);
-        event(new ReportGenerated($user, ReportTypes::MinEducation));
+        event(new ReportGenerated(ReportTypes::MinEducation));
     }
 
     protected function headers():array{

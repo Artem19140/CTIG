@@ -37,8 +37,7 @@ class AddressController
             'center_id' => $user->center_id
         ]);
         BusinessLog::event('address_created', [
-            'address_id' => $address->id,
-            'user_id' => $request->user()->id
+            'address_id' => $address->id
         ]);
         return response()->json([
             'address' => new AddressResource($address)
@@ -60,6 +59,9 @@ class AddressController
 
         $address->max_capacity = $request->input('maxCapacity');
         $address->save();
+        BusinessLog::event('address_updated', [
+            'address_id' => $address->id
+        ]);
         return response()->json(new AddressResource($address));
     }
     
@@ -73,8 +75,7 @@ class AddressController
         $address->is_active = false;
         $address->save();
         BusinessLog::event('address_deleted', [
-            'address_id' => $address->id,
-            'user_id' => $request->user()->id
+            'address_id' => $address->id
         ]);
         return response()->noContent();
     }

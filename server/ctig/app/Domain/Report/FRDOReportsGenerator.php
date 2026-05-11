@@ -9,7 +9,6 @@ use App\Events\ReportGenerated;
 use App\Models\Attempt;
 use App\Models\Center;
 use App\Models\User;
-use App\Support\Log\BusinessLog;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -25,13 +24,12 @@ class FRDOReportsGenerator{
     public function execute(
         string $examDate, 
         bool $success, 
-        Center $center,
-        User $user
+        Center $center
     ): IWriter{
         $examDate = Carbon::parse($examDate);
         $this->ensureFrdoGenerationAvailable->execute($examDate, $success);
         $spreadsheet = $this->generateReport($examDate, $success, $center);
-        event(new ReportGenerated($user, ReportTypes::Frdo));
+        event(new ReportGenerated(ReportTypes::Frdo));
         return IOFactory::createWriter($spreadsheet, 'Xlsx');
     }
 

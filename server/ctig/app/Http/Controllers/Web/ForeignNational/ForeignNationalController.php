@@ -13,7 +13,6 @@ use App\Http\Requests\ForeignNational\ForeignNationalUpdateRequest;
 use App\Http\Resources\ForeignNational\ForeignNationalIndexResource;
 use App\Http\Resources\ForeignNational\ForeignNationalProfileResource;
 use App\Models\ForeignNational;
-use App\Support\Log\AuditLog;
 use App\Support\Log\LogActivity;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;

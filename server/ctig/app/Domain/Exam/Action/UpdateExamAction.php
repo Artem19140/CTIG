@@ -4,9 +4,11 @@ namespace App\Domain\Exam\Action;
 
 use App\Domain\Exam\Guard\ExamGuard;
 use App\Domain\Exam\Rules\ValidateExamForSave;
+use App\Enums\Event;
+use App\Enums\Resource;
 use App\Http\Dto\ExamDto;
 use App\Models\Exam;
-use App\Support\Log\BusinessLog;
+use App\Support\Log\LogActivity;
 use DB;
 use Illuminate\Validation\ValidationException;
 
@@ -19,14 +21,15 @@ final class UpdateExamAction{
     public function execute(
         Exam $exam, 
         ExamDto $examDto,
-    ){
+    ):void{
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureNotGoing($exam);
         $this->examGuard->ensureNotFinished($exam);
 
         $this->validateExamForSave->execute($examDto, $exam->id);
-        
+        $before = $this->getAttributesToLog($exam);
         $exam = DB::transaction(function () use ($examDto, $exam) {
+            
             $exam->update(
                 $this->getAttributes($exam, $examDto)
             );
@@ -35,10 +38,10 @@ final class UpdateExamAction{
             
             $exam->load(['examiners', 'type', 'address']);
             $exam->loadCount('enrollments');
-            $this->log($exam);
+            
             return $exam;
         });      
-        
+        $this->log($exam, $before);
         
     }
     protected function getAttributes(Exam $exam, ExamDto $examDto):array{
@@ -66,9 +69,27 @@ final class UpdateExamAction{
         return $attributes;
     }
 
-    protected function log(Exam $exam){
-        BusinessLog::event('exam_updated', [
-            'exam_id' => $exam->id
-        ]);
+    protected function log(Exam $exam, array $before):void{
+        LogActivity::event(
+            event:Event::Updated,
+            resource:Resource::Exam,
+            context:[
+                'exam_id' => $exam->id,
+                'changes' => [
+                    'before' => $before,
+                    'after' =>  $this->getAttributesToLog($exam)
+                ]
+            ]);
+    }
+
+    protected function getAttributesToLog(Exam $exam):array{
+        $attributes = [
+            'begin_time',
+            'address_id',
+            'capacity',
+            'exam_type_id',
+            'comment'
+        ];
+        return $exam->only($attributes);
     }
 }

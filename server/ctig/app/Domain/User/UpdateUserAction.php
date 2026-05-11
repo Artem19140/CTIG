@@ -2,23 +2,27 @@
 
 namespace App\Domain\User;
 
+use App\Enums\Event;
+use App\Enums\Resource;
 use App\Enums\UserRoles;
+use App\Http\Resources\User\UserResource;
 use App\Models\Role;
 use App\Models\User;
-use App\Support\Log\BusinessLog;
+use App\Support\Log\LogActivity;
 use DB;
 use Illuminate\Validation\ValidationException;
 
 class UpdateUserAction{
-   public function execute(array $data, User $updatedUser){
+   public function execute(array $data, User $userToUpdate){
     $this->ensureHasNoRoleSuperAdmin($data);
-    $this->ensureOrgAdminValidCreation($data, $updatedUser);
-    DB::transaction(function() use($updatedUser, $data){
-        $updatedUser->update($this->getAttributes($data));
-        $updatedUser->roles()->sync($data['roles']);
-        $this->log($updatedUser);
+    $this->ensureOrgAdminValidCreation($data, $userToUpdate);
+    $before = new UserResource($userToUpdate)->resolve();
+    DB::transaction(function() use($userToUpdate, $data){
+        $userToUpdate->update($this->getAttributes($data));
+        $userToUpdate->roles()->sync($data['roles']);
     });
-    
+
+    $this->log($userToUpdate, $before);
    }
 
    protected function ensureUniqueEmail(string $email, int $id){
@@ -61,10 +65,17 @@ class UpdateUserAction{
         ];
     }
 
-    protected function log(User $updatedUser){
-        BusinessLog::event('user_updated',[
-            'updated_id' => $updatedUser->id
-        ]);
+    protected function log(User $updatedUser, array $before){
+        LogActivity::event(
+            event:Event::Updated,
+            resource:Resource::User,
+            context:[
+                'user_updated_id' => $updatedUser->id,
+                'changes' => [
+                    'before' => $before,
+                    'after' => new UserResource($updatedUser)->resolve()
+                ]
+            ]
+        );
     }
-
 }

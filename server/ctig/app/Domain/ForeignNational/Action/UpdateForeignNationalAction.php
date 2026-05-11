@@ -3,9 +3,11 @@
 namespace App\Domain\ForeignNational\Action;
 
 use App\Domain\ForeignNational\Guard\ForeignNationalGuard;
+use App\Enums\Event;
+use App\Enums\Resource;
+use App\Http\Resources\ForeignNational\ForeignNationalResource;
 use App\Models\ForeignNational;
-use App\Models\User;
-use App\Support\Log\BusinessLog;
+use App\Support\Log\LogActivity;
 use Storage;
 
 final class UpdateForeignNationalAction{
@@ -18,11 +20,12 @@ final class UpdateForeignNationalAction{
     ):ForeignNational{
         $this->foreignNationalGuard->ensureAge($data['dateBirth']);
         $this->foreignNationalGuard->ensureUniquePassport($data, $foreignNational->id);
+        $before = new ForeignNationalResource($foreignNational)->resolve();
         $foreignNational->update(
             $this->attributes($data)
         );
         $foreignNational->save();
-        $this->log($foreignNational);
+        $this->log($foreignNational, $before);
         return $foreignNational;
     }
     protected function attributes(array $data):array{
@@ -60,9 +63,16 @@ final class UpdateForeignNationalAction{
         return  $files;
     }
 
-    protected function log(ForeignNational $foreignNational){
-        BusinessLog::event('foreign_national_updated', [
-            'foreign_national_id'=> $foreignNational->id
-        ]);
+    protected function log(ForeignNational $foreignNational, array $before){
+        LogActivity::event(
+            event: Event::Updated,
+            resource:Resource::ForeignNational,
+            context:[
+                'foreign_national_id'=> $foreignNational->id,
+                'changes' => [
+                    'before'=> $before,
+                    'after' => new ForeignNationalResource($foreignNational)->resolve()
+                ]
+            ]);
     }
 }

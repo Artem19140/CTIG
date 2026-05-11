@@ -2,14 +2,12 @@
 
 namespace App\Providers;
 
-use App\Listeners\LogSuccessfulLogin;
 use App\Models\Attempt;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\User;
-use Illuminate\Auth\Events\Login;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Event;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -18,20 +16,24 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Database\Eloquent\Model;
 use Inertia\Inertia;
 use Inertia\ExceptionResponse;
-use Log;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        
     }
     public function boot(): void
     {
-        Event::listen(LogSuccessfulLogin::class);
+        
         Gate::define('attempt-access', function (ForeignNational $foreignNational, Attempt $attempt){
             return $foreignNational->id === $attempt->foreign_national_id;
         });
+
+        Relation::enforceMorphMap([
+            'foreign_national' => ForeignNational::class,
+            'user' => User::class,
+        ]);
 
         Gate::define('exam-examiner-access', function (User $user, Exam $exam){
             if($user->isSuperAdmin()){
@@ -53,7 +55,9 @@ class AppServiceProvider extends ServiceProvider
         Model::preventLazyLoading(
             !app()->environment('production')
         );
+
         Model::preventSilentlyDiscardingAttributes();
+        
         Model::preventAccessingMissingAttributes();
 
         Inertia::handleExceptionsUsing(function (ExceptionResponse $response) {

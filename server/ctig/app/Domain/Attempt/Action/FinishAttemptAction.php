@@ -2,13 +2,10 @@
 
 namespace App\Domain\Attempt\Action;
 
-use App\Enums\AttemptStatus;
 use App\Enums\Event;
 use App\Enums\Resource;
 use App\Exceptions\BusinessException;
 use App\Models\Attempt;
-use App\Models\ForeignNational;
-use App\Support\Log\BusinessLog;
 use App\Support\Log\LogActivity;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;

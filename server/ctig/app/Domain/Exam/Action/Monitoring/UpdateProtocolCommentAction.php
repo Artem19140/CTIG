@@ -3,10 +3,11 @@
 namespace App\Domain\Exam\Action\Monitoring;
 
 use App\Domain\Exam\Guard\ExamGuard;
+use App\Enums\Event;
+use App\Enums\Resource;
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
-use App\Models\User;
-use App\Support\Log\BusinessLog;
+use App\Support\Log\LogActivity;
 
 class UpdateProtocolCommentAction{
     public function __construct(
@@ -18,10 +19,10 @@ class UpdateProtocolCommentAction{
     ){
         $this->examGuard->ensureNotCancelled($exam);
         $this->ensureCanUpdateProtocolComment($exam);
-
+        $oldValue = $exam->protocol_comment;
         $exam->protocol_comment = $protocolComment;
         $exam->save();
-        $this->log($exam);
+        $this->log($exam, $oldValue);
     }
 
     protected function ensureCanUpdateProtocolComment(Exam $exam){
@@ -34,9 +35,16 @@ class UpdateProtocolCommentAction{
         }
     }
 
-    protected function log(Exam $exam){
-        BusinessLog::event('exam_protocol_comment_updated', [
-            'exam_id' => $exam->id
-        ]);
+    protected function log(Exam $exam, string $oldValue){
+        LogActivity::event(
+            event:Event::Updated,
+            resource:Resource::Exam,
+            context:[
+                'exam_id' => $exam->id,
+                'field' => 'protocol_comment',
+                'old' => $oldValue,
+                'new' => $exam->protocol_comment,
+            ]
+        );
     }
 }

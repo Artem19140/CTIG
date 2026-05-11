@@ -5,7 +5,6 @@ namespace App\Domain\ForeignNational\Action;
 use App\Domain\ForeignNational\Guard\ForeignNationalGuard;
 use App\Models\ForeignNational;
 use App\Models\User;
-use App\Support\Log\BusinessLog;
 use Storage;
 
 final class StoreForeignNationalAction{
@@ -18,7 +17,6 @@ final class StoreForeignNationalAction{
         $foreignNational =  ForeignNational::create(
             $this->attributes($data, $user->id),
         );
-        $this->log($foreignNational);
         return $foreignNational;
     }
 
@@ -61,11 +59,5 @@ final class StoreForeignNationalAction{
 
         $value = mb_strtolower($value, 'UTF-8');
         return $value;
-    }
-
-    protected function log(ForeignNational $foreignNational){
-        BusinessLog::event('foreign_national_created', [
-            'foreign_national_id'=> $foreignNational->id
-        ]);
     }
 }

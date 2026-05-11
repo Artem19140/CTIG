@@ -43,7 +43,7 @@ final class CreateEnrollmentAction{
             'foreign_national_id' => $foreignNational->id
         ]);
 
-        
+        $this->log($enrollment);
 
         return $enrollment;
     }

@@ -2,9 +2,11 @@
 
 namespace App\Domain\ForeignNational\Query;
 
+use App\Enums\Event;
+use App\Enums\Resource;
 use App\Models\ForeignNational;
 use App\Models\User;
-use App\Support\Log\BusinessLog;
+use App\Support\Log\LogActivity;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -54,8 +56,12 @@ class ExportForeignNationalQuery{
     }
 
     protected function log(User $user){
-        BusinessLog::event('foreign_national_export', [
-            'user_id' => $user->id
-        ]);
+        LogActivity::event(
+            event:Event::Export,   
+            resource:Resource::ForeignNational, 
+            context:[
+                'user_id' => $user->id
+            ]
+        );
     }
 }

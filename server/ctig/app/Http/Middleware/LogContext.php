@@ -20,7 +20,7 @@ class LogContext
             'user_id' => auth()->id(),
             'ip' => $request->ip(),
             'agent' => $request->userAgent(),
-            'user_type' => $request->user() ? $request->user()::class  : null
+            'user_type' => $request->user() ? $request->user()->getMorphClass()  : null
         ]);
         return $next($request);
     }

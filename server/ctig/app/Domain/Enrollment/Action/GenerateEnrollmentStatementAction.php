@@ -23,7 +23,9 @@ class GenerateEnrollmentStatementAction{
             event: Event::Generated,
             resource: Resource::Enrollment,
             context:[
-            'enrollment_id'=> $enrollment->id
-        ]);
+            'enrollment_id'=> $enrollment->id,
+            'document' => 'statement'
+        ]
+    );
     }
 }

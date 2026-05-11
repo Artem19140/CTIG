@@ -11,7 +11,7 @@ class LogActivity{
 
         $payload = [
             'actor_id' => auth()->user()->id,
-            'actor_type' => auth()->user() ? auth()->user()::class : null,
+            'actor_type' => auth()->user() ? auth()->user()->getMorphClass() : null,
             'event' => $event->value,
             'resource' => $resource->value,
             'context' => $context,

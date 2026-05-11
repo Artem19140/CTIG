@@ -6,6 +6,7 @@ use App\Domain\Attempt\Action\CreateAttemptAction;
 use App\Domain\Exam\Action\CancelExamAction;
 use App\Domain\Exam\Action\CreateExamAction;
 use App\Domain\Exam\Action\UpdateExamAction;
+use App\Domain\Exam\Query\ExamShowQuery;
 use App\Domain\Exam\Query\GetExamsQuery;
 use App\Enums\UserRoles;
 use App\Http\Requests\Exam\ExamIndexRequest;
@@ -59,31 +60,9 @@ class ExamController
         ], 200);
     }
 
-    public function show(Exam $exam)
-    {
+    public function show(Exam $exam, ExamShowQuery $examShowQuery){
         Gate::authorize('view', $exam);
-
-        $exam->load([
-            'examiners', 
-            'address',
-            'type',
-            'enrollments' => ['foreignNational', 'attempt.center'] 
-        ]);
-
-        $exam->loadExists([
-            'attempts as has_unchecked_attempts' => function ($query) {
-                $query->statusUnchecked();
-            },
-            'attempts as has_active_attempts' => function ($query) {
-                $query->statusActive();
-            },
-            'attempts as has_attempts',
-        ]);
-
-        $exam->enrollments->each(function ($enrollment) use ($exam) {
-            $enrollment->setRelation('exam', $exam);
-        });
-        $exam->loadCount('enrollments');
+        $exam = $examShowQuery->execute($exam);
         return new ExamResource($exam);
     }
 
@@ -113,7 +92,6 @@ class ExamController
     }
 
     public function destroy(
-        Request $request,
         Exam $exam , 
         CancelExamAction $cancelExam
     )

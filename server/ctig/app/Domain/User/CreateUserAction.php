@@ -2,10 +2,12 @@
 
 namespace App\Domain\User;
 
+use App\Enums\Event;
+use App\Enums\Resource;
 use App\Enums\UserRoles;
 use App\Models\Role;
 use App\Models\User;
-use App\Support\Log\BusinessLog;
+use App\Support\Log\LogActivity;
 use DB;
 use Hash;
 
@@ -54,9 +56,13 @@ class CreateUserAction{
     }
 
     protected function log(User $createdUser){
-        BusinessLog::event('user_created',[
-            'created_id' => $createdUser->id
-        ]);
+        LogActivity::event(
+            event:Event::Created,
+            resource:Resource::User,
+            context:[
+                'user_created_id' => $createdUser->id
+            ]
+        );
     }
 
 }

@@ -3,8 +3,10 @@
 namespace App\Domain\Exam\Action;
 
 use App\Domain\Exam\Guard\ExamGuard;
+use App\Enums\Event;
+use App\Enums\Resource;
 use App\Models\Exam;
-use App\Support\Log\BusinessLog;
+use App\Support\Log\LogActivity;
 use Carbon\Carbon;
 
 class CancelExamAction{
@@ -19,8 +21,17 @@ class CancelExamAction{
         $exam->cancelled_reason = request()->input('cancelledReason');
         $exam->cancelled_at = Carbon::now();
         $exam->save();
-        BusinessLog::event('exam_cancelled', [
-            'exam_id' => $exam->id
-        ]);
+        $this->log($exam);
+    }
+
+    protected function log(Exam $exam){
+        LogActivity::event(
+            event:Event::Updated,
+            resource:Resource::Exam,
+            context:[
+                'exam_id' => $exam->id,
+                'status' => 'cancelled'
+            ]
+        );
     }
 }

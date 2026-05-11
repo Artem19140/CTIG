@@ -2,7 +2,7 @@
 
 namespace App\Domain\ExamDocument;
 
-use App\Enums\ExamDocuments;
+use App\Enums\ExamDocument;
 use App\Events\ExamDocumentGenerated;
 use App\Models\Attempt;
 use App\Models\Exam;
@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class ExamResultsGenerator{
     public function execute(Exam $exam){
         $this->loadRelations($exam);
-        event(new ExamDocumentGenerated($exam, ExamDocuments::Results));
+        event(new ExamDocumentGenerated($exam, ExamDocument::Results));
         return Pdf::loadView('templates.pdf.exam.exam-results', [
             'exam' => $exam,
             'statementTable' => [

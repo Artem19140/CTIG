@@ -40,7 +40,7 @@ class ForeignNationalCreateTest extends TestCase
 
         Storage::fake('private');
         Counter::create([
-            'key' => CounterKey::RegNumKey,
+            'key' => CounterKey::RegNum,
             'value' => Carbon::now()->format('y').'0000',
             'center_id' => 1
         ]);

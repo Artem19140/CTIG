@@ -2,7 +2,7 @@
 
 namespace App\Domain\ExamDocument;
 
-use App\Enums\ExamDocuments;
+use App\Enums\ExamDocument;
 use App\Events\ExamDocumentGenerated;
 use App\Models\Enrollment;
 use App\Models\Exam;
@@ -20,7 +20,7 @@ final class ExamCodesGenerator{
         ]);
 
         $fileName = $this->getFileName($exam);
-        event(new ExamDocumentGenerated($exam,ExamDocuments::Codes));
+        event(new ExamDocumentGenerated($exam,ExamDocument::Codes));
         return $pdf->stream($fileName);
     }
 

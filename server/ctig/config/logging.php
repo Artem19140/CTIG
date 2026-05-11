@@ -127,17 +127,11 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
-        'business' => [
+        'events' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/business.log'),
+            'path' => storage_path('logs/events.log'),
             'days' => 30,
-        ],
-
-        'audit' => [
-            'driver' => 'daily',
-            'path' => storage_path('logs/audit.log'),
-            'days' => 30,
-        ],
+        ]
 
     ],
 

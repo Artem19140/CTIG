@@ -6,7 +6,7 @@ use App\Domain\ExamDocument\ExamDocumentAvailable;
 use App\Domain\ExamDocument\ExamCodesGenerator;
 use App\Domain\ExamDocument\ExamProtocolGenerator;
 use App\Domain\ExamDocument\ExamResultsGenerator;
-use App\Enums\ExamDocuments;
+use App\Enums\ExamDocument;
 use App\Events\ExamDocumentGenerated;
 use App\Models\Exam;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -30,7 +30,7 @@ class ExamDocumentController
         ]);
         $stringDate = $exam->begin_time->copy()->format('_H:i_d.m.Y_');
         $name = $exam->type->short_name;
-        event(new ExamDocumentGenerated($exam, ExamDocuments::List));
+        event(new ExamDocumentGenerated($exam, ExamDocument::List));
         return $pdf->stream("список_$name _ $stringDate.pdf");
     }
 

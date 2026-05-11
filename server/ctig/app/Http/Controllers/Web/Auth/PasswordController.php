@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Auth;
 use App\Http\Requests\Auth\ChangePasswordRequest;
 use App\Http\Requests\Auth\PasswordResetRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -23,7 +24,7 @@ class PasswordController
 
         $user->password = Hash::make($request->validated('password'));
         $user->has_to_change_password = true;
-
+        
         $user->save();
         return response()->json();
    }
@@ -42,7 +43,7 @@ class PasswordController
             'password' => Hash::make($plainPassword),
             'has_to_change_password' => false
         ]);
-        
+        Auth::logoutOtherDevices($plainPassword);
         return redirect()->to($user->resolveRedirect());
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Enums\ExamDocuments;
+use App\Enums\ExamDocument;
 use App\Models\Exam;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -19,7 +19,7 @@ class ExamDocumentGenerated
      */
     public function __construct(
         public Exam $exam,
-        public ExamDocuments $type
+        public ExamDocument $type
     ){}
 
     /**

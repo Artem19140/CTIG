@@ -3,8 +3,11 @@
 namespace App\Domain\Enrollment\Action;
 
 use App\Domain\Exam\Guard\ExamGuard;
+use App\Enums\Event;
+use App\Enums\Resource;
 use App\Exceptions\BusinessException;
 use App\Models\Enrollment;
+use App\Support\Log\LogActivity;
 
 
 class ChangePaymentStatusAction{
@@ -24,5 +27,17 @@ class ChangePaymentStatusAction{
 
         $enrollment->changePaymentStatus();
         $enrollment->save();
+        $this->log($enrollment);
+    }
+
+    protected function log(Enrollment $enrollment){
+        LogActivity::event(
+            event: Event::Updated,
+            resource: Resource::Enrollment,
+            context:[
+                'payment_status'=> $enrollment->hasPayment(),
+                'enrollment_id'=> $enrollment->id
+            ]
+        );
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum ReportTypes:string
+enum ReportType:string
 {
     case Frdo = 'frdo';
     case FlatTable = 'flat_table';

@@ -2,8 +2,10 @@
 
 namespace App\Domain\Enrollment\Action;
 
+use App\Enums\Event;
+use App\Enums\Resource;
 use App\Models\Enrollment;
-use App\Support\Log\BusinessLog;
+use App\Support\Log\LogActivity;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 
@@ -17,7 +19,10 @@ class GenerateEnrollmentStatementAction{
     }
 
     protected function log(Enrollment $enrollment){
-        BusinessLog::event('enrollment_statement_generated', [
+        LogActivity::event(
+            event: Event::Generated,
+            resource: Resource::Enrollment,
+            context:[
             'enrollment_id'=> $enrollment->id
         ]);
     }

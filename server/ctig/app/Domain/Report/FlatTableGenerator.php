@@ -3,7 +3,7 @@
 namespace App\Domain\Report;
 
 use App\Enums\AttemptStatus;
-use App\Enums\ReportTypes;
+use App\Enums\ReportType;
 use App\Enums\TaskType;
 use App\Events\ReportGenerated;
 use App\Models\Attempt;
@@ -57,7 +57,7 @@ class FlatTableGenerator{
             });   
 
         fclose($handle);
-        event(new ReportGenerated(ReportTypes::FlatTable));
+        event(new ReportGenerated(ReportType::FlatTable));
     }
 
     protected function headers(){

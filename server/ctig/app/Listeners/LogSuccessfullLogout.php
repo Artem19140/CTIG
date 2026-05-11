@@ -3,10 +3,10 @@
 namespace App\Listeners;
 
 
+use App\Enums\Resource;
 use Illuminate\Auth\Events\Logout;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
-use Log;
+use App\Enums\Event;
+use App\Support\Log\LogActivity;
 
 class LogSuccessfullLogout
 {
@@ -23,9 +23,12 @@ class LogSuccessfullLogout
      */
     public function handle(Logout $event): void
     {
-        Log::channel('audit')->info('auth_logout', [
-            'guard' => $event->guard,
-            'user_type' => $event->user::class,
-        ]);
+        LogActivity::event(
+            event:Event::Logout, 
+            resource: null,
+            context:[
+                'guard' => $event->guard
+            ]
+        );
     }
 }

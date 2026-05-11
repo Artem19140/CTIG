@@ -33,7 +33,7 @@ class EnrollmentCreateTest extends TestCase
         $this->foreignNational = ForeignNational::factory()->create();
         $this->model = Enrollment::class;
         Counter::create([
-            'key' => CounterKey::RegNumKey,
+            'key' => CounterKey::RegNum,
             'value' => 260000,
             'center_id' => Center::inRandomOrder()->first()->id
         ]);

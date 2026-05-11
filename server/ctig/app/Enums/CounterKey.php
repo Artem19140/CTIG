@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum CounterKey:string
 {
-    case RegNumKey = 'reg_num';
-    case GroupKey = 'group';
+    case RegNum = 'reg_num';
+    case Group = 'group';
    
 }

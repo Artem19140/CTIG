@@ -24,7 +24,7 @@ class GetRegNumberTest extends TestCase
         Carbon::setTestNow(Carbon::now());
         $this->value = \intval(Carbon::now()->format('y0000'));
         $this->counter = Counter::create([
-            'key' => CounterKey::RegNumKey,
+            'key' => CounterKey::RegNum,
             'value' => $this->value,
             'center_id' => Center::factory()->create()->id
         ]);

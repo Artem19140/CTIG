@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Enums\ReportTypes;
+use App\Enums\ReportType;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -17,7 +17,7 @@ class ReportGenerated
      * Create a new event instance.
      */
     public function __construct(
-        public ReportTypes $type
+        public ReportType $type
     ){}
 
     /**

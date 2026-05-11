@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Web\File;
 
-use App\Models\User;
-use App\Support\Log\BusinessLog;
+use App\Enums\Event;
+use App\Enums\Resource;
+use App\Support\Log\LogActivity;
 use Illuminate\Http\Request;
 use Storage;
 
@@ -17,7 +18,10 @@ class FileController
             abort(404);
         }
 
-        BusinessLog::event('file_access', [
+        LogActivity::event(
+            event: Event::Access, 
+            resource: Resource::File,
+            context:[
             'path'=>$path
         ]);
         return Storage::disk('local')->response($path);

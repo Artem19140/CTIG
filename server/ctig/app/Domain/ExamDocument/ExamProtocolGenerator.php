@@ -3,7 +3,7 @@
 namespace App\Domain\ExamDocument;
 
 use App\Enums\AttemptStatus;
-use App\Enums\ExamDocuments;
+use App\Enums\ExamDocument;
 use App\Events\ExamDocumentGenerated;
 use App\Models\Attempt;
 use App\Models\Exam;
@@ -32,7 +32,7 @@ class ExamProtocolGenerator{
             'endTimeReal' => $endTimeReal,
             'attemptWithViolations' => $attemptWithViolations
         ]);
-        event(new ExamDocumentGenerated($exam, ExamDocuments::Protocol));
+        event(new ExamDocumentGenerated($exam, ExamDocument::Protocol));
         return $pdf->stream("codes.pdf");
     }
 

@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 class GenerateRegNumberAction{
     public function execute(){
-        $regNumber = Counter::where('key', CounterKey::RegNumKey)->lockForUpdate()->first();
+        $regNumber = Counter::where('key', CounterKey::RegNum)->lockForUpdate()->first();
         if($this->isNewYear($regNumber)){
             $regNumber->value = \intval(Carbon::now()->format('y')."0000");
             $regNumber->updated_at = Carbon::now();

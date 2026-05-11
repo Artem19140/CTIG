@@ -2,7 +2,7 @@
 
 namespace App\Domain\Report;
 
-use App\Enums\ReportTypes;
+use App\Enums\ReportType;
 use App\Events\ReportGenerated;
 use App\Models\Attempt;
 use App\Support\Export\CsvWriter;
@@ -19,7 +19,7 @@ class MinistryEducationReportGenerator
     ){
         $this->csvWriter->setHeaders($this->headers());
         $this->writeRows($dateFrom, $dateTo);
-        event(new ReportGenerated(ReportTypes::MinEducation));
+        event(new ReportGenerated(ReportType::MinEducation));
     }
 
     protected function headers():array{

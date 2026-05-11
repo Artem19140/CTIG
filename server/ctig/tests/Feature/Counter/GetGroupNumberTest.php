@@ -24,7 +24,7 @@ class GetGroupNumberTest extends TestCase
         Carbon::setTestNow(Carbon::now());
         $this->value = 0;
         $this->counter = Counter::create([
-            'key' => CounterKey::GroupKey,
+            'key' => CounterKey::Group,
             'value' => $this->value,
             'center_id' => Center::factory()->create()->id
         ]);

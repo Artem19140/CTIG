@@ -2,8 +2,10 @@
 
 namespace App\Listeners;
 
+use App\Enums\Event;
+use App\Enums\Resource;
 use App\Events\ReportGenerated;
-use App\Support\Log\BusinessLog;
+use App\Support\Log\LogActivity;
 
 class LogReportGenerated
 {
@@ -14,8 +16,12 @@ class LogReportGenerated
 
     public function handle(ReportGenerated $event): void
     {
-        BusinessLog::event('report_generated', [
-            'type' => $event->type->value
-        ]);
+        LogActivity::event(
+            event:Event::Access, 
+            resource:Resource::Report,
+            context:[
+                'type' => $event->type->value
+            ]
+        );
     }
 }

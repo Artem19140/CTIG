@@ -42,13 +42,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Counter::create([
-            'key' => CounterKey::RegNumKey,
+            'key' => CounterKey::RegNum,
             'value' => Carbon::now()->format('y').'0000',
             'center_id' => 1
         ]);
 
         Counter::create([
-            'key' => CounterKey::GroupKey,
+            'key' => CounterKey::Group,
             'value' => 1,
             'center_id' => 1
         ]);

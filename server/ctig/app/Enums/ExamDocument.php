@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum ExamDocuments:string
+enum ExamDocument:string
 {
     case List = 'list'; 
     case Codes = 'codes';

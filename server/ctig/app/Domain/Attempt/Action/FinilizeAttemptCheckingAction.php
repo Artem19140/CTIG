@@ -3,7 +3,10 @@
 namespace App\Domain\Attempt\Action;
 
 use App\Enums\AttemptStatus;
+use App\Enums\Event;
+use App\Enums\Resource;
 use App\Models\Attempt;
+use App\Support\Log\LogActivity;
 use Carbon\Carbon;
 
 class FinilizeAttemptCheckingAction{
@@ -17,5 +20,15 @@ class FinilizeAttemptCheckingAction{
         $attempt->is_passed = $this->checkPassingThreshold->execute($attempt);
         $attempt->save();
         return $attempt;
+    }
+
+    protected function log(Attempt $attempt){
+        LogActivity::event(
+            event: Event::Updated,
+            resource:Resource::Attempt, 
+            context: [
+                'attempt_id' => $attempt->id,
+                'status' => AttemptStatus::Checked
+            ]);
     }
 }

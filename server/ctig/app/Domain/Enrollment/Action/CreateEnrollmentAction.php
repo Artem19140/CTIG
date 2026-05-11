@@ -4,13 +4,15 @@ namespace App\Domain\Enrollment\Action;
 
 use App\Domain\Counter\GenerateRegNumberAction;
 use App\Domain\Exam\Guard\ExamEnrollmentGuard;
+use App\Enums\Event;
+use App\Enums\Resource;
 use App\Exceptions\BusinessException;
 use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\User;
 use App\Domain\Exam\Guard\ExamGuard;
-use App\Support\Log\BusinessLog;
+use App\Support\Log\LogActivity;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -41,9 +43,7 @@ final class CreateEnrollmentAction{
             'foreign_national_id' => $foreignNational->id
         ]);
 
-        BusinessLog::event('enrollment_created', [
-            'enrollment_id' => $enrollment->id
-        ]);
+        
 
         return $enrollment;
     }
@@ -70,8 +70,19 @@ final class CreateEnrollmentAction{
                 $query->where('foreign_national_id', $foreignNational->id);
             })
             ->exists();
+
         if($enrollmentsExists){
             throw new BusinessException('ИГ имеет парралельные записи на экзамен');
         }
+    }
+
+    protected function log(Enrollment $enrollment){
+        LogActivity::event(
+            event: Event::Created,
+            resource: Resource::Enrollment,
+            context:[
+                'enrollment_id'=> $enrollment->id
+            ]
+        );
     }
 }

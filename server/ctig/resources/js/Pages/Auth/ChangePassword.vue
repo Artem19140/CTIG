@@ -36,6 +36,7 @@ const change = () => {
     <BaseEntryCard
       subtitle="Смена пароля"
     >
+    <div>Вам необходимо сменить временный пароль. Придумайте свой пароль, минимум 8 символов.</div>
       <form @submit.prevent="change">
         <AppPasswordConfirmation
           v-model:password="form.password"

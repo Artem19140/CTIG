@@ -34,6 +34,7 @@ const logout = () => {
         <div class="mb-4">
             Чтобы выйти с других устройств, необходимо ввести пароль
         </div>
+        
         <AppPasswordInput
             label="Введите пароль"
             v-model="http.password"

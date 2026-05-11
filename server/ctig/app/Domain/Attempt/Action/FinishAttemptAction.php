@@ -2,10 +2,14 @@
 
 namespace App\Domain\Attempt\Action;
 
+use App\Enums\AttemptStatus;
+use App\Enums\Event;
+use App\Enums\Resource;
 use App\Exceptions\BusinessException;
 use App\Models\Attempt;
 use App\Models\ForeignNational;
 use App\Support\Log\BusinessLog;
+use App\Support\Log\LogActivity;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Domain\Attempt\Guard\AttemptGuard;
@@ -46,8 +50,11 @@ class FinishAttemptAction{
     }
 
     protected function log(Attempt $attempt){
-        BusinessLog::event('attempt_finished', [
-            'attempt_id' => $attempt->id
-        ]);
+        LogActivity::event(
+            event: Event::Finished,
+            resource:Resource::Attempt, 
+            context: [
+                'attempt_id' => $attempt->id
+            ]);
     }
 }

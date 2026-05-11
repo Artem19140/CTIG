@@ -5,12 +5,16 @@ namespace App\Http\Controllers\Web\ForeignNational;
 use App\Domain\ForeignNational\Action\CreateForeignNationalWithEnrollmentAction;
 use App\Domain\ForeignNational\Action\UpdateForeignNationalAction;
 use App\Domain\ForeignNational\Query\GetForeignNationalsQuery;
+use App\Enums\Event;
+use App\Enums\Resource;
 use App\Http\Requests\ForeignNational\ForeignNationalIndexRequest;
 use App\Http\Requests\ForeignNational\ForeignNationalPostRequest;
 use App\Http\Requests\ForeignNational\ForeignNationalUpdateRequest;
 use App\Http\Resources\ForeignNational\ForeignNationalIndexResource;
 use App\Http\Resources\ForeignNational\ForeignNationalProfileResource;
 use App\Models\ForeignNational;
+use App\Support\Log\AuditLog;
+use App\Support\Log\LogActivity;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
@@ -47,8 +51,15 @@ class ForeignNationalController
                 'attempt.center'
             ]
         ]);
-
         $foreignNational->enrollments = $foreignNational->enrollments->sortByDesc('exam.begin_time');
+
+        LogActivity::event(
+            event:Event::Access,
+            resource:Resource::ForeignNational, 
+            context:[
+                'foreign_national_id' => $foreignNational->id
+            ]
+        );
         return new ForeignNationalProfileResource($foreignNational);
     }
 

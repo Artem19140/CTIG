@@ -3,12 +3,15 @@
 namespace App\Domain\AttemptAnswer\Action;
 
 use App\Domain\Attempt\Action\FinilizeAttemptCheckingAction;
+use App\Enums\Event;
+use App\Enums\Resource;
 use App\Enums\TaskType;
 use App\Exceptions\Attempt\AttemptFinishedException;
 use App\Models\Attempt;
 use App\Models\AttemptAnswer;
 use App\Models\Task;
 use App\Models\User;
+use App\Support\Log\LogActivity;
 use Carbon\Carbon;
 use App\Domain\Attempt\Guard\AttemptGuard;
 use Illuminate\Validation\ValidationException;
@@ -45,6 +48,7 @@ class RateAttemptAnswerAction{
         $attemptAnswer->checked_at = Carbon::now();
         $attemptAnswer->checked_by_id = $user->id;
         $attemptAnswer->save();
+        $this->log($attemptAnswer);
     }
 
     protected function ensureAttemptNotChecked(Attempt $attempt){
@@ -75,5 +79,15 @@ class RateAttemptAnswerAction{
         if(!$attempt->isFinished()){
             throw new AttemptFinishedException('Данный тип задания возможно оценить только при завершенной попытке');
         }
+    }
+
+    protected function log(AttemptAnswer $attemptAnswer){
+        LogActivity::event(
+            event: Event::Updated,
+            resource:Resource::AttemptAnswer,
+            context:[
+                'attempt_answer_id' => $attemptAnswer->id,
+                'status' => 'checked'
+            ]);
     }
 }

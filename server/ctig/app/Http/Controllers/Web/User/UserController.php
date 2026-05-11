@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Web\User;
 
 use App\Domain\User\CreateUserAction;
 use App\Domain\User\UpdateUserAction;
+use App\Enums\Event;
+use App\Enums\Resource;
 use App\Enums\UserRoles;
 use App\Exceptions\BusinessException;
 use App\Http\Requests\User\UserPostRequest;
@@ -11,6 +13,7 @@ use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\Role\RoleResource;
 use App\Models\Role;
 use App\Models\User;
+use App\Support\Log\LogActivity;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Resources\User\UserResource;
@@ -28,6 +31,10 @@ class UserController{
             ->with(['roles'])
             ->orderBy('surname')
             ->get();
+        LogActivity::event(
+            event:Event::Access,
+            resource: Resource::User
+        );
         return Inertia::render('Center/Center', [
             'employees' => UserResource::collection($users),
             'tab' => 'employees'

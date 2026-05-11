@@ -12,7 +12,7 @@ class ChangePasswordRequest extends FormRequest
      */
     public function authorize(Request $request): bool 
     {
-        return $request->user()->isSuperAdmin() || $request->user()->has_to_change_password;
+        return $request->user()->has_to_change_password;
     }
 
     /**

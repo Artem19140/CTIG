@@ -65,6 +65,14 @@
               value="center" 
               @click="go(`/centers/${centerId}`)"
             />
+
+            <BaseListItem 
+              prepend-icon="mdi-cog" 
+              v-if="can([Roles.SUPER_ADMIN])" 
+              title="Панель админа" 
+              value="admin" 
+              @click="go(`/admin/home`)"
+            />
             
           </BaseList>
       

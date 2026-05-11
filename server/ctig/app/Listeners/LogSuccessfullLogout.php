@@ -2,8 +2,6 @@
 
 namespace App\Listeners;
 
-
-use App\Enums\Resource;
 use Illuminate\Auth\Events\Logout;
 use App\Enums\Event;
 use App\Support\Log\LogActivity;

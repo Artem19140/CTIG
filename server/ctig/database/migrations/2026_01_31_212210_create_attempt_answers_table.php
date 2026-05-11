@@ -10,18 +10,22 @@ return new class extends Migration
     {
         Schema::create('attempt_answers', function (Blueprint $table) {
             $table->id();
+            
             $table->foreignId('exam_id')
                 ->index()
                 ->constrained('exams')
                 ->cascadeOnDelete();
+
             $table->foreignId('task_variant_id')
                 ->index()
                 ->constrained('task_variants')
                 ->cascadeOnDelete();
+
             $table->foreignId('attempt_id')
                 ->index()
                 ->constrained('attempts')
                 ->cascadeOnDelete();
+
             $table->foreignId('foreign_national_id')
                 ->index()
                 ->constrained('foreign_nationals')
@@ -48,9 +52,8 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete();
             $table->datetime('checked_at')->nullable()->default(null);
-            $table->boolean('is_checked')->index()->default(false);
             $table->unsignedTinyInteger('mark')->nullable()->default(null);
-            $table->jsonb('answer')->index()->nullable()->default(null);
+            $table->jsonb('answer')->nullable()->default(null);
             $table->timestamps();
         });
     }

@@ -10,9 +10,6 @@ enum Event:string
     case Updated = 'updated';
     case Deleted = 'deleted';
     case Generated = 'generated';
-    case Started = 'started';
-    case Finished = 'finished';
-    case Checked = 'checked';
     case Login = 'login';
     case Logout = 'logout';
     case PasswordReseted = 'password_reseted';

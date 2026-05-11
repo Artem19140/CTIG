@@ -3,8 +3,9 @@
 namespace App\Domain\AttemptAnswer\Handlers;
 
 use App\Enums\TaskType;
-use App\Exceptions\BusinessException;
+use App\Exceptions\Attempt\AttemptAnswerValidationException;
 use App\Models\Answer;
+use App\Models\AttemptAnswer;
 use App\Models\TaskVariant;
 
 class SingleChoiceTaskHandler{
@@ -12,11 +13,22 @@ class SingleChoiceTaskHandler{
         return TaskType::SingleChoice === $task->type;
     }
 
-    public function validate(int $answerId, TaskVariant $taskVariant){
+    public function validate(mixed $answerId, TaskVariant $taskVariant, AttemptAnswer $attemptAnswer){
+        if(!\is_int($answerId)){
+            throw new AttemptAnswerValidationException([
+                'attempt_answer_id' => $attemptAnswer->id,
+                'type' => TaskType::SingleChoice->value,
+                'message' => 'not_valid_format'
+            ]);
+        }
         $answers = $taskVariant->answers;
         $answer = $answers->firstWhere('id', $answerId);
         if(!$answer){
-            throw new BusinessException('Такого ответа у задания не существует');
+            throw new AttemptAnswerValidationException([
+                'attempt_answer' => $answerId,
+                'type' => TaskType::SingleChoice->value,
+                'message' => 'not exists'
+            ]);
         }
         return $answer;
     }

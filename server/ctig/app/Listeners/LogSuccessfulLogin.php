@@ -20,8 +20,8 @@ class LogSuccessfulLogin
             resource:null,
             context:[
                 'guard' => $event->guard,
-                'user_id' => $event->user->getAuthIdentifier(),
-                'user_type' => $event->user::class,
+                'user_id' => $event->user?->getAuthIdentifier(),
+                'user_type' => $event->user->getMorphClass() ,
                 'remember' => $event->remember,
             ]
         );

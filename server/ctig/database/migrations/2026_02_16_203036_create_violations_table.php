@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('comment');
             $table->foreignId('attempt_id')
+                ->index()
                 ->constrained('attempts')
                 ->cascadeOnDelete();
             $table->timestamps();

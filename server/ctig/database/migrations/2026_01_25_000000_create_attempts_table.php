@@ -26,13 +26,14 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->foreignId('exam_id')
+                ->index()
                 ->constrained('exams');
 
             $table->foreignId('center_id')
                 ->constrained('centers')
                 ->cascadeOnDelete();
 
-            $table->string('status')->default(AttemptStatus::Pending);
+            $table->string('status')->default(AttemptStatus::Pending)->index();
             
             $table->string('ban_reason')->nullable()->default(null);
             
@@ -41,7 +42,7 @@ return new class extends Migration
 
             $table->dateTime('banned_at')->nullable()->default(null);
             $table->dateTime('last_activity_at')->nullable()->default(null);
-            $table->dateTime('started_at')->nullable()->default(null);
+            $table->dateTime('started_at')->nullable()->default(null)->index();
             $table->dateTime('finished_at')->nullable()->default(null);
             $table->dateTime('checked_at')->nullable()->default(null);
             $table->dateTime('expired_at')->nullable()->default(null);

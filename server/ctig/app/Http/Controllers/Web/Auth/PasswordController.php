@@ -16,7 +16,7 @@ class PasswordController
 {
     public function reset(PasswordResetRequest $request, User $user){
         if($user->isSuperAdmin()){
-            abort(404);
+            abort(403);
         }
 
         $wrongPassword = !Hash::check($request->validated('adminPassword'), $request->user()->password);
@@ -29,6 +29,7 @@ class PasswordController
         $user->has_to_change_password = true;
         
         $user->save();
+
         $this->log(Event::PasswordReseted, [
             'user_id' => $user->id,
             'who_reset_password_id' => $request->user()->id
@@ -39,8 +40,10 @@ class PasswordController
 
     public function change(ChangePasswordRequest $request){
         $user = $request->user();
+        if($user->isSuperAdmin()){
+            abort(403);
+        }
         $plainPassword = $request->validated('password');
-
         if(Hash::check($plainPassword, $user->password)){
             throw ValidationException::withMessages([
                 'password' =>'Пароль должен отличаться от старого'
@@ -51,10 +54,13 @@ class PasswordController
             'password' => Hash::make($plainPassword),
             'has_to_change_password' => false
         ]);
-        Auth::logoutOtherDevices($plainPassword);
+        
         $this->log(Event::PasswordChanged, [
             'user_id' => $user->id
         ]);
+
+        Auth::logoutOtherDevices($plainPassword);
+
         return redirect()->to($user->resolveRedirect());
     }
 

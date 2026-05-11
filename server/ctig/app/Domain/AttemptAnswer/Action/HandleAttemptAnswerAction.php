@@ -29,7 +29,7 @@ class HandleAttemptAnswerAction{
         
         $handler = $this->taskHandlerResolver->resolve($task);
 
-        $validatedAnswer = $handler->validate($answer, $taskVariant);
+        $validatedAnswer = $handler->validate($answer, $taskVariant, $attemptAnswer);
 
         if($task->type->autoCheck()){
             $mark = $handler->calculateMark($validatedAnswer, $taskVariant);

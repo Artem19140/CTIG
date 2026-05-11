@@ -19,7 +19,7 @@ class LogContext
         Context::add([
             'user_id' => auth()->id(),
             'ip' => $request->ip(),
-            'agent' => $request->userAgent(),
+            'user_agent' => $request->userAgent(),
             'user_type' => $request->user() ? $request->user()->getMorphClass()  : null
         ]);
         return $next($request);

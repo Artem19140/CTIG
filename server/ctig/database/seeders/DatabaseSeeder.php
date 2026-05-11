@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 
 use App\Enums\CounterKey;
+use App\Models\Address;
 use App\Models\Counter;
 use App\Models\Center;
 use App\Models\Role;
@@ -28,7 +29,7 @@ class DatabaseSeeder extends Seeder
             RolesSeeder::class
         ]);
 
-        Center::create([
+        $center = Center::create([
             'name' => 'Федеральное государственное бюджетное образовательное учреждение высшего образования «Удмуртский государственный университет»',
             'time_zone' => 'Europe/Samara',
             'director_fio' => 'Рязанова Анна Юрьевна',
@@ -41,16 +42,28 @@ class DatabaseSeeder extends Seeder
             'commission_chairman' => 'Иванов Иван Иванович'
         ]);
 
+        Address::create([
+            'address'=>'Ижевск, Университетская, 1/корпус 2/каб. 124',
+            'max_capacity' => 15,
+            'center_id' => $center->id
+        ]);
+
+        Address::create([
+            'address'=>'Ижевск, Удмуртская, 2 каб. 542',
+            'max_capacity' => 14,
+            'center_id' => $center->id
+        ]);
+
         Counter::create([
             'key' => CounterKey::RegNum,
             'value' => Carbon::now()->format('y').'0000',
-            'center_id' => 1
+            'center_id' =>  $center->id
         ]);
 
         Counter::create([
             'key' => CounterKey::Group,
             'value' => 1,
-            'center_id' => 1
+            'center_id' =>  $center->id
         ]);
 
         $roleSpecialist = Role::findByEnum(UserRoles::Operator);

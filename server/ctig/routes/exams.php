@@ -7,12 +7,13 @@ use App\Http\Controllers\Web\Exam\ExamDocumentController;
 use App\Http\Controllers\Web\Exam\ExamEnrollmentController;
 use App\Http\Controllers\Web\Exam\ExamMonitoringController;
 use App\Models\ExamType;
+use App\Support\AppMiddleware;
 
 Route::apiResource('exams', ExamController::class)->where(['exam' => '[0-9]+'])
-    ->middlewareFor(['destroy', 'store', 'update'], ['user.has.any.role:' . UserRoles::implode(UserRoles::Scheduler)])
+    ->middlewareFor(['destroy', 'store', 'update'], [AppMiddleware::USER_HAS_ANY_ROLE. ':'  . UserRoles::implode(UserRoles::Scheduler)])
     ->middlewareFor(
         ['show', 'index'], 
-        ['user.has.any.role:' . UserRoles::implode(
+        [AppMiddleware::USER_HAS_ANY_ROLE. ':'  . UserRoles::implode(
             UserRoles::Operator, 
             UserRoles::Director, 
             UserRoles::Examiner, 
@@ -24,16 +25,16 @@ Route::apiResource('exams', ExamController::class)->where(['exam' => '[0-9]+'])
 Route::prefix('exams')->group(function(){
 
     Route::get('available', [ExamEnrollmentController::class, "available"])
-        ->middleware('user.has.any.role:' . UserRoles::implode(UserRoles::Operator));
+        ->middleware(AppMiddleware::USER_HAS_ANY_ROLE. ':'  . UserRoles::implode(UserRoles::Operator));
 
     Route::get('schedule', [ExamController::class, 'schedule'])->name('exams.schedule')
-        ->middleware(['user.has.any.role:' . UserRoles::implode(
+        ->middleware([AppMiddleware::USER_HAS_ANY_ROLE. ':'  . UserRoles::implode(
             UserRoles::Operator,
             UserRoles::Director,
             UserRoles::Scheduler
         )]);
 
-    Route::middleware('user.has.any.role:' . UserRoles::implode(UserRoles::Scheduler))
+    Route::middleware(AppMiddleware::USER_HAS_ANY_ROLE. ':'  . UserRoles::implode(UserRoles::Scheduler))
     ->group(function (){
 
         Route::get('create/modal-data', [ExamController::class,'createModalData']);
@@ -44,7 +45,7 @@ Route::prefix('exams')->group(function(){
         
     });
 
-    Route::middleware('user.has.any.role:' . UserRoles::implode(UserRoles::Examiner))
+    Route::middleware(AppMiddleware::USER_HAS_ANY_ROLE. ':'  . UserRoles::implode(UserRoles::Examiner))
     ->group(function (){
         Route::get('checking', [ExamCheckingController::class, "index"]);
         Route::get('{exam}/checking', [ExamCheckingController::class, "show"]);
@@ -58,7 +59,7 @@ Route::prefix('exams')->group(function(){
     });
     
     
-    Route::middleware('user.has.any.role:' . UserRoles::implode(UserRoles::Examiner, UserRoles::Director))
+    Route::middleware(AppMiddleware::USER_HAS_ANY_ROLE. ':'  . UserRoles::implode(UserRoles::Examiner, UserRoles::Director))
     ->group(function (){
         Route::get('{exam}/documents/protocol', [ExamDocumentController::class, "protocol"])->name('exam.documents.protocol');
         Route::get('{exam}/documents/protocol/available', [ExamDocumentController::class, "protocolAvailable"]);
@@ -70,14 +71,14 @@ Route::prefix('exams')->group(function(){
     });
 
     Route::get('{exam}/documents/list', [ExamDocumentController::class, 'list'])->name('exam.documents.list')
-    ->middleware(['user.has.any.role:' . UserRoles::implode(
+    ->middleware([AppMiddleware::USER_HAS_ANY_ROLE. ':'  . UserRoles::implode(
             UserRoles::Operator, 
             UserRoles::Director, 
             UserRoles::Examiner
         )]);
 
     Route::get('{exam}/documents/list/available', [ExamDocumentController::class, 'listAvailable'])
-    ->middleware(['user.has.any.role:' . UserRoles::implode(
+    ->middleware([AppMiddleware::USER_HAS_ANY_ROLE. ':'  . UserRoles::implode(
             UserRoles::Operator, 
             UserRoles::Director, 
             UserRoles::Examiner

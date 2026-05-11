@@ -7,6 +7,7 @@ use App\Http\Dto\ExamDto;
 use App\Models\Address;
 use App\Models\Exam;
 use App\Models\ExamType;
+use App\Support\Metric\Metric;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\ValidationException;
@@ -68,6 +69,7 @@ class ValidateExamForSave{
     }
 
     protected function ensureBeginTimeNotPassed(Carbon $beginTime){
+        
         if($beginTime < Carbon::now()){
             throw ValidationException::withMessages([
                 'date' => "Экзамен нельзя создать на прошедшие даты",
@@ -77,6 +79,7 @@ class ValidateExamForSave{
     }
 
     protected function ensureMinAllowedTimeNotPassed(Carbon $beginTime, int | null $examId = null){
+        Metric::increase('exam_created');
         if($examId){
             return ;
         }

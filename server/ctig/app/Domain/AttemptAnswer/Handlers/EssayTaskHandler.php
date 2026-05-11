@@ -3,6 +3,8 @@
 namespace App\Domain\AttemptAnswer\Handlers;
 
 use App\Enums\TaskType;
+use App\Exceptions\Attempt\AttemptAnswerValidationException;
+use App\Models\AttemptAnswer;
 use App\Models\Task;
 
 class EssayTaskHandler{
@@ -10,7 +12,14 @@ class EssayTaskHandler{
         return $task->type === TaskType::Essay;
     }
 
-    public function validate(string $answer){
+    public function validate(mixed $answer, AttemptAnswer $attemptAnswer){
+        if(!\is_string($answer)){
+            throw new AttemptAnswerValidationException([
+                'attempt_answer_id' => $attemptAnswer->id,
+                'type' => TaskType::Essay,
+                'message' => 'not_valid_format'
+            ]);
+        }
         return $answer;
     }
 }

@@ -5,11 +5,12 @@ use App\Http\Middleware\EnsurePasswordChange;
 use App\Http\Middleware\EnsureUserActive;
 use App\Http\Middleware\EnsureUserHasAnyRole;
 use App\Http\Middleware\LogContext;
+use App\Http\Middleware\RequestTimeMeasure;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\HandleInertiaRequests;
-
+use App\Support\AppMiddleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -24,11 +25,12 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'password.change' => EnsurePasswordChange::class,
-            'user.active' => EnsureUserActive::class,
-            'center.active' => EnsureCenterActive::class,
-            'user.has.any.role' => EnsureUserHasAnyRole::class,
-            'log.context' => LogContext::class
+            AppMiddleware::HAS_CHANGE_PASSWORD => EnsurePasswordChange::class,
+            AppMiddleware::USER_ACTIVE => EnsureUserActive::class,
+            AppMiddleware::CENTER_ACTIVE => EnsureCenterActive::class,
+            AppMiddleware::USER_HAS_ANY_ROLE => EnsureUserHasAnyRole::class,
+            AppMiddleware::LOG_CONTEXT => LogContext::class,
+            AppMiddleware::REQUEST_TIME_MEASURE => RequestTimeMeasure::class
         ]);
 
         $middleware->redirectUsersTo('/me');

@@ -103,4 +103,25 @@ class ChangePasswordTest extends TestCase
         $user->refresh();
         $this->assertTrue(Hash::check($newPassword, $user->password));
     }
+
+    public function test_fail_super_admin(): void{
+        $newPassword = '123456789';
+
+        $user = User::factory()
+            ->superAdmin()
+            ->create([
+                'has_to_change_password' => true,
+                'password' => Hash::make($newPassword)
+        ]);
+
+        $response = $this->actingAs($user)
+            ->postJson('password/change', [
+                'password' => $newPassword.'1',
+                'password_confirmation' => $newPassword.'1'
+            ]);
+
+        $response->assertForbidden();
+        $user->refresh();
+        $this->assertTrue(Hash::check($newPassword, $user->password));
+    }
 }

@@ -4,8 +4,9 @@ namespace App\Exceptions;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Debug\ShouldntReport;
 
-class BusinessException extends BaseException
+class BusinessException extends BaseException implements ShouldntReport
 {
     public function render(Request $request){
         if($request->expectsJson()){

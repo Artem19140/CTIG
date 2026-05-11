@@ -6,8 +6,9 @@ use App\Http\Controllers\Web\Attempt\AttemptCheckingController;
 use App\Http\Controllers\Web\Attempt\AttemptController;
 use App\Http\Controllers\Web\Attempt\AttemptSpeakingController;
 use App\Http\Controllers\Web\Attempt\AttemptViolationController;
+use App\Support\AppMiddleware;
 
-Route::prefix('attempts')->middleware(['user.has.any.role:' . UserRoles::implode(UserRoles::Examiner)])
+Route::prefix('attempts')->middleware([AppMiddleware::USER_HAS_ANY_ROLE. ':'  . UserRoles::implode(UserRoles::Examiner)])
     ->group(function(){
         Route::put('{attempt}/ban', [AttemptController::class, 'ban'])->name('attempts.ban');
 

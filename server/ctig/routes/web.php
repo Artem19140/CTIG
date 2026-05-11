@@ -13,31 +13,42 @@ use App\Http\Controllers\Web\Auth\LoginController;
 use App\Http\Controllers\Web\Report\ReportController;
 use App\Http\Controllers\Web\ForeignNational\ForeignNationalController;
 use App\Http\RedirectResolver;
+use App\Support\AppMiddleware;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['log.context','auth', 'auth.session', 'user.active', 'center.active', 'password.change'])->group(function(){
+Route::middleware([
+        AppMiddleware::REQUEST_TIME_MEASURE,
+        AppMiddleware::LOG_CONTEXT,
+        
+        'auth',
+
+        AppMiddleware::USER_ACTIVE,
+        AppMiddleware::CENTER_ACTIVE,
+        AppMiddleware::HAS_CHANGE_PASSWORD,
+    ])
+    ->group(function(){
 
     Route::apiResource('foreign-nationals', ForeignNationalController::class)
         ->where(['foreign_national' => '[0-9]+'])
-        ->middlewareFor(['store', 'update'], ['user.has.any.role:' . UserRoles::implode(UserRoles::Operator)])
-        ->middlewareFor(['show', 'index'],  ['user.has.any.role:' . UserRoles::implode(UserRoles::Operator, UserRoles::Director)])
-        ->middlewareFor(['show'],  ['user.has.any.role:' . UserRoles::implode(UserRoles::Operator, UserRoles::Examiner, UserRoles::Director)])
+        ->middlewareFor(['store', 'update'], [ AppMiddleware::USER_HAS_ANY_ROLE . ':' . UserRoles::implode(UserRoles::Operator)])
+        ->middlewareFor(['show', 'index'],  [ AppMiddleware::USER_HAS_ANY_ROLE . ':'  . UserRoles::implode(UserRoles::Operator, UserRoles::Director)])
+        ->middlewareFor(['show'],  [ AppMiddleware::USER_HAS_ANY_ROLE . ':'  . UserRoles::implode(UserRoles::Operator, UserRoles::Examiner, UserRoles::Director)])
         ->except(['destroy']);
 
 
     Route::apiResource('enrollments', EnrollmentController::class)
         ->where(['enrollment' => '[0-9]+'])
-        ->middleware(['user.has.any.role:' . UserRoles::implode(UserRoles::Operator)]);
+        ->middleware([AppMiddleware::USER_HAS_ANY_ROLE. ':' . UserRoles::implode(UserRoles::Operator)]);
     
     Route::put('enrollments/{enrollment}/payment', [EnrollmentController::class, 'changePayment'])
-        ->middleware(['user.has.any.role:' . UserRoles::implode(UserRoles::Operator, UserRoles::Examiner)])
+        ->middleware([AppMiddleware::USER_HAS_ANY_ROLE. ':' . UserRoles::implode(UserRoles::Operator, UserRoles::Examiner)])
         ->name('enrollments.change.payment');
 
     Route::get('enrollments/{enrollment}/statements', [EnrollmentDocumentController::class, 'statement'])
-        ->middleware(['user.has.any.role:' . UserRoles::implode(UserRoles::Operator)])
+        ->middleware([AppMiddleware::USER_HAS_ANY_ROLE. ':' . UserRoles::implode(UserRoles::Operator)])
         ->name('enrollments.statements');
 
-    Route::middleware(['user.has.any.role:' . UserRoles::implode(UserRoles::Director)])->group(function() {
+    Route::middleware([AppMiddleware::USER_HAS_ANY_ROLE. ':' . UserRoles::implode(UserRoles::Director)])->group(function() {
         Route::get('foreign-nationals/export', [ForeignNationalExportController::class, 'export'])->name('foreign-nationals.export');
         Route::get('foreign-nationals/export/available', [ForeignNationalExportController::class, 'exportAvailable']);
         Route::get('statistics', [StatisticsController::class, 'index']);
@@ -49,13 +60,13 @@ Route::middleware(['log.context','auth', 'auth.session', 'user.active', 'center.
     
     Route::prefix('reports')->group(function(){
 
-        Route::middleware('user.has.any.role:' . UserRoles::implode(UserRoles::Director, UserRoles::Operator))
+        Route::middleware(AppMiddleware::USER_HAS_ANY_ROLE. ':'  . UserRoles::implode(UserRoles::Director, UserRoles::Operator))
         ->group(function (){
             Route::get('frdo', [ReportController::class, "frdo"])->name('reports.frdo');
             Route::get('frdo/available', [ReportController::class, "availableFrdo"])->name('reports.frdo.available');
         });
         
-        Route::middleware(['user.has.any.role:' . UserRoles::implode(UserRoles::Director)])
+        Route::middleware([AppMiddleware::USER_HAS_ANY_ROLE. ':'  . UserRoles::implode(UserRoles::Director)])
         ->group(function (){
             Route::get('flat-table', [ReportController::class, "flatTable"])->name('reports.flat-table');
 
@@ -76,25 +87,25 @@ Route::middleware(['log.context','auth', 'auth.session', 'user.active', 'center.
 
         Route::inertia('/centers', 'Instruction/CentersInstruction')
             ->name('instruction.foreign-nationals')
-            ->middleware(['user.has.any.role:' . UserRoles::OrgAdmin->value]);
+            ->middleware([AppMiddleware::USER_HAS_ANY_ROLE. ':'  . UserRoles::OrgAdmin->value]);
 
         Route::inertia('/exams/monitoring', 'Instruction/ExamMonitoringInstruction')
             ->name('instruction.exams.monitoring')
-            ->middleware(['user.has.any.role:' . UserRoles::Examiner->value]);
+            ->middleware([AppMiddleware::USER_HAS_ANY_ROLE. ':'  . UserRoles::Examiner->value]);
 
         Route::inertia('/exams/checking', 'Instruction/ExamCheckingInstruction')
             ->name('instruction.exams.checking')
-            ->middleware(['user.has.any.role:' . UserRoles::Examiner->value]);
+            ->middleware([AppMiddleware::USER_HAS_ANY_ROLE. ':'  . UserRoles::Examiner->value]);
 
         Route::inertia('/exams/schedule', 'Instruction/ExamScheduleInstruction')
             ->name('instruction.exams.schedule');
     });
 
-    Route::post('password/change', [PasswordController::class, 'change'])->withoutMiddleware(['password.change']);
-    Route::inertia('password/change', 'Auth/ChangePassword')->name('password.change')->withoutMiddleware(['password.change']);
+    Route::post('password/change', [PasswordController::class, 'change'])->withoutMiddleware([AppMiddleware::HAS_CHANGE_PASSWORD]);
+    Route::inertia('password/change', 'Auth/ChangePassword')->name('password.change')->withoutMiddleware([AppMiddleware::HAS_CHANGE_PASSWORD]);
 
     Route::get('files', [FileController::class, "show"])
-        ->middleware('user.has.any.role:' . UserRoles::implode(
+        ->middleware(AppMiddleware::USER_HAS_ANY_ROLE. ':'  . UserRoles::implode(
             UserRoles::Operator, 
             UserRoles::Examiner, 
             UserRoles::Director
@@ -104,15 +115,25 @@ Route::middleware(['log.context','auth', 'auth.session', 'user.active', 'center.
     Route::post('logout/all', [LogoutController::class, 'logoutAll'])->name('logout.all');
 });
 
-Route::middleware(['log.context','guest:web,foreignNationals'])->group(function (){
+Route::middleware([AppMiddleware::REQUEST_TIME_MEASURE, AppMiddleware::LOG_CONTEXT, 'guest:web,foreignNationals'])->group(function (){
     Route::inertia('login', 'Auth/Login')->name('login');  
-    Route::post('login', [LoginController::class, 'login']);
-    Route::post('exam-codes/verify', [ExamController::class, 'verifyCode']);
+    Route::post('login', [LoginController::class, 'login'])->middleware(['throttle:5']);
+    Route::post('exam-codes/verify', [ExamController::class, 'verifyCode'])->middleware(['throttle:5']);
     Route::inertia('attempts/finish', 'Attempt/AfterAttempt')->name('attempts.finish');
 });
 
-Route::get('me', function(RedirectResolver $resolver){
-    return $resolver->execute();
+Route::middleware([
+        'auth:web,foreignNationals',
+        AppMiddleware::REQUEST_TIME_MEASURE, 
+        AppMiddleware::LOG_CONTEXT, 
+        AppMiddleware::USER_ACTIVE, 
+        AppMiddleware::CENTER_ACTIVE, 
+        AppMiddleware::HAS_CHANGE_PASSWORD
+    ])
+    ->get('me', function(RedirectResolver $resolver){
+        return $resolver->execute();
 })->name('me'); 
 
 require __DIR__.'/foreign_national.php';
+
+require __DIR__.'/super_admin.php';

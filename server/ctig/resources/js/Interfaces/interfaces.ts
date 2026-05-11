@@ -18,3 +18,8 @@ export type Paginated<T> = {
         to:number
     }
 }
+
+export interface PeriodDate{
+    dateTo:string | null,
+    dateFrom:string | null
+}

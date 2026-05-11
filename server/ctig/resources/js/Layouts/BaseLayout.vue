@@ -6,6 +6,8 @@ import Modals from '@components/Modals/Modals.vue';
 import AppLoadingSnackbar from '@components/UI/AppLoadingSnackbar/AppLoadingSnackbar.vue';
 import AppSnackbarQueue from '@/components/UI/AppSnackbarQueue/AppSnackbarQueue.vue';
 import ConfirmationOptionsModal from '@/components/Modals/ConfirmationOptionsModal.vue';
+import AppNoNetworkBanner from '@/components/UI/AppNoNetworkBanner/AppNoNetworkBanner.vue';
+
 </script>
 
 <template>
@@ -29,5 +31,6 @@ import ConfirmationOptionsModal from '@/components/Modals/ConfirmationOptionsMod
             <app-loading-snackbar />
             <app-snackbar-queue />
             <confirmation-options-modal />
+            <app-no-network-banner />
         </v-app>
 </template>

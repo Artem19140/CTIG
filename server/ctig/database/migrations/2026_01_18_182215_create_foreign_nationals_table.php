@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('patronymic_latin')->nullable()->default(null);
             $table->string('passport_number')->nullable()->default(null);
             $table->string('passport_series')->nullable()->default(null);
-            $table->unique(['passport_series', 'passport_number', 'citizenship']);
+            $table->unique(['passport_series', 'passport_number']);
+            $table->index(['passport_series', 'passport_number'], 'foreign_national_passport_idx');
             $table->string('issued_by');
             $table->date('issued_date');
             $table->char('citizenship', 2);

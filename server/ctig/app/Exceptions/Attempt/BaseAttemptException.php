@@ -6,8 +6,9 @@ use App\Exceptions\BaseException;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Debug\ShouldntReport;
 
-class BaseAttemptException extends BaseException{
+class BaseAttemptException extends BaseException implements ShouldntReport{
     protected $code = 400;
 
     public function render(Request $request){

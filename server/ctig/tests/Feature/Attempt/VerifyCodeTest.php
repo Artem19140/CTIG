@@ -7,6 +7,7 @@ use App\Domain\Attempt\Action\VerifyCodeAction;
 use App\Models\Enrollment;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 
@@ -46,11 +47,10 @@ class VerifyCodeTest extends TestCase
     public function test_fail_no_payment(): void
     {
         $this->expectException($this->exception);
-        $enrollment = Enrollment::factory()->noPayment()->create();
+        $enrollment = new Enrollment();
+        $enrollment->has_payment = false;
         $enrollment->code = $this->code;
         $enrollment->exam_code_expired_at = Carbon::now()->addMinutes(10);
-        
-        $this->action->execute($this->code);
         
         $this->action->execute($this->code);
     }
@@ -65,7 +65,20 @@ class VerifyCodeTest extends TestCase
             ->examCodeExpiredAt(Carbon::now()->subMinutes(10))
             ->create();
         $this->action->execute($this->code);
+    }
+
+    public function test_fail_used_code(): void
+    {
+        $this->expectException($this->exception);
+        $enrollment = new Enrollment();
+        $enrollment->has_payment = true;
+        $enrollment->code = $this->code;
+        $enrollment->exam_code_used_at = Carbon::now();
+        $enrollment->exam_code_expired_at = Carbon::now()->addMinutes(10);
         
         $this->action->execute($this->code);
+        Log::spy();
+        Log::shouldHaveReceived('warning')
+            ->once();
     }
 }

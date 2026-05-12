@@ -63,6 +63,11 @@ class Attempt extends Model
         $this->finished_at = Carbon::now();
     }
 
+    public function ban(): void{
+        $this->status = AttemptStatus::Banned;
+        $this->banned_at = Carbon::now();
+    }
+
     public function start(): void{
         $now = Carbon::now();
         $this->started_at = $now;

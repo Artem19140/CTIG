@@ -36,10 +36,12 @@ class ExamCodesGenerationTest extends TestCase
     public function test_success(): void
     {
         $this->withoutExceptionHandling();
+        
         $exam = Exam::factory()
             ->has(Enrollment::factory(8))
             ->inFuture()
             ->create(['center_id' =>  $this->center->id]);
+
         $exam->examiners()->attach($this->user);
 
         $response = $this

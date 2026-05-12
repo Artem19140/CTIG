@@ -31,6 +31,7 @@ class EnrollmentController
         Enrollment $enrollment,
         ChangePaymentStatusAction $changePaymentStatusAction
     ){
+        
         Gate::authorize('payment', $enrollment);
         $changePaymentStatusAction->execute($enrollment);
         return response()->json();

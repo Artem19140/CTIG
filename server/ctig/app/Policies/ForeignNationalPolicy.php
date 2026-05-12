@@ -10,9 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class ForeignNationalPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
+    use BasePolicy;
     public function viewAny(User $user): bool
     {
         return false;
@@ -23,6 +21,7 @@ class ForeignNationalPolicy
      */
     public function view(User $user, ForeignNational $foreignNational): bool
     {
+        //$this->sameCenter($user, $foreignNational);
         if($user->hasAnyRole(
             UserRoles::Operator->value, 
             UserRoles::Director->value, 

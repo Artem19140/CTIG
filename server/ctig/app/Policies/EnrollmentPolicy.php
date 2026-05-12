@@ -10,25 +10,12 @@ use Illuminate\Database\Eloquent\Builder;
 
 class EnrollmentPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can view the model.
-     */
+    use BasePolicy;   
     public function view(User $user, Enrollment $enrollment): bool
     {
         return false;
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
     public function create(User $user): bool
     {
         return false;
@@ -36,6 +23,7 @@ class EnrollmentPolicy
 
     public function payment(User $user, Enrollment $enrollment): bool
     {
+        $this->sameCenter($user,$enrollment);
         if($user->hasAnyRole(
             UserRoles::Operator->value, 
             UserRoles::SuperAdmin->value
@@ -48,28 +36,4 @@ class EnrollmentPolicy
         return false;
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Enrollment $enrollment): bool
-    {
-        
-        return false;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Enrollment $enrollment): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Enrollment $enrollment): bool
-    {
-        return false;
-    }
 }

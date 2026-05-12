@@ -125,10 +125,7 @@ Route::middleware([AppMiddleware::REQUEST_TIME_MEASURE, AppMiddleware::LOG_CONTE
 Route::middleware([
         'auth:web,foreignNationals',
         AppMiddleware::REQUEST_TIME_MEASURE, 
-        AppMiddleware::LOG_CONTEXT, 
-        AppMiddleware::USER_ACTIVE, 
-        AppMiddleware::CENTER_ACTIVE, 
-        AppMiddleware::HAS_CHANGE_PASSWORD
+        AppMiddleware::LOG_CONTEXT
     ])
     ->get('me', function(RedirectResolver $resolver){
         return $resolver->execute();

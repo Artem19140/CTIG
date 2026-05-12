@@ -10,9 +10,9 @@ class TimePresenter
     /**
      * Create a new class instance.
      */
-    public static function forCenter(Carbon | null $date, Center $center){
-        if(!$date){
-            return ;
+    public static function forCenter(Carbon | null $date, Center | null $center){
+        if(!$date || !$center){
+            return null;
         }
         return $date->copy()->setTimezone($center->time_zone);
     }

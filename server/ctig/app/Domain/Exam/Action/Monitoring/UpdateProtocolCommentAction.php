@@ -42,8 +42,8 @@ class UpdateProtocolCommentAction{
             context:[
                 'exam_id' => $exam->id,
                 'field' => 'protocol_comment',
-                'old' => $oldValue,
-                'new' => $exam->protocol_comment,
+                'before' => $oldValue,
+                'after' => $exam->protocol_comment,
             ]
         );
     }

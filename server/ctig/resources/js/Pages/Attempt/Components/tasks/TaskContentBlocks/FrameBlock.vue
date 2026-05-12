@@ -7,7 +7,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <v-card class="mt-4">
+    <v-card class="mt-4 mb-3">
         <v-card-text>
             <RenderBlocks :content="value" />
         </v-card-text>

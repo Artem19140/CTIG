@@ -70,6 +70,6 @@ class ExamMonitoringController
     }
 
     protected function authorize(Exam $exam){
-        Gate::authorize('exam-examiner-access', $exam);
+        Gate::authorize('examiner', $exam);
     }
 }

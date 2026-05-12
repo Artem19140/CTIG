@@ -63,7 +63,7 @@ class AttemptController
 
     public function preparing(Attempt $attempt){
         if($attempt->status !== AttemptStatus::Pending){
-            return redirect()->route('me');
+            abort(404);
         }
         
         $exam = Exam::with([

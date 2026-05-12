@@ -5,5 +5,5 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div class="whitespace-pre-wrap break-words">{{ value }}</div>
+    <div class="whitespace-pre-wrap break-words  text-base">{{ value }}</div>
 </template>

@@ -12,7 +12,7 @@ class BanAttemptAction{
     public function __construct(
         protected AttemptGuard $attemptGuard
     ){}
-    public function execute(Attempt $attempt, string $banReason, User $user){
+    public function execute(Attempt $attempt, string $banReason, User $user):void{
         $this->attemptGuard->ensureNotBanned($attempt);
 
         $attempt->ban_reason = $banReason;

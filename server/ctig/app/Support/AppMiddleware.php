@@ -9,4 +9,5 @@ final class AppMiddleware{
     public const string REQUEST_TIME_MEASURE = 'request.time.measure';
     public const string HAS_CHANGE_PASSWORD = 'has.change.password';
     public const string USER_HAS_ANY_ROLE = 'user.has.any.role';
+    public const string CENTER_CONTEXT = 'center.context';
 }

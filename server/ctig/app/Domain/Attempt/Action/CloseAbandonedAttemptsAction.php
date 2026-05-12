@@ -3,8 +3,12 @@
 namespace App\Domain\Attempt\Action;
 
 use App\Enums\AttemptStatus;
+use App\Enums\Event;
+use App\Enums\Resource;
 use App\Models\Attempt;
+use App\Support\Log\LogActivity;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Context;
 
 class CloseAbandonedAttemptsAction{
     public function __construct(
@@ -23,6 +27,7 @@ class CloseAbandonedAttemptsAction{
     }
 
     protected function close(Attempt $attempt){
+        context(['actor_type' => 'cron', 'actor_id' => null]);
         if ($attempt->finished_at !== null) {
             return;
         }
@@ -32,6 +37,20 @@ class CloseAbandonedAttemptsAction{
         } else {
             $attempt->status = AttemptStatus::Finished;
             $attempt->save();
+            $this->log($attempt);
         }
+        
+        
+    }
+
+    protected function log(Attempt $attempt){
+        LogActivity::event(
+            event:Event::Updated,
+            resource:Resource::Attempt,
+            context:[
+                'attempt_id' => $attempt->id,
+                'status' => AttemptStatus::Finished
+            ]
+        );
     }
 }

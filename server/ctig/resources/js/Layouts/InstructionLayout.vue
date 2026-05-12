@@ -59,7 +59,7 @@ const visibleItems = computed(() =>
 </script>
 
 <template>
-    <EmployeeLayout>
+
         <BaseDrawer
             permanent
             location="right"
@@ -75,6 +75,6 @@ const visibleItems = computed(() =>
             </BaseList>
         </BaseDrawer>
         <slot />
-    </EmployeeLayout>
+
     
 </template>

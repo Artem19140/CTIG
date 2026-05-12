@@ -11,6 +11,7 @@ class AttemptAnswer extends Model
 {
     protected $table = 'attempt_answers';
     protected $fillable = [
+        'id',
         'exam_id', 
         'task_variant_id',
         'attempt_id', 

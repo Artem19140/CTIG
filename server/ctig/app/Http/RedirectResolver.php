@@ -6,6 +6,7 @@ use App\Domain\Attempt\Guard\AttemptGuard;
 use App\Models\ForeignNational;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Log;
 
 
 class RedirectResolver{
@@ -22,7 +23,12 @@ class RedirectResolver{
             $foreignNational = Auth::guard('foreignNationals')->user();
             return $this->resolveRedirectForeingnNational($foreignNational);
         }
-        abort(404);
+
+        Log::channel('single')->critical('UNEXPECTED: RedirectResolver end reached', [
+            'url' => request()->url()
+        ]);
+        
+        abort(500);
     }
 
     protected function resolveRedirectForeingnNational(ForeignNational $foreignNational){

@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Log;
 class LogActivity{
     public static function event(Event $event, Resource | null $resource = null, array $context = []){
         ActivityLog::create([
-            'actor_id' => auth()->user()?->id,
-            'center_id' => auth()->user()?->center_id,
-            'actor_type' => auth()->user() ? auth()->user()->getMorphClass() : null,
+            'actor_id' => context('actor_id'),
+            'center_id' => context('center_id'),
+            'actor_type' => context('actor_type'),
             'event' => $event,
             'resource' => $resource?->value,
             'context' => $context,
@@ -21,9 +21,11 @@ class LogActivity{
                 'user_agent' => context('user_agent'),
             ]
         ]);
+
         $payload = [
-            'actor_id' => auth()->user()->id,
-            'actor_type' => auth()->user() ? auth()->user()->getMorphClass() : null,
+            'actor_id' => context('actor_id'),
+            'center_id' => context('center_id'),
+            'actor_type' => context('actor_type'),
             'event' => $event->value,
             'resource' => $resource?->value,
             'context' => $context,

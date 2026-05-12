@@ -57,7 +57,8 @@ class ExamListGenerationTest extends TestCase
         $this->accessRolesCheck(
             allowedRoles:[UserRoles::Operator],
             method:'GET',
-            route: route('exam.documents.list', ['exam' => $exam])
+            route: route('exam.documents.list', ['exam' => $exam]),
+            center:$this->center
         );
     }
 }

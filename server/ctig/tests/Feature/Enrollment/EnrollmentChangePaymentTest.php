@@ -59,7 +59,7 @@ class EnrollmentChangePaymentTest extends TestCase
             'exam_id' => $exam->id,
             'center_id' => $this->center->id
         ]);
-        $user = User::factory()->examiner()->create();
+        $user = User::factory()->examiner()->create(['center_id' => $this->center->id]);
         $exam->examiners()->attach($user);
         $response = $this->putPayment($enrollment->id, $user);
 

@@ -26,4 +26,8 @@ Route::middleware([AppMiddleware::USER_HAS_ANY_ROLE. ':'  . UserRoles::implode(U
     Route::patch('employees/{user}/password', [PasswordController::class, "reset"]);
 
     Route::get('roles',  [UserController::class, "rolesShow"]);
+
+    
 });
+
+Route::inertia('clothes',  'SuperAdmin/Clothes/Clothes');

@@ -16,17 +16,17 @@ class AttemptAnswerValidationException extends Exception
         parent::__construct($message);
     }
     public function report(){
-        Log::error('attempt_answer_validation',$this->context);
+        Log::channel('single')->critical('UNEXPECTED: attempt answer validation failed', $this->context);
     }
 
     public function render(Request $request){
+
         if($request->wantsJson()){
             return response()->json([
                 'message' => 'Произошла ошибка при обработке ответа'
             ], 400);
         }
 
-        Inertia::flash(['error' => 'Произошла ошибка при обработке ответа']);
-        abort(500);
+        return Inertia::flash(['error' => 'Произошла ошибка при обработке ответа'])->back();
     }
 }

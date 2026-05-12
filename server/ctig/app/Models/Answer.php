@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Answer extends Model
 {
     protected $fillable = [
+        'id',
         'content',
         'is_correct',
         'task_variant_id',

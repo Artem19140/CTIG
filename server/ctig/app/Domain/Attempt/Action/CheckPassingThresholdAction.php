@@ -12,7 +12,7 @@ class CheckPassingThresholdAction{
             return $answer->taskVariant->task->subblock->block->id;
         });
 
-        foreach($answersByBlock as $block=>$answers){
+        foreach($answersByBlock as $block => $answers){
             $blockMinMark = $answers->first()->taskVariant->task->subblock->block->min_mark;
             $answersMarkSum = $answers->sum('mark');
             if ($blockMinMark > $answersMarkSum){

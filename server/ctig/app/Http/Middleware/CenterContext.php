@@ -4,10 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Context;
 use Symfony\Component\HttpFoundation\Response;
 
-class LogContext
+class CenterContext
 {
     /**
      * Handle an incoming request.
@@ -16,12 +15,12 @@ class LogContext
      */
     public function handle(Request $request, Closure $next): Response
     {
-        Context::add([
-            'actor_id' => $request->user()?->id,
-            'ip' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-            'actor_type' => $request->user() ? $request->user()->getMorphClass()  : null
-        ]);
+        if($request->user()->isSuperAdmin()){
+            return $next($request);
+        }
+
+        
+
         return $next($request);
     }
 }

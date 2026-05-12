@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Web\ActivityLog;
 
 use App\Http\Resources\ActivityLog\ActivityLogResource;
 use App\Models\ActivityLog;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 

@@ -52,6 +52,10 @@ const headers = [
             </DetailsDropdown>
         </template>
 
+        <template #item.actor.fullName="{ item }">
+            {{ item.actor?.fullName ?? item.actorType}}
+        </template>
+
         <template #item.meta="{ item }">
             <DetailsDropdown>
                 <BaseList>

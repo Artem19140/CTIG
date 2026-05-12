@@ -15,4 +15,4 @@ Schedule::call(function () {
 
 Schedule::call(function () {
     app(CloseAbandonedAttemptsAction::class)->execute();
-})->everyFiveMinutes();
+})->everyFiveSeconds();

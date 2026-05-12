@@ -20,7 +20,9 @@ final class ExamCodesGenerator{
         ]);
 
         $fileName = $this->getFileName($exam);
+
         event(new ExamDocumentGenerated($exam,ExamDocument::Codes));
+        
         return $pdf->stream($fileName);
     }
 
@@ -29,9 +31,7 @@ final class ExamCodesGenerator{
             if($this->codeWasGenerated($enrollment)){
                 continue;
             }
-            
             $this->generateAndSaveUniqueCode($enrollment, $exam);
-
         }
     }
 

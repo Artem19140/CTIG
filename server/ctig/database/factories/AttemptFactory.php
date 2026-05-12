@@ -41,6 +41,15 @@ class AttemptFactory extends Factory
         });
     }
 
+    public function pending(){
+        return $this->state(function (){
+            return[
+                'status'=> AttemptStatus::Pending,
+                'last_activity_at' => Carbon::now()
+            ];
+        });
+    }
+
     public function finished(){
         return $this->state(function (){
             return[

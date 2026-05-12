@@ -11,6 +11,7 @@ class TaskVariant extends Model
 {
 
     protected $fillable = [
+        'id',
         'fipi_number',
         'content',
         'task_id',

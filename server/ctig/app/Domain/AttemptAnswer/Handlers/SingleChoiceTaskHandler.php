@@ -14,6 +14,7 @@ class SingleChoiceTaskHandler{
     }
 
     public function validate(mixed $answerId, TaskVariant $taskVariant, AttemptAnswer $attemptAnswer){
+
         if(!\is_int($answerId)){
             throw new AttemptAnswerValidationException([
                 'attempt_answer_id' => $attemptAnswer->id,
@@ -21,15 +22,19 @@ class SingleChoiceTaskHandler{
                 'message' => 'not_valid_format'
             ]);
         }
+        
         $answers = $taskVariant->answers;
+                
         $answer = $answers->firstWhere('id', $answerId);
+
         if(!$answer){
             throw new AttemptAnswerValidationException([
                 'attempt_answer' => $answerId,
                 'type' => TaskType::SingleChoice->value,
-                'message' => 'not exists'
+                'message' => 'answer not exists on task variant'
             ]);
         }
+
         return $answer;
     }
 

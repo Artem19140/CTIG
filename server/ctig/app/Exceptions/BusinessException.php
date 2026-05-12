@@ -18,7 +18,7 @@ class BusinessException extends BaseException implements ShouldntReport
         if($request->inertia()){
             return Inertia::flash('error', $this->message)->back();
         }
-
+        Inertia::flash('error', $this->message);
         return back()->with('error', $this->message);
     }
 }

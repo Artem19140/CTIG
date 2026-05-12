@@ -21,8 +21,9 @@ class ActivityLogResource extends JsonResource
             'resource' => $this->resource->resource,
             'context' => $this->resource->context,
             'meta' => $this->resource->meta,
+            'actorType' => $this->actor_type,
             'actor' => new UserResource($this->whenLoaded('actor')),
-            'createdAt' => $this->created_at_local->toIso8601String()
+            'createdAt' => $this->created_at_local?->toIso8601String() ?? ''
         ];
     }
 }

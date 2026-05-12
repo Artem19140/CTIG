@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Web\Report;
 
-use App\Domain\Attempt\Action\CloseAbandonedAttemptsAction;
 use App\Domain\Report\EnsureFrdoGenerationAvailable;
 use App\Domain\Report\FlatTableGenerator;
 use App\Domain\Report\FRDOReportsGenerator;
@@ -43,10 +42,8 @@ class ReportController
 
     public function availableFrdo(
         FrdoReportRequest $request, 
-        EnsureFrdoGenerationAvailable $ensureFrdoGenerationAvailable, 
-        CloseAbandonedAttemptsAction $closeAbandonedAttemptsAction
+        EnsureFrdoGenerationAvailable $ensureFrdoGenerationAvailable
     ){
-        $closeAbandonedAttemptsAction->execute();
         $ensureFrdoGenerationAvailable->execute($request->input('examDate'), $request->input('success'));
         return response()->json([
             'redirectUrl' => route('reports.frdo', [

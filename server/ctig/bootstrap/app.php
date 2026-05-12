@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CenterContext;
 use App\Http\Middleware\EnsureCenterActive;
 use App\Http\Middleware\EnsurePasswordChange;
 use App\Http\Middleware\EnsureUserActive;
@@ -30,7 +31,8 @@ return Application::configure(basePath: dirname(__DIR__))
             AppMiddleware::CENTER_ACTIVE => EnsureCenterActive::class,
             AppMiddleware::USER_HAS_ANY_ROLE => EnsureUserHasAnyRole::class,
             AppMiddleware::LOG_CONTEXT => LogContext::class,
-            AppMiddleware::REQUEST_TIME_MEASURE => RequestTimeMeasure::class
+            AppMiddleware::REQUEST_TIME_MEASURE => RequestTimeMeasure::class,
+            AppMiddleware::CENTER_CONTEXT => CenterContext::class
         ]);
 
         $middleware->redirectUsersTo('/me');

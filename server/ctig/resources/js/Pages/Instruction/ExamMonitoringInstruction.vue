@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import InstructionLayout from '@/layouts/InstructionLayout.vue';
+import EmployeeLayout from '@/layouts/EmployeeLayout.vue';
 
 defineOptions({
-  layout: [InstructionLayout]
+  layout: [EmployeeLayout, InstructionLayout]
 })
 </script>
 

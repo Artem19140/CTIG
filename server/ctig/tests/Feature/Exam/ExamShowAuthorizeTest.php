@@ -52,7 +52,8 @@ class ExamShowAuthorizeTest extends TestCase
         $this->accessRolesCheck(
             allowedRoles:[UserRoles::Operator, UserRoles::Director, UserRoles::Scheduler],
             method:"GET",
-            route:route('exams.show', ['exam' => $this->exam])
+            route:route('exams.show', ['exam' => $this->exam]),
+            center:$this->center
         );
         
     }

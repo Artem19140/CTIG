@@ -21,11 +21,9 @@ class RequestTimeMeasure
 
         $response = $next($request);
 
-        $durationMs = (hrtime(true) - $start) / 1_000_000;
-        $status = $response->getStatusCode();
-        
+        $durationMs = (hrtime(true) - $start) / 1_000_000;        
 
-        if($durationMs >= 500 || $status >= 500){
+        if($durationMs >= 500){
             Log::warning('long_request_handle', [
                 'path' => $request->route()?->getName() ?? $request->path(),
                 'duration_ms' => round($durationMs, 1),

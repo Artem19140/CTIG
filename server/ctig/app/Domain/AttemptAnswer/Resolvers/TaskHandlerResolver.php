@@ -5,6 +5,7 @@ namespace App\Domain\AttemptAnswer\Resolvers;
 use App\Domain\AttemptAnswer\Handlers\EssayTaskHandler;
 use App\Domain\AttemptAnswer\Handlers\SingleChoiceTaskHandler;
 use App\Domain\AttemptAnswer\Handlers\TextInputTaskHandler;
+use App\Exceptions\Task\TaskHandlerNotFoundException;
 use App\Models\Task;
 
 
@@ -27,7 +28,9 @@ class TaskHandlerResolver{
                 return $handler;
             }
         }
-
-        throw new \Exception('Handler not found');
+        throw new TaskHandlerNotFoundException([
+            'task_id' => $task->id,
+            'task_type' => $task->type
+        ]);
     }
 }

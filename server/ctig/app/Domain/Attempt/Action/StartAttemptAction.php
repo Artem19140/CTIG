@@ -2,9 +2,7 @@
 
 namespace  App\Domain\Attempt\Action;
 
-use App\Enums\AttemptStatus;
 use App\Models\Attempt;
-use Carbon\Carbon;
 
 use Illuminate\Support\Facades\DB;
 use App\Domain\Attempt\Guard\AttemptGuard;
@@ -17,11 +15,7 @@ class StartAttemptAction{
         $this->attemptGuard->ensureNotBanned($attempt);
 
         return DB::transaction(function () use($attempt) {
-            $now = Carbon::now();
-            $attempt->started_at = $now;
-            $attempt->expired_at = $now->copy()->addMinutes($attempt->exam->duration);
-            $attempt->last_activity_at = $now;
-            $attempt->status=AttemptStatus::Active;
+            $attempt->start();
             $attempt->save();
             return $attempt;
         });

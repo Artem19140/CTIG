@@ -18,7 +18,6 @@ class AttemptAnswer extends Model
         'foreign_national_id',
         'mark',
         'answer',
-        'checked_by_id',
         'is_checked',
         'answer_id',
         'checked_at',

@@ -8,8 +8,6 @@ use App\Enums\Resource;
 use App\Models\Attempt;
 use App\Support\Log\LogActivity;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Context;
-
 class CloseAbandonedAttemptsAction{
     public function __construct(
         protected FinilizeAttemptCheckingAction $finilizeAttemptCheckingAction

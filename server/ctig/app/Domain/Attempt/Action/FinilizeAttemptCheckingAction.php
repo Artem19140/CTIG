@@ -14,16 +14,26 @@ class FinilizeAttemptCheckingAction{
         protected CheckPassingThresholdAction $checkPassingThreshold
     ){}
     public function execute(Attempt $attempt):Attempt{
-        $attempt->status = AttemptStatus::Checked;
-        $attempt->checked_at = Carbon::now();
+        
         $attempt->total_mark = $attempt->answers()->sum('mark');
         $attempt->is_passed = $this->checkPassingThreshold->execute($attempt);
+
+        if($this->attemptNotBanned($attempt)){
+            $attempt->markAsChecked();
+        }else{
+            $attempt->checked_at = Carbon::now();
+        }
+        
         $attempt->save();
         $this->log($attempt);
         return $attempt;
     }
 
-    protected function log(Attempt $attempt){
+    protected function attemptNotBanned(Attempt $attempt):bool{
+        return !$attempt->isBanned();
+    }
+
+    protected function log(Attempt $attempt):void{
         LogActivity::event(
             event:Event::Updated,
             resource:Resource::Attempt,
@@ -33,4 +43,6 @@ class FinilizeAttemptCheckingAction{
             ]
         );
     }
+
+   
 }

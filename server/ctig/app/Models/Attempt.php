@@ -62,6 +62,20 @@ class Attempt extends Model
         $this->status = AttemptStatus::Finished;
         $this->finished_at = Carbon::now();
     }
+
+    public function start(): void{
+        $now = Carbon::now();
+        $this->started_at = $now;
+        $this->expired_at = $now->copy()->addMinutes($this->exam->duration);
+        $this->last_activity_at = $now;
+        $this->status=AttemptStatus::Active;
+    }
+
+    public function markAsChecked(): void{
+        $this->checked_at = Carbon::now();
+        $this->status = AttemptStatus::Checked;
+    }
+
     public function isStarted(): bool{
         return $this->started_at !== null;
     }

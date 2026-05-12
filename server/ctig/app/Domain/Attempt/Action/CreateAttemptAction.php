@@ -45,8 +45,14 @@ class CreateAttemptAction{
         return $attempt;
     }
 
-    protected function createAttempt(ForeignNational $foreignNational, Enrollment $enrollment):Attempt{
-        $hasAttempt = $foreignNational->attempts()->where('exam_id', $enrollment->exam_id)->exists();
+    protected function createAttempt(
+        ForeignNational $foreignNational, 
+        Enrollment $enrollment
+    ):Attempt{
+        $hasAttempt = $foreignNational
+            ->attempts()
+            ->where('exam_id', $enrollment->exam_id)
+            ->exists();
 
         if($hasAttempt){
             throw new BusinessException('Сущестует текущая попытка экзамен');
@@ -100,7 +106,7 @@ class CreateAttemptAction{
         return $examVariant;
     }
 
-    protected function initializeExamAttributes(Exam $exam){
+    protected function initializeExamAttributes(Exam $exam):void{
         $needSave = false;
         if(!$exam->group){
             $needSave = true;

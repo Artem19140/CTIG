@@ -7,13 +7,11 @@ use App\Exceptions\Attempt\AttemptAnswerValidationException;
 use App\Models\AttemptAnswer;
 use App\Models\TaskVariant;
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class EssayTaskTest extends TestCase
 {
-
     protected EssayTaskHandler $handler;
     protected TaskVariant $taskVariant;
 

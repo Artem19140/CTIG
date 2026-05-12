@@ -57,7 +57,7 @@ class AttemptAnswerController
             abort(403);
         }
         
-        $attemptAnswer = $rateAttemptAnswerAction->execute($attemptAnswer, $request->input('mark'), $request->user());
+        $attemptAnswer = $rateAttemptAnswerAction->execute($attemptAnswer, $request->input('mark'));
         
         return response()->json(['attemptAnswer' => new AttemptAnswerResource($attemptAnswer)]);
     }

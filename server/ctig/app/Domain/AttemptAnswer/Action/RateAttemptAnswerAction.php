@@ -6,22 +6,20 @@ use App\Domain\Attempt\Action\FinilizeAttemptCheckingAction;
 use App\Enums\Event;
 use App\Enums\Resource;
 use App\Enums\TaskType;
-use App\Exceptions\Attempt\AttemptFinishedException;
+use App\Exceptions\Attempt\AnswerManualCheckException;
 use App\Models\Attempt;
 use App\Models\AttemptAnswer;
 use App\Models\Task;
-use App\Models\User;
 use App\Support\Log\LogActivity;
 use Carbon\Carbon;
 use App\Domain\Attempt\Guard\AttemptGuard;
-use Illuminate\Validation\ValidationException;
 
 class RateAttemptAnswerAction{
     public function __construct(
         protected AttemptGuard $attemptGuard,
         protected FinilizeAttemptCheckingAction $finilizeAttemptCheckingAction
     ){}
-    public function execute(AttemptAnswer $attemptAnswer, int $mark, User $user){
+    public function execute(AttemptAnswer $attemptAnswer, int $mark){
         $attemptAnswer->loadMissing(['taskVariant.task', 'attempt']);
         $task = $attemptAnswer->taskVariant->task;
         $attempt = $attemptAnswer->attempt;
@@ -34,7 +32,7 @@ class RateAttemptAnswerAction{
         $this->ensureTaskIsNotAutoCheck($task);
         $this->ensureMarkIsValid($mark, $task);
 
-        $this->rate($attemptAnswer, $mark, $user);
+        $this->rate($attemptAnswer, $mark);
 
         return $attemptAnswer;
     }
@@ -42,42 +40,48 @@ class RateAttemptAnswerAction{
     protected function rate(
         AttemptAnswer $attemptAnswer,
         int $mark,
-        User $user
+
     ):void{
         $attemptAnswer->mark = $mark;
         $attemptAnswer->checked_at = Carbon::now();
-        $attemptAnswer->checked_by_id = $user->id;
         $attemptAnswer->save();
         $this->log($attemptAnswer);
     }
 
     protected function ensureAttemptNotChecked(Attempt $attempt){
         if($attempt->isChecked()){
-            throw ValidationException::withMessages([
-                'mark' => 'Попытка уже проверена, оценка недоступна'
-            ]);
+            throw new AnswerManualCheckException([
+                'reason' => 'trying to manual check answer, where attempt is already checked'
+            ],'Попытка уже проверена, оценка недоступна');
         }
     }
 
     protected function ensureTaskIsNotAutoCheck(Task $task){
         if($task->autoCheck()){
-            throw ValidationException::withMessages([
-                'mark' => 'Задание проверяется автоматически'
-            ]);
+            throw new AnswerManualCheckException([
+                'reason' => 'trying to manual check answer, where task with auto checking type',
+                'task_id' => $task->id
+            ],
+            'Задание проверяется автоматически');
         }
     }
 
     protected function ensureMarkIsValid(int $mark, Task $task){
         if($task->mark < $mark){
-            throw ValidationException::withMessages([
-                'mark' => 'Выставленный балл больше, чем максимально возможный'
-            ]);
+            throw new AnswerManualCheckException([
+                'reason' => 'recieved mark more than max mark',
+                'mark' => $mark,
+                'max_mark' => $task->mark
+            ],'Выставленный балл больше чем максимально возможный');
         }
     }
 
     protected function ensureAttemptFinished(Attempt $attempt){
-        if(!$attempt->isFinished()){
-            throw new AttemptFinishedException('Данный тип задания возможно оценить только при завершенной попытке');
+        if(!$attempt->isFinished() && !$attempt->isBanned()){
+            throw new AnswerManualCheckException([
+                'reason' => 'trying to rate answer with not finished attempt',
+                'attempt_status' => $attempt->status
+            ] ,'Задание возможно оценить только при завершенной попытке');
         }
     }
 

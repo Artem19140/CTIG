@@ -6,6 +6,7 @@ use App\Domain\AttemptAnswer\Handlers\SingleChoiceTaskHandler;
 use App\Exceptions\Attempt\AttemptAnswerValidationException;
 use App\Models\Answer;
 use App\Models\AttemptAnswer;
+use App\Models\Task;
 use App\Models\TaskVariant;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,11 +18,17 @@ class SingleChoiceHanlerTest extends TestCase
     use RefreshDatabase;
     protected SingleChoiceTaskHandler $handler;
     protected TaskVariant $taskVariant;
+    protected Task $task;
+
     protected AttemptAnswer $attemptAnswer;
     protected Answer $answer;
+    protected int $mark = 1;
     protected function setUp():void{
         parent::setUp();
+        $task = new Task();
+        $task->mark = $this->mark;
         $this->taskVariant = new TaskVariant(['id' => 1]);
+        $this->taskVariant->setRelation('task', $task);
         $this->answer = new Answer(['task_variant_id' => $this->taskVariant->id, 'id' => 1]);
         $this->taskVariant->setRelation('answers', collect([$this->answer]));
         $this->attemptAnswer = new AttemptAnswer(['id' => 1]);
@@ -62,4 +69,18 @@ class SingleChoiceHanlerTest extends TestCase
             ->with('single')
             ->once();
     }   
+
+    public function test_calculate_mark_correct_answer(): void
+    {
+        $this->answer->is_correct = true;
+        $mark = $this->handler->calculateMark($this->answer, $this->taskVariant);
+        $this->assertEquals($mark, $this->mark);
+    }
+
+    public function test_success_calculate_mark_not_correct_answer(): void
+    {
+        $this->answer->is_correct = false;
+        $mark = $this->handler->calculateMark($this->answer, $this->taskVariant);
+        $this->assertEquals($mark, 0);
+    }
 }

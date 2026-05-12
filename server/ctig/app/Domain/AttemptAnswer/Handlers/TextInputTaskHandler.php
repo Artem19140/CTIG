@@ -13,7 +13,7 @@ class TextInputTaskHandler{
         return $task->type === TaskType::TextInput;
     }
 
-    public function validate(string $answer, AttemptAnswer $attemptAnswer):string{
+    public function validate(mixed $answer, AttemptAnswer $attemptAnswer):string{
         if(!\is_string($answer)){
             throw new AttemptAnswerValidationException([
                 'attempt_answer_id' => $attemptAnswer->id,

@@ -2,28 +2,23 @@
 
 namespace App\Http\Controllers\Web\File;
 
-use App\Enums\Event;
-use App\Enums\Resource;
-use App\Support\Log\LogActivity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Storage;
 
 class FileController
 {
     public function show(Request $request){
+        $request->validate([
+            'path' => ['required', 'string', 'max:255'],
+        ]);
         $path=$request->input('path');
 
         if (!Storage::disk('local')->exists($path)) {
 
             abort(404);
         }
-
-        LogActivity::event(
-            event: Event::Access, 
-            resource: Resource::File,
-            context:[
-            'path'=>$path
-        ]);
+        Log::info('file_access', ['path'=>$path]);
         return Storage::disk('local')->response($path);
     }
 }

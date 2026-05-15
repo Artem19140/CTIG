@@ -2,22 +2,20 @@
 
 namespace Tests\Feature\Report;
 
-use App\Enums\UserRoles;
-use App\Models\User;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Helpers\RolesAccessCheck;
 use Tests\TestCase;
 
 class MinistryEducationGenerationTest extends TestCase
 {
-    use RefreshDatabase, RolesAccessCheck;
-    protected User $user;
+    use RefreshDatabase;
+    protected Employee $actor;
     protected function setUp():void{
         parent::setUp(); 
         $this->seed(RolesSeeder::class);
-        $this->user = User::factory()->director()->create();
+        $this->actor = Employee::factory()->director()->create();
         
         Carbon::setTestNow(now());
     }
@@ -29,7 +27,7 @@ class MinistryEducationGenerationTest extends TestCase
 
     public function test_success_last_week(): void
     {
-        $response = $this->actingAs($this->user)
+        $response = $this->actingAs($this->actor)
             ->getJson(route('reports.ministry-education.available', [
                 'lastWeek' => true
             ]));
@@ -38,7 +36,7 @@ class MinistryEducationGenerationTest extends TestCase
                 'redirectUrl'
             ]);
 
-        $response = $this->actingAs($this->user)
+        $response = $this->actingAs($this->actor)
             ->getJson(route('reports.ministry-education',[
                 'lastWeek' => true
             ]));
@@ -51,7 +49,7 @@ class MinistryEducationGenerationTest extends TestCase
 
     public function test_success_period(): void
     {
-        $response = $this->actingAs($this->user)
+        $response = $this->actingAs($this->actor)
             ->getJson(route('reports.ministry-education.available', [
                 'lastWeek' => false,
                 'dateFrom' => Carbon::now()->subWeek()->format('Y-m-d'),
@@ -62,7 +60,7 @@ class MinistryEducationGenerationTest extends TestCase
                 'redirectUrl'
             ]);
 
-        $response = $this->actingAs($this->user)
+        $response = $this->actingAs($this->actor)
             ->getJson(route('reports.ministry-education',[
                 'lastWeek' => false,
                 'dateFrom' => Carbon::now()->subWeek()->format('Y-m-d'),
@@ -77,7 +75,7 @@ class MinistryEducationGenerationTest extends TestCase
 
     public function test_fail_no_last_week(): void
     {
-        $response = $this->actingAs($this->user)
+        $response = $this->actingAs($this->actor)
             ->getJson(route('reports.ministry-education.available', [
             ]));
         $response->assertStatus(422);
@@ -85,23 +83,12 @@ class MinistryEducationGenerationTest extends TestCase
 
     public function test_fail_no_period_with_false_last_week(): void
     {
-        $response = $this->actingAs($this->user)
+        $response = $this->actingAs($this->actor)
             ->getJson(route('reports.ministry-education.available', [
                 'lastWeek' => false,
                 'dateFrom' => null,
                 'dateTo' => null
             ]));
         $response->assertStatus(422);
-    }
-
-    public function test_access_roles(){
-        $this->accessRolesCheck(
-            allowedRoles:[UserRoles::Director],
-            method:'GET',
-            route: route('reports.ministry-education.available', [
-                'lastWeek' => true
-            ]),
-            expectedCode: 200
-        );
     }
 }

@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Center;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\User;
+use App\Models\Employee;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ForeignNational>
@@ -14,7 +15,7 @@ class ForeignNationalFactory extends Factory
     public function withRandomCreator(): ForeignNationalFactory{
         return $this->state(function(){
             return[
-                'creator_id'=>User::inRandomOrder()->first()->id
+                'creator_id'=>Employee::inRandomOrder()->first()->id
             ];
         });
     }
@@ -91,13 +92,14 @@ public function definition(): array
 
         'phone' => '79'.fake()->numerify('#########'),
 
-        'creator_id' => User::factory(),
+        'creator_id' => Employee::factory(),
 
         'date_birth' => fake()->dateTimeBetween('-60 years', '-19 years'),
 
         'gender' => $gender,
 
         'address_reg' => fake()->streetAddress(),
+        'center_id' => Center::factory()
     ];
 }
 

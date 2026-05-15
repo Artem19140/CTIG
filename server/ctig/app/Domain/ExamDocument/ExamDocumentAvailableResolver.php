@@ -6,7 +6,7 @@ use App\Models\Exam;
 
 class ExamDocumentAvailableResolver
 {
-    protected function availvable(){
+    protected function available(){
         return [
             'available' => true,
             'reason' => null,
@@ -24,10 +24,10 @@ class ExamDocumentAvailableResolver
 
     public function resolve(Exam $exam){
         return [
-            'list' => $this->list($exam),
             'codes' => $this->codes($exam),
             'protocol' => $this->protocol($exam),
-            'results' => $this->results($exam)
+            'results' => $this->results($exam),
+            'list' => $this->list($exam)
         ];
     }
 
@@ -36,76 +36,40 @@ class ExamDocumentAvailableResolver
         if($this->hasNoEnrollment($exam)){
             return $this->blocked('no_enrollment');
         }
-        return $this->availvable();
+        return $this->available();
     }
 
     protected function codes(Exam $exam){
-        if($exam->isCancelled()){
-            return $this->blocked('cancelled');
-        }
-
-        if($this->hasNoEnrollment($exam)){
-            return $this->blocked('no_enrollment');
-        }
-
-        if(!$exam->canGenerateCodes()){
-            return $this->blocked('codes_generation_window_closed');
-        }
-
-        return $this->availvable();
+        return match(true){
+            $exam->isCancelled() =>  $this->blocked('cancelled'),
+            $this->hasNoEnrollment($exam) => $this->blocked('no_enrollment'),
+            !$exam->canGenerateCodes() => $this->blocked('codes_generation_window_closed'),
+            default => $this->available(),
+        };
     }
 
     protected function protocol(Exam $exam){
-        if($exam->isCancelled()){
-            return $this->blocked('cancelled');
-        }
-
-        if($exam->isPending()){
-            return $this->blocked('pending');
-        }
-
-        if($this->hasNoEnrollment($exam)){
-            return $this->blocked('no_enrollment');
-        }
-
-        if($this->hasNoAttempts($exam)){
-            return $this->blocked('no_attempts');
-        }
-
-        if($this->hasActiveAttempts($exam)){
-            return $this->blocked('has_active_attemtps');
-        }
-        
-        return $this->availvable();
+        return match(true){
+            $exam->isCancelled() =>  $this->blocked('cancelled'),
+            $exam->isPending() => $this->blocked('pending'),
+            $this->hasNoEnrollment($exam) => $this->blocked('no_enrollment'),
+            $this->hasNoAttempts($exam) => $this->blocked('no_attempts'),
+            $this->hasActiveAttempts($exam) => $this->blocked('has_active_attempts'),
+            default => $this->available(),
+        };
     }
 
     protected function results(Exam $exam){
-        if($exam->isCancelled()){
-            return $this->blocked('cancelled');
-        }
-
-        if($exam->isPending()){
-            return $this->blocked('pending');
-        }
-        
-        if($this->hasNoEnrollment($exam)){
-            return $this->blocked('no_enrollment');
-        }
-
-        if($this->hasNoAttempts($exam)){
-            return $this->blocked('no_attempts');
-        }
-
-        if($this->hasActiveAttempts($exam)){
-            return $this->blocked('has_active_attemtps');
-        }
-
-        if($this->hasUncheckedAttemtps($exam)){
-            return $this->blocked('not_checked','на проверке');
-        }
-        return $this->availvable();
+        return match(true){
+            $exam->isCancelled() =>  $this->blocked('cancelled'),
+            $exam->isPending() => $this->blocked('pending'),
+            $this->hasNoEnrollment($exam) => $this->blocked('no_enrollment'),
+            $this->hasNoAttempts($exam) => $this->blocked('no_attempts'),
+            $this->hasActiveAttempts($exam) => $this->blocked('has_active_attempts'),
+            $this->hasUncheckedAttemtps($exam) => $this->blocked('not_checked','на проверке'),
+            default => $this->available(),
+        };
     }
-
 
     protected function hasNoEnrollment(Exam $exam){
         return $exam->enrollments_count === 0;

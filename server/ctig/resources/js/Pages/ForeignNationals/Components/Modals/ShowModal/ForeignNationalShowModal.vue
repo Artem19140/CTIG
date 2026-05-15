@@ -2,28 +2,28 @@
 import BaseDialog from '@components/BaseComponents/BaseDialog/BaseDialog.vue';
 import ForeignNationalEnrollmentsList from './ForeignNationalEnrollmentsList.vue';
 import ForeignNationalActionsDropdown from './ForeignNationalActionsDropdown.vue';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useHttp } from '@inertiajs/vue3'
 import { DateFormatter } from '@helpers/DateFormatter';
 import countries from '@data/countries.json'
-import { ForeignNational } from '@/interfaces/ForeignNational';
+import { ForeignNational, ForeignNationalActionsPermissions } from '@/interfaces/ForeignNational';
 import { Enrollment } from '@/interfaces/Enrollment';
-import { useAuth } from '@/composables/useAuth';
-import { Roles } from '@/constants/Roles';
 
 const props = defineProps<{
     foreignNationalId?:number
 }>()
 
-const http = useHttp<{}, {data:ForeignNational}>()
+const http = useHttp<{}, {foreignNational:ForeignNational, permissions:ForeignNationalActionsPermissions}>()
 
 const isOpen = defineModel<boolean>({default:false})
 const foreignNational = ref<ForeignNational | null>(null)
+const permissions = ref<ForeignNationalActionsPermissions|null>(null)
 
 const getForeignNational = async () => {
     http.get(`/foreign-nationals/${props.foreignNationalId}`,{
         onSuccess:(response)=>{
-            foreignNational.value = response.data
+            foreignNational.value = response.foreignNational
+            permissions.value = response.permissions
         }
     })
 }
@@ -51,8 +51,10 @@ const getCountryTitle = (value:string | null) => {
     return result ? result.text : '-';
 }
 
-const {can} = useAuth()
+const dropDownAccess = computed(() =>
 
+    (permissions.value?.edit || permissions.value?.enroll) && permissions.value
+)
 </script>
 
 <template>
@@ -77,7 +79,8 @@ const {can} = useAuth()
                 :foreignNational="foreignNational"
                 @enroll="enroll"
                 @edit="edit"
-                v-if="can([Roles.OPERATOR])"
+                :permissions="permissions"
+                v-if="dropDownAccess"
             />
         </template>
 
@@ -108,7 +111,7 @@ const {can} = useAuth()
 
         <v-divider></v-divider>
 
-        <v-card-text class="ml-4">
+        <v-card-text class="ml-4" v-if="permissions?.files">
             <v-row comfortable>
                 <v-col cols="6" class="">
                     <v-list-item-subtitle>Паспорт</v-list-item-subtitle>
@@ -138,7 +141,10 @@ const {can} = useAuth()
         <v-divider></v-divider>
 
         <v-card-text>
-            <ForeignNationalEnrollmentsList v-if="foreignNational" :foreignNational="foreignNational" />
+            <ForeignNationalEnrollmentsList 
+                v-if="foreignNational" 
+                :foreignNational="foreignNational" 
+            />
         </v-card-text>
     </BaseDialog>
 </template>

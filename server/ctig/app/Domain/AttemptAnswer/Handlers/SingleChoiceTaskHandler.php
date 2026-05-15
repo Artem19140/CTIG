@@ -13,7 +13,7 @@ class SingleChoiceTaskHandler{
         return TaskType::SingleChoice === $task->type;
     }
 
-    public function validate(mixed $answerId, TaskVariant $taskVariant, AttemptAnswer $attemptAnswer){
+    public function validate(mixed $answerId, AttemptAnswer $attemptAnswer){
 
         if(!\is_int($answerId)){
             throw new AttemptAnswerValidationException([
@@ -23,7 +23,7 @@ class SingleChoiceTaskHandler{
             ]);
         }
         
-        $answers = $taskVariant->answers;
+        $answers = $attemptAnswer->taskVariant->answers;
                 
         $answer = $answers->firstWhere('id', $answerId);
 

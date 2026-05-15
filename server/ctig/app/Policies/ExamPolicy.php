@@ -2,81 +2,100 @@
 
 namespace App\Policies;
 
-use App\Enums\UserRoles;
+use App\Enums\EmployeeRole;
 use App\Models\Exam;
-use App\Models\User;
+use App\Models\Employee;
 
 
 class ExamPolicy
 {
     use BasePolicy;
-    public function viewAny(User $user): bool
+    public function before(Employee $employee, string $ability): bool|null
     {
+        if ($employee->isSuperAdmin()) {
+            return true;
+        }
+        return null;
+    }
+
+    public function viewAny(Employee $employee): bool{
+        if($employee->hasAnyRole(
+            EmployeeRole::Operator, 
+            EmployeeRole::Director, 
+            EmployeeRole::Examiner, 
+            EmployeeRole::Scheduler
+        )){
+            return true;
+        }
         return false;
     }
 
-    public function view(User $user, Exam $exam): bool{
-        $this->sameCenter($user, $exam);
-        if($user->hasAnyRole(
-            UserRoles::Operator->value, 
-            UserRoles::Director->value, 
-            UserRoles::Scheduler->value,
-            UserRoles::SuperAdmin->value
-        )){
-            return true;
-        }
-        return $this->isExaminer($user, $exam);
-    }
-
-    public function monitoring(User $user, Exam $exam): bool{
-        if($user->isSuperAdmin()){
-            return true;
-        }
-        $this->sameCenter($user, $exam);
-        return $this->isExaminer($user, $exam);
-    }
-
-    public function checking(User $user, Exam $exam): bool{
-        if($user->isSuperAdmin()){
-            return true;
-        }
-        $this->sameCenter($user, $exam);
-        return $this->isExaminer($user, $exam);
-    }
-
-    public function list(User $user, Exam $exam): bool{
-        if($user->isSuperAdmin()){
-            return true;
-        }
-        $this->sameCenter($user, $exam);
-        if($user->hasAnyRole(
-            UserRoles::Operator->value, 
-        )){
-            return true;
-        }
-        return $this->isExaminer($user, $exam);
-    }
-
-    public function examiner(User $user, Exam $exam):bool{
-        if($user->isSuperAdmin()){
-            return true;
-        }
-        $this->sameCenter($user, $exam);
-        return $this->isExaminer($user, $exam);
-    }
-
-
-    protected function isExaminer(User $user, Exam $exam):bool{
-        $this->sameCenter($user, $exam);
-        if($user->isSuperAdmin()){
-            return true;
-        }
-        if(!$user->hasRole(UserRoles::Examiner->value)){
+    public function view(Employee $employee, Exam $exam): bool{
+        if (!$this->sameCenter($employee, $exam)) {
             return false;
         }
-        return $user->exams()
+        if($employee->hasAnyRole(
+            EmployeeRole::Operator, 
+            EmployeeRole::Director, 
+            EmployeeRole::Scheduler
+        )){
+            return true;
+        }
+        return $this->examiner($employee, $exam);
+    } 
+
+    public function create(Employee $employee): bool{
+        return $employee->hasAnyRole(EmployeeRole::Scheduler);
+    }
+
+    public function update(Employee $employee, Exam $exam): bool{
+        if (!$this->sameCenter($employee, $exam)) {
+            return false;
+        }
+        return $employee->hasAnyRole(EmployeeRole::Scheduler);
+    }
+
+    public function delete(Employee $employee, Exam $exam): bool{
+        if (!$this->sameCenter($employee, $exam)) {
+            return false;
+        }
+        return $employee->hasAnyRole(EmployeeRole::Scheduler);
+    }
+
+    public function frdo(Employee $employee): bool{
+        if($employee->hasAnyRole(
+            EmployeeRole::Operator, 
+            EmployeeRole::Director
+        )){
+            return true;
+        }
+        return false;
+    }
+
+    public function list(Employee $employee, Exam $exam): bool{
+        if (!$this->sameCenter($employee, $exam)) {
+            return false;
+        }
+        if($employee->hasAnyRole(
+            EmployeeRole::Operator, 
+            EmployeeRole::Director
+        )){
+            return true;
+        }
+        return $this->examiner($employee, $exam);
+    }
+
+    public function examiner(Employee $employee, Exam $exam):bool{
+        if (!$this->sameCenter($employee, $exam)) {
+            return false;
+        }
+        if(!$employee->hasRole(EmployeeRole::Examiner->value)){
+            return false;
+        }
+        return $employee->exams()
             ->wherePivot('exam_id', $exam->id)
             ->exists();
     }
+
 
 }

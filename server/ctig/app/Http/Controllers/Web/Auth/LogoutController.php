@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Web\Auth;
 
-use App\Enums\Event;
-use App\Enums\Resource;
-use App\Support\Log\LogActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class LogoutController
@@ -34,14 +32,7 @@ class LogoutController
         }
         
         Auth::logoutOtherDevices($password);
-        LogActivity::event(
-            event: Event::Logout,
-            resource: Resource::User,
-            context: [
-                'user_id' => $request->user()->id,
-                'logout_other_divices' => true
-            ]
-        );
+        Log::info('logout_other_divices', []);
         
         return response()->noContent();
     }

@@ -2,10 +2,8 @@
 
 namespace App\Domain\Exam\Query;
 
-use App\Enums\Event;
-use App\Enums\Resource;
 use App\Models\Exam;
-use App\Support\Log\LogActivity;
+
 
 class ExamShowQuery{
     public function execute(Exam $exam):Exam{
@@ -30,17 +28,6 @@ class ExamShowQuery{
             $enrollment->setRelation('exam', $exam);
         });
         $exam->loadCount('enrollments');
-        $this->log($exam);
         return $exam;
-    }
-
-    protected function log(Exam $exam){
-        LogActivity::event(
-            event:Event::Access,
-            resource:Resource::Exam,
-            context:[
-                'exam_id' => $exam->id,
-            ]
-        );
     }
 }

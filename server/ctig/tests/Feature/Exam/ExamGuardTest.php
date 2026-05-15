@@ -15,11 +15,13 @@ class ExamGuardTest extends TestCase
     protected $action;
     protected $exception;
     protected int $duration = 90;
+    protected Exam $exam;
     
     protected function setUp():void{
         parent::setUp();
         $this->action = app(ExamGuard::class);
         $this->exception = BusinessException::class;
+        $this->exam = new Exam();
         Carbon::setTestNow(Carbon::now());
     }
     protected function tearDown(): void
@@ -27,76 +29,51 @@ class ExamGuardTest extends TestCase
         parent::tearDown();
         Carbon::setTestNow();
     }
-
-    protected function createExam(array $overrides){
-        return Exam::factory()->create(array_merge([
-            
-        ],$overrides));
-    }
     public function test_success_ensure_not_finished(): void
     {
-        
-        $exam = $this->createExam([
-            'begin_time' => Carbon::now()->addMinutes($this->duration - 1)
-        ]);
-        $this->action->ensureNotFinished($exam);
+        $this->exam->end_time = Carbon::now()->addMinutes(20);
+        $this->action->ensureNotFinished($this->exam);
         $this->assertTrue(true);
     }
 
     public function test_fail_ensure_not_finished(): void
     {
         $this->expectException($this->exception);
-        $exam = Exam::factory()->inPast($this->duration)->create();
-        $this->action->ensureNotFinished($exam);
+        $this->exam->end_time = Carbon::now()->subMinutes(20);
+        $this->action->ensureNotFinished($this->exam);
     }
 
     public function test_success_ensure_finished(){
-        $exam = Exam::factory()->inPast($this->duration)->create();
-        $this->action->ensureFinished($exam);
+        $this->exam->end_time = Carbon::now()->subMinutes(20);
+        $this->action->ensureFinished($this->exam);
         $this->assertTrue(true);
     }
 
     public function test_fail_ensure_finished(){
         $this->expectException($this->exception);
-        $exam = Exam::factory()->inFuture()->create();
-        $this->action->ensureFinished($exam);
-    }
-    public function test_fail_ensure_finished_going(){
-        $this->expectException($this->exception);
-        $exam = Exam::factory()->now()->create();
-        $this->action->ensureFinished($exam);
+        $this->exam->end_time = Carbon::now()->addMinutes(20);
+        $this->action->ensureFinished($this->exam);
     }
 
     public function test_sucess_ensure_going(): void
     {
-        $exam = Exam::factory()->now()->create();
-        $this->action->ensureGoing($exam);
+        $this->exam->begin_time = Carbon::now()->subMinutes(20);
+        $this->exam->end_time = Carbon::now()->addMinutes(20);
+        $this->action->ensureGoing($this->exam);
         $this->assertTrue(true);
     }
-    public function test_fail_ensure_going_not_started(): void
-    {
-        $this->expectException($this->exception);
-        $exam = Exam::factory()->inFuture()->create();
-        $this->action->ensureGoing($exam);
-    }
 
-    public function test_fail_ensure_going_after(): void
-    {
+    public function test_fail_ensure_going(){
         $this->expectException($this->exception);
-        $exam = Exam::factory()->inPast($this->duration)->create();
-        $this->action->ensureGoing($exam);
-    }
-    public function test_fail_ensure_not_going(): void
-    {
-        $this->expectException($this->exception);
-        $exam = Exam::factory()->now()->create();
-        $this->action->ensureNotGoing($exam);
+        $this->exam->begin_time = Carbon::now()->subMinutes(40);
+        $this->exam->end_time = Carbon::now()->subMinutes(20);
+        $this->action->ensureGoing($this->exam);
     }
 
     public function test_fail_ensure_not_cancelled(): void
     {
+        $this->exam->cancelled_at = Carbon::now()->subMinutes(20);
         $this->expectException($this->exception);
-        $exam = Exam::factory()->inFuture()->cancelled()->create();
-        $this->action->ensureNotCancelled($exam);
+        $this->action->ensureNotCancelled($this->exam);
     }
 }

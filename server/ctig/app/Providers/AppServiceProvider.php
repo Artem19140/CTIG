@@ -2,13 +2,9 @@
 
 namespace App\Providers;
 
-use App\Models\Attempt;
-use App\Models\Exam;
 use App\Models\ForeignNational;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Employee;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -27,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Relation::enforceMorphMap([
             'foreign_national' => ForeignNational::class,
-            'user' => User::class,
+            'employee' => Employee::class,
         ]);
 
         Model::preventLazyLoading(

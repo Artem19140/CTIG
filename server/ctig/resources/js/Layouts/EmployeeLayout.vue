@@ -21,7 +21,7 @@
             <BaseListItem
               prepend-icon="mdi-account-group" 
               title="Иностранные граждане" 
-              v-if="can([Roles.OPERATOR, Roles.DIRECTOR])"
+              v-if="can.foreignNationals"
               @click="go('/foreign-nationals')"  
               value="foreignNationals"
             />
@@ -29,14 +29,14 @@
             <BaseListItem 
               prepend-icon="mdi-school" 
               title="Экзамены" 
-              v-if="can([Roles.OPERATOR, Roles.SCHEDULER, Roles.DIRECTOR])"
+              v-if="can.exams"
               @click="go('/exams')"
               value="exams" 
             />
 
             <BaseListItem
               prepend-icon="mdi-monitor-eye" 
-              v-if="can([Roles.EXAMINER])"
+              v-if="can.monitoring"
               title="Мониторинг экзамена" 
               value="monitoring" 
               @click="go('/exams/monitoring')"
@@ -44,7 +44,7 @@
 
             <BaseListItem 
               prepend-icon="mdi-clipboard-check" 
-              v-if="can([Roles.EXAMINER])"
+              v-if="can.checking"
               title="Проверка"
               @click="go('/exams/checking')"
               value="checking" 
@@ -53,14 +53,14 @@
             <BaseListItem
               prepend-icon="mdi-calendar-month" 
               title="Расписание" 
-              v-if="can([Roles.OPERATOR, Roles.SCHEDULER, Roles.DIRECTOR])"
+              v-if="can.schedule"
               @click="go('/exams/schedule')"
               value="schedule"
             />
 
             <BaseListItem 
               prepend-icon="mdi-office-building" 
-              v-if="can([Roles.ORG_ADMIN])" 
+              v-if="can.center"
               title="Центр" 
               value="center" 
               @click="go(`/centers/${centerId}`)"
@@ -68,7 +68,7 @@
 
             <BaseListItem 
               prepend-icon="mdi-cog" 
-              v-if="can([Roles.SUPER_ADMIN])" 
+              v-if="can.adminPanel" 
               title="Панель админа" 
               value="admin" 
               @click="go(`/admin/home`)"
@@ -107,11 +107,10 @@
 
 <script setup lang="ts">
 
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import BaseLayout from './BaseLayout.vue';
 import { useAuth } from '@composables/useAuth';
-import { Roles } from '@constants/Roles';
-import { router } from '@inertiajs/vue3'
+import { router, usePage } from '@inertiajs/vue3'
 import { useConfirmDialog } from '@/composables/useConfirmDialog';
 import BaseDrawer from '@/components/BaseComponents/BaseDrawer/BaseDrawer.vue';
 import BaseList from '@/components/BaseComponents/BaseList/BaseList.vue';
@@ -119,7 +118,8 @@ import BaseListItem from '@/components/BaseComponents/BaseList/BaseListItem.vue'
 import BaseThreeDotDropdown from '@/components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 import { useModals } from '@/composables/useModals';
 
-
+const page = usePage<any>()
+const can =  computed(() => page.props?.auth?.can)
 
 const go = (url:string) => {
   router.visit(url)
@@ -131,7 +131,7 @@ const logout = async () => {
   if(!ok) return 
   router.post('/logout')
 }
-const {can, user} = useAuth()
+const {user} = useAuth()
 
 const centerId = user?.center_id
 const employeeName = `${user?.surname} ${user?.name}`

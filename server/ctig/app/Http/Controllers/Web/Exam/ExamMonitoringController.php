@@ -15,11 +15,14 @@ use Illuminate\Support\Facades\Gate;
 class ExamMonitoringController
 {
     public function index(Request $request){
-        $user = $request->user();
+        $employee = $request->user();
+
         $past = $request->boolean('past');
-        $exams = Exam::with(['type', 'center'])
-            ->whereHas('examiners', function(Builder $query) use($user){
-                $query->where('examiner_id', $user->id);
+        
+        $exams = Exam::query()
+            ->with(['type', 'center'])
+            ->whereHas('examiners', function(Builder $query) use( $employee ){
+                $query->where('examiner_id', $employee->id);
             })
             ->withCount(['enrollments'])
             ->when($past, function (Builder $query){

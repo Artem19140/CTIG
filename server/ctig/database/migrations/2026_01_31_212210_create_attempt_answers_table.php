@@ -49,7 +49,7 @@ return new class extends Migration
             $table->foreignId('checked_by_id')
                 ->nullable()
                 ->default(null)
-                ->constrained('users')
+                ->constrained('employees')
                 ->cascadeOnDelete();
             $table->datetime('checked_at')->nullable()->default(null);
             $table->unsignedTinyInteger('mark')->nullable()->default(null);

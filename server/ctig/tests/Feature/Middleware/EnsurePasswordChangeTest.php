@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Middleware;
 
-use App\Models\User;
+use App\Models\Employee;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -11,9 +11,9 @@ class EnsurePasswordChangeTest extends TestCase
     use RefreshDatabase;
     public function test_success(): void
     {
-        $user = User::factory()->hasChangePassword()->create();
+        $employee = Employee::factory()->hasChangePassword()->create();
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($employee)
             ->get('/exams');
 
         $response->assertRedirectToRoute('password.change');

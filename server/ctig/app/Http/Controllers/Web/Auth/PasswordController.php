@@ -2,73 +2,66 @@
 
 namespace App\Http\Controllers\Web\Auth;
 
-use App\Enums\Event;
-use App\Enums\Resource;
 use App\Http\Requests\Auth\ChangePasswordRequest;
 use App\Http\Requests\Auth\PasswordResetRequest;
-use App\Models\User;
-use App\Support\Log\LogActivity;
+use App\Models\Employee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class PasswordController
 {
-    public function reset(PasswordResetRequest $request, User $user){
-        if($user->isSuperAdmin()){
+    public function reset(PasswordResetRequest $request, Employee $employee){
+        if($employee->isSuperAdmin()){
             abort(403);
         }
 
-        $wrongPassword = !Hash::check($request->validated('adminPassword'), $request->user()->password);
+        $wrongPassword = !Hash::check(
+            $request->validated('adminPassword'), 
+            $request->user()->password
+        );
 
         if($wrongPassword){
-            throw ValidationException::withMessages(['adminPassword'  => 'Неверные учетные данные']);
+            throw ValidationException::withMessages([
+                'adminPassword'  => 'Неверные учетные данные'
+            ]);
         }
 
-        $user->password = Hash::make($request->validated('password'));
-        $user->has_to_change_password = true;
+        $employee->password = Hash::make($request->validated('password'));
+        $employee->has_to_change_password = true;
         
-        $user->save();
-
-        $this->log(Event::PasswordReseted, [
-            'user_id' => $user->id,
-            'who_reset_password_id' => $request->user()->id
+        $employee->save();
+        Log::info('password_reset', [
+            'employee_id' => $employee->id
         ]);
 
         return response()->json();
    }
 
     public function change(ChangePasswordRequest $request){
-        $user = $request->user();
-        if($user->isSuperAdmin()){
+        $employee = $request->user();
+
+        if($employee->isSuperAdmin()){
             abort(403);
         }
         $plainPassword = $request->validated('password');
-        if(Hash::check($plainPassword, $user->password)){
+        if(Hash::check($plainPassword, $employee->password)){
             throw ValidationException::withMessages([
                 'password' =>'Пароль должен отличаться от старого'
             ]);
         }
 
-        $user->update([
+        $employee->update([
             'password' => Hash::make($plainPassword),
             'has_to_change_password' => false
         ]);
-        
-        $this->log(Event::PasswordChanged, [
-            'user_id' => $user->id
+        Log::info('password_change', [
+            'employee_id' => $employee->id
         ]);
 
         Auth::logoutOtherDevices($plainPassword);
 
-        return redirect()->to($user->resolveRedirect());
-    }
-
-    protected function log(Event $event, array $context){
-        LogActivity::event(
-            event: $event,
-            resource: Resource::User,
-            context: $context
-        );
+        return redirect()->to($employee->resolveRedirect());
     }
 }

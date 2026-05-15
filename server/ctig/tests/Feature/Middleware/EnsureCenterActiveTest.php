@@ -3,7 +3,7 @@
 namespace Tests\Feature\Middleware;
 
 use App\Models\Center;
-use App\Models\User;
+use App\Models\Employee;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,11 +17,11 @@ class EnsureCenterActiveTest extends TestCase
     {
         $center = Center::factory()->notActive()->create();
         
-        $user = User::factory()->hasChangePassword()->create([
+        $employee = Employee::factory()->hasChangePassword()->create([
             'center_id' => $center->id
         ]);
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($employee)
             ->get('/exams');
         $this->assertGuest('web');
         $response->assertRedirectToRoute('login');

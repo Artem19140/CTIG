@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Scopes\BelongsToCenter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,7 +13,7 @@ class Address extends Model
 {
     /** @use HasFactory<\Database\Factories\AddressFactory> */
     use HasFactory;
-    //use BelongsToCenter;
+    use BelongsToCenter;
 
     public function center(): BelongsTo{
         return $this->belongsTo(Center::class,'center_id');
@@ -22,7 +23,7 @@ class Address extends Model
         'address',
         'center_id',
         'max_capacity',
-        //'creator_id'
+        'creator_id'
     ];
 
     protected $casts = [
@@ -32,4 +33,11 @@ class Address extends Model
     public function exams(): HasMany{
         return $this->hasMany(Exam::class, 'address_id');
     }
+
+    // public function scopeForCenter(Builder $query, int | null $centerId){
+    //     if(!$centerId){
+    //         return ;
+    //     }
+    //     return $query->where('center_id', $centerId);
+    // }
 }

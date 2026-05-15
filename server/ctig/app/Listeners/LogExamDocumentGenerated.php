@@ -2,10 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Enums\Event;
-use App\Enums\Resource;
 use App\Events\ExamDocumentGenerated;
-use App\Support\Log\LogActivity;
+use Illuminate\Support\Facades\Log;
 
 class LogExamDocumentGenerated
 {
@@ -17,12 +15,9 @@ class LogExamDocumentGenerated
 
     public function handle(ExamDocumentGenerated $event): void
     {
-        LogActivity::event(
-            event: Event::Generated,
-            resource: Resource::Exam,
-            context:[
-                'exam_id' => $event->exam->id,
-                'document' => $event->type->value
-            ]);
+        Log::info('document_generated', [
+            'document' => $event->type->value,
+            'exam_id' => $event->exam->id,
+        ]);
     }
 }

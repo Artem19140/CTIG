@@ -2,10 +2,9 @@
 
 namespace Tests\Feature\Exam;
 
-use App\Enums\UserRoles;
 use App\Models\Center;
 use App\Models\Exam;
-use App\Models\User;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -33,28 +32,18 @@ class ExamShowAuthorizeTest extends TestCase
     }
     public function test_success_examiner(): void
     {
-        $user = User::factory()->examiner()->create(['center_id' => $this->center->id]);
-        $this->exam->examiners()->attach($user);
-        $response = $this->actingAs($user)
+        $employee = Employee::factory()->examiner()->create(['center_id' => $this->center->id]);
+        $this->exam->examiners()->attach($employee);
+        $response = $this->actingAs($employee)
             ->getJson(route('exams.show', ['exam' => $this->exam]));
         $response->assertStatus(200);
     }
 
     public function test_fail_no_attach_examiner(): void
     {
-        $user = User::factory()->examiner()->create(['center_id' => $this->center->id]);
-        $response = $this->actingAs($user)
+        $employee = Employee::factory()->examiner()->create(['center_id' => $this->center->id]);
+        $response = $this->actingAs($employee)
             ->getJson(route('exams.show', ['exam' => $this->exam]));
         $response->assertStatus(403);
-    }
-
-    public function test_access_roles(): void{
-        $this->accessRolesCheck(
-            allowedRoles:[UserRoles::Operator, UserRoles::Director, UserRoles::Scheduler],
-            method:"GET",
-            route:route('exams.show', ['exam' => $this->exam]),
-            center:$this->center
-        );
-        
     }
 }

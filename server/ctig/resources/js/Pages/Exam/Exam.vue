@@ -11,7 +11,8 @@ defineOptions({
 })
 
 const props = defineProps<{
-  exams: Paginated<ExamIndex>
+  exams: Paginated<ExamIndex>,
+  permissions:any
 }>()
 </script>
 
@@ -22,6 +23,7 @@ const props = defineProps<{
   <BaseContainer>
     <ExamTable 
       :exams="exams" 
+      :permissions="permissions"
     />
   </BaseContainer>
 </template>

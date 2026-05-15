@@ -74,8 +74,8 @@
         <td colspan="2">
             ДОСТОВЕРНОСТЬ ПРЕДОСТАВЛЕННЫХ СВЕДЕНИЙ ПОДТВЕРЖДАЮ<br>
             @include('templates.components.signature-section', [
-                'date' =>  $enrollment->exam->begin_time_local->format('d.m.Y'), 
-                'fio' => $enrollment->foreignNational->full_name, 
+                'date' =>  $enrollment->exam?->begin_time_local->format('d.m.Y'), 
+                'fio' => $enrollment->foreignNational?->full_name, 
             ])
             <p class="small" style="margin-bottom: 0; font-style: italic;">Согласие на использование средств видеофиксации.</p> 
             <p class="small" style="margin-top: 0;">Настоящим   даю   согласие  {{$enrollment->center->name_genitive}}
@@ -87,7 +87,7 @@
             </p>
             @include('templates.components.signature-section', [
                 'date' =>  $enrollment->exam->begin_time->format('d.m.Y'), 
-                'fio' => $enrollment->foreignNational->full_name, 
+                'fio' => $enrollment->foreignNational?->full_name, 
             ])
         </td>
     </tr>
@@ -96,7 +96,7 @@
 <div class="page-break"></div>
 
 @include('templates.components.labeled-field', [
-    'value' => $enrollment->foreignNational->full_name, 
+    'value' => $enrollment->foreignNational?->full_name, 
     'label' => 'Я,' , 
     'underline' => '(указать полностью ФИО)'
 ])
@@ -111,12 +111,12 @@
 Заказчик:
 @include('templates.components.signature-section', [
     'date' =>  $enrollment->exam->begin_time->format('d.m.Y'), 
-    'fio' => $enrollment->foreignNational->full_name, 
+    'fio' => $enrollment->foreignNational?->full_name, 
 ])
 Исполнитель:
 @include('templates.components.signature-section', [
     'date' =>  $enrollment->exam->begin_time->format('d.m.Y'), 
-    'fio' =>  $enrollment->creator->full_name, 
+    'fio' =>  $enrollment->creator?->full_name, 
 ])
 <p>Услуга оказана в полном объеме. Претензий к оказанию Услуги не имею.</p>
 <br><br>

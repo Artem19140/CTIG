@@ -2,16 +2,17 @@
 import { useHttp } from '@inertiajs/vue3'
 import { usePromptDialog } from '@composables/usePromptDialog';
 import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
-import { useAuth } from '@composables/useAuth';
-import { Roles } from '@constants/Roles';
 import { useModals } from '@composables/useModals';
 import { useLoadingSnackbar } from '@composables/useLoadingSnackBar';
 import { useExamStatus } from '@/composables/useExamStatus';
-import { Exam } from '@/interfaces/Exam';
+import { Exam, ExamActionPermissions } from '@/interfaces/Exam';
 import { RedirectUrl } from '@/interfaces/Interfaces';
 import BaseListItem from '@/components/BaseComponents/BaseList/BaseListItem.vue';
 
-const props = defineProps<{exam : Exam | null}>()
+const props = defineProps<{
+  exam : Exam, 
+  permissions:ExamActionPermissions
+}>()
 
 const emit = defineEmits<{
   (e:'cancel', value:string):void,
@@ -52,7 +53,7 @@ const download = (document :string) => {
     http.get(`/exams/${props.exam.id}/documents/${document}/available`,{
       onSuccess:(response) => {
         if(response.redirectUrl){
-          //modals.open('pdf', {url:page.flash.redirectUrl})
+          //modals.open('pdf', {url:response.redirectUrl})
           window.open(String(response.redirectUrl))
         }
       },
@@ -62,8 +63,6 @@ const download = (document :string) => {
     })
 }
 
-
-const auth = useAuth()
 const modals = useModals()
 const {isCancelled, isPending} = useExamStatus(props.exam)
 
@@ -81,12 +80,12 @@ const downloadCodesDisabled  = !props.exam?.documentsAvailable.codes.available
         title="Кода" 
         :disabled="downloadCodesDisabled"
         @click="() => download('codes')" 
-        v-if="auth.can([Roles.EXAMINER])"
+        v-if="permissions.codes"
       />
 
       <BaseListItem 
         title="Список"
-        v-if="auth.can([Roles.OPERATOR, Roles.EXAMINER, Roles.DIRECTOR])"
+        v-if="permissions.list"
         :disabled="downloadListDisabled"  
         @click="download('list')" 
       />
@@ -95,20 +94,20 @@ const downloadCodesDisabled  = !props.exam?.documentsAvailable.codes.available
         title="Результаты"
         :subtitle="props.exam?.documentsAvailable.results.label"
         :disabled="downloadResultslDisabled" 
-        v-if="auth.can([Roles.EXAMINER])"
+        v-if="permissions.results"
         @click="() => download('results')" 
       />
 
       <BaseListItem 
         title="Протокол" 
-        v-if="auth.can([Roles.EXAMINER])"
+        v-if="permissions.protocol"
         :disabled="downloadProtocolDisabled"
         @click="() => download('protocol')" 
       />
-      <v-divider v-if="auth.can([Roles.SCHEDULER])"></v-divider>
+      <v-divider v-if="permissions.edit || permissions.delete"></v-divider>
       <BaseListItem 
         title="Редактировать" 
-        v-if="auth.can([Roles.SCHEDULER])" 
+        v-if="permissions.edit"
         @click="modals.open('examEdit', {exam:exam, onEdit:(exam:Exam) => emit('edit', exam)})"
         :disabled="editDisabled"
       />
@@ -118,7 +117,7 @@ const downloadCodesDisabled  = !props.exam?.documentsAvailable.codes.available
         title="Отменить" 
         @click="cancelExam"
         :disabled="cancelDisabled" 
-        v-if="auth.can([Roles.SCHEDULER])" 
+        v-if="permissions.delete"
       />
     </BaseThreeDotDropdown>
 </template>

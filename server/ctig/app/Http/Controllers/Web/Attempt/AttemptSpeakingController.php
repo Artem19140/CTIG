@@ -15,7 +15,7 @@ class AttemptSpeakingController
         Attempt $attempt, 
         GetAttemptSpeakingTasksQuery $getAttemptSpeakingQuery
     ){
-        Gate::authorize('attempt-examiner-access', $attempt);
+        $this->authorize($attempt);
         $this->ensureAttemptHasSpeaking($attempt); 
         $this->ensureExamStarted($attempt);
         $this->ensureTodayIsExamDay($attempt);
@@ -32,7 +32,7 @@ class AttemptSpeakingController
     }
 
     public function start(Attempt $attempt){
-        Gate::authorize('attempt-examiner-access', $attempt);
+        $this->authorize($attempt);
         $this->ensureAttemptHasSpeaking($attempt);
         $this->ensureExamStarted($attempt);
         $this->ensureTodayIsExamDay($attempt);
@@ -46,7 +46,7 @@ class AttemptSpeakingController
     }
 
     public function finish(Attempt $attempt){
-        Gate::authorize('attempt-examiner-access', $attempt);
+        $this->authorize($attempt);
         $this->ensureAttemptHasSpeaking($attempt);
         $this->ensureSpeakingNotFinished($attempt);
         $this->ensureExamStarted($attempt);
@@ -58,7 +58,7 @@ class AttemptSpeakingController
     }
 
     protected function authorize(Attempt $attempt){
-        Gate::authorize('attempt-examiner-access', $attempt);
+        Gate::authorize('examiner', $attempt->exam);
     }
 
     protected function ensureSpeakingNotFinished(Attempt $attempt){

@@ -2,7 +2,6 @@
 
 namespace App\Domain\Attempt\Action;
 
-
 use App\Domain\Counter\GenerateGroupNumberAction;
 use App\Domain\Counter\GetSessionNumberQuery;
 use App\Domain\Exam\Guard\ExamGuard;
@@ -13,6 +12,7 @@ use App\Models\Exam;
 use App\Models\ForeignNational;
 use App\Models\AttemptAnswer;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 
 class CreateAttemptAction{
@@ -30,7 +30,6 @@ class CreateAttemptAction{
             $exam = Exam::find($enrollment->exam_id);
             
             $this->examGuard->ensureNotCancelled($exam);
-            $this->examGuard->ensureNotFinished($exam);
             $this->examGuard->ensureGoing($exam);
             
             $attempt =  $this->createAttempt($foreignNational, $enrollment);
@@ -55,6 +54,10 @@ class CreateAttemptAction{
             ->exists();
 
         if($hasAttempt){
+            Log::warning('trying to create second attempt per exam', [
+                'enrollment_id' => $enrollment->id,
+                'exam_id' => $enrollment->exam_id
+            ]);
             throw new BusinessException('Сущестует текущая попытка экзамен');
         }
 

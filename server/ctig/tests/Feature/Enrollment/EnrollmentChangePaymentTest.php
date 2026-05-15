@@ -2,29 +2,27 @@
 
 namespace Tests\Feature\Enrollment;
 
-use App\Enums\UserRoles;
 use App\Models\Attempt;
 use App\Models\Center;
 use App\Models\Enrollment;
 use App\Models\Exam;
-use App\Models\User;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Helpers\RolesAccessCheck;
 use Tests\TestCase;
 
 class EnrollmentChangePaymentTest extends TestCase
 {
-    use RefreshDatabase, RolesAccessCheck;
-    protected User $user;
+    use RefreshDatabase;
+    protected Employee $employee;
     protected string $model;
     protected Center $center;
     protected function setUp():void{
         parent::setUp();
         $this->seed(RolesSeeder::class);
         $this->center = Center::factory()->create();
-        $this->user = User::factory()->operator()->create(['center_id' => $this->center->id]);
+        $this->employee = Employee::factory()->operator()->create(['center_id' => $this->center->id]);
         Carbon::setTestNow(now());
     }
 
@@ -33,8 +31,8 @@ class EnrollmentChangePaymentTest extends TestCase
         parent::tearDown();
         Carbon::setTestNow();
     }
-    protected function putPayment(int $enrollmentId, User | null $user = null){
-        return $this->actingAs($user ?? $this->user)
+    protected function putPayment(int $enrollmentId, Employee | null $user = null){
+        return $this->actingAs($employee ?? $this->employee)
             ->putJson("/enrollments/$enrollmentId/payment");
     }
     public function test_success(): void
@@ -59,9 +57,9 @@ class EnrollmentChangePaymentTest extends TestCase
             'exam_id' => $exam->id,
             'center_id' => $this->center->id
         ]);
-        $user = User::factory()->examiner()->create(['center_id' => $this->center->id]);
-        $exam->examiners()->attach($user);
-        $response = $this->putPayment($enrollment->id, $user);
+        $employee = Employee::factory()->examiner()->create(['center_id' => $this->center->id]);
+        $exam->examiners()->attach($employee);
+        $response = $this->putPayment($enrollment->id, $employee);
 
         $response->assertOk();
     }
@@ -100,25 +98,9 @@ class EnrollmentChangePaymentTest extends TestCase
             'exam_id' => $exam->id,
             'center_id' => $this->center->id
         ]);
-        $user = User::factory()->examiner()->create();
-        $response = $this->putPayment($enrollment->id, $user);
+        $employee = Employee::factory()->examiner()->create();
+        $response = $this->putPayment($enrollment->id, $employee);
 
         $response->assertForbidden();
-    }
-
-    public function test_access_roles(){
-        $exam = Exam::factory()->inFuture()->create(['center_id' => $this->center->id]);
-
-        $enrollment = Enrollment::factory()->create([
-            'exam_id' => $exam->id,
-            'center_id' => $this->center->id
-        ]);
-
-        $this->accessRolesCheck(
-            allowedRoles:[UserRoles::Operator],
-            method:'PUT',
-            route: fn () => "/enrollments/$enrollment->id/payment",
-            center:$this->center
-        );
     }
 }

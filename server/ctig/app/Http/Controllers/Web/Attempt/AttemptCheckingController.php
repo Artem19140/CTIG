@@ -56,6 +56,7 @@ class AttemptCheckingController
     }
 
     public function finishSpeaking(Attempt $attempt){
+
         $this->authorize($attempt);
         $attempt->loadMissing('exam.type');
 
@@ -69,6 +70,6 @@ class AttemptCheckingController
     }
 
     protected function authorize(Attempt $attempt){
-        Gate::authorize('attempt-examiner-access', $attempt);
+        Gate::authorize('examiner', $attempt->exam);
     }
 }

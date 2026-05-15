@@ -8,10 +8,12 @@ use App\Http\Requests\AttemptAnswer\AttemptAnswerRequest;
 use App\Http\Resources\AttemptAnswer\AttemptAnswerResource;
 use App\Models\Attempt;
 use App\Models\AttemptAnswer;
+use App\Models\Exam;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class AttemptAnswerController
 {
@@ -31,7 +33,7 @@ class AttemptAnswerController
         $this->authorize($attempt, $attemptAnswer);
         $answer = $request->input('answer');
         $savedAnswer = DB::transaction(function()use($answer, $attempt,$attemptAnswer, $handleAttemptAnswerAction){
-            $answer = $handleAttemptAnswerAction->execute($answer, $attempt, $attemptAnswer);
+            $answer = $handleAttemptAnswerAction->execute($answer, $attemptAnswer);
             $attempt->last_activity_at = Carbon::now();
             $attempt->save();
             return $answer;
@@ -47,16 +49,8 @@ class AttemptAnswerController
         $request->validate([
             'mark' => ['required', 'integer', 'min:0']
         ]);
+        Gate::authorize('examiner', $attemptAnswer->attempt->exam);
 
-        $canRate = $attemptAnswer->exam()
-            ->whereHas('examiners', function(Builder $query) use($request){
-                $query->where('examiner_id', $request->user()->id);
-            })->exists();
-
-        if(!$canRate){
-            abort(403);
-        }
-        
         $attemptAnswer = $rateAttemptAnswerAction->execute($attemptAnswer, $request->input('mark'));
         
         return response()->json(['attemptAnswer' => new AttemptAnswerResource($attemptAnswer)]);

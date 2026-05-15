@@ -17,7 +17,7 @@ return new class extends Migration
                 
             $table->foreignId('ban_by_id')
                 ->nullable()
-                ->constrained('users')
+                ->constrained('employees')
                 ->cascadeOnDelete();
 
             $table->foreignId('enrollment_id')

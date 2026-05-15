@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Models\User;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,7 +26,7 @@ class ChangePasswordTest extends TestCase
         Carbon::setTestNow();
     }
     public function test_success(): void{
-        $user = User::factory()
+        $employee = Employee::factory()
             ->operator()
             ->create([
                 'has_to_change_password' => true
@@ -34,18 +34,18 @@ class ChangePasswordTest extends TestCase
 
         $newPassword = '123456789';
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($employee)
             ->postJson('password/change', [
                 'password' => $newPassword,
                 'password_confirmation' => $newPassword
             ]);
         $response->assertRedirectToRoute('foreign-nationals.index');
-        $user->refresh();
-        $this->assertTrue(Hash::check($newPassword, $user->password));
+        $employee->refresh();
+        $this->assertTrue(Hash::check($newPassword, $employee->password));
     }
 
     public function test_fail_no_flag_change_password(): void{
-        $user = User::factory()
+        $employee = Employee::factory()
             ->operator()
             ->create([
             'has_to_change_password' => false
@@ -53,19 +53,19 @@ class ChangePasswordTest extends TestCase
 
         $newPassword = '123456789';
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($employee)
             ->postJson('password/change', [
                 'password' => $newPassword,
                 'password_confirmation' => $newPassword
             ]);
 
         $response->assertForbidden();
-        $user->refresh();
-        $this->assertFalse(Hash::check($newPassword, $user->password));
+        $employee->refresh();
+        $this->assertFalse(Hash::check($newPassword, $employee->password));
     }
 
     public function test_fail_not_equal_password(): void{
-        $user = User::factory()
+        $employee = Employee::factory()
             ->operator()
             ->create([
                 'has_to_change_password' => true
@@ -73,55 +73,55 @@ class ChangePasswordTest extends TestCase
 
         $newPassword = '123456789';
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($employee)
             ->postJson('password/change', [
                 'password' => $newPassword,
                 'password_confirmation' => $newPassword.'1'
             ]);
         $response->assertUnprocessable();
-        $user->refresh();
-        $this->assertFalse(Hash::check($newPassword, $user->password));
+        $employee->refresh();
+        $this->assertFalse(Hash::check($newPassword, $employee->password));
     }
 
     public function test_fail_old_password(): void{
         $newPassword = '123456789';
 
-        $user = User::factory()
+        $employee = Employee::factory()
             ->operator()
             ->create([
                 'has_to_change_password' => true,
                 'password' => Hash::make($newPassword)
         ]);
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($employee)
             ->postJson('password/change', [
                 'password' => $newPassword,
                 'password_confirmation' => $newPassword
             ]);
 
         $response->assertUnprocessable();
-        $user->refresh();
-        $this->assertTrue(Hash::check($newPassword, $user->password));
+        $employee->refresh();
+        $this->assertTrue(Hash::check($newPassword, $employee->password));
     }
 
     public function test_fail_super_admin(): void{
         $newPassword = '123456789';
 
-        $user = User::factory()
+        $employee = Employee::factory()
             ->superAdmin()
             ->create([
                 'has_to_change_password' => true,
                 'password' => Hash::make($newPassword)
         ]);
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($employee)
             ->postJson('password/change', [
                 'password' => $newPassword.'1',
                 'password_confirmation' => $newPassword.'1'
             ]);
 
         $response->assertForbidden();
-        $user->refresh();
-        $this->assertTrue(Hash::check($newPassword, $user->password));
+        $employee->refresh();
+        $this->assertTrue(Hash::check($newPassword, $employee->password));
     }
 }

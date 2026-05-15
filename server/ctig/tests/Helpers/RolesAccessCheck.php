@@ -2,9 +2,9 @@
 
 namespace Tests\Helpers;
 
-use App\Enums\UserRoles;
+use App\Enums\EmployeeRole;
 use App\Models\Center;
-use App\Models\User;
+use App\Models\Employee;
 
 trait RolesAccessCheck
 {
@@ -18,7 +18,7 @@ trait RolesAccessCheck
         Center | null $center = null
     ){
         $this->accessCheck(
-            roles:array_merge($allowedRoles, [UserRoles::SuperAdmin]),
+            roles:array_merge($allowedRoles, [EmployeeRole::SuperAdmin]),
             method:$method,
             route:$route,
             data:$data,
@@ -28,7 +28,7 @@ trait RolesAccessCheck
         );
 
         $this->accessCheck(
-            roles:UserRoles::except( UserRoles::SuperAdmin, ...$allowedRoles),
+            roles:EmployeeRole::except( EmployeeRole::SuperAdmin, ...$allowedRoles),
             method:$method,
             route:$route,
             data:$data,
@@ -51,7 +51,7 @@ trait RolesAccessCheck
         }
         
         foreach ($roles as $role) {
-            $user = User::factory()
+            $user = Employee::factory()
                 ->withRole($role)
                 ->create($center ? ['center_id' => $center-> id] : []);
 

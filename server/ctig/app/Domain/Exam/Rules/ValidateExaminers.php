@@ -2,10 +2,10 @@
 
 namespace App\Domain\Exam\Rules;
 
-use App\Enums\UserRoles;
+use App\Enums\EmployeeRole;
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
-use App\Models\User;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -16,7 +16,7 @@ class ValidateExaminers{
 
         $parralellExaminersExams = $this->getParralellExaminersExams($beginTime, $endTime, $examinersIds, $examId);
 
-        $examiners = User::with('roles')->whereIn('id', $examinersIds)->get();
+        $examiners = Employee::with('roles')->whereIn('id', $examinersIds)->get();
 
         $this->ensureHasNoExaminersConflict($parralellExaminersExams, $examiners);
 
@@ -35,10 +35,10 @@ class ValidateExaminers{
             ->whereEndTimeMore($beginTime)
             ->notCancelled()
             ->with('examiners', function (BelongsToMany $query)use ($examiners): void{
-                $query->whereIn('users.id', $examiners);
+                $query->whereIn('employees.id', $examiners);
             })
             ->whereHas('examiners', function (Builder $query) use ($examiners): void {
-                $query->whereIn('users.id', $examiners);
+                $query->whereIn('employees.id', $examiners);
             })
             ->when($examId, function (Builder $query) use($examId){
                 $query->where('id', '<>', $examId);
@@ -84,7 +84,7 @@ class ValidateExaminers{
 
     protected function ensureAllHasRoleExaminer(Collection $examiners):void{
         $noRoleExaminer = $examiners->filter(function($examiner){
-            return !$examiner->hasRole(UserRoles::Examiner->value);
+            return !$examiner->hasRole(EmployeeRole::Examiner->value);
         });
 
         if($noRoleExaminer->isNotEmpty()){

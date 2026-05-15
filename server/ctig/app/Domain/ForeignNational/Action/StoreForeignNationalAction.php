@@ -4,23 +4,27 @@ namespace App\Domain\ForeignNational\Action;
 
 use App\Domain\ForeignNational\Guard\ForeignNationalGuard;
 use App\Models\ForeignNational;
-use App\Models\User;
+use App\Models\Employee;
 use Storage;
 
 final class StoreForeignNationalAction{
     public function __construct(
         protected ForeignNationalGuard $foreignNationalGuard
     ){}
-    public function execute(array $data, User $user): ForeignNational{
+    public function execute(
+        array $data, 
+        Employee $employee
+    ): ForeignNational
+    {
         $this->foreignNationalGuard->ensureAge($data['dateBirth']);
         $this->foreignNationalGuard->ensureUniquePassport($data);
         $foreignNational =  ForeignNational::create(
-            $this->attributes($data, $user->id),
+            $this->attributes($data, $employee),
         );
         return $foreignNational;
     }
 
-    private function attributes(array $data, int $creatorId):array{
+    private function attributes(array $data, Employee $creator):array{
         return [
             'surname' => $data['surname'],
             'name'=> $data['name'],
@@ -36,7 +40,8 @@ final class StoreForeignNationalAction{
             'citizenship'=> $data['citizenship'],
             'phone'=> $data['phone'],
             'address_reg'=> $data['addressReg'],
-            'creator_id'=>$creatorId,
+            'creator_id'=>$creator->id,
+            'center_id'=>$creator->center_id,
             'gender' => $data['gender'],
             'comment' => $data['comment'],
             'passport_translate_scan' => Storage::putFile('avatars', $data['passportTranslateScan']),
@@ -49,7 +54,7 @@ final class StoreForeignNationalAction{
         ];
     }
 
-    protected function normalize(string | null $value){
+    protected function normalize(string | null $value):string{
         if(!$value) return '';
         $value = trim($value);
 

@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Exam;
 
 use App\Models\Exam;
-use App\Models\User;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -11,7 +11,7 @@ use App\Http\Dto\ExamDto;
 
 class ExamPostRequest extends FormRequest
 {
-    public function authorize(User $user): bool
+    public function authorize(Employee $employee): bool
     {
         return true;
     }
@@ -62,7 +62,7 @@ class ExamPostRequest extends FormRequest
                 'required',
                 'integer',
                 'min:1',
-                'exists:users,id',
+                'exists:employees,id',
             ],
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace App\Domain\Report;
 
+use App\Domain\Center\CenterContext;
 use App\Domain\Report\EnsureFrdoGenerationAvailable;
 use App\Enums\AttemptStatus;
 use App\Enums\ReportType;
@@ -33,9 +34,13 @@ class FRDOReportsGenerator{
     }
 
     protected function attemptsForReport($examDate, bool $success): Collection{
-        $attempts = Attempt::with(['exam.type','foreignNational','exam.address'])
-            ->whereCreatedAtMore($examDate->copy()->startOfDay())
-            ->whereCreatedAtLess($examDate->copy()->endOfDay())
+        $attempts = Attempt::query()
+            ->forCenter(app(CenterContext::class)->id())
+            ->with(['exam.type','foreignNational','exam.address'])
+            ->whereBetween('created_at', [
+                $examDate->copy()->startOfDay(),
+                $examDate->copy()->endOfDay()
+            ])
             ->where('is_passed',$success)
             ->where('status', AttemptStatus::Checked)
             ->get();

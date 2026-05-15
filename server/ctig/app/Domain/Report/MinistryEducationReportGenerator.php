@@ -2,6 +2,7 @@
 
 namespace App\Domain\Report;
 
+use App\Domain\Center\CenterContext;
 use App\Enums\ReportType;
 use App\Events\ReportGenerated;
 use App\Models\Attempt;
@@ -32,9 +33,13 @@ class MinistryEducationReportGenerator
     }
 
     protected function writeRows(Carbon $dateFrom, Carbon $dateTo){
-        Attempt::select(['id', 'foreign_national_id', 'exam_id', 'is_passed'])
-            ->whereCreatedAtMore($dateFrom)
-            ->whereCreatedAtLess($dateTo)
+        Attempt::query()
+            ->select(['id', 'foreign_national_id', 'exam_id', 'is_passed'])
+            ->forCenter(app(CenterContext::class)->id())
+            ->whereBetween('created_at', [
+                $dateFrom,
+                $dateTo
+            ])
             ->with(['foreignNational', 'exam.type'])
             ->chunkById(200, function($attempts){
                 foreach($attempts as $attempt){

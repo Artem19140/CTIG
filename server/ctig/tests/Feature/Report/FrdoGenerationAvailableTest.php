@@ -3,7 +3,8 @@
 namespace Tests\Feature\Report;
 
 use App\Models\Attempt;
-use App\Models\User;
+use App\Models\Center;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -12,11 +13,13 @@ use Tests\TestCase;
 class FrdoGenerationAvailableTest extends TestCase
 {
     use RefreshDatabase;
-    protected User $user;
+    protected Employee $actor;
+    protected Center $center;
     protected function setUp():void{
         parent::setUp(); 
         $this->seed(RolesSeeder::class);
-        $this->user = User::factory()->director()->create();
+        $this->center = Center::factory()->create();
+        $this->actor = Employee::factory()->director()->create(['center_id' => $this->center->id]);
         
         Carbon::setTestNow(now());
     }
@@ -27,7 +30,7 @@ class FrdoGenerationAvailableTest extends TestCase
     }
 
     protected function getFrdo(bool $passed){
-        return $this->actingAs($this->user)
+        return $this->actingAs($this->actor)
             ->getJson(route('reports.frdo.available', [
             'success' => $passed,
             'examDate' => Carbon::now()->format('Y-m-d')
@@ -36,7 +39,8 @@ class FrdoGenerationAvailableTest extends TestCase
     public function test_success_passed(): void
     {
         Attempt::factory(5)->checked()->passed()->create([
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
+            'center_id' => $this->center->id
         ]);
         $response = $this->getFrdo(true);
 
@@ -46,7 +50,7 @@ class FrdoGenerationAvailableTest extends TestCase
     public function test_success_not_passed(): void
     {
         Attempt::factory(5)->checked()->failed()->create([
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
         ]);
 
         Attempt::factory(5)->checked()->passed()->create([

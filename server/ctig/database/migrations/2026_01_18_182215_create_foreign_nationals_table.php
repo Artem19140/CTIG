@@ -34,11 +34,11 @@ return new class extends Migration
             $table->string('passport_translate_scan')->nullable()->default(null);
 
             $table->foreignId('creator_id')
-                ->constrained('users');
+                ->constrained('employees');
                 
-            // $table->foreignId('center_id')
-            //     ->constrained('centers')
-            //     ->cascadeOnDelete();
+            $table->foreignId('center_id')
+                ->constrained('centers')
+                ->cascadeOnDelete();
 
             $table->string('surname_normalized');
             $table->string('name_normalized');

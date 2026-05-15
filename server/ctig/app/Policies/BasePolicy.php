@@ -2,17 +2,15 @@
 
 namespace App\Policies;
 
-use App\Models\User;
+use App\Models\Employee;
 use Illuminate\Database\Eloquent\Model;
 
 trait BasePolicy
 {
-    public function sameCenter(User $user, Model $model){
-        if($user->isSuperAdmin()){
-            return ;
+    public function sameCenter(Employee $employee, Model $model){
+        if($employee->center_id === $model->center_id){
+            return true;
         }
-        if($user->center_id !== $model->center_id){
-            abort(403);
-        }
+        return false;
     }
 }

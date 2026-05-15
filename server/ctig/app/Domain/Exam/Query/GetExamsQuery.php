@@ -2,6 +2,7 @@
 
 namespace App\Domain\Exam\Query;
 
+use App\Domain\Center\CenterContext;
 use App\Models\Exam;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\Paginator;
@@ -19,6 +20,8 @@ class GetExamsQuery{
 
         $query = Exam::with(['type', 'center'])
             ->withCount(['enrollments']);
+
+        $query->forCenter(app(CenterContext::class)->id());
 
         $query->when($examTypeId, fn ($q) =>
             $q->where('exam_type_id', $examTypeId)

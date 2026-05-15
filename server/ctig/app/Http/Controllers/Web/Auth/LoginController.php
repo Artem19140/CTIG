@@ -19,10 +19,10 @@ class LoginController
             ]);
         }
 
-        $user = Auth::user();
+        $employee = Auth::user();
         $request->session()->regenerate();
-        $user->loadMissing('center');
-        if(!$user->isActive() || !$user->center->isActive()){
+        $employee->loadMissing('center');
+        if(!$employee->isActive() || !$employee->center->isActive()){
             Auth::logout();
             throw ValidationException::withMessages([
                 'email' => 'Неверные учетные данные.',
@@ -30,11 +30,11 @@ class LoginController
             ]);
         }
 
-        if ($user->hasChangePassword()) {
+        if ($employee->hasChangePassword()) {
             return redirect()->route('password.change');
         }
 
-        return redirect()->to($user->resolveRedirect());
+        return redirect()->to($employee->resolveRedirect());
     }
 
     protected function noAccess(LoginRequest $request):bool{

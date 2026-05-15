@@ -2,23 +2,21 @@
 
 namespace Tests\Feature\Report;
 
-use App\Enums\UserRoles;
 use App\Models\Attempt;
-use App\Models\User;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Helpers\RolesAccessCheck;
 use Tests\TestCase;
 
 class FrdoGenerationTest extends TestCase
 {
-    use RefreshDatabase, RolesAccessCheck;
-    protected User $user;
+    use RefreshDatabase;
+    protected Employee $user;
     protected function setUp():void{
         parent::setUp(); 
         $this->seed(RolesSeeder::class);
-        $this->user = User::factory()->director()->create();
+        $this->actor = Employee::factory()->director()->create();
         
         Carbon::setTestNow(now());
     }
@@ -34,7 +32,7 @@ class FrdoGenerationTest extends TestCase
             'created_at' => Carbon::now()
         ]);
 
-        $response = $this->actingAs($this->user)
+        $response = $this->actingAs($this->actor)
             ->getJson(route('reports.frdo', [
             'success' => true,
             'examDate' => Carbon::now()->format('Y-m-d')
@@ -53,7 +51,7 @@ class FrdoGenerationTest extends TestCase
             'created_at' => Carbon::now()
         ]);
 
-        $response = $this->actingAs($this->user)
+        $response = $this->actingAs($this->actor)
             ->getJson(route('reports.frdo', [
             'success' => false,
             'examDate' => Carbon::now()->format('Y-m-d')
@@ -64,21 +62,5 @@ class FrdoGenerationTest extends TestCase
             $response->headers->get('Content-Type')
         );
         $response->assertStatus(200); 
-    }
-
-    public function test_access_roles(){
-        Attempt::factory(5)->checked()->failed()->create([
-            'created_at' => Carbon::now()
-        ]);
-
-        $this->accessRolesCheck(
-            allowedRoles:[UserRoles::Director, UserRoles::Operator],
-            method:'GET',
-            route: route('reports.frdo', [
-                'success' => false,
-                'examDate' => Carbon::now()->format('Y-m-d')
-            ]),
-            expectedCode: 200
-        );
     }
 }

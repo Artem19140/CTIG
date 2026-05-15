@@ -8,18 +8,26 @@ import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import { ExamStatus } from '@/constants/ExamStatus';
 import ExamCapacityChip from '@/components/Exam/ExamCapacityChip.vue';
-import { Exam } from '@/interfaces/Exam';
+import { Exam, ExamActionPermissions } from '@/interfaces/Exam';
 import { Enrollment } from '@/interfaces/Enrollment';
 import { useAuth } from '@/composables/useAuth';
 import { Roles } from '@/constants/Roles';
+
 
 const props = defineProps<{
     examId:number
 }>()
 
-const http = useHttp()
+const http = useHttp<
+    {}, 
+    {
+        exam:Exam, 
+        permissions:ExamActionPermissions
+    }
+>()
 
 const exam = ref<Exam |null>(null)
+const permissions = ref<ExamActionPermissions | null>(null)
 
 const isOpen = defineModel<boolean>({default:false})
 
@@ -29,8 +37,9 @@ const examiners = computed(() =>{
 
 const getExam = async () => {
     await http.get(`/exams/${props.examId}`,{
-        onSuccess:(response : any)=>{
-            exam.value = response.data
+        onSuccess:(response)=>{
+            exam.value = response.exam
+            permissions.value = response.permissions
         },
     })
 }
@@ -86,7 +95,10 @@ const {can} = useAuth()
             <ExamActionsDropdown
                 @cancel="cancel"
                 @edit="edit"
-            :exam="exam" />
+                :exam="exam" 
+                v-if="permissions && exam"
+                :permissions="permissions"
+            />
         </template> 
         <v-card-text class="pt-0">
         <v-list>
@@ -124,7 +136,7 @@ const {can} = useAuth()
         </v-list>
         </v-card-text>
         <v-divider></v-divider>
-        <v-card-text v-if="can([Roles.OPERATOR, Roles.EXAMINER, Roles.DIRECTOR])">
+        <v-card-text>
             <v-list>
                 <v-list-item>
                     <div class="flex justify-between">
@@ -138,7 +150,12 @@ const {can} = useAuth()
             </v-list>
             <v-list>
                 <v-list-item  v-if="exam?.enrollmentsCount">
-                    <EnrollmentsTable @reschedule="rechedule" :exam="exam" />
+                    <EnrollmentsTable 
+                        :permissions="permissions"
+                        v-if="permissions"
+                        @reschedule="rechedule" 
+                        :exam="exam" 
+                    />
                 </v-list-item>
                 <v-list-item  v-else class="text-center">
                     <v-list-item-subtitle>Запись пуста</v-list-item-subtitle>

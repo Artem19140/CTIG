@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import EnrollmentDropDown from '@/components/Enrollment/EnrollmentDropDown.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import { useModals } from '@composables/useModals';
 import ExamResultStatusChip from '@/components/Exam/ExamResultStatusChip.vue';
@@ -66,7 +65,7 @@ const modals = useModals()
               :status="enrollment.exam.status"
               v-if="enrollment.exam.status === 'cancelled'"
             />
-            <EnrollmentDropDown :enrollment="enrollment"/>
+            <!-- <EnrollmentDropDown :enrollment="enrollment"/> -->
           </div>
         </v-card-text>
       </v-card>

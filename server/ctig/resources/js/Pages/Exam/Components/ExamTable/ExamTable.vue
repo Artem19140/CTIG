@@ -5,16 +5,15 @@ import BasePaginatedTable from '@components/BaseComponents/BasePaginatedTable/Ba
 import ExamTableDropDown from './ExamTableDropDown.vue';
 import ExamTableFilter from './ExamTableFilter.vue';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
-import { useAuth } from '@composables/useAuth';
-import { Roles } from '@constants/Roles';
 import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import ExamCapacityChip from '@/components/Exam/ExamCapacityChip.vue';
 import { ref } from 'vue';
-import { ExamIndex } from '@/interfaces/Exam';
+import { ExamIndex, ExamPagePermissions } from '@/interfaces/Exam';
 
 const props = defineProps<{
-    exams: Paginated<ExamIndex>
+    exams: Paginated<ExamIndex>,
+    permissions:ExamPagePermissions
 }>()
 
 const headers = [
@@ -28,11 +27,10 @@ const {open} = useModals()
 const openModal = (item :any) => {
     open('examShow', {examId:item.id})
 }
-const auth = useAuth()
 const loading = ref<boolean>(false)
 </script>
 
-<template>
+<template>    
     <BasePaginatedTable
         :headers="headers"
         :elements="exams"
@@ -40,6 +38,7 @@ const loading = ref<boolean>(false)
         :loading="loading"
         @row-click="openModal"
     >
+    
         <template #toolbar-left>
             <ExamTableFilter 
                 v-model="loading"
@@ -49,9 +48,11 @@ const loading = ref<boolean>(false)
             <AppAddButton
                 text="Добавить"
                 @click="open('examCreate', {})"
-                v-if="auth.can([Roles.SCHEDULER])"
+                v-if="permissions.create"
             />
-            <ExamTableDropDown  v-if="auth.can([Roles.DIRECTOR])" />
+            <ExamTableDropDown 
+                :permissions="permissions"
+            />
         </template>
         <template #item.foreignNationalsCount="{ item }">
             <ExamCapacityChip :exam="item" />

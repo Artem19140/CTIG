@@ -2,6 +2,7 @@
 
 namespace App\Domain\Report;
 
+use App\Domain\Center\CenterContext;
 use App\Enums\AttemptStatus;
 use App\Enums\ReportType;
 use App\Enums\TaskType;
@@ -16,10 +17,12 @@ class FlatTableGenerator{
         fputcsv($handle, $this->headers());
         $strNumber = 1;
         
-        Attempt::with(['foreignNational', 'exam.type', 'answers' => [
-            'taskVariant.task',
-            'answer'
-        ]])
+        Attempt::query()
+            ->forCenter(app(CenterContext::class)->id())
+            ->with(['foreignNational', 'exam.type', 'answers' => [
+                'taskVariant.task',
+                'answer'
+            ]])
             ->whereCreatedAtMore( $dateFrom->copy()->startOfDay())
             ->whereCreatedAtLess($dateTo = $dateTo->copy()->endOfDay())
             ->where('status', AttemptStatus::Checked)

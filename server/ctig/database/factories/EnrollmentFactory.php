@@ -6,7 +6,7 @@ use App\Models\Center;
 use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\ForeignNational;
-use App\Models\User;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -27,7 +27,7 @@ class EnrollmentFactory extends Factory
             'foreign_national_id' => ForeignNational::factory(),
             'center_id' => Center::factory(),
             'reg_number' => 260000,
-            'creator_id' => User::factory()
+            'creator_id' => Employee::factory()
         ];
     }
 

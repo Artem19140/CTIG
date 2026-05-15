@@ -15,6 +15,9 @@ defineOptions({
 const props = defineProps<{
   exams : {
     data:ExamCalendar[]
+  },
+  permissions:{
+    create:boolean
   }
 }>()
 
@@ -101,7 +104,7 @@ const addExam = (nativeEvent : Event, { date } : any) => {
       <AppAddButton
         text="Добавить"
         @click="open('examCreate', {})"
-        v-if="can([Roles.SCHEDULER])"
+        v-if="permissions.create"
       />
     </div>
     

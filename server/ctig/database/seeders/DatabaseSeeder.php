@@ -8,7 +8,7 @@ use App\Models\Address;
 use App\Models\Counter;
 use App\Models\Center;
 use App\Models\Role;
-use App\Models\User;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Database\Seeders\ExamTypes\PATENT\PatentSeeder;
 use Database\Seeders\ExamTypes\RVP\RvpSeeder;
@@ -16,7 +16,7 @@ use Database\Seeders\ExamTypes\VNZH\VnzhSeeder;
 use Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Enums\UserRoles;
+use App\Enums\EmployeeRole;
 
 
 class DatabaseSeeder extends Seeder
@@ -42,17 +42,7 @@ class DatabaseSeeder extends Seeder
             'commission_chairman' => 'Иванов Иван Иванович'
         ]);
 
-        Address::create([
-            'address'=>'Ижевск, Университетская, 1/корпус 2/каб. 124',
-            'max_capacity' => 15,
-            'center_id' => $center->id
-        ]);
-
-        Address::create([
-            'address'=>'Ижевск, Удмуртская, 2 каб. 542',
-            'max_capacity' => 14,
-            'center_id' => $center->id
-        ]);
+        context(['center_seed_id' => $center->id]);
 
         Counter::create([
             'key' => CounterKey::RegNum,
@@ -66,22 +56,80 @@ class DatabaseSeeder extends Seeder
             'center_id' =>  $center->id
         ]);
 
-        $roleSpecialist = Role::findByEnum(UserRoles::Operator);
+        // Counter::create([
+        //     'key' => CounterKey::RegNum,
+        //     'value' => Carbon::now()->format('y').'0000',
+        //     'center_id' =>  $center->id
+        // ]);
 
-        $roleExaminer = Role::findByEnum(UserRoles::Examiner);
+        // Counter::create([
+        //     'key' => CounterKey::Group,
+        //     'value' => 1,
+        //     'center_id' =>  $center->id
+        // ]);
 
-        $roleScheduler = Role::findByEnum(UserRoles::Scheduler);
+        $roleSpecialist = Role::findByEnum(EmployeeRole::Operator);
 
-        $roleDirector = Role::findByEnum(UserRoles::Director);
+        $roleExaminer = Role::findByEnum(EmployeeRole::Examiner);
+
+        $roleScheduler = Role::findByEnum(EmployeeRole::Scheduler);
+
+        $roleDirector = Role::findByEnum(EmployeeRole::Director);
 
 
-        $roleOrgAdmin = Role::findByEnum(UserRoles::OrgAdmin);
+        $roleOrgAdmin = Role::findByEnum(EmployeeRole::CenterAdmin);
 
-        $SuperAdmin = Role::findByEnum(UserRoles::SuperAdmin);
+        $SuperAdmin = Role::findByEnum(EmployeeRole::SuperAdmin);
         
-        User::factory(5)->create();
 
-        $user = User::create([
+        $password = Hash::make('123456789' );
+        Employee::factory() 
+            ->examiner()   
+            ->create([
+                'center_id' => $center,
+                'email' => 'examiner@udsu.ru',
+                'has_to_change_password' => false,
+                'password' => $password
+            ]);
+
+        Employee::factory() 
+            ->operator()   
+            ->create([
+                'center_id' => $center,
+                'email' => 'operator@udsu.ru',
+                'has_to_change_password' => false,
+                'password' => $password
+            ]);
+
+        Employee::factory() 
+            ->scheduler()   
+            ->create([
+                'center_id' => $center,
+                'email' => 'scheduler@udsu.ru',
+                'has_to_change_password' => false,
+                'password' => $password
+            ]);
+
+        Employee::factory() 
+            ->director()   
+            ->create([
+                'center_id' => $center,
+                'email' => 'director@udsu.ru',
+                'has_to_change_password' => false,
+                'password' => $password
+            ]);
+
+        Employee::factory()
+            ->operator()   
+            ->create([
+                'email' => 'operator2@udsu.ru',
+                'has_to_change_password' => false,
+                'password' => $password
+            ]);
+
+       
+
+        $employee = Employee::create([
             'surname' => 'Петров',
             'name' => 'Николай',
             'patronymic' => 'Дмитрович',
@@ -92,12 +140,26 @@ class DatabaseSeeder extends Seeder
             'has_to_change_password' => false
         ]);
 
-        $user->roles()->attach($SuperAdmin);
-        $user->roles()->attach($roleSpecialist);
-        $user->roles()->attach($roleExaminer);
-        $user->roles()->attach($roleScheduler);
-        $user->roles()->attach($roleDirector);
-        $user->roles()->attach($roleOrgAdmin);
+        Address::create([
+            'address'=>'Ижевск, Университетская, 1/корпус 2/каб. 124',
+            'max_capacity' => 15,
+            'center_id' => $center->id,
+            'creator_id' => $employee->id
+        ]);
+
+        Address::create([
+            'address'=>'Ижевск, Удмуртская, 2 каб. 542',
+            'max_capacity' => 14,
+            'center_id' => $center->id,
+            'creator_id' => $employee->id
+        ]);
+
+        $employee->roles()->attach($SuperAdmin);
+        $employee->roles()->attach($roleSpecialist);
+        $employee->roles()->attach($roleExaminer);
+        $employee->roles()->attach($roleScheduler);
+        $employee->roles()->attach($roleDirector);
+        $employee->roles()->attach($roleOrgAdmin);
         
         $this->call([
             PatentSeeder::class,

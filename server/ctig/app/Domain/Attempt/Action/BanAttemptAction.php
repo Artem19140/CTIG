@@ -3,18 +3,18 @@
 namespace App\Domain\Attempt\Action;
 
 use App\Models\Attempt;
-use App\Models\User;
+use App\Models\Employee;
 use App\Domain\Attempt\Guard\AttemptGuard;
 
 class BanAttemptAction{
     public function __construct(
         protected AttemptGuard $attemptGuard
     ){}
-    public function execute(Attempt $attempt, string $banReason, User $user):void{
+    public function execute(Attempt $attempt, string $banReason, Employee $employee):void{
         $this->attemptGuard->ensureNotBanned($attempt);
 
         $attempt->ban_reason = $banReason;
-        $attempt->ban_by_id = $user->id;
+        $attempt->ban_by_id = $employee->id;
         $attempt->ban();
         $attempt->save();
     }

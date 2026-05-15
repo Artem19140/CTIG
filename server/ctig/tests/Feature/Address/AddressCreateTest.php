@@ -3,23 +3,22 @@
 namespace Tests\Feature\Address;
 
 use App\Models\Center;
-use App\Models\User;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Helpers\RolesAccessCheck;
 use Tests\TestCase;
 
 class AddressCreateTest extends TestCase
 {
-    use RefreshDatabase, RolesAccessCheck;
-    protected User $user;
+    use RefreshDatabase;
+    protected Employee $employee;
     protected Center $center;
     protected function setUp():void{
         parent::setUp();
         $this->seed(RolesSeeder::class);
         $this->center = Center::factory()->create();
-        $this->user = User::factory()->orgAdmin()->create(['center_id' => $this->center->id]);
+        $this->user = Employee::factory()->orgAdmin()->create(['center_id' => $this->center->id]);
         
         Carbon::setTestNow(
             Carbon::now()
@@ -34,7 +33,7 @@ class AddressCreateTest extends TestCase
     public function test_success(): void
     {
         $response = $this
-            ->actingAs($this->user)
+            ->actingAs($this->employee)
             ->postJson(route('centers.addresses.store', ['center' => $this->center]), [
                 'address' => fake()->streetAddress,
                 'capacity' => 12,
@@ -47,7 +46,7 @@ class AddressCreateTest extends TestCase
     public function test_fail_no_required_fields(): void
     {
         $response = $this
-            ->actingAs($this->user)
+            ->actingAs($this->employee)
             ->postJson(route('centers.addresses.store', ['center' => $this->center]), [
                 'center' => $this->center
             ]);
@@ -58,7 +57,7 @@ class AddressCreateTest extends TestCase
     public function test_fail_less_zero_capacity(): void
     {
         $response = $this
-            ->actingAs($this->user)
+            ->actingAs($this->employee)
             ->postJson(route('centers.addresses.store', ['center' => $this->center]), [
                 'address' => fake()->streetAddress,
                 'capacity' => -12,

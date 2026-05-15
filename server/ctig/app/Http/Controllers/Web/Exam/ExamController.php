@@ -8,7 +8,7 @@ use App\Domain\Exam\Action\CreateExamAction;
 use App\Domain\Exam\Action\UpdateExamAction;
 use App\Domain\Exam\Query\ExamShowQuery;
 use App\Domain\Exam\Query\GetExamsQuery;
-use App\Enums\UserRoles;
+use App\Enums\EmployeeRole;
 use App\Http\Requests\Exam\ExamIndexRequest;
 use App\Http\Requests\Exam\VerifyCodeRequest;
 use App\Http\Resources\Address\AddressResource;
@@ -18,52 +18,83 @@ use App\Http\Resources\ExamType\ExamTypeResource;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\User\UserResource;
+use App\Http\Resources\Employee\EmployeeResource;
 use App\Models\Address;
 use App\Models\Exam;
 use App\Models\ExamType;
-use App\Models\User;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Http\Resources\Exam\ExamResource;
 use App\Http\Requests\Exam\ExamPostRequest;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
+
 class ExamController
 {
     public function index(ExamIndexRequest $request, GetExamsQuery $getExamQuery)
     {
+        Gate::authorize('viewAny', Exam::class);
         $exams = $getExamQuery->execute($request->validated() ?? []);
+
         Inertia::flash('filters' , request()->all());
+
+        $employee = $request->user();
+
         return Inertia::render('Exam/Exam', [
+            'permissions' => [
+                'create' => $employee->can('create', Exam::class),
+                'flatTable' => $employee->hasRole(EmployeeRole::Director->value),
+                'frdo' => $employee->can('frdo', Exam::class)
+            ],
             'exams' => ExamIndexResource::collection($exams),
+            
         ]);
         
     }
 
     public function store(ExamPostRequest $request, CreateExamAction $createExamAction)
     {       
+        Gate::authorize('create', Exam::class);
         $createExamAction->execute($request->getDto(),$request->user());
         return response()->json();
     }
 
-    public function createModalData(Request $request){
-        $examiners=User::whereHas('roles', function(Builder $query){
-                $query->where('name',UserRoles::Examiner->value);
+    public function createModalData(){
+        Gate::authorize('create', Exam::class);
+        $examiners=Employee::whereHas('roles', function(Builder $query){
+                $query->where('name', EmployeeRole::Examiner->value);
             })
             ->active()
             ->get();
         return response()->json([
-            'addresses' => AddressResource::collection(Address::where('is_active', true)->where('center_id', $request->user()->center_id)->get()),
+            'addresses' => AddressResource::collection(Address::where('is_active', true)->get()),
             'examTypes' => ExamTypeResource::collection(ExamType::all()),
-            'examiners' => UserResource::collection($examiners)
+            'examiners' => EmployeeResource::collection($examiners)
         ], 200);
     }
 
-    public function show(Exam $exam, ExamShowQuery $examShowQuery){
+    public function show(
+        Request $request, 
+        Exam $exam, 
+        ExamShowQuery $examShowQuery
+    ){
         Gate::authorize('view', $exam);
+        $employee = $request->user();
         $exam = $examShowQuery->execute($exam);
-        return new ExamResource($exam);
+        return response()->json([
+            'permissions' => [
+                'codes' => $employee->can('examiner', $exam),
+                'protocol' => $employee->can('examiner', $exam),
+                'results' => $employee->can('examiner', $exam),
+                'list' => $employee->can('list', $exam),
+                'edit' => $employee->can('update', $exam),
+                'delete' => $employee->can('delete', $exam),
+                'statement' => $employee->hasAnyRole(EmployeeRole::Operator),
+                'payment' => $employee->hasAnyRole(EmployeeRole::Operator) || $employee->can('examiner', $exam)
+            ],
+            'exam' => new ExamResource($exam)
+        ]);
     }
 
     public function update(
@@ -71,6 +102,7 @@ class ExamController
         Exam $exam, 
         UpdateExamAction $updateExam
     ){   
+        Gate::authorize('update', $exam);
         $updateExam->execute(
             $exam, 
             $request->getDto()
@@ -88,7 +120,7 @@ class ExamController
 
         $request->session()->regenerate();
 
-        return redirect()->route('attempts.preparing', ['attempt' => $attempt->id]);
+        return redirect()->route('attempts.show', ['attempt' => $attempt->id]);
     }
 
     public function destroy(
@@ -96,6 +128,7 @@ class ExamController
         CancelExamAction $cancelExam
     )
     {
+        Gate::authorize('delete', Exam::class);
         request()->validate( [
             'cancelledReason' => ['required', 'string']
         ]);
@@ -105,17 +138,21 @@ class ExamController
     }
 
     public function schedule(Request $request){
-
         $dateFrom = Carbon::parse($request->input('dateFrom'))->startOfDay();
         $dateTo = Carbon::parse($request->input('dateTo'))->endOfDay();
 
         $exams = Exam::with(['type', 'center'])
-            ->whereBeginTimeMore( $dateFrom)
-            ->whereBeginTimeLess($dateTo)
+            ->whereBetween('begin_time', [
+                $dateFrom,
+                $dateTo
+            ])
             ->get();
         
         return Inertia::render('Schedule/Schedule',[
-            'exams' => ExamCalendarResource::collection($exams )
+            'exams' => ExamCalendarResource::collection($exams),
+            'permissions' => [
+                'create' => $request->user()->can('create', Exam::class)
+            ]
         ]);
     }
 

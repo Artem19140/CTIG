@@ -47,7 +47,8 @@ class AttemptViolationController{
         $attempt->violations()->where('id', $violation->id)->delete();
         return response()->noContent();
     }
+    
     protected function authorize(Attempt $attempt){
-        Gate::authorize('attempt-examiner-access', $attempt);
+        Gate::authorize('examiner', $attempt->exam);
     }
 }

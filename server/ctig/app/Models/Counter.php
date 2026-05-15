@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use App\Enums\CounterKey;
+use App\Models\Scopes\BelongsToCenter;
 use Illuminate\Database\Eloquent\Model;
 
 class Counter extends Model
 {
+    use BelongsToCenter;
     protected $fillable = [
         'key',
         'value',

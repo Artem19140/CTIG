@@ -100,3 +100,20 @@ interface DocumentAvailble{
     reason:string | null,
     label:string | null
 }
+
+export interface ExamActionPermissions{
+    codes:boolean,
+    list:boolean,
+    results:boolean,
+    protocol:boolean,
+    edit:boolean,
+    delete:boolean,
+    statement:boolean,
+    payment:boolean
+}
+
+export interface ExamPagePermissions{
+    create:boolean,
+    frdo:boolean,
+    flatTable:boolean
+}

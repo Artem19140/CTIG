@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Attempt;
-use App\Models\User;
+use App\Models\Employee;
 use Illuminate\Auth\Access\Response;
 
 class AttemptPolicy
@@ -11,7 +11,7 @@ class AttemptPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(Employee $employee): bool
     {
         return false;
     }
@@ -19,7 +19,7 @@ class AttemptPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Attempt $attempt): bool
+    public function view(Employee $employee, Attempt $attempt): bool
     {
         return false;
     }
@@ -27,7 +27,7 @@ class AttemptPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(Employee $employee): bool
     {
         return false;
     }
@@ -35,32 +35,9 @@ class AttemptPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Attempt $attempt): bool
+    public function update(Employee $employee, Attempt $attempt): bool
     {
         return false;
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Attempt $attempt): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Attempt $attempt): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Attempt $attempt): bool
-    {
-        return false;
-    }
 }

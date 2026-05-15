@@ -47,10 +47,11 @@ class VerifyCodeTest extends TestCase
     public function test_fail_no_payment(): void
     {
         $this->expectException($this->exception);
-        $enrollment = new Enrollment();
-        $enrollment->has_payment = false;
-        $enrollment->code = $this->code;
-        $enrollment->exam_code_expired_at = Carbon::now()->addMinutes(10);
+        Enrollment::factory()
+            ->noPayment()
+            ->examCode($this->code)
+            ->examCodeExpiredAt(Carbon::now()->addMinutes(10))
+            ->create();
         
         $this->action->execute($this->code);
     }
@@ -70,11 +71,13 @@ class VerifyCodeTest extends TestCase
     public function test_fail_used_code(): void
     {
         $this->expectException($this->exception);
-        $enrollment = new Enrollment();
-        $enrollment->has_payment = true;
-        $enrollment->code = $this->code;
-        $enrollment->exam_code_used_at = Carbon::now();
-        $enrollment->exam_code_expired_at = Carbon::now()->addMinutes(10);
+         Enrollment::factory()
+            ->hasPayment()
+            ->examCode($this->code)
+            ->examCodeExpiredAt(Carbon::now()->addMinutes(10))
+            ->create([
+                'exam_code_used_at' => Carbon::now()
+            ]);
         
         $this->action->execute($this->code);
         Log::spy();

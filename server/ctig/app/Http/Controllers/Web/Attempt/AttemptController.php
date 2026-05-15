@@ -7,11 +7,13 @@ use App\Domain\Attempt\Action\FinishAttemptAction;
 use App\Domain\Attempt\Action\StartAttemptAction;
 use App\Domain\Attempt\Query\GetCurrentAttemptQuery;
 use App\Enums\AttemptStatus;
+use App\Exceptions\BusinessException;
 use App\Http\Resources\Attempt\AttemptExamResource;
 use App\Http\Resources\Exam\ExamShortResource;
 use App\Models\Attempt;
 use App\Models\Exam;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Gate;
 
@@ -21,6 +23,18 @@ class AttemptController
         Attempt $attempt,
         GetCurrentAttemptQuery $getCurrentAttemptQuery
     ){
+        if($attempt->status === AttemptStatus::Pending){
+            $exam = Exam::with([
+                'type'
+            ])->find($attempt->exam_id);
+            return Inertia::render('Attempt/PrepareAttempt', [
+                'exam' => new ExamShortResource($exam),
+                'duration' => $exam->type->duration,
+                'minMark' => $exam->type->min_mark,
+                'attempt' => $attempt,
+                'tasksCount' => $exam->type->tasks_count,
+            ]);
+        }
 
         $attempt = $getCurrentAttemptQuery->execute($attempt);
         
@@ -32,7 +46,8 @@ class AttemptController
     public function start(StartAttemptAction $startAttempt, Attempt $attempt)
     {
         if($attempt->status !== AttemptStatus::Pending){
-            return redirect('login')->with('У вас нет текущей попытки экзамена');
+            Log::warning('trying to start not pending attempt');
+            throw new BusinessException('У вас нет текущей попытки экзамена');
         }
         $startedAttempt = $startAttempt->execute($attempt);
         return redirect()->route('attempts.show', ['attempt' => $startedAttempt->id]);
@@ -40,7 +55,8 @@ class AttemptController
 
     public function ban(Request $request, Attempt $attempt, BanAttemptAction $banAttempt)
     {
-        Gate::authorize('attempt-examiner-access', $attempt);
+        Gate::authorize('examiner', $attempt->exam);
+        
         $request->validate([
             'banReason' => ['required', 'string']
         ]);

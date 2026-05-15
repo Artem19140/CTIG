@@ -4,10 +4,9 @@ namespace Database\Factories;
 
 use App\Models\Address;
 use App\Models\Center;
-use App\Models\ForeignNational;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\User;
+use App\Models\Employee;
 use App\Models\ExamType;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Exam>
@@ -29,7 +28,7 @@ class ExamFactory extends Factory
             'begin_time' => fake()->dateTimeBetween('-30 days', '+30 days')->format('Y-m-d'),
             'end_time' => fake()->dateTimeBetween('-30 days', '+30 days')->format('Y-m-d'),
             'exam_type_id' => ExamType::factory(),
-            'creator_id' => User::factory(),
+            'creator_id' => Employee::factory(),
             'capacity'=>fake()->numberBetween(5, 20),
             'address_id' => Address::factory(),
             'center_id' => Center::factory()
@@ -40,6 +39,7 @@ class ExamFactory extends Factory
         return $this->state(function(){
             return[
                 'begin_time' => Carbon::now()->addMinutes(10),
+                'end_time' => Carbon::now()->addMinutes(100),
             ];
         });
     }
@@ -48,6 +48,7 @@ class ExamFactory extends Factory
         return $this->state(function(){
             return[
                 'begin_time' => Carbon::now()->subMinutes(10),
+                'end_time' => Carbon::now()->addMinutes(100),
             ];
         });
     }
@@ -58,6 +59,7 @@ class ExamFactory extends Factory
                 'begin_time' => Carbon::now()->subMinutes(
                     $duration + 10
                 ),
+                'end_time' => Carbon::now()->subMinutes( $duration),
             ];
         });
     }
@@ -81,7 +83,7 @@ class ExamFactory extends Factory
     public function withRandomCreator(): ExamFactory{
         return $this->state(function(){
             return[
-                'creator_id'=>User::inRandomOrder()->first()->id
+                'creator_id'=>Employee::inRandomOrder()->first()->id
             ];
         });
     }

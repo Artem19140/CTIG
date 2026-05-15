@@ -3,11 +3,9 @@
 namespace App\Domain\ForeignNational\Action;
 
 use App\Domain\ForeignNational\Guard\ForeignNationalGuard;
-use App\Enums\Event;
-use App\Enums\Resource;
 use App\Http\Resources\ForeignNational\ForeignNationalResource;
 use App\Models\ForeignNational;
-use App\Support\Log\LogActivity;
+use Illuminate\Support\Facades\Log;
 use Storage;
 
 final class UpdateForeignNationalAction{
@@ -63,16 +61,16 @@ final class UpdateForeignNationalAction{
         return  $files;
     }
 
-    protected function log(ForeignNational $foreignNational, array $before){
-        LogActivity::event(
-            event: Event::Updated,
-            resource:Resource::ForeignNational,
-            context:[
-                'foreign_national_id'=> $foreignNational->id,
-                'changes' => [
-                    'before'=> $before,
-                    'after' => new ForeignNationalResource($foreignNational)->resolve()
-                ]
-            ]);
+    protected function log(
+        ForeignNational $foreignNational, 
+        array $before
+    ):void{
+        Log::info('foreign_national_updated', [
+            'foreign_national_id'=> $foreignNational->id,
+            'changes' => [
+                'before'=> $before,
+                'after' => new ForeignNationalResource($foreignNational)->resolve()
+            ]
+        ]);
     }
 }

@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Http\Resources\Employee;
+
+use App\Http\Resources\Role\RoleResource;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class EmployeeResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'id'=>$this->resource->id,
+            'fullName' => $this->resource->surname.' '.$this->resource->name.' '.$this->resource->patronymic,
+            'surname' => $this->resource->surname,
+            'patronymic' => $this->resource->patronymic,
+            'name'=>$this->resource->name,
+            'email'=>$this->resource->email,
+            'jobTitle' => $this->job_title,
+            'is_active',
+            'roles' => RoleResource::collection($this->whenLoaded('roles'))
+        ];
+    }
+}

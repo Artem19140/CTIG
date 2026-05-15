@@ -1,18 +1,15 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import AppAutocomplete from '@components/UI/AppAutocomplete/AppAutocomplete.vue';
 import {useHttp} from '@inertiajs/vue3';
-import { usePage } from '@inertiajs/vue3';
 import AppCheckbox from '@components/UI/AppCheckbox/AppCheckbox.vue';
 import AppTooltip from '@components/UI/AppTooltip/AppTooltip.vue';
-import { ExamIndex } from '@/interfaces/Exam';
-
-const page = usePage()
+import { ExamIndex, ExamType } from '@/interfaces/Exam';
 
 const examId = defineModel<number | null>('examId', {default:null})
 const hasPayment = defineModel<boolean>('hasPayment', {default:false})
 
-const examsTypes = page.props.examTypes
+const examsTypes = ref<ExamType[] | []>([])
 const examDates = ref<ExamIndex[]>([])
 
 const props = defineProps<{
@@ -39,6 +36,15 @@ watch(() => http.examTypeId, async () => {
   })
 })
 
+const examTypesHttp = useHttp<{}, ExamType[]>()
+
+onMounted(() => {
+  examTypesHttp.get('/exams/types', {
+    onSuccess(response) {
+      examsTypes.value = response
+    },
+  })
+})
 </script>
 
 <template>
@@ -55,6 +61,8 @@ watch(() => http.examTypeId, async () => {
     item-value="id"
     :error-messages="http.errors.examTypeId"
     label="Тип экзамена"
+    :loading="examTypesHttp.processing"
+    :disabled="examTypesHttp.processing"
   />
 
   <AppAutocomplete

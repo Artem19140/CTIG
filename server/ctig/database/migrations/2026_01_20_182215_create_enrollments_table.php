@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->foreignId('cancelled_by_id')
                 ->nullable()
-                ->constrained('users')
+                ->constrained('employees')
                 ->cascadeOnDelete();
 
             $table->foreignId('exam_id')
@@ -47,7 +47,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
             
             $table->foreignId('creator_id')
-                ->constrained('users')
+                ->constrained('employees')
                 ->cascadeOnDelete();
 
             $table->foreignId('center_id')

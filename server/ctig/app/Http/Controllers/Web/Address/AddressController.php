@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Web\Address;
 
-use App\Enums\Event;
-use App\Enums\Resource;
+use App\Domain\Center\CenterContext;
 use App\Http\Requests\Address\AddressPostRequest;
 use App\Http\Resources\Address\AddressResource;
 use App\Models\Address;
 use App\Models\Center;
-use App\Support\Log\LogActivity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class AddressController
@@ -17,13 +16,13 @@ class AddressController
     public function index(Request $request, Center $center)
     {
         abort_if($request->user()->center_id !== $center->id, 403);
-        
-        $addresses = Address::where('center_id', $request->user()->center_id)
+;
+        $addresses = Address::forCenter(app(CenterContext::class)->id())
             ->withExists('exams as examsExists')
             ->orderByDesc('id')
             ->where('is_active', true)
             ->get();
-        $this->log(Event::Access);
+        Log::info('address_view_index', []);
         return Inertia::render('Center/Center', [
             'addresses' => AddressResource::collection($addresses),
             'tab' => 'addresses'
@@ -32,13 +31,13 @@ class AddressController
 
     public function store(AddressPostRequest $request, Center $center)
     {
-        $user = $request->user();
-        abort_if($user->center_id !== $center->id, 403);
+        $employee = $request->user();
+        abort_if($employee->center_id !== $center->id, 403);
         $address = Address::create([
             'address' => $request->validated('address'),
             'max_capacity' => $request->validated('capacity'),
-            'center_id' => $user->center_id,
-            //'creator_id' => $user->id
+            'center_id' => $employee->center_id,
+            'creator_id' => $employee->id
         ]);
         return response()->json([
             'address' => new AddressResource($address)
@@ -48,7 +47,8 @@ class AddressController
 
     public function update(Request $request, Center $center, Address $address)
     {
-        $this->authorize($center, $address);
+        abort_if($request->user()->center_id !== $center->id, 403);
+        abort_if($address->center_id !== $center->id, 403);
         $request->validate([
             'address' => ['required', 'string'],
             'maxCapacity' => ['required', 'integer', 'min:1']
@@ -60,8 +60,8 @@ class AddressController
 
         $address->max_capacity = $request->input('maxCapacity');
         $address->save();
-        $this->log(Event::Updated, [
-            'address_id' => $address->id, 
+        Log::info('address_updated', [
+            'address_id' => $address->id,
             'changes' => [
                 'before' => $before,
                 'after' =>  new AddressResource($address)->resolve()
@@ -72,25 +72,17 @@ class AddressController
     
 
     public function destroy(
+        Request $request,
         Center $center, 
         Address $address
     ){
-        $this->authorize($center, $address);
+        abort_if($request->user()->center_id !== $center->id, 403);
+        abort_if($address->center_id !== $center->id, 403);
         $address->is_active = false;
         $address->save();
-        $this->log(Event::Updated, ['address_id' => $address->id, 'is_active' => false]);
+        Log::info('address_destroy', [
+            'address_id' => $address->id
+        ]);
         return response()->noContent();
-    }
-
-    protected function authorize(Center $center, Address $address){
-        abort_if($address->center_id !== $center->id, 403);
-    }
-
-    protected function log(Event $event, array $context = []){
-        LogActivity::event(
-            event:$event,
-            resource:Resource::Address,
-            context: $context
-        );
     }
 }

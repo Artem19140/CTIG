@@ -74,20 +74,12 @@ class ExamDocumentAvailableResolverTest extends TestCase
 
     public function test_no_attempts_exam(): void
     {
-        $exam = Exam::factory()->make([
-            'enrollments_count' => 10,
-        ]);
+        $exam = new Exam();
+        $exam->has_attempts = false;
+        $exam->has_active_attempts = false;
+        $exam->has_unchecked_attempts = false;
 
-        $exam->setAttribute('has_attempts', false);
-        $exam->setAttribute('has_active_attempts', false);
-        $exam->setAttribute('has_unchecked_attempts', false);
-
-        $exam = \Mockery::mock($exam)->makePartial();
-
-        $exam->shouldReceive('isCancelled')->andReturn(false); 
-        $exam->shouldReceive('isPending')->andReturn(false); 
-        $exam->shouldReceive('canGenerateCodes')->andReturn(true);
-
+        $exam->begin_time = Carbon::now()->startOfDay();
         $result = $this->action()->resolve($exam);
 
         $this->assertTrue($result['list']['available']);

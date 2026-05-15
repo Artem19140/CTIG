@@ -13,7 +13,7 @@ class BaseException extends Exception
 
     public function render(Request $request){
 
-        if($request->wantsJson()){
+        if($request->expectsJson()){
             return response()->json([
                 'message' => $this->getMessage()
             ], 400);

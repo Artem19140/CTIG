@@ -32,6 +32,8 @@ class TextInputTaskHandler{
         });
         
         $answerToCompare = mb_strtolower(trim($answer), 'UTF-8');
+        $answerToCompareMatches = \in_array($answerToCompare, $answersToCompare->toArray());
+        return $answerToCompareMatches ? $taskVariant->task->mark : 0;
         return \in_array($answerToCompare, $answersToCompare->toArray());
     }
 }

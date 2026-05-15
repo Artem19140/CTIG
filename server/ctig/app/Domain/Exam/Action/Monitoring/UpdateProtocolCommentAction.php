@@ -3,11 +3,9 @@
 namespace App\Domain\Exam\Action\Monitoring;
 
 use App\Domain\Exam\Guard\ExamGuard;
-use App\Enums\Event;
-use App\Enums\Resource;
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
-use App\Support\Log\LogActivity;
+use Illuminate\Support\Facades\Log;
 
 class UpdateProtocolCommentAction{
     public function __construct(
@@ -36,15 +34,11 @@ class UpdateProtocolCommentAction{
     }
 
     protected function log(Exam $exam, string $oldValue){
-        LogActivity::event(
-            event:Event::Updated,
-            resource:Resource::Exam,
-            context:[
-                'exam_id' => $exam->id,
-                'field' => 'protocol_comment',
-                'before' => $oldValue,
-                'after' => $exam->protocol_comment,
-            ]
-        );
+        Log::info('updated_protocol_comment', [
+            'exam_id' => $exam->id,
+            'field' => 'protocol_comment',
+            'before' => $oldValue,
+            'after' => $exam->protocol_comment,
+        ]);
     }
 }

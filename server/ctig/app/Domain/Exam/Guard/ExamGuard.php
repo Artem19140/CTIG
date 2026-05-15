@@ -2,7 +2,6 @@
 
 namespace App\Domain\Exam\Guard;
 
-use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
 

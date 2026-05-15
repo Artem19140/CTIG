@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AttemptStatus;
+use App\Models\Scopes\BelongsToCenter;
 use App\Support\TimePresenter;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,6 +18,7 @@ class Attempt extends Model
 {
     /** @use HasFactory<\Database\Factories\AttemptFactory> */
     use HasFactory;
+    use BelongsToCenter;
     public const int MIN_TIME_FROM_START_TO_FINISH_MINUTES = 10;
     protected $fillable = [
         'foreign_national_id',

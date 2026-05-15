@@ -2,9 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Enums\Event;
-use App\Support\Log\LogActivity;
 use Illuminate\Auth\Events\Login;
+use Illuminate\Support\Facades\Log;
 
 class LogSuccessfulLogin
 {
@@ -15,15 +14,9 @@ class LogSuccessfulLogin
 
     public function handle(Login $event): void
     {
-        LogActivity::event(
-            event: Event::Login,
-            resource:null,
-            context:[
-                'guard' => $event->guard,
-                'user_id' => $event->user?->getAuthIdentifier(),
-                'user_type' => $event->user->getMorphClass() ,
-                'remember' => $event->remember,
-            ]
-        );
+        Log::info('login', [
+            'guard' => $event->guard,
+            'remember' => $event->remember,
+        ]);
     }
 }

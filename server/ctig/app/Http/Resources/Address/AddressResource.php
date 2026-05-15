@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Address;
 
-use App\Http\Resources\User\UserResource;
+use App\Http\Resources\Employee\EmployeeResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,7 +17,7 @@ class AddressResource extends JsonResource
     {
         return [
             'address' => $this->address,
-            'creator' => (new UserResource($this->whenLoaded('creator'))),
+            'creator' => (new EmployeeResource($this->whenLoaded('creator'))),
             'id' => $this->id,
             'maxCapcity' => $this->max_capacity,
             'examsExists' => $this->examsExists ?? null,

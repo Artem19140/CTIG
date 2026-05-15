@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\BelongsToCenter; 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -9,13 +10,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class ForeignNational extends Authenticatable {
 
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens; 
+    use BelongsToCenter;
     public function getRememberTokenName(){
         return null;
     }
@@ -69,13 +70,8 @@ class ForeignNational extends Authenticatable {
         return $this->hasMany(Attempt::class, 'foreign_national_id');
     }
 
-
-    public function documents(): MorphMany{
-        return $this->morphMany(Document::class, 'documentable');
-    }
-
     public function creator():BelongsTo{
-        return $this->belongsTo(User::class, 'creator_id');
+        return $this->belongsTo(Employee::class, 'creator_id');
     }
 
     public function latestAttempt(): HasOne{

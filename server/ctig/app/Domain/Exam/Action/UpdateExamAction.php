@@ -4,12 +4,10 @@ namespace App\Domain\Exam\Action;
 
 use App\Domain\Exam\Guard\ExamGuard;
 use App\Domain\Exam\Rules\ValidateExamForSave;
-use App\Enums\Event;
-use App\Enums\Resource;
 use App\Http\Dto\ExamDto;
 use App\Models\Exam;
-use App\Support\Log\LogActivity;
 use DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 
@@ -21,7 +19,8 @@ final class UpdateExamAction{
     public function execute(
         Exam $exam, 
         ExamDto $examDto,
-    ):void{
+    ):void
+    {
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureNotGoing($exam);
         $this->examGuard->ensureNotFinished($exam);
@@ -70,16 +69,13 @@ final class UpdateExamAction{
     }
 
     protected function log(Exam $exam, array $before):void{
-        LogActivity::event(
-            event:Event::Updated,
-            resource:Resource::Exam,
-            context:[
-                'exam_id' => $exam->id,
-                'changes' => [
-                    'before' => $before,
-                    'after' =>  $this->getAttributesToLog($exam)
-                ]
-            ]);
+        Log::info('exam_updated', [
+            'exam_id' => $exam->id,
+            'changes' => [
+                'before' => $before,
+                'after' =>  $this->getAttributesToLog($exam)
+            ]
+        ]);
     }
 
     protected function getAttributesToLog(Exam $exam):array{

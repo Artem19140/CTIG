@@ -8,7 +8,7 @@ use App\Models\Center;
 use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\ForeignNational;
-use App\Models\User;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -36,7 +36,7 @@ class ExamEnrollmentGuardTest extends TestCase
                 ForeignNational::factory()->count(3),
                 [
                     'reg_number'=>124,
-                    'creator_id' => User::factory()->create()->id, 
+                    'creator_id' => Employee::factory()->create()->id, 
                     'has_payment'=> true,
                     'center_id' => Center::factory()->create()->id
                 ]

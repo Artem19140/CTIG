@@ -12,13 +12,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Exam extends Model
 {
     use HasFactory, Notifiable;
-    //use BelongsToCenter;
+    use BelongsToCenter;
     public const CREATE_AVAILABLE_BEFORE_HOURS = 3;
     public const CODES_LENGTH = 6;
     public const CODES_TTL_AFTER_BEGIN_MINUTES = 45;
@@ -50,11 +49,11 @@ class Exam extends Model
     }
 
     public function creator():BelongsTo{
-        return $this->belongsTo(User::class, 'creator_id');
+        return $this->belongsTo(Employee::class, 'creator_id');
     }
 
     public function examiners():BelongsToMany{
-        return $this->belongsToMany(User::class, 'exam_examiner','exam_id', 'examiner_id');
+        return $this->belongsToMany(Employee::class, 'exam_examiner','exam_id', 'examiner_id');
     }
 
     public function foreignNationals():BelongsToMany{
@@ -69,30 +68,25 @@ class Exam extends Model
         return $this->hasMany(Attempt::class, 'exam_id');
     }
 
-    public function documents(): MorphMany{
-        return $this->morphMany(Document::class, 'documentable');
-    }
-
     public function address(): BelongsTo{
         return $this->belongsTo(Address::class, 'address_id');
     }
 
-    public function isFinished(){
-        return $this->begin_time->copy()->addMinutes($this->type->duration)->isPast();
+    public function isFinished():bool{
+        return $this->end_time->isPast();
     }
 
-    public function isGoing(){
-        return !$this->begin_time->copy()->addMinutes($this->type->duration)->isPast() && $this->begin_time->copy()->isPast();
+    public function isGoing():bool{
+        return $this->begin_time->isPast() && $this->end_time->isFuture();
     }
 
-    public function isPending(){
+    public function isPending():bool{
         return !$this->begin_time->isPast();
     }
 
-    public function isCancelled(){
-        return $this->cancelled_at;
+    public function isCancelled():Carbon|null{
+        return $this->cancelled_at; 
     }
-
     public function center(): BelongsTo{
         return $this->belongsTo(Center::class,'center_id');
     }
@@ -177,14 +171,11 @@ class Exam extends Model
     }
 
     public function canGenerateCodes():bool{
-        return 
-            $this->begin_time->setTimezone($this->time_zone)->isToday() 
-            && 
-            $this->begin_time->addMinutes(self::CODES_TTL_AFTER_BEGIN_MINUTES)->isFuture();
+        return $this->begin_time->isToday();
     }
 
     public function isStartedToday():bool{
-        return $this->begin_time->setTimezone($this->time_zone)->isToday() && $this->begin_time->isPast();
+        return $this->begin_time->isToday() && $this->begin_time->isPast();
     }
 
     public function scopeSorting(Builder $query, Carbon $now){

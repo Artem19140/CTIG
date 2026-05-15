@@ -21,7 +21,7 @@ class ExamCheckingController
     }
 
     public function show(Exam $exam){
-        Gate::authorize('checking', $exam);
+        Gate::authorize('examiner', $exam);
         
         if(!$exam->type->need_human_check){
             abort(403);

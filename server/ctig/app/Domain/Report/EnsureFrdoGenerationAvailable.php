@@ -2,6 +2,7 @@
 
 namespace App\Domain\Report;
 
+use App\Domain\Center\CenterContext;
 use App\Enums\AttemptStatus;
 use App\Exceptions\BusinessException;
 use App\Models\Attempt;
@@ -16,8 +17,7 @@ class EnsureFrdoGenerationAvailable{
     }
 
     protected function ensureAttemptsExists(Carbon $examDate):void{
-        $attemptsExists = Attempt::whereCreatedAtMore($examDate->copy()->startOfDay())
-            ->whereCreatedAtLess($examDate->copy()->endOfDay())
+        $attemptsExists = $this->query($examDate)
             ->exists();
 
         if(!$attemptsExists){
@@ -27,8 +27,7 @@ class EnsureFrdoGenerationAvailable{
 
     }
     protected function ensureAllAttemptsChecked(Carbon $examDate):void{
-        $uncheckedAttempts = Attempt::whereCreatedAtMore($examDate->copy()->startOfDay())
-            ->whereCreatedAtLess($examDate->copy()->endOfDay())
+        $uncheckedAttempts = $this->query($examDate)
             ->statusUnchecked()
             ->exists();
 
@@ -40,8 +39,7 @@ class EnsureFrdoGenerationAvailable{
     }
 
     protected function ensureHasDataForReportType (Carbon $examDate, bool $success):void{
-        $attemptsForReportExists = Attempt::whereCreatedAtMore($examDate->copy()->startOfDay())
-            ->whereCreatedAtLess($examDate->copy()->endOfDay())
+        $attemptsForReportExists = $this->query($examDate)  
             ->where('is_passed',$success)
             ->where('status', AttemptStatus::Checked)
             ->exists();
@@ -51,5 +49,14 @@ class EnsureFrdoGenerationAvailable{
             $date = $examDate->format('d.m.Y');
             throw new BusinessException("Данных для $reportName за $date нет");
         }
+    }
+
+    protected function query(Carbon $examDate){
+        return  Attempt::query()
+            ->forCenter(app(CenterContext::class)->id())
+            ->whereBetween('created_at', [
+                $examDate->copy()->startOfDay(),
+                $examDate->copy()->endOfDay(),
+            ]);
     }
 }

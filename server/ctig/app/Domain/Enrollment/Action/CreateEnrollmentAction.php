@@ -8,7 +8,7 @@ use App\Exceptions\BusinessException;
 use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\ForeignNational;
-use App\Models\User;
+use App\Models\Employee;
 use App\Domain\Exam\Guard\ExamGuard;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,7 +23,7 @@ final class CreateEnrollmentAction{
     public function execute(
         int $examId, 
         int $foreignNationalId, 
-        User $user, 
+        Employee $employee, 
         bool $hasPayment
     ):Enrollment{
         $exam = Exam::find($examId);
@@ -33,8 +33,8 @@ final class CreateEnrollmentAction{
         
         $enrollment = Enrollment::create([
             'reg_number' => $this->generateRegNumber->execute(),
-            'creator_id' => $user->id,
-            'center_id' => $user->center_id,
+            'creator_id' => $employee->id,
+            'center_id' => $exam->center_id,
             'has_payment' => $hasPayment,
             'exam_id' => $exam->id,
             'foreign_national_id' => $foreignNational->id
@@ -43,7 +43,7 @@ final class CreateEnrollmentAction{
         return $enrollment;
     }
 
-    protected function ensureCreatingAvailable(Exam $exam, ForeignNational $foreignNational){
+    protected function ensureCreatingAvailable(Exam $exam, ForeignNational $foreignNational):void{
         $this->examGuard->ensureNotCancelled($exam);
         $this->examGuard->ensureNotFinished($exam);
         $this->examGuard->ensureNotGoing($exam);

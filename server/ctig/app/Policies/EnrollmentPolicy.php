@@ -2,36 +2,60 @@
 
 namespace App\Policies;
 
-use App\Enums\UserRoles;
+use App\Enums\EmployeeRole;
 use App\Models\Enrollment;
-use App\Models\User;
-use Illuminate\Auth\Access\Response;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Employee;
 
 class EnrollmentPolicy
 {
     use BasePolicy;   
-    public function view(User $user, Enrollment $enrollment): bool
+    public function before(Employee $employee, string $ability): bool|null
+    {
+        if ($employee->isSuperAdmin()) {
+            return true;
+        }
+        return null;
+    }
+    public function view(Employee $employee, Enrollment $enrollment): bool
     {
         return false;
     }
 
-    public function create(User $user): bool
+    public function create(Employee $employee): bool
     {
-        return false;
-    }
-
-    public function payment(User $user, Enrollment $enrollment): bool
-    {
-        $this->sameCenter($user,$enrollment);
-        if($user->hasAnyRole(
-            UserRoles::Operator->value, 
-            UserRoles::SuperAdmin->value
+        if($employee->hasAnyRole(
+            EmployeeRole::Operator
         )){
             return true;
         }
-        if($user->hasRole(UserRoles::Examiner->value)){
-            return $user->exams()->where('exams.id', $enrollment->exam_id)->exists();
+        return false;
+    }
+
+    public function payment(Employee $employee, Enrollment $enrollment): bool
+    {
+        if (!$this->sameCenter($employee, $enrollment)) {
+            return false;
+        }
+        
+        if($employee->hasAnyRole(
+            EmployeeRole::Operator
+        )){
+            return true;
+        }
+        return $employee->can('examiner', $enrollment->exam);
+        
+    }
+
+    public function statement(Employee $employee, Enrollment $enrollment): bool
+    {
+        if (!$this->sameCenter($employee, $enrollment)) {
+            return false;
+        }
+        
+        if($employee->hasAnyRole(
+            EmployeeRole::Operator
+        )){
+            return true;
         }
         return false;
     }

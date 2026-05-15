@@ -6,7 +6,7 @@ namespace App\Domain\Exam\Action;
 use App\Domain\Exam\Rules\ValidateExamForSave;
 use App\Http\Dto\ExamDto;
 use App\Models\Exam;
-use App\Models\User;
+use App\Models\Employee;
 use DB;
 
 
@@ -14,26 +14,34 @@ final class CreateExamAction{
     public function __construct(
         protected ValidateExamForSave $validateExamForSave
     ){}
-    public function execute(ExamDto $examDto, User $user){
+    public function execute(
+        ExamDto $examDto, 
+        Employee $employee
+    ):Exam
+    {
         $duration = $this->validateExamForSave->execute($examDto);
         
-        return DB::transaction(function () use ($examDto, $user, $duration) {
-            $exam = Exam::create($this->getAttributes($examDto, $user, $duration));
+        return DB::transaction(function () use ($examDto, $employee, $duration) {
+            $exam = Exam::create($this->getAttributes($examDto, $employee, $duration));
             $exam->examiners()->attach($examDto->examiners);
             return $exam;
         });        
     }
 
-    protected function getAttributes(ExamDto $examDto, User $user, int $duration):array{
+    protected function getAttributes(
+        ExamDto $examDto, 
+        Employee $employee, 
+        int $duration
+    ):array{
         return [
             'begin_time' => $examDto->beginTime,
             'address_id' => $examDto->addressId,
             'capacity' => $examDto->capacity,
             'exam_type_id' => $examDto->examTypeId,
             'comment' => $examDto->comment,
-            'creator_id'=> $user->id,
+            'creator_id'=> $employee->id,
             'end_time' => $examDto->beginTime->copy()->addMinutes($duration),
-            'center_id' => $user->center->id
+            'center_id' => $employee->center_id
         ];
     }
 }

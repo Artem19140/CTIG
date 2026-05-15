@@ -38,7 +38,7 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'employees',
         ],
         'foreignNationals'=>[
             'driver' => 'session',
@@ -64,10 +64,14 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        // 'users' => [
+        //     'driver' => 'eloquent',
+        //     'model' => env('AUTH_MODEL', App\Models\User::class),
+        //     'remember' => 43200
+        // ],
+        'employees' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
-            'remember' => 43200
+            'model' => env('AUTH_MODEL', App\Models\Employee::class)
         ],
         'foreignNationals' => [
             'driver' => 'eloquent',

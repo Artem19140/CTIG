@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Models\User;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -27,38 +27,38 @@ class RedirectResolverTest extends TestCase
     }
     public function test_operator(): void
     {
-       $user = User::factory()
+       $employee = Employee::factory()
         ->operator()
         ->create();
-        $this->assertEquals(route('foreign-nationals.index'), $user->resolveRedirect());
+        $this->assertEquals(route('foreign-nationals.index'), $employee->resolveRedirect());
     }
     public function test_examiner(): void
     {
-       $user = User::factory()
+       $employee = Employee::factory()
         ->examiner()
         ->create();
-        $this->assertEquals(route('exams.monitoring'), $user->resolveRedirect());
+        $this->assertEquals(route('exams.monitoring'), $employee->resolveRedirect());
     }
     public function test_director(): void
     {
-       $user = User::factory()
+       $employee = Employee::factory()
         ->director()
         ->create();
-        $this->assertEquals(route('foreign-nationals.index'), $user->resolveRedirect());
+        $this->assertEquals(route('foreign-nationals.index'), $employee->resolveRedirect());
     }
     public function test_org_admin(): void
     {
-       $user = User::factory()
+       $employee = Employee::factory()
         ->orgAdmin()
         ->create();
-        $this->assertEquals(route('centers.show', ['center' => $user->center]), $user->resolveRedirect());
+        $this->assertEquals(route('centers.show', ['center' => $employee->center]), $employee->resolveRedirect());
     }
 
     public function test_scheduler(): void
     {
-       $user = User::factory()
+       $employee = Employee::factory()
         ->scheduler()
         ->create();
-        $this->assertEquals(route('exams.index'), $user->resolveRedirect());
+        $this->assertEquals(route('exams.index'), $employee->resolveRedirect());
     }
 }

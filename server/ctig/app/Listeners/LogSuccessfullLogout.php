@@ -3,8 +3,7 @@
 namespace App\Listeners;
 
 use Illuminate\Auth\Events\Logout;
-use App\Enums\Event;
-use App\Support\Log\LogActivity;
+use Illuminate\Support\Facades\Log;
 
 class LogSuccessfullLogout
 {
@@ -21,12 +20,8 @@ class LogSuccessfullLogout
      */
     public function handle(Logout $event): void
     {
-        LogActivity::event(
-            event:Event::Logout, 
-            resource: null,
-            context:[
-                'guard' => $event->guard
-            ]
-        );
+        Log::info('logout', [
+            'guard' => $event->guard
+        ]);
     }
 }

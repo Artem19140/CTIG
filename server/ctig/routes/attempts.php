@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\UserRoles;
+use App\Enums\EmployeeRole;
 use App\Http\Controllers\Web\Attempt\AttemptAnswerController;
 use App\Http\Controllers\Web\Attempt\AttemptCheckingController;
 use App\Http\Controllers\Web\Attempt\AttemptController;
@@ -8,7 +8,7 @@ use App\Http\Controllers\Web\Attempt\AttemptSpeakingController;
 use App\Http\Controllers\Web\Attempt\AttemptViolationController;
 use App\Support\AppMiddleware;
 
-Route::prefix('attempts')->middleware([AppMiddleware::USER_HAS_ANY_ROLE. ':'  . UserRoles::implode(UserRoles::Examiner)])
+Route::prefix('attempts')->middleware([AppMiddleware::EMPLOYEE_HAS_ANY_ROLE. ':'  . EmployeeRole::implode(EmployeeRole::Examiner)])
     ->group(function(){
         Route::put('{attempt}/ban', [AttemptController::class, 'ban'])->name('attempts.ban');
 

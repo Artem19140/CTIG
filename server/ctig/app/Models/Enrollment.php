@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 class Enrollment extends Model
 {
     use HasFactory;
-    //use BelongsToCenter;
+    use BelongsToCenter;
     public const int CLOSE_BEFORE_START_MINUTES = 10;
     protected $fillable = [
         'exam_id',
@@ -53,7 +53,7 @@ class Enrollment extends Model
     }
 
     public function creator():BelongsTo{
-        return $this->belongsTo(User::class, 'creator_id');
+        return $this->belongsTo(Employee::class, 'creator_id');
     }
 
     public function center():BelongsTo{

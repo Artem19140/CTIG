@@ -29,7 +29,6 @@ class ExamDocumentAvailable{
     public function protocol(Exam $exam){
         $this->examGuard->ensureNotCancelled($exam);
         $this->examEnrollmentGuard->ensureEnrollmentsExists($exam);
-        //Что попытки проверены и оценены
     }
 
     public function results(Exam $exam){

@@ -5,10 +5,8 @@ import ForeignNationalTableFilters from './ForeignNationalTableFilters.vue';
 import { useModals } from '@composables/useModals';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
 import ForeignNationalTableDropdown from './ForeignNationalTableDropdown.vue';
-import { useAuth } from '@composables/useAuth';
-import { Roles } from '@/constants/Roles';
-import { ref } from 'vue';
-import { ForeignNationalIndex } from '@/interfaces/ForeignNational';
+import { computed, ref } from 'vue';
+import { ForeignNationalIndex, ForeignNationalPagePermissions } from '@/interfaces/ForeignNational';
 
 const modals = useModals()
 
@@ -17,7 +15,8 @@ function foreignNationalShowModal(item : any) {
 }
 
 const props = defineProps<{
-    foreignNationals: Paginated<ForeignNationalIndex>
+    foreignNationals: Paginated<ForeignNationalIndex>,
+    permissions:ForeignNationalPagePermissions
 }>()
 
 const headers = [
@@ -26,8 +25,12 @@ const headers = [
     {title : "Паспорт",sortable: false, key: 'fullPassport', align: 'start' },
 ]
 
-const auth = useAuth()
 const loading = ref<boolean>(false)
+const dropDownAccess = computed(() => 
+    props.permissions.ministryEducation ||
+    props.permissions.export ||
+    props.permissions.statistics
+)
 </script>
 
 <template>
@@ -48,9 +51,12 @@ const loading = ref<boolean>(false)
             <AppAddButton
                 text="Добавить"
                 @click="modals.open('foreignNationalCreate')"
-                v-if="auth.can([Roles.OPERATOR])"
+                v-if="permissions.create"
             />
-            <ForeignNationalTableDropdown  v-if="auth.can([Roles.DIRECTOR])" />
+            <ForeignNationalTableDropdown  
+                v-if="dropDownAccess"
+                :permissions="permissions"
+            />
         </template>
     </BasePaginatedTable>
 </template>

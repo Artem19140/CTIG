@@ -11,6 +11,7 @@ class EnrollmentDocumentController
         Enrollment $enrollment, 
         GenerateEnrollmentStatementAction $generateEnrollmentStatement
     ){
+        
         $statement = $generateEnrollmentStatement->execute($enrollment);
         return $statement->stream('statement.pdf'); 
     }

@@ -33,7 +33,7 @@ class TaskAnswersNotAllowedTest extends TestCase
 
         $this->expectException(TaskAnswersNotAllowedException::class);
 
-        app(HandleAttemptAnswerAction::class)->execute('',$attempt,  $attemptAnswer);
+        app(HandleAttemptAnswerAction::class)->execute('',$attemptAnswer);
 
         Log::spy();
         Log::shouldHaveReceived('channel')

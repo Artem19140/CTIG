@@ -2,6 +2,7 @@
 
 namespace App\Domain\Exam\Rules;
 
+use App\Domain\Center\CenterContext;
 use App\Exceptions\BusinessException;
 use App\Http\Dto\ExamDto;
 use App\Models\Address;
@@ -9,6 +10,7 @@ use App\Models\Exam;
 use App\Models\ExamType;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class ValidateExamForSave{
@@ -17,7 +19,8 @@ class ValidateExamForSave{
     ){}
     public function execute(ExamDto $examDto, int | null $examId = null){
         $examType =  ExamType::find($examDto->examTypeId);
-        $address = Address::find($examDto->addressId);
+
+        $address = $this->findOrFailAddress($examDto->addressId);
 
         $this->ensureAddressIsActive($address);
 
@@ -48,6 +51,17 @@ class ValidateExamForSave{
         );
 
         return $examType->duration;
+    }
+
+    protected function findOrFailAddress(int $addressId):Address{
+        $address =  Address::query()
+            ->forCenter(app(CenterContext::class)->id())
+            ->find($addressId);
+        if(!$address){
+            Log::warning('address not found, no same center', ['address_id' => $addressId]);
+            abort(404);
+        }
+        return $address;
     }
     
 

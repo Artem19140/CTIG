@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import { useForm } from '@inertiajs/vue3';
-import { computed } from 'vue';
-import { useAuth } from '@/composables/useAuth';
 import { Exam } from '@/interfaces/Exam';
 import { Attempt } from '@/interfaces/Attempt';
 import BaseLayout from '@/layouts/BaseLayout.vue';
@@ -18,12 +16,6 @@ const props = defineProps<{
     tasksCount : number
 }>()
 
-const { user } = useAuth()
-
-const name = computed(() => {
-    return `${user.surname} ${user.name}`
-})
-
 const form = useForm()
 
 const begin = () => {
@@ -36,7 +28,7 @@ const begin = () => {
     <BaseLayout>
         <v-card
             class="mx-auto mt-32"
-            :title="`Добро пожаловать, ${name}!`"
+            :title="`Добро пожаловать!`"
             width="700"
         >
             <v-card-text>

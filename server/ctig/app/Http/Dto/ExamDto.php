@@ -1,6 +1,4 @@
 <?php
-
-
 namespace App\Http\Dto;
 
 use Carbon\Carbon;

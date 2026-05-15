@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Center;
+use App\Models\Employee;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -38,7 +39,8 @@ class AddressFactory extends Factory
         return [
             'address' => fake()->streetAddress,
             'max_capacity'=>fake()->numberBetween(8, 20),
-            'center_id' => Center::inRandomOrder()->first()->id
+            'center_id' => Center::inRandomOrder()->first()->id,
+            'creator_id' => Employee::factory()
         ];
     }
 }

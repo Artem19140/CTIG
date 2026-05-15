@@ -16,10 +16,11 @@ class CenterContext
     public function handle(Request $request, Closure $next): Response
     {
         if($request->user()->isSuperAdmin()){
+            context(['center_id' => null]);
             return $next($request);
         }
 
-        
+        context(['center_id' => $request->user()->center_id]);
 
         return $next($request);
     }

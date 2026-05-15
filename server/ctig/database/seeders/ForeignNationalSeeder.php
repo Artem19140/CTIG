@@ -16,6 +16,8 @@ class ForeignNationalSeeder extends Seeder
     {
         ForeignNational::factory(500) 
             ->withRandomCreator()
-            ->create();
+            ->create([
+                'center_id' => context('center_seed_id')
+            ]);
     }
 }

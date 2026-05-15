@@ -24,10 +24,12 @@ class ExamDocumentController
         Gate::authorize('list', $exam);
         
         $exam->load(['foreignNationals', 'type']);
+
         $pdf = Pdf::loadView('templates.exam-foreign_nationals-list', [
             'foreignNationals' => $exam->foreignNationals,
             'exam' => $exam
         ]);
+        
         $stringDate = $exam->begin_time->copy()->format('_H:i_d.m.Y_');
         $name = $exam->type->short_name;
         event(new ExamDocumentGenerated($exam, ExamDocument::List));

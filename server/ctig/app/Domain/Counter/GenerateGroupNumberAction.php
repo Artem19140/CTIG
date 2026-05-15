@@ -2,14 +2,22 @@
 
 namespace App\Domain\Counter;
 
+use App\Domain\Center\CenterContext;
 use App\Enums\CounterKey;
+use App\Exceptions\Couner\CounterNotFoundException;
 use App\Models\Counter;
 use Carbon\Carbon;
 
 class GenerateGroupNumberAction{
 
-    public function execute(){
-        $groupNumber = Counter::where('key', CounterKey::Group)->lockForUpdate()->first();
+    public function execute():int{
+        $groupNumber = Counter::where('key', CounterKey::Group)
+            ->forCenter(app(CenterContext::class)->id())
+            ->lockForUpdate()
+            ->first();
+        if(!$groupNumber){
+            throw new CounterNotFoundException(CounterKey::Group);
+        }
         if($this->isNewDay($groupNumber)){
             $groupNumber->value = 0;
             $groupNumber->updated_at = Carbon::now();
@@ -19,7 +27,7 @@ class GenerateGroupNumberAction{
         return $groupNumber->value;
     }
     
-    protected function isNewDay(Counter $groupNumber){
+    protected function isNewDay(Counter $groupNumber):bool{
         return $groupNumber->updated_at->toDateString() !== Carbon::now()->toDateString();
     }
 }

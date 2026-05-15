@@ -2,26 +2,25 @@
 
 namespace App\Domain\ForeignNational\Query;
 
-use App\Enums\Event;
-use App\Enums\Resource;
+use App\Domain\Center\CenterContext;
 use App\Models\ForeignNational;
-use App\Models\User;
-use App\Support\Log\LogActivity;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 class ExportForeignNationalQuery{
     public function execute(
         Carbon $dateFrom, 
-        Carbon $dateTo, 
-        string | null $citizenship,
-        User $user, 
+        Carbon $dateTo,      
+        string | null $citizenship
         
     ){
         $handle = fopen('php://output', 'w');
         fwrite($handle, "\xEF\xBB\xBF");
         fputcsv($handle, $this->headers());
+        $count = 0;
         ForeignNational::query()
+            ->forCenter(app(CenterContext::class)->id())
             ->select(['id','surname', 'name', 'patronymic', 'citizenship', 'passport_series', 'passport_number'])
             ->when($citizenship, function(Builder $query)use($citizenship){
                 $query->where('citizenship', $citizenship);
@@ -30,7 +29,7 @@ class ExportForeignNationalQuery{
             ->whereBetween('created_at', [$dateFrom, $dateTo])
             ->orderBy('id')
             ->lazyById(1000)
-            ->each(function ($i) use ($handle) {
+            ->each(function ($i) use ($handle, &$count) {
                 fputcsv($handle, [
                     $i->surname,
                     $i->name,
@@ -39,9 +38,17 @@ class ExportForeignNationalQuery{
                     $i->passport_series,
                     $i->passport_number,
                 ]);
+                $count++;
             });
+            
         fclose($handle);
-        $this->log($user);
+        Log::info('foreign_national_export', [
+            'date_from' => $dateFrom->format('d.m.Y'),
+            'date_to' => $dateTo->format('d.m.Y'),
+            'citizenship' => $citizenship,
+            'count' => $count
+        ]);
+
     }
 
     protected function headers(){
@@ -53,15 +60,5 @@ class ExportForeignNationalQuery{
             'Серия паспорта',
             'Номер паспорта'
         ];
-    }
-
-    protected function log(User $user){
-        LogActivity::event(
-            event:Event::Export,   
-            resource:Resource::ForeignNational, 
-            context:[
-                'user_id' => $user->id
-            ]
-        );
     }
 }

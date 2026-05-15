@@ -5,11 +5,12 @@ import { ref } from 'vue';
 import EnrollmentDropDown from '@/components/Enrollment/EnrollmentDropDown.vue';
 import ExamResultStatusChip from '@/components/Exam/ExamResultStatusChip.vue';
 import PaymentIcon from '@/components/Enrollment/PaymentIcon.vue';
-import { Exam } from '@/interfaces/Exam';
+import { Exam, ExamActionPermissions } from '@/interfaces/Exam';
 import { Enrollment } from '@/interfaces/Enrollment';
 
 const props = defineProps<{
-    exam: Exam
+    exam: Exam,
+    permissions:ExamActionPermissions
 }>()
 const exam = ref<Exam>(props.exam)
 
@@ -60,6 +61,8 @@ const reschedule = (value : Enrollment) => {
         </template>
         <template #item.actions="{item}">
             <EnrollmentDropDown 
+                v-if="permissions.statement || permissions.payment"
+                :permissions="permissions"
                 :enrollment="item"
                 :exam="exam"
                 :loading="item"

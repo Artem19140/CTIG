@@ -3,7 +3,7 @@
 namespace App\Http\Resources\ForeignNational;
 
 use App\Http\Resources\Enrollment\EnrollmentResource;
-use App\Http\Resources\User\UserResource;
+use App\Http\Resources\Employee\EmployeeResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -33,7 +33,7 @@ class ForeignNationalProfileResource extends JsonResource
             'citizenship' => $this->resource->citizenship,
             'phone' => $this->resource->formatted_phone,
             'gender' =>$this->resource->gender,
-            'creator'=>new UserResource($this->whenLoaded('creator')),
+            'creator'=>new EmployeeResource($this->whenLoaded('creator')),
             'enrollments' => EnrollmentResource::collection($this->whenLoaded('enrollments')),
             'passportScan' => $this->passport_scan,
             'passportTranslateScan' => $this->passport_translate_scan,

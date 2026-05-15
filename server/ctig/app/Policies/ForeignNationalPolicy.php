@@ -2,78 +2,73 @@
 
 namespace App\Policies;
 
-use App\Enums\UserRoles;
+use App\Enums\EmployeeRole;
 use App\Models\ForeignNational;
-use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use App\Models\Employee;
 use Illuminate\Database\Eloquent\Builder;
 
 class ForeignNationalPolicy
 {
     use BasePolicy;
-    public function viewAny(User $user): bool
-    {
-        return false;
+    public function before(Employee $employee, string $ability): bool|null{
+        if ($employee->isSuperAdmin()) {
+            return true;
+        }
+         
+        return null;
     }
-
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, ForeignNational $foreignNational): bool
-    {
-        //$this->sameCenter($user, $foreignNational);
-        if($user->hasAnyRole(
-            UserRoles::Operator->value, 
-            UserRoles::Director->value, 
-            UserRoles::SuperAdmin->value
+    public function view(Employee $employee, ForeignNational $foreignNational): bool
+    {   
+        if (!$this->sameCenter($employee, $foreignNational)) {
+            return false;
+        }
+        if($employee->hasAnyRole(
+            EmployeeRole::Operator, 
+            EmployeeRole::Director
         )){
             return true;
         }
-        if($user->hasRole(UserRoles::Examiner->value)){
-            return $user->exams()->whereHas('foreignNationals', function (Builder $query) use($foreignNational){
+        if($employee->hasRole(EmployeeRole::Examiner->value)){
+            return $employee->exams()->whereHas('foreignNationals', function (Builder $query) use($foreignNational){
                 $query->where('foreign_national_id', $foreignNational->id);
             })->exists();
         }
         return false;
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
-    {
+    public function viewAny(Employee $employee): bool{
+        if($employee->hasAnyRole(
+            EmployeeRole::Operator, 
+            EmployeeRole::Director
+        )){
+            return true;
+        }
         return false;
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, ForeignNational $foreignNational): bool
-    {
+    public function create(Employee $employee): bool{
+        return $employee->hasAnyRole(EmployeeRole::Operator);
+    }
+
+    public function update(Employee $employee, ForeignNational $foreignNational): bool{
+        if (!$this->sameCenter($employee, $foreignNational)) {
+            return false;
+        }
+        return $employee->hasAnyRole(EmployeeRole::Operator);
+    }
+
+    public function export(Employee $employee): bool{
+        return $employee->hasAnyRole(EmployeeRole::Director);
+    }
+    
+    public function files(Employee $employee):bool{
+        if($employee->hasAnyRole(
+            EmployeeRole::Operator, 
+            EmployeeRole::Examiner
+        )){
+            return true;
+        }
         return false;
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, ForeignNational $foreignNational): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, ForeignNational $foreignNational): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, ForeignNational $foreignNational): bool
-    {
-        return false;
-    }
 }

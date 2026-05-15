@@ -6,7 +6,7 @@ use App\Domain\Exam\Resolver\ExamStatusResolver;
 use App\Domain\ExamDocument\ExamDocumentAvailableResolver;
 use App\Http\Resources\Attempt\AttemptResource;
 use App\Http\Resources\Enrollment\EnrollmentResource;
-use App\Http\Resources\User\UserResource;
+use App\Http\Resources\Employee\EmployeeResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -29,13 +29,13 @@ class ExamResource extends JsonResource
             'capacity' => $this->capacity,
             'comment'=>$this->comment,
             'group' => $this->group,
-            'examiners' => UserResource::collection($this->whenLoaded('examiners')),
+            'examiners' => EmployeeResource::collection($this->whenLoaded('examiners')),
             'name' => $this->whenLoaded('type', fn () => $this->type->name),
             'shortName' => $this->whenLoaded('type', fn () => $this->type->short_name),
             'examTypeId' => $this->whenLoaded('type', fn () => $this->type->id),
             'address' => $this->whenLoaded('address', fn () =>$this->address->address),
             'addressId' => $this->whenLoaded('address', fn () =>$this->address->id),
-            'creator'=> new UserResource($this->whenLoaded('creator')),
+            'creator'=> new EmployeeResource($this->whenLoaded('creator')),
             'createdAt' => $this->created_at,
             'enrollmentsCount' => $this->whenCounted('enrollments_count'),
             'attempts' => AttemptResource::collection( $this->whenLoaded('attempts')),

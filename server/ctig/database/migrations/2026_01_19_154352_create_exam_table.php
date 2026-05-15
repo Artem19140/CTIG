@@ -22,7 +22,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->foreignId('creator_id')
-                ->constrained('users')
+                ->constrained('employees')
                 ->cascadeOnDelete();
             
             $table->foreignId('address_id')
@@ -59,7 +59,7 @@ return new class extends Migration
 
             $table->foreignId('examiner_id')
                 ->index()
-                ->constrained('users')
+                ->constrained('employees')
                 ->cascadeOnDelete();
 
             $table->unique(['examiner_id', 'exam_id']);

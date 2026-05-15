@@ -2,6 +2,7 @@
 
 namespace App\Domain\Exam\Query;
 
+use App\Domain\Center\CenterContext;
 use App\Models\Enrollment;
 use App\Models\Exam;
 use Carbon\Carbon;
@@ -13,6 +14,7 @@ class GetAvailableExamsQuery{
     public function execute(int  $examTypeId, int | null $foreignNationalId):Collection{
         $enrollmentCloseBeforeMinutes = Enrollment::CLOSE_BEFORE_START_MINUTES;
         $exams = Exam::select('id', 'begin_time', 'center_id')
+            ->forCenter(app(CenterContext::class)->id())
             ->withCount('enrollments')
             ->with(['center'])
             ->where('exam_type_id',$examTypeId)

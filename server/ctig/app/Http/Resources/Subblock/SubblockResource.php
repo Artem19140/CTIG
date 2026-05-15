@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Subblock;
 
 use App\Http\Resources\Task\TaskResource;
-use App\Http\Resources\User\UserResource;
+use App\Http\Resources\Employee\EmployeeResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,7 +20,7 @@ class SubblockResource extends JsonResource
             'name' => $this->name,
             'id' => $this->id,
             'minMark' => $this->min_mark,
-            'creator' => new UserResource($this->whenLoaded('creator')),
+            'creator' => new EmployeeResource($this->whenLoaded('creator')),
             'tasks' => TaskResource::collection($this->whenLoaded('tasks'))
         ];
     }

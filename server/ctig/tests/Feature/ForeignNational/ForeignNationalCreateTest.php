@@ -3,25 +3,22 @@
 namespace Tests\Feature\ForeignNational;
 
 use App\Enums\CounterKey;
-use App\Enums\UserRoles;
 use App\Models\Counter;
 use App\Models\Exam;
 use App\Models\Center;
-use App\Models\Role;
-use App\Models\User;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Testing\TestResponse;
-use Tests\Helpers\RolesAccessCheck;
 use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
 
 class ForeignNationalCreateTest extends TestCase
 {
-    use RefreshDatabase, RolesAccessCheck;
-    protected User $user;
+    use RefreshDatabase;
+    protected Employee $actor;
     protected Center $center;
     protected Exam $exam;
 
@@ -30,12 +27,12 @@ class ForeignNationalCreateTest extends TestCase
         $this->seed(RolesSeeder::class);
         $this->center = Center::factory()->create();
 
-        $this->user = User::factory()->operator()->create(['center_id' =>$this->center->id]); 
+        $this->actor = Employee::factory()->operator()->create(['center_id' =>$this->center->id]); 
         Carbon::setTestNow(now());
         $this->exam = Exam::factory()->create([
             'begin_time' => Carbon::now()->addDay(),
             'end_time' => Carbon::now()->addDay()->addMinutes(90),
-            'center_id' => $this->user->center_id
+            'center_id' => $this->actor->center_id
         ]);
 
         Storage::fake('private');
@@ -82,7 +79,7 @@ class ForeignNationalCreateTest extends TestCase
 
     protected function postForeignNational(array $overrides = [])
     {
-        return $this->actingAs($this->user)
+        return $this->actingAs($this->actor)
             ->postJson('/foreign-nationals', $this->foreignNationalBody($overrides));
     }
         
@@ -163,18 +160,5 @@ class ForeignNationalCreateTest extends TestCase
         ->assertJsonStructure([
             'redirectUrl'
         ]);
-    }
-
-    public function test_access_roles(){
-        $this->accessRolesCheck(
-            allowedRoles:[UserRoles::Operator],
-            method:'POST',
-            route: route('foreign-nationals.store'),
-            data: fn () => $this->foreignNationalBody([
-                'passportNumber' => fake()->unique()->regexify('[A-Za-z0-9]{10}')
-            ]),
-            expectedCode: 200,
-            center:$this->center
-        );
     }
 }

@@ -26,7 +26,6 @@ class ExamMonitoringResource extends JsonResource
             'hasSpeakingTasks' => $this->whenLoaded('type', fn () => $this->type->has_speaking_tasks),
             'status' => app(ExamStatusResolver::class)->execute($this->resource),
             'shortName' => $this->whenLoaded('type', fn () => $this->type->short_name),
-            'editProtocolCommentAvailable'=>$this->isStartedToday(),
         ];
     }
 }

@@ -5,18 +5,13 @@ import { ref } from 'vue';
 import EnrollmentDropDown from '@/components/Enrollment/EnrollmentDropDown.vue';
 import ExamResultStatusChip from '@/components/Exam/ExamResultStatusChip.vue';
 import PaymentIcon from '@/components/Enrollment/PaymentIcon.vue';
-import { Exam, ExamActionPermissions } from '@/interfaces/Exam';
-import { Enrollment } from '@/interfaces/Enrollment';
+import { Exam, ExamActionsPermissions } from '@/interfaces/Exam';
 
 const props = defineProps<{
     exam: Exam,
-    permissions:ExamActionPermissions
+    permissions:ExamActionsPermissions
 }>()
 const exam = ref<Exam>(props.exam)
-
-const emit = defineEmits<{
-    (e:'reschedule', value:Enrollment) : void
-}>()
 
 const modals = useModals()
 
@@ -34,16 +29,6 @@ const headers = [
 props.exam.enrollments.forEach(fn => {
     if (fn.isLoading === undefined) fn.isLoading = false
 })
-
-const cancell = (value : Enrollment) => {
-    exam.value.enrollments = exam.value.enrollments.filter(e => e.id !== value.id)
-    exam.value.enrollmentsCount -= 1 //Почему computed не пересчитывает!
-}
-
-const reschedule = (value : Enrollment) => {
-    exam.value.enrollments =exam.value.enrollments.filter(e => e.id !== value.id)
-    emit('reschedule', value)
-}
 </script>
 
 <template>
@@ -54,20 +39,18 @@ const reschedule = (value : Enrollment) => {
         fixed-header
         hover
         @click:row="foreignNationalShowModal"
+        v-if="permissions.enrollments.view"
     >
-    
         <template #item.hasPayment="{ item }" >
             <PaymentIcon :enrollment="item" />
         </template>
         <template #item.actions="{item}">
             <EnrollmentDropDown 
-                v-if="permissions.statement || permissions.payment"
+                v-if="permissions.enrollments.statement || permissions.enrollments.payment"
                 :permissions="permissions"
                 :enrollment="item"
                 :exam="exam"
                 :loading="item"
-                @cancell="cancell"
-                @reschedule="reschedule"
             />
         </template>
         <template #item.results="{ item }">

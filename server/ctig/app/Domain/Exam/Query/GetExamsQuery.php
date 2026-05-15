@@ -18,21 +18,29 @@ class GetExamsQuery{
         $finished = $data['finished'] ?? false;
         $perPage = $data['perPage'] ?? 10;
 
+        $id = $data['id'] ?? false;
+
         $query = Exam::with(['type', 'center'])
             ->withCount(['enrollments']);
 
         $query->forCenter(app(CenterContext::class)->id());
+
+        $query->visibleFor(auth()->user());
+
+        $query->when($id, fn ($q) =>
+            $q->where('id', $id)
+        );
 
         $query->when($examTypeId, fn ($q) =>
             $q->where('exam_type_id', $examTypeId)
         );
 
         $query->when($dateFrom, fn ($q) =>
-            $q->whereBeginTimeMore(Carbon::parse($dateFrom)->startOfDay())
+            $q->where('begin_time', '>=', Carbon::parse($dateFrom)->startOfDay())
         );
 
         $query->when($dateTo, fn ($q) =>
-            $q->whereBeginTimeLess(Carbon::parse($dateTo)->endOfDay())
+            $q->where('begin_time', '<', Carbon::parse($dateTo)->endOfDay())
         );
 
         $query->when($addressId, fn ($q) =>

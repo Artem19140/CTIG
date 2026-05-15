@@ -4,8 +4,9 @@ import AppAutocomplete from '@components/UI/AppAutocomplete/AppAutocomplete.vue'
 import AppCheckbox from '@components/UI/AppCheckbox/AppCheckbox.vue';
 import BaseFilter from '@components/BaseComponents/BaseFilter/BaseFilter.vue';
 import AppPeriodDate from '@components/UI/AppPeriodDate/AppPeriodDate.vue';
-import { computed, onMounted} from 'vue';
+import { computed} from 'vue';
 import { ExamFilters } from '@/interfaces/Exam';
+import AppNumberInput from '@/components/UI/AppNumberInput/AppNumberInput.vue';
 
 const page = usePage<{
     flash:{
@@ -30,6 +31,7 @@ const form = useForm<ExamFilters>({
     examTypeId:filters.value?.examTypeId ? Number(filters.value?.examTypeId) : null,
     dateTo:filters.value?.dateTo ?? null,
     finished: Boolean(filters.value?.finished) ?? null,
+    id: filters.value.id ?  Number(filters.value.id) : null,
 })
 
 
@@ -57,6 +59,13 @@ const loading = defineModel<boolean>({default:false})
             :errors="form.errors"
             v-model:date-from="form.dateFrom"
             v-model:date-to="form.dateTo"
+        />
+
+        <AppNumberInput
+            v-model="form.id"
+            label="ID"
+            :min="1"
+            :error-messages="form.errors.id"
         />
         
         <AppCheckbox 

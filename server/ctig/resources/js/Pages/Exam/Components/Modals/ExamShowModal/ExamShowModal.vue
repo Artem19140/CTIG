@@ -8,10 +8,8 @@ import ExamStatusChip from '@components/Exam/ExamStatusChip.vue';
 import { DateFormatter } from '@helpers/DateFormatter';
 import { ExamStatus } from '@/constants/ExamStatus';
 import ExamCapacityChip from '@/components/Exam/ExamCapacityChip.vue';
-import { Exam, ExamActionPermissions } from '@/interfaces/Exam';
+import { Exam, ExamActionsPermissions } from '@/interfaces/Exam';
 import { Enrollment } from '@/interfaces/Enrollment';
-import { useAuth } from '@/composables/useAuth';
-import { Roles } from '@/constants/Roles';
 
 
 const props = defineProps<{
@@ -22,12 +20,12 @@ const http = useHttp<
     {}, 
     {
         exam:Exam, 
-        permissions:ExamActionPermissions
+        permissions:ExamActionsPermissions
     }
 >()
 
 const exam = ref<Exam |null>(null)
-const permissions = ref<ExamActionPermissions | null>(null)
+const permissions = ref<ExamActionsPermissions | null>(null)
 
 const isOpen = defineModel<boolean>({default:false})
 
@@ -64,7 +62,6 @@ const edit =(value :Exam) => {
     router.reload()
     exam.value = value
 }
-const {can} = useAuth()
 </script>
 
 <template>

@@ -73,6 +73,7 @@ export interface ExamFilters  {
     examTypeId: number | null,
     dateTo: string | null,
     finished: boolean | null,
+    id:number | null
 }
 
 export interface ExamMonitoring  {
@@ -101,15 +102,24 @@ interface DocumentAvailble{
     label:string | null
 }
 
-export interface ExamActionPermissions{
-    codes:boolean,
-    list:boolean,
-    results:boolean,
-    protocol:boolean,
-    edit:boolean,
-    delete:boolean,
-    statement:boolean,
-    payment:boolean
+export interface ExamActionsPermissions {
+  documents: {
+    codes: boolean
+    protocol: boolean
+    results: boolean
+    list: boolean
+  }
+
+  actions: {
+    edit: boolean
+    delete: boolean
+  }
+
+  enrollments: {
+    view: boolean
+    statement: boolean
+    payment: boolean
+  }
 }
 
 export interface ExamPagePermissions{

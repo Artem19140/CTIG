@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\Exam;
 
 use App\Domain\Attempt\Action\CreateAttemptAction;
+use App\Domain\Center\CenterContext;
 use App\Domain\Exam\Action\CancelExamAction;
 use App\Domain\Exam\Action\CreateExamAction;
 use App\Domain\Exam\Action\UpdateExamAction;
@@ -15,6 +16,7 @@ use App\Http\Resources\Address\AddressResource;
 use App\Http\Resources\Exam\ExamCalendarResource;
 use App\Http\Resources\Exam\ExamIndexResource;
 use App\Http\Resources\ExamType\ExamTypeResource;
+use App\Models\Enrollment;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +29,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\Exam\ExamResource;
 use App\Http\Requests\Exam\ExamPostRequest;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 
@@ -84,14 +87,22 @@ class ExamController
         $exam = $examShowQuery->execute($exam);
         return response()->json([
             'permissions' => [
-                'codes' => $employee->can('examiner', $exam),
-                'protocol' => $employee->can('examiner', $exam),
-                'results' => $employee->can('examiner', $exam),
-                'list' => $employee->can('list', $exam),
-                'edit' => $employee->can('update', $exam),
-                'delete' => $employee->can('delete', $exam),
-                'statement' => $employee->hasAnyRole(EmployeeRole::Operator),
-                'payment' => $employee->hasAnyRole(EmployeeRole::Operator) || $employee->can('examiner', $exam)
+                'documents'=> [
+                    'codes' => $employee->can('examiner', $exam),
+                    'protocol' => $employee->can('examiner', $exam),
+                    'results' => $employee->can('examiner', $exam),
+                    'list' => $employee->can('list', $exam)
+                ],
+                'actions' => [
+                    'edit' => $employee->can('update', $exam),
+                    'delete' => $employee->can('delete', $exam)
+                ],
+                'enrollments' => [
+                    'view' => $employee->can('viewAny', Enrollment::class),
+                    'statement' => $employee->hasAnyRole(EmployeeRole::Operator),
+                    'payment' => $employee->hasAnyRole(EmployeeRole::Operator) || $employee->can('examiner', $exam)
+                ]
+                
             ],
             'exam' => new ExamResource($exam)
         ]);
@@ -138,16 +149,30 @@ class ExamController
     }
 
     public function schedule(Request $request){
-        $dateFrom = Carbon::parse($request->input('dateFrom'))->startOfDay();
-        $dateTo = Carbon::parse($request->input('dateTo'))->endOfDay();
+        $request->validate([
+            'dateFrom' => ['required', 'date'],
+            'dateTo' => ['required', 'date']
+        ]);
 
-        $exams = Exam::with(['type', 'center'])
-            ->whereBetween('begin_time', [
-                $dateFrom,
-                $dateTo
-            ])
+        $dateFrom = Carbon::parse($request->input('dateFrom'))
+            ->copy()->startOfDay();
+        $dateTo = Carbon::parse($request->input('dateTo'))
+            ->copy()->endOfDay();
+        Log::info('dd', [
+            '$dateFrom' => $dateFrom,
+            '$dateTo' => $dateTo
+        ]);
+        $exams = Exam::query()
+            ->forCenter(app(CenterContext::class)->id())
+            ->visibleFor($request->user())
+            ->with(['type', 'center'])
+            ->where('begin_time', '>=', $dateFrom)
+            ->where('begin_time', '<', $dateTo)     
             ->get();
-        
+
+        Log::info('dd exams', [
+            '$exams' => $exams
+        ]);
         return Inertia::render('Schedule/Schedule',[
             'exams' => ExamCalendarResource::collection($exams),
             'permissions' => [

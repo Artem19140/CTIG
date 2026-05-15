@@ -5,13 +5,13 @@ import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdow
 import { useModals } from '@composables/useModals';
 import { useLoadingSnackbar } from '@composables/useLoadingSnackBar';
 import { useExamStatus } from '@/composables/useExamStatus';
-import { Exam, ExamActionPermissions } from '@/interfaces/Exam';
+import { Exam, ExamActionsPermissions } from '@/interfaces/Exam';
 import { RedirectUrl } from '@/interfaces/Interfaces';
 import BaseListItem from '@/components/BaseComponents/BaseList/BaseListItem.vue';
 
 const props = defineProps<{
   exam : Exam, 
-  permissions:ExamActionPermissions
+  permissions:ExamActionsPermissions
 }>()
 
 const emit = defineEmits<{
@@ -80,12 +80,12 @@ const downloadCodesDisabled  = !props.exam?.documentsAvailable.codes.available
         title="Кода" 
         :disabled="downloadCodesDisabled"
         @click="() => download('codes')" 
-        v-if="permissions.codes"
+        v-if="permissions.documents.codes"
       />
 
       <BaseListItem 
         title="Список"
-        v-if="permissions.list"
+        v-if="permissions.documents.list"
         :disabled="downloadListDisabled"  
         @click="download('list')" 
       />
@@ -94,20 +94,20 @@ const downloadCodesDisabled  = !props.exam?.documentsAvailable.codes.available
         title="Результаты"
         :subtitle="props.exam?.documentsAvailable.results.label"
         :disabled="downloadResultslDisabled" 
-        v-if="permissions.results"
+        v-if="permissions.documents.results"
         @click="() => download('results')" 
       />
 
       <BaseListItem 
         title="Протокол" 
-        v-if="permissions.protocol"
+        v-if="permissions.documents.protocol"
         :disabled="downloadProtocolDisabled"
         @click="() => download('protocol')" 
       />
-      <v-divider v-if="permissions.edit || permissions.delete"></v-divider>
+      <v-divider v-if="permissions.actions.edit || permissions.actions.delete"></v-divider>
       <BaseListItem 
         title="Редактировать" 
-        v-if="permissions.edit"
+        v-if="permissions.actions.edit"
         @click="modals.open('examEdit', {exam:exam, onEdit:(exam:Exam) => emit('edit', exam)})"
         :disabled="editDisabled"
       />
@@ -117,7 +117,7 @@ const downloadCodesDisabled  = !props.exam?.documentsAvailable.codes.available
         title="Отменить" 
         @click="cancelExam"
         :disabled="cancelDisabled" 
-        v-if="permissions.delete"
+        v-if="permissions.actions.delete"
       />
     </BaseThreeDotDropdown>
 </template>

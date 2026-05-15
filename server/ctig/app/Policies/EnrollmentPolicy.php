@@ -16,8 +16,21 @@ class EnrollmentPolicy
         }
         return null;
     }
+
+    public function viewAny(Employee $employee): bool
+    {
+        if($employee->hasAnyRole(
+            EmployeeRole::Operator,
+            EmployeeRole::Director,
+            EmployeeRole::Examiner
+        )){
+            return true;
+        }
+        return false;
+    }
     public function view(Employee $employee, Enrollment $enrollment): bool
     {
+        
         return false;
     }
 

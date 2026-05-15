@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\EmployeeRole;
 use App\Models\Scopes\BelongsToCenter;
 use App\Support\TimePresenter;
 use Carbon\Carbon;
@@ -43,6 +44,15 @@ class Exam extends Model
         'begin_time' => 'datetime',
         'cancelled_at' => 'datetime'
     ];
+
+    public function scopeVisibleFor(Builder $query, Employee $employee){
+        if(!$employee->hasAnyRole(EmployeeRole::Examiner)){
+            return $query;
+        }
+        return $query->whereHas('examiners', function(Builder $q) use($employee){
+            $q->where('examiner_id', $employee->id);
+        });
+    }
 
     public function type(): BelongsTo{
         return $this->belongsTo(ExamType::class, 'exam_type_id');
@@ -110,7 +120,6 @@ class Exam extends Model
         return $this->type->has_speaking_tasks;
     }
 
-
     protected function timeZone(): Attribute
     {
         return Attribute::get(function () {
@@ -172,10 +181,6 @@ class Exam extends Model
 
     public function canGenerateCodes():bool{
         return $this->begin_time->isToday();
-    }
-
-    public function isStartedToday():bool{
-        return $this->begin_time->isToday() && $this->begin_time->isPast();
     }
 
     public function scopeSorting(Builder $query, Carbon $now){

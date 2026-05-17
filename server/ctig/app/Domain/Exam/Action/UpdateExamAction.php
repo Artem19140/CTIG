@@ -26,6 +26,7 @@ final class UpdateExamAction{
         $this->examGuard->ensureNotFinished($exam);
 
         $this->validateExamForSave->execute($examDto, $exam->id);
+        
         $before = $this->getAttributesToLog($exam);
         $exam = DB::transaction(function () use ($examDto, $exam) {
             

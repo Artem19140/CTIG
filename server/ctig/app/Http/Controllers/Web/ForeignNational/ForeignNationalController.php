@@ -62,13 +62,18 @@ class ForeignNationalController
         ForeignNational $foreignNational
     ){
         Gate::authorize('view', $foreignNational);
+
         $foreignNational->load([
             'creator',
-            'enrollments' => [ 
-                'exam' => ['type', 'center'], 
-                'attempt.center'
-            ]
+            'enrollments' => function($query) use($request){
+                $query->visibleFor($request->user())
+                ->with([
+                    'exam' => ['type', 'center'],
+                    'attempt.center'
+                ]);
+            }
         ]);
+
         $foreignNational->enrollments = $foreignNational->enrollments->sortByDesc('exam.begin_time');
         $employee = $request->user();
         return response()->json([

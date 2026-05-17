@@ -21,9 +21,7 @@ class ExamMonitoringController
         
         $exams = Exam::query()
             ->with(['type', 'center'])
-            ->whereHas('examiners', function(Builder $query) use( $employee ){
-                $query->where('examiner_id', $employee->id);
-            })
+            ->visibleFor($employee)
             ->withCount(['enrollments'])
             ->when($past, function (Builder $query){
                 $query->whereEndTimeLess(now());
@@ -51,19 +49,24 @@ class ExamMonitoringController
         $exam->enrollments = $exam->enrollments->sortBy('foreignNational.surname');
         
         return Inertia::render('ExamMonitoring/ExamMonitoring', [
-            'exam' => new ExamMonitoringResource($exam)
+            'exam' => new ExamMonitoringResource($exam),
+            'available' => [
+                'protocolComment' => $exam->begin_time->isToday() && $exam->begin_time->isPast()
+            ]
         ]);
     }
 
-    public function updateProtocolComment(
+    public function protocolComment(
         Request $request, 
         Exam $exam, 
         UpdateProtocolCommentAction $updateProtocolComment
     ){
         $this->authorize($exam);
+
         $request->validate([
             'protocolComment' => ['required', 'string']
         ]);
+
         $updateProtocolComment->execute(
             $exam, 
             $request->input('protocolComment')

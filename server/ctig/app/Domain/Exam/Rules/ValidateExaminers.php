@@ -2,6 +2,7 @@
 
 namespace App\Domain\Exam\Rules;
 
+use App\Domain\Center\CenterContext;
 use App\Enums\EmployeeRole;
 use App\Exceptions\BusinessException;
 use App\Models\Exam;
@@ -10,15 +11,31 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Log;
 
 class ValidateExaminers{
-    public function execute(array $examinersIds, Carbon $beginTime, Carbon $endTime, int | null $examId = null ){
+    public function execute(
+        array $examinersIds, 
+        Carbon $beginTime, 
+        Carbon $endTime, 
+        int | null $examId = null 
+    ){
 
-        $parralellExaminersExams = $this->getParralellExaminersExams($beginTime, $endTime, $examinersIds, $examId);
+        $parralellExaminersExams = 
+            $this->getParralellExaminersExams($beginTime, 
+                $endTime, 
+                $examinersIds, 
+                $examId
+            );
 
-        $examiners = Employee::with('roles')->whereIn('id', $examinersIds)->get();
+        $examiners = Employee::with('roles')
+            ->whereIn('id', $examinersIds)
+            ->get();
 
-        $this->ensureHasNoExaminersConflict($parralellExaminersExams, $examiners);
+        $this->ensureHasNoExaminersConflict(
+            $parralellExaminersExams, 
+            $examiners
+        );
 
         $this->ensureAllExaminersActive($examiners);
 
@@ -31,22 +48,31 @@ class ValidateExaminers{
         array $examiners, 
         int | null $examId = null
     ):Collection{
-        return Exam::whereBeginTimeLess($endTime)
-            ->whereEndTimeMore($beginTime)
+        return Exam::query()
+            ->forCenter(app(CenterContext::class)->id())
+            ->where('begin_time', '<=',$endTime)
+            ->where('end_time', '>=',$beginTime)
             ->notCancelled()
+
             ->with('examiners', function (BelongsToMany $query)use ($examiners): void{
                 $query->whereIn('employees.id', $examiners);
             })
+
             ->whereHas('examiners', function (Builder $query) use ($examiners): void {
                 $query->whereIn('employees.id', $examiners);
             })
+
             ->when($examId, function (Builder $query) use($examId){
                 $query->where('id', '<>', $examId);
             })
+
             ->get();
     }
 
-    protected function ensureHasNoExaminersConflict(Collection $parallelExaminersExams, Collection $examiners): void{
+    protected function ensureHasNoExaminersConflict(
+        Collection $parallelExaminersExams, 
+        Collection $examiners
+    ): void{
         $busyExaminers = $parallelExaminersExams
             ->pluck('examiners')
             ->flatten()
@@ -56,7 +82,8 @@ class ValidateExaminers{
 
         $examinerIds = $examiners->pluck('id');
 
-        $intersection = $busyExaminersIds->intersect($examinerIds);
+        $intersection = $busyExaminersIds
+            ->intersect($examinerIds);
 
         if ($intersection->isEmpty()) {
             return;
@@ -77,6 +104,9 @@ class ValidateExaminers{
         });
 
         if($notActive->isNotEmpty()){
+            Log::warning('trying to select examiners, but they are not active',[
+                'ids' => $notActive->pluck('id')->toArray()
+            ]);
             $names = $notActive->implode('full_name', ', ');
             throw new BusinessException("$names уже не работает(-ют) в организации");
         }
@@ -88,6 +118,9 @@ class ValidateExaminers{
         });
 
         if($noRoleExaminer->isNotEmpty()){
+            Log::warning('trying to select examiners, but they have no role examiner',[
+                'ids' => $noRoleExaminer->pluck('id')->toArray()
+            ]);
             $names = $noRoleExaminer->implode('full_name', ', ');
             throw new BusinessException("$names не имеет(-ют) роли экзаменатора");
         }

@@ -4,8 +4,6 @@ import { Head, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import { useModals } from '@composables/useModals';
 import AppAddButton from '@components/UI/AppAddButton/AppAddButton.vue';
-import { useAuth } from '@composables/useAuth';
-import { Roles } from '@constants/Roles';
 import { examStatus } from '@helpers/heplers';
 import { ExamCalendar } from '@/interfaces/Exam';
 
@@ -21,7 +19,6 @@ const props = defineProps<{
   }
 }>()
 
-const {can} = useAuth()
 const {open} = useModals()
 
 const calendar = ref()
@@ -65,7 +62,7 @@ function getEvents ({ start, end } :any) {
   })
 }
 const addExam = (nativeEvent : Event, { date } : any) => {
-  if(!can([Roles.SCHEDULER])) return
+  if(!props.permissions.create) return
   open('examCreate', {date})
 }
 </script>

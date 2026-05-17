@@ -24,7 +24,7 @@ class ExamProtocolGenerator{
             ->with(['foreignNational', 'center', 'violations'])
             ->get();
 
-        $pdf = Pdf::loadView('templates.exam-protocol', [
+        $pdf = Pdf::loadView('pdf.exam.exam-protocol', [
             'exam' => $exam,
             'center' => $exam->center, 
             'bannedAttempts' => $bannedAttempts,

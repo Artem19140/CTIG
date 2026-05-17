@@ -46,7 +46,7 @@ class Exam extends Model
     ];
 
     public function scopeVisibleFor(Builder $query, Employee $employee){
-        if(!$employee->hasAnyRole(EmployeeRole::Examiner)){
+        if(!$employee->hasAnyRole(EmployeeRole::Examiner) || $employee->isSuperAdmin()){
             return $query;
         }
         return $query->whereHas('examiners', function(Builder $q) use($employee){
@@ -180,7 +180,10 @@ class Exam extends Model
     }
 
     public function canGenerateCodes():bool{
-        return $this->begin_time->isToday();
+        return $this->begin_time->isToday()
+            &&
+            $this->begin_time->addMinutes(self::CODES_TTL_AFTER_BEGIN_MINUTES)->isFuture()
+        ;
     }
 
     public function scopeSorting(Builder $query, Carbon $now){

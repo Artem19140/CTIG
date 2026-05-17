@@ -3,7 +3,6 @@
 namespace App\Domain\Report;
 
 use App\Domain\Center\CenterContext;
-use App\Enums\AttemptStatus;
 use App\Enums\ReportType;
 use App\Enums\TaskType;
 use App\Events\ReportGenerated;
@@ -23,9 +22,13 @@ class FlatTableGenerator{
                 'taskVariant.task',
                 'answer'
             ]])
-            ->whereCreatedAtMore( $dateFrom->copy()->startOfDay())
-            ->whereCreatedAtLess($dateTo = $dateTo->copy()->endOfDay())
-            ->where('status', AttemptStatus::Checked)
+            ->whereBetween('created_at', [
+                $dateFrom->copy()->startOfDay(),
+                $dateTo->copy()->endOfDay()
+            ])
+
+            ->whereNotNull('checked_at')
+
             ->chunkById(300, function($attempts) use($handle, &$strNumber) {
                 foreach($attempts as $attempt){
                     $answers = $attempt->answers->sortBy(fn($a) => $a->taskVariant->task->order);

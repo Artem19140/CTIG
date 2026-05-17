@@ -25,7 +25,7 @@ class ExamDocumentController
         
         $exam->load(['foreignNationals', 'type']);
 
-        $pdf = Pdf::loadView('templates.exam-foreign_nationals-list', [
+        $pdf = Pdf::loadView('pdf.exam.exam-foreign_nationals-list', [
             'foreignNationals' => $exam->foreignNationals,
             'exam' => $exam
         ]);

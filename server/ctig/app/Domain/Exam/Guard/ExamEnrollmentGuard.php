@@ -24,7 +24,8 @@ class ExamEnrollmentGuard{
     }
 
     public function ensureEnrollmentNotExists(Exam $exam, ForeignNational $foreignNational, string $message = 'Запись на экзамен уже сущестует'){
-        $exists = Enrollment::for($exam, $foreignNational)->exists();
+        $exists = Enrollment::where('exam_id', $exam->id)
+            ->where('foreign_national_id', $foreignNational->id)->exists();
         if($exists){
             throw new BusinessException($message);
         }

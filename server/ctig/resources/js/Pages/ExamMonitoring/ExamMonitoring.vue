@@ -23,6 +23,9 @@ const props = defineProps<{
     exam:{
         data:ExamMonitoring
     },
+    available:{
+        protocolComment:boolean
+    }
 }>()
 
 const pollFrequency = 15000
@@ -104,7 +107,10 @@ const back = () => {
                         </AppTooltip>    
                         
                     </div>
-                    <ExamMonitoringDropdown :exam="exam.data" />
+                    <ExamMonitoringDropdown 
+                        :exam="exam.data"
+                        :available="available"
+                    />
                 </div>
             </v-card-title>
 
@@ -122,6 +128,7 @@ const back = () => {
                     :headers="headers"
                     hover
                     hide-default-footer
+                    :items-per-page="-1"
                     @click:row="openForeignNational"
                 >
                     <template  #item.actions="{ item }">

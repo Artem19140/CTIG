@@ -17,7 +17,7 @@ class UpdateProtocolCommentAction{
     ){
         $this->examGuard->ensureNotCancelled($exam);
         $this->ensureCanUpdateProtocolComment($exam);
-        $oldValue = $exam->protocol_comment;
+        $oldValue = $exam->protocol_comment ?? '';
         $exam->protocol_comment = $protocolComment;
         $exam->save();
         $this->log($exam, $oldValue);
@@ -36,7 +36,6 @@ class UpdateProtocolCommentAction{
     protected function log(Exam $exam, string $oldValue){
         Log::info('updated_protocol_comment', [
             'exam_id' => $exam->id,
-            'field' => 'protocol_comment',
             'before' => $oldValue,
             'after' => $exam->protocol_comment,
         ]);

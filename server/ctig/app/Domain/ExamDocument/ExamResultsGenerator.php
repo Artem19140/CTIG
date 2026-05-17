@@ -14,7 +14,7 @@ class ExamResultsGenerator{
     public function execute(Exam $exam){
         $this->loadRelations($exam);
         event(new ExamDocumentGenerated($exam, ExamDocument::Results));
-        return Pdf::loadView('templates.pdf.exam.exam-results', [
+        return Pdf::loadView('pdf.exam.exam-results', [
             'exam' => $exam,
             'statementTable' => [
                 'headers' => $this->getHeadersStatement($exam),
@@ -34,6 +34,7 @@ class ExamResultsGenerator{
             ],
             'enrollments' => [
                 'attempt.answers.taskVariant.task',
+                'attempt.center',
                 'foreignNational'
             ]
         ]);   

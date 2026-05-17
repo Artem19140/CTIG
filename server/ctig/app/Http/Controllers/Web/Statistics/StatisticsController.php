@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\Statistics;
 
+use App\Domain\Center\CenterContext;
 use App\Enums\AttemptStatus;
 use App\Http\Requests\Statistics\StatisticsRequest;
 use App\Models\Attempt;
@@ -13,21 +14,30 @@ use Illuminate\Database\Eloquent\Builder;
 class StatisticsController
 {
     public function index(StatisticsRequest $request){
+
         $from = Carbon::parse($request->validated('dateFrom'))->startOfDay();
         $to = Carbon::parse($request->validated('dateTo'))->endOfDay();
-        $examsCount = Exam::whereBeginTimeMore($from)
-            ->whereBeginTimeLess($to)
+
+        $examsCount = Exam::query()
+            ->forCenter(app(CenterContext::class)->id())
+            ->where('begin_time', '>=', $from)
+            ->where('begin_time',  '<=', $to)
             ->notCancelled()
             ->count();
-        $attemptsTakersCount = ForeignNational::whereHas('attempts', function(Builder $query)use($from, $to){
-            $query->whereBetween('started_at',[
-                $from,
-                $to
-            ]);
-        })->count();
 
-        $attemptsQuery = Attempt::whereCreatedAtMore($from)
-            ->whereCreatedAtLess($to);
+        $attemptsTakersCount = ForeignNational::query()
+            ->forCenter(app(CenterContext::class)->id())
+            ->whereHas('attempts', function(Builder $query)use($from, $to){
+            $query->whereBetween('started_at',[
+                    $from,
+                    $to
+                ]);
+            })->count();
+
+        $attemptsQuery = Attempt::query()
+            ->forCenter(app(CenterContext::class)->id())
+            ->where('created_at', '>=', $from)
+            ->where('created_at',  '<=', $to);
             
         $attemptsCount = (clone $attemptsQuery)->count();
 

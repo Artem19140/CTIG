@@ -17,7 +17,6 @@ class AttemptSpeakingController
     ){
         $this->authorize($attempt);
         $this->ensureAttemptHasSpeaking($attempt); 
-        $this->ensureExamStarted($attempt);
         $this->ensureTodayIsExamDay($attempt);
 
         if(!$attempt->speaking_started_at){
@@ -34,7 +33,6 @@ class AttemptSpeakingController
     public function start(Attempt $attempt){
         $this->authorize($attempt);
         $this->ensureAttemptHasSpeaking($attempt);
-        $this->ensureExamStarted($attempt);
         $this->ensureTodayIsExamDay($attempt);
 
         if($attempt->speaking_started_at){
@@ -49,7 +47,6 @@ class AttemptSpeakingController
         $this->authorize($attempt);
         $this->ensureAttemptHasSpeaking($attempt);
         $this->ensureSpeakingNotFinished($attempt);
-        $this->ensureExamStarted($attempt);
         $this->ensureTodayIsExamDay($attempt);
 
         $attempt->speaking_finished_at = Carbon::now();
@@ -70,12 +67,6 @@ class AttemptSpeakingController
     protected function ensureAttemptHasSpeaking(Attempt $attempt){
         if(!$attempt->exam->hasSpeaking()){
             throw new BusinessException('У данной попытки нет заданий на говорение');
-        }
-    }
-
-    protected function ensureExamStarted(Attempt $attempt){
-        if(!$attempt->exam->begin_time->isPast()){
-            throw new BusinessException('Говорение доступно после начала экзамена');
         }
     }
 

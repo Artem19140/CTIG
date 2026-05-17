@@ -73,7 +73,7 @@
     <tr>
         <td colspan="2">
             ДОСТОВЕРНОСТЬ ПРЕДОСТАВЛЕННЫХ СВЕДЕНИЙ ПОДТВЕРЖДАЮ<br>
-            @include('templates.components.signature-section', [
+            @include('pdf.components.signature-section', [
                 'date' =>  $enrollment->exam?->begin_time_local->format('d.m.Y'), 
                 'fio' => $enrollment->foreignNational?->full_name, 
             ])
@@ -85,7 +85,7 @@
                 экзамена   в   порядке   и   целях,   определяемых законодательством и заключаемом договором.
                 Проинформирован об использовании средств видеофиксации и хранении материаловпри проведении экзамена.
             </p>
-            @include('templates.components.signature-section', [
+            @include('pdf.components.signature-section', [
                 'date' =>  $enrollment->exam->begin_time->format('d.m.Y'), 
                 'fio' => $enrollment->foreignNational?->full_name, 
             ])
@@ -95,7 +95,7 @@
 
 <div class="page-break"></div>
 
-@include('templates.components.labeled-field', [
+@include('pdf.components.labeled-field', [
     'value' => $enrollment->foreignNational?->full_name, 
     'label' => 'Я,' , 
     'underline' => '(указать полностью ФИО)'
@@ -109,12 +109,12 @@
     <li>□ копия нотариально заверенного перевода паспорта</li>
 </ul>
 Заказчик:
-@include('templates.components.signature-section', [
+@include('pdf.components.signature-section', [
     'date' =>  $enrollment->exam->begin_time->format('d.m.Y'), 
     'fio' => $enrollment->foreignNational?->full_name, 
 ])
 Исполнитель:
-@include('templates.components.signature-section', [
+@include('pdf.components.signature-section', [
     'date' =>  $enrollment->exam->begin_time->format('d.m.Y'), 
     'fio' =>  $enrollment->creator?->full_name, 
 ])

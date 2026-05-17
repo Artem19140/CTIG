@@ -37,14 +37,45 @@
         .center{
             text-align: center;
         }
+
         .data{
             font-weight: bold;
         }
+
+        .bold{
+            font-weight: bold;
+        }
+
+        .underline{
+            text-decoration: underline;
+        }
+        
         .border{
             border: 1px solid black;
         }
         .page-break {
             page-break-before: always;
+        }
+
+        .break-avoid{
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .mt-10{
+            margin-top: 10px;
+        }
+
+        .mb-10{
+            margin-bottom: 10px;
+        }
+
+        .mt-20{
+            margin-top: 20px;
+        }
+
+        .mb-20{
+            margin-bottom: 20px;
         }
         @stack('style')  
     </style>

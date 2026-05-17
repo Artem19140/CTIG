@@ -5,11 +5,11 @@
 </h4>
 
 <div style="float:right">
-    @include('templates.components.date-inline', ['date' => \Carbon\Carbon::now()])
+    @include('pdf.components.date-inline', ['date' => \Carbon\Carbon::now()])
 </div>
 
 <p>
-    @include('templates.components.labeled-field', [
+    @include('pdf.components.labeled-field', [
         'value' => $foreignNational->full_name, 
         'label' => 'Я,',
         'underline' => '(ФИО)'
@@ -39,7 +39,7 @@
 </div>
 зарегистрированный по адресу:
 <div>
-    @include('templates.components.labeled-field', [
+    @include('pdf.components.labeled-field', [
         'value' =>  $foreignNational->address_reg ?? ''
     ])
 </div>
@@ -74,7 +74,7 @@
 </div>
 
 <div>
-    @include('templates.components.signature-section', [
+    @include('pdf.components.signature-section', [
         'date' => \Carbon\Carbon::now()->format('d.m.Y'),
         'fio' => $foreignNational->full_name, 
     ])

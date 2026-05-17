@@ -15,7 +15,7 @@ const emit = defineEmits<{
         hide-default-footer
         @click:row="(event :Event, { item } : any) => emit('row-click', item)"
     >
-        <template v-slot:top >
+        <template v-slot:top>
                 <v-toolbar flat :color="toolbarColor">
                     <v-toolbar-title>
                         {{ title ?? '' }}

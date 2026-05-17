@@ -28,7 +28,7 @@ class EnsureFrdoGenerationAvailable{
     }
     protected function ensureAllAttemptsChecked(Carbon $examDate):void{
         $uncheckedAttempts = $this->query($examDate)
-            ->statusUnchecked()
+            ->unchecked()
             ->exists();
 
         if($uncheckedAttempts){

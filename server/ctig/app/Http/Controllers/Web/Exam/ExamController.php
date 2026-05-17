@@ -29,7 +29,6 @@ use Illuminate\Http\Request;
 use App\Http\Resources\Exam\ExamResource;
 use App\Http\Requests\Exam\ExamPostRequest;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 
@@ -150,18 +149,14 @@ class ExamController
 
     public function schedule(Request $request){
         $request->validate([
-            'dateFrom' => ['required', 'date'],
-            'dateTo' => ['required', 'date']
+            'dateFrom' => ['sometimes', 'date'],
+            'dateTo' => ['sometimes', 'date']
         ]);
 
         $dateFrom = Carbon::parse($request->input('dateFrom'))
             ->copy()->startOfDay();
         $dateTo = Carbon::parse($request->input('dateTo'))
             ->copy()->endOfDay();
-        Log::info('dd', [
-            '$dateFrom' => $dateFrom,
-            '$dateTo' => $dateTo
-        ]);
         $exams = Exam::query()
             ->forCenter(app(CenterContext::class)->id())
             ->visibleFor($request->user())
@@ -170,9 +165,6 @@ class ExamController
             ->where('begin_time', '<', $dateTo)     
             ->get();
 
-        Log::info('dd exams', [
-            '$exams' => $exams
-        ]);
         return Inertia::render('Schedule/Schedule',[
             'exams' => ExamCalendarResource::collection($exams),
             'permissions' => [

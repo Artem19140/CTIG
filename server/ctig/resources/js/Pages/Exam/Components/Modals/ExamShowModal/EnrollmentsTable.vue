@@ -11,6 +11,7 @@ const props = defineProps<{
     exam: Exam,
     permissions:ExamActionsPermissions
 }>()
+
 const exam = ref<Exam>(props.exam)
 
 const modals = useModals()
@@ -36,10 +37,10 @@ props.exam.enrollments.forEach(fn => {
         :items="exam.enrollments"
         hide-default-footer
         :headers="headers"
-        fixed-header
         hover
         @click:row="foreignNationalShowModal"
         v-if="permissions.enrollments.view"
+        :items-per-page="-1"
     >
         <template #item.hasPayment="{ item }" >
             <PaymentIcon :enrollment="item" />

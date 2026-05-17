@@ -16,7 +16,7 @@ class ExamShowQuery{
 
         $exam->loadExists([
             'attempts as has_unchecked_attempts' => function ($query) {
-                $query->statusUnchecked();
+                $query->unchecked();
             },
             'attempts as has_active_attempts' => function ($query) {
                 $query->statusActive();

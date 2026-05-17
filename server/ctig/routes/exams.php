@@ -22,7 +22,8 @@ Route::prefix('exams')->group(function(){
         ->name('exams.schedule')
         ->can('viewAny', Exam::class);
 
-    Route::get('create/modal-data', [ExamController::class,'createModalData'])->can('create', Exam::class);   
+    Route::get('create/modal-data', [ExamController::class,'createModalData'])
+        ->can('create', Exam::class);   
 
     Route::get('types', function(){
         return ExamType::select(['id', 'name'])->get();
@@ -47,7 +48,7 @@ Route::prefix('exams')->group(function(){
         Route::get('{exam}/checking', [ExamCheckingController::class, "show"]);
 
         Route::get('{exam}/monitoring', [ExamMonitoringController::class, 'show']);
-        Route::put('{exam}/monitoring/protocol-comments', [ExamMonitoringController::class, 'updateProtocolComment']);
+        Route::put('{exam}/monitoring/protocol-comments', [ExamMonitoringController::class, 'protocolComment']);
 
         Route::get('{exam}/documents/codes', [ExamDocumentController::class, "codes"])
             ->name('exam.documents.codes');

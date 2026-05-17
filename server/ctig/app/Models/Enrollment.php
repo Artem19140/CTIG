@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Scopes\BelongsToCenter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -68,14 +69,14 @@ class Enrollment extends Model
         return $this->hasOne(Attempt::class, 'enrollment_id');
     }
 
-
-    public static function for(Exam $exam, ForeignNational $foreignNational){
-        return self::where('exam_id', $exam->id)
-            ->where('foreign_national_id', $foreignNational->id);
-    }
-
     public function changePaymentStatus():void{
         $this->has_payment = !$this->has_payment;
+    }
+
+    public function scopeVisibleFor(Builder $query, Employee $employee){
+        return $query->whereHas('exam', function($q)use($employee){
+            $q->visibleFor($employee);
+        });
     }
 
     protected function timeZone(): Attribute

@@ -154,8 +154,9 @@ class Attempt extends Model
         return $query->where('created_at', '<', $date);
     }
 
-    public function scopeStatusUnchecked(Builder $query){
-        return $query->whereIn('status', AttemptStatus::unChecked());
+    public function scopeUnchecked(Builder $query){
+        return $query->whereIn('status', AttemptStatus::unChecked())
+            ->whereNull('checked_at');
     }
 
     public function scopeStatusActive(Builder $query){

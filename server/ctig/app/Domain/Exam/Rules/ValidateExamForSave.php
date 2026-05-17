@@ -17,7 +17,7 @@ class ValidateExamForSave{
     public function __construct(
         protected ValidateExaminers $validateExaminers
     ){}
-    public function execute(ExamDto $examDto, int | null $examId = null){
+    public function execute(ExamDto $examDto, int | null $examId = null):int{
         $examType =  ExamType::find($examDto->examTypeId);
 
         $address = $this->findOrFailAddress($examDto->addressId);
@@ -36,17 +36,17 @@ class ValidateExamForSave{
 
         $endTime = $beginTime->copy()->addMinutes($examType->duration);
 
-        $this->validateExaminers->execute(
-            $examDto->examiners, 
-            $beginTime, 
-            $endTime,
-            $examId
-        );
-
         $this->checkExamsConflicts(
             $beginTime, 
             $endTime, 
             $address, 
+            $examId
+        );
+
+        $this->validateExaminers->execute(
+            $examDto->examiners, 
+            $beginTime, 
+            $endTime,
             $examId
         );
 
@@ -113,11 +113,14 @@ class ValidateExamForSave{
     }
 
     protected function checkExamsConflicts(Carbon $beginTime, Carbon $endTime, Address $address, int | null $examId){
-         $conflictExam = Exam::notCancelled()
-            ->whereBeginTimeLess($endTime)
-            ->whereEndTimeMore($beginTime)
+         $conflictExam = Exam::query()
+            ->forCenter(app(CenterContext::class)->id())
+            ->notCancelled()
+            ->where('begin_time', '<=',$endTime)
+            ->where('end_time', '>=',$beginTime)
             ->with(['type'])
             ->where('address_id', $address->id)
+            
             ->when($examId, function (Builder $query) use($examId){
                 $query->where('id', '<>', $examId);
             })

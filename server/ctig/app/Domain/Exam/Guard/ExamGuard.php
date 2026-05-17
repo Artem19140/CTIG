@@ -40,7 +40,7 @@ class ExamGuard{
     public function ensureAllAttemptsChecked(Exam $exam, string | null $message = null){
         //loadExists
         $attemptsNotChecked = $exam->attempts()
-            ->statusUnchecked()
+            ->unchecked()
             ->exists();
 
         if($attemptsNotChecked){

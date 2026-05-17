@@ -64,7 +64,7 @@ class EmployeeController{
             abort(403);
         }
         
-        if($employee->isCenterAdmin() && !$request->user()->isSuperAdmin()){
+        if($employee->hasRole(EmployeeRole::CenterAdmin->value) && !$request->user()->isSuperAdmin()){
             abort(403);
         }
 

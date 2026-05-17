@@ -3,17 +3,16 @@
 namespace App\Domain\Attempt\Query;
 
 use App\Enums\TaskType;
+use App\Exceptions\BusinessException;
 use App\Models\Attempt;
-use App\Domain\Attempt\Guard\AttemptGuard;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class GetCurrentAttemptQuery{
-    public function __construct(
-        protected AttemptGuard $attemptGuard
-    ){}
     public function execute(Attempt $attempt):Attempt{
-        $this->attemptGuard->ensureStarted($attempt);
+        if(!$attempt->isStarted()){
+            throw new BusinessException('Попытка еще не начата ');
+        }
 
         $attempt->load([
             'taskVariants'=> function(BelongsToMany $query){

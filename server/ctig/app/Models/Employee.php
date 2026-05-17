@@ -50,10 +50,6 @@ class Employee extends Authenticatable
         return $this->hasRole(EmployeeRole::SuperAdmin->value);
     }
 
-    public function isOrgAdmin(){
-        return $this->hasRole(EmployeeRole::CenterAdmin->value);
-    }
-
     public function isActive(){
         return $this->is_active;
     }

@@ -19,8 +19,8 @@ class Counter extends Model
         'key' => CounterKey::class
     ];
 
-    public function get(CounterKey $key){
-       return static::where('key', $key)->value('value') ?? null;
+    public static function  get(CounterKey $key){
+       return static::where('key', $key)->value('value');
     }
 
     public function set(CounterKey $key, int $value){

@@ -13,7 +13,7 @@ use Illuminate\Validation\ValidationException;
 class UpdateEmployeeAction{
    public function execute(array $data, Employee $employeeToUpdate){
     $this->ensureHasNoRoleSuperAdmin($data);
-    $this->ensureOrgAdminValidCreation($data);
+    $this->ensureCenterAdminValidCreation($data);
     $before = new EmployeeResource($employeeToUpdate)->resolve();
     DB::transaction(function() use($employeeToUpdate, $data){
         $employeeToUpdate->update($this->getAttributes($data));
@@ -42,10 +42,10 @@ class UpdateEmployeeAction{
         }
     }
 
-    protected function ensureOrgAdminValidCreation(array $data):void{
-        $orgAdminRole = Role::findByEnum(EmployeeRole::CenterAdmin);
+    protected function ensureCenterAdminValidCreation(array $data):void{
+        $centerAdminRole = Role::findByEnum(EmployeeRole::CenterAdmin);
         if (
-            \in_array($orgAdminRole->id, $data['roles'])
+            \in_array($centerAdminRole->id, $data['roles'])
             &&
             !request()->user()->isSuperAdmin()
         ) {

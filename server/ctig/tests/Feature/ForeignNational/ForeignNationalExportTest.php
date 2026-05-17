@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\ForeignNational;
 
+use App\Enums\EmployeeRole;
+use App\Models\Center;
 use App\Models\ForeignNational;
 use App\Models\Employee;
 use Carbon\Carbon;
@@ -14,17 +16,16 @@ class ForeignNationalExportTest extends TestCase
 
     use RefreshDatabase;
     protected Employee $actor;
-    protected string $dateFrom ;
-    protected string $dateTo;
 
     protected function setUp():void{
         parent::setUp();
         $this->seed(RolesSeeder::class);
-        $this->actor = Employee::factory()->director()->create();
-        ForeignNational::factory(10)->create();
-        Carbon::setTestNow();
-        $this->dateFrom = Carbon::now()->subDay()->format('Y-m-d');
-        $this->dateTo = Carbon::now()->addDay()->format('Y-m-d');
+        $center = Center::factory()->create();
+        $this->actor = Employee::factory()
+            ->director()
+            ->create(['center_id' => $center->id]);
+        Carbon::setTestNow('2026-01-02 10:00:00');
+        ForeignNational::factory(10)->create(['center_id' => $center->id]);
     }
 
     public function tearDown(): void
@@ -32,13 +33,11 @@ class ForeignNationalExportTest extends TestCase
         parent::tearDown();
         Carbon::setTestNow(); 
     }
-    public function test_success(): void
-    {
+    public function test_success_foreign_national_export(): void{
         $this->withoutExceptionHandling();
     
-
         $response = $this->actingAs($this->actor)
-            ->getJson("foreign-nationals/export?dateFrom=$this->dateFrom&dateTo=$this->dateTo");
+            ->getJson("foreign-nationals/export?dateFrom=2026-01-02&dateTo=2026-01-03");
 
         $response->assertOk();
 
@@ -52,12 +51,26 @@ class ForeignNationalExportTest extends TestCase
         );
     }
 
-    public function test_fail_no_date_range(): void
-    {
+    public function test_fail_foreign_national_export_diff_centers(): void{
+        $employee = Employee::factory()->director()->create();
+        $response = $this->actingAs($employee)
+            ->getJson("foreign-nationals/export/available?dateFrom=2026-01-02&dateTo=2026-01-03");
+        $response->assertBadRequest();
+    }
 
-        $response = $this->actingAs($this->actor)
-            ->getJson("foreign-nationals/export/available");
-
-        $response->assertUnprocessable();
+    public function test_no_access_roles_foreign_national_export(){
+        $allowedRoles = EmployeeRole::except(
+            EmployeeRole::SuperAdmin, 
+            EmployeeRole::Director
+        );
+        foreach($allowedRoles as $role){
+            $employee = Employee::factory()
+                ->withRole($role)
+                ->create();
+            $this->assertFalse(
+                $employee->can('export', ForeignNational::class),
+                "Role {$role->value} should not be allowed"
+            );
+        }
     }
 }

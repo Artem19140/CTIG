@@ -18,7 +18,7 @@ class CloseAbandonedAttemptsTest extends TestCase
     protected function setUp():void{
         parent::setUp();
         $this->action = app(CloseAbandonedAttemptsAction::class);
-        Carbon::setTestNow(Carbon::now());
+        Carbon::setTestNow('2026-01-01 10:00:00');
     }
 
     protected function tearDown(): void
@@ -26,47 +26,69 @@ class CloseAbandonedAttemptsTest extends TestCase
         parent::tearDown();
         Carbon::setTestNow(); 
     }
+
     public function test_close_attempt_no_auto_finish(): void{
         $examType = ExamType::factory()->create(['need_human_check' => true]);
         $exam = Exam::factory()->create(['exam_type_id' => $examType]);
         $attempt = Attempt::factory()
-            ->expired()
             ->acive()
-            ->create(['exam_id' => $exam->id]);
+            ->create([
+                'exam_id' => $exam->id,
+                'expired_at' => '2026-01-01 09:59:59',
+                'last_activity_at' => '2026-01-01 09:50:00'
+            ]);
+
         $this->action->execute();
+
         $this->assertDatabaseHas('attempts', [
             'id' => $attempt->id,
-            'status' => AttemptStatus::Finished
+            'status' => AttemptStatus::Finished,
+            'expired_at' => '2026-01-01 09:59:59',
+            'last_activity_at' => '2026-01-01 09:50:00',
+            'finished_at' => '2026-01-01 09:50:00'
         ]);
-        $attempt->refresh();
 
-        $this->assertNotNull($attempt->finished_at);
+        $attempt->refresh();
     }
 
     public function test_close_attempt_auto_finish(): void{
-        $examType = ExamType::factory()->create(['need_human_check' => false]);
-        $exam = Exam::factory()->create(['exam_type_id' => $examType]);
+        $examType = ExamType::factory()
+            ->create([
+                'need_human_check' => false
+            ]);
+            
+        $exam = Exam::factory()
+            ->create([
+                'exam_type_id' => $examType
+            ]);
+
         $attempt = Attempt::factory()
-            ->expired()
             ->acive()
-            ->create(['exam_id' => $exam->id]);
+            ->create([
+                'exam_id' => $exam->id,
+                'expired_at' => '2026-01-01 09:59:59',
+                'last_activity_at' => '2026-01-01 09:50:00'
+            ]);
         $this->action->execute();
 
         $this->assertDatabaseHas('attempts', [
             'id' => $attempt->id,
-            'status' => AttemptStatus::Checked
+            'status' => AttemptStatus::Checked,
+            'expired_at' => '2026-01-01 09:59:59',
+            'last_activity_at' => '2026-01-01 09:50:00',
+            'finished_at' => '2026-01-01 09:50:00'
         ]);
         $attempt->refresh();
-
-        $this->assertNotNull($attempt->finished_at);
-        $this->assertNotNull($attempt->checked_at);
     }
 
     public function test_not_close_not_expired_attempt(): void{
         $attempt = Attempt::factory()
-            ->notExpired()
             ->acive()
-            ->create();
+            ->create([
+                'expired_at' => '2026-01-01 10:00:01',
+                'last_activity_at' => '2026-01-01 09:50:00'
+            ]);
+
         $this->action->execute();
         $this->assertDatabaseHas('attempts', [
             'id' => $attempt->id,
@@ -80,15 +102,17 @@ class CloseAbandonedAttemptsTest extends TestCase
 
      public function test_not_close_banned_attempt(): void{
         $attempt = Attempt::factory()
-            ->notExpired()
             ->banned()
-            ->create();
+            ->create([
+                'expired_at' => '2026-01-01 10:00:01',
+                'last_activity_at' => '2026-01-01 09:50:00'
+            ]);
 
         $this->action->execute();
 
         $this->assertDatabaseHas('attempts', [
             'id' => $attempt->id,
-            'status' => $attempt->status
+            'status' => AttemptStatus::Banned
         ]);
 
         $attempt->refresh();

@@ -1,8 +1,6 @@
 <?php
 
 namespace Tests\Feature\ExamDocument;
-
-use App\Domain\Exam\Guard\ExamEnrollmentGuard;
 use App\Domain\Exam\Guard\ExamGuard;
 use App\Domain\ExamDocument\ExamDocumentAvailable;
 use App\Exceptions\BusinessException;
@@ -56,33 +54,9 @@ class ExamDocumentAvailableTest extends TestCase
             ->once()
             ->with($exam);
 
-        $examEnrollmentGuard = \Mockery::mock(ExamEnrollmentGuard::class);
-        $examEnrollmentGuard->shouldReceive('ensureEnrollmentsExists')
-            ->once()
-            ->with($exam);
-
-        $service = new ExamDocumentAvailable($guard,  $examEnrollmentGuard);
+        $service = new ExamDocumentAvailable($guard);
 
         $service->codes($exam);
-    }
-
-    public function test_list_calls_guards_once(): void
-    {
-        $exam = Exam::factory()
-            ->has(Enrollment::factory(8))
-            ->inFuture()
-            ->create();
-
-        $guard = \Mockery::mock(ExamGuard::class);
-
-        $examEnrollmentGuard = \Mockery::mock(ExamEnrollmentGuard::class);
-        $examEnrollmentGuard->shouldReceive('ensureEnrollmentsExists')
-            ->once()
-            ->with($exam);
-
-        $service = new ExamDocumentAvailable($guard, $examEnrollmentGuard);
-
-        $service->list($exam);
     }
 
     public function test_list_protocol_guards_once(): void
@@ -98,12 +72,7 @@ class ExamDocumentAvailableTest extends TestCase
             ->once()
             ->with($exam);
 
-        $examEnrollmentGuard = \Mockery::mock(ExamEnrollmentGuard::class);
-        $examEnrollmentGuard->shouldReceive('ensureEnrollmentsExists')
-            ->once()
-            ->with($exam);
-
-        $service = new ExamDocumentAvailable($guard, $examEnrollmentGuard);
+        $service = new ExamDocumentAvailable($guard);
 
         $service->protocol($exam);
     }
@@ -120,18 +89,8 @@ class ExamDocumentAvailableTest extends TestCase
         $guard->shouldReceive('ensureNotCancelled')
             ->once()
             ->with($exam);
-        $guard->shouldReceive('ensureAllAttemptsChecked')
-            ->once()
-            ->with($exam);
 
-        $examEnrollmentGuard = \Mockery::mock(ExamEnrollmentGuard::class);
-        $examEnrollmentGuard->shouldReceive('ensureEnrollmentsExists')
-            ->once()
-            ->with($exam);
-
-        
-
-        $service = new ExamDocumentAvailable($guard, $examEnrollmentGuard);
+        $service = new ExamDocumentAvailable($guard);
 
         $service->results($exam);
     }

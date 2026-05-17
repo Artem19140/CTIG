@@ -21,7 +21,9 @@ class ExamProtocolGenerationTest extends TestCase
         parent::setUp();
         $this->seed(RolesSeeder::class);
         $this->center = Center::factory()->create();
-        $this->actor = Employee::factory()->examiner()->create(['center_id' => $this->center->id]);
+        $this->actor = Employee::factory()
+            ->examiner()
+            ->create(['center_id' => $this->center->id]);
 
         Carbon::setTestNow(now());
         
@@ -31,17 +33,16 @@ class ExamProtocolGenerationTest extends TestCase
         parent::tearDown();
         Carbon::setTestNow(); 
     }
-    public function test_success(): void{
-        $this->withoutExceptionHandling();
-        $centerId = $this->center->id;
+    public function test_success_exam_protocol_generation(): void{
+
         $exam = Exam::factory()
-            ->has(Enrollment::factory(8)->state(function(array $attributes) use($centerId){
-                return [
-                    'center_id' =>  $centerId
-                ];
-            }))
+            ->has(Enrollment::factory(8)->state(fn () => [
+                'center_id' => $this->center->id,
+            ]))
             ->inFuture()
             ->create(['center_id' =>  $this->center->id]);
+
+        $exam->examiners()->attach($this->actor);
 
         $response = $this
             ->actingAs($this->actor)

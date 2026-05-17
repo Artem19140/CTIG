@@ -134,15 +134,17 @@ class ExamController
     }
 
     public function destroy(
-        Exam $exam , 
+        Exam $exam, 
         CancelExamAction $cancelExam
     )
     {
-        Gate::authorize('delete', Exam::class);
+        Gate::authorize('delete', $exam);
+        
         request()->validate( [
             'cancelledReason' => ['required', 'string']
         ]);
-        $cancelExam->execute($exam);
+
+        $cancelExam->execute($exam, request()->string('cancelledReason'));
         
         return response()->noContent();
     }

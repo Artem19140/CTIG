@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Exam\Rules;
+namespace App\Domain\Exam\Validator;
 
 use App\Domain\Center\CenterContext;
 use App\Enums\EmployeeRole;
@@ -13,20 +13,20 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Log;
 
-class ValidateExaminers{
+class ExaminersValidator{
     public function execute(
         array $examinersIds, 
         Carbon $beginTime, 
         Carbon $endTime, 
         int | null $examId = null 
-    ){
+    ):void{
 
         $parralellExaminersExams = 
             $this->getParralellExaminersExams($beginTime, 
-                $endTime, 
-                $examinersIds, 
-                $examId
-            );
+            $endTime, 
+            $examinersIds, 
+            $examId
+        );
 
         $examiners = Employee::with('roles')
             ->whereIn('id', $examinersIds)
@@ -48,6 +48,7 @@ class ValidateExaminers{
         array $examiners, 
         int | null $examId = null
     ):Collection{
+
         return Exam::query()
             ->forCenter(app(CenterContext::class)->id())
             ->where('begin_time', '<=',$endTime)

@@ -29,11 +29,13 @@ class ClearExpiredExamCodesTest extends TestCase
             'exam_code' => '123456',
             'exam_code_expired_at' => Carbon::now()->subHour()
         ]);
+
         $this->action->execute();
 
         $enrollment->refresh();
 
         $this->assertNull($enrollment->exam_code);
+
         $this->assertNotNull($enrollment->exam_code_expired_at);
     }
 
@@ -43,11 +45,13 @@ class ClearExpiredExamCodesTest extends TestCase
             'exam_code' => '123456',
             'exam_code_expired_at' => Carbon::now()->addHour()
         ]);
+        
         $this->action->execute();
         
         $enrollment->refresh();
 
         $this->assertNotNull($enrollment->exam_code);
+
         $this->assertNotNull($enrollment->exam_code_expired_at);
     }
 }

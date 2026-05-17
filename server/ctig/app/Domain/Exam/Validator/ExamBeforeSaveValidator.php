@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Exam\Rules;
+namespace App\Domain\Exam\Validator;
 
 use App\Domain\Center\CenterContext;
 use App\Exceptions\BusinessException;
@@ -13,37 +13,36 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
-class ValidateExamForSave{
+class ExamBeforeSaveValidator{
     public function __construct(
-        protected ValidateExaminers $validateExaminers
+        protected ExaminersValidator $examinersValidator
     ){}
-    public function execute(ExamDto $examDto, int | null $examId = null):int{
-        $examType =  ExamType::find($examDto->examTypeId);
-
+    public function execute(
+        ExamDto $examDto, 
+        int | null $examId = null
+    ):int{
+        $examType =  ExamType::findOrFail($examDto->examTypeId);
+        
         $address = $this->findOrFailAddress($examDto->addressId);
-
         $this->ensureAddressIsActive($address);
 
-        $this->ensureExamTypeIsActive($examType);
-
         $beginTime = $examDto->beginTime;
-                                    
+        $endTime = $beginTime->copy()->addMinutes($examType->duration);
+
         $this->ensureBeginTimeNotPassed($beginTime);
 
         $this->ensureMinAllowedTimeNotPassed($beginTime, $examId);
         
-        $this->ensureNotFullCapacity($examDto->capacity, $address->max_capacity);
-
-        $endTime = $beginTime->copy()->addMinutes($examType->duration);
+        $this->ensureNotMoreCapacity($examDto->capacity, $address->max_capacity);
 
         $this->checkExamsConflicts(
             $beginTime, 
-            $endTime, 
+            $endTime,
             $address, 
             $examId
         );
 
-        $this->validateExaminers->execute(
+        $this->examinersValidator->execute(
             $examDto->examiners, 
             $beginTime, 
             $endTime,
@@ -63,7 +62,6 @@ class ValidateExamForSave{
         }
         return $address;
     }
-    
 
     protected function ensureAddressIsActive(Address $address){
         if(!$address->is_active){
@@ -73,16 +71,7 @@ class ValidateExamForSave{
         }
     }
 
-    protected function ensureExamTypeIsActive(ExamType $examType){
-        if(!$examType->is_active){
-            throw ValidationException::withMessages([
-                'examTypeId' => 'Тип экзамена не актуален'
-            ]);
-        }
-    }
-
     protected function ensureBeginTimeNotPassed(Carbon $beginTime){
-        
         if($beginTime < Carbon::now()){
             throw ValidationException::withMessages([
                 'date' => "Экзамен нельзя создать на прошедшие даты",
@@ -104,7 +93,7 @@ class ValidateExamForSave{
         }
     }
 
-    protected function ensureNotFullCapacity(int $capacity, int $maxCapacity){
+    protected function ensureNotMoreCapacity(int $capacity, int $maxCapacity){
         if($capacity > $maxCapacity){
             throw ValidationException::withMessages([
                 'capacity' => "Площадка вмещает максимум $maxCapacity человек"
@@ -112,22 +101,26 @@ class ValidateExamForSave{
         }
     }
 
-    protected function checkExamsConflicts(Carbon $beginTime, Carbon $endTime, Address $address, int | null $examId){
-         $conflictExam = Exam::query()
+    protected function checkExamsConflicts(
+        Carbon $beginTime, 
+        Carbon $endTime, 
+        Address $address, 
+        int | null $examId
+    ):void{
+        $conflictExam = Exam::query()
             ->forCenter(app(CenterContext::class)->id())
             ->notCancelled()
             ->where('begin_time', '<=',$endTime)
             ->where('end_time', '>=',$beginTime)
             ->with(['type'])
             ->where('address_id', $address->id)
-            
             ->when($examId, function (Builder $query) use($examId){
                 $query->where('id', '<>', $examId);
             })
             ->first(); 
 
         if($conflictExam){
-            $examConflictName = $conflictExam->short_name ;
+            $examConflictName = $conflictExam->short_name;
             $time = $conflictExam->begin_time->format('H:i');
             throw new BusinessException("В это время по данному адресу уже проводится экзамен по $examConflictName в $time");
         }

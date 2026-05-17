@@ -15,28 +15,39 @@ use Tests\TestCase;
 class ExamCreateTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected Employee $employee;
+    protected Employee $actor;
     protected ExamType $examType;
     protected Address $address;
     protected Employee $examiner;
     protected Center $center;
-    protected RolesSeeder $seed;
     protected function setUp():void{
         parent::setUp();
-        $this->center = Center::factory()->create();
+
+        $this->center = Center::factory()->create([
+            'time_zone' => 'Europe/Moscow'
+        ]);
+
         $this->seed(RolesSeeder::class);
         
-        $this->examiner = Employee::factory()->examiner()->create(['center_id' => $this->center->id]);
+        $this->examiner = Employee::factory()
+            ->examiner()->create([
+                'center_id' => $this->center->id
+            ]);
 
-        $this->employee = Employee::factory()->scheduler()->create(['center_id' => $this->center->id]);
+        $this->actor = Employee::factory()
+            ->scheduler()
+            ->create([
+                'center_id' => $this->center->id
+            ]);
 
         $this->examType = ExamType::factory()->create();
 
-        $this->address = Address::factory()->create(['center_id' => $this->center->id]);
+        $this->address = Address::factory()->create([
+            'center_id' => $this->center->id
+        ]);
 
         Carbon::setTestNow(
-            Carbon::now()
+            Carbon::parse('2026-01-01 10:00:00')
         );
     }
 
@@ -47,16 +58,14 @@ class ExamCreateTest extends TestCase
     }
 
     protected function postExam(array $overrides = []){
-        return $this->actingAs($this->employee)
+        return $this->actingAs($this->actor)
             ->postJson('/exams', $this->examBody($overrides));
     }
 
     protected function examBody(array $overrides = []){
-        $fixedDate = Carbon::now($this->employee->time_zone)->addHours(Exam::CREATE_AVAILABLE_BEFORE_HOURS)->addMinute()->format('Y-m-d');
-        $fixedTime = Carbon::now($this->employee->time_zone)->addHours(Exam::CREATE_AVAILABLE_BEFORE_HOURS)->addMinute()->format('H:i');
         return array_merge([
-            'date' =>$fixedDate,
-            'time' => $fixedTime,
+            'date' => Carbon::now()->setTimezone($this->center->time_zone)->addHours(Exam::CREATE_AVAILABLE_BEFORE_HOURS)->format('Y-m-d'),
+            'time' =>  Carbon::now()->setTimezone($this->center->time_zone)->addHours(Exam::CREATE_AVAILABLE_BEFORE_HOURS)->addMinute()->format('H:i'),
             'examTypeId' => $this->examType->id,
             'addressId'=> $this->address->id,
             'capacity' => $this->address->max_capacity,
@@ -65,8 +74,9 @@ class ExamCreateTest extends TestCase
         ], $overrides);
     }
 
-    public function test_success(): void
+    public function test_success_exam_creation(): void
     {
+        
         $this->withoutExceptionHandling();
         $response = $this->postExam();
         
@@ -78,10 +88,16 @@ class ExamCreateTest extends TestCase
     public function test_success_different_addresses(): void
     {
         $response = $this->postExam();
-        $response->assertOk();
-        $examiner = Employee::factory()->examiner()->create();
 
-        $address = Address::factory()->create();
+        $response->assertOk();
+
+        $examiner = Employee::factory()->examiner()->create([
+            'center_id' => $this->center->id
+        ]);
+
+        $address = Address::factory()->create([
+            'center_id' => $this->center->id
+        ]);
 
         $response = $this->postExam([
             'addressId' => $address->id,
@@ -94,11 +110,9 @@ class ExamCreateTest extends TestCase
 
     public function test_fail_in_past(): void
     {
-        $pastDateTime = Carbon::now($this->employee->time_zone)->subHour();
-
         $response = $this->postExam([
-            'date' => $pastDateTime->format('Y-m-d'),
-            'time' => $pastDateTime->addHours(Exam::CREATE_AVAILABLE_BEFORE_HOURS)->subMinute()->format('H:i')
+            'date' => Carbon::now()->format('Y-m-d'),
+            'time' => Carbon::now()->addHours(Exam::CREATE_AVAILABLE_BEFORE_HOURS)->subHour()->format('H:i')
         ]);
         
         $response->assertUnprocessable();
@@ -111,7 +125,9 @@ class ExamCreateTest extends TestCase
         $response = $this->postExam();
         $response->assertOk();
 
-        $address = Address::factory()->create();
+        $address = Address::factory()->create([
+            'center_id' => $this->center->id
+        ]);
 
         $response = $this->postExam([
             'addressId' => $address->id,
@@ -125,9 +141,11 @@ class ExamCreateTest extends TestCase
     public function test_fail_with_no_role_examiner(): void
     {   
         $response = $this->postExam([
-            'examiners' => [$this->employee->id]
+            'examiners' => [$this->actor->id]
         ]);
+
         $response->assertBadRequest();
+        
         $this->assertDatabaseEmpty('exams');
     }
 
@@ -142,7 +160,10 @@ class ExamCreateTest extends TestCase
 
     public function test_fail_not_active_address(): void
     {   
-        $address = Address::factory()->create(['is_active' => false]);
+        $address = Address::factory()->create([
+            'is_active' => false,
+            'center_id' => $this->center->id
+        ]);
         $response = $this->postExam([
             'addressId' => $address->id
         ]);
@@ -152,11 +173,17 @@ class ExamCreateTest extends TestCase
 
     public function test_fail_not_active_examiner(): void
     {   
-        $employee = Employee::factory()->examiner()->notActive()->create(['center_id' => $this->center->id]);
+        $employee = Employee::factory()
+            ->examiner()
+            ->notActive()
+            ->create([
+                'center_id' => $this->center->id
+            ]);
 
         $response = $this->postExam([
             'examiners' => [$employee->id]
         ]);
+
         $response->assertBadRequest();
         $this->assertDatabaseEmpty('exams');
     }

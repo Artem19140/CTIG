@@ -12,21 +12,8 @@ class ExamGuard{
             throw new BusinessException($message);
         }
     }
-
-    public function ensureFinished(Exam $exam, string $message = 'Экзамен еще не прошел'){
-        if(!$exam->isFinished()){
-            throw new BusinessException($message);
-        }
-    }
-
-    public function ensureGoing(Exam $exam, string $message ='Экзамен еще не идет'){
-        if(!$exam->isGoing()){
-            throw new BusinessException($message);
-        }
-    }
-
-    public function ensureNotGoing(Exam $exam, string $message = 'Экзамен уже идет'){
-        if($exam->isGoing()){
+    public function ensurePending(Exam $exam, string $message = 'Экзамен еще не начался'){
+        if(!$exam->isPending()){
             throw new BusinessException($message);
         }
     }
@@ -34,17 +21,6 @@ class ExamGuard{
     public function ensureNotCancelled(Exam $exam, string $message = 'Экзамен отменен'){
         if($exam->isCancelled()){
             throw new BusinessException($message);
-        }
-    }
-
-    public function ensureAllAttemptsChecked(Exam $exam, string | null $message = null){
-        //loadExists
-        $attemptsNotChecked = $exam->attempts()
-            ->unchecked()
-            ->exists();
-
-        if($attemptsNotChecked){
-            throw new BusinessException($message ?? 'Не все результаты экзамена еще проверены');
         }
     }
 }

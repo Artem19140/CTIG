@@ -37,12 +37,9 @@ class ExamListGenerationTest extends TestCase
         $this->withoutExceptionHandling();
         $centerId = $this->center->id;
         $exam = Exam::factory()
-            ->has(Enrollment::factory(8)->state(function(array $attributes) use($centerId){
-                return [
-                    'center_id' =>  $centerId
-                ];
-            }))
-            ->inFuture()
+            ->has(Enrollment::factory(8)->state(fn () => [
+                'center_id' => $this->center->id,
+            ]))
             ->create(['center_id' =>  $this->center->id]);
         $exam->examiners()->attach($this->actor);
         $response = $this

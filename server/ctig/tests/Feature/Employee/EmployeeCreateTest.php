@@ -55,7 +55,6 @@ class EmployeeCreateTest extends TestCase
         ->postJson('/employees',$this->employeeBody($overrrides));
     }
 
-
     public function test_success(): void
     {
         $this->withoutExceptionHandling();
@@ -68,14 +67,18 @@ class EmployeeCreateTest extends TestCase
     }
     public function test_success_org_admin_creating(): void
     {
-        $superAdmin = Employee::factory()->superAdmin()->create();
+        $superAdmin = Employee::factory()
+            ->superAdmin()
+            ->create(['center_id' => $this->center->id]);
         $response = $this->postEmployee($superAdmin, ['roles' => [$this->orgAdminRole->id]]);
         $response->assertOk();
     }
 
-    public function test_fail_403_org_admin_creating(): void
+    public function test_fail_403_center_admin_creating(): void
     {
-        $operator = Employee::factory()->operator()->create();
+        $operator = Employee::factory()
+            ->operator()
+            ->create(['center_id' => $this->center->id]);
         $response = $this->postEmployee($operator, ['roles' => [$this->orgAdminRole->id]]);
         $response->assertForbidden();
     }

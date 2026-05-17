@@ -14,17 +14,19 @@ class ChangePaymentStatusAction{
     ){}
 
     public function execute(Enrollment $enrollment):void{
+
         $enrollment->load('exam');
-        
-        if($enrollment->attempt()->exists()){
-            throw new BusinessException('Нельзя изменить статус оплаты, если есть попытка экзамена');
-        }
-    
+
         $this->examGuard->ensureNotCancelled($enrollment->exam);
         $this->examGuard->ensureNotFinished($enrollment->exam);
 
+        if($enrollment->attempt()->exists()){
+            throw new BusinessException('Нельзя изменить статус оплаты, если есть попытка экзамена');
+        }
+
         $enrollment->changePaymentStatus();
         $enrollment->save();
+        
         Log::info('enrollment_payment_change',[
             'payment_status'=> $enrollment->hasPayment(),
             'enrollment_id'=> $enrollment->id

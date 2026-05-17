@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions\Couner;
+namespace App\Exceptions\Counter;
 
 use App\Enums\CounterKey;
 use App\Exceptions\BaseException;

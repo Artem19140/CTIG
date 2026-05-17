@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 class CreateEmployeeAction{
    public function execute(array $data, Employee $creator){
         $this->ensureHasNoRoleSuperAdmin($data);
-        $this->ensureOrgAdminValidCreation($data, $creator);
+        $this->ensureCenterAdminValidCreation($data, $creator);
         
         DB::transaction(function() use($creator, $data){
             $employee = Employee::create($this->getAttributes($data, $creator));
@@ -22,20 +22,19 @@ class CreateEmployeeAction{
         });
    }
 
-
     protected function ensureHasNoRoleSuperAdmin(array $data):void{
         $superAdminRole = Role::findByEnum(EmployeeRole::SuperAdmin);
-        if(in_array($superAdminRole->id, $data['roles'])){
+        if(\in_array($superAdminRole->id, $data['roles'])){
             abort(403);
         }
     }
 
-    protected function ensureOrgAdminValidCreation(array $data, Employee $employee):void{
+    protected function ensureCenterAdminValidCreation(array $data, Employee $creator):void{
         $centerAdminRole = Role::findByEnum(EmployeeRole::CenterAdmin);
         if (
             \in_array($centerAdminRole->id, $data['roles'])
             &&
-            !$employee->isSuperAdmin()
+            !$creator->isSuperAdmin()
         ) {
             abort(403);
         }

@@ -7,7 +7,6 @@ use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\Center;
 use App\Models\ForeignNational;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -35,8 +34,7 @@ class AttemptFactory extends Factory
     public function acive(){
         return $this->state(function (){
             return[
-                'status'=> AttemptStatus::Active,
-                'last_activity_at' => Carbon::now()
+                'status'=> AttemptStatus::Active
             ];
         });
     }
@@ -45,7 +43,6 @@ class AttemptFactory extends Factory
         return $this->state(function (){
             return[
                 'status'=> AttemptStatus::Pending,
-                'last_activity_at' => Carbon::now()
             ];
         });
     }
@@ -54,8 +51,6 @@ class AttemptFactory extends Factory
         return $this->state(function (){
             return[
                 'status'=> AttemptStatus::Finished,
-                'finished_at' => Carbon::now(),
-                'last_activity_at' => Carbon::now()
             ];
         });
     }
@@ -68,20 +63,12 @@ class AttemptFactory extends Factory
         });
     }
 
-    public function notExpired(){
-        return $this->state(function (){
-            return[
-               'expired_at' => now()->addMinutes(80),
-            ];
-        });
-    }
-
-
 
     public function checked(){
         return $this->state(function (){
             return[
-                'status'=> AttemptStatus::Checked
+                'status'=> AttemptStatus::Checked,
+                'checked_at' => now()
             ];
         });
     }

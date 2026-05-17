@@ -43,32 +43,6 @@ class ExamGuardTest extends TestCase
         $this->action->ensureNotFinished($this->exam);
     }
 
-    public function test_success_ensure_finished(){
-        $this->exam->end_time = Carbon::now()->subMinutes(20);
-        $this->action->ensureFinished($this->exam);
-        $this->assertTrue(true);
-    }
-
-    public function test_fail_ensure_finished(){
-        $this->expectException($this->exception);
-        $this->exam->end_time = Carbon::now()->addMinutes(20);
-        $this->action->ensureFinished($this->exam);
-    }
-
-    public function test_sucess_ensure_going(): void
-    {
-        $this->exam->begin_time = Carbon::now()->subMinutes(20);
-        $this->exam->end_time = Carbon::now()->addMinutes(20);
-        $this->action->ensureGoing($this->exam);
-        $this->assertTrue(true);
-    }
-
-    public function test_fail_ensure_going(){
-        $this->expectException($this->exception);
-        $this->exam->begin_time = Carbon::now()->subMinutes(40);
-        $this->exam->end_time = Carbon::now()->subMinutes(20);
-        $this->action->ensureGoing($this->exam);
-    }
 
     public function test_fail_ensure_not_cancelled(): void
     {

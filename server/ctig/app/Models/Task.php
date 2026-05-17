@@ -12,7 +12,8 @@ class Task extends Model
     protected $fillable = [
         'type',
         'subblock_id',
-        'order'
+        'order',
+        'mark'
     ];
 
     protected $casts = [

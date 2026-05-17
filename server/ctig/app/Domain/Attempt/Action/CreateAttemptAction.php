@@ -30,7 +30,8 @@ class CreateAttemptAction{
             $exam = Exam::find($enrollment->exam_id);
             
             $this->examGuard->ensureNotCancelled($exam);
-            $this->examGuard->ensureGoing($exam);
+            
+            $this->examGuard->ensurePending($exam, 'Ввести код возможно только во время экзамен');
             
             $attempt =  $this->createAttempt($foreignNational, $enrollment);
             

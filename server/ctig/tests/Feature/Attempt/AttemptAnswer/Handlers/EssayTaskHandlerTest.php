@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Attempt\AttemptAnswer;
+namespace Tests\Feature\Attempt\Hanlers\AttemptAnswer;
 
 use App\Domain\AttemptAnswer\Handlers\EssayTaskHandler;
 use App\Exceptions\Attempt\AttemptAnswerValidationException;
@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
-class EssayTaskTest extends TestCase
+class EssayTaskHandlerTest extends TestCase
 {
     protected EssayTaskHandler $handler;
     protected TaskVariant $taskVariant;

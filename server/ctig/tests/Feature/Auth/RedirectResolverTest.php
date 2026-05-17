@@ -37,7 +37,7 @@ class RedirectResolverTest extends TestCase
        $employee = Employee::factory()
         ->examiner()
         ->create();
-        $this->assertEquals(route('exams.monitoring'), $employee->resolveRedirect());
+        $this->assertEquals(route('exams.index'), $employee->resolveRedirect());
     }
     public function test_director(): void
     {

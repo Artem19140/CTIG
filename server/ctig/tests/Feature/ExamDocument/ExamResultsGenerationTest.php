@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\ExamDocument;
 
+use App\Models\Attempt;
 use App\Models\Center;
 use App\Models\Enrollment;
 use App\Models\Exam;
@@ -34,15 +35,16 @@ class ExamResultsGenerationTest extends TestCase
     public function test_success(): void
     {
         $this->withoutExceptionHandling();
-        $centerId = $this->center->id;
         $exam = Exam::factory()
-            ->has(Enrollment::factory(8)->state(function(array $attributes) use($centerId){
-                return [
-                    'center_id' =>  $centerId
-                ];
-            }))
-            ->inFuture()
-            ->create(['center_id' =>  $this->center->id]);
+            ->has(
+                Enrollment::factory(8)->state(fn () => [
+                    'center_id' => $this->center->id,
+                ])->has(Attempt::factory()->checked())
+            )
+            ->create([
+                'center_id' =>  $this->center->id,
+                'begin_time' => Carbon::now()->subHour()
+            ]);
 
         $response = $this
             ->actingAs($this->actor)

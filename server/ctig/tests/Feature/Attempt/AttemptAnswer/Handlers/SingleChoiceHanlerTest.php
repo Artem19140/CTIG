@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Attempt\AttemptAnswer;
+namespace Tests\Feature\Attempt\Hanlers\AttemptAnswer;
 
 use App\Domain\AttemptAnswer\Handlers\SingleChoiceTaskHandler;
 use App\Exceptions\Attempt\AttemptAnswerValidationException;
@@ -26,13 +26,25 @@ class SingleChoiceHanlerTest extends TestCase
     protected function setUp():void{
         parent::setUp();
         $task = new Task();
+
         $task->mark = $this->mark;
+
         $this->taskVariant = new TaskVariant(['id' => 1]);
+
         $this->taskVariant->setRelation('task', $task);
+
         $this->answer = new Answer(['task_variant_id' => $this->taskVariant->id, 'id' => 1]);
+
+        $this->answer->setRelation('taskVariant', collect([$this->taskVariant]));
+
         $this->taskVariant->setRelation('answers', collect([$this->answer]));
+
         $this->attemptAnswer = new AttemptAnswer(['id' => 1]);
+
+        $this->attemptAnswer->setRelation('taskVariant', $this->taskVariant);   
+
         $this->handler = app(SingleChoiceTaskHandler::class);
+        
         Carbon::setTestNow(Carbon::now());
     }
 
@@ -45,21 +57,21 @@ class SingleChoiceHanlerTest extends TestCase
     
     public function test_success_validation(): void
     {
-        $answerRecieved = $this->handler->validate($this->answer->id, $this->taskVariant, $this->attemptAnswer);
+        $answerRecieved = $this->handler->validate($this->answer->id, $this->attemptAnswer);
         $this->assertEquals($this->answer, $answerRecieved);
     }
 
     public function test_fail_validation_not_exists_answer(): void
     {
         $this->expectException(AttemptAnswerValidationException::class);
-        $this->handler->validate($this->answer->id + 1, $this->taskVariant, $this->attemptAnswer);
+        $this->handler->validate($this->answer->id + 1, $this->attemptAnswer);
         $this->hasLog();
     }
 
     public function test_fail_validation_string(): void
     {
         $this->expectException(AttemptAnswerValidationException::class);
-        $this->handler->validate('d', $this->taskVariant, $this->attemptAnswer);
+        $this->handler->validate('d', $this->attemptAnswer);
         $this->hasLog();
     }
 

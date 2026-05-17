@@ -87,16 +87,8 @@ class Attempt extends Model
         return $this->started_at !== null;
     }
 
-    public function isChecked(): bool{
-        return $this->checked_at !== null;
-    }
-
     public function isBanned(): bool{
         return $this->banned_at !== null;
-    }
-
-    public function isPending(): bool{
-        return $this->status === AttemptStatus::Pending;
     }
 
     public function isFinished(): bool{

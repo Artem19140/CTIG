@@ -6,5 +6,4 @@ enum CounterKey:string
 {
     case RegNum = 'reg_num';
     case Group = 'group';
-   
 }

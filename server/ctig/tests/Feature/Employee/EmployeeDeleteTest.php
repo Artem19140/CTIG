@@ -18,10 +18,21 @@ class EmployeeDeleteTest extends TestCase
     protected Center $center;
     protected function setUp():void{
         parent::setUp(); 
+
         $this->seed(RolesSeeder::class);
+
         $this->center = Center::factory()->create();
-        $this->actor = Employee::factory()->orgAdmin()->create(['center_id' => $this->center->id]);
-        $this->activeEmployee = Employee::factory()->active()->create(['center_id' => $this->center->id]);
+
+        $this->actor = Employee::factory()
+            ->orgAdmin()
+            ->create([
+                'center_id' => $this->center->id
+            ]);
+        $this->activeEmployee = Employee::factory()
+            ->active()
+            ->create([
+                'center_id' => $this->center->id
+            ]);
         Carbon::setTestNow();
     }
     public function tearDown(): void
@@ -29,19 +40,26 @@ class EmployeeDeleteTest extends TestCase
         parent::tearDown();
         Carbon::setTestNow(); 
     }
-    public function test_success(): void{
+    public function test_success_employee_delete(): void{
         $this->withoutExceptionHandling();
         $response = $this->actingAs($this->actor)
             ->deleteJson(route('employees.destroy', ['employee' => $this->activeEmployee]));
+
         $this->assertDatabaseHas('employees', [
             'id' => $this->activeEmployee->id,
             'is_active' => false, 
         ]);
+        
         $response->assertNoContent();
     }
 
     public function test_fail_delete_not_active(): void{
-        $notActiveEmployee = Employee::factory()->notActive()->create(['center_id' => $this->center->id]);
+        $notActiveEmployee = Employee::factory()
+            ->notActive()
+            ->create([
+                'center_id' => $this->center->id
+            ]);
+
         $response = $this->actingAs($this->actor)
             ->deleteJson(route('employees.destroy', ['employee' => $notActiveEmployee]));
 
@@ -49,6 +67,7 @@ class EmployeeDeleteTest extends TestCase
             'id' => $notActiveEmployee->id,
             'is_active' => $notActiveEmployee->is_active, 
         ]);
+
         $response->assertBadRequest();
     }
 

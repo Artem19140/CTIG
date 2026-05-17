@@ -2,19 +2,15 @@
 
 namespace App\Domain\Attempt\Query;
 
-use App\Domain\Attempt\Guard\AttemptGuard;
 use App\Enums\TaskType;
+use App\Exceptions\BusinessException;
 use App\Models\Attempt;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class GetAttemptSpeakingTasksQuery{
-    public function __construct(
-        protected AttemptGuard $attemptGuard
-    ){}
-
     public function execute(Attempt $attempt):Attempt{
-        $this->attemptGuard->ensureNotBanned($attempt);
+        $this->ensureNotBanned($attempt);
 
         $attempt->loadMissing([
             'taskVariants'=> function(BelongsToMany $query) use($attempt){
@@ -31,5 +27,11 @@ class GetAttemptSpeakingTasksQuery{
         ]);
         $attempt->taskVariants = $attempt->taskVariants->sortBy('task.order');
         return $attempt;
+    }
+
+    protected function ensureNotBanned(Attempt $attempt){
+        if($attempt->isBanned()){
+            throw new BusinessException('Попытка аннулирована');
+        }
     }
 }

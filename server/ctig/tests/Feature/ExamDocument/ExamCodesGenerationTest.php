@@ -20,10 +20,14 @@ class ExamCodesGenerationTest extends TestCase
     protected function setUp():void{
         parent::setUp();
         $this->seed(RolesSeeder::class);
-        $this->center = Center::factory()->create();
+        $this->center = Center::factory()->create([
+            'time_zone' => 'Europe/Moscow'
+        ]);
         $this->actor = Employee::factory()->examiner()->create(['center_id' =>  $this->center->id]);
 
-        Carbon::setTestNow(now());
+        Carbon::setTestNow(
+            Carbon::parse('2026-01-01 10:00:00', $this->center->time_zone)
+        );
         
     }
     public function tearDown(): void
@@ -31,18 +35,20 @@ class ExamCodesGenerationTest extends TestCase
         parent::tearDown();
         Carbon::setTestNow();
     }
-    public function test_success(): void
+    public function test_success_codes_generation(): void
     {
         $this->withoutExceptionHandling();
+
         $centerId = $this->center->id;
+
         $exam = Exam::factory()
-            ->has(Enrollment::factory(8)->state(function(array $attributes) use($centerId){
-                return [
-                    'center_id' =>  $centerId
-                ];
-            }))
-            ->inFuture()
-            ->create(['center_id' =>  $this->center->id]);
+            ->has(Enrollment::factory(8)->state(fn () => [
+                'center_id' => $this->center->id,
+            ]))
+            ->create([
+                'center_id' =>  $this->center->id,
+                'begin_time' => Carbon::now()->addHour()
+            ]);
 
         $exam->examiners()->attach($this->actor);
 
@@ -56,23 +62,20 @@ class ExamCodesGenerationTest extends TestCase
     public function test_fail_too_early_generation(): void
     {
         $exam = Exam::factory()
-            ->has(Enrollment::factory(8)->state(function(array $attributes){
-                return [
-                    'center_id' =>  $this->center->id
-                ];
-            }))
+            ->has(Enrollment::factory(8)->state(fn () => [
+                'center_id' => $this->center->id,
+            ]))
             ->create([
-            'begin_time' => Carbon::now()->addDay(),
-            'center_id' =>  $this->center->id
+                'begin_time' => Carbon::now()->addDay(),
+                'center_id' =>  $this->center->id
         ]);
 
         $exam->examiners()->attach($this->actor);
 
-        $response = $this
+        $this
             ->actingAs($this->actor)
-            ->getJson(route('exam.documents.codes.available', ['exam' => $exam]));
-
-        $response->assertBadRequest();
+            ->getJson(route('exam.documents.codes.available', ['exam' => $exam]))
+            ->assertBadRequest();
     }
 
     public function test_fail_examiner_no_attach(): void

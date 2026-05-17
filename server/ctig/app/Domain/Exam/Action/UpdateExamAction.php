@@ -3,7 +3,7 @@
 namespace App\Domain\Exam\Action;
 
 use App\Domain\Exam\Guard\ExamGuard;
-use App\Domain\Exam\Rules\ValidateExamForSave;
+use App\Domain\Exam\Validator\ExamBeforeSaveValidator;
 use App\Http\Dto\ExamDto;
 use App\Models\Exam;
 use DB;
@@ -14,7 +14,7 @@ use Illuminate\Validation\ValidationException;
 final class UpdateExamAction{
     public function __construct(
         protected ExamGuard $examGuard,
-        protected ValidateExamForSave $validateExamForSave
+        protected ExamBeforeSaveValidator $examBeforeSaveValidator
     ){}
     public function execute(
         Exam $exam, 
@@ -22,10 +22,9 @@ final class UpdateExamAction{
     ):void
     {
         $this->examGuard->ensureNotCancelled($exam);
-        $this->examGuard->ensureNotGoing($exam);
-        $this->examGuard->ensureNotFinished($exam);
+        $this->examGuard->ensurePending($exam, 'Обновить данные экзамена возможно до его начала');
 
-        $this->validateExamForSave->execute($examDto, $exam->id);
+        $this->examBeforeSaveValidator->execute($examDto, $exam->id);
         
         $before = $this->getAttributesToLog($exam);
         $exam = DB::transaction(function () use ($examDto, $exam) {

@@ -99,6 +99,7 @@ public function definition(): array
         'gender' => $gender,
 
         'address_reg' => fake()->streetAddress(),
+        
         'center_id' => Center::factory()
     ];
 }

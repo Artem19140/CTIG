@@ -8,13 +8,11 @@ use App\Models\Attempt;
 use App\Models\AttemptAnswer;
 use App\Models\Task;
 use Carbon\Carbon;
-use App\Domain\Attempt\Guard\AttemptGuard;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class RateAttemptAnswerAction{
     public function __construct(
-        protected AttemptGuard $attemptGuard,
         protected FinilizeAttemptCheckingAction $finilizeAttemptCheckingAction
     ){}
     public function execute(AttemptAnswer $attemptAnswer, int $mark){
@@ -46,7 +44,7 @@ class RateAttemptAnswerAction{
     }
 
     protected function ensureAttemptNotChecked(Attempt $attempt){
-        if($attempt->isChecked()){
+        if($attempt->checked_at !== null){
             $this->log([
                 'reason' => 'trying to manual check answer, where attempt is already checked',
             ]);

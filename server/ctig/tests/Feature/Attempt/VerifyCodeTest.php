@@ -23,7 +23,7 @@ class VerifyCodeTest extends TestCase
         $this->action = app(VerifyCodeAction::class);
         $this->exception = ValidationException::class;
         
-        Carbon::setTestNow(Carbon::now());
+        Carbon::setTestNow('2026-01-01 10:00:00');
     }
 
     protected function tearDown(): void
@@ -48,10 +48,9 @@ class VerifyCodeTest extends TestCase
     {
         $this->expectException($this->exception);
         Enrollment::factory()
-            ->noPayment()
             ->examCode($this->code)
             ->examCodeExpiredAt(Carbon::now()->addMinutes(10))
-            ->create();
+            ->create(['has_payment' => false]);
         
         $this->action->execute($this->code);
     }
@@ -61,10 +60,9 @@ class VerifyCodeTest extends TestCase
         $this->expectException($this->exception);
         $this->withoutExceptionHandling();
         Enrollment::factory()
-            ->hasPayment()
             ->examCode($this->code)
             ->examCodeExpiredAt(Carbon::now()->subMinutes(10))
-            ->create();
+            ->create(['has_payment' => true]);
         $this->action->execute($this->code);
     }
 
@@ -72,11 +70,11 @@ class VerifyCodeTest extends TestCase
     {
         $this->expectException($this->exception);
          Enrollment::factory()
-            ->hasPayment()
             ->examCode($this->code)
             ->examCodeExpiredAt(Carbon::now()->addMinutes(10))
             ->create([
-                'exam_code_used_at' => Carbon::now()
+                'exam_code_used_at' => Carbon::now(),
+                'has_payment' => true
             ]);
         
         $this->action->execute($this->code);

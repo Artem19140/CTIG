@@ -3,7 +3,8 @@
 namespace App\Domain\Exam\Action;
 
 
-use App\Domain\Exam\Rules\ValidateExamForSave;
+use App\Domain\Exam\Validator\ExamBeforeSaveValidator;
+use App\Domain\Exam\Validator\ExaminersValidator;
 use App\Http\Dto\ExamDto;
 use App\Models\Exam;
 use App\Models\Employee;
@@ -12,14 +13,15 @@ use DB;
 
 final class CreateExamAction{
     public function __construct(
-        protected ValidateExamForSave $validateExamForSave
+        protected ExamBeforeSaveValidator $examBeforeSaveValidator,
+        protected ExaminersValidator $validateExaminers
     ){}
     public function execute(
         ExamDto $examDto, 
         Employee $employee
     ):Exam
     {
-        $duration = $this->validateExamForSave->execute($examDto);
+        $duration = $this->examBeforeSaveValidator->execute($examDto);
         
         return DB::transaction(function () use ($examDto, $employee, $duration) {
             $exam = Exam::create($this->getAttributes($examDto, $employee, $duration));

@@ -24,10 +24,10 @@ class ExamMonitoringController
             ->visibleFor($employee)
             ->withCount(['enrollments'])
             ->when($past, function (Builder $query){
-                $query->whereEndTimeLess(now());
+                $query->where('end_time','<', now());
             })
             ->when(!$past, function (Builder $query){
-                $query->whereEndTimeMore(now()->subMinutes(30));;
+                $query->where('end_time','>', now()->subMinutes(30));
             })
             ->notCancelled()
             ->sorting(Carbon::now())

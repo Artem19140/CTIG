@@ -38,7 +38,7 @@ class ExamFactory extends Factory
     public function inFuture(){
         return $this->state(function(){
             return[
-                'begin_time' => Carbon::now()->addMinutes(10),
+                'begin_time' => Carbon::now()->addDay(),
                 'end_time' => Carbon::now()->addMinutes(100),
             ];
         });

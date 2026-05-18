@@ -14,13 +14,17 @@ use Tests\TestCase;
 class EnrollmentStatementGenerationTest extends TestCase
 {
     use RefreshDatabase;
-    protected Employee $employee;
+    protected Employee $actor;
     protected Center $center;
     protected function setUp():void{
         parent::setUp();
         $this->seed(RolesSeeder::class);
         $this->center = Center::factory()->create();
-        $this->employee = Employee::factory()->operator()->create(['center_id' => $this->center->id]);
+        $this->actor = Employee::factory()
+            ->operator()
+            ->create([
+                'center_id' => $this->center->id
+        ]);
         Carbon::setTestNow(now());
     }
 
@@ -30,17 +34,27 @@ class EnrollmentStatementGenerationTest extends TestCase
         Carbon::setTestNow();
     }
     
-    public function test_success(): void
-    {
-        $employee = Employee::factory()->operator()->create(['center_id' => $this->center->id]);
+    public function test_success_enrollment_statement_generating(): void{
 
-        $enrollment = Enrollment::factory()->create(['center_id' => $this->center->id]);
+        $enrollment = Enrollment::factory()->create([
+            'center_id' => $this->center->id
+        ]);
 
-        $response = $this->actingAs($employee)
+        $response = $this->actingAs($this->actor)
             ->getJson(route('enrollments.statements', ['enrollment' => $enrollment]));
 
         $response->assertOk();
         $response->assertHeader('Content-Type', 'application/pdf');
         $response->assertStatus(200);
+    }
+
+    public function test_fail_enrollment_statement_generating_another_center(): void{
+
+        $enrollment = Enrollment::factory()->create();
+
+        $response = $this->actingAs($this->actor)
+            ->getJson(route('enrollments.statements', ['enrollment' => $enrollment]));
+
+        $response->assertForbidden();
     }
 }

@@ -15,22 +15,25 @@ class RateAttemptAnswerAction{
     public function __construct(
         protected FinilizeAttemptCheckingAction $finilizeAttemptCheckingAction
     ){}
-    public function execute(AttemptAnswer $attemptAnswer, int $mark){
-        $attemptAnswer->loadMissing(['taskVariant.task', 'attempt']);
-        $task = $attemptAnswer->taskVariant->task;
-        $attempt = $attemptAnswer->attempt;
+    public function execute(
+        AttemptAnswer $attemptAnswer, 
+        int $mark
+        ):AttemptAnswer{
+            $attemptAnswer->loadMissing(['taskVariant.task', 'attempt']);
+            $task = $attemptAnswer->taskVariant->task;
+            $attempt = $attemptAnswer->attempt;
 
-        if($task->type !== TaskType::Speaking){
-            $this->ensureAttemptFinished($attempt);
-        }
+            if($task->type !== TaskType::Speaking){
+                $this->ensureAttemptFinished($attempt);
+            }
 
-        $this->ensureAttemptNotChecked($attempt);
-        $this->ensureTaskIsNotAutoCheck($task);
-        $this->ensureMarkIsValid($mark, $task);
+            $this->ensureAttemptNotChecked($attempt);
+            $this->ensureTaskIsNotAutoCheck($task);
+            $this->ensureMarkIsValid($mark, $task);
 
-        $this->rate($attemptAnswer, $mark);
+            $this->rate($attemptAnswer, $mark);
 
-        return $attemptAnswer;
+            return $attemptAnswer;
     }
 
     protected function rate(
@@ -54,7 +57,7 @@ class RateAttemptAnswerAction{
         }
     }
 
-    protected function ensureTaskIsNotAutoCheck(Task $task){
+    protected function ensureTaskIsNotAutoCheck(Task $task):void{
         if($task->autoCheck()){
             $this->log([
                 'reason' => 'trying to manual check answer, where task with auto checking type'
@@ -65,7 +68,7 @@ class RateAttemptAnswerAction{
         }
     }
 
-    protected function ensureMarkIsValid(int $mark, Task $task){
+    protected function ensureMarkIsValid(int $mark, Task $task):void{
         if($task->mark < $mark){
             $this->log([
                 'reason' => 'recieved mark more than max mark',
@@ -78,7 +81,7 @@ class RateAttemptAnswerAction{
         }
     }
 
-    protected function ensureAttemptFinished(Attempt $attempt){
+    protected function ensureAttemptFinished(Attempt $attempt):void{
         if(!$attempt->isFinished() && !$attempt->isBanned()){
             $this->log([
                 'reason' => 'trying to rate answer with not finished attempt',
@@ -90,7 +93,7 @@ class RateAttemptAnswerAction{
         }
     }
 
-    protected function log(array $context){
+    protected function log(array $context):void{
         Log::warning('Manual attempt checking', [
             'attempt_answer_id' => request()->route('attemptAnswer')?->id,
             ...$context

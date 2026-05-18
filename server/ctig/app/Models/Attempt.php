@@ -134,18 +134,6 @@ class Attempt extends Model
         return $this->belongsToMany(TaskVariant::class, 'attempt_answers');
     }
 
-    public function hasUncheckedAnswers():bool{
-        return $this->answers()->notChecked()->exists();
-    }
-
-    public function scopeWhereCreatedAtMore(Builder $query, Carbon $date){
-        return $query->where('created_at', '>', $date);
-    }
-
-    public function scopeWhereCreatedAtLess(Builder $query, Carbon $date){
-        return $query->where('created_at', '<', $date);
-    }
-
     public function scopeUnchecked(Builder $query){
         return $query->whereIn('status', AttemptStatus::unChecked())
             ->whereNull('checked_at');

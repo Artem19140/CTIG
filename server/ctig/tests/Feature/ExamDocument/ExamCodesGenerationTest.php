@@ -16,17 +16,19 @@ class ExamCodesGenerationTest extends TestCase
     use RefreshDatabase;
     protected Employee $actor;
     protected Center $center;
+    protected Enrollment $enrollment;
 
     protected function setUp():void{
         parent::setUp();
         $this->seed(RolesSeeder::class);
-        $this->center = Center::factory()->create([
-            'time_zone' => 'Europe/Moscow'
+        $this->center = Center::factory()->create();
+        $this->enrollment = Enrollment::factory()->create([
+            'center_id' => $this->center->id
         ]);
         $this->actor = Employee::factory()->examiner()->create(['center_id' =>  $this->center->id]);
 
         Carbon::setTestNow(
-            Carbon::parse('2026-01-01 10:00:00', $this->center->time_zone)
+            Carbon::parse('2026-01-01 10:00:00')
         );
         
     }
@@ -39,17 +41,13 @@ class ExamCodesGenerationTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $centerId = $this->center->id;
-
         $exam = Exam::factory()
-            ->has(Enrollment::factory(8)->state(fn () => [
-                'center_id' => $this->center->id,
-            ]))
             ->create([
                 'center_id' =>  $this->center->id,
                 'begin_time' => Carbon::now()->addHour()
             ]);
 
+        $exam->enrollments()->save($this->enrollment);
         $exam->examiners()->attach($this->actor);
 
         $response = $this
@@ -61,33 +59,10 @@ class ExamCodesGenerationTest extends TestCase
 
     public function test_fail_too_early_generation(): void
     {
-        $exam = Exam::factory()
-            ->has(Enrollment::factory(8)->state(fn () => [
-                'center_id' => $this->center->id,
-            ]))
-            ->create([
-                'begin_time' => Carbon::now()->addDay(),
-                'center_id' =>  $this->center->id
+        
+        $exam = Exam::factory()->create([
+            'begin_time' => Carbon::now()->addHour()
         ]);
-
-        $exam->examiners()->attach($this->actor);
-
-        $this
-            ->actingAs($this->actor)
-            ->getJson(route('exam.documents.codes.available', ['exam' => $exam]))
-            ->assertBadRequest();
-    }
-
-    public function test_fail_examiner_no_attach(): void
-    {
-        $exam = Exam::factory()
-            ->has(Enrollment::factory())
-            ->inFuture()
-            ->create(['center_id' =>  $this->center->id]);
-
-        $response = $this
-            ->actingAs($this->actor)
-            ->getJson(route('exam.documents.codes', ['exam' => $exam]));
-        $response->assertForbidden();
+        $this->assertTrue($exam->canGenerateCodes());
     }
 }

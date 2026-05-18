@@ -12,7 +12,7 @@ use App\Models\Task;
 
 class TaskHandlerResolver{
 
-    public function resolve(Task $task)
+    public function resolve(Task $task): EssayTaskHandler|SingleChoiceTaskHandler|TextInputTaskHandler
     {
         return match($task->type){
             TaskType::SingleChoice => new SingleChoiceTaskHandler(),

@@ -18,7 +18,7 @@ use Tests\TestCase;
 class EnrollmentCreateTest extends TestCase
 {
     use RefreshDatabase;
-    protected Employee $employee;
+    protected Employee $actor;
     protected Center $center;
     protected ForeignNational $foreignNational;
     protected string $model;
@@ -27,13 +27,21 @@ class EnrollmentCreateTest extends TestCase
         parent::setUp();
         $this->seed(RolesSeeder::class);
         $this->center = Center::factory()->create();
-        $this->employee = Employee::factory()->operator()->create(['center_id' => $this->center->id]);
-        $this->foreignNational = ForeignNational::factory()->create();
+
+        $this->actor = Employee::factory()->operator()->create([
+            'center_id' => $this->center->id
+        ]);
+
+        $this->foreignNational = ForeignNational::factory()->create([
+            'center_id' => $this->center->id
+        ]);
+
         $this->model = Enrollment::class;
+        
         Counter::create([
             'key' => CounterKey::RegNum,
             'value' => 260000,
-            'center_id' => Center::inRandomOrder()->first()->id
+            'center_id' => $this->center->id
         ]);
         Carbon::setTestNow(now());
     }
@@ -45,7 +53,7 @@ class EnrollmentCreateTest extends TestCase
     }
 
     protected function postEnrollment(int $examId){
-        return $this->actingAs( $this->employee)
+        return $this->actingAs( $this->actor)
             ->postJson('/enrollments',[
                 'examId' => $examId,
                 'foreignNationalId' => $this->foreignNational->id,

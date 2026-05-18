@@ -33,11 +33,4 @@ class Address extends Model
     public function exams(): HasMany{
         return $this->hasMany(Exam::class, 'address_id');
     }
-
-    // public function scopeForCenter(Builder $query, int | null $centerId){
-    //     if(!$centerId){
-    //         return ;
-    //     }
-    //     return $query->where('center_id', $centerId);
-    // }
 }

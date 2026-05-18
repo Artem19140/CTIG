@@ -19,7 +19,7 @@ class GetAvailableExamsQuery{
             ->with(['center'])
             ->where('exam_type_id',$examTypeId)
             ->notCancelled()
-            ->whereBeginTimeMore(Carbon::now()->addMinutes($enrollmentCloseBeforeMinutes))
+            ->where('begin_time', '>', Carbon::now()->addMinutes($enrollmentCloseBeforeMinutes))
             ->when($foreignNationalId, function (Builder $query) use ($foreignNationalId){
                 $query->whereDoesntHave('enrollments', function (Builder $q) use($foreignNationalId){
                     $q->where('foreign_national_id',$foreignNationalId);

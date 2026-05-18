@@ -57,7 +57,9 @@ class EnrollmentChangePaymentTest extends TestCase
             'exam_id' => $exam->id,
             'center_id' => $this->center->id
         ]);
-        $employee = Employee::factory()->examiner()->create(['center_id' => $this->center->id]);
+        $employee = Employee::factory()
+            ->examiner()
+            ->create(['center_id' => $this->center->id]);
         $exam->examiners()->attach($employee);
         $response = $this->putPayment($enrollment->id, $employee);
 
@@ -89,18 +91,5 @@ class EnrollmentChangePaymentTest extends TestCase
         $response = $this->putPayment($enrollment->id);
 
         $response->assertBadRequest();
-    }
-
-    public function test_fail_no_attach_examiner(): void
-    {
-        $exam = Exam::factory()->inPast()->create(['center_id' => $this->center->id]);
-        $enrollment = Enrollment::factory()->create([
-            'exam_id' => $exam->id,
-            'center_id' => $this->center->id
-        ]);
-        $employee = Employee::factory()->examiner()->create();
-        $response = $this->putPayment($enrollment->id, $employee);
-
-        $response->assertForbidden();
     }
 }

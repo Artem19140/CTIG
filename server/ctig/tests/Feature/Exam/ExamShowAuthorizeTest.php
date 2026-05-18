@@ -6,16 +6,14 @@ use App\Enums\EmployeeRole;
 use App\Models\Center;
 use App\Models\Exam;
 use App\Models\Employee;
-use App\Policies\ExamPolicy;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Helpers\RolesAccessCheck;
 use Tests\TestCase;
 
 class ExamShowAuthorizeTest extends TestCase
 {
-    use RefreshDatabase, RolesAccessCheck;
+    use RefreshDatabase;
     protected Exam $exam;
     protected Center $center;
 

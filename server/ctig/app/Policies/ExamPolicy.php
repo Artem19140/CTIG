@@ -10,13 +10,6 @@ use App\Models\Employee;
 class ExamPolicy
 {
     use BasePolicy;
-    public function before(Employee $employee, string $ability): bool|null
-    {
-        if ($employee->isSuperAdmin()) {
-            return true;
-        }
-        return null;
-    }
 
     public function viewAny(Employee $employee): bool{
         if($employee->hasAnyRole(

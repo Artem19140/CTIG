@@ -10,13 +10,6 @@ use Illuminate\Database\Eloquent\Builder;
 class ForeignNationalPolicy
 {
     use BasePolicy;
-    public function before(Employee $employee, string $ability): bool|null{
-        if ($employee->isSuperAdmin()) {
-            return true;
-        }
-         
-        return null;
-    }
     public function view(Employee $employee, ForeignNational $foreignNational): bool
     {   
         if (!$this->sameCenter($employee, $foreignNational)) {

@@ -9,7 +9,7 @@ class EmployeePostRequest extends FormRequest
 {
     public function authorize(Request $request): bool
     {
-        return $request->user()->isCenterAdmin() || $request->user()->isSuperAdmin();
+        return true;
     }
 
     /**

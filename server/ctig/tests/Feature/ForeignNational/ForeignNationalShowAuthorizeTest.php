@@ -12,14 +12,14 @@ use App\Models\Employee;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Helpers\RolesAccessCheck;
+
 use Tests\TestCase;
 use App\Policies\ForeignNationalPolicy;
 
 class ForeignNationalShowAuthorizeTest extends TestCase
 {
     
-    use RefreshDatabase, RolesAccessCheck;
+    use RefreshDatabase;
     protected Center $center;
     protected ForeignNationalPolicy $policy;
     protected array $allowedRoles = [EmployeeRole::SuperAdmin, EmployeeRole::Operator, EmployeeRole::Director];

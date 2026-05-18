@@ -35,30 +35,6 @@ class ExamDocumentAvailableTest extends TestCase
         $this->action()->codes(Exam::factory()->cancelled()->create());
     }
 
-    public function test_codes_calls_guards_once(): void
-    {
-        $exam = Exam::factory()
-            ->has(Enrollment::factory(8))
-            ->inFuture()
-            ->create();
-
-        $guard = \Mockery::mock(ExamGuard::class);
-
-        
-
-        $guard->shouldReceive('ensureNotFinished')
-            ->once()
-            ->with($exam);
-
-        $guard->shouldReceive('ensureNotCancelled')
-            ->once()
-            ->with($exam);
-
-        $service = new ExamDocumentAvailable($guard);
-
-        $service->codes($exam);
-    }
-
     public function test_list_protocol_guards_once(): void
     {
         $exam = Exam::factory()

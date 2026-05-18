@@ -34,14 +34,13 @@ class ExamProtocolGenerationTest extends TestCase
         Carbon::setTestNow(); 
     }
     public function test_success_exam_protocol_generation(): void{
-
+        $enrollment = Enrollment::factory()->create([
+            'center_id' => $this->center->id
+        ]);
         $exam = Exam::factory()
-            ->has(Enrollment::factory(8)->state(fn () => [
-                'center_id' => $this->center->id,
-            ]))
             ->inFuture()
             ->create(['center_id' =>  $this->center->id]);
-
+        $exam->enrollments()->save($enrollment);
         $exam->examiners()->attach($this->actor);
 
         $response = $this

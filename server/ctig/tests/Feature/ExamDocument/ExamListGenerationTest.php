@@ -9,12 +9,11 @@ use App\Models\Employee;
 use Carbon\Carbon;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Helpers\RolesAccessCheck;
 use Tests\TestCase;
 
 class ExamListGenerationTest extends TestCase
 {
-    use RefreshDatabase, RolesAccessCheck;
+    use RefreshDatabase;
     protected Employee $actor;
     protected Center $center;
 
@@ -32,15 +31,14 @@ class ExamListGenerationTest extends TestCase
         parent::tearDown();
         Carbon::setTestNow();
     }
-    public function test_success_examiter_attached(): void
+    public function test_success_list_generation(): void
     {
-        $this->withoutExceptionHandling();
-        $centerId = $this->center->id;
+        $enrollment = Enrollment::factory()->create([
+            'center_id' => $this->center->id
+        ]);
         $exam = Exam::factory()
-            ->has(Enrollment::factory(8)->state(fn () => [
-                'center_id' => $this->center->id,
-            ]))
             ->create(['center_id' =>  $this->center->id]);
+        $exam->enrollments()->save($enrollment);
         $exam->examiners()->attach($this->actor);
         $response = $this
             ->actingAs($this->actor)

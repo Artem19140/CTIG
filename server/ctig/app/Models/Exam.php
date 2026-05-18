@@ -139,22 +139,6 @@ class Exam extends Model
         });
     }
 
-    public function scopeWhereBeginTimeLess(Builder $query, Carbon $date){
-        return $query->where('begin_time', '<', $date);
-    }
-
-    public function scopeWhereBeginTimeMore(Builder $query, Carbon $date){
-        return $query->where('begin_time', '>', $date);
-    }
-
-    public function scopeWhereEndTimeLess(Builder $query, Carbon $date){
-        return $query->where('end_time', '<', $date);
-    }
-
-    public function scopeWhereEndTimeMore(Builder $query, Carbon $date){
-        return $query->where('end_time', '>', $date);
-    }
-
     public function scopeHasAttempts(Builder $query){
         return $query->whereHas('attempts');
     }
@@ -180,10 +164,15 @@ class Exam extends Model
     }
 
     public function canGenerateCodes():bool{
-        return $this->begin_time->isToday()
-            &&
-            $this->begin_time->addMinutes(self::CODES_TTL_AFTER_BEGIN_MINUTES)->isFuture()
-        ;
+        if (! $this->begin_time->isToday()) {
+            return false;
+        }
+
+        $deadline = $this->begin_time
+            ->copy()
+            ->addMinutes(self::CODES_TTL_AFTER_BEGIN_MINUTES);
+
+        return now()->lte($deadline);
     }
 
     public function scopeSorting(Builder $query, Carbon $now){

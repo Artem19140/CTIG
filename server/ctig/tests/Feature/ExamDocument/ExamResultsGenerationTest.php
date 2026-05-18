@@ -32,20 +32,19 @@ class ExamResultsGenerationTest extends TestCase
         parent::tearDown();
         Carbon::setTestNow();
     }
-    public function test_success(): void
+    public function test_success_exam_results_generation(): void
     {
         $this->withoutExceptionHandling();
+        $enrollment = Enrollment::factory()->create([
+            'center_id' => $this->center->id
+        ]);
         $exam = Exam::factory()
-            ->has(
-                Enrollment::factory(8)->state(fn () => [
-                    'center_id' => $this->center->id,
-                ])->has(Attempt::factory()->checked())
-            )
             ->create([
                 'center_id' =>  $this->center->id,
                 'begin_time' => Carbon::now()->subHour()
             ]);
-
+        $exam->enrollments()->save($enrollment);
+        $exam->examiners()->attach($this->actor);
         $response = $this
             ->actingAs($this->actor)
             ->getJson(route('exam.documents.results', ['exam' => $exam]));

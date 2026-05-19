@@ -9,7 +9,7 @@
     "fipi_number": "F59437",
     "answers": [
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -47,7 +47,7 @@
     "fipi_number": "53EAE0",
     "answers": [
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -85,7 +85,7 @@
     "fipi_number": "7CF9EC",
     "answers": [
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -123,11 +123,11 @@
     "fipi_number": "8861A2",
     "answers": [
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
-            "value": "П ё тр I"
+            "value": "Пётр I"
           }
         ]
       },
@@ -179,7 +179,7 @@
         ]
       },
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -208,7 +208,7 @@
         ]
       },
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -255,7 +255,7 @@
         ]
       },
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -275,7 +275,7 @@
     "fipi_number": "945436",
     "answers": [
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -313,7 +313,7 @@
     "fipi_number": "20624F",
     "answers": [
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -351,7 +351,7 @@
     "fipi_number": "5B9157",
     "answers": [
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -407,7 +407,7 @@
         ]
       },
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -436,7 +436,7 @@
         ]
       },
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -465,7 +465,7 @@
     "fipi_number": "450327",
     "answers": [
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -512,7 +512,7 @@
         ]
       },
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -541,7 +541,7 @@
     "fipi_number": "5E83A0",
     "answers": [
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -579,7 +579,7 @@
     "fipi_number": "4E5AC4",
     "answers": [
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",

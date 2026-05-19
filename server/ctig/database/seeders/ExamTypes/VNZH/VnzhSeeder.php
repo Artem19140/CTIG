@@ -118,6 +118,24 @@ class VnzhSeeder extends Seeder
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($path.'task1.json')), true)
                 ],
+                [
+                    'type' => TaskType::Speaking,
+                    'description' => 'Примите участие в диалоге. Ответьте на вопросы собеседника полными предложениями.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task2.json')), true)
+                ],
+                [ 
+                    'type' => TaskType::Speaking,
+                    'description' => 'Начните диалог. Получите нужную Вам информацию. Будьте вежливы.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task3.json')), true)
+                ],
+                [ 
+                    'type' => TaskType::Speaking,
+                    'description' => 'Опишите картинку.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($path.'task4.json')), true)
+                ]
             ]
         ];
     }

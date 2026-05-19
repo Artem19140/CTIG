@@ -9,7 +9,6 @@ use App\Models\ExamType;
 use App\Models\Subblock;
 use App\Models\Task;
 use App\Models\TaskVariant;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class RvpSeeder extends Seeder
@@ -248,6 +247,24 @@ class RvpSeeder extends Seeder
                     'type' => TaskType::SingleChoice,
                     'description' => '',
                     'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task17.json')), true)
+                ],
+                [
+                    'type' => TaskType::SingleChoice,
+                    'description' => '',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task18.json')), true)
+                ],
+                [
+                    'type' => TaskType::SingleChoice,
+                    'description' => '',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task19.json')), true)
+                ],
+                [
+                    'type' => TaskType::SingleChoice,
+                    'description' => '',
+                    'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task20.json')), true)
                 ],
                 [
@@ -255,30 +272,6 @@ class RvpSeeder extends Seeder
                     'description' => '',
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task21.json')), true)
-                ],
-                [
-                    'type' => TaskType::SingleChoice,
-                    'description' => '',
-                    'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task22.json')), true)
-                ],
-                [
-                    'type' => TaskType::SingleChoice,
-                    'description' => '',
-                    'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task23.json')), true)
-                ],
-                [
-                    'type' => TaskType::SingleChoice,
-                    'description' => '',
-                    'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task24.json')), true)
-                ],
-                [
-                    'type' => TaskType::SingleChoice,
-                    'description' => '',
-                    'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task25.json')), true)
                 ],
             ]
         ];
@@ -297,6 +290,30 @@ class RvpSeeder extends Seeder
                             'type' => TaskType::SingleChoice,
                             'description' => '',
                             'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task22.json')), true)
+                        ],
+                        [
+                            'type' => TaskType::SingleChoice,
+                            'description' => '',
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task23.json')), true)
+                        ],
+                        [
+                            'type' => TaskType::SingleChoice,
+                            'description' => '',
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task24.json')), true)
+                        ],
+                        [
+                            'type' => TaskType::SingleChoice,
+                            'description' => '',
+                            'mark' => 1,
+                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task25.json')), true)
+                        ],
+                        [
+                            'type' => TaskType::SingleChoice,
+                            'description' => '',
+                            'mark' => 1,
                             'variants'=> json_decode(file_get_contents(base_path($this->path.'task26.json')), true)
                         ],
                         [
@@ -311,6 +328,21 @@ class RvpSeeder extends Seeder
                             'mark' => 1,
                             'variants'=> json_decode(file_get_contents(base_path($this->path.'task28.json')), true)
                         ],
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    private function legislationBlock(){
+        return [
+            'name' => 'ОСНОВЫ ЗАКОНОДАТЕЛЬСТВА РОССИЙСКОЙ ФЕДЕРАЦИИ',
+            'min_mark'=>6,
+            'subblocks'=>[
+                [
+                    'name' => '',
+                    'min_mark'=> 0,
+                    'tasks' => [
                         [
                             'type' => TaskType::SingleChoice,
                             'description' => '',
@@ -335,21 +367,6 @@ class RvpSeeder extends Seeder
                             'mark' => 1,
                             'variants'=> json_decode(file_get_contents(base_path($this->path.'task32.json')), true)
                         ],
-                    ]
-                ]
-            ]
-        ];
-    }
-
-    private function legislationBlock(){
-        return [
-            'name' => 'ОСНОВЫ ЗАКОНОДАТЕЛЬСТВА РОССИЙСКОЙ ФЕДЕРАЦИИ',
-            'min_mark'=>6,
-            'subblocks'=>[
-                [
-                    'name' => '',
-                    'min_mark'=> 0,
-                    'tasks' => [
                         [
                             'type' => TaskType::SingleChoice,
                             'description' => '',
@@ -362,30 +379,7 @@ class RvpSeeder extends Seeder
                             'mark' => 1,
                             'variants'=> json_decode(file_get_contents(base_path($this->path.'task34.json')), true)
                         ],
-                        [
-                            'type' => TaskType::SingleChoice,
-                            'description' => '',
-                            'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task35.json')), true)
-                        ],
-                        [
-                            'type' => TaskType::SingleChoice,
-                            'description' => '',
-                            'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task36.json')), true)
-                        ],
-                        [
-                            'type' => TaskType::SingleChoice,
-                            'description' => '',
-                            'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task37.json')), true)
-                        ],
-                        [
-                            'type' => TaskType::SingleChoice,
-                            'description' => '',
-                            'mark' => 1,
-                            'variants'=> json_decode(file_get_contents(base_path($this->path.'task38.json')), true)
-                        ]
+                        
                     ]
                 ]
             ]

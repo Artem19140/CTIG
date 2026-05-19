@@ -44,10 +44,10 @@
     "fipi_number": "316069",
     
     "answers": [
-        {
-            "content" : "строитель",
-            "is_correct": true
-        }
+      {
+          "content" : "строитель",
+          "is_correct": true
+      }
     ]
   },
   {

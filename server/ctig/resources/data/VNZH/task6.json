@@ -11,7 +11,12 @@
       }
     ],
     "fipi_number": "584E89",
-    "answers": []
+    "answers": [
+      {
+        "content" : "анкету",
+        "is_correct": true
+      }
+    ] 
   },
   {
     "content": [
@@ -25,7 +30,16 @@
       }
     ],
     "fipi_number": "1AC8CC",
-    "answers": []
+    "answers": [
+      {
+        "content" : "аэропорту",
+        "is_correct": true
+      },
+      {
+        "content" : "аэровокзале",
+        "is_correct": true
+      }
+    ]
   },
   {
     "content": [
@@ -39,7 +53,12 @@
       }
     ],
     "fipi_number": "A8B0B9",
-    "answers": []
+    "answers": [
+      {
+        "content" : "бухара",
+        "is_correct": true
+      }
+    ]
   },
   {
     "content": [
@@ -53,7 +72,12 @@
       }
     ],
     "fipi_number": "BD2B34",
-    "answers": []
+    "answers": [
+      {
+        "content" : "севастополь",
+        "is_correct": true
+      }
+    ]
   },
   {
     "content": [
@@ -67,7 +91,12 @@
       }
     ],
     "fipi_number": "D27C8B",
-    "answers": []
+    "answers": [
+      {
+        "content" : "продавцом",
+        "is_correct": true
+      }
+    ]
   },
   {
     "content": [
@@ -81,7 +110,12 @@
       }
     ],
     "fipi_number": "20D235",
-    "answers": []
+    "answers": [
+      {
+        "content" : "поваром",
+        "is_correct": true
+      }
+    ]
   },
   {
     "content": [
@@ -95,7 +129,12 @@
       }
     ],
     "fipi_number": "12A8C7",
-    "answers": []
+    "answers": [
+      {
+        "content" : "понедельник",
+        "is_correct": true
+      }
+    ]
   },
   {
     "content": [
@@ -109,7 +148,12 @@
       }
     ],
     "fipi_number": "567F48",
-    "answers": []
+    "answers": [
+      {
+        "content" : "карту",
+        "is_correct": true
+      }
+    ]
   },
   {
     "content": [
@@ -123,7 +167,12 @@
       }
     ],
     "fipi_number": "C347FF",
-    "answers": []
+    "answers": [
+      {
+        "content" : "футбол",
+        "is_correct": true
+      }
+    ]
   },
   {
     "content": [
@@ -137,7 +186,12 @@
       }
     ],
     "fipi_number": "7AC275",
-    "answers": []
+    "answers": [
+      {
+        "content" : "тюмень",
+        "is_correct": true
+      }
+    ]
   },
   {
     "content": [
@@ -151,7 +205,12 @@
       }
     ],
     "fipi_number": "5CF48D",
-    "answers": []
+    "answers": [
+      {
+        "content" : "деревне",
+        "is_correct": true
+      }
+    ]
   },
   {
     "content": [
@@ -165,7 +224,12 @@
       }
     ],
     "fipi_number": "1885F5",
-    "answers": []
+    "answers": [
+      {
+        "content" : "кафе",
+        "is_correct": true
+      }
+    ]
   },
   {
     "content": [
@@ -179,7 +243,12 @@
       }
     ],
     "fipi_number": "97E856",
-    "answers": []
+    "answers": [
+      {
+        "content" : "алтае",
+        "is_correct": true
+      }
+    ]
   },
   {
     "content": [
@@ -193,7 +262,12 @@
       }
     ],
     "fipi_number": "81DDAB",
-    "answers": []
+    "answers": [
+      {
+        "content" : "центре",
+        "is_correct": true
+      }
+    ]
   },
   {
     "content": [
@@ -207,7 +281,12 @@
       }
     ],
     "fipi_number": "01EFC2",
-    "answers": []
+    "answers": [
+      {
+        "content" : "ноябрь",
+        "is_correct": true
+      }
+    ]
   },
   {
     "content": [
@@ -221,6 +300,11 @@
       }
     ],
     "fipi_number": "D55EE9",
-    "answers": []
+    "answers": [
+      {
+        "content" : "самару",
+        "is_correct": true
+      }
+    ]
   }
 ]

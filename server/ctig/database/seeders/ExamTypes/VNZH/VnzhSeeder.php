@@ -87,7 +87,7 @@ class VnzhSeeder extends Seeder
     public function examBlocks(){
         return [  
             $this->russianBlock(),
-            // $this->historyBlock(),
+            $this->historyBlock(),
             // $this->legislationBlock()
         ];
     }
@@ -99,7 +99,7 @@ class VnzhSeeder extends Seeder
             'subblocks'=>[
                 $this->speakingSubblock(),
                 $this->audioSubblock(),
-                // $this->readingSubblock(),
+                $this->readingSubblock(),
                 // $this->letterSubblock(),
                 // $this->vocabularAndGrammarSubblock()
             ]
@@ -166,16 +166,22 @@ class VnzhSeeder extends Seeder
                 ],
                 [
                     'type' => TaskType::SingleChoice,
-                    'description' => '',
+                    'description' => 'Прослушайте аудиозапись и выберите правильный ответ в заданиях 8-10. Укажите номер правильного ответа.',
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($path.'task8.json')), true)
                 ],
                 [
                     'type' => TaskType::SingleChoice,
-                    'description' => '',
+                    'description' => 'Прослушайте аудиозапись из заданиия 8. Укажите номер правильного ответа.',
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($path.'task9.json')), true)
                 ],
+                [
+                    'type' => TaskType::SingleChoice,
+                    'description' => 'Прослушайте аудиозапись из заданиия 8. Укажите номер правильного ответа.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task10.json')), true)
+                ]
             ]
         ];
     }
@@ -186,33 +192,45 @@ class VnzhSeeder extends Seeder
             'tasks' => [
                 [
                     'type' => TaskType::SingleChoice,
-                    'description' => 'Прочитайте объявление и выберите правильный ответ.',
-                    'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task10.json')), true)
-                ],
-                [
-                    'type' => TaskType::SingleChoice,
-                    'description' => 'Прочитайте объявление и выберите правильный ответ.',
+                    'description' => 'Прочитайте объявление. Укажите номер правильного ответа.',
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task11.json')), true)
                 ],
                 [
                     'type' => TaskType::SingleChoice,
-                    'description' => 'Прочитайте текст и ответьте на задания 12-14',
+                    'description' => 'Прочитайте объявление. Укажите номер правильного ответа.',
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task12.json')), true)
                 ],
                 [
                     'type' => TaskType::SingleChoice,
-                    'description' => 'Прочитайте текст из задания 12 и выберите правильный ответ.',
+                    'description' => 'Прочитайте текст и выполните задания 13–17. Укажите номер правильного ответа.',
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task13.json')), true)
                 ],
                 [
                     'type' => TaskType::SingleChoice,
-                    'description' => 'Прочитайте текст из задания 12 и выберите правильный ответ.',
+                    'description' => 'Прочитайте текст из задания 13. Укажите номер правильного ответа.',
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task14.json')), true)
+                ],
+                [
+                    'type' => TaskType::SingleChoice,
+                    'description' => 'Прочитайте текст из задания 13. Укажите номер правильного ответа.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task15.json')), true)
+                ],
+                [
+                    'type' => TaskType::SingleChoice,
+                    'description' => 'Прочитайте текст из задания 13. Укажите номер правильного ответа.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task16.json')), true)
+                ],
+                [
+                    'type' => TaskType::SingleChoice,
+                    'description' => 'Прочитайте текст из задания 13. Укажите номер правильного ответа.',
+                    'mark' => 1,
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task17.json')), true)
                 ],
             ]
         ];
@@ -225,15 +243,15 @@ class VnzhSeeder extends Seeder
             'tasks' => [
                 // [
                 //     'type' => TaskType::SingleChoice,
-                //     'description' => 'Напишите письмо.',
+                //     'description' => 'Заполните анкету.',
                 //     'mark' => 1,
-                //     'variants'=> json_decode(file_get_contents(base_path($this->path.'task15.json')), true)
+                //     'variants'=> json_decode(file_get_contents(base_path($this->path.'task18.json')), true)
                 // ],
                 [
                     'type' => TaskType::Essay,
                     'description' => 'Напишите письмо.',
                     'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task16.json')), true)
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task19.json')), true)
                 ],
             ]
         ];
@@ -248,7 +266,7 @@ class VnzhSeeder extends Seeder
                     'type' => TaskType::SingleChoice,
                     'description' => '',
                     'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task17.json')), true)
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task20.json')), true)
                 ],
                 [
                     'type' => TaskType::SingleChoice,

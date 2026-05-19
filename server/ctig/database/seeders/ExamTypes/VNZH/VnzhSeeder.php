@@ -88,7 +88,7 @@ class VnzhSeeder extends Seeder
         return [  
             $this->russianBlock(),
             $this->historyBlock(),
-            // $this->legislationBlock()
+            $this->legislationBlock()
         ];
     }
 
@@ -100,8 +100,8 @@ class VnzhSeeder extends Seeder
                 $this->speakingSubblock(),
                 $this->audioSubblock(),
                 $this->readingSubblock(),
-                // $this->letterSubblock(),
-                // $this->vocabularAndGrammarSubblock()
+                $this->letterSubblock(),
+                $this->vocabularAndGrammarSubblock()
             ]
         ];
     }

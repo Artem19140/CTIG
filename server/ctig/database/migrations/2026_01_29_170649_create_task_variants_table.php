@@ -19,6 +19,7 @@ return new class extends Migration
 
             $table->string('group_number')->nullable()->default(null);
             $table->timestamps();
+            $table->unique(['fipi_number', 'group_number']);
         });
     }
 

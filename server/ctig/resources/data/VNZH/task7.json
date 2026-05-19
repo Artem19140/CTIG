@@ -3,21 +3,17 @@
     "content": [
       {
         "type": "audio",
-        "value": "/storage/audios/E8E629.mp3"
-      },
-      {
-        "type": "text",
-        "value": "Разговор происходит"
+        "value": "/storage/audios/E5E856.mp3"
       }
     ],
-    "fipi_number": "E8E629",
+    "fipi_number": "E5E856",
     "answers": [
       {
         "is_correct": false,
         "content": [
           {
             "type": "text",
-            "value": "в автосервисе"
+            "value": "Поликлинике нужен врач-стоматолог."
           }
         ]
       },
@@ -26,7 +22,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в кафе"
+            "value": "Врач работает завтра с 8 часов утра."
           }
         ]
       },
@@ -35,7 +31,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в банке"
+            "value": "Терапевт завтра не работает."
           }
         ]
       }
@@ -45,21 +41,17 @@
     "content": [
       {
         "type": "audio",
-        "value": "/storage/audios/27E745.mp3"
-      },
-      {
-        "type": "text",
-        "value": "Разговор происходит"
+        "value": "/storage/audios/AEFB81.mp3"
       }
     ],
-    "fipi_number": "27E745",
+    "fipi_number": "AEFB81",
     "answers": [
       {
         "is_correct": false,
         "content": [
           {
             "type": "text",
-            "value": "на вокзале"
+            "value": "В декабре прошлого года."
           }
         ]
       },
@@ -68,7 +60,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в супермаркете"
+            "value": "В следующем году."
           }
         ]
       },
@@ -77,7 +69,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в автобусе"
+            "value": "Через месяц."
           }
         ]
       }
@@ -87,21 +79,17 @@
     "content": [
       {
         "type": "audio",
-        "value": "/storage/audios/EBFC37.mp3"
-      },
-      {
-        "type": "text",
-        "value": "Разговор происходит"
+        "value": "/storage/audios/9A6ADD.mp3"
       }
     ],
-    "fipi_number": "EBFC37",
+    "fipi_number": "9A6ADD",
     "answers": [
       {
         "is_correct": false,
         "content": [
           {
             "type": "text",
-            "value": "в банке"
+            "value": "Мои знакомые сняли квартиру в центре города."
           }
         ]
       },
@@ -110,7 +98,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в кафе"
+            "value": "Пока нет, сейчас это очень дорого."
           }
         ]
       },
@@ -119,7 +107,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в поликлинике"
+            "value": "Мы два года живём в этой квартире."
           }
         ]
       }
@@ -129,21 +117,17 @@
     "content": [
       {
         "type": "audio",
-        "value": "/storage/audios/16B0E5.mp3"
-      },
-      {
-        "type": "text",
-        "value": "Разговор происходит"
+        "value": "/storage/audios/B23158.mp3"
       }
     ],
-    "fipi_number": "16B0E5",
+    "fipi_number": "B23158",
     "answers": [
       {
         "is_correct": false,
         "content": [
           {
             "type": "text",
-            "value": "в аэропорту"
+            "value": "На табло в центре зала."
           }
         ]
       },
@@ -152,7 +136,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в магазине"
+            "value": "На платформе 4."
           }
         ]
       },
@@ -161,7 +145,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в здании вокзала"
+            "value": "В кассе автовокзала."
           }
         ]
       }
@@ -171,21 +155,17 @@
     "content": [
       {
         "type": "audio",
-        "value": "/storage/audios/5C43EC.mp3"
-      },
-      {
-        "type": "text",
-        "value": "Разговор происходит"
+        "value": "/storage/audios/29D906.mp3"
       }
     ],
-    "fipi_number": "5C43EC",
+    "fipi_number": "29D906",
     "answers": [
       {
         "is_correct": false,
         "content": [
           {
             "type": "text",
-            "value": "в продуктовом магазине"
+            "value": "В аптеке вы можете купить витамины."
           }
         ]
       },
@@ -194,7 +174,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в автосервисе"
+            "value": "Аптека находится за углом."
           }
         ]
       },
@@ -203,7 +183,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в мастерской по ремонту одежды"
+            "value": "Я уже был в аптеке."
           }
         ]
       }
@@ -213,21 +193,17 @@
     "content": [
       {
         "type": "audio",
-        "value": "/storage/audios/5F9FB9.mp3"
-      },
-      {
-        "type": "text",
-        "value": "Разговор происходит"
+        "value": "/storage/audios/6073D7.mp3"
       }
     ],
-    "fipi_number": "5F9FB9",
+    "fipi_number": "6073D7",
     "answers": [
       {
         "is_correct": false,
         "content": [
           {
             "type": "text",
-            "value": "в магазине фруктов"
+            "value": "У вас есть с собой документы?"
           }
         ]
       },
@@ -236,7 +212,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в магазине цветов"
+            "value": "Вы хотите отправить письмо?"
           }
         ]
       },
@@ -245,7 +221,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в магазине чая"
+            "value": "Вы будете менять все документы?"
           }
         ]
       }
@@ -255,21 +231,17 @@
     "content": [
       {
         "type": "audio",
-        "value": "/storage/audios/2A7858.mp3"
-      },
-      {
-        "type": "text",
-        "value": "Разговор происходит"
+        "value": "/storage/audios/040FA4.mp3"
       }
     ],
-    "fipi_number": "2A7858",
+    "fipi_number": "040FA4",
     "answers": [
       {
         "is_correct": false,
         "content": [
           {
             "type": "text",
-            "value": "в турагентстве"
+            "value": "Для заказного письма нужна ещё марка."
           }
         ]
       },
@@ -278,7 +250,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в магазине"
+            "value": "Подойдите к окну номер пять."
           }
         ]
       },
@@ -287,7 +259,7 @@
         "content": [
           {
             "type": "text",
-            "value": "на автовокзале"
+            "value": "Вы можете получить посылку здесь."
           }
         ]
       }
@@ -297,21 +269,17 @@
     "content": [
       {
         "type": "audio",
-        "value": "/storage/audios/D43825.mp3"
-      },
-      {
-        "type": "text",
-        "value": "Разговор происходит"
+        "value": "/storage/audios/C7A311.mp3"
       }
     ],
-    "fipi_number": "D43825",
+    "fipi_number": "C7A311",
     "answers": [
       {
         "is_correct": false,
         "content": [
           {
             "type": "text",
-            "value": "в центре «Мои документы»"
+            "value": "Вас тоже поздравляю с праздником!"
           }
         ]
       },
@@ -320,7 +288,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в банке"
+            "value": "Большое спасибо за поздравление."
           }
         ]
       },
@@ -329,7 +297,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в отделе полиции"
+            "value": "Я передам ваши поздравления мужу."
           }
         ]
       }
@@ -339,21 +307,17 @@
     "content": [
       {
         "type": "audio",
-        "value": "/storage/audios/79F4C8.mp3"
-      },
-      {
-        "type": "text",
-        "value": "Разговор происходит"
+        "value": "/storage/audios/86B09D.mp3"
       }
     ],
-    "fipi_number": "79F4C8",
+    "fipi_number": "86B09D",
     "answers": [
       {
         "is_correct": false,
         "content": [
           {
             "type": "text",
-            "value": "на работе"
+            "value": "С удовольствием! Я очень люблю музыку."
           }
         ]
       },
@@ -362,7 +326,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в магазине"
+            "value": "А тебе какая музыка нравится?"
           }
         ]
       },
@@ -371,7 +335,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в фотоателье"
+            "value": "В детстве я занималась музыкой."
           }
         ]
       }
@@ -381,21 +345,17 @@
     "content": [
       {
         "type": "audio",
-        "value": "/storage/audios/2FCCE6.mp3"
-      },
-      {
-        "type": "text",
-        "value": "Разговор происходит"
+        "value": "/storage/audios/1D0540.mp3"
       }
     ],
-    "fipi_number": "2FCCE6",
+    "fipi_number": "1D0540",
     "answers": [
       {
         "is_correct": false,
         "content": [
           {
             "type": "text",
-            "value": "в продуктовом магазине"
+            "value": "Нет, я не хочу сегодня в кино."
           }
         ]
       },
@@ -404,7 +364,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в отделении «Почта России»"
+            "value": "Да, обычно каждую субботу."
           }
         ]
       },
@@ -413,7 +373,7 @@
         "content": [
           {
             "type": "text",
-            "value": "при регистрации в аэропорту"
+            "value": "Мои друзья тоже любят кино."
           }
         ]
       }
@@ -423,21 +383,17 @@
     "content": [
       {
         "type": "audio",
-        "value": "/storage/audios/11A7ED.mp3"
-      },
-      {
-        "type": "text",
-        "value": "Разговор происходит"
+        "value": "/storage/audios/BBDAC4.mp3"
       }
     ],
-    "fipi_number": "11A7ED",
+    "fipi_number": "BBDAC4",
     "answers": [
       {
         "is_correct": false,
         "content": [
           {
             "type": "text",
-            "value": "в кассе кинотеатра"
+            "value": "Раньше я работала администратором в отеле."
           }
         ]
       },
@@ -446,7 +402,7 @@
         "content": [
           {
             "type": "text",
-            "value": "у кассы магазина"
+            "value": "С документами работать скучно ."
           }
         ]
       },
@@ -455,7 +411,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в кассе вокзала"
+            "value": "Мне не нравится сейчас моя работа."
           }
         ]
       }
@@ -465,21 +421,17 @@
     "content": [
       {
         "type": "audio",
-        "value": "/storage/audios/0929A8.mp3"
-      },
-      {
-        "type": "text",
-        "value": "Разговор происходит"
+        "value": "/storage/audios/DF0F40.mp3"
       }
     ],
-    "fipi_number": "0929A8",
+    "fipi_number": "DF0F40",
     "answers": [
       {
         "is_correct": false,
         "content": [
           {
             "type": "text",
-            "value": "в спортивном магазине"
+            "value": "На платформу 3."
           }
         ]
       },
@@ -488,7 +440,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в продуктовом магазине"
+            "value": "Поезд приедет завтра."
           }
         ]
       },
@@ -497,7 +449,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в магазине бытовой\n  техники"
+            "value": "Купить билет можно в кассе."
           }
         ]
       }
@@ -507,21 +459,17 @@
     "content": [
       {
         "type": "audio",
-        "value": "/storage/audios/E720E7.mp3"
-      },
-      {
-        "type": "text",
-        "value": "Разговор происходит"
+        "value": "/storage/audios/62E30D.mp3"
       }
     ],
-    "fipi_number": "E720E7",
+    "fipi_number": "62E30D",
     "answers": [
       {
         "is_correct": false,
         "content": [
           {
             "type": "text",
-            "value": "в парикмахерской"
+            "value": "В феврале прошлого года."
           }
         ]
       },
@@ -530,7 +478,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в кафе"
+            "value": "В следующем году."
           }
         ]
       },
@@ -539,7 +487,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в магазине"
+            "value": "Через неделю."
           }
         ]
       }
@@ -549,21 +497,17 @@
     "content": [
       {
         "type": "audio",
-        "value": "/storage/audios/19C86B.mp3"
-      },
-      {
-        "type": "text",
-        "value": "Разговор происходит"
+        "value": "/storage/audios/0EBED0.mp3"
       }
     ],
-    "fipi_number": "19C86B",
+    "fipi_number": "0EBED0",
     "answers": [
       {
         "is_correct": false,
         "content": [
           {
             "type": "text",
-            "value": "в продуктовом магазине"
+            "value": "Да, он ей очень идёт."
           }
         ]
       },
@@ -572,7 +516,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в поликлинике"
+            "value": "А тебе какой цвет больше нравится?"
           }
         ]
       },
@@ -581,7 +525,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в аптеке"
+            "value": "В интернет‑магазине, там много интересных вещей."
           }
         ]
       }
@@ -591,21 +535,17 @@
     "content": [
       {
         "type": "audio",
-        "value": "/storage/audios/E6556A.mp3"
-      },
-      {
-        "type": "text",
-        "value": "Разговор происходит"
+        "value": "/storage/audios/36F8CB.mp3"
       }
     ],
-    "fipi_number": "E6556A",
+    "fipi_number": "36F8CB",
     "answers": [
       {
         "is_correct": false,
         "content": [
           {
             "type": "text",
-            "value": "в магазине одежды"
+            "value": "Я люблю яблоки и бананы."
           }
         ]
       },
@@ -614,7 +554,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в цветочном магазине"
+            "value": "Рядом с метро есть отличный рынок."
           }
         ]
       },
@@ -623,7 +563,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в спортивном магазине"
+            "value": "Фрукты лучше покупать утром."
           }
         ]
       }
@@ -633,21 +573,17 @@
     "content": [
       {
         "type": "audio",
-        "value": "/storage/audios/3B2D35.mp3"
-      },
-      {
-        "type": "text",
-        "value": "Разговор происходит"
+        "value": "/storage/audios/DFC33C.mp3"
       }
     ],
-    "fipi_number": "3B2D35",
+    "fipi_number": "DFC33C",
     "answers": [
       {
         "is_correct": false,
         "content": [
           {
             "type": "text",
-            "value": "на железнодорожном\n  вокзале"
+            "value": "Супермаркеты обычно работают до  22:00."
           }
         ]
       },
@@ -656,7 +592,7 @@
         "content": [
           {
             "type": "text",
-            "value": "на автовокзале"
+            "value": "За углом, в пяти минутах ходьбы."
           }
         ]
       },
@@ -665,7 +601,7 @@
         "content": [
           {
             "type": "text",
-            "value": "в аэропорту"
+            "value": "Мне нужно купить продукты."
           }
         ]
       }

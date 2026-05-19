@@ -1,0 +1,226 @@
+[
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/584E89.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Посетителю нужно заполнить ________________."
+      }
+    ],
+    "fipi_number": "584E89",
+    "answers": []
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/1AC8CC.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Это объявление Вы можете услышать в ___________."
+      }
+    ],
+    "fipi_number": "1AC8CC",
+    "answers": []
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/A8B0B9.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Рустам изучал русский язык в городе  ________________."
+      }
+    ],
+    "fipi_number": "A8B0B9",
+    "answers": []
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/BD2B34.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Поезд следует в ________________."
+      }
+    ],
+    "fipi_number": "BD2B34",
+    "answers": []
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/D27C8B.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Наташа работает сейчас ____________ ."
+      }
+    ],
+    "fipi_number": "D27C8B",
+    "answers": []
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/20D235.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Раньше она работала в ресторане  ___________."
+      }
+    ],
+    "fipi_number": "20D235",
+    "answers": []
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/12A8C7.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Музей не работает в ____________ ."
+      }
+    ],
+    "fipi_number": "12A8C7",
+    "answers": []
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/567F48.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Он хочет оформить в банке ____________ ."
+      }
+    ],
+    "fipi_number": "567F48",
+    "answers": []
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/C347FF.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Друзья пригласили в субботу Михаила на ____________ ."
+      }
+    ],
+    "fipi_number": "C347FF",
+    "answers": []
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/7AC275.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Она хочет отправить посылку в _____________ ."
+      }
+    ],
+    "fipi_number": "7AC275",
+    "answers": []
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/5CF48D.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Летом Вера отдыхала у бабушки в ____________ ."
+      }
+    ],
+    "fipi_number": "5CF48D",
+    "answers": []
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/1885F5.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Они идут в ____________."
+      }
+    ],
+    "fipi_number": "1885F5",
+    "answers": []
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/97E856.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Оля летом отдыхала на ____________ ."
+      }
+    ],
+    "fipi_number": "97E856",
+    "answers": []
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/81DDAB.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Света теперь живёт в ____________ ."
+      }
+    ],
+    "fipi_number": "81DDAB",
+    "answers": []
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/01EFC2.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Наташа перенесла свой отпуск на ______________."
+      }
+    ],
+    "fipi_number": "01EFC2",
+    "answers": []
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/D55EE9.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Она хочет купить билет на поезд в _____________."
+      }
+    ],
+    "fipi_number": "D55EE9",
+    "answers": []
+  }
+]

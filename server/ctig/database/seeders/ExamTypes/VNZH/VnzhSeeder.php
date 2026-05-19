@@ -98,7 +98,7 @@ class VnzhSeeder extends Seeder
             'min_mark'=>6,
             'subblocks'=>[
                 $this->speakingSubblock(),
-                // $this->audioSubblock(),
+                $this->audioSubblock(),
                 // $this->readingSubblock(),
                 // $this->letterSubblock(),
                 // $this->vocabularAndGrammarSubblock()
@@ -148,25 +148,19 @@ class VnzhSeeder extends Seeder
             'tasks' => [
                 [
                     'type' => TaskType::SingleChoice,
-                    'description' => 'Прослушайте диалог и определите, где происходит разговор. Выберите правильный ответ.',
-                    'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($path.'task4.json')), true)
-                ],
-                [
-                    'type' => TaskType::SingleChoice,
-                    'description' => 'Прослушайте объявление и выберите правильный ответ.',
+                    'description' => 'Прослушайте диалог и определите, где происходит разговор. Выберите правильный ответ. Укажите номер правильного ответа.',
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($path.'task5.json')), true)
                 ],
                 [
                     'type' => TaskType::SingleChoice,
-                    'description' => 'Прослушайте начало диалога и выберите правильную ответную реплику.',
+                    'description' => 'Прослушайте диалог и дополните предложение в соответствии с информацией в тексте.',
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($path.'task6.json')), true)
                 ],
                 [
                     'type' => TaskType::SingleChoice,
-                    'description' => 'Прослушайте аудиозапись и ответьте на задания номер 7-9',
+                    'description' => 'Прослушайте начало диалога и выберите правильную ответную реплику. Укажите номер правильного ответа.',
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($path.'task7.json')), true)
                 ],

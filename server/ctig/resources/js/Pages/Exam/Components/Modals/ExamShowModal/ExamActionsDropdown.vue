@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useHttp } from '@inertiajs/vue3'
+import { useHttp, usePage } from '@inertiajs/vue3'
 import { usePromptDialog } from '@composables/usePromptDialog';
 import BaseThreeDotDropdown from '@components/BaseComponents/BaseThreeDotDropdown/BaseThreeDotDropdown.vue';
 import { useModals } from '@composables/useModals';
@@ -8,11 +8,17 @@ import { useExamStatus } from '@/composables/useExamStatus';
 import { Exam, ExamActionsPermissions } from '@/interfaces/Exam';
 import { RedirectUrl } from '@/interfaces/Interfaces';
 import BaseListItem from '@/components/BaseComponents/BaseList/BaseListItem.vue';
+import { computed } from 'vue';
 
 const props = defineProps<{
   exam : Exam, 
   permissions:ExamActionsPermissions
 }>()
+
+// const page = usePage()
+
+// const permissions = computed(() => page)
+// console.log(permissions.value)
 
 const emit = defineEmits<{
   (e:'cancel', value:string):void,

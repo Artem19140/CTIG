@@ -31,7 +31,9 @@ class CreateAttemptAction{
             
             $this->examGuard->ensureNotCancelled($exam);
             
-            $this->examGuard->ensurePending($exam, 'Ввести код возможно только во время экзамен');
+            if(!$exam->isGoing()){
+                throw new BusinessException('Ввести код возможно только во время экзамена');
+            }
             
             $attempt =  $this->createAttempt($foreignNational, $enrollment);
             

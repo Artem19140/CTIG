@@ -19,7 +19,8 @@ class Center extends Model
         'address',
         'name_genitive',
         'time_zone',
-        'commission_chairman'
+        'commission_chairman',
+        'short_name'
     ];
 
     protected $casts = [

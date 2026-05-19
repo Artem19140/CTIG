@@ -15,17 +15,17 @@ return new class extends Migration
         Schema::create('centers', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name');
+            $table->string('name')->nullable()->default(null);
             $table->string('short_name');
-            $table->string('director_fio');
-            $table->string('certificates_issue_address');
+            $table->string('director_fio')->nullable()->default(null);
+            $table->string('certificates_issue_address')->nullable()->default(null);
             $table->boolean('is_active')->default(true);
-            $table->string('ogrn');
-            $table->string('inn');
-            $table->string('address');
-            $table->string('name_genitive');
-            $table->string('time_zone');
-            $table->string('commission_chairman');
+            $table->string('ogrn')->nullable()->default(null);
+            $table->string('inn')->nullable()->default(null);
+            $table->string('address')->nullable()->default(null);
+            $table->string('name_genitive')->nullable()->default(null);
+            $table->string('time_zone')->nullable()->default(null);
+            $table->string('commission_chairman')->nullable()->default(null);
             $table->timestamps();
         });
     }

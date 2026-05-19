@@ -20,8 +20,11 @@ class AuthorizationServiceProvider extends ServiceProvider
             return $foreignNational->id === $attempt->foreign_national_id;
         });
 
-        Gate::before(function (Employee $employee, string $ability) {
-        if ($employee->isSuperAdmin()) {
+        Gate::before(function ( $user, string $ability) {
+        if ($user instanceof ForeignNational) {
+            return null;
+        }
+        if ($user->isSuperAdmin()) {
             return true;
         }
         return null;

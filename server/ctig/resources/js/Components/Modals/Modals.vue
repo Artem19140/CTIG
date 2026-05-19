@@ -22,6 +22,7 @@ import ViolationModal from '@/pages/ExamMonitoring/Violations/ViolationModal.vue
 import PasswordResetModal from '@/pages/Center/Components/Employees/PasswordResetModal.vue';
 import EmployeeEditModal from '@/pages/Center/Components/Employees/EmployeeEditModal.vue';
 import LogoutAllDevicesModal from './LogoutAllDevicesModal.vue';
+import CenterCreateModal from '@/pages/SuperAdmin/Components/CenterCreateModal.vue';
 
 const {modals, close} = useModals()
 
@@ -51,7 +52,8 @@ const modalMap = {
     violation: ViolationModal,
     passwordReset:PasswordResetModal,
     employeeEdit:EmployeeEditModal,
-    logoutAll:LogoutAllDevicesModal
+    logoutAll:LogoutAllDevicesModal,
+    centerCreate:CenterCreateModal
 } as const
 
 const closeModal = (id: number) => {

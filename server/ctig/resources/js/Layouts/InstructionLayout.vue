@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useAuth } from '@/composables/useAuth';
-import EmployeeLayout from './EmployeeLayout.vue';
 import { Roles } from '@/constants/Roles';
 import { computed } from 'vue';
 import { router } from '@inertiajs/vue3';
@@ -59,7 +58,6 @@ const visibleItems = computed(() =>
 </script>
 
 <template>
-
         <BaseDrawer
             permanent
             location="right"

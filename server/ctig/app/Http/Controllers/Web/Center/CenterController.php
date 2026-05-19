@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Web\Center;
 
 use App\Http\Requests\Center\CenterUpdateRequest;
-use App\Http\Resources\Center\CenterIndexResource;
 use App\Http\Resources\Center\CenterResource;
 use App\Models\Center;
 use Illuminate\Http\Request;
@@ -12,26 +11,26 @@ use Inertia\Inertia;
 
 class CenterController
 {
-    public function index(){
-        return  CenterIndexResource::collection(Center::all());
-    }
 
     public function show(Request $request, Center $center){
-        if($center->id != $request->user()->center_id){
+        if(
+            $center->id != $request->user()->center_id
+        ){
             abort(404);
         }
+
         Log::info('center_data_view', ['center_id' => $center->id]);
+
         return Inertia::render('Center/Center', [
             'data' => new CenterResource($center),
             'tab' => 'data'
         ]);
     }
 
-    public function store(){
-        
-    }
-
     public function update(CenterUpdateRequest $request, Center $center){
+        if($center->id != $request->user()->center_id){
+            abort(404);
+        }
         $data = $request->validated();
 
         $payload = [
@@ -55,9 +54,5 @@ class CenterController
         ]);
         return response()->json($center);
     }
-    
-    public function destroy(Center $center){
-        $center->is_active = false;
-        return response()->noContent();
-    }
+
 }

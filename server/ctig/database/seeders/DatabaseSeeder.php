@@ -79,7 +79,7 @@ class DatabaseSeeder extends Seeder
 
         $roleOrgAdmin = Role::findByEnum(EmployeeRole::CenterAdmin);
 
-        $SuperAdmin = Role::findByEnum(EmployeeRole::SuperAdmin);
+        $superAdmin = Role::findByEnum(EmployeeRole::SuperAdmin);
         
 
         $password = Hash::make('123456789' );
@@ -154,7 +154,7 @@ class DatabaseSeeder extends Seeder
             'creator_id' => $employee->id
         ]);
 
-        $employee->roles()->attach($SuperAdmin);
+        $employee->roles()->attach($superAdmin);
         $employee->roles()->attach($roleSpecialist);
         $employee->roles()->attach($roleExaminer);
         $employee->roles()->attach($roleScheduler);
@@ -163,9 +163,9 @@ class DatabaseSeeder extends Seeder
         
         $this->call([
             PatentSeeder::class,
-            // VnzhSeeder::class,
             RvpSeeder::class,
-            ExamSeeder::class,
+            VnzhSeeder::class,
+            //ExamSeeder::class,
             ForeignNationalSeeder::class
         ]);
         

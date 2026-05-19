@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Center;
 
+use App\Http\Resources\Employee\EmployeeResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,7 +25,8 @@ class CenterResource extends JsonResource
             'inn' => $this->inn,
             'address' => $this->address,
             'nameGenitive' => $this->name_genitive,
-            'commissionChairman' => $this->commission_chairman
+            'commissionChairman' => $this->commission_chairman,
+            'employees' =>  EmployeeResource::collection($this->whenLoaded('employees', $this->employees))
         ];
     }
 }

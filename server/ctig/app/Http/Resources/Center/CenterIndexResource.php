@@ -14,6 +14,10 @@ class CenterIndexResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->resource->id,
+            'shortName' => $this->resource->short_name,
+            'employeesCount' => $this->resource->employees_count
+        ];
     }
 }

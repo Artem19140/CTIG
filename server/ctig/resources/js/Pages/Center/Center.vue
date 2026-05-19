@@ -15,6 +15,7 @@ defineOptions({
 })
 
 const {user} = useAuth()
+
 const centerId = computed(() => user.center_id)
 
 const props = defineProps<{
@@ -27,7 +28,7 @@ const props = defineProps<{
     } 
     addresses?:{
         data:Address[]
-    } 
+    }
 }>()
 
 type Tab = 'data' | 'employees' | 'addresses'

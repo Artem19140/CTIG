@@ -14,9 +14,6 @@ use Illuminate\Database\Seeder;
 
 class RvpSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     protected string $path = 'resources/data/RVP/';
     public function run(): void
     {
@@ -88,9 +85,9 @@ class RvpSeeder extends Seeder
     }
     public function examBlocks(){
         return [  
-                $this->russianBlock(),
-                $this->historyBlock(),
-                $this->legislationBlock()
+            $this->russianBlock(),
+            $this->historyBlock(),
+            $this->legislationBlock()
         ];
     }
 

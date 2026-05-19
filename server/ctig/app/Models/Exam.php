@@ -91,7 +91,7 @@ class Exam extends Model
     }
 
     public function isPending():bool{
-        return !$this->begin_time->isPast();
+        return $this->begin_time->isFuture();
     }
 
     public function isCancelled():Carbon|null{

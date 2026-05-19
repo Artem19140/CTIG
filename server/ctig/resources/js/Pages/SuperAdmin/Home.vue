@@ -5,11 +5,12 @@ import AppPeriodDate from '@/components/UI/AppPeriodDate/AppPeriodDate.vue';
 import AppPrimaryButton from '@/components/UI/AppPrimaryButton/AppPrimaryButton.vue';
 import { PeriodDate } from '@/interfaces/Interfaces';
 import EmployeeLayout from '@/layouts/EmployeeLayout.vue';
+import SuperAdminLayout from '@/layouts/SuperAdminLayout.vue';
 import { router, useHttp } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 
 defineOptions({
-  layout: [EmployeeLayout],
+  layout: [EmployeeLayout, SuperAdminLayout],
 })
 
 interface Stats {
@@ -53,11 +54,6 @@ window.addEventListener('offline', () => {
 </script>
 
 <template>
-    <v-app-bar>
-        <v-btn
-            @click="router.visit('/admin/activity-logs')"
-        >Логи</v-btn>
-    </v-app-bar>
      <v-container class="py-6">
         <v-card>
             <v-card-text>

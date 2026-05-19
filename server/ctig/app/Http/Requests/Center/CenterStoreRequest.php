@@ -20,7 +20,9 @@ class CenterStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string']
+            'shortName' => ['required', 'string'],
+            'password' => ['required', 'string'],
+            'timeZone' => ['required', 'string']
         ];
     }
 }

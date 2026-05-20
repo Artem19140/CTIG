@@ -14,6 +14,7 @@ const dialog = ref(false)
             :src="value"
             class="cursor-pointer"
             @click="dialog = true"
+            min-width="250"
         />
 
         <v-dialog v-model="dialog" max-width="90vw">

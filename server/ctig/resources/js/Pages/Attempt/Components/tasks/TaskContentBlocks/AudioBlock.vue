@@ -23,7 +23,7 @@ const playedTime = computed(() => {
     return (currentTime.value / duration.value) * 100
 })
 
-const audioPlayed = ref<boolean>(props.task.attemptAnswer.audioPlayed ?? false)
+const audioPlayed = ref<boolean>(props.task.attemptAnswer?.audioPlayed ?? false)
 
 const {audioPlaying, audioStartPlaying, audioStopPlaying, examAttempt} = useAttempt()
 const http = useHttp()
@@ -70,6 +70,7 @@ function format(time: number) {
 </script>
 
 <template>
+    <div class="text-red" v-if="!value">НЕТТТТТТТТТТТТТТТТТТТТТТТТТТТТТТТ</div>
     <div class="mb-4">
         <div v-if="value">
             <v-alert

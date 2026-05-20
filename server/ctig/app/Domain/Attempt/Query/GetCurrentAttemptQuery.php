@@ -21,7 +21,7 @@ class GetCurrentAttemptQuery{
                 });
             },
             'taskVariants.task',
-            'taskVariants.answers',
+            'taskVariants.answers', // сортировка
             'taskVariants.attemptsAnswer' => function($query)use($attempt){
                 $query->where('attempt_id', $attempt->id);
             },

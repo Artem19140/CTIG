@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class GetAttemptSpeakingTasksQuery{
     public function execute(Attempt $attempt):Attempt{
         $this->ensureNotBanned($attempt);
-
+        
         $attempt->loadMissing([
             'taskVariants'=> function(BelongsToMany $query) use($attempt){
                 $query->whereHas('task', function(Builder $q) {
@@ -25,6 +25,7 @@ class GetAttemptSpeakingTasksQuery{
                     ]);
             }
         ]);
+        
         $attempt->taskVariants = $attempt->taskVariants->sortBy('task.order');
         return $attempt;
     }

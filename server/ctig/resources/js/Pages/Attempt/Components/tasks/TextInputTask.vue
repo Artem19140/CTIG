@@ -17,7 +17,7 @@ const emit = defineEmits<{
     }):void
 }>()
 
-const answer = ref<string | null>(props.task?.attemptAnswer.answer)
+const answer = ref<string | null>(props.task?.attemptAnswer?.answer)
 
 let timeout: number | undefined
 

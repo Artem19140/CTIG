@@ -164,13 +164,13 @@ class RvpSeeder extends Seeder
                 ],
                 [
                     'type' => TaskType::SingleChoice,
-                    'description' => '',
+                    'description' => 'Прослушайте аудиозапись из задания 8 и выберите правильный ответ.',
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($path.'task8.json')), true)
                 ],
                 [
                     'type' => TaskType::SingleChoice,
-                    'description' => '',
+                    'description' => 'Прослушайте аудиозапись из задания 8 и выберите правильный ответ.',
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($path.'task9.json')), true)
                 ],

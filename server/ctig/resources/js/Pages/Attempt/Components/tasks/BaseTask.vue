@@ -77,9 +77,11 @@ const {errors, saving} = useAttempt()
         </v-sheet>
       </v-card-text>
 
-      <v-card-text v-if="task.postscriptum">
-        {{ task.postscriptum }}
-      </v-card-text>
+      
+        <div class=" pl-6 " v-if="task.postscriptum">
+          {{ task.postscriptum }}
+        </div>
+      
 
       <v-card-actions class="px-4">
         <slot name="answers" /> 

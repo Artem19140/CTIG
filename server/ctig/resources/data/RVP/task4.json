@@ -460,5 +460,215 @@
         ]
       }
     ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/4662F1.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Они разговаривают"
+      }
+    ],
+    "fipi_number": "4662F1",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "на почте"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в банке"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в супермаркете"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/1A5473.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Они разговаривают"
+      }
+    ],
+    "fipi_number": "1A5473",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в магазине"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в поликлинике"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в банке"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/8955D7.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Они разговаривают"
+      }
+    ],
+    "fipi_number": "8955D7",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в поликлинике"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в аптеке"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в магазине"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/50FC99.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Они разговаривают"
+      }
+    ],
+    "fipi_number": "50FC99",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в магазине"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в ресторане"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в аэропорту"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/D0B5E0.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Они разговаривают"
+      }
+    ],
+    "fipi_number": "D0B5E0",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в магазине обуви"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в магазине цветов"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в магазине одежды"
+          }
+        ]
+      }
+    ]
   }
 ]

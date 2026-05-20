@@ -460,5 +460,215 @@
         ]
       }
     ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/F96648.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Горячую воду отключат"
+      }
+    ],
+    "fipi_number": "F96648",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на весь день"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "на несколько часов"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на неделю"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/F7AD7A.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Если Вы хотите узнать результаты экзамена, после прослушивания Вы нажмёте"
+      }
+    ],
+    "fipi_number": "F7AD7A",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "1"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "2"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "3"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/1F9173.mp3"
+      },
+      {
+        "type": "text",
+        "value": "На вокзале стоимость хранения одного места багажа –"
+      }
+    ],
+    "fipi_number": "1F9173",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "2 рубля в час"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "20 рублей в час"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "200 рублей в час"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/2E4D2A.mp3"
+      },
+      {
+        "type": "text",
+        "value": "8 марта все женщины могут купить продукты со скидкой"
+      }
+    ],
+    "fipi_number": "2E4D2A",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "5 %"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "15 %"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "50 %"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/A8BED5.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Магазин будет работать"
+      }
+    ],
+    "fipi_number": "A8BED5",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в выходные"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "11 и 12 ноября"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "13 ноября"
+          }
+        ]
+      }
+    ]
   }
 ]

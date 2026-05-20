@@ -484,5 +484,220 @@
         ]
       }
     ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Меня зовут Ясмина.  Мне 45 лет. Каждый день я работаю по 8 часов на кухне, потому что я повар. По выходным я не люблю готовить, я хожу гулять с моими детьми и мужем.",
+        "margin":"bottom"
+      },
+      {
+        "type": "text",
+        "value": "Ясмина работает"
+      }
+    ],
+    "fipi_number": "125772",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в кафе"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на почте"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в парикмахерской"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Меня зовут Света. После работы я ходила получать посылку и письмо от моей бабушки из Красноярска. В посылке были свитер и вкусные конфеты.",
+        "margin":"bottom"
+      },
+      {
+        "type": "text",
+        "value": "После работы Света была"
+      }
+    ],
+    "fipi_number": "A74C2B",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "на почте"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в магазине"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в кафе"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "У Амира самая популярная работа – он курьер. Каждый день он привозит товары из магазина людям. Он работает с понедельника по субботу, а в воскресенье он отдыхает.",
+        "margin":"bottom"
+      },
+      {
+        "type": "text",
+        "value": "У Амира выходной"
+      }
+    ],
+    "fipi_number": "2FFBD8",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в понедельник"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в субботу"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в воскресенье"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Олегу тридцать лет. В детстве он очень любил машины. Его папа работал механиком и часто брал сына на работу. Сегодня Олег машинист, и каждый день тысячи пассажиров едут в его поезде.",
+        "margin":"bottom"
+      },
+      {
+        "type": "text",
+        "value": "Олег работает"
+      }
+    ],
+    "fipi_number": "3E3A67",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на автовокзале"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в метро"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на стройке"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Меня зовут Лена. На прошлой неделе у меня был отпуск. Мы с друзьями были в Туле. На улице было холодно, и мы ходили в музей.",
+        "margin":"bottom"
+      },
+      {
+        "type": "text",
+        "value": "На прошлой неделе Лена была"
+      }
+    ],
+    "fipi_number": "ABC331",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в музее"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в ресторане"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в кинотеатре"
+          }
+        ]
+      }
+    ]
   }
 ]

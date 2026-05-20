@@ -566,5 +566,250 @@
         ]
       }
     ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Акция! При покупке чашки кофе вторая – в подарок!"
+      },
+      {
+        "type": "text",
+        "value": "Такое объявление можно прочитать"
+      }
+    ],
+    "fipi_number": "F0B87B",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на почте"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в кафе"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в метро"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          {
+            "type": "text",
+            "value": "Уважаемые граждане!",
+            "align":"center"
+          },
+          {
+            "type": "text",
+            "value": "Врач Иванова принимает в кабинете № 7."
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "value": "Такое объявление можно прочитать"
+      }
+    ],
+    "fipi_number": "C28EB0",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в метро"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в поликлинике"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в торговом центре"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          {
+            "type": "text",
+            "value": "Уважаемые пассажиры!",
+            "align":"center"
+          },
+          {
+            "type": "text",
+            "value": "Платформа № 3 закрыта на ремонт."
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "value": "Такое объявление можно прочитать"
+      }
+    ],
+    "fipi_number": "6C50CA",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в магазине"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "на вокзале"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на стройке"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          {
+            "type": "text",
+            "value": "Уважаемые гости!",
+            "align":"center"
+          },
+          {
+            "type": "text",
+            "value": "У нас работает бесплатный WI - FI . Пароль можно получить у администратора."
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "value": "Такое объявление можно прочитать"
+      }
+    ],
+    "fipi_number": "81476B",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в гостинице"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в метро"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на стройке"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          {
+            "type": "text",
+            "value": "Осторожно! Опасная зона! Сход снега!"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "value": "Такое объявление можно прочитать"
+      }
+    ],
+    "fipi_number": "59708B",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в банке"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "на улице"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в автобусе"
+          }
+        ]
+      }
+    ]
   }
 ]

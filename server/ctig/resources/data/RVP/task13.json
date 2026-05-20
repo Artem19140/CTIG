@@ -427,5 +427,200 @@
         ]
       }
     ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Чайковский учился музыке"
+      }
+    ],
+    "fipi_number": "057306",
+    "group_number": "E31C23",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Петербургской консерватории"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Казанской консерватории"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Московской консерватории"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Летом во Владивостоке"
+      }
+    ],
+    "fipi_number": "29E761",
+    "group_number": "AC782B",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "тепло и ветрено"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "тепло и влажно"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "тепло и сухо"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Российская государственная библиотека находится"
+      }
+    ],
+    "fipi_number": "D7FA3D",
+    "group_number": "8BBD4A",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Казани"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Санкт-Петербурге"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Москве"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Казань носит звание"
+      }
+    ],
+    "fipi_number": "ADCFD1",
+    "group_number": "0C8803",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "самого древнего из самых больших городов России"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "самого богатого после столицы города России"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "самого большого города на берегу Каспийского моря"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Известный рассказ А.П. Чехова –"
+      }
+    ],
+    "fipi_number": "E296A7",
+    "group_number": "366A90",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "«Вишнёвый сад»"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "«Ванька»"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "«Дядя Ваня»"
+          }
+        ]
+      }
+    ]
   }
 ]

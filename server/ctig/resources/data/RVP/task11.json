@@ -554,5 +554,285 @@
         ]
       }
     ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          {
+            "type": "text",
+            "value": "Уважаемые жители!",
+            "align":"center"
+          },
+          {
+            "type": "text",
+            "value": "В вашем доме 13 ноября будет производиться замена электрощитов на 3-м и 5-м этажах. С 9:00 до 13:00 будет отключено электричество."
+          },
+          {
+            "type": "text",
+            "value": "Приносим свои извинения за доставленные неудобства!"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "value": "В доме не будет"
+      }
+    ],
+    "fipi_number": "86A5F9",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "электричества"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "воды"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "отопления"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          {
+            "type": "text",
+            "value": "Уважаемые пассажиры!",
+            "align":"center"
+          },
+          {
+            "type": "text",
+            "value": "С 1 декабря вводится новый автобусный маршрут № 88 от автовокзала «Тучково» до посёлка Салтыковки. Автобус ходит каждые 15 минут с 6:00 до 23:00. Билеты можно купить в кассе автовокзала или у водителя."
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "value": "Автобус № 88 едет"
+      }
+    ],
+    "fipi_number": "785D0C",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "до посёлка Салтыковки"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "до метро Тучково"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "до аэропорта"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          {
+            "type": "text",
+            "value": "Уважаемые жители домов 15 и 17!",
+            "align":"center"
+          },
+          {
+            "type": "text",
+            "value": "В связи с работами по замене асфальта с 10 по 25 июня будет закрыт проезд по улице Шипилова. Просим учитывать это при планировании маршрутов. Благодарим за понимание!"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "value": "Проезд будет закрыт, потому что ведутся работы"
+      }
+    ],
+    "fipi_number": "3D92A0",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "по замене асфальта"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "по строительству школы"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "по замене уличных фонарей"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          {
+            "type": "text",
+            "value": "Внимание!",
+            "align":"center"
+          },
+          {
+            "type": "text",
+            "value": "В кафе «Ингрид» на постоянную работу"
+          },
+          {
+            "type": "text",
+            "value": "требуются повар и кондитер."
+          },
+          {
+            "type": "text",
+            "value": "Зарплата от 80 000 рублей. График работы 2/2, отпуск 28 дней."
+          },
+          {
+            "type": "text",
+            "value": "Кафе «Ингрид» находится по адресу: ул. Макарова, д. 14."
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "value": "В кафе « Ингрид » приглашается"
+      }
+    ],
+    "fipi_number": "4BC965",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "кондитер"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "кассир"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "уборщик"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          {
+            "type": "text",
+            "value": "Внимание!",
+            "align":"center"
+          },
+          {
+            "type": "text",
+            "value": "В супермаркет «Дива» на постоянную работу требуются продавцы."
+          },
+          {
+            "type": "text",
+            "value": "Зарплата от 70 000 рублей. График 2/2, обучение на месте, униформа – за счёт компании. Медицинская книжка обязательна."
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "value": "Продавцы должны иметь"
+      }
+    ],
+    "fipi_number": "972E3F",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "опыт работы"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "медицинскую книжку"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "собственную униформу"
+          }
+        ]
+      }
+    ]
   }
 ]

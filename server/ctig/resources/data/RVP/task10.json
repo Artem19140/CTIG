@@ -515,5 +515,273 @@
         ]
       }
     ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          {
+            "type": "text",
+            "value": "Уважаемые посетители!",
+            "align":"center"
+          },
+          {
+            "type": "text",
+            "value": "Пожалуйста, не приносите еду и напиткив читальный зал."
+          }
+        ]
+      }
+    ],
+    "fipi_number": "818FF6",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на почте"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в библиотеке"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в банке"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          {
+            "type": "text",
+            "value": "Уважаемые посетители!",
+            "align":"center"
+          },
+          {
+            "type": "text",
+            "value": "Просим не разговаривать во время сеанса."
+          },
+          {
+            "type": "text",
+            "value": "Выключите, пожалуйста, звук на телефонах."
+          }
+        ]
+      }
+    ],
+    "fipi_number": "EAA273",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в библиотеке"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в кинотеатре"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в столовой"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          {
+            "type": "text",
+            "value": "Уважаемые посетители!",
+            "align":"center"
+          },
+          {
+            "type": "text",
+            "value": "Пожалуйста, не кормите животных."
+          },
+          {
+            "type": "text",
+            "value": "Это вредит их здоровью и нарушает режим питания."
+          }
+        ]
+      }
+    ],
+    "fipi_number": "2947B2",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в школе"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в зоопарке"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в поликлинике"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          {
+            "type": "text",
+            "value": "Внимание!",
+            "align":"center"
+          },
+          {
+            "type": "text",
+            "value": "Завтра, 15 октября, в 18:00 в актовом зале"
+          },
+          {
+            "type": "text",
+            "value": "пройдёт родительское собрание для родителей учеников"
+          },
+          {
+            "type": "text",
+            "value": "5-х классов."
+          },
+          {
+            "type": "text",
+            "value": "Просьба прийти без опозданий."
+          }
+        ]
+      }
+    ],
+    "fipi_number": "CF446D",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в детском саду"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в школе"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в бассейне"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "frame",
+        "value": [
+          {
+            "type": "text",
+            "value": "Уважаемые пассажиры!",
+            "align":"center"
+          },
+          {
+            "type": "text",
+            "value": "С 1 июня вводится новый график работы касс."
+          },
+          {
+            "type": "text",
+            "value": "Купить билеты на поезд можно с понедельника по пятницу"
+          },
+          {
+            "type": "text",
+            "value": "с 6:00 до 22:00."
+          }
+        ]
+      }
+    ],
+    "fipi_number": "D38E81",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в здании аэропорта"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в здании железнодорожного вокзала"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в здании автовокзала"
+          }
+        ]
+      }
+    ]
   }
 ]

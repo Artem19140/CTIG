@@ -187,7 +187,8 @@ class RvpSeeder extends Seeder
                     'type' => TaskType::SingleChoice,
                     'description' => 'Прочитайте объявление и выберите правильный ответ.',
                     'mark' => 1,
-                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task10.json')), true)
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task10.json')), true),
+                    'postscriptum' => 'Такое объявление можно прочитать'
                 ],
                 [
                     'type' => TaskType::SingleChoice,

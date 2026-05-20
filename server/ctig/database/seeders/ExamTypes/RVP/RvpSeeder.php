@@ -93,7 +93,7 @@ class RvpSeeder extends Seeder
     private function russianBlock(): array{
         return [
             'name' => 'РУССКИЙ ЯЗЫК КАК ИНОСТРАННЫЙ',
-            'min_mark'=>6,
+            'min_mark'=>13,
             'subblocks'=>[
                 $this->speakingSubblock(),
                 $this->audioSubblock(),
@@ -108,7 +108,7 @@ class RvpSeeder extends Seeder
         $path = $this->path;
         return [
             'name' => 'Говорение',
-            'min_mark' => 6,
+            'min_mark' => 3,
             'tasks' => [
                 [
                     'type' => TaskType::Speaking,
@@ -119,13 +119,13 @@ class RvpSeeder extends Seeder
                 [
                     'type' => TaskType::Speaking,
                     'description' => 'Примите участие в диалоге. Ответьте на вопросы собеседника полными предложениями.',
-                    'mark' => 1,
+                    'mark' => 2,
                     'variants'=> json_decode(file_get_contents(base_path($path.'task2.json')), true)
                 ],
                 [
                     'type' => TaskType::Speaking,
                     'description' => 'Подготовьте сообщение на заданную тему. Время на подготовку –до 3 мин.Ваш ответ должен быть полным.',
-                    'mark' => 1,
+                    'mark' => 2,
                     'variants'=> json_decode(file_get_contents(base_path($path.'task3.json')), true)
                 ],
             ]
@@ -136,7 +136,7 @@ class RvpSeeder extends Seeder
         $path = $this->path;
         return [
             'name' => 'Аудирование',
-            'min_mark' => 6,
+            'min_mark' => 4,
             'tasks' => [
                 [
                     'type' => TaskType::SingleChoice,
@@ -181,7 +181,7 @@ class RvpSeeder extends Seeder
     private function readingSubblock(): array{
         return [
             'name' => 'Чтение', 
-            'min_mark' => 6,
+            'min_mark' => 0,
             'tasks' => [
                 [
                     'type' => TaskType::SingleChoice,
@@ -220,18 +220,18 @@ class RvpSeeder extends Seeder
     private function letterSubblock(): array{
         return [
             'name' => 'Письмо',
-            'min_mark' => 6,
+            'min_mark' => 0,
             'tasks' => [
                 // [
                 //     'type' => TaskType::SingleChoice,
                 //     'description' => 'Напишите письмо.',
-                //     'mark' => 1,
+                //     'mark' => 2,
                 //     'variants'=> json_decode(file_get_contents(base_path($this->path.'task15.json')), true)
                 // ],
                 [
                     'type' => TaskType::Essay,
                     'description' => 'Напишите письмо.',
-                    'mark' => 1,
+                    'mark' => 2,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task16.json')), true)
                 ],
             ]
@@ -241,7 +241,7 @@ class RvpSeeder extends Seeder
     private function vocabularAndGrammarSubblock(): array{
         return [
             'name' => 'Лексика и грамматика',
-            'min_mark' => 6,
+            'min_mark' => 0,
             'tasks' => [
                 [
                     'type' => TaskType::SingleChoice,
@@ -280,7 +280,7 @@ class RvpSeeder extends Seeder
     private function historyBlock(): array{
         return [
             'name' => 'ИСТОРИЯ РОССИИ',
-            'min_mark'=>6,
+            'min_mark'=>3,
             'subblocks'=>[
                 [
                     'name' => '',
@@ -337,7 +337,7 @@ class RvpSeeder extends Seeder
     private function legislationBlock(){
         return [
             'name' => 'ОСНОВЫ ЗАКОНОДАТЕЛЬСТВА РОССИЙСКОЙ ФЕДЕРАЦИИ',
-            'min_mark'=>6,
+            'min_mark'=>3,
             'subblocks'=>[
                 [
                     'name' => '',

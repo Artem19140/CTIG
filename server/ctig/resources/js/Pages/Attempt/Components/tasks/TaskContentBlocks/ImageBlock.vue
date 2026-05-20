@@ -1,12 +1,30 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
 const props = defineProps<{
     value : string
 }>()
+
+const dialog = ref(false)
 </script>
 
 <template>
-    <v-img
-        :src="value"
-        :width="300"
-    />
+    <div class="mb-2">
+        <v-img
+            :src="value"
+            class="cursor-pointer"
+            @click="dialog = true"
+        />
+
+        <v-dialog v-model="dialog" max-width="90vw">
+            <v-card>
+                <v-img
+                :src="value"
+                max-height="90vh"
+                contain
+                />
+            </v-card>
+        </v-dialog>
+  </div>
 </template>
+

@@ -95,7 +95,7 @@ class VnzhSeeder extends Seeder
     private function russianBlock(): array{
         return [
             'name' => 'РУССКИЙ ЯЗЫК КАК ИНОСТРАННЫЙ',
-            'min_mark'=>6,
+            'min_mark'=>15,
             'subblocks'=>[
                 $this->speakingSubblock(),
                 $this->audioSubblock(),
@@ -110,7 +110,7 @@ class VnzhSeeder extends Seeder
         $path = $this->path;
         return [
             'name' => 'Говорение',
-            'min_mark' => 6,
+            'min_mark' => 4,
             'tasks' => [
                 [
                     'type' => TaskType::Speaking,
@@ -121,7 +121,7 @@ class VnzhSeeder extends Seeder
                 [
                     'type' => TaskType::Speaking,
                     'description' => 'Примите участие в диалоге. Ответьте на вопросы собеседника полными предложениями.',
-                    'mark' => 1,
+                    'mark' => 2,
                     'variants'=> json_decode(file_get_contents(base_path($path.'task2.json')), true)
                 ],
                 [ 
@@ -133,7 +133,7 @@ class VnzhSeeder extends Seeder
                 [ 
                     'type' => TaskType::Speaking,
                     'description' => 'Опишите картинку.',
-                    'mark' => 1,
+                    'mark' => 2,
                     'variants'=> json_decode(file_get_contents(base_path($path.'task4.json')), true)
                 ]
             ]
@@ -144,7 +144,7 @@ class VnzhSeeder extends Seeder
         $path = $this->path;
         return [
             'name' => 'Аудирование',
-            'min_mark' => 6,
+            'min_mark' => 4,
             'tasks' => [
                 [
                     'type' => TaskType::SingleChoice,
@@ -153,7 +153,7 @@ class VnzhSeeder extends Seeder
                     'variants'=> json_decode(file_get_contents(base_path($path.'task5.json')), true)
                 ],
                 [
-                    'type' => TaskType::SingleChoice,
+                    'type' => TaskType::TextInput,
                     'description' => 'Прослушайте диалог и дополните предложение в соответствии с информацией в тексте.',
                     'mark' => 1,
                     'variants'=> json_decode(file_get_contents(base_path($path.'task6.json')), true)
@@ -188,7 +188,7 @@ class VnzhSeeder extends Seeder
     private function readingSubblock(): array{
         return [
             'name' => 'Чтение', 
-            'min_mark' => 6,
+            'min_mark' => 0,
             'tasks' => [
                 [
                     'type' => TaskType::SingleChoice,
@@ -239,18 +239,18 @@ class VnzhSeeder extends Seeder
     private function letterSubblock(): array{
         return [
             'name' => 'Письмо',
-            'min_mark' => 6,
+            'min_mark' => 0,
             'tasks' => [
-                // [
-                //     'type' => TaskType::SingleChoice,
-                //     'description' => 'Заполните анкету.',
-                //     'mark' => 1,
-                //     'variants'=> json_decode(file_get_contents(base_path($this->path.'task18.json')), true)
-                // ],
+                [
+                    'type' => TaskType::MultyInput,
+                    'description' => 'Дайте развернутый ответ. Заполните анкету.',
+                    'mark' => 2,
+                    'variants'=> json_decode(file_get_contents(base_path($this->path.'task18.json')), true)
+                ],
                 [
                     'type' => TaskType::Essay,
                     'description' => 'Напишите письмо.',
-                    'mark' => 1,
+                    'mark' => 2,
                     'variants'=> json_decode(file_get_contents(base_path($this->path.'task19.json')), true)
                 ],
             ]
@@ -260,7 +260,7 @@ class VnzhSeeder extends Seeder
     private function vocabularAndGrammarSubblock(): array{
         return [
             'name' => 'Лексика и грамматика',
-            'min_mark' => 6,
+            'min_mark' => 0,
             'tasks' => [
                 [
                     'type' => TaskType::SingleChoice,
@@ -305,7 +305,7 @@ class VnzhSeeder extends Seeder
     private function historyBlock(): array{
         return [
             'name' => 'ИСТОРИЯ РОССИИ',
-            'min_mark'=>6,
+            'min_mark'=>3,
             'subblocks'=>[
                 [
                     'name' => '',
@@ -362,7 +362,7 @@ class VnzhSeeder extends Seeder
     private function legislationBlock(){
         return [
             'name' => 'ОСНОВЫ ЗАКОНОДАТЕЛЬСТВА РОССИЙСКОЙ ФЕДЕРАЦИИ',
-            'min_mark'=>6,
+            'min_mark'=>3,
             'subblocks'=>[
                 [
                     'name' => '',

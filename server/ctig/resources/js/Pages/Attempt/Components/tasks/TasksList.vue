@@ -9,6 +9,7 @@ import { Attempt, AttemptMonitoring } from '@/interfaces/Attempt';
 import { useAttempt } from '@/composables/useAttempt';
 import { useHttp } from '@inertiajs/vue3';
 import BaseEmptyState from '@/components/BaseComponents/BaseEmptyState/BaseEmptyState.vue';
+import MultynputTask from './MultyInputTask.vue';
 
 const props = defineProps<{
     attempt:Attempt | AttemptMonitoring
@@ -24,6 +25,8 @@ const taskComponent = (type: string) => {
             return EssayTask
         case TaskTypes.TEXT_INPUT:
             return TextInputTask
+        case TaskTypes.MULTY_INPUT:
+            return MultynputTask
         default:
             return SingleChoiceTask
     }
@@ -33,7 +36,7 @@ const http = useHttp<{answer:any}, {data:AttemptAnswer}>({
     answer:null
 })
 
-const {updateAnswer, setError, removeError, setSaving, removeSaving, errors } = useAttempt()
+const {updateAnswer, setError, removeError, setSaving, removeSaving } = useAttempt()
 
 const update = (value:any) => {
     http.answer = value.answer

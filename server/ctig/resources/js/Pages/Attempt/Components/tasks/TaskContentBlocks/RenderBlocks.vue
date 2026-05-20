@@ -5,6 +5,7 @@ import TextBlock from  './TextBlock.vue';
 import TableBlock from './TableBlock.vue';
 import FrameBlock from './FrameBlock.vue';
 import { Task } from '@/interfaces/Task';
+import InputBlock from './InputBlock.vue';
 
 const props = defineProps<{
     content?:any,
@@ -23,6 +24,8 @@ const taskBlocks = (type: string) => {
             return TableBlock
         case 'frame':
             return FrameBlock
+        case 'input':
+            return InputBlock
         default:
             return TextBlock
     }
@@ -38,4 +41,10 @@ const taskBlocks = (type: string) => {
         :task="task"
         :class="block.margin ? 'mb-8' : ''"
     />
+    <div 
+        v-for="(block, index) in content"
+        :key="index"
+    >
+        {{ block?.key }}
+    </div>
 </template>

@@ -19,7 +19,6 @@ class TaskVariantResource extends JsonResource
         return [
             'id' => $this->id,
             'content' => $this->content,
-            'groupId' => $this->group_number,
             'answers' => AnswerResource::collection($this->whenLoaded('answers')),
             'order' => $this->whenLoaded('task', fn () => $this->task->order),
             'type' => $this->whenLoaded('task', fn () => $this->task->type),

@@ -86,6 +86,9 @@ class Attempt extends Model
     public function isStarted(): bool{
         return $this->started_at !== null;
     }
+    public function isChecked(): bool{
+        return $this->checked_at !== null;
+    }
 
     public function isBanned(): bool{
         return $this->banned_at !== null;

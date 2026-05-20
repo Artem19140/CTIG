@@ -2,29 +2,25 @@
 import RenderBlocks from './RenderBlocks.vue';
 
 const props = defineProps<{
-    rows : Array<Object>
+    rows : Array<Array<Object>>
 }>()
 </script>
 
 <template>
-    <v-table class="table-bordered mt-5">
-        <tbody>
-            <tr
-                v-for="(row, index) in rows"
-                :key="index"
+    <div class="mt-5 mb-3">
+        <div
+            v-for="(row, index) in rows"
+            :key="index"
+            class="grid"
+            :style="{ gridTemplateColumns: `repeat(${row.length}, minmax(0, 1fr))` }"
+        >
+            <div
+                v-for="(data, i) in row"
+                :key="i"
+                class=" p-2 min-w-0 border border-gray-300"
             >
-                <td 
-                    v-for="(data,i) in row" :key="i"
-                >
-                    <RenderBlocks :content="[data]" />
-                </td>
-            </tr>
-        </tbody>
-    </v-table>
+                <RenderBlocks :content="[data]" />
+            </div>
+        </div>
+    </div>
 </template>
-
-<style lang="css" scoped>
-.table-bordered td {
-    border: 1px solid rgba(0, 0, 0, 0.12);
-}
-</style>

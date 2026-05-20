@@ -25,7 +25,6 @@ class HandleAttemptAnswerAction{
         $handler = $this->taskHandlerResolver->resolve($task);
 
         $validatedAnswer = $handler->validate($answer, $attemptAnswer);
-
         if($task->type->autoCheck()){
             $mark = $handler->calculateMark($validatedAnswer, $taskVariant);
             $attemptAnswer->mark = $mark;

@@ -3,4 +3,5 @@ export enum TaskTypes {
     TEXT_INPUT = 'text-input',
     SPEAKING = 'speaking',
     ESSAY = 'essay',
+    MULTY_INPUT = 'multy-input',
 }

@@ -8,6 +8,7 @@ use App\Events\ReportGenerated;
 use App\Models\Attempt;
 use App\Support\Export\CsvWriter;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class MinistryEducationReportGenerator
 {
@@ -34,7 +35,7 @@ class MinistryEducationReportGenerator
 
     protected function writeRows(Carbon $dateFrom, Carbon $dateTo){
         Attempt::query()
-            ->select(['id', 'foreign_national_id', 'exam_id', 'is_passed'])
+            ->select(['id', 'foreign_national_id', 'exam_id', 'is_passed','banned_at'])
             ->forCenter(app(CenterContext::class)->id())
             ->whereBetween('created_at', [
                 $dateFrom,
@@ -43,15 +44,23 @@ class MinistryEducationReportGenerator
             ->with(['foreignNational', 'exam.type'])
             ->chunkById(200, function($attempts){
                 foreach($attempts as $attempt){
+                    Log::info('',[$attempt->banned_at]);
                     $foreignNational = $attempt->foreignNational;
                     $exam = $attempt->exam;
                     $this->csvWriter->writeRow([
                         ($foreignNational->passport_series ?? '') . ($foreignNational->passport_number ?? ''),
                         $exam->begin_time->format('d.m.Y'),
-                        $attempt->is_passed ? 'Сдал' :  'Не сдал',
+                        $this->isPassed($attempt) ? 'Сдал' :  'Не сдал',
                         $exam->type->certificate_name
                     ]);
                 }
             });
+    }
+
+    protected function isPassed(Attempt $attempt):bool{
+        if($attempt->isBanned()){
+            return false;
+        }
+        return $attempt->is_passed;
     }
 }

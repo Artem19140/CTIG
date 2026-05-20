@@ -23,6 +23,7 @@ class AttemptCheckingController
                     $q->whereIn('type', TaskType::manualCheckTypes());
                 });
             },
+            'taskVariants.answers',
             'taskVariants.task',
             'taskVariants.attemptsAnswer' => function($query)use($attempt){
                 $query->where('attempt_id', $attempt->id);

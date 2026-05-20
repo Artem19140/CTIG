@@ -8,6 +8,7 @@ import { AttemptChecking, AttemptMonitoring } from '@/interfaces/Attempt';
 import TaskRatingBlock from './TaskRatingBlock.vue';
 import BaseEmptyState from '@/components/BaseComponents/BaseEmptyState/BaseEmptyState.vue';
 import { AttemptAnswer } from '@/interfaces/Task';
+import MultynputTask from './MultyInputTask.vue';
 
 const props = defineProps<{
     attempt:AttemptChecking | AttemptMonitoring,
@@ -29,6 +30,8 @@ const taskComponent = (type: string) => {
             return EssayTask
         case TaskTypes.TEXT_INPUT:
             return TextInputTask
+        case TaskTypes.MULTY_INPUT:
+            return MultynputTask
         default:
             return SingleChoiceTask
     }

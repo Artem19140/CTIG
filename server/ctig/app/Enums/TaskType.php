@@ -7,6 +7,7 @@ enum TaskType:string
     case SingleChoice = 'single-choice';
     case TextInput = 'text-input';
     case Essay = 'essay';
+    case MultyInput = 'multy-input';
     case Speaking = 'speaking';
 
     public function autoCheck():bool {
@@ -14,7 +15,8 @@ enum TaskType:string
             self::SingleChoice => true,
             self::TextInput => true,
             self::Speaking => false,
-            self::Essay => false
+            self::Essay => false,
+            self::MultyInput => false
         };
     }
 

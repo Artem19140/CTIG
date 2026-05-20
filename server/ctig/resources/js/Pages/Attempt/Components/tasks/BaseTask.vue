@@ -32,7 +32,7 @@ const {errors, saving} = useAttempt()
 <template>
   <div class="flex flex-column justify-center">
     <v-card
-      width="600"
+      width="800"
       elevation="6"
       rounded="lg"
       :id="`task-${task.id}`"

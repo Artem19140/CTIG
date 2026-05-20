@@ -15,18 +15,23 @@ class FinishAttemptAction{
     ){}
     public function execute(Attempt $attempt):void{
         $this->canFinish($attempt);
+
         DB::transaction(function() use($attempt){
+
             $attempt->finish();
+
             if($attempt->canBeAutomaticallyFinalized()){
                 $this->finilizeAttemptCheckingAction->execute($attempt);
             }
+
             $attempt->save();
         });
-        
     }
 
     protected function canFinish(Attempt $attempt){
-
+        if($attempt->isFinished()){
+            throw new BusinessException('Попытка уже завершена');
+        }
         $minTimeMinutes = Attempt::MIN_TIME_FROM_START_TO_FINISH_MINUTES;
         $now = Carbon::now();
 

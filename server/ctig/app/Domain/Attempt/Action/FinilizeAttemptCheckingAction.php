@@ -10,7 +10,6 @@ class FinilizeAttemptCheckingAction{
         protected CheckPassingThresholdAction $checkPassingThreshold
     ){}
     public function execute(Attempt $attempt):Attempt{
-        
         $attempt->total_mark = $attempt->answers()->sum('mark');
         $attempt->is_passed = $this->checkPassingThreshold->execute($attempt);
 

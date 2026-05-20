@@ -445,7 +445,7 @@
         ]
       },
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -483,7 +483,7 @@
         ]
       },
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -521,7 +521,7 @@
         ]
       },
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -541,7 +541,7 @@
     "fipi_number": "0BDAEB",
     "answers": [
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -588,7 +588,7 @@
         ]
       },
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",

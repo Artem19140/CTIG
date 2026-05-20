@@ -427,7 +427,7 @@
     "fipi_number": "4C8D26",
     "answers": [
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -483,7 +483,7 @@
         ]
       },
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -503,7 +503,7 @@
     "fipi_number": "33F0C2",
     "answers": [
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -559,7 +559,7 @@
         ]
       },
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -588,7 +588,7 @@
         ]
       },
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",

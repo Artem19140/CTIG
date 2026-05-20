@@ -427,7 +427,7 @@
     "fipi_number": "D3420E",
     "answers": [
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -474,7 +474,7 @@
         ]
       },
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -521,7 +521,7 @@
         ]
       },
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -559,7 +559,7 @@
         ]
       },
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",
@@ -597,7 +597,7 @@
         ]
       },
       {
-        "is_correct": false,
+        "is_correct": true,
         "content": [
           {
             "type": "text",

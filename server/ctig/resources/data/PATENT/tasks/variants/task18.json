@@ -416,5 +416,195 @@
         ]
       }
     ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Работающий иностранный гражданин в Российской Федерации обязан"
+      }
+    ],
+    "fipi_number": "F54CF3",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "участвовать в культурной жизни"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "направлять индивидуальные обращения в государственные органы"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "платить законно установленные налоги и сборы"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Иностранный гражданин в Российской Федерации обязан"
+      }
+    ],
+    "fipi_number": "992C0E",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "участвовать в отправлении правосудия"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "сохранять природу и окружающую среду"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "вступить в профессиональный союз"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Работающий иностранный гражданин в Российской Федерации обязан"
+      }
+    ],
+    "fipi_number": "9CDBB0",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "платить законно установленные налоги и сборы"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "избирать в органы государственной власти"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "пользоваться учреждениями культуры"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Иностранный гражданин в Российской Федерации обязан"
+      }
+    ],
+    "fipi_number": "EF2334",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "заниматься научным творчеством"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "беречь памятники истории и культуры"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "поступить на государственную службу"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Иностранный гражданин в Российской Федерации обязан"
+      }
+    ],
+    "fipi_number": "F5C982",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "заниматься литературным творчеством"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "заботиться о сохранении исторического и культурного наследия"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "направлять коллективные обращения в государственные органы"
+          }
+        ]
+      }
+    ]
   }
 ]

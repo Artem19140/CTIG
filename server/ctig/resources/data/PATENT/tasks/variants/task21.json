@@ -416,5 +416,195 @@
         ]
       }
     ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "К наказаниям за нарушение правил миграционного учёта относят"
+      }
+    ],
+    "fipi_number": "DD5C4E",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "дисциплинарное взыскание"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "административный арест"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "административное выдворение за пределы Российской Федерации"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "К наказаниям за нарушение правил миграционного учёта относят"
+      }
+    ],
+    "fipi_number": "A64ED0",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "административное приостановление деятельности"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "административный запрет"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "административный штраф"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "К наказаниям за нарушение правил миграционного учёта относят"
+      }
+    ],
+    "fipi_number": "FC0C59",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "административное выдворение за пределы Российской Федерации"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "ограничение свободы"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "исправительные работы"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "К наказаниям за нарушение правил миграционного учёта относят"
+      }
+    ],
+    "fipi_number": "026230",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "административное выдворение за пределы Российской Федерации"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "административное приостановление деятельности"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "дисквалификацию"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "К наказаниям за нарушение правил миграционного учёта относят"
+      }
+    ],
+    "fipi_number": "8ECB80",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "административный штраф"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "административный арест"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "административное приостановление деятельности"
+          }
+        ]
+      }
+    ]
   }
 ]

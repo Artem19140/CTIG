@@ -416,5 +416,195 @@
         ]
       }
     ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Укажите герб Российской Федерации."
+      }
+    ],
+    "fipi_number": "8AF7B0",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "image",
+            "value": "/storage/images/Patent/german_gerb.jpg"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "image",
+            "value": "/storage/images/Patent/russian_gerb.gif"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "image",
+            "value": "/storage/images/Patent/egypt_gerb.gif"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Укажите герб Российской Федерации."
+      }
+    ],
+    "fipi_number": "8CBDBD",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "image",
+            "value": "/storage/images/Patent/russian_gerb.jpg"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "image",
+            "value": "/storage/images/Patent/greece_gerb.gif"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "image",
+            "value": "/storage/images/Patent/hungarian_gerb.gif"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Укажите флаг Российской Федерации."
+      }
+    ],
+    "fipi_number": "98DF18",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "image",
+            "value": "/storage/images/Patent/russian_flag.gif"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "image",
+            "value": "/storage/images/Patent/liechtenstein_flag.gif"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "image",
+            "value": "/storage/images/Patent/syrie_flag.jpg"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Укажите флаг Российской Федерации."
+      }
+    ],
+    "fipi_number": "1EE195",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "image",
+            "value": "/storage/images/Patent/switzerland_flag.gif"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "image",
+            "value": "/storage/images/Patent/indian_flag.jpg"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "image",
+            "value": "/storage/images/Patent/russian_flag.gif"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Укажите флаг Российской Федерации."
+      }
+    ],
+    "fipi_number": "422A3A",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "image",
+            "value": "/storage/images/Patent/china.jpg"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "image",
+            "value": "/storage/images/Patent/israel_flag.jpg"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "image",
+            "value": "/storage/images/Patent/russian_flag.gif"
+          }
+        ]
+      }
+    ]
   }
 ]

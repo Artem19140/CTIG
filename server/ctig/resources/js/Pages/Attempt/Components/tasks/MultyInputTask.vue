@@ -42,7 +42,7 @@ watch(form.value, () => {
             task:props.task,
             answer:form.value ?? ''
         })
-    }, 5000)
+    }, 100)
 })
 provide('form', form)
 </script>

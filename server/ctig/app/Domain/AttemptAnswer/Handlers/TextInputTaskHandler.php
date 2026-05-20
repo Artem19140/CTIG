@@ -13,27 +13,41 @@ class TextInputTaskHandler{
         return $task->type === TaskType::TextInput;
     }
 
-    public function validate(mixed $answer, AttemptAnswer $attemptAnswer):string{
-        if(!\is_string($answer)){
+    public function validate(
+        mixed $foreignNationalAnswer, 
+        AttemptAnswer $attemptAnswer
+    ):string
+    {
+        if(!\is_string($foreignNationalAnswer)){
             throw new AttemptAnswerValidationException([
                 'attempt_answer_id' => $attemptAnswer->id,
                 'type' => TaskType::TextInput,
                 'message' => 'not_valid_format'
             ]);
         }
-        return $answer;
+        return $foreignNationalAnswer;
     }
 
-    public function calculateMark(string $answer, TaskVariant $taskVariant){
-        $answers = $taskVariant->answers->pluck('content');
+    public function calculateMark(
+        string $foreignNationalAnswer, 
+        TaskVariant $taskVariant
+    ):int
+    {
+        $etalonAnswers = $taskVariant->answers->pluck('content');
         
-        $answersToCompare = $answers->map(function ($item) {
-            return mb_strtolower(trim($item), 'UTF-8');
-        });
+        $normalizedEtalonAnswers = $etalonAnswers->map(function ($item) {
+            return $this->normalize($item); 
+        })->toArray();
         
-        $answerToCompare = mb_strtolower(trim($answer), 'UTF-8');
-        $answerToCompareMatches = \in_array($answerToCompare, $answersToCompare->toArray());
+        $normalizedForeignAnswer = $this->normalize($foreignNationalAnswer);
 
-        return $answerToCompareMatches ? $taskVariant->task->mark : 0;
+        $answersMatches = \in_array($normalizedForeignAnswer, $normalizedEtalonAnswers);
+
+        return $answersMatches ? $taskVariant->task->mark : 0;
+    }
+
+    protected function normalize(string $value):string
+    {
+        return mb_strtolower(trim($value), 'UTF-8');
     }
 }

@@ -471,5 +471,220 @@
         ]
       }
     ]
+  },
+   {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/C67CDD.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Вы слышите разговор"
+      }
+    ],
+    "fipi_number": "A766BC",
+    "group_number": "C67CDD",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "друзей"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "незнакомых людей"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "родственников"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/39D8F2.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Они говорят"
+      }
+    ],
+    "fipi_number": "FC90DC",
+    "group_number": "39D8F2",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на автовокзале"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в аэропорту"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "на железнодорожном вокзале"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/D2315E.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Они говорят"
+      }
+    ],
+    "fipi_number": "5609C3",
+    "group_number": "D2315E",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в аптеке"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в банке"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в поликлинике"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/A8E14F.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Они говорят"
+      }
+    ],
+    "fipi_number": "149B28",
+    "group_number": "A8E14F",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "на автовокзале"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в аэропорту"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на железнодорожном вокзале"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/1CA3AF.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Они говорят"
+      }
+    ],
+    "fipi_number": "42C3CA",
+    "group_number": "1CA3AF",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в метро"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в банке"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в поликлинике"
+          }
+        ]
+      }
+    ]
   }
 ]

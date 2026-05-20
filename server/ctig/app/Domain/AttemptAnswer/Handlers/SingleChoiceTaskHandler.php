@@ -8,13 +8,18 @@ use App\Models\Answer;
 use App\Models\AttemptAnswer;
 use App\Models\TaskVariant;
 
-class SingleChoiceTaskHandler{
-    public function for($task){
+class SingleChoiceTaskHandler
+{
+    public function for($task):bool
+    {
         return TaskType::SingleChoice === $task->type;
     }
 
-    public function validate(mixed $answerId, AttemptAnswer $attemptAnswer){
-
+    public function validate(
+        mixed $answerId, 
+        AttemptAnswer $attemptAnswer
+    ):Answer
+    {
         if(!\is_int($answerId)){
             throw new AttemptAnswerValidationException([
                 'attempt_answer_id' => $attemptAnswer->id,
@@ -38,7 +43,11 @@ class SingleChoiceTaskHandler{
         return $answer;
     }
 
-    public function calculateMark(Answer $answer,TaskVariant $taskVariant){  
+    public function calculateMark(
+        Answer $answer,
+        TaskVariant $taskVariant
+    ):int
+    {  
         return $answer->is_correct ? $taskVariant->task->mark : 0;
     }
 }

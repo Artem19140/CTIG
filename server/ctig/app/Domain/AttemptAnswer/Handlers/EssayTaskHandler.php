@@ -8,18 +8,23 @@ use App\Models\AttemptAnswer;
 use App\Models\Task;
 
 class EssayTaskHandler{
-    public function for(Task $task):bool{
+    public function for(Task $task):bool
+    {
         return $task->type === TaskType::Essay;
     }
 
-    public function validate(mixed $answer, AttemptAnswer $attemptAnswer){
-        if(!\is_string($answer)){
+    public function validate(
+        mixed $foreignNationalAnswer, 
+        AttemptAnswer $attemptAnswer
+    ): string
+    {
+        if(!\is_string($foreignNationalAnswer)){
             throw new AttemptAnswerValidationException([
                 'attempt_answer_id' => $attemptAnswer->id,
                 'type' => TaskType::Essay,
                 'message' => 'not_valid_format'
             ]);
         }
-        return $answer;
+        return $foreignNationalAnswer;
     }
 }

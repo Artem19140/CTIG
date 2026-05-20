@@ -39,7 +39,8 @@ class HandleAttemptAnswerAction{
         Task $task, 
         mixed $answer, 
         AttemptAnswer $attemptAnswer
-    ):void{
+    ):void
+    {
         if(!$task->type->hasAnswers()){
             throw new TaskAnswersNotAllowedException([
                 'task_id'=> $task->id,

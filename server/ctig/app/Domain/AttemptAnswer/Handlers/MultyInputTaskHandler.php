@@ -4,25 +4,50 @@ namespace App\Domain\AttemptAnswer\Handlers;
 
 use App\Enums\TaskType;
 use App\Exceptions\Attempt\AttemptAnswerValidationException;
-use App\Models\Answer;
 use App\Models\AttemptAnswer;
-use App\Models\TaskVariant;
 
-class MultyInputTaskHandler{
-    public function for($task){
+class MultyInputTaskHandler
+{
+    public function for($task):bool
+    {
         return TaskType::MultyInput === $task->type;
     }
 
-    public function validate(mixed $answer, AttemptAnswer $attemptAnswer){
-        // $answer = $attemptAnswer->taskVariant->answer;
-        // if(!$answer){
-        //     throw new AttemptAnswerValidationException([
-            
-        //         'type' => TaskType::MultyInput->value,
-        //         'message' => 'answer not exists on task variant'
-        //     ]);
-        // }
+    public function validate(
+        mixed $foreignNationalAnswer,
+        AttemptAnswer $attemptAnswer
+    ):array
+    {    
+        $etalonAnswers = $attemptAnswer->taskVariant->answers[0]->content;
 
-        return $answer;
+        $normalizedEtalonKeys = $this->getAndNormalizeKeys($etalonAnswers);
+        $normalizedForeignKeys = $this->getAndNormalizeKeys($foreignNationalAnswer);
+
+        $this->ensureMatchingKeys(
+            $normalizedForeignKeys, 
+            $normalizedEtalonKeys
+        );
+
+        return $foreignNationalAnswer;
+    }
+
+    protected function getAndNormalizeKeys(array $answers):array
+    {
+        $keys = array_keys($answers);
+        sort($keys);
+        return $keys;
+    }
+
+    protected function ensureMatchingKeys(
+        array $normalizedForeignKeys,
+        array $normalizedEtalonKeys
+    ):void
+    {
+        if($normalizedEtalonKeys !== $normalizedForeignKeys){
+            throw new AttemptAnswerValidationException([
+                'type' => TaskType::MultyInput->value,
+                'message' => 'errorValidation'
+            ]);
+        }
     }
 }

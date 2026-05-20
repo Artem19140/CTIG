@@ -471,5 +471,220 @@
         ]
       }
     ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/C990C5.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Объявление можно услышать"
+      }
+    ],
+    "fipi_number": "FF1A14",
+    "group_number": "C990C5",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в торговом центре"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в автобусе"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в метро"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/5DEBB3.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Объявление можно услышать"
+      }
+    ],
+    "fipi_number": "42DB2C",
+    "group_number": "5DEBB3",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в школе"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в торговом центре"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в банке"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/D22F66.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Вы можете услышать это объявление"
+      }
+    ],
+    "fipi_number": "443CC8",
+    "group_number": "D22F66",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в торговом центре"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в больнице"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в спортивном зале"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/47D833.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Вы можете услышать это объявление"
+      }
+    ],
+    "fipi_number": "3C23DA",
+    "group_number": "47D833",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "на железнодорожном вокзале"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в банке"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в торговом центре"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/73B160.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Вы можете услышать это объявление"
+      }
+    ],
+    "fipi_number": "CFDFE1",
+    "group_number": "73B160",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в поликлинике"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в метро"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в поезде"
+          }
+        ]
+      }
+    ]
   }
 ]

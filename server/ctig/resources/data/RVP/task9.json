@@ -426,6 +426,200 @@
         ]
       }
     ]
+  },
+{
+    "content": [
+      {
+        "type": "text",
+        "value": "Пряники будут продаваться со скидкой"
+      }
+    ],
+    "fipi_number": "866031",
+    "group_number": "9532FA",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в начале фестиваля"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в конце фестиваля"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на протяжении всего фестиваля"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "В музее янтаря можно"
+      }
+    ],
+    "fipi_number": "4A8C35",
+    "group_number": "66A3EB",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "пройти мастер-класс по работе с янтарём"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "получить в подарок украшение из янтаря"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "получить информацию об истории янтаря"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Московский зоопарк работает"
+      }
+    ],
+    "fipi_number": "FC8CF1",
+    "group_number": "A485C5",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "только по будням"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "только по выходным"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "каждый день"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Вода в Ладожском озере"
+      }
+    ],
+    "fipi_number": "4309D6",
+    "group_number": "694155",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "солёная"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "чистая"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "грязная"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "text",
+        "value": "Все гости бесплатно получат"
+      }
+    ],
+    "fipi_number": "040386",
+    "group_number": "39B3EA",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "клубную карту"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "билеты в кинотеатр"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "билеты на мини-каток"
+          }
+        ]
+      }
+    ]
   }
-
 ]

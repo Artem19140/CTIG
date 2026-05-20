@@ -471,5 +471,220 @@
         ]
       }
     ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/9532FA.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Фестиваль пряников будет проходить"
+      }
+    ],
+    "fipi_number": "634BAA",
+    "group_number": "9532FA",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "неделю"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "месяц"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "всю осень"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/66A3EB.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Музей янтаря находится"
+      }
+    ],
+    "fipi_number": "428DF8",
+    "group_number": "66A3EB",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Калининграде"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Москве"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Санкт-Петербурге"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/A485C5.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Чёрная лисица Симона приехала"
+      }
+    ],
+    "fipi_number": "7E8261",
+    "group_number": "A485C5",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "из Колумбии"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "из Китая"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "из Эфиопии"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/694155.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Ладожское озеро находится"
+      }
+    ],
+    "fipi_number": "3DEF2D",
+    "group_number": "694155",
+    "answers": [
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "на северо-западе России"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на северо-востоке России"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "на юго-западе России"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      {
+        "type": "audio",
+        "value": "/storage/audios/39B3EA.mp3"
+      },
+      {
+        "type": "text",
+        "value": "Развлекательный центр «Искра» откроется"
+      }
+    ],
+    "fipi_number": "988BC8",
+    "group_number": "39B3EA",
+    "answers": [
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Саратове"
+          }
+        ]
+      },
+      {
+        "is_correct": true,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Самаре"
+          }
+        ]
+      },
+      {
+        "is_correct": false,
+        "content": [
+          {
+            "type": "text",
+            "value": "в Сочи"
+          }
+        ]
+      }
+    ]
   }
 ]
